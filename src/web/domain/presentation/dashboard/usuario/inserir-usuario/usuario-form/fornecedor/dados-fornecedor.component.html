@@ -1,0 +1,28 @@
+<div [formGroup]='form.controls.fornecedor' layout='column'>
+  <div layout-gt-sm='row' flex layout-margin>
+    <div layout="row" flex *ngFor='let areaAtuacao of usuario.areasAtuacao; let i = index'>
+      <div flex layout-align="center center">
+        <mat-checkbox [(ngModel)]='areaAtuacao.checked'
+                     flex name='areaAtuacao{{i}}' id='areaAtuacao{{i}}'
+                     [ngModelOptions]='{standalone: true}'>
+          {{areaAtuacao.tipoResiduo === 'VIDRO' ? 'Vidro' : areaAtuacao.tipoResiduo === 'PAPEL' ? 'Papel' :
+          areaAtuacao.tipoResiduo === 'METAL' ? 'Metal': areaAtuacao.tipoResiduo === 'PLASTICO' ? 'Plástico' :
+          areaAtuacao.tipoResiduo === 'ORGANICO' ? 'Orgânico' : 'Orgânico'}}
+        </mat-checkbox>
+
+        <mat-form-field flex>
+          <input [(ngModel)]='areaAtuacao.quantidade'
+                 name='quantidade{{i}}' id='quantidade{{i}}'
+                 placeholder='Quantidade' matInput
+                 minlength='1' maxlength='9' type="number"
+                 formControlName='quantidade{{i}}'>
+          <span matSuffix>kg</span>
+          <mat-error
+              *ngIf="form?.controls?.fornecedor?.controls['quantidade'+i].hasError('min')">
+            Quantidade inválida
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

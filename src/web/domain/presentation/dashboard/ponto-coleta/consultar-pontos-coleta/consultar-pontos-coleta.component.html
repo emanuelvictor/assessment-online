@@ -1,0 +1,54 @@
+<mat-card class="push-none bgc-grey-50 filters-card">
+  <div layout="row" layout-align="center center">
+    <div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>
+
+      <td-chips placeholder="Pesquisar por nome" [(ngModel)]="filter"
+                flex-md="40" flex-gt-md="45" flex-gt-lg="50"
+                (add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>
+
+      <td-chips placeholder="Pesquisar por endereço" [(ngModel)]="enderecoFilters"
+                flex="30"
+                (add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>
+
+      <div flex-gt-md></div>
+
+      <add-button routerLink="inserir"></add-button>
+    </div>
+  </div>
+
+</mat-card>
+
+<!--Listagem-->
+<div layout="row" layout-align="center start">
+
+  <div layout="column" flex="90">
+
+    <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center">
+      <span> Resultado da pesquisa </span>
+      <div flex></div>
+      <span> {{ page?.totalElements}} resultados </span>
+    </div>
+
+    <mat-card class="push-none bgc-grey-50">
+      <mat-nav-list>
+        <div *ngFor="let pontoColeta of pontosColeta" routerLink="{{pontoColeta.id}}">
+
+          <mat-list-item>
+            <h3 matLine> {{pontoColeta.nome}} </h3>
+            <p matLine *ngIf="pontoColeta?.endereco?.id">Número {{pontoColeta?.endereco?.numero}},
+              {{pontoColeta?.endereco?.logradouro}}, {{pontoColeta?.endereco?.bairro}} -
+              {{pontoColeta?.endereco?.cidade?.nome}} - {{pontoColeta?.endereco?.cidade?.estado?.uf}} </p>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-nav-list>
+    </mat-card>
+
+    <div layout="row" class="push-top push-bottom">
+      <button mat-raised-button class="tc-grey-500" (click)="showMore()" flex *ngIf="!page?.last">
+        VER MAIS
+      </button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<mat-toolbar class="mat-elevation-z2" style="background-color : white">
+  <button mat-icon-button (click)="sidenav.toggle()" hide-gt-md>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <img hide-sm hide-xs hide-md routerLink="" class="size-height-50 logo-image" alt="Logomarca SMRS">
+  <span flex> </span>
+  <label *ngIf="usuario" class="mat-body-2 name-user" [matMenuTriggerFor]="menu">{{usuario?.nome}}</label>
+  <div *ngIf="usuario" class="avatar" layout-margin
+       style="cursor: pointer" [matMenuTriggerFor]="menu"
+       layout-align="center center" layout="row">
+    <avatar style="margin-top:10px" [usuario]="usuario" [size]="0.4"></avatar>
+  </div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item color="primary" (click)="logout()">
+      <mat-icon>power_settings_new</mat-icon>
+      <span>Sair</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over" class="mat-elevation-z5" (click)="sidenav.toggle()">
+    <logged-menu *ngIf="usuario"></logged-menu>
+  </mat-sidenav>
+  <!--Tag será substiuída pelo content da tag pai chamada-->
+  <ng-content></ng-content>
+</mat-sidenav-container>

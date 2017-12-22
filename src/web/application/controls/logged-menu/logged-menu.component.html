@@ -1,0 +1,80 @@
+<mat-nav-list class="pad-none">
+  <mat-list class="pad-none">
+    <mat-list-item class="push-top push-bottom minha-conta"
+                   routerLink="/dashboard/minha-conta" style="height: 58px"
+                   #rla="routerLinkActive" routerLinkActive
+                   [ngClass]="{'menu-active': rla.isActive}">
+      <div layout="row" flex class="pad-left">
+        <span flex="10"></span>
+        <mat-icon matListAvatar flex>person</mat-icon>
+        <h3 matLine style="color: white" flex="85"> Minha conta </h3>
+      </div>
+    </mat-list-item>
+    <mat-divider class="bgc-blue-grey-300"></mat-divider>
+
+    <mat-list-item disableRipple>
+      <div layout="row" class="push-top push-bottom pad-left" flex>
+        <span flex="10"></span>
+        <span class="mat-caption tc-blue-grey-100"> ADMINISTRATIVO </span>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item *ngIf="authenticatedUser?.isAdministrador"
+                   class="push-bottom" routerLink="/dashboard/usuarios"
+                   routerLinkActive #rlaUsuarios="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaUsuarios.isActive}">
+      <div layout="row" flex class="pad-left">
+        <span flex="10"></span>
+        <mat-icon matListAvatar flex>supervisor_account</mat-icon>
+        <h3 matLine style="color: white" flex="85"> Usuarios </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item *ngIf="authenticatedUser?.isAdministrador"
+                   class="push-bottom" routerLink="/dashboard/fornecedores"
+                   routerLinkActive #rlaFornecedores="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaFornecedores.isActive}">
+      <div layout="row" flex class="pad-left">
+        <span flex="10"></span>
+        <mat-icon matListAvatar flex>shopping_cart</mat-icon>
+        <h3 matLine style="color: white" flex="85"> Fornecedores </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item *ngIf="authenticatedUser?.isAdministrador"
+                   class="push-bottom" routerLink="/dashboard/pontos-coleta"
+                   routerLinkActive #rlaPontocoleta="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaPontocoleta.isActive}">
+      <div layout="row" flex class="pad-left">
+        <span flex="10"></span>
+        <mat-icon matListAvatar flex>place</mat-icon>
+        <h3 matLine style="color: white" flex="85"> Pontos de coleta </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item routerLink="/dashboard/entradas" routerLinkActive
+                   class="push-bottom" #rlaEntradas="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaEntradas.isActive}">
+      <div layout="row" flex class="pad-left">
+        <span flex="10"></span>
+        <mat-icon matListAvatar flex>input</mat-icon>
+        <h3 matLine style="color: white" flex="85">
+          {{authenticatedUser?.perfil == 'FORNECEDOR' ? 'Minhas entradas' : 'Entradas'}}
+        </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item #rlaFichas="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaFichas.isActive}"
+                   routerLink="/dashboard/fichas" routerLinkActive>
+      <div layout="row" flex class="pad-left">
+        <span flex="10"></span>
+        <mat-icon matListAvatar flex>insert_drive_file</mat-icon>
+        <h3 matLine style="color: white" flex="85">
+          {{authenticatedUser?.perfil == 'FORNECEDOR' ? 'Minhas fichas' : 'Fichas'}}
+        </h3>
+      </div>
+    </mat-list-item>
+
+  </mat-list>
+</mat-nav-list>

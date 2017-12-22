@@ -1,0 +1,35 @@
+{
+  "/static": {
+    "target": "http://127.0.0.1:8080/static",
+    "changeOrigin": true,
+    "secure": false,
+    "pathRewrite": {
+      "^/static": ""
+    },
+    "logLevel": "debug"
+  },
+  "/authentication": {
+    "target": "http://127.0.0.1:8080/authentication",
+    "changeOrigin": true,
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/api": {
+    "target": "http://127.0.0.1:8080/api",
+    "changeOrigin": true,
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "logLevel": "debug"
+  },
+  "/logout": {
+    "target": "http://127.0.0.1:8080/logout",
+    "changeOrigin": true,
+    "secure": false,
+    "pathRewrite": {
+      "^/logout": ""
+    },
+    "logLevel": "debug"
+  }
+}

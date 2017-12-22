@@ -1,0 +1,16 @@
+<div [formGroup]='form.controls.pessoaFisica' layout='column'>
+  <div layout='row' layout-margin>
+    <mat-form-field flex>
+      <input matInput name="cpf" id="cpf"
+             [textMask]="{mask: masks.cpf, guide: false}"
+             [(ngModel)]="usuario.documento" placeholder="CPF"
+             required formControlName="cpf">
+      <mat-error *ngIf="form?.controls?.pessoaFisica?.controls['cpf']?.hasError('exception')">
+        {{form?.controls?.pessoaFisica?.controls['cpf']?.errors?.exception}}
+      </mat-error>
+      <mat-error *ngIf="form?.controls?.pessoaFisica?.controls['cpf']?.hasError('required')">
+        Esse campo é obrigatório
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>

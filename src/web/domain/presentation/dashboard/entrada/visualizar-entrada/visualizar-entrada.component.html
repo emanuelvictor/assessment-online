@@ -1,0 +1,28 @@
+<div layout-align="center center" layout-gt-xs="row" layout-margin>
+  <div layout="row" flex-gt-xs="80" layout-margin>
+    <div flex layout-margin>
+
+      <mat-card class="bgc-grey-50" layout-margin style="max-width: 1200px">
+
+        <!--card informações-->
+        <mat-card-content>
+
+          <visualizar-dados-entrada [entrada]="entrada" *ngIf="entrada?.id" flex>
+            <!--options-->
+            <div layout="column" layout-align="start end" flex>
+              <div layout="row">
+                <button mat-icon-button routerLink="alterar" class="tc-blue-grey-900">
+                  <mat-icon>mode_edit</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" class="tc-blue-grey-900" (click)="delete(entrada?.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </visualizar-dados-entrada>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

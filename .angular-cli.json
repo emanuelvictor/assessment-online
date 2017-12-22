@@ -1,0 +1,72 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "assessment-online"
+  },
+  "apps": [
+    {
+      "name": "web",
+      "root": "src/web",
+      "deployUrl": "./modules/web/",
+      "outDir": "../resources/META-INF/resources/modules/web",
+      "assets": [
+        "assets"
+      ],
+      "prefix": "web",
+      "index": "index.html",
+      "main": "application/web-main.ts",
+      "polyfills": "../polyfills.ts",
+      "tsconfig": "../tsconfig.app.json",
+      "styles": [
+        "../../node_modules/@covalent/core/common/platform.scss",
+        "application/web-theme.scss",
+        "../../node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
+        "../../node_modules/nprogress/nprogress.css",
+        "../assets/styles/nprogress.css"
+      ],
+      "scripts": [
+        "../../node_modules/nprogress/nprogress.js"
+      ],
+      "environmentSource": "environment.ts",
+      "environments": {
+        "dev": "environment.ts",
+        "prod": "environment.prod.ts"
+      }
+    },
+    {
+      "name": "mobile",
+      "root": "src/mobile",
+      "deployUrl": "./modules/mobile/",
+      "outDir": "../resources/META-INF/resources/modules/mobile",
+      "assets": [
+        "assets"
+      ],
+      "prefix": "mobile",
+      "index": "index.html",
+      "main": "application/mobile-main.ts",
+      "polyfills": "../polyfills.ts",
+      "tsconfig": "../tsconfig.app.json",
+      "styles": [
+        "../../node_modules/@covalent/core/common/platform.scss",
+        "application/mobile-theme.scss",
+        "../../node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
+        "../../node_modules/nprogress/nprogress.css",
+        "../assets/styles/nprogress.css"
+      ],
+      "scripts": [
+        "../../node_modules/nprogress/nprogress.js"
+      ],
+      "environmentSource": "environment.ts",
+      "environments": {
+        "dev": "environment.ts",
+        "prod": "environment.prod.ts"
+      }
+    }
+  ],
+  "defaults": {
+    "styleExt": "css",
+    "component": {
+      "spec": false
+    }
+  }
+}

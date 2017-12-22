@@ -1,0 +1,35 @@
+<div layout-align="center center" layout-gt-xs="row" layout-margin>
+  <div layout="row" flex-gt-xs="80" layout-margin>
+    <div flex layout-margin>
+
+      <mat-card class="bgc-grey-50" layout-margin style="max-width: 1200px">
+
+        <!--card informações-->
+        <mat-card-content>
+
+          <visualizar-dados-usuario [usuario]="usuario" *ngIf="usuario?.id">
+            <!--options-->
+            <div layout="column" layout-align="start end" flex *ngIf="usuario.email != 'admin@admin.com'">
+              <div layout="row">
+                <button mat-icon-button routerLink="alterar" class="tc-blue-grey-900">
+                  <mat-icon>mode_edit</mat-icon>
+                </button>
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="tc-blue-grey-900">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item color="primary" (click)="alterarMinhaSenha()">
+                    <mat-icon>vpn_key</mat-icon>
+                    <span>Alterar minha senha</span>
+                  </button>
+                </mat-menu>
+              </div>
+            </div>
+          </visualizar-dados-usuario>
+
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+  </div>
+</div>

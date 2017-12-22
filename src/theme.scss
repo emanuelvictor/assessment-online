@@ -1,0 +1,280 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@import '~@covalent/core/theming/all-theme';
+@import '../../resources/META-INF/resources/static/fonts/roboto.css';
+@import '~@covalent/highlight/highlight-theme';
+@import '~@covalent/markdown/markdown-theme';
+
+@include covalent-highlight-theme();
+
+@include mat-core();
+
+$mat-lixo: (
+        50: #e8f5df,
+        100: #c8e6bf,
+        200: #a5d689,
+        300: #62914c,
+        400: #66bb6a,
+        500: #62914c,
+        600: #7ca03f,
+        700: #528e3f,
+        800: #2e7d32,
+        900: #1b5e0c,
+        A100: #b9f6ca,
+        A200: #69f0ae,
+        A400: #00e676,
+        A700: #00c853,
+        contrast: (
+                50: $black-87-opacity,
+                100: $black-87-opacity,
+                200: $black-87-opacity,
+                300: $black-87-opacity,
+                400: $black-87-opacity,
+                500: $black-87-opacity,
+                600: white,
+                700: white,
+                800: $white-87-opacity,
+                900: $white-87-opacity,
+                A100: $black-87-opacity,
+                A200: $black-87-opacity,
+                A400: $black-87-opacity,
+                A700: $black-87-opacity,
+        )
+);
+
+$primary: mat-palette($mat-teal);
+$accent: mat-palette($mat-lixo);
+$warn: mat-palette($mat-red, 300);
+
+$theme: mat-light-theme($primary, $accent, $warn);
+
+@include angular-material-theme($theme);
+@include covalent-theme($theme);
+
+
+.mat-hint-error {
+  color: #617056;
+}
+
+.avatar {
+  img {
+    border-radius: 50%;
+  }
+}
+
+.size-155 {
+  height: 155px;
+  width: 155px;
+}
+
+.size-200 {
+  height: 200px;
+  width: 200px;
+}
+
+.size-40 {
+  height: 40px;
+  width: 40px;
+}
+
+mat-toolbar {
+  min-height: 64px;
+}
+
+.no-margin {
+  margin: 0
+}
+
+@media screen and (max-width: 800px) {
+  .tfc-content-dialog {
+    width: inherit;
+  }
+}
+
+.image-cover {
+  object-fit: cover;
+  object-position: 50%;
+}
+
+//Override
+.md2-datepicker-placeholder {
+  font-size: 16px;
+}
+
+//Override
+.md2-datepicker-input-focused {
+  color: #617056 !important;
+  border-color: #617056 !important;
+}
+
+.app-container {
+  min-height: calc(100% - 80px); //100% menos a altura do footer
+}
+
+.hide {
+  display: none;
+}
+
+//Exibe enter e espaços extras
+.text-area {
+  white-space: pre-wrap;
+}
+
+.button-activate {
+  color: #617056 !important;
+  min-height: 80px;
+}
+
+.mat-nav-list-first-green {
+  mat-list-item {
+    h1 {
+      color: #009688
+    }
+  }
+
+  mat-nav-list {
+    padding: 0;
+  }
+}
+
+// Referente ao autocomplete - Aumenta o tamanho do options exibido
+.mat-autocomplete-panel {
+  width: 800px !important;
+}
+
+// Referente ao toggle slider
+.mat-slide-toggle-thumb {
+  background-color: #5e7c8b;
+}
+
+.mat-slide-toggle-bar {
+  background-color: rgb(197, 207, 212);
+  width: 40px !important;
+  height: 25px !important;
+  border-radius: 77px !important;
+}
+
+.mat-slide-toggle-thumb-container {
+  top: 2px !important;
+  left: 2px !important;
+}
+
+/**
+Remove a transparência padrão do mat-icon
+Obs:. Remove somente da side-nav
+Seta cor padrão ao gaveta lateral
+ */
+mat-sidenav {
+  background-color: #617056 !important;
+  mat-icon {
+    background-color: #617056 !important;
+  }
+}
+
+/**
+Menu da gaveta lateral
+ */
+.menu-active {
+  background-color: #728068 !important;
+  div {
+    mat-icon {
+      margin-left: -4px;
+      background-color: #FFFFFF !important;
+      color: #617056 !important;
+    }
+  }
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-left-color: #FFFFFF;
+}
+
+//Override
+.list-without-link .mat-list-item-content {
+  cursor: default !important;
+}
+
+//Overrride
+.list-pad-none .mat-list-item-content {
+  padding: 0 !important;
+}
+
+//Override
+@media only screen and (max-width: 600px) { //xs
+  .responsive-list .mat-list-item-content {
+    flex-direction: column !important;
+  }
+}
+
+.cke_screen_reader_only {
+  width: 0px !important;
+  height: 0px !important;
+}
+
+.filters-card {
+  padding-top: 12px !important;
+  min-height: 83px;
+}
+
+.mat-list, .mat-nav-list {
+  padding-top: 0px ! important;
+}
+
+//Override
+.mat-form-field {
+  width: auto;
+}
+
+.td-chips-wrapper .mat-form-field {
+  width: 200px;
+}
+
+.status-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0px;
+  margin-top: 25px;
+}
+
+.hide-tab-header .mat-tab-label-container {
+  display: none !important;
+}
+
+.bgc-white {
+  background-color: white !important;
+}
+
+/**
+Alterar a cor do paginator
+ */
+.mat-paginator-container {
+  background-color: #fafafa;
+}
+
+/**
+Insere o pointer sobre a linha da tabela
+altera o tamanho da fonte
+ */
+mat-row {
+
+  .mat-cell {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  height: 89px;
+  cursor: pointer;
+}
+
+/**
+Sobrescreve .css que define o input com tamanho padrão de 180px
+Isso é um BUG do material 5
+ */
+.mat-form-field-infix {
+  width: auto !important;
+}
+
+/**
+Pinta as fontes dos botões "accent's" (verdes) de branco, no lugar de preto.
+ */
+button[color='accent'] {
+  color: white !important;
+}

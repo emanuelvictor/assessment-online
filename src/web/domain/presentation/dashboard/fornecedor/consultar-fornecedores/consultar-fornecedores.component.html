@@ -1,0 +1,110 @@
+<mat-card class="push-none bgc-grey-50 filters-card">
+  <div layout="row" layout-align="center center">
+    <div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>
+
+      <td-chips placeholder="Pesquisar por nome, CPF/CNPJ ou e-mail"
+                flex-md="40" flex-gt-md="45" flex-gt-lg="50"
+                [(ngModel)]="filtro.filter" (add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>
+
+      <td-chips placeholder="Pesquisar por endereço"
+                flex="30"
+                [(ngModel)]="filtro.enderecoFilter" (add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>
+
+      <div flex-gt-md></div>
+
+      <button mat-raised-button class="bgc-blue-grey-50 push-right" (click)="toggleShowPesquisaAvancada()">
+        Pesquisa avançada
+      </button>
+
+      <add-button routerLink="inserir"></add-button>
+
+    </div>
+  </div>
+</mat-card>
+
+<!--Pesquisa avançada-->
+<mat-card class="push-none bgc-grey-50 filters-card-avanced" *ngIf="showPesquisaAvancada">
+  <div layout="row" layout-align="center center">
+    <div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>
+
+      <mat-form-field flex style="padding-top: 10px;margin-bottom: -5px;">
+        <mat-select placeholder="Tipo de usuario"
+                    [(ngModel)]="filtro.souEmpresa"
+                    (change)="onChangeFilters()">
+          <mat-option [value]="false">Pessoa física</mat-option>
+          <mat-option [value]="true">Pessoa Jurídica</mat-option>
+          <mat-option>Ambos</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div hide-sm hide-xs flex='12'></div>
+
+      <close-button (click)="hidePesquisaAvancada()" hide-sm hide-xs></close-button>
+    </div>
+
+  </div>
+</mat-card>
+
+<div layout="row" layout-align="center start">
+  <div layout="column" flex="90">
+
+    <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center">
+      <span> Resultado da pesquisa </span>
+      <div flex></div>
+      <span> {{ page?.totalElements}} resultados </span>
+    </div>
+
+    <div class="mat-elevation-z4">
+
+      <mat-table [dataSource]="dataSource" style="border-radius: 2px;"
+                 matSortActive="nome"
+                 #table matSort class="bgc-grey-50"
+                 matSortDisableClear
+                 matSortDirection="asc">
+
+        <!-- nome Column TODO a responsividade da tabela para mobile pode ser feita da mesma forma que a gaveta-->
+        <ng-container matColumnDef="nome">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+          <mat-cell *matCellDef='let usuario'>
+            {{usuario.nome}}
+          </mat-cell>
+        </ng-container>
+
+        <!-- email Column -->
+        <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>E-mail</mat-header-cell>
+          <mat-cell *matCellDef='let usuario'>{{ usuario.email }}</mat-cell>
+        </ng-container>
+
+        <!-- contatoTelefonico Column -->
+        <ng-container matColumnDef="contatoTelefonico">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Contato telefônico</mat-header-cell>
+          <mat-cell *matCellDef="let usuario">{{ usuario.contatoTelefonico }}</mat-cell>
+        </ng-container>
+
+        <!-- documento Column -->
+        <ng-container matColumnDef="documento">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>CPF/CNPJ</mat-header-cell>
+          <mat-cell *matCellDef="let usuario">{{ usuario.documento | documento}}</mat-cell>
+        </ng-container>
+
+        <!-- responsavel Column -->
+        <ng-container matColumnDef="nomeResponsavel">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Responsável</mat-header-cell>
+          <mat-cell *matCellDef="let usuario">{{ usuario.nomeResponsavel }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="['nome', 'email', 'contatoTelefonico', 'documento', 'nomeResponsavel']">
+        </mat-header-row>
+
+        <mat-row *matRowDef="let usuario; columns: displayedColumns"
+                 routerLink="{{usuario.id}}" style="cursor: pointer">
+        </mat-row>
+      </mat-table>
+      <mat-paginator [length]="page.totalElements" style="border-radius: 2px"
+                     [pageSizeOptions]="[10, 20, 50, 100]"
+                     (page)="listUsuarios()" class="bgc-grey-50">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

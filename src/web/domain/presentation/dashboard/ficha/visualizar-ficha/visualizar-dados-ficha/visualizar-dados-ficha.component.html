@@ -1,0 +1,26 @@
+<div layout="row">
+
+  <div layout="column" style="min-width: 17px">
+    <button *ngIf="activatedRoute?.snapshot?.params?.id"
+            class="mat-headline tc-grey-500" type="button"
+            routerLink="../" color="primary" mat-icon-button>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+
+  <!--div foto e informações-->
+  <div layout="row" layout-align="center center" layout-margin flex="100">
+    <div layout="column">
+      <h1 layout="row" flex layout-align="center center" class="mat-headline tc-blue-grey-800 no-margin">{{ficha?.areaAtuacao?.tipoResiduo}}</h1>
+      <h2 layout="row" flex layout-align="center center" class="mat-subheading-2 tc-blue-grey-500 no-margin">Fornecedor: {{ficha?.areaAtuacao?.fornecedor?.documento |
+        documento}}</h2>
+      <h3 layout="row" flex layout-align="center center" class="mat-subheading-2 tc-blue-grey-500 no-margin">Código: {{ficha?.id}}</h3>
+      <img src="{{url}}">
+    </div>
+  </div>
+
+  <!--div opções-->
+  <div layout="row" flex="10">
+    <ng-content></ng-content>
+  </div>
+</div>

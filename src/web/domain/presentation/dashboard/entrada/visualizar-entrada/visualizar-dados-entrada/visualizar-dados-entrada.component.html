@@ -1,0 +1,35 @@
+<div layout="row">
+
+  <div layout="column" style="min-width: 17px">
+    <button *ngIf="activatedRoute?.snapshot?.params?.id"
+            class="mat-headline tc-grey-500" type="button"
+            routerLink="../" color="primary" mat-icon-button>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+
+
+  <!--div foto e informações-->
+  <div layout-gt-xs="row" layout-align="start center" flex-gt-xs="80">
+
+    <div layout="row" layout-align="start center" layout-margin flex="60">
+      <div layout="column">
+        <h1 flex class="mat-headline tc-blue-grey-800 no-margin">
+          Tipo de resíduo:
+          {{
+           entrada.ficha.areaAtuacao.tipoResiduo === 'VIDRO' ? 'Vidro' : entrada.ficha.areaAtuacao.tipoResiduo === 'PAPEL' ? 'Papel' :
+           entrada.ficha.areaAtuacao.tipoResiduo === 'METAL' ? 'Metal': entrada.ficha.areaAtuacao.tipoResiduo === 'PLASTICO' ? 'Plástico' :
+           entrada.ficha.areaAtuacao.tipoResiduo === 'ORGANICO' ? 'Orgânico' : 'Orgânico'
+          }}
+        </h1>
+        <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Peso: {{entrada?.peso | virgula}} kg</h2>
+        <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Fornecedor: {{entrada?.ficha?.areaAtuacao?.fornecedor?.documento | documento}}</h2>
+        <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Contaminado: {{ entrada.nivelContaminacao ? 'Sim' : 'Não'}}</h2>
+      </div>
+    </div>
+  </div>
+  <!--div opções-->
+  <div layout="row" flex="40">
+    <ng-content></ng-content>
+  </div>
+</div>

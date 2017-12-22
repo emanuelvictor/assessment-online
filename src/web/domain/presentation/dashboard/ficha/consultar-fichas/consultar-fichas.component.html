@@ -1,0 +1,111 @@
+<mat-card class="push-none bgc-grey-50 filters-card">
+  <div layout="row" layout-align="center center">
+    <div layout-gt-sm="row" layout-sm="column" flex="90" layout-align-gt-sm="start center" layout-margin>
+
+      <div layout="row" flex-gt-sm flex>
+        <td-chips placeholder="Fornecedor" flex="100"
+                  (inputChange)="findFornecedores($event)"
+                  name="fornecedor" id="fornecedor" layout-margin
+                  (add)="onChangeFilters()" (remove)="onChangeFilters()"
+                  [items]="fornecedoresList" [(ngModel)]="filtro.fornecedores"
+                  [ngModelOptions]="{standalone: true}" style="margin-left: 0"
+                  [disabled]="authenticatedUser?.perfil == 'FORNECEDOR'" requireMatch>
+          <ng-template td-chip let-chip="chip">
+            {{chip?.nome}} - {{chip?.documento | documento}}
+          </ng-template>
+          <ng-template td-autocomplete-option let-option="option">
+            {{option?.nome}} - {{option?.documento | documento}}
+          </ng-template>
+        </td-chips>
+      </div>
+
+      <div layout-gt-xs="row" layout-xs="column" layout-margin class="push-top">
+        <mat-checkbox [(ngModel)]='filtro.areasAtuacao[0].checked'
+                      name='vidro' id='vidro' flex
+                      (change)='onChangeFilters()'>
+          Vidro
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]='filtro.areasAtuacao[1].checked'
+                      name='papel' id='papel' flex
+                      (change)='onChangeFilters()'>
+          Papel
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]='filtro.areasAtuacao[2].checked'
+                      name='metal' id='metal' flex
+                      (change)='onChangeFilters()'>
+          Metal
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]='filtro.areasAtuacao[3].checked'
+                      name='plastico' id='plastico' flex
+                      (change)='onChangeFilters()'>
+          Plástico
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]='filtro.areasAtuacao[4].checked'
+                      name='organico' id='organico' flex
+                      (change)='onChangeFilters()'>
+          Orgânico
+        </mat-checkbox>
+
+        <add-button hide-md hide-lg hide-xl routerLink="inserir"></add-button>
+      </div>
+
+      <div hide-sm hide-xs flex="12"></div>
+
+      <add-button hide-sm hide-xs routerLink="inserir"></add-button>
+
+    </div>
+  </div>
+</mat-card>
+
+<div layout="row" layout-align="center start">
+  <div layout="column" flex="90">
+
+    <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center">
+      <span> Resultado da pesquisa </span>
+      <div flex></div>
+      <span> {{ page?.totalElements}} resultados </span>
+    </div>
+
+    <div class="mat-elevation-z4">
+
+      <mat-table matSortDisableClear
+                 matSortActive="nome"
+                 matSortDirection="asc"
+                 [dataSource]="dataSource"
+                 style="border-radius: 2px;"
+                 #table matSort class="bgc-grey-50">
+
+        <ng-container matColumnDef="areaAtuacao.fornecedor.nome">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Nome do fornecedor</mat-header-cell>
+          <mat-cell *matCellDef='let ficha'>
+            {{ficha.areaAtuacao.fornecedor.nome}}
+          </mat-cell>
+        </ng-container>
+
+        <!-- tipoResiduo Column -->
+        <ng-container matColumnDef="areaAtuacao.tipoResiduo">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de resíduo sólido</mat-header-cell>
+          <mat-cell *matCellDef='let ficha'>
+            {{
+            ficha.areaAtuacao.tipoResiduo === 'VIDRO' ? 'Vidro' : ficha.areaAtuacao.tipoResiduo === 'PAPEL' ? 'Papel' :
+            ficha.areaAtuacao.tipoResiduo === 'METAL' ? 'Metal': ficha.areaAtuacao.tipoResiduo === 'PLASTICO' ?
+            'Plástico' :
+            ficha.areaAtuacao.tipoResiduo === 'ORGANICO' ? 'Orgânico' : 'Orgânico'
+            }}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="['areaAtuacao.fornecedor.nome', 'areaAtuacao.tipoResiduo']">
+        </mat-header-row>
+
+        <mat-row *matRowDef="let ficha; columns: displayedColumns"
+                 routerLink="{{ficha.id}}" style="cursor: pointer">
+        </mat-row>
+      </mat-table>
+      <mat-paginator [length]="page.totalElements" style="border-radius: 2px"
+                     [pageSizeOptions]="[10, 20, 50, 100]"
+                     (page)="listFichas()" class="bgc-grey-50">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

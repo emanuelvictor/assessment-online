@@ -1,0 +1,19 @@
+/*CSS para estilização de progressbar*/
+#nprogress .bar {
+    background: rgb(97, 112, 86);
+}
+
+/* Fancy blur effect */
+#nprogress .peg {
+    box-shadow: 0 0 10px rgba(249, 255, 240, 0.8), 0 0 5px rgba(97, 67, 54, 0.8);
+}
+
+#nprogress .spinner-icon {
+    border-top-color: rgb(97, 112, 86);
+    border-left-color: rgb(97, 112, 86);
+}
+
+/*Removendo spinner*/
+#nprogress .spinner-icon {
+    display: none;
+}
