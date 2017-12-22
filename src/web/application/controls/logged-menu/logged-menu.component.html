@@ -19,60 +19,23 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item *ngIf="authenticatedUser?.isAdministrador"
-                   class="push-bottom" routerLink="/dashboard/usuarios"
+    <mat-list-item class="push-bottom" routerLink="/dashboard/usuarios"
                    routerLinkActive #rlaUsuarios="routerLinkActive"
                    [ngClass]="{'menu-active': rlaUsuarios.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>supervisor_account</mat-icon>
-        <h3 matLine style="color: white" flex="85"> Usuarios </h3>
+        <h3 matLine style="color: white" flex="85"> Atendentes </h3>
       </div>
     </mat-list-item>
 
-    <mat-list-item *ngIf="authenticatedUser?.isAdministrador"
-                   class="push-bottom" routerLink="/dashboard/fornecedores"
+    <mat-list-item class="push-bottom" routerLink="/dashboard/fornecedores"
                    routerLinkActive #rlaFornecedores="routerLinkActive"
                    [ngClass]="{'menu-active': rlaFornecedores.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>shopping_cart</mat-icon>
-        <h3 matLine style="color: white" flex="85"> Fornecedores </h3>
-      </div>
-    </mat-list-item>
-
-    <mat-list-item *ngIf="authenticatedUser?.isAdministrador"
-                   class="push-bottom" routerLink="/dashboard/pontos-coleta"
-                   routerLinkActive #rlaPontocoleta="routerLinkActive"
-                   [ngClass]="{'menu-active': rlaPontocoleta.isActive}">
-      <div layout="row" flex class="pad-left">
-        <span flex="10"></span>
-        <mat-icon matListAvatar flex>place</mat-icon>
-        <h3 matLine style="color: white" flex="85"> Pontos de coleta </h3>
-      </div>
-    </mat-list-item>
-
-    <mat-list-item routerLink="/dashboard/entradas" routerLinkActive
-                   class="push-bottom" #rlaEntradas="routerLinkActive"
-                   [ngClass]="{'menu-active': rlaEntradas.isActive}">
-      <div layout="row" flex class="pad-left">
-        <span flex="10"></span>
-        <mat-icon matListAvatar flex>input</mat-icon>
-        <h3 matLine style="color: white" flex="85">
-          {{authenticatedUser?.perfil == 'FORNECEDOR' ? 'Minhas entradas' : 'Entradas'}}
-        </h3>
-      </div>
-    </mat-list-item>
-
-    <mat-list-item #rlaFichas="routerLinkActive"
-                   [ngClass]="{'menu-active': rlaFichas.isActive}"
-                   routerLink="/dashboard/fichas" routerLinkActive>
-      <div layout="row" flex class="pad-left">
-        <span flex="10"></span>
-        <mat-icon matListAvatar flex>insert_drive_file</mat-icon>
-        <h3 matLine style="color: white" flex="85">
-          {{authenticatedUser?.perfil == 'FORNECEDOR' ? 'Minhas fichas' : 'Fichas'}}
-        </h3>
+        <h3 matLine style="color: white" flex="85"> Unidades </h3>
       </div>
     </mat-list-item>
 

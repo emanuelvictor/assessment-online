@@ -39,7 +39,7 @@ const routes: Routes = [
     path: 'authentication', component: LoginComponent,
   },
   {
-    path: 'dashboard', component: DashboardViewComponent, canActivate: [AuthGuard],
+    path: 'dashboard', component: DashboardViewComponent, //canActivate: [AuthGuard],
     children: [
       {
         path: 'minha-conta', component: MinhaContaViewComponent,

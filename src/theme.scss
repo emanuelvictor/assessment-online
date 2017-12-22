@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/theming';
 @import '~@covalent/core/theming/all-theme';
-@import '../../resources/META-INF/resources/static/fonts/roboto.css';
+@import '~nprogress/nprogress.css';
 @import '~@covalent/highlight/highlight-theme';
 @import '~@covalent/markdown/markdown-theme';
 
@@ -9,41 +9,8 @@
 
 @include mat-core();
 
-$mat-lixo: (
-        50: #e8f5df,
-        100: #c8e6bf,
-        200: #a5d689,
-        300: #62914c,
-        400: #66bb6a,
-        500: #62914c,
-        600: #7ca03f,
-        700: #528e3f,
-        800: #2e7d32,
-        900: #1b5e0c,
-        A100: #b9f6ca,
-        A200: #69f0ae,
-        A400: #00e676,
-        A700: #00c853,
-        contrast: (
-                50: $black-87-opacity,
-                100: $black-87-opacity,
-                200: $black-87-opacity,
-                300: $black-87-opacity,
-                400: $black-87-opacity,
-                500: $black-87-opacity,
-                600: white,
-                700: white,
-                800: $white-87-opacity,
-                900: $white-87-opacity,
-                A100: $black-87-opacity,
-                A200: $black-87-opacity,
-                A400: $black-87-opacity,
-                A700: $black-87-opacity,
-        )
-);
-
 $primary: mat-palette($mat-teal);
-$accent: mat-palette($mat-lixo);
+$accent: mat-palette($mat-blue-grey);
 $warn: mat-palette($mat-red, 300);
 
 $theme: mat-light-theme($primary, $accent, $warn);
@@ -53,7 +20,7 @@ $theme: mat-light-theme($primary, $accent, $warn);
 
 
 .mat-hint-error {
-  color: #617056;
+  color: #9c27b0;
 }
 
 .avatar {
@@ -103,8 +70,8 @@ mat-toolbar {
 
 //Override
 .md2-datepicker-input-focused {
-  color: #617056 !important;
-  border-color: #617056 !important;
+  color: #9c27b0 !important;
+  border-color: #9c27b0 !important;
 }
 
 .app-container {
@@ -121,7 +88,7 @@ mat-toolbar {
 }
 
 .button-activate {
-  color: #617056 !important;
+  color: #9c27b0 !important;
   min-height: 80px;
 }
 
@@ -165,9 +132,9 @@ Obs:. Remove somente da side-nav
 Seta cor padrão ao gaveta lateral
  */
 mat-sidenav {
-  background-color: #617056 !important;
+  background-color: #9c27b0 !important;
   mat-icon {
-    background-color: #617056 !important;
+    background-color: #9c27b0 !important;
   }
 }
 
@@ -175,17 +142,17 @@ mat-sidenav {
 Menu da gaveta lateral
  */
 .menu-active {
-  background-color: #728068 !important;
+  background-color: rgba(176, 44, 198, 0.84) !important;
   div {
     mat-icon {
       margin-left: -4px;
-      background-color: #FFFFFF !important;
-      color: #617056 !important;
+      background-color: #ffffff !important;
+      color: #9c27b0 !important;
     }
   }
   border-left-width: 4px;
   border-left-style: solid;
-  border-left-color: #FFFFFF;
+  border-left-color: #ffffff;
 }
 
 //Override
