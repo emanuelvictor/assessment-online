@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
-import {UsuarioService} from "../../../../../service/usuario.service";
+import {AtendenteService} from "../../../../../service/atendente.service";
 
 @Component({
   selector: 'alterar-minha-senha',
@@ -32,8 +32,11 @@ export class AlterarMinhaSenhaComponent implements OnInit {
   /**
    *
    * @param data
+   * @param {MatDialogRef<AlterarMinhaSenhaComponent>} dialogRef
+   * @param {MatSnackBar} snackBar
+   * @param {AtendenteService} usuarioService
    */
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AlterarMinhaSenhaComponent>, public snackBar: MatSnackBar, public usuarioService: UsuarioService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AlterarMinhaSenhaComponent>, public snackBar: MatSnackBar, public usuarioService: AtendenteService) {
     this.usuario = data;
   }
 
@@ -43,20 +46,20 @@ export class AlterarMinhaSenhaComponent implements OnInit {
   ngOnInit() {
   }
 
-  /**
-   *
-   * @param event
-   */
-  public alterarMinhaSenha(event: Event): void {
-    event.preventDefault();
-    this.usuarioService.changeMyPassword(this.usuario.id, this.currentPassword, this.newPassword)
-      .then(result => {
-        if (result) {
-          this.dialogRef.close();
-          this.openSnackBar("Senha alterada com sucesso");
-        }
-      })
-  }
+  // /**
+  //  *
+  //  * @param event
+  //  */
+  // public alterarMinhaSenha(event: Event): void {
+  //   event.preventDefault();
+  // this.usuarioService.changeMyPassword(this.atendente.id, this.currentPassword, this.newPassword)
+  //   .then(result => {
+  //     if (result) {
+  //       this.dialogRef.close();
+  //       this.openSnackBar("Senha alterada com sucesso");
+  //     }
+  //   })
+  // }
 
   /**
    *

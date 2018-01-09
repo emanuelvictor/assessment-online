@@ -1,8 +1,8 @@
 import {Observable} from 'rxjs/Observable';
 import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {Usuario} from "../entity/usuario/usuario.model";
 import {AbstractService} from "./abstract.service";
+import {Atendente} from "../entity/atendente/atendente.model";
 
 @Injectable()
 export class AuthenticationService extends AbstractService {
@@ -91,13 +91,13 @@ export class AuthenticationService extends AbstractService {
 
   /**
    *
-   * @param {Usuario} usuario
+   * @param {Atendente} atendente
    * @returns {Promise<any>}
    */
-  public login(usuario: Usuario): Promise<any> {
+  public login(atendente: Atendente): Promise<any> {
     let body = new HttpParams();
-    body = body.set('email', usuario.email ? usuario.email : '');
-    body = body.set('password', usuario.password ? usuario.password : '');
+    // body = body.set('email', atendente.email ? atendente.email : '');
+    // body = body.set('password', atendente.password ? atendente.password : '');
     return this.httpClient.post(this.baseUrl + "authenticate", body).toPromise();
   }
 

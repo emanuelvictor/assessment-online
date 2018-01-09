@@ -1,10 +1,9 @@
 import {Component} from "@angular/core";
-import {Http, URLSearchParams} from "@angular/http";
 import {MatSnackBar} from "@angular/material";
 import 'rxjs/add/operator/toPromise';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../service/authentication.service";
-import {Usuario} from "../../entity/usuario/usuario.model";
+import {Atendente} from "../../entity/atendente/atendente.model";
 
 
 /**
@@ -20,7 +19,7 @@ export class LoginComponent {
   /**
    *
    */
-  public usuario: Usuario = new Usuario();
+  public atendente: Atendente = new Atendente();
 
   /**
    *
@@ -34,10 +33,10 @@ export class LoginComponent {
    * @returns {Promise<T>}
    */
   public login() {
-    this.authenticationService.login(this.usuario).then(result => {
+    this.authenticationService.login(this.atendente).then(result => {
       this.authenticationService.getPromiseAuthenticatedUser().then(authenticated => {
-        this.usuario = authenticated;
-        this.authenticationService.setAuthenticatedUser(this.usuario);
+        this.atendente = authenticated;
+        this.authenticationService.setAuthenticatedUser(this.atendente);
         this.router.navigate(['/']);
       });
     });

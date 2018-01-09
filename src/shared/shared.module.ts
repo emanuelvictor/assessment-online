@@ -5,7 +5,8 @@ import {
   MatAutocompleteModule,
   MatButtonModule,
   MatCardModule,
-  MatCheckboxModule, MatChipsModule,
+  MatCheckboxModule,
+  MatChipsModule,
   MatDatepickerModule,
   MatDialogModule,
   MatGridListModule,
@@ -41,7 +42,6 @@ import {TextMaskModule} from "angular2-text-mask";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
-import {VisualizarDadosFichaComponent} from "../web/domain/presentation/dashboard/ficha/visualizar-ficha/visualizar-dados-ficha/visualizar-dados-ficha.component";
 import {NoSubmitDirective} from "../web/application/controls/no-sumbit/no-submit.directive";
 import {DocumentoPipe} from "../web/application/controls/documento-pipe/documento-pipe";
 import {VirgulaPipe} from "../web/application/controls/virgula-pipe/peso-pipe";
@@ -57,12 +57,9 @@ import {VirgulaPipe} from "../web/application/controls/virgula-pipe/peso-pipe";
     VirgulaPipe,
 
     // Authentication
-    LoginComponent,
-
-    //Entrada
-    VisualizarDadosFichaComponent
+    LoginComponent
   ],
-  imports : [
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     CovalentLoadingModule,
@@ -100,7 +97,7 @@ import {VirgulaPipe} from "../web/application/controls/virgula-pipe/peso-pipe";
     MatSnackBarModule,
     MatStepperModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
   exports: [
     //Components
@@ -108,7 +105,6 @@ import {VirgulaPipe} from "../web/application/controls/virgula-pipe/peso-pipe";
     DocumentoPipe,
     VirgulaPipe,
     LoginComponent,
-    VisualizarDadosFichaComponent,
 
     //Modules
     CommonModule,

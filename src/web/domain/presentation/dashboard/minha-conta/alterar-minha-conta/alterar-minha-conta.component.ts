@@ -3,8 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
 import {AuthenticationService} from "../../../../service/authentication.service";
-import {Usuario} from "../../../../entity/usuario/usuario.model";
-import {UsuarioService} from "../../../../service/usuario.service";
+import {AtendenteService} from "../../../../service/atendente.service";
+import {Atendente} from "../../../../entity/atendente/atendente.model";
 
 @Component({
   selector: 'alterar-minha-conta',
@@ -20,20 +20,19 @@ export class AlterarMinhaContaComponent implements OnInit {
 
   /**
    *
-   * @type {Usuario}
+   * @type {Atendente}
    */
-  usuario: Usuario = new Usuario();
+  atendente: Atendente = new Atendente();
 
   /**
    *
    * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {AuthenticationService} authenticationService
-   * @param {UsuarioService} usuarioService
-   * @param {ToastyService} toastyService
+   * @param {AtendenteService} atendenteService
    * @param {ActivatedRoute} activatedRoute
    */
-  constructor(public router: Router, public snackBar: MatSnackBar, public authenticationService: AuthenticationService, public usuarioService: UsuarioService, public activatedRoute: ActivatedRoute) {
+  constructor(public router: Router, public snackBar: MatSnackBar, public authenticationService: AuthenticationService, public atendenteService: AtendenteService, public activatedRoute: ActivatedRoute) {
   }
 
   /**
@@ -48,32 +47,18 @@ export class AlterarMinhaContaComponent implements OnInit {
    */
   public getAuthenticatedUser() {
     this.authenticationService.getPromiseAuthenticatedUser().then(result => {
-      this.usuario = result;
-      this.usuarioService
-        .findAreasAtuacao(this.usuario.id, null, null)
-        .then((result) => {
-          this.usuario.areasAtuacao = result.content;
-        })
+      this.atendente = result;
     });
   }
 
   /**
    *
    */
-  public update(usuario): void {
-
-    this.usuarioService.update(usuario)
-      .then((usuarioResult) => {
-        if (usuarioResult.perfil == 'FORNECEDOR') {
-          this.usuarioService.saveAreasAtuacao(usuarioResult.id, usuario.areasAtuacao)
-            .then((result) => {
-              this.success('Conta alterada com sucesso');
-              usuario = usuarioResult;
-              usuario.areasAtuacao = result;
-            })
-        } else {
-          this.success('Conta alterada com sucesso');
-        }
+  public update(atendente): void {
+    this.atendenteService.update(atendente)
+      .then((atendenteResult) => {
+        atendente = atendenteResult;
+        this.success('Conta alterada com sucesso');
       })
   }
 

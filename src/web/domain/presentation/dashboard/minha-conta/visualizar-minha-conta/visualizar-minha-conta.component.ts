@@ -11,10 +11,6 @@ import {AuthenticationService} from "../../../../service/authentication.service"
 })
 export class VisualizarMinhaContaComponent implements OnInit {
 
-  /*-------------------------------------------------------------------
-   *                           ATTRIBUTES
-   *-------------------------------------------------------------------*/
-
   /**
    *
    */
@@ -22,7 +18,7 @@ export class VisualizarMinhaContaComponent implements OnInit {
 
   /**
    *
-   * @type {{fileTransfer: any; foto: any; id: any; nome: any; email: any; password: any; confirmacaoPassword: any; documento: any; isEmpresa: boolean; endereco: {cidade: {nome: any}}}}
+   * @type {{areasInteresse: any; fileTransfer: any; foto: any; id: any; nome: any; email: any; password: any; isInstrutor: any; confirmacaoPassword: any; documento: any; isEmpresa: boolean; endereco: {cidade: {nome: any}}}}
    */
   usuario = {
     areasInteresse: null,
@@ -49,26 +45,16 @@ export class VisualizarMinhaContaComponent implements OnInit {
    */
   color = 'primary';
 
-  /*-------------------------------------------------------------------
-   *                           CONSTRUCTORS
-   *-------------------------------------------------------------------*/
-
   /**
    *
-   * @param activatedRoute
-   * @param router
-   * @param snackBar
-   * @param dialog
-   * @param authenticatedUserService
+   * @param {MatSnackBar} snackBar
+   * @param {MatDialog} dialog
+   * @param {AuthenticationService} authenticationService
    */
   constructor(public snackBar: MatSnackBar,
               public dialog: MatDialog,
               public authenticationService: AuthenticationService) {
   }
-
-  /*-------------------------------------------------------------------
-   *                           BEHAVIORS
-   *-------------------------------------------------------------------*/
 
   /**
    *
