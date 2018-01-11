@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
-import {AuthenticationService} from "../../../../service/authentication.service";
 import {AlterarSenhaComponent} from "./alterar-senha/alterar-senha.component";
 import {ConfirmDialogComponent} from "../../../../../application/controls/confirm-dialog/confirm-dialog.component";
 import {AtendenteService} from "../../../../service/atendente.service";
@@ -32,7 +31,6 @@ export class VisualizarAtendenteComponent implements OnInit {
   constructor(public router: Router,
               public snackBar: MatSnackBar,
               public activatedRoute: ActivatedRoute,
-              public authenticationService: AuthenticationService,
               public dialog: MatDialog, public atendenteService: AtendenteService) {
   }
 
@@ -40,19 +38,16 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    */
   ngOnInit() {
-    let atendenteId: number = this.activatedRoute.snapshot.params['id'];
-    this.find(atendenteId);
+    let atendenteKey: string = this.activatedRoute.snapshot.params['key'];
+    this.find(atendenteKey);
   }
 
   /**
    *
-   * @param atendenteId
+   * @param {string} atendenteKey
    */
-  public find(atendenteId: number) {
-    this.atendenteService.findOne(atendenteId)
-      .then((result) => {
-        this.atendente = result;
-      });
+  public find(atendenteKey: string) {
+    this.atendenteService.findOne(atendenteKey).subscribe(atendente => this.atendente = atendente)
   }
 
   /**

@@ -41,8 +41,8 @@ const routes: Routes = [
           children: [
             {path: '', component: ConsultarAtendentesComponent},
             {path: 'inserir', component: InserirAtendenteComponent},
-            {path: ':id/alterar', component: AlterarAtendenteComponent},
-            {path: ':id', component: VisualizarAtendenteComponent}
+            {path: ':key/alterar', component: AlterarAtendenteComponent},
+            {path: ':key', component: VisualizarAtendenteComponent}
           ]
         },
         {
@@ -50,8 +50,8 @@ const routes: Routes = [
           children: [
             {path: '', component: ConsultarUnidadesComponent},
             {path: 'inserir', component: InserirUnidadeComponent},
-            {path: ':id/alterar', component: AlterarUnidadeComponent},
-            {path: ':id', component: VisualizarUnidadeComponent},
+            {path: ':key/alterar', component: AlterarUnidadeComponent},
+            {path: ':key', component: VisualizarUnidadeComponent},
           ]
         }
       ]

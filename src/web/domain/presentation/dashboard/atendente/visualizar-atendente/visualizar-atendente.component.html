@@ -7,7 +7,7 @@
         <!--card informações-->
         <mat-card-content>
 
-          <visualizar-dados-usuario [usuario]="usuario" *ngIf="usuario?.id" flex>
+          <visualizar-dados-usuario [usuario]="atendente" *ngIf="atendente?.key" flex>
             <!--options-->
 
             <div layout="column" layout-align="start end" flex>
@@ -23,7 +23,7 @@
                     <mat-icon>vpn_key</mat-icon>
                     <span>Alterar senha</span>
                   </button>
-                  <button mat-menu-item color="primary" (click)="delete(usuario?.id)">
+                  <button mat-menu-item color="primary" (click)="remove(atendente?.key)">
                     <mat-icon>delete</mat-icon>
                     <span>Remover</span>
                   </button>

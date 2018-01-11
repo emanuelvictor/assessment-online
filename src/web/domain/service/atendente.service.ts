@@ -26,10 +26,8 @@ export class AtendenteService extends AbstractService {
     return this.af.list<any[]>('atendentes').valueChanges();
   }
 
-  public findOne(id: number): Promise<any> {
-    return Promise.resolve(
-      this.httpClient.get(this.baseUrl + 'atendentes/' + id).toPromise().then(result => result)
-    )
+  public findOne(key: string): Observable<any> {
+    return this.af.object<any>('atendentes/' + key).valueChanges();
   }
 
   public update(atendente: Atendente): Promise<any> {

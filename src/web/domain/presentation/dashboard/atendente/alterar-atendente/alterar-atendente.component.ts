@@ -46,19 +46,16 @@ export class AlterarAtendenteComponent implements OnInit {
    *
    */
   ngOnInit() {
-    let atendenteId: number = this.activatedRoute.snapshot.params['id'];
-    this.find(atendenteId);
+    let atendenteKey: string = this.activatedRoute.snapshot.params['key'];
+    this.find(atendenteKey);
   }
 
   /**
    *
-   * @param atendenteId
+   * @param {string} atendenteKey
    */
-  public find(atendenteId: number) {
-    this.atendenteService.findOne(atendenteId)
-      .then((result) => {
-        this.atendente = result;
-      });
+  public find(atendenteKey: string) {
+    this.atendenteService.findOne(atendenteKey).subscribe(atendente => this.atendente = atendente)
   }
 
   /**
