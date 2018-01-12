@@ -14,7 +14,7 @@ export class ConsultarAtendentesComponent implements OnInit {
   /**
    *
    */
-  public atendentes: Atendente[];
+  public atendentes: any;
 
   /**
    *
@@ -37,7 +37,14 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters() {
-    this.atendenteService.find().subscribe(atendentes => this.atendentes = atendentes)
+    this.atendenteService.find().snapshotChanges().subscribe(atendentes => {
+      this.atendentes = atendentes;
+      this.atendentes.forEach( atendente => {
+        console.log('aqui');
+        atendente.payload.val().unidade.endereco = 'asdfas';
+        // atendente.payload.val
+      })
+    })
   }
 
   /**

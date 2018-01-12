@@ -40,8 +40,8 @@ export class ConsultarUnidadesComponent implements OnInit {
    *
    */
   public listUnidadesByFilters() {
-    this.unidadeService.find().snapshotChanges().subscribe(asdf=> {
-      this.unidades = asdf;
+    this.unidadeService.find().snapshotChanges().subscribe(result => {
+      this.unidades = result;
     });
   }
 

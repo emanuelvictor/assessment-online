@@ -7,7 +7,7 @@
         <!--card informações-->
         <mat-card-content>
 
-          <visualizar-dados-usuario [usuario]="atendente" *ngIf="atendente?.key" flex>
+          <visualizar-dados-usuario [usuario]="atendente?.payload?.val()" *ngIf="atendente?.key" flex>
             <!--options-->
 
             <div layout="column" layout-align="start end" flex>

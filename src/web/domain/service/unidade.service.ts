@@ -10,11 +10,6 @@ import {FirebaseListObservable} from "angularfire2/database-deprecated";
 @Injectable()
 export class UnidadeService extends AbstractService {
 
-  /**
-   * TODO mudar para o model
-   */
-  unidades: any[];
-
   constructor(private af: AngularFireDatabase, private httpClient: HttpClient) {
     super();
   }
@@ -24,8 +19,6 @@ export class UnidadeService extends AbstractService {
   }
 
   public find(): AngularFireList<any> {
-
-    // this.unidadeService.find().snapshotChanges().subscribe(
     return this.af.list('unidades');
   }
 

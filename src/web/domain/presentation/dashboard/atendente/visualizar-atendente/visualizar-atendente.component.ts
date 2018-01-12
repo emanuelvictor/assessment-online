@@ -23,7 +23,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    * @type {Atendente}
    */
-  atendente: Atendente = new Atendente();
+  atendente: any;
 
   /**
    *
@@ -47,7 +47,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {string} atendenteKey
    */
   public find(atendenteKey: string) {
-    this.atendenteService.findOne(atendenteKey).subscribe(atendente => this.atendente = atendente)
+    this.atendenteService.findOne(atendenteKey).snapshotChanges().subscribe(atendente => this.atendente = atendente)
   }
 
   /**
