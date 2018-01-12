@@ -2,6 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {UnidadeService} from "../../../../service/unidade.service";
+import {AngularFireList, SnapshotAction} from "angularfire2/database";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'consultar-unidades',
@@ -13,31 +15,7 @@ export class ConsultarUnidadesComponent implements OnInit {
   /**
    *
    */
-  public filter: String[] = [];
-
-  /**
-   *
-   */
-  public unidades: any[] = [];
-
-  /**
-   *
-   */
-  public pageable = {//PageRequest
-    size: 20,
-    page: 0,
-    sort: null
-  };
-
-  /**
-   *
-   */
-  public page: any;
-
-  /**
-   *
-   */
-  public enderecoFilters: String[] = [];
+  public unidades: any;
 
   /**
    *
@@ -53,42 +31,7 @@ export class ConsultarUnidadesComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.listUnidadesByFilters(null, null);
-  }
-
-  /**
-   * Opção "VER MAIS"
-   *
-   */
-  public showMore() {
-    this.pageable.page += 1;
-    this.listAlunos();
-  }
-
-  /**
-   * Chamado ao alterar algum filtro
-   *
-   */
-  public onChangeFilters() {
-    this.pageable.page = 0;
-
-    let enderecoFilters = this.enderecoFilters && this.enderecoFilters.length ? this.enderecoFilters.join() : null;
-
-    let filter = this.filter && this.filter.length ? this.filter.join() : null;
-    this.unidadeService.find(filter, enderecoFilters, this.pageable)
-      .then((result) => {
-        // Novo array de unidades mapeado
-        this.unidades = result.content;
-        this.page = result;
-      })
-  }
-
-  /**
-   * Consulta de unidades com filtros do model
-   *
-   */
-  public listAlunos() {
-    this.listUnidadesByFilters(this.filter, this.enderecoFilters);
+    this.listUnidadesByFilters();
   }
 
 
@@ -96,18 +39,10 @@ export class ConsultarUnidadesComponent implements OnInit {
    * Consulta de unidades
    *
    */
-  public listUnidadesByFilters(filter: String[], enderecoFilters: String[]) {
-
-    const enderecoFiltersString = enderecoFilters && enderecoFilters.length ? enderecoFilters.join() : null;
-
-    const filterString = filter && filter.length ? filter.join() : null;
-
-    this.unidadeService.find(filterString, enderecoFiltersString, this.pageable)
-      .then((result) => {
-        // Novo array de unidades mapeado
-        this.unidades = this.unidades.concat(result.content);
-        this.page = result;
-      })
+  public listUnidadesByFilters() {
+    this.unidadeService.find().snapshotChanges().subscribe(asdf=> {
+      this.unidades = asdf;
+    });
   }
 
   /**

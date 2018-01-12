@@ -6,7 +6,7 @@
     <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center">
       <span> Resultado da pesquisa </span>
       <div flex></div>
-      <span> {{ page?.totalElements}} resultados </span>
+      <span> {{ atendentes?.length}} resultados </span>
     </div>
 
     <mat-card class="push-none bgc-grey-50">
@@ -24,11 +24,11 @@
       </mat-nav-list>
     </mat-card>
 
-    <div layout="row" class="push-top push-bottom">
-      <button mat-raised-button class="tc-grey-500" (click)="showMore()" flex *ngIf="!page?.last">
-        VER MAIS
-      </button>
-    </div>
+    <!--<div layout="row" class="push-top push-bottom">-->
+      <!--<button mat-raised-button class="tc-grey-500" (click)="showMore()" flex *ngIf="!page?.last">-->
+        <!--VER MAIS-->
+      <!--</button>-->
+    <!--</div>-->
 
   </div>
 </div>

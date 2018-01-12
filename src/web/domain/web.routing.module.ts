@@ -46,7 +46,7 @@ const routes: Routes = [
           ]
         },
         {
-          path: 'pontos-coleta', component: UnidadeViewComponent,
+          path: 'unidades', component: UnidadeViewComponent,
           children: [
             {path: '', component: ConsultarUnidadesComponent},
             {path: 'inserir', component: InserirUnidadeComponent},

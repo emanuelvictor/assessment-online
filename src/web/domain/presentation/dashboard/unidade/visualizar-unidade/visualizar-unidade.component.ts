@@ -15,11 +15,6 @@ export class VisualizarUnidadeComponent implements OnInit {
 
   /**
    *
-   */
-  masks = textMasks;
-
-  /**
-   *
    * @type {Usuario}
    */
   unidade: Unidade = new Unidade();
@@ -36,9 +31,10 @@ export class VisualizarUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    let unidadeId: number = this.activatedRoute.snapshot.params['id'];
+    console.log('aqui');
+    let unidadeId: number = this.activatedRoute.snapshot.params['key'];
 
-    this.find(unidadeId);
+    // this.find(unidadeId);
   }
 
   /**

@@ -22,7 +22,6 @@ import {VisualizarAtendenteComponent} from "./presentation/dashboard/atendente/v
 import {DadosFornecedorComponent} from "./presentation/dashboard/atendente/inserir-atendente/atendente-form/fornecedor/dados-fornecedor.component";
 import {AlterarMinhaSenhaComponent} from "./presentation/dashboard/minha-conta/visualizar-minha-conta/alterar-minha-senha/alterar-minha-senha.component";
 import {AlterarSenhaComponent} from "./presentation/dashboard/atendente/visualizar-atendente/alterar-senha/alterar-senha.component";
-import {DadosCooperadorComponent} from "./presentation/dashboard/atendente/inserir-atendente/atendente-form/cooperador/dados-cooperador.component";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {StopPropagationDirective} from "../application/controls/stop-propagation/stop-propagation.directive";
 import {RatingComponent} from "../application/controls/rating/rating.component";
@@ -110,7 +109,6 @@ import {AtendenteFormComponent} from "./presentation/dashboard/atendente/inserir
     AlterarAtendenteComponent,
     VisualizarAtendenteComponent,
     DadosFornecedorComponent,
-    DadosCooperadorComponent,
 
     // Password
     AlterarMinhaSenhaComponent,

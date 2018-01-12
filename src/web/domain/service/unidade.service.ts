@@ -3,11 +3,19 @@ import {Describer} from "../../application/describer/describer";
 import {Unidade} from "../entity/unidade/unidade.model";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {AbstractService} from "./abstract.service";
+import {Observable} from "rxjs/Observable";
+import {AngularFireDatabase, AngularFireList} from "angularfire2/database";
+import {FirebaseListObservable} from "angularfire2/database-deprecated";
 
 @Injectable()
 export class UnidadeService extends AbstractService {
 
-  constructor(private httpClient: HttpClient) {
+  /**
+   * TODO mudar para o model
+   */
+  unidades: any[];
+
+  constructor(private af: AngularFireDatabase, private httpClient: HttpClient) {
     super();
   }
 
@@ -15,17 +23,10 @@ export class UnidadeService extends AbstractService {
     return this.httpClient.post(this.baseUrl + 'unidades', unidade).toPromise();
   }
 
-  public find(filters: string, enderecoFilters: string, pageable: any): Promise<any> {
-    let params = new HttpParams();
-    params = params.set('filters', filters ? filters : '');
-    params = params.set('enderecoFilters', enderecoFilters ? enderecoFilters : '');
-    params = Describer.getHttpParamsFromPageable(params, pageable);
+  public find(): AngularFireList<any> {
 
-    return Promise.resolve(
-      this.httpClient.get(this.baseUrl + 'unidades/', {
-        params: params
-      }).toPromise().then(result => result)
-    )
+    // this.unidadeService.find().snapshotChanges().subscribe(
+    return this.af.list('unidades');
   }
 
   public findOne(id: number): Promise<any> {

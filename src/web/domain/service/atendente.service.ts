@@ -15,7 +15,6 @@ export class AtendenteService extends AbstractService {
 
   constructor(private af: AngularFireDatabase, private httpClient: HttpClient) {
     super();
-    this.af.list('atendentes').valueChanges().subscribe(atendentes => this.atendentes = atendentes);
   }
 
   public save(atendente: Atendente): Promise<any> {
