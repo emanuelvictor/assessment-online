@@ -11,8 +11,8 @@ import {UnidadeService} from "../../../../service/unidade.service";
  */
 @Component({
   selector: 'alterar-ponto-coleta',
-  templateUrl: './alterar-atendente.component.html',
-  styleUrls: ['./alterar-atendente.component.css']
+  templateUrl: './alterar-unidade.component.html',
+  styleUrls: ['./alterar-unidade.component.css']
 })
 export class AlterarUnidadeComponent implements OnInit {
 
@@ -44,18 +44,18 @@ export class AlterarUnidadeComponent implements OnInit {
    */
   ngOnInit() {
     let unidadeId: number = this.activatedRoute.snapshot.params['id'];
-    this.find(unidadeId);
+    // this.find(unidadeId);
   }
 
   /**
    *
    * @param unidadeId
    */
-  public find(unidadeId: number) {
-    this.unidadeService.findOne(unidadeId)
-      .then((result) => {
-        this.unidade = result;
-      });
+  public find(unidadeId: string) {
+    // this.unidadeService.findOne(unidadeId)
+    //   .then((result) => {
+    //     this.unidade = result;
+    //   });
   }
 
   /**
@@ -77,7 +77,7 @@ export class AlterarUnidadeComponent implements OnInit {
   public success(message: string) {
     this.openSnackBar(message);
 
-    this.router.navigate(['dashboard/pontos-coleta/' + this.unidade.id]);
+    this.router.navigate(['dashboard/pontos-coleta/' + this.unidade.key]);
 
   }
 

@@ -55,7 +55,7 @@ export class AlterarAtendenteComponent implements OnInit {
    * @param {string} atendenteKey
    */
   public find(atendenteKey: string) {
-    this.atendenteService.findOne(atendenteKey).subscribe(atendente => this.atendente = atendente)
+    // this.atendenteService.findOne(atendenteKey).subscribe(atendente => this.atendente = atendente) TODO
   }
 
   /**

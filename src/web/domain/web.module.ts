@@ -52,7 +52,7 @@ import {InserirAtendenteComponent} from "./presentation/dashboard/atendente/inse
 import {AlterarAtendenteComponent} from "./presentation/dashboard/atendente/alterar-atendente/alterar-atendente.component";
 import {AtendenteViewComponent} from "./presentation/dashboard/atendente/atendente-view.component";
 import {UnidadeViewComponent} from "./presentation/dashboard/unidade/unidade-view.component";
-import {AlterarUnidadeComponent} from "./presentation/dashboard/unidade/alterar-unidade/alterar-atendente.component";
+import {AlterarUnidadeComponent} from "./presentation/dashboard/unidade/alterar-unidade/alterar-unidade.component";
 import {VisualizarUnidadeComponent} from "./presentation/dashboard/unidade/visualizar-unidade/visualizar-unidade.component";
 import {InserirUnidadeComponent} from "./presentation/dashboard/unidade/inserir-unidade/inserir-unidade.component";
 import {UnidadeFormComponent} from "./presentation/dashboard/unidade/inserir-unidade/unidade-form/unidade-form.component";
@@ -60,6 +60,7 @@ import {ConsultarUnidadesComponent} from "./presentation/dashboard/unidade/consu
 import {UnidadeService} from "./service/unidade.service";
 import {VisualizarDadosAtendenteComponent} from "./presentation/dashboard/minha-conta/visualizar-minha-conta/visualizar-dados-usuario/visualizar-dados-usuario.component";
 import {AtendenteFormComponent} from "./presentation/dashboard/atendente/inserir-atendente/atendente-form/atendente-form.component";
+import {UnidadeItemComponent} from "./presentation/dashboard/atendente/consultar-atendentes/unidade-item/unidade-item.component";
 
 /**
  *
@@ -120,7 +121,8 @@ import {AtendenteFormComponent} from "./presentation/dashboard/atendente/inserir
     AlterarUnidadeComponent,
     VisualizarUnidadeComponent,
     InserirUnidadeComponent,
-    UnidadeFormComponent
+    UnidadeFormComponent,
+    UnidadeItemComponent
   ],
   imports: [
     SharedModule,

@@ -31,21 +31,16 @@ export class VisualizarUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    console.log('aqui');
-    let unidadeId: number = this.activatedRoute.snapshot.params['key'];
-
-    // this.find(unidadeId);
+    const key: string = this.activatedRoute.snapshot.params['key'];
+    this.find(key);
   }
 
   /**
    *
-   * @param unidadeId
+   * @param key
    */
-  public find(unidadeId: number) {
-    this.unidadeService.findOne(unidadeId)
-      .then((result) => {
-        this.unidade = result;
-      });
+  public find(key: string) {
+    this.unidadeService.findOne(key).snapshotChanges().subscribe(result => this.unidade = result.payload.val())
   }
 
   /**

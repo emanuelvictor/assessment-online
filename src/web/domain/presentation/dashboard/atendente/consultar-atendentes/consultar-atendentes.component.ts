@@ -2,7 +2,6 @@ import {Router} from "@angular/router";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {Component, OnInit} from "@angular/core";
 import {AtendenteService} from "../../../../service/atendente.service";
-import {Atendente} from "../../../../entity/atendente/atendente.model";
 
 @Component({
   selector: 'consultar-atendentes',
@@ -14,7 +13,7 @@ export class ConsultarAtendentesComponent implements OnInit {
   /**
    *
    */
-  public atendentes: any;
+  public atendentes: any[];
 
   /**
    *
@@ -37,13 +36,8 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters() {
-    this.atendenteService.find().snapshotChanges().subscribe(atendentes => {
-      this.atendentes = atendentes;
-      this.atendentes.forEach( atendente => {
-        console.log('aqui');
-        atendente.payload.val().unidade.endereco = 'asdfas';
-        // atendente.payload.val
-      })
+    this.atendenteService.find().snapshotChanges().subscribe(result => {
+      this.atendentes = result;
     })
   }
 

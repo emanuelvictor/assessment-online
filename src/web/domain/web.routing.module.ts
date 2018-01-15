@@ -11,7 +11,7 @@ import {InserirAtendenteComponent} from "./presentation/dashboard/atendente/inse
 import {AlterarAtendenteComponent} from "./presentation/dashboard/atendente/alterar-atendente/alterar-atendente.component";
 import {AtendenteViewComponent} from "./presentation/dashboard/atendente/atendente-view.component";
 import {UnidadeViewComponent} from "./presentation/dashboard/unidade/unidade-view.component";
-import {AlterarUnidadeComponent} from "./presentation/dashboard/unidade/alterar-unidade/alterar-atendente.component";
+import {AlterarUnidadeComponent} from "./presentation/dashboard/unidade/alterar-unidade/alterar-unidade.component";
 import {InserirUnidadeComponent} from "./presentation/dashboard/unidade/inserir-unidade/inserir-unidade.component";
 import {ConsultarUnidadesComponent} from "./presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component";
 import {VisualizarUnidadeComponent} from "./presentation/dashboard/unidade/visualizar-unidade/visualizar-unidade.component";
