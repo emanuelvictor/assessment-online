@@ -3,8 +3,6 @@ import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {FormBuilder, Validators} from "@angular/forms";
 import {textMasks} from "../../../../../../application/controls/text-masks/text-masks";
-import {Endereco} from "../../../../../entity/endereco/endereco.model";
-import {Cidade} from "../../../../../entity/endereco/cidade.model";
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
 
 /**
@@ -54,14 +52,13 @@ export class UnidadeFormComponent implements OnInit {
    *
    */
   ngOnInit() {
-    if (!this.unidade.endereco) {
-      this.unidade.endereco = new Endereco("", "", "", "", "", new Cidade(), 0, 0);
-    }
+    // if (!this.unidade.endereco) {
+    //   this.unidade.endereco = new Endereco("", "", "", "", "", new Cidade(), 0, 0);
+    // }
 
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],
-      email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]],
-      contatoTelefonico: ['contatoTelefonico', [Validators.min(11111111), Validators.max(999999999)]],
+      endereco: ['endereco', [Validators.required]],
     });
   }
 
@@ -117,6 +114,7 @@ export class UnidadeFormComponent implements OnInit {
     }
 
     if (valid) {
+      console.log(this.unidade);
       this.save.emit(this.unidade);
     }
   }

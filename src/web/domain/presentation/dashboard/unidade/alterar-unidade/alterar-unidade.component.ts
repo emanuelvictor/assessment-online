@@ -5,6 +5,7 @@ import {textMasks} from "../../../../../application/controls/text-masks/text-mas
 import {ActivatedRoute, Router} from "@angular/router";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {UnidadeService} from "../../../../service/unidade.service";
+import {SnapshotAction} from "angularfire2/database";
 
 /**
  *
@@ -23,9 +24,9 @@ export class AlterarUnidadeComponent implements OnInit {
 
   /**
    *
-   * @type {Unidade}
+   * @type {SnapshotAction}
    */
-  unidade: Unidade = new Unidade();
+  unidade: SnapshotAction;
 
   /**
    *
@@ -43,30 +44,28 @@ export class AlterarUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    let unidadeId: number = this.activatedRoute.snapshot.params['id'];
-    // this.find(unidadeId);
+    let unidadeKey: string = this.activatedRoute.snapshot.params['key'];
+    this.find(unidadeKey);
   }
 
   /**
    *
-   * @param unidadeId
+   * @param unidadeKey
    */
-  public find(unidadeId: string) {
-    // this.unidadeService.findOne(unidadeId)
-    //   .then((result) => {
-    //     this.unidade = result;
-    //   });
+  public find(unidadeKey: string) {
+    this.unidadeService.findOne(unidadeKey).snapshotChanges().subscribe(result => this.unidade = result)
   }
 
   /**
    *
    */
   public update(unidade): void {
-    this.unidadeService.update(unidade)
+    console.log(unidade);
+    this.unidadeService.update(unidade.key, unidade.payload.val())
       .then((result) => {
         unidade = result;
 
-        this.success('Pontos de coleta alterado com sucesso');
+        this.success('Unidades alterado com sucesso');
       })
   }
 
@@ -77,7 +76,7 @@ export class AlterarUnidadeComponent implements OnInit {
   public success(message: string) {
     this.openSnackBar(message);
 
-    this.router.navigate(['dashboard/pontos-coleta/' + this.unidade.key]);
+    this.router.navigate(['dashboard/unidades/' + this.unidade.key]);
 
   }
 

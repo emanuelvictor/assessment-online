@@ -1,4 +1,4 @@
-<ponto-coleta-form [pontoColeta]="pontoColeta" *ngIf="pontoColeta.id" (save)="update(pontoColeta)">
+<unidade-form [unidade]="unidade?.payload?.val()" *ngIf="unidade?.key" (save)="update(unidade)">
   <!--cabeçalho div-->
   <button class="mat-headline tc-grey-500"
           type="button" routerLink="../"
@@ -7,7 +7,7 @@
   </button>
 
   <div layout="row" layout-margin>
-    <h1 class="mat-headline tc-grey-500" flex> Alterar ponto de coleta</h1>
+    <h1 class="mat-headline tc-grey-500" flex> Alterar unidade</h1>
   </div>
 
-</ponto-coleta-form>
+</unidade-form>

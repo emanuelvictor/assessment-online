@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Describer} from "../../application/describer/describer";
 import {Unidade} from "../entity/unidade/unidade.model";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {AbstractService} from "./abstract.service";
-import {Observable} from "rxjs/Observable";
 import {AngularFireDatabase, AngularFireList, AngularFireObject} from "angularfire2/database";
-import {FirebaseListObservable} from "angularfire2/database-deprecated";
+import * as firebase from "firebase";
+import ThenableReference = firebase.database.ThenableReference;
 
 @Injectable()
 export class UnidadeService extends AbstractService {
@@ -14,8 +13,10 @@ export class UnidadeService extends AbstractService {
     super();
   }
 
-  public save(unidade: Unidade): Promise<any> {
-    return this.httpClient.post(this.baseUrl + 'unidades', unidade).toPromise();
+  public save(unidade: Unidade): PromiseLike<any> {
+    // return this.findOne(this.af.list('unidades').push(unidade).key) TODO whatafuck promiselike
+
+    return this.af.list('unidades').push(unidade);
   }
 
   public find(): AngularFireList<any> {
@@ -23,14 +24,14 @@ export class UnidadeService extends AbstractService {
   }
 
   public findOne(key: string): AngularFireObject<any> {
-    return this.af.object('unidades/'+key);
+    return this.af.object('unidades/' + key);
   }
 
-  public update(unidade: Unidade): Promise<any> {
-    return this.httpClient.put(this.baseUrl + 'unidades/' + unidade.key, unidade).toPromise();
+  public update(key: string, unidade: any): Promise<any> {
+    return this.af.object('unidades/' + key).update(unidade);
   }
 
-  public delete(unidadeId: number): Promise<any> {
-    return this.httpClient.delete(this.baseUrl + 'unidades/' + unidadeId).toPromise();
+  public remove(unidadeKey: string): Promise<any> {
+    return this.af.list('unidades').remove(unidadeKey);
   }
 }

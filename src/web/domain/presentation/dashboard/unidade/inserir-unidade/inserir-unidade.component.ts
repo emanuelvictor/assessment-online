@@ -12,7 +12,7 @@ import {UnidadeService} from "../../../../service/unidade.service";
  *
  */
 @Component({
-  selector: 'inserir-ponto-coleta',
+  selector: 'inserir-unidade',
   templateUrl: './inserir-unidade.component.html',
   styleUrls: ['./inserir-unidade.component.css']
 })
@@ -50,8 +50,7 @@ export class InserirUnidadeComponent implements OnInit {
    */
   public save(): void {
     this.unidadeService.save(this.unidade).then(result => {
-      this.unidade = result;
-      this.success('Ponto de coleta inserido com sucesso');
+      this.success('Unidade inserido com sucesso'); // O SAVE NÃO RETORNA TODO vai dar merda vai dar merda
     });
   }
 
@@ -61,7 +60,7 @@ export class InserirUnidadeComponent implements OnInit {
    */
   public success(message: string) {
     this.openSnackBar(message);
-    this.router.navigate(['/dashboard/pontos-coleta']);
+    this.router.navigate(['/dashboard/unidades']);
   }
 
   /**

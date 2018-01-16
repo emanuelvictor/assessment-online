@@ -5,6 +5,7 @@ import {textMasks} from "../../../../../application/controls/text-masks/text-mas
 import {ConfirmDialogComponent} from "../../../../../application/controls/confirm-dialog/confirm-dialog.component";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {UnidadeService} from "../../../../service/unidade.service";
+import {AngularFireObject, SnapshotAction} from "angularfire2/database";
 
 @Component({
   selector: 'visualizar-unidade',
@@ -15,9 +16,8 @@ export class VisualizarUnidadeComponent implements OnInit {
 
   /**
    *
-   * @type {Usuario}
    */
-  unidade: Unidade = new Unidade();
+  unidade: SnapshotAction;
 
   /**
    *
@@ -40,18 +40,18 @@ export class VisualizarUnidadeComponent implements OnInit {
    * @param key
    */
   public find(key: string) {
-    this.unidadeService.findOne(key).snapshotChanges().subscribe(result => this.unidade = result.payload.val())
+    this.unidadeService.findOne(key).snapshotChanges().subscribe(result => this.unidade = result)
   }
 
   /**
    *
-   * @param {number} unidadeId
+   * @param {string} unidadeKey
    */
-  public remove(unidadeId: number) {
+  public remove(unidadeKey: string) {
     let dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
         data: {
-          text: 'Deseja realmente excluir o ponto de coleta?',
+          text: 'Deseja realmente excluir o unidade?',
           confirm: 'Sim',
           cancel: 'Não'
         }
@@ -60,10 +60,10 @@ export class VisualizarUnidadeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(remover => {
       if (remover) {
-        this.unidadeService.delete(unidadeId)
+        this.unidadeService.remove(unidadeKey)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-            this.snackBar.open('Ponto de coleta excluído com sucesso', 'Fechar', {
+            this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {
               duration: 3000
             });
           })

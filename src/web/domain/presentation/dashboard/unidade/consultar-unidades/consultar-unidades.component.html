@@ -15,8 +15,10 @@
       <!--<add-button routerLink="inserir"></add-button>-->
     <!--</div>-->
   <!--</div>-->
-
+  <!---->
 <!--</mat-card>-->
+
+
 
 <!--Listagem-->
 <div layout="row" layout-align="center start">
@@ -27,6 +29,7 @@
       <span> Resultado da pesquisa </span>
       <div flex></div>
       <span> {{ unidades?.length}} resultados </span>
+      <add-button routerLink="inserir" matTooltip="Inserir uma nova unidade" [matTooltipPosition]="'below'"></add-button>
     </div>
 
     <mat-card class="push-none bgc-grey-50">
