@@ -29,16 +29,14 @@ export class LoginComponent {
 
   /**
    *
-   * @param body
-   * @returns {Promise<T>}
    */
   public login() {
     this.authenticationService.login(this.atendente).then(result => {
-      this.authenticationService.getPromiseAuthenticatedUser().then(authenticated => {
-        this.atendente = authenticated;
-        this.authenticationService.setAuthenticatedUser(this.atendente);
-        this.router.navigate(['/']);
-      });
+      // this.authenticationService.getPromiseAuthenticatedUser().then(authenticated => {
+      //   this.atendente = authenticated;
+      //   this.authenticationService.setAuthenticatedUser(this.atendente);
+      //   this.router.navigate(['/']);
+      // });
     });
   }
 }

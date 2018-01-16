@@ -34,13 +34,12 @@ export class ConsultarUnidadesComponent implements OnInit {
     this.listUnidadesByFilters();
   }
 
-
   /**
    * Consulta de unidades
    *
    */
   public listUnidadesByFilters() {
-    this.unidadeService.find().snapshotChanges().subscribe(result => {
+    this.unidadeService.find().subscribe(result => {
       this.unidades = result;
     });
   }

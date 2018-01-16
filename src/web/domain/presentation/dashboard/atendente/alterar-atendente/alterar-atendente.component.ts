@@ -55,14 +55,14 @@ export class AlterarAtendenteComponent implements OnInit {
    * @param {string} atendenteKey
    */
   public find(atendenteKey: string) {
-    // this.atendenteService.findOne(atendenteKey).subscribe(atendente => this.atendente = atendente) TODO
+    this.atendenteService.findOne(atendenteKey).subscribe(atendente => this.atendente = atendente)
   }
 
   /**
    *
    */
   public update(atendente): void {
-    this.atendenteService.update(atendente).then((result) => {
+    this.atendenteService.update(atendente.key, atendente).then(result => {
       atendente = result;
       this.success('Usuário alterado com sucesso');
     })

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, OnDestroy} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {AuthenticationService} from "../../../domain/service/authentication.service";
 import {Router} from "@angular/router";
 import {Subscription} from 'rxjs/Subscription';
@@ -9,9 +9,6 @@ import {Subscription} from 'rxjs/Subscription';
   styleUrls: ['./logged-menu.component.scss']
 })
 export class LoggedMenuComponent implements OnDestroy {
-  /*-------------------------------------------------------------------
-   *                           ATTRIBUTES
-   *-------------------------------------------------------------------*/
 
   /**
    *
@@ -23,16 +20,13 @@ export class LoggedMenuComponent implements OnDestroy {
    */
   userSubscription: Subscription;
 
-  /*-------------------------------------------------------------------
-   *                           CONSTRUCTOR
-   *-------------------------------------------------------------------*/
   /**
    *
    * @param media
    */
   constructor(public authenticationService: AuthenticationService, public changeDetectionRef: ChangeDetectorRef, public router: Router) {
 
-    this.authenticatedUser = authenticationService.getPromiseAuthenticatedUser().then(result => this.authenticatedUser = result);
+    // this.authenticatedUser = authenticationService.getPromiseAuthenticatedUser().then(result => this.authenticatedUser = result);
 
     this.userSubscription = authenticationService.authenticatedUserChanged.subscribe((user) => {
       this.authenticatedUser = user;
@@ -40,9 +34,6 @@ export class LoggedMenuComponent implements OnDestroy {
     });
   }
 
-  /*-------------------------------------------------------------------
-   *                           BEHAVIORS
-   *-------------------------------------------------------------------*/
   /**
    *
    */

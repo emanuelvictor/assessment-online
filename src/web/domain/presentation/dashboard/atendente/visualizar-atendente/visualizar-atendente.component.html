@@ -7,32 +7,42 @@
         <!--card informações-->
         <mat-card-content>
 
-          <visualizar-dados-usuario [usuario]="atendente?.payload?.val()" *ngIf="atendente?.key" flex>
-            <!--options-->
-
-            <div layout="column" layout-align="start end" flex>
-              <div layout="row">
-                <button mat-icon-button routerLink="alterar" class="tc-blue-grey-900">
-                  <mat-icon>mode_edit</mat-icon>
-                </button>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="tc-blue-grey-900">
-                  <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                  <button mat-menu-item color="primary" (click)="alteraSenha()">
-                    <mat-icon>vpn_key</mat-icon>
-                    <span>Alterar senha</span>
-                  </button>
-                  <button mat-menu-item color="primary" (click)="remove(atendente?.key)">
-                    <mat-icon>delete</mat-icon>
-                    <span>Remover</span>
-                  </button>
-                </mat-menu>
-              </div>
+          <div layout="row">
+            <div layout="column" style="min-width: 17px">
+              <button *ngIf="activatedRoute?.snapshot?.params?.key"
+                      class="mat-headline tc-grey-500" type="button"
+                      routerLink="../" color="primary" mat-icon-button>
+                <mat-icon>arrow_back</mat-icon>
+              </button>
             </div>
-          </visualizar-dados-usuario>
 
+            <visualizar-dados-usuario [usuario]="atendente" *ngIf="atendente?.key" flex>
+              <!--options-->
+
+              <div layout="column" layout-align="start end" flex>
+                <div layout="row">
+                  <button mat-icon-button routerLink="alterar" class="tc-blue-grey-900">
+                    <mat-icon>mode_edit</mat-icon>
+                  </button>
+                  <button mat-icon-button [matMenuTriggerFor]="menu" class="tc-blue-grey-900">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item color="primary" (click)="alteraSenha()">
+                      <mat-icon>vpn_key</mat-icon>
+                      <span>Alterar senha</span>
+                    </button>
+                    <button mat-menu-item color="primary" (click)="remove(atendente?.key)">
+                      <mat-icon>delete</mat-icon>
+                      <span>Remover</span>
+                    </button>
+                  </mat-menu>
+                </div>
+              </div>
+            </visualizar-dados-usuario>
+          </div>
         </mat-card-content>
+
       </mat-card>
     </div>
   </div>

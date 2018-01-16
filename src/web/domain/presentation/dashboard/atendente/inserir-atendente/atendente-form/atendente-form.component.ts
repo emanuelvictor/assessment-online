@@ -6,6 +6,7 @@ import {textMasks} from "../../../../../../application/controls/text-masks/text-
 import {Endereco} from "../../../../../entity/endereco/endereco.model";
 import {Cidade} from "../../../../../entity/endereco/cidade.model";
 import {Atendente} from "../../../../../entity/atendente/atendente.model";
+import {UnidadeService} from "../../../../../service/unidade.service";
 
 /**
  *
@@ -16,6 +17,17 @@ import {Atendente} from "../../../../../entity/atendente/atendente.model";
   styleUrls: ['./atendente-form.component.css']
 })
 export class AtendenteFormComponent implements OnInit {
+
+  /**
+   *
+   */
+  public unidadeSelected: any = [];
+
+  /**
+   *
+   */
+  public unidadesList: any[];
+
   /**
    *
    */
@@ -45,22 +57,33 @@ export class AtendenteFormComponent implements OnInit {
    * @param {FormBuilder} fb
    * @param {ElementRef} element
    * @param {Renderer} renderer
+   * @param {UnidadeService} unidadeService
    */
-  constructor(public snackBar: MatSnackBar, public fb: FormBuilder, @Inject(ElementRef) public element: ElementRef, public renderer: Renderer) {
+  constructor(public snackBar: MatSnackBar, public fb: FormBuilder, @Inject(ElementRef) public element: ElementRef, public renderer: Renderer, public unidadeService: UnidadeService) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    if (!this.atendente.endereco) {
-      this.atendente.endereco = new Endereco("", "", "", "", "", new Cidade(), 0, 0);
-    }
+    this.unidadeService.findOne(this.atendente.unidade.key).subscribe(result => {
+      this.unidadeSelected = [];
+      this.unidadeSelected.push(result);
+    });
+    // if (this.atendente && this.atendente.unidade && this.atendente.unidade.endereco) {
+    //   this.unidadeSelected.push(this.atendente.unidade);
+    // }
+
+    /**
+     * Sobscreve para pegar lista de unidades inicial
+     */
+    this.unidadeService.find().subscribe((result) => {
+      this.unidadesList = result;
+    });
 
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],
-      email: ['email', [/*Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')*/]],
-      contatoTelefonico: ['contatoTelefonico', [Validators.min(11111111), Validators.max(999999999)]],
+      email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
     });
   }
 
@@ -135,6 +158,29 @@ export class AtendenteFormComponent implements OnInit {
   public openSnackBar(message: string) {
     this.snackBar.open(message, "Fechar", {
       duration: 5000
+    });
+  }
+
+
+  /**
+   *
+   * @param unidade
+   */
+  public addUnidade(unidade: any) {
+    this.atendente.unidade = unidade;
+
+    this.unidadeService.find().subscribe().unsubscribe();
+    this.unidadesList = [];
+  }
+
+  /**
+   *
+   */
+  public removeUnidade() {
+    this.atendente.unidade = null;
+
+    this.unidadeService.find().subscribe((result) => {
+      this.unidadesList = result;
     });
   }
 }

@@ -12,10 +12,6 @@ import {AuthenticationService} from "../../../domain/service/authentication.serv
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnDestroy {
-  /*-------------------------------------------------------------------
-  *                           ATTRIBUTES
-  *-------------------------------------------------------------------*/
-
   /**
    *
    */
@@ -31,9 +27,6 @@ export class HeaderComponent implements OnDestroy {
    */
   public routerSubscription: Subscription;
 
-  /*-------------------------------------------------------------------
-  *                           CONSTRUCTOR
-  *-------------------------------------------------------------------*/
   /**
    *
    * @param snackBar
@@ -62,10 +55,9 @@ export class HeaderComponent implements OnDestroy {
       });
   }
 
-  /*-------------------------------------------------------------------
-  *                           BEHAVIORS
-  *-------------------------------------------------------------------*/
-
+  /**
+   *
+   */
   ngOnDestroy(): void {
     if (this.userSubscription) this.userSubscription.unsubscribe();
     if (this.routerSubscription) this.routerSubscription.unsubscribe();
@@ -84,7 +76,7 @@ export class HeaderComponent implements OnDestroy {
    */
   ngOnInit() {
     this.ngAfterViewInit();
-    this.getAuthenticatedUser();
+    // this.getAuthenticatedUser();
   }
 
   /**
@@ -95,30 +87,15 @@ export class HeaderComponent implements OnDestroy {
     // this.media.broadcast();
   }
 
-  /**
-   *
-   */
-  toMyAccount() {
-    if (this.usuario.isAdministrador) {
-      this.router.navigate(['dashboard/cursos']);
-    }
-    else if (this.usuario.isInstrutor) {
-      this.router.navigate(['dashboard/meus-cursos']);
-    }
-    else {
-      this.router.navigate(['dashboard/minhas-compras']);
-    }
-  }
-
-  /**
-   *
-   */
-  public getAuthenticatedUser(): void {
-    this.authenticationService.getPromiseAuthenticatedUser()
-      .then((authenticatedUser) => {
-        if (authenticatedUser) {
-          this.usuario = authenticatedUser;
-        }
-      });
-  }
+  // /**
+  //  *
+  //  */
+  // public getAuthenticatedUser(): void {
+  //   this.authenticationService.getPromiseAuthenticatedUser()
+  //     .then((authenticatedUser) => {
+  //       if (authenticatedUser) {
+  //         this.usuario = authenticatedUser;
+  //       }
+  //     });
+  // }
 }

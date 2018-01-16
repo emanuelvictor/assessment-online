@@ -31,21 +31,21 @@ export class AuthenticationService extends AbstractService {
     this.authenticatedUserChanged = new EventEmitter();
     // Pega o usuário logado
     this.authenticatedUser = this.getObservedAuthenticatedUser();
-    this.getPromiseAuthenticatedUser()
-      .then((result) => {
-        this.setAuthenticatedUser(result);
-      });
+    // this.getPromiseAuthenticatedUser()
+    //   .then((result) => {
+    //     this.setAuthenticatedUser(result);
+    //   });
   }
 
   /**
    *
    * @returns {Promise<any>}
    */
-  public getPromiseAuthenticatedUser(): Promise<any> {
-    return Promise.resolve(
-      this.httpClient.get(this.baseUrl + 'authenticated').toPromise().then(result => result)
-    )
-  }
+  // public getPromiseAuthenticatedUser(): Promise<any> {
+  //   return Promise.resolve(
+  //     this.httpClient.get(this.baseUrl + 'authenticated').toPromise().then(result => result)
+  //   )
+  // }
 
   /**
    *
@@ -60,22 +60,22 @@ export class AuthenticationService extends AbstractService {
    * @returns {any}
    */
   public getObservedAuthenticatedUser(): any {
-    if (!this.authenticatedUser) {
-      //Pega o usuário logado
-      this.subscription = Observable.fromPromise(this.httpClient.get(this.baseUrl + 'authenticated').toPromise()
-        .then(result => {
-          this.authenticatedUser = result;
-          return this.authenticatedUser;
-        }));
-
-      this.subscription
-        .subscribe(result => {
-          this.authenticatedUser = result;
-        });
-    }
-
-    if (this.authenticatedUser)
-      this.authenticatedUser.isInstrutor = true;
+    // if (!this.authenticatedUser) {
+    //   //Pega o usuário logado
+    //   this.subscription = Observable.fromPromise(this.httpClient.get(this.baseUrl + 'authenticated').toPromise()
+    //     .then(result => {
+    //       this.authenticatedUser = result;
+    //       return this.authenticatedUser;
+    //     }));
+    //
+    //   this.subscription
+    //     .subscribe(result => {
+    //       this.authenticatedUser = result;
+    //     });
+    // }
+    //
+    // if (this.authenticatedUser)
+    //   this.authenticatedUser.isInstrutor = true;
 
     return this.authenticatedUser;
   }

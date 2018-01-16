@@ -26,7 +26,7 @@ export class AlterarUnidadeComponent implements OnInit {
    *
    * @type {SnapshotAction}
    */
-  unidade: SnapshotAction;
+  unidade: Unidade;
 
   /**
    *
@@ -53,18 +53,16 @@ export class AlterarUnidadeComponent implements OnInit {
    * @param unidadeKey
    */
   public find(unidadeKey: string) {
-    this.unidadeService.findOne(unidadeKey).snapshotChanges().subscribe(result => this.unidade = result)
+    this.unidadeService.findOne(unidadeKey).subscribe(result => this.unidade = result)
   }
 
   /**
    *
    */
-  public update(unidade): void {
-    console.log(unidade);
-    this.unidadeService.update(unidade.key, unidade.payload.val())
+  public update(unidade: Unidade): void {
+    this.unidadeService.update(unidade.key, unidade)
       .then((result) => {
         unidade = result;
-
         this.success('Unidades alterado com sucesso');
       })
   }
@@ -75,9 +73,7 @@ export class AlterarUnidadeComponent implements OnInit {
    */
   public success(message: string) {
     this.openSnackBar(message);
-
     this.router.navigate(['dashboard/unidades/' + this.unidade.key]);
-
   }
 
   /**

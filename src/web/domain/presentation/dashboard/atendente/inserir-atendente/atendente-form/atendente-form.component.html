@@ -2,7 +2,7 @@
   <div layout="row" flex-gt-xs="80" layout-margin>
     <div flex layout-margin>
       <mat-card class="bgc-grey-50" layout-margin style="max-width: 1200px">
-        <form [formGroup]="form" (ngSubmit)="saveUsuario(form)" novalidate>
+        <form [formGroup]="form" (ngSubmit)="saveAtendente(form)" novalidate>
           <mat-card-content>
             <div layout-margin>
 
@@ -26,7 +26,7 @@
                       <input placeholder="Nome"
                              formControlName="nome"
                              maxlength="200" required
-                             [(ngModel)]="usuario.nome"
+                             [(ngModel)]="atendente.nome"
                              id="nome" name="nome" matInput>
                       <mat-error>
                         Esse campo é obrigatório
@@ -35,10 +35,10 @@
                   </div>
                   <div layout="row" layout-margin>
                     <mat-form-field flex>
-                      <input [(ngModel)]="usuario.email" required
+                      <input [(ngModel)]="atendente.email"
+                             matInput name="email" id="email"
                              type="email" formControlName="email"
                              placeholder="E-mail" maxlength="144"
-                             matInput name="email" id="email"
                              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$">
                       <mat-error *ngIf="form.controls['email'].hasError('pattern')">
                         E-mail inválido, utilize o formato "email@email.com"
@@ -48,86 +48,11 @@
                       </mat-error>
                     </mat-form-field>
                   </div>
-                  <div layout-gt-sm="row" layout-margin>
-                    <div layout="row" flex>
-                      <mat-form-field flex>
-                        <input placeholder='Contato telefônico'
-                               formControlName='contatoTelefonico'
-                               minlength='7' maxlength='9' matInput
-                               somenteNumeros id='contatoTelefonico'
-                               pattern='\d*' name='contatoTelefonico'
-                               [(ngModel)]='usuario.contatoTelefonico'>
-                        <mat-error
-                            *ngIf="form.controls['contatoTelefonico'].hasError('max') || form.controls['contatoTelefonico'].hasError('min')">
-                          Telefone inválido
-                        </mat-error>
-                      </mat-form-field>
-                    </div>
-                    <div layout="row" flex="20" *ngIf="usuario.perfil != 'FORNECEDOR'">
-                      <mat-form-field flex>
-                        <mat-select [(ngModel)]='usuario.perfil'
-                                    placeholder='Tipo de usuario' flex
-                                    [ngModelOptions]='{standalone: true}'>
-                          <mat-option [value]="'ADMINISTRADOR'">Administrador</mat-option>
-                          <mat-option [value]="'COOPERADOR'">Cooperador</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                  </div>
 
-                  <div layout="row">
-                    <div flex>
-                      <usuario-pessoa-juridica-form *ngIf='usuario.souEmpresa'
-                                                    [usuario]='usuario'
-                                                    [form]='form'
-                                                    flex>
-                      </usuario-pessoa-juridica-form>
-
-                      <usuario-pessoa-fisica-form *ngIf='!usuario.souEmpresa'
-                                                  [usuario]='usuario'
-                                                  [form]='form'
-                                                  flex>
-                      </usuario-pessoa-fisica-form>
-                    </div>
-                    <div layout='column'>
-                      <mat-checkbox style='margin-top: 35px; margin-right: 20px;'
-                                    [(ngModel)]='usuario.souEmpresa'
-                                    name='isEmpresa' flex
-                                    [ngModelOptions]='{standalone: true}'>
-                        Sou empresa
-                      </mat-checkbox>
-                    </div>
-                  </div>
-                  <password-form *ngIf='!usuario || !usuario?.id'
-                                 [usuario]='usuario' [form]='form'>
-                  </password-form>
+                  <!--<password-form *ngIf='!atendente || !atendente?.key'-->
+                  <!--[usuario]='atendente' [form]='form'>-->
+                  <!--</password-form>-->
                 </div>
-              </div>
-
-              <div flex *ngIf="usuario.perfil == 'COOPERADOR'">
-
-                <!--colaborador div-->
-                <div layout='column' flex>
-                  <div layout='row' layout-margin>
-                    <div flex>
-                      <h1 class='mat-subheading-2 tc-grey-500'>INFORMAÇÕES DO COOPERADOR</h1>
-                    </div>
-                  </div>
-                </div>
-                <dados-cooperador-form [usuario]='usuario' flex></dados-cooperador-form>
-              </div>
-
-              <div flex *ngIf="usuario.perfil == 'FORNECEDOR'">
-
-                <!--fornecedor div-->
-                <div layout='column' flex>
-                  <div layout='row' layout-margin>
-                    <div flex>
-                      <h1 class='mat-subheading-2 tc-grey-500'>INFORMAÇÕES DO FORNECEDOR</h1>
-                    </div>
-                  </div>
-                </div>
-                <dados-fornecedor-form [usuario]='usuario' [form]='form' flex></dados-fornecedor-form>
               </div>
 
               <div flex>
@@ -137,12 +62,27 @@
                   <div layout='column' flex class='push-top'>
                     <div layout='row' layout-margin>
                       <div flex>
-                        <h1 class='mat-subheading-2 tc-grey-500'>ENDEREÇO</h1>
+                        <h1 class='mat-subheading-2 tc-grey-500'>UNIDADE</h1>
                       </div>
                     </div>
                   </div>
 
-                  <maps-component [showMap]='false' [endereco]='usuario?.endereco' [form]='form'></maps-component>
+                  <div layout="row" layout-margin>
+                    <td-chips [items]="unidadesList"
+                              [(ngModel)]="unidadeSelected"
+                              [ngModelOptions]='{standalone: true}'
+                              placeholder="Unidades" flex name="unidades"
+                              (add)="addUnidade($event)" (remove)="removeUnidade()"
+                              requireMatch [chipAddition]="unidadeSelected.length < 1" style="margin-left: 0px;">
+                      <ng-template td-chip let-chip="chip">
+                        {{chip?.nome}} - {{chip?.endereco}}
+                      </ng-template>
+                      <ng-template td-autocomplete-option let-option="option">
+                        {{option?.nome}} - {{option?.endereco}}
+                      </ng-template>
+                    </td-chips>
+
+                  </div>
                 </div>
               </div>
 

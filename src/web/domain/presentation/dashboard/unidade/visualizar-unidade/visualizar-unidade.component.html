@@ -22,10 +22,10 @@
 
               <div layout="row" layout-align="start center" layout-margin flex>
                 <div layout="column">
-                  <h1 flex class="mat-headline tc-blue-grey-800 no-margin">{{unidade?.payload?.val()?.nome}}</h1>
+                  <h1 flex class="mat-headline tc-blue-grey-800 no-margin">{{unidade?.nome}}</h1>
 
-                  <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin" *ngIf="unidade?.payload?.val()?.endereco">
-                    {{unidade?.payload?.val()?.endereco}}</h2>
+                  <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin" *ngIf="unidade?.endereco">
+                    {{unidade?.endereco}}</h2>
                 </div>
               </div>
             </div>

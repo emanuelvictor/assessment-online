@@ -36,8 +36,8 @@
       <mat-nav-list>
         <div *ngFor="let unidade of unidades" routerLink="{{unidade?.key}}">
           <mat-list-item>
-            <h3 matLine> {{unidade?.payload?.val().nome}} </h3>
-            <p matLine *ngIf="unidade?.payload?.val().endereco">{{unidade?.payload?.val().endereco}}</p>
+            <h3 matLine> {{unidade?.nome}} </h3>
+            <p matLine *ngIf="unidade?.endereco">{{unidade?.endereco}}</p>
           </mat-list-item>
           <mat-divider></mat-divider>
         </div>

@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from "@angular/material";
-import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
 import {ConfirmDialogComponent} from "../../../../../application/controls/confirm-dialog/confirm-dialog.component";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {UnidadeService} from "../../../../service/unidade.service";
-import {AngularFireObject, SnapshotAction} from "angularfire2/database";
 
 @Component({
   selector: 'visualizar-unidade',
@@ -17,7 +15,7 @@ export class VisualizarUnidadeComponent implements OnInit {
   /**
    *
    */
-  unidade: SnapshotAction;
+  unidade: Unidade;
 
   /**
    *
@@ -40,7 +38,7 @@ export class VisualizarUnidadeComponent implements OnInit {
    * @param key
    */
   public find(key: string) {
-    this.unidadeService.findOne(key).snapshotChanges().subscribe(result => this.unidade = result)
+    this.unidadeService.findOne(key).subscribe(result => this.unidade = result)
   }
 
   /**
@@ -51,7 +49,7 @@ export class VisualizarUnidadeComponent implements OnInit {
     let dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
         data: {
-          text: 'Deseja realmente excluir o unidade?',
+          text: 'Deseja realmente excluir a unidade?',
           confirm: 'Sim',
           cancel: 'Não'
         }

@@ -18,9 +18,6 @@ import {Pais} from "../../../domain/entity/endereco/pais.model";
 export class MapsComponent implements OnInit, AfterViewInit
 {
 
-  /*-------------------------------------------------------------------
-  *                           ATTRIBUTES
-  *-------------------------------------------------------------------*/
   /**
    *
    */
@@ -107,10 +104,14 @@ export class MapsComponent implements OnInit, AfterViewInit
    */
   userSubscription: any;
 
-  /*-------------------------------------------------------------------
-  *                           CONSTRUCTOR
-  *-------------------------------------------------------------------*/
-
+  /**
+   *
+   * @param {EnderecoService} enderecoService
+   * @param {AuthenticationService} authenticationService
+   * @param {NgZone} _zone
+   * @param {ChangeDetectorRef} changeDetectionRef
+   * @param {FormBuilder} fb
+   */
   constructor(public enderecoService: EnderecoService, public authenticationService: AuthenticationService, /*public _loader: MapsAPILoader,*/ public _zone: NgZone, public changeDetectionRef : ChangeDetectorRef, public fb: FormBuilder)
   {
     this.userSubscription = authenticationService.authenticatedUserChanged.subscribe((user) =>
@@ -118,12 +119,6 @@ export class MapsComponent implements OnInit, AfterViewInit
       this.authenticatedUser = user;
     });
   }
-
-
-
-  /*-------------------------------------------------------------------
-  *                           BEHAVIORS
-  *-------------------------------------------------------------------*/
 
   /**
    *
@@ -195,14 +190,14 @@ export class MapsComponent implements OnInit, AfterViewInit
    */
   public getAuthenticatedUser(): void
   {
-    this.authenticationService.getPromiseAuthenticatedUser()
-      .then((result) =>
-      {
-        if (result)
-        {
-          this.authenticatedUser = result;
-        }
-      })
+    // this.authenticationService.getPromiseAuthenticatedUser()
+    //   .then((result) =>
+    //   {
+    //     if (result)
+    //     {
+    //       this.authenticatedUser = result;
+    //     }
+    //   })
   }
 
   /**

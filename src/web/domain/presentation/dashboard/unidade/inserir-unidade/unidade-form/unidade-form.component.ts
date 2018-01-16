@@ -114,7 +114,6 @@ export class UnidadeFormComponent implements OnInit {
     }
 
     if (valid) {
-      console.log(this.unidade);
       this.save.emit(this.unidade);
     }
   }

@@ -37,6 +37,6 @@ export class UnidadeItemComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.unidadeService.findOne(this.atendente.unidade.key).snapshotChanges().subscribe( result=> this.unidade = result.payload.val())
+    this.unidadeService.findOne(this.atendente.unidade.key).subscribe( result=> this.unidade = result)
   }
 }

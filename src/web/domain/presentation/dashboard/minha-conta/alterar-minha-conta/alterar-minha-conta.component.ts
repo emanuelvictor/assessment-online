@@ -46,16 +46,16 @@ export class AlterarMinhaContaComponent implements OnInit {
    *
    */
   public getAuthenticatedUser() {
-    this.authenticationService.getPromiseAuthenticatedUser().then(result => {
-      this.atendente = result;
-    });
+    // this.authenticationService.getPromiseAuthenticatedUser().then(result => {
+    //   this.atendente = result;
+    // });
   }
 
   /**
    *
    */
   public update(atendente): void {
-    this.atendenteService.update(atendente)
+    this.atendenteService.update(atendente.key, atendente)
       .then((atendenteResult) => {
         atendente = atendenteResult;
         this.success('Conta alterada com sucesso');

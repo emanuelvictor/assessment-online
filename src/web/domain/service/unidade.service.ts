@@ -1,37 +1,46 @@
 import {Injectable} from '@angular/core';
-import {Unidade} from "../entity/unidade/unidade.model";
-import {HttpClient} from "@angular/common/http";
 import {AbstractService} from "./abstract.service";
-import {AngularFireDatabase, AngularFireList, AngularFireObject} from "angularfire2/database";
-import * as firebase from "firebase";
-import ThenableReference = firebase.database.ThenableReference;
+import {AngularFireDatabase, AngularFireList} from "angularfire2/database";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class UnidadeService extends AbstractService {
 
-  constructor(private af: AngularFireDatabase, private httpClient: HttpClient) {
+  private path: string = 'unidades';
+  private itemsRef: AngularFireList<any>;
+  private items: Observable<any[]>;
+
+  constructor(private af: AngularFireDatabase) {
     super();
+    this.itemsRef = af.list(this.path);
+    this.items = this.itemsRef.snapshotChanges().map(changes => {
+      return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
+    });
   }
 
-  public save(unidade: Unidade): PromiseLike<any> {
-    // return this.findOne(this.af.list('unidades').push(unidade).key) TODO whatafuck promiselike
-
-    return this.af.list('unidades').push(unidade);
+  public find(): Observable<any> {
+    return this.items;
   }
 
-  public find(): AngularFireList<any> {
-    return this.af.list('unidades');
+  /**
+   * todo verificar se essa é a melhor forma
+   * @param {string} key
+   * @returns {Observable<any>}
+   */
+  public findOne(key: string): Observable<any> {
+    return this.af.object(this.path + '/' + key).snapshotChanges()
+      .map((changes => ({key: changes.payload.key, ...changes.payload.val()})));
   }
 
-  public findOne(key: string): AngularFireObject<any> {
-    return this.af.object('unidades/' + key);
+  public save(item: any): PromiseLike<any> {
+    return this.itemsRef.push(item);
   }
 
-  public update(key: string, unidade: any): Promise<any> {
-    return this.af.object('unidades/' + key).update(unidade);
+  public update(key: string, item: any): Promise<any> {
+    return this.itemsRef.update(key, item);
   }
 
-  public remove(unidadeKey: string): Promise<any> {
-    return this.af.list('unidades').remove(unidadeKey);
+  public remove(key: string): Promise<any> {
+    return this.itemsRef.remove(key);
   }
 }

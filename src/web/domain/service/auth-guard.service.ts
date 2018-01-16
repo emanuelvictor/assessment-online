@@ -22,17 +22,19 @@ export class AuthGuard  extends AbstractService implements CanActivate, CanActiv
    * @returns {boolean}
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    let activate = true;
-    // TODO passar para o authentication service
-    this.http.get(this.baseUrl + 'authenticated').toPromise()
-      .then(result => {
-        activate = true;
-      }).catch(exception => {
-        this.router.navigate(['authentication'])
-        activate = false;
-      });
+    // let activate = true;
+    // // TODO passar para o authentication service
+    // this.http.get(this.baseUrl + 'authenticated').toPromise()
+    //   .then(result => {
+    //     activate = true;
+    //   }).catch(exception => {
+    //     this.router.navigate(['authentication'])
+    //     activate = false;
+    //   });
+    //
+    // return activate;
 
-    return activate;
+    return true;
   }
 
   /**

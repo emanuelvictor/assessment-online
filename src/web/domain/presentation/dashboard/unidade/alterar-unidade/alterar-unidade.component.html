@@ -1,4 +1,4 @@
-<unidade-form [unidade]="unidade?.payload?.val()" *ngIf="unidade?.key" (save)="update(unidade)">
+<unidade-form [unidade]="unidade" *ngIf="unidade?.key" (save)="update(unidade)">
   <!--cabeçalho div-->
   <button class="mat-headline tc-grey-500"
           type="button" routerLink="../"

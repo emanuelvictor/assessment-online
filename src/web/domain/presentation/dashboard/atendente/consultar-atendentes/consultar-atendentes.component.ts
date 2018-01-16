@@ -36,9 +36,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters() {
-    this.atendenteService.find().snapshotChanges().subscribe(result => {
-      this.atendentes = result;
-    })
+    this.atendenteService.find().subscribe(result => this.atendentes = result)
   }
 
   /**

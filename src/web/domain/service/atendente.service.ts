@@ -8,27 +8,40 @@ import {Atendente} from "../entity/atendente/atendente.model";
 @Injectable()
 export class AtendenteService extends AbstractService {
 
+  private path: string = 'atendentes';
+  private itemsRef: AngularFireList<any>;
+  private items: Observable<any[]>;
+
   constructor(private af: AngularFireDatabase, private httpClient: HttpClient) {
     super();
+    this.itemsRef = af.list(this.path);
+    this.items = this.itemsRef.snapshotChanges().map(changes => {
+      return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
+    });
   }
 
-  public save(atendente: Atendente): Promise<any> {
-    return this.httpClient.post(this.baseUrl + 'atendentes', atendente).toPromise();
+  public find(): Observable<any> {
+    return this.items;
+  }
+  /**
+   * todo verificar se essa é a melhor forma
+   * @param {string} key
+   * @returns {Observable<any>}
+   */
+  public findOne(key: string): Observable<any> {
+    return this.af.object(this.path + '/' + key).snapshotChanges()
+      .map((changes => ({key: changes.payload.key, ...changes.payload.val()})));
   }
 
-  public find(): AngularFireList<any[]> {
-    return this.af.list<any[]>('atendentes');
+  public save(item: any): PromiseLike<any> {
+    return this.itemsRef.push(item);
   }
 
-  public findOne(key: string): AngularFireObject<any> {
-    return this.af.object<any>('atendentes/' + key);
+  public update(key: string, item: any): Promise<any> {
+    return this.itemsRef.update(key, item);
   }
 
-  public update(atendente: Atendente): Promise<any> {
-    return this.httpClient.put(this.baseUrl + 'atendentes/' + atendente.key, atendente).toPromise();
-  }
-
-  public remove(atendenteId: number): Promise<any> {
-    return this.httpClient.delete(this.baseUrl + 'atendentes/' + atendenteId).toPromise();
+  public remove(key: string): Promise<any> {
+    return this.itemsRef.remove(key);
   }
 }

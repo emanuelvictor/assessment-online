@@ -18,26 +18,9 @@ export class VisualizarMinhaContaComponent implements OnInit {
 
   /**
    *
-   * @type {{areasInteresse: any; fileTransfer: any; foto: any; id: any; nome: any; email: any; password: any; isInstrutor: any; confirmacaoPassword: any; documento: any; isEmpresa: boolean; endereco: {cidade: {nome: any}}}}
+   * @type {{}}
    */
-  usuario = {
-    areasInteresse: null,
-    fileTransfer: null,
-    foto: null,
-    id: null,
-    nome: null,
-    email: null,
-    password: null,
-    isInstrutor: null,
-    confirmacaoPassword: null,
-    documento: null,
-    isEmpresa: false,
-    endereco: {
-      cidade: {
-        nome: null
-      }
-    }
-  };
+  usuario = {};
 
   /**
    * Cor do slide
@@ -67,9 +50,9 @@ export class VisualizarMinhaContaComponent implements OnInit {
    *
    */
   public getAuthenticatedUser() {
-    this.authenticationService.getPromiseAuthenticatedUser().then(result => {
-      this.usuario = result;
-    });
+    // this.authenticationService.getPromiseAuthenticatedUser().then(result => {
+    //   this.usuario = result;
+    // });
   }
 
   /**

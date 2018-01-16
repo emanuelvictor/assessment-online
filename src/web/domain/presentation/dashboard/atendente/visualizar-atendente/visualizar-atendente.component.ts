@@ -23,7 +23,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    * @type {Atendente}
    */
-  atendente: any;
+  atendente: Atendente;
 
   /**
    *
@@ -47,7 +47,10 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {string} atendenteKey
    */
   public find(atendenteKey: string) {
-    this.atendenteService.findOne(atendenteKey).snapshotChanges().subscribe(atendente => this.atendente = atendente)
+    this.atendenteService.findOne(atendenteKey).subscribe(atendente => {
+      this.atendente = atendente;
+      console.log(atendente);
+    })
   }
 
   /**
@@ -61,9 +64,9 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param {number} atendenteId
+   * @param {number} atendenteKey
    */
-  public remove(atendenteId: number) {
+  public remove(atendenteKey: string) {
     let dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
         data: {
@@ -76,7 +79,7 @@ export class VisualizarAtendenteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(remover => {
       if (remover) {
-        this.atendenteService.remove(atendenteId)
+        this.atendenteService.remove(atendenteKey)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
             this.snackBar.open('Excluído com sucesso', 'Fechar', {
