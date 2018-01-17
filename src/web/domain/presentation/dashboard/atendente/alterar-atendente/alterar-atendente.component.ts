@@ -60,8 +60,10 @@ export class AlterarAtendenteComponent implements OnInit {
 
   /**
    *
+   * @param atendente
    */
   public update(atendente): void {
+    console.log(atendente);
     this.atendenteService.update(atendente.key, atendente).then(result => {
       atendente = result;
       this.success('Usuário alterado com sucesso');

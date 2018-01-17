@@ -7,7 +7,7 @@ export class Atendente {
 
   public nome: string;
 
-  public email: string;
+  public email: string = '';
 
   public unidade: Unidade;
 

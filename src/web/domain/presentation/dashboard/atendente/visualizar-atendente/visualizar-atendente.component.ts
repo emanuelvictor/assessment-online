@@ -54,27 +54,8 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {string} atendenteKey
    */
   public find(atendenteKey: string) {
-    this.atendenteService.find().subscribe(atendentes => {
-      for (let entry of atendentes) {
-        if (entry.key === atendenteKey){
-          this.atendente = entry;
-
-          this.atendente.nome = entry.nome;
-          this.atendente.email = entry.email;
-          this.atendente.endereco = entry.endereco;
-          this.atendente.unidade.key = entry.unidade.key;
-          console.log(this.atendente);
-
-
-          this.unidadeService.findOne(entry.unidade.key).subscribe(unidade => {
-            console.log(unidade);
-            this.atendente.unidade.key = unidade.key;
-            this.atendente.unidade.nome = unidade.nome;
-            this.atendente.unidade.endereco = unidade.endereco;
-          })
-        }
-        break;
-      }
+    this.atendenteService.findOne(atendenteKey).subscribe(atendente => {
+      this.atendente = atendente;
     })
   }
 
