@@ -5,7 +5,6 @@ import {Router} from "@angular/router";
 import {AuthenticationService} from "../../service/authentication.service";
 import {Atendente} from "../../entity/atendente/atendente.model";
 
-
 /**
  *
  */
@@ -32,11 +31,7 @@ export class LoginComponent {
    */
   public login() {
     this.authenticationService.login(this.atendente).then(result => {
-      // this.authenticationService.getPromiseAuthenticatedUser().then(authenticated => {
-      //   this.atendente = authenticated;
-      //   this.authenticationService.setAuthenticatedUser(this.atendente);
-      //   this.router.navigate(['/']);
-      // });
+      this.router.navigate(['/']);
     });
   }
 }

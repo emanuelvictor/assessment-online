@@ -15,6 +15,7 @@ import {AlterarUnidadeComponent} from "./presentation/dashboard/unidade/alterar-
 import {InserirUnidadeComponent} from "./presentation/dashboard/unidade/inserir-unidade/inserir-unidade.component";
 import {ConsultarUnidadesComponent} from "./presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component";
 import {VisualizarUnidadeComponent} from "./presentation/dashboard/unidade/visualizar-unidade/visualizar-unidade.component";
+import {AuthGuard} from "./service/auth-guard.service";
 
 
 const routes: Routes = [
@@ -26,7 +27,7 @@ const routes: Routes = [
     path: 'authentication', component: LoginComponent,
   },
   {
-    path: 'dashboard', component: DashboardViewComponent, //canActivate: [AuthGuard],
+    path: 'dashboard', component: DashboardViewComponent, canActivate: [AuthGuard],
     children:
       [
         {

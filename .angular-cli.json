@@ -7,8 +7,7 @@
     {
       "name": "web",
       "root": "src/web",
-      "deployUrl": "./modules/web/",
-      "outDir": "../resources/META-INF/resources/modules/web",
+      "outDir": "dist",
       "assets": [
         "assets"
       ],

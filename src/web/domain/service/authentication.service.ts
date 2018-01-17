@@ -1,8 +1,10 @@
-import {Observable} from 'rxjs/Observable';
 import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {AbstractService} from "./abstract.service";
 import {Atendente} from "../entity/atendente/atendente.model";
+import {AngularFireAuth} from "angularfire2/auth";
+import {toPromise} from "rxjs/operator/toPromise";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class AuthenticationService extends AbstractService {
@@ -24,13 +26,18 @@ export class AuthenticationService extends AbstractService {
 
   /**
    *
-   * @param {HttpClient} httpClient
+   * @param {AngularFireAuth} afAuth
    */
-  constructor(private httpClient: HttpClient) {
+  constructor(private afAuth: AngularFireAuth) {
     super();
     this.authenticatedUserChanged = new EventEmitter();
     // Pega o usuário logado
     this.authenticatedUser = this.getObservedAuthenticatedUser();
+
+    this.afAuth.authState.subscribe(result => {
+      this.setAuthenticatedUser(result);
+    });
+
     // this.getPromiseAuthenticatedUser()
     //   .then((result) => {
     //     this.setAuthenticatedUser(result);
@@ -41,11 +48,9 @@ export class AuthenticationService extends AbstractService {
    *
    * @returns {Promise<any>}
    */
-  // public getPromiseAuthenticatedUser(): Promise<any> {
-  //   return Promise.resolve(
-  //     this.httpClient.get(this.baseUrl + 'authenticated').toPromise().then(result => result)
-  //   )
-  // }
+  public getPromiseAuthenticatedUser(): Promise<any> {
+    return this.afAuth.authState.toPromise().then(result => result);
+  }
 
   /**
    *
@@ -76,7 +81,6 @@ export class AuthenticationService extends AbstractService {
     //
     // if (this.authenticatedUser)
     //   this.authenticatedUser.isInstrutor = true;
-
     return this.authenticatedUser;
   }
 
@@ -95,10 +99,7 @@ export class AuthenticationService extends AbstractService {
    * @returns {Promise<any>}
    */
   public login(atendente: Atendente): Promise<any> {
-    let body = new HttpParams();
-    // body = body.set('email', atendente.email ? atendente.email : '');
-    // body = body.set('password', atendente.password ? atendente.password : '');
-    return this.httpClient.post(this.baseUrl + "authenticate", body).toPromise();
+    return this.afAuth.auth.signInWithEmailAndPassword(atendente.email, atendente.password).then(result => this.setAuthenticatedUser({'email': result.email}));
   }
 
   /**
@@ -106,6 +107,6 @@ export class AuthenticationService extends AbstractService {
    * @returns {Promise<any>}
    */
   public logout(): Promise<any> {
-    return this.httpClient.get(this.baseUrl + 'logout').toPromise();
+    return this.afAuth.auth.signOut()
   }
 }

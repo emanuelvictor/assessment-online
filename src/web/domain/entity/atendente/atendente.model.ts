@@ -9,6 +9,8 @@ export class Atendente {
 
   public email: string = '';
 
+  public password: string = '';
+
   public unidade: Unidade;
 
   public endereco: Endereco;

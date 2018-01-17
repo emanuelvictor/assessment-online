@@ -3,6 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterSta
 import 'rxjs/add/observable/fromPromise';
 import {Http} from "@angular/http";
 import {AbstractService} from "./abstract.service";
+import {AuthenticationService} from "./authentication.service";
 
 @Injectable()
 export class AuthGuard  extends AbstractService implements CanActivate, CanActivateChild{
@@ -10,7 +11,7 @@ export class AuthGuard  extends AbstractService implements CanActivate, CanActiv
   /**
    *
    */
-  constructor(private http: Http, private router: Router) {
+  constructor(private router: Router, private authenticationService: AuthenticationService) {
     super();
   }
 
@@ -22,19 +23,24 @@ export class AuthGuard  extends AbstractService implements CanActivate, CanActiv
    * @returns {boolean}
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    // let activate = true;
+    let activate = true;
     // // TODO passar para o authentication service
-    // this.http.get(this.baseUrl + 'authenticated').toPromise()
+    // this.authenticationService.getPromiseAuthenticatedUser()
     //   .then(result => {
     //     activate = true;
     //   }).catch(exception => {
-    //     this.router.navigate(['authentication'])
+    //
     //     activate = false;
     //   });
-    //
-    // return activate;
 
-    return true;
+    if (this.authenticationService.getAuthenticatedUser())
+      activate = true;
+    else{
+      this.router.navigate(['authentication']);
+      activate = false;
+    }
+
+    return activate;
   }
 
   /**

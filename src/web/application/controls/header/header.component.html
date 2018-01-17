@@ -4,7 +4,7 @@
   </button>
   <img hide-sm hide-xs hide-md routerLink="" class="size-height-50 logo-image" alt="Logomarca SMRS">
   <span flex> </span>
-  <label *ngIf="usuario" class="mat-body-2 name-user" [matMenuTriggerFor]="menu">{{usuario?.nome}}</label>
+  <label *ngIf="usuario" class="mat-body-2 name-user" [matMenuTriggerFor]="menu">{{usuario?.nome ? usuario?.nome : usuario?.email}}</label>
   <div *ngIf="usuario" class="avatar" layout-margin
        style="cursor: pointer" [matMenuTriggerFor]="menu"
        layout-align="center center" layout="row">

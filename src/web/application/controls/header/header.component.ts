@@ -76,7 +76,7 @@ export class HeaderComponent implements OnDestroy {
    */
   ngOnInit() {
     this.ngAfterViewInit();
-    // this.getAuthenticatedUser();
+    this.getAuthenticatedUser();
   }
 
   /**
@@ -87,15 +87,17 @@ export class HeaderComponent implements OnDestroy {
     // this.media.broadcast();
   }
 
-  // /**
-  //  *
-  //  */
-  // public getAuthenticatedUser(): void {
-  //   this.authenticationService.getPromiseAuthenticatedUser()
-  //     .then((authenticatedUser) => {
-  //       if (authenticatedUser) {
-  //         this.usuario = authenticatedUser;
-  //       }
-  //     });
-  // }
+  /**
+   *
+   */
+  public getAuthenticatedUser(): void {
+    this.usuario = this.authenticationService.getAuthenticatedUser();
+    // this.authenticationService.getPromiseAuthenticatedUser()
+    //   .then((authenticatedUser) => {
+    //   console.log(authenticatedUser);
+    //     if (authenticatedUser) {
+    //       this.usuario = authenticatedUser;
+    //     }
+    //   });
+  }
 }
