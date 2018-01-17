@@ -6,6 +6,7 @@ import {AlterarSenhaComponent} from "./alterar-senha/alterar-senha.component";
 import {ConfirmDialogComponent} from "../../../../../application/controls/confirm-dialog/confirm-dialog.component";
 import {AtendenteService} from "../../../../service/atendente.service";
 import {Atendente} from "../../../../entity/atendente/atendente.model";
+import {UnidadeService} from "../../../../service/unidade.service";
 
 @Component({
   selector: 'visualizar-atendente',
@@ -27,11 +28,17 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
+   * @param {Router} router
+   * @param {MatSnackBar} snackBar
+   * @param {ActivatedRoute} activatedRoute
+   * @param {MatDialog} dialog
+   * @param {AtendenteService} atendenteService
+   * @param {UnidadeService} unidadeService
    */
   constructor(public router: Router,
               public snackBar: MatSnackBar,
-              public activatedRoute: ActivatedRoute,
-              public dialog: MatDialog, public atendenteService: AtendenteService) {
+              public activatedRoute: ActivatedRoute, public dialog: MatDialog,
+              public atendenteService: AtendenteService, public unidadeService: UnidadeService) {
   }
 
   /**
@@ -47,9 +54,27 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {string} atendenteKey
    */
   public find(atendenteKey: string) {
-    this.atendenteService.findOne(atendenteKey).subscribe(atendente => {
-      this.atendente = atendente;
-      console.log(atendente);
+    this.atendenteService.find().subscribe(atendentes => {
+      for (let entry of atendentes) {
+        if (entry.key === atendenteKey){
+          this.atendente = entry;
+
+          this.atendente.nome = entry.nome;
+          this.atendente.email = entry.email;
+          this.atendente.endereco = entry.endereco;
+          this.atendente.unidade.key = entry.unidade.key;
+          console.log(this.atendente);
+
+
+          this.unidadeService.findOne(entry.unidade.key).subscribe(unidade => {
+            console.log(unidade);
+            this.atendente.unidade.key = unidade.key;
+            this.atendente.unidade.nome = unidade.nome;
+            this.atendente.unidade.endereco = unidade.endereco;
+          })
+        }
+        break;
+      }
     })
   }
 

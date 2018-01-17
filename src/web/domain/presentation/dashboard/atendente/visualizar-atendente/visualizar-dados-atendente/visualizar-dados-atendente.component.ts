@@ -5,9 +5,9 @@ import {textMasks} from '../../../../../../application/controls/text-masks/text-
 import {Atendente} from "../../../../../entity/atendente/atendente.model";
 
 @Component({
-  selector: 'visualizar-dados-usuario',
-  templateUrl: './visualizar-dados-usuario.component.html',
-  styleUrls: ['./visualizar-dados-usuario.component.css']
+  selector: 'visualizar-dados-atendente',
+  templateUrl: './visualizar-dados-atendente.component.html',
+  styleUrls: ['./visualizar-dados-atendente.component.css']
 })
 export class VisualizarDadosAtendenteComponent implements OnInit {
 
@@ -15,7 +15,7 @@ export class VisualizarDadosAtendenteComponent implements OnInit {
    *
    */
   @Input()
-  usuario: Atendente = new Atendente;
+  atendente: Atendente;
 
   /**
    *

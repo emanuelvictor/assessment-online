@@ -20,14 +20,10 @@ export class AtendenteService extends AbstractService {
     });
   }
 
-  public find(): Observable<any> {
+  public find(): Observable<any[]> {
     return this.items;
   }
-  /**
-   * todo verificar se essa é a melhor forma
-   * @param {string} key
-   * @returns {Observable<any>}
-   */
+
   public findOne(key: string): Observable<any> {
     return this.af.object(this.path + '/' + key).snapshotChanges()
       .map((changes => ({key: changes.payload.key, ...changes.payload.val()})));
@@ -42,6 +38,7 @@ export class AtendenteService extends AbstractService {
   }
 
   public remove(key: string): Promise<any> {
+    console.log('key', key);
     return this.itemsRef.remove(key);
   }
 }

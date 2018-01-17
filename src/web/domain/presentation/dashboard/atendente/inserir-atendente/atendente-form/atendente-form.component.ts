@@ -66,13 +66,16 @@ export class AtendenteFormComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.unidadeService.findOne(this.atendente.unidade.key).subscribe(result => {
-      this.unidadeSelected = [];
-      this.unidadeSelected.push(result);
-    });
-    // if (this.atendente && this.atendente.unidade && this.atendente.unidade.endereco) {
-    //   this.unidadeSelected.push(this.atendente.unidade);
-    // }
+
+    /**
+     * Se tem atendente, ou seja, se está editando, busca a unidade dele
+     */
+    if (this.atendente && this.atendente.key){
+      this.unidadeService.findOne(this.atendente.unidade.key).subscribe(result => {
+        this.unidadeSelected = [];
+        this.unidadeSelected.push(result);
+      });
+    }
 
     /**
      * Sobscreve para pegar lista de unidades inicial

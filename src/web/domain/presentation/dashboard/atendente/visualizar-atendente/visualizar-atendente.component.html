@@ -16,7 +16,7 @@
               </button>
             </div>
 
-            <visualizar-dados-usuario [usuario]="atendente" *ngIf="atendente?.key" flex>
+            <visualizar-dados-atendente [atendente]="atendente" *ngIf="atendente?.key" flex>
               <!--options-->
 
               <div layout="column" layout-align="start end" flex>
@@ -39,7 +39,7 @@
                   </mat-menu>
                 </div>
               </div>
-            </visualizar-dados-usuario>
+            </visualizar-dados-atendente>
           </div>
         </mat-card-content>
 
