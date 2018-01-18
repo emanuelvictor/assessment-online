@@ -48,10 +48,8 @@
                       </mat-error>
                     </mat-form-field>
                   </div>
-
-                  <!--<password-form *ngIf='!atendente || !atendente?.key'-->
-                  <!--[usuario]='atendente' [form]='form'>-->
-                  <!--</password-form>-->
+                  <password-form *ngIf='atendente?.email && !atendente?.key'
+                                 [atendente]='atendente' [form]='form'></password-form>
                 </div>
               </div>
 

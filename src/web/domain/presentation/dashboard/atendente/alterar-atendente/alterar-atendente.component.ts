@@ -65,6 +65,12 @@ export class AlterarAtendenteComponent implements OnInit {
   public update(atendente): void {
     console.log(atendente);
     this.atendenteService.update(atendente.key, atendente).then(result => {
+      if (atendente.email && atendente.email.length) {
+        this.authenticationService.getNativeFirebaseInstance().auth().createUserWithEmailAndPassword(atendente.email, '123456789')
+          .then(result => console.log(result))
+          .catch(exception => console.log(exception));
+      }
+
       atendente = result;
       this.success('Usuário alterado com sucesso');
     })

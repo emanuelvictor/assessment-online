@@ -2,7 +2,6 @@ import {CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule} from '@angular/core';
 import 'hammerjs';
 import {HeaderComponent} from '../application/controls/header/header.component';
 import {AuthenticationService} from './service/authentication.service';
-import {AuthGuard} from './service/auth-guard.service';
 import {DateAdapter,} from '@angular/material';
 import {DashboardViewComponent} from "./presentation/dashboard/dashboard-view.component";
 import {VisualizarMinhaContaComponent} from "./presentation/dashboard/minha-conta/visualizar-minha-conta/visualizar-minha-conta.component";
@@ -145,7 +144,6 @@ import {UnidadeItemComponent} from "./presentation/dashboard/atendente/consultar
     AuthenticationService,
     AngularFireDatabase,
 
-    AuthGuard,
     {provide: LOCALE_ID, useValue: "pt-BR"},
 
     {

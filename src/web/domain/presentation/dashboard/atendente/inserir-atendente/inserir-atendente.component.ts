@@ -5,6 +5,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Http} from "@angular/http";
 import {MatSnackBar} from "@angular/material";
 import {Atendente} from "../../../../entity/atendente/atendente.model";
+import {AngularFireAuth} from "angularfire2/auth";
+import * as firebase from 'firebase';
+import {environment} from "../../../../../../environments/environment";
+import {AuthenticationService} from "../../../../service/authentication.service";
 
 @Component({
   selector: 'inserir-atendente',
@@ -31,8 +35,9 @@ export class InserirAtendenteComponent implements OnInit {
    * @param {Http} http
    * @param {MatSnackBar} snackBar
    * @param {ActivatedRoute} activatedRoute
+   * @param {AuthenticationService} authenticationService
    */
-  constructor(public atendenteService: AtendenteService, public router: Router, public http: Http, public snackBar: MatSnackBar, public activatedRoute: ActivatedRoute) {
+  constructor(public atendenteService: AtendenteService, public router: Router, public http: Http, public snackBar: MatSnackBar, public activatedRoute: ActivatedRoute, private authenticationService: AuthenticationService) {
   }
 
   /**
@@ -47,6 +52,14 @@ export class InserirAtendenteComponent implements OnInit {
    */
   public save(): void {
     this.atendenteService.save(this.atendente).then(result => {
+
+      if (this.atendente.email && this.atendente.email.length) {
+        this.authenticationService.getNativeFirebaseInstance().auth().createUserWithEmailAndPassword(this.atendente.email, '123456789')
+          .then(result => console.log(result))
+          .catch(exception => console.log(exception));
+      }
+
+      // TODO WHATA???
       this.atendente = result;
       this.success('Usuário inserido com sucesso');
     })

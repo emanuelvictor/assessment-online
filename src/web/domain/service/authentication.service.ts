@@ -1,18 +1,13 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
 import {AbstractService} from "./abstract.service";
 import {Atendente} from "../entity/atendente/atendente.model";
 import {AngularFireAuth} from "angularfire2/auth";
-import {toPromise} from "rxjs/operator/toPromise";
-import {Observable} from "rxjs/Observable";
+import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
+import * as firebase from 'firebase';
+import {environment} from "../../../environments/environment";
 
 @Injectable()
-export class AuthenticationService extends AbstractService {
-
-  /**
-   *
-   */
-  public subscription: any;
+export class AuthenticationService extends AbstractService implements CanActivate, CanActivateChild {
 
   /**
    *
@@ -28,15 +23,24 @@ export class AuthenticationService extends AbstractService {
    *
    * @param {AngularFireAuth} afAuth
    */
-  constructor(private afAuth: AngularFireAuth) {
+  constructor(private afAuth: AngularFireAuth, private router: Router) {
     super();
+
+    /**
+     * Carrega configurações no firebase nativo
+     * Workarround pq a criação de contas do angularfire autentica o usuaŕio
+     */
+    firebase.initializeApp(environment.firebase);
+
     this.authenticatedUserChanged = new EventEmitter();
-    // Pega o usuário logado
-    this.authenticatedUser = this.getObservedAuthenticatedUser();
 
     this.afAuth.authState.subscribe(result => {
       this.setAuthenticatedUser(result);
+      // this.getPromiseAuthenticatedUser();
     });
+
+    // Pega o usuário logado
+    this.authenticatedUser = this.getObservedAuthenticatedUser();
 
     // this.getPromiseAuthenticatedUser()
     //   .then((result) => {
@@ -46,10 +50,61 @@ export class AuthenticationService extends AbstractService {
 
   /**
    *
+   * @param route
+   * @param state
+   * @returns {boolean}
+   */
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    // let activate = true;
+    // // // TODO passar para o authentication service
+    // // this.authenticationService.getPromiseAuthenticatedUser()
+    // //   .then(result => {
+    // //     activate = true;
+    // //   }).catch(exception => {
+    // //
+    // //     activate = false;
+    // //   });
+    //
+    // if (this.getAuthenticatedUser())
+    //   activate = true;
+    // else{
+    //   //todo HARDECODED
+    //   // this.router.navigate(['authentication']);
+    //   activate = false;
+    // }
+    //
+    // return activate;
+
+
+    let activate = true;
+
+    this.getPromiseAuthenticatedUser()
+      .then(result => {
+        activate = true;
+      }).catch(exception => {
+      this.router.navigate(['authentication']);
+      activate = false;
+    });
+
+    return activate;
+  }
+
+  /**
+   *
+   * @param route
+   * @param state
+   * @returns {boolean}
+   */
+  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    return this.canActivate(route, state);
+  }
+
+  /**
+   *
    * @returns {Promise<any>}
    */
   public getPromiseAuthenticatedUser(): Promise<any> {
-    return this.afAuth.authState.toPromise().then(result => result);
+    return Promise.resolve(this.afAuth.authState.toPromise().then(result => result));
   }
 
   /**
@@ -57,7 +112,7 @@ export class AuthenticationService extends AbstractService {
    * @returns {any}
    */
   public getAuthenticatedUser(): any {
-    return this.authenticatedUser;
+    return this.afAuth.auth.currentUser;
   }
 
   /**
@@ -81,7 +136,7 @@ export class AuthenticationService extends AbstractService {
     //
     // if (this.authenticatedUser)
     //   this.authenticatedUser.isInstrutor = true;
-    return this.authenticatedUser;
+    return this.afAuth.auth.currentUser;
   }
 
   /**
@@ -108,5 +163,13 @@ export class AuthenticationService extends AbstractService {
    */
   public logout(): Promise<any> {
     return this.afAuth.auth.signOut()
+  }
+
+  /**
+   *
+   * @returns {firebase}
+   */
+  public getNativeFirebaseInstance(){
+    return firebase;
   }
 }

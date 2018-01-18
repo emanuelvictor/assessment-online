@@ -10,7 +10,6 @@ import {MobileRoutingModule} from "./mobile.routing.module";
 import {MatSnackBarModule} from "@angular/material";
 import {RouterModule} from "@angular/router";
 import {SharedModule} from "../../shared/shared.module";
-import {AuthGuard} from "../../web/domain/service/auth-guard.service";
 import {AuthenticationService} from "../../web/domain/service/authentication.service";
 import {EnderecoService} from "../../web/domain/service/endereco.service";
 import {Describer} from "../../web/application/describer/describer";
@@ -43,7 +42,6 @@ import {AtendenteService} from "../../web/domain/service/atendente.service";
     AtendenteService,
     AuthenticationService,
 
-    AuthGuard,
     {provide: LOCALE_ID, useValue: "pt-BR"},
 
     {

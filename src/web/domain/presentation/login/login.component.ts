@@ -27,7 +27,6 @@ export class LoginComponent {
   }
 
   /**
-   *
    */
   public login() {
     this.authenticationService.login(this.atendente).then(result => {

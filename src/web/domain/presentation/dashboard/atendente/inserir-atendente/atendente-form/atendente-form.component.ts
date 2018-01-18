@@ -142,6 +142,11 @@ export class AtendenteFormComponent implements OnInit {
     }
 
     if (valid) {
+      if (!this.atendente.unidade || !this.atendente.unidade.key){
+        this.error('Selecione uma unidade');
+        return;
+      }
+
       this.save.emit(this.atendente);
     }
   }
@@ -171,7 +176,6 @@ export class AtendenteFormComponent implements OnInit {
    */
   public addUnidade(unidade: any) {
     this.atendente.unidade = unidade;
-
     this.unidadeService.find().subscribe().unsubscribe();
     this.unidadesList = [];
   }
