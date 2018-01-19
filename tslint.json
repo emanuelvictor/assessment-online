@@ -2,6 +2,7 @@
   "rulesDirectory": [
     "node_modules/codelyzer"
   ],
+  "extends": ["tslint-angular"],
   "rules": {
     "callable-types": true,
     "class-name": true,
@@ -22,7 +23,7 @@
     "label-position": true,
     "max-line-length": [
       true,
-      140
+      10000
     ],
     "member-access": false,
     "member-ordering": [

@@ -1,12 +1,11 @@
-import {Component, OnInit} from "@angular/core";
-import {MatSnackBar} from "@angular/material";
+import {Component, OnInit} from '@angular/core';
+import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
-import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AuthenticationService} from "../../../../service/authentication.service";
-import {AtendenteService} from "../../../../service/atendente.service";
-import {Atendente} from "../../../../entity/atendente/atendente.model";
-
+import {textMasks} from '../../../../../application/controls/text-masks/text-masks';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthenticationService} from '../../../../service/authentication.service';
+import {AtendenteService} from '../../../../service/atendente.service';
+import {Atendente} from '../../../../entity/atendente/atendente.model';
 
 /**
  *
@@ -46,6 +45,11 @@ export class AlterarAtendenteComponent implements OnInit {
    *
    */
   ngOnInit() {
+    // admin.initializeApp({
+    //   credential: admin.credential.cert(JSON.stringify(environment.serviceAccount)),
+    //   databaseURL: "https://assessment-online.firebaseio.com"
+    // });
+
     let atendenteKey: string = this.activatedRoute.snapshot.params['key'];
     this.find(atendenteKey);
   }
@@ -90,7 +94,7 @@ export class AlterarAtendenteComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
   }
