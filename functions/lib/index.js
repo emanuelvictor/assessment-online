@@ -31,11 +31,74 @@ exports.addUnidade = functions.https.onRequest((req, res) => {
         res.redirect(303, snapshot.ref);
     });
 });
-exports.addUsuario = functions.https.onRequest((req, res) => {
-    admin.auth().createUser({
-        email: 'email@teste2.com',
-        password: 'ta funcionando'
+/**
+ * Cria o usuário
+ * @type {HttpsFunction}
+ */
+exports.createUser = functions.https.onRequest((req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    /**
+     * Cria um usuário
+     */
+    admin.auth().createUser({ email: email, password: password })
+        .then(result => {
+        res.send(result);
+    })
+        .catch(exception => {
+        res.status(500); //TODO retornar a exception também
     });
-    res.send('Rolou');
+});
+/**
+ * Atualiza o usuário
+ * @type {HttpsFunction}
+ */
+exports.updateUser = functions.https.onRequest((req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    /**
+     * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
+     */
+    admin.auth().getUserByEmail(req.query.email)
+        .then(usuario => {
+        /**
+         * Após encontrar o usuário pelo e-mail, atualiza o mesmo a partir do uid
+         */
+        admin.auth().updateUser(usuario.uid, { email: email, password: password })
+            .then(result => {
+            res.send(result);
+        })
+            .catch(exception => {
+            res.status(500); //TODO retornar a exception também
+        });
+    })
+        .catch(exception => {
+        res.status(500); //TODO retornar a exception também
+    });
+});
+/**
+ * Deleta o usuário
+ * @type {HttpsFunction}
+ */
+exports.deleteUser = functions.https.onRequest((req, res) => {
+    /**
+     * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
+     */
+    admin.auth().getUserByEmail(req.query.email)
+        .then(usuario => {
+        /**
+         * Após encontrar o usuário pelo e-mail, deleta o mesmo pelo uid
+         */
+        admin.auth().deleteUser(usuario.uid)
+            .then(result => {
+            res.sendStatus(200);
+        })
+            .catch(exception => {
+            res.status(500); //TODO retornar a exception também
+        });
+    })
+        .catch(exception => {
+        res.status(500); //TODO retornar a exception também
+    });
 });
 //# sourceMappingURL=index.js.map
