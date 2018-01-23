@@ -3,9 +3,7 @@ import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {FormBuilder, Validators} from "@angular/forms";
 import {textMasks} from "../../../../../../application/controls/text-masks/text-masks";
-import {Endereco} from "../../../../../entity/endereco/endereco.model";
-import {Cidade} from "../../../../../entity/endereco/cidade.model";
-import {Atendente} from "../../../../../entity/atendente/atendente.model";
+import {Atendente} from "../../../../../entity/atendente/Atendente.model";
 import {UnidadeService} from "../../../../../service/unidade.service";
 
 /**
@@ -71,10 +69,10 @@ export class AtendenteFormComponent implements OnInit {
      * Se tem atendente, ou seja, se está editando, busca a unidade dele
      */
     if (this.atendente && this.atendente.key){
-      this.unidadeService.findOne(this.atendente.unidade.key).subscribe(result => {
-        this.unidadeSelected = [];
-        this.unidadeSelected.push(result);
-      });
+      // this.unidadeService.findOne(this.atendente.unidade.key).subscribe(result => { TODO
+      //   this.unidadeSelected = [];
+      //   this.unidadeSelected.push(result);
+      // });
     }
 
     /**
@@ -142,10 +140,10 @@ export class AtendenteFormComponent implements OnInit {
     }
 
     if (valid) {
-      if (!this.atendente.unidade || !this.atendente.unidade.key){
-        this.error('Selecione uma unidade');
-        return;
-      }
+      // if (!this.atendente.unidade || !this.atendente.unidade.key){ todo
+      //   this.error('Selecione uma unidade');
+      //   return;
+      // }
 
       this.save.emit(this.atendente);
     }
@@ -175,19 +173,19 @@ export class AtendenteFormComponent implements OnInit {
    * @param unidade
    */
   public addUnidade(unidade: any) {
-    this.atendente.unidade = unidade;
-    this.unidadeService.find().subscribe().unsubscribe();
-    this.unidadesList = [];
+    // this.atendente.unidade = unidade; todo
+    // this.unidadeService.find().subscribe().unsubscribe();
+    // this.unidadesList = [];
   }
 
   /**
    *
    */
   public removeUnidade() {
-    this.atendente.unidade = null;
-
-    this.unidadeService.find().subscribe((result) => {
-      this.unidadesList = result;
-    });
+    // this.atendente.unidade = null; todo
+    //
+    // this.unidadeService.find().subscribe((result) => {
+    //   this.unidadesList = result;
+    // });
   }
 }

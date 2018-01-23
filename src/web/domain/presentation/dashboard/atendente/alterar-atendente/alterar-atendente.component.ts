@@ -4,8 +4,8 @@ import 'rxjs/add/operator/toPromise';
 import {textMasks} from '../../../../../application/controls/text-masks/text-masks';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../../service/authentication.service';
-import {AtendenteService} from '../../../../service/usuario.service';
-import {Atendente} from '../../../../entity/atendente/atendente.model';
+import {UsuarioService} from '../../../../service/usuario.service';
+import {Atendente} from '../../../../entity/atendente/Atendente.model';
 
 /**
  *
@@ -34,11 +34,11 @@ export class AlterarAtendenteComponent implements OnInit {
    * @param {MatSnackBar} snackBar
    * @param {AuthenticationService} authenticationService
    * @param {ActivatedRoute} activatedRoute
-   * @param {AtendenteService} atendenteService
+   * @param {UsuarioService} usuarioService
    */
   constructor(public router: Router, public snackBar: MatSnackBar,
               public authenticationService: AuthenticationService, public activatedRoute: ActivatedRoute,
-              public atendenteService: AtendenteService) {
+              public usuarioService: UsuarioService) {
   }
 
   /**
@@ -54,7 +54,7 @@ export class AlterarAtendenteComponent implements OnInit {
    * @param {string} atendenteKey
    */
   public find(atendenteKey: string) {
-    this.atendenteService.findOne(atendenteKey).subscribe(atendente => this.atendente = atendente)
+    this.usuarioService.findOne(atendenteKey).subscribe(atendente => this.atendente = atendente)
   }
 
   /**
@@ -62,7 +62,7 @@ export class AlterarAtendenteComponent implements OnInit {
    * @param atendente
    */
   public update(atendente): void {
-    this.atendenteService.update(atendente.key, atendente).then(result => {
+    this.usuarioService.update(atendente.key, atendente).then(result => {
       if (atendente.email && atendente.email.length) {
         this.authenticationService.getNativeFirebaseInstance().auth().createUserWithEmailAndPassword(atendente.email, '123456789')
           .then(result => console.log(result))
@@ -70,7 +70,7 @@ export class AlterarAtendenteComponent implements OnInit {
       }
 
       atendente = result;
-      this.success('Usuário alterado com sucesso');
+      this.success('Atendente alterado com sucesso');
     })
   }
 

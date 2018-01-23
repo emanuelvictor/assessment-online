@@ -1,7 +1,7 @@
 import {Router} from "@angular/router";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {Component, OnInit} from "@angular/core";
-import {AtendenteService} from "../../../../service/usuario.service";
+import {UsuarioService} from "../../../../service/usuario.service";
 
 @Component({
   selector: 'consultar-atendentes',
@@ -20,9 +20,9 @@ export class ConsultarAtendentesComponent implements OnInit {
    * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {MatDialog} dialog
-   * @param {AtendenteService} atendenteService
+   * @param {UsuarioService} usuarioService
    */
-  constructor(public router: Router, public snackBar: MatSnackBar, public dialog: MatDialog, public atendenteService: AtendenteService) {
+  constructor(public router: Router, public snackBar: MatSnackBar, public dialog: MatDialog, public usuarioService: UsuarioService) {
   }
 
   /**
@@ -36,7 +36,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters() {
-    this.atendenteService.find().subscribe(result => this.atendentes = result)
+    this.usuarioService.find().subscribe(result => this.atendentes = result)
   }
 
   /**

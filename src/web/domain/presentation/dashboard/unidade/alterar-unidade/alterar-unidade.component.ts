@@ -3,7 +3,7 @@ import {MatSnackBar} from "@angular/material";
 import 'rxjs/add/operator/toPromise';
 import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Unidade} from "../../../../entity/unidade/unidade.model";
+import {Unidade} from "../../../../entity/unidade/Unidade.model";
 import {UnidadeService} from "../../../../service/unidade.service";
 import {SnapshotAction} from "angularfire2/database";
 

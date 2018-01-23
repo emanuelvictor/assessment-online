@@ -3,7 +3,7 @@ import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {FormBuilder, Validators} from "@angular/forms";
 import {textMasks} from "../../../../../../application/controls/text-masks/text-masks";
-import {Unidade} from "../../../../../entity/unidade/unidade.model";
+import {Unidade} from "../../../../../entity/unidade/Unidade.model";
 
 /**
  *
@@ -57,8 +57,7 @@ export class UnidadeFormComponent implements OnInit {
     // }
 
     this.form = this.fb.group({
-      nome: ['nome', [Validators.required]],
-      endereco: ['endereco', [Validators.required]],
+      nome: ['nome', [Validators.required]]
     });
   }
 

@@ -1,9 +1,10 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {Atendente} from '../entity/atendente/atendente.model';
+import {Atendente} from '../entity/atendente/Atendente.model';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
 import * as firebase from 'firebase';
 import {environment} from '../../../environments/environment';
+import {Usuario} from '../entity/usuario/usuario.model';
 
 @Injectable()
 export class AuthenticationService implements CanActivate, CanActivateChild {
@@ -148,11 +149,11 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
 
   /**
    *
-   * @param {Atendente} atendente
+   * @param {Usuario} usuario
    * @returns {Promise<any>}
    */
-  public login(atendente: Atendente): Promise<any> {
-    return this.afAuth.auth.signInWithEmailAndPassword(atendente.email, atendente.password).then(result => this.setAuthenticatedUser({'email': result.email}));
+  public login(usuario: Usuario): Promise<any> {
+    return this.afAuth.auth.signInWithEmailAndPassword(usuario.email, usuario.password).then(result => this.setAuthenticatedUser({'email': result.email}));
   }
 
   /**

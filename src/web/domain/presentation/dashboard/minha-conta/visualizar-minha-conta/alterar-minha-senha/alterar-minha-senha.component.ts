@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
-import {AtendenteService} from "../../../../../service/usuario.service";
+import {UsuarioService} from "../../../../../service/usuario.service";
 
 @Component({
   selector: 'alterar-minha-senha',
@@ -34,9 +34,9 @@ export class AlterarMinhaSenhaComponent implements OnInit {
    * @param data
    * @param {MatDialogRef<AlterarMinhaSenhaComponent>} dialogRef
    * @param {MatSnackBar} snackBar
-   * @param {AtendenteService} usuarioService
+   * @param {UsuarioService} usuarioService
    */
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AlterarMinhaSenhaComponent>, public snackBar: MatSnackBar, public usuarioService: AtendenteService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AlterarMinhaSenhaComponent>, public snackBar: MatSnackBar, public usuarioService: UsuarioService) {
     this.usuario = data;
   }
 

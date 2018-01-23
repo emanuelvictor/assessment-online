@@ -2,7 +2,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Component, Input, OnInit} from '@angular/core';
 import {AuthenticationService} from "../../../../../service/authentication.service";
 import {textMasks} from '../../../../../../application/controls/text-masks/text-masks';
-import {Atendente} from "../../../../../entity/atendente/atendente.model";
+import {Atendente} from "../../../../../entity/atendente/Atendente.model";
 
 @Component({
   selector: 'visualizar-dados-atendente',

@@ -1,13 +1,14 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnInit, ViewChild} from "@angular/core";
+import {AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
 
-import {Endereco} from "../../../domain/entity/endereco/endereco.model";
-import {textMasks} from "../text-masks/text-masks";
-import {AuthenticationService} from "../../../domain/service/authentication.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Cidade} from "../../../domain/entity/endereco/cidade.model";
-import {EnderecoService} from "../../../domain/service/endereco.service";
-import {Estado} from "../../../domain/entity/endereco/estado.model";
-import {Pais} from "../../../domain/entity/endereco/pais.model";
+import {Endereco} from '../../../domain/entity/endereco/Endereco.model';
+import {textMasks} from '../text-masks/text-masks';
+import {AuthenticationService} from '../../../domain/service/authentication.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Cidade} from '../../../domain/entity/endereco/Cidade.model';
+import {EnderecoService} from '../../../domain/service/endereco.service';
+import {Estado} from '../../../domain/entity/endereco/Estado.model';
+import {Pais} from '../../../domain/entity/endereco/Pais.model';
+import {exceptions} from '@angular-devkit/core/src/json/schema/serializers/javascript';
 
 
 @Component({
@@ -15,8 +16,7 @@ import {Pais} from "../../../domain/entity/endereco/pais.model";
   templateUrl: 'maps.component.html',
   styleUrls: ['maps.component.css'],
 })
-export class MapsComponent implements OnInit, AfterViewInit
-{
+export class MapsComponent implements OnInit, AfterViewInit {
 
   /**
    *
@@ -112,10 +112,8 @@ export class MapsComponent implements OnInit, AfterViewInit
    * @param {ChangeDetectorRef} changeDetectionRef
    * @param {FormBuilder} fb
    */
-  constructor(public enderecoService: EnderecoService, public authenticationService: AuthenticationService, /*public _loader: MapsAPILoader,*/ public _zone: NgZone, public changeDetectionRef : ChangeDetectorRef, public fb: FormBuilder)
-  {
-    this.userSubscription = authenticationService.authenticatedUserChanged.subscribe((user) =>
-    {
+  constructor(public enderecoService: EnderecoService, public authenticationService: AuthenticationService, /*public _loader: MapsAPILoader,*/ public _zone: NgZone, public changeDetectionRef: ChangeDetectorRef, public fb: FormBuilder) {
+    this.userSubscription = authenticationService.authenticatedUserChanged.subscribe((user) => {
       this.authenticatedUser = user;
     });
   }
@@ -123,40 +121,34 @@ export class MapsComponent implements OnInit, AfterViewInit
   /**
    *
    */
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     const formGroup = new FormGroup({
-      logradouro : new FormControl('logradouro', Validators.required),
-      numero : new FormControl('numero', Validators.required),
-      bairro : new FormControl('bairro', Validators.required),
-      cidade : new FormControl('cidade', [Validators.required]),
-      estado : new FormControl('estado', Validators.required)
+      logradouro: new FormControl('logradouro', Validators.required),
+      numero: new FormControl('numero', Validators.required),
+      bairro: new FormControl('bairro', Validators.required),
+      cidade: new FormControl('cidade', [Validators.required]),
+      estado: new FormControl('estado', Validators.required)
     });
 
-    if (!this.form)
-    {
+    if (!this.form) {
       this.form = this.fb.group({});
     }
 
-    this.form.addControl( 'endereco', formGroup);
+    this.form.addControl('endereco', formGroup);
 
-    if (!this.endereco)
-    {
-      this.endereco = new Endereco("", "", "", "", "", new Cidade(), 0, 0);
+    if (!this.endereco) {
+      this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
     }
 
-    if(!this.endereco.cidade || !this.endereco.cidade.estado)
-    {
+    if (!this.endereco.cidade || !this.endereco.cidade.estado) {
       this.endereco.cidade = new Cidade();
     }
 
-    if (!this.endereco || !Object.keys(this.endereco).length)
-    {
-      if (!Object.keys(this.endereco).length)
-      {
+    if (!this.endereco || !Object.keys(this.endereco).length) {
+      if (!Object.keys(this.endereco).length) {
         this.endereco.cidade = new Cidade();
       } else {
-        this.endereco = new Endereco("", "", "", "", "", new Cidade(), 0, 0);
+        this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
       }
     }
 
@@ -179,8 +171,7 @@ export class MapsComponent implements OnInit, AfterViewInit
   /**
    *
    */
-  ngAfterViewInit()
-  {
+  ngAfterViewInit() {
     this.viewLoaded = true;
     this.changeDetectionRef.detectChanges();
   }
@@ -188,8 +179,7 @@ export class MapsComponent implements OnInit, AfterViewInit
   /**
    *
    */
-  public getAuthenticatedUser(): void
-  {
+  public getAuthenticatedUser(): void {
     // this.authenticationService.getPromiseAuthenticatedUser()
     //   .then((result) =>
     //   {
@@ -242,7 +232,7 @@ export class MapsComponent implements OnInit, AfterViewInit
   //           }
   //
   //           this.parseEndereco(this.address);
-  //           this.findCidadeByNomeAndEstadoUf(this.endereco.cidade.nome, this.endereco.cidade.estado.uf);
+  //           this.findCidadeByNomeAndEstadoUf(this.endereco.cidade.nome, this.endereco.cidade.estado.sigla);
   //         }
   //         if (!this.endereco.cidade)
   //         {
@@ -250,7 +240,7 @@ export class MapsComponent implements OnInit, AfterViewInit
   //           this.endereco.cidade.estado = new Estado();
   //           this.endereco.cidade.estado.pais = new Pais();
   //         }
-  //         if (!this.endereco.cidade.estado || !this.endereco.cidade.estado.uf)
+  //         if (!this.endereco.cidade.estado || !this.endereco.cidade.estado.sigla)
   //         {
   //           this.endereco.cidade.estado = new Estado();
   //           this.endereco.cidade.estado.pais = new Pais();
@@ -263,61 +253,108 @@ export class MapsComponent implements OnInit, AfterViewInit
   /**
    *
    */
-  public findCidadeByNomeAndEstadoUf(cidade, uf)
-  {
-    if (cidade && uf)
-    {
-      // this.enderecoService.find(cidade, uf)
-      //   .then((result) =>
-      //   {
-      //     if (result)
-      //     {
-      //       this.endereco.cidade = result;
-      //       this.cidadeNotFind = false;
-      //       this.form.get('endereco').get('cidade').setErrors(null);
-      //     }
-      //     else
-      //     {
-      //       this.cidadeNotFind = true;
-      //       this.form.get('endereco').get('cidade').setErrors({exception:'Cidade não encontrada'})
-      //     }
-      //   }).catch((exception) =>
-      // {
-      //   this.cidadeNotFind = true;
-      //   this.form.get('endereco').get('cidade').setErrors({exception:'Cidade não encontrada'})
-      // });
+  public getAdressByCep(cep) {
+    if (cep) {
+      this.enderecoService.getAdressByCep(cep)
+        .then((result) => {
+          if (result) {
+            this.endereco.cidade = result;
+            this.cidadeNotFind = false;
+            this.form.get('endereco').get('cidade').setErrors(null);
+          }
+          else {
+            this.cidadeNotFind = true;
+            this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
+          }
+        }).catch((exception) => {
+        this.cidadeNotFind = true;
+        this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
+      });
+    }
+  }
+
+  /**
+   *
+   * @param cidade
+   * @param estado
+   */
+  public findCidadeByNomeAndEstadoUf(cidade, estado) {
+    console.log('cidade ', cidade);
+    console.log('estado ', estado);
+    if (cidade && estado) {
+      this.enderecoService.getEstados().then(estados => {
+
+        let estadoId: number = 0;
+
+        for (let i = 0; i < estados.length; i++) {
+          if (estados[i].sigla.toLowerCase() === estado.toLowerCase() || estados[i].nome.toLowerCase().indexOf(estado.toLowerCase()) > -1) {
+            /**
+             * Encontrou o ID
+             */
+            estadoId = estados[i].id;
+          }
+        }
+
+        this.enderecoService.getCidadeByEstadoId(estadoId)
+          .then((cidades) => {
+            if (cidades && cidades.length) {
+
+              console.log('cidades ', cidades.length);
+
+              for (let i = 0; i < cidades.length; i++) {
+                if (cidades[i].nome.toLowerCase().indexOf(cidade.toLowerCase()) > -1) {
+
+                  this.endereco.cidade = cidades[i];
+                  this.endereco.cidade.estado = cidades[i].microrregiao.mesorregiao.UF;
+                  this.cidadeNotFind = false;
+                  this.form.get('endereco').get('cidade').setErrors(null);
+                }
+              }
+
+
+            }
+            else {
+              this.cidadeNotFind = true;
+              this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
+            }
+          }).catch((exception) => {
+          this.cidadeNotFind = true;
+          this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
+        });
+
+      }).then(exceptions => {
+        this.cidadeNotFind = true;
+        this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
+      });
     }
   }
 
   /**
    *
    */
-  public findCidade(cidade, uf)
-  {
-    this.findCidadeByNomeAndEstadoUf(cidade, uf);
+  public findCidade(cidade, estado) {
+    this.findCidadeByNomeAndEstadoUf(cidade, estado);
   }
 
   /**
    *
    * @param address
    */
-  public parseEndereco(address)
-  {
-    this.endereco.numero = address.street_number ? address.street_number : "";
-    this.endereco.logradouro = address.route ? address.route : "";
-    this.endereco.cep = address.postal_code ? address.postal_code : "";
+  public parseEndereco(address) {
+    this.endereco.numero = address.street_number ? address.street_number : '';
+    this.endereco.logradouro = address.route ? address.route : '';
+    this.endereco.cep = address.postal_code ? address.postal_code : '';
     this.endereco.cidade = new Cidade();
-    this.endereco.cidade.nome = address.administrative_area_level_2 ? address.administrative_area_level_2 : "";
+    this.endereco.cidade.nome = address.administrative_area_level_2 ? address.administrative_area_level_2 : '';
     this.endereco.cidade.estado = new Estado();
-    this.endereco.cidade.estado.uf = address.administrative_area_level_1 ? address.administrative_area_level_1 : "";
-    this.endereco.bairro = address.sublocality_level_1 ? address.sublocality_level_1 : "";
+    this.endereco.cidade.estado.sigla = address.administrative_area_level_1 ? address.administrative_area_level_1 : '';
+    this.endereco.bairro = address.sublocality_level_1 ? address.sublocality_level_1 : '';
   }
 
   /**
    *
    */
-  public getExtend()
-  {
+  public getExtend() {
     this.extend = {
       latitude: this.endereco.latitude ? this.endereco.latitude : -25.514861,
       longitude: this.endereco.longitude ? this.endereco.longitude : -54.568438
@@ -328,8 +365,7 @@ export class MapsComponent implements OnInit, AfterViewInit
    *
    * @param event
    */
-  public markerDragEnd(event)
-  {
+  public markerDragEnd(event) {
     this.endereco.latitude = event.coords.lat;
     this.endereco.longitude = event.coords.lng;
   }
@@ -337,8 +373,7 @@ export class MapsComponent implements OnInit, AfterViewInit
   /**
    *
    */
-  public fillWithMyAddress()
-  {
+  public fillWithMyAddress() {
     this.endereco.logradouro = this.authenticatedUser.endereco.logradouro;
     this.endereco.numero = this.authenticatedUser.endereco.numero;
     this.endereco.bairro = this.authenticatedUser.endereco.bairro;
@@ -347,8 +382,7 @@ export class MapsComponent implements OnInit, AfterViewInit
     this.endereco.complemento = this.authenticatedUser.endereco.complemento;
   }
 
-  ngOnDestroy()
-  {
-    if(this.userSubscription) this.userSubscription.unsubscribe();
+  ngOnDestroy() {
+    if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 }

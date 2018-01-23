@@ -3,8 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
 import {AuthenticationService} from "../../../../service/authentication.service";
-import {AtendenteService} from "../../../../service/usuario.service";
-import {Atendente} from "../../../../entity/atendente/atendente.model";
+import {UsuarioService} from "../../../../service/usuario.service";
+import {Atendente} from "../../../../entity/atendente/Atendente.model";
 
 @Component({
   selector: 'alterar-minha-conta',
@@ -29,10 +29,10 @@ export class AlterarMinhaContaComponent implements OnInit {
    * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {AuthenticationService} authenticationService
-   * @param {AtendenteService} atendenteService
+   * @param {UsuarioService} usuarioService
    * @param {ActivatedRoute} activatedRoute
    */
-  constructor(public router: Router, public snackBar: MatSnackBar, public authenticationService: AuthenticationService, public atendenteService: AtendenteService, public activatedRoute: ActivatedRoute) {
+  constructor(public router: Router, public snackBar: MatSnackBar, public authenticationService: AuthenticationService, public usuarioService: UsuarioService, public activatedRoute: ActivatedRoute) {
   }
 
   /**
@@ -55,7 +55,7 @@ export class AlterarMinhaContaComponent implements OnInit {
    *
    */
   public update(atendente): void {
-    this.atendenteService.update(atendente.key, atendente)
+    this.usuarioService.update(atendente.key, atendente)
       .then((atendenteResult) => {
         atendente = atendenteResult;
         this.success('Conta alterada com sucesso');

@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {UsuarioRepository} from '../repository/usuario.repository';
 
 @Injectable()
-export class AtendenteService {
+export class UsuarioService {
 
   constructor(private usuarioRepository: UsuarioRepository) {
   }

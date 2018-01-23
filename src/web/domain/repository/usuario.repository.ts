@@ -7,6 +7,6 @@ export class UsuarioRepository extends AbstractRepository {
 
   constructor(private af: AngularFireDatabase) {
     super();
-    this.init('atendentes', af)
+    this.init('usuarios', af)
   }
 }

@@ -13,7 +13,7 @@ import {SharedModule} from "../../shared/shared.module";
 import {AuthenticationService} from "../../web/domain/service/authentication.service";
 import {EnderecoService} from "../../web/domain/service/endereco.service";
 import {Describer} from "../../web/application/describer/describer";
-import {AtendenteService} from "../../web/domain/service/usuario.service";
+import {UsuarioService} from "../../web/domain/service/usuario.service";
 
 /**
  *
@@ -39,7 +39,7 @@ import {AtendenteService} from "../../web/domain/service/usuario.service";
   providers: [
     Describer,
     EnderecoService,
-    AtendenteService,
+    UsuarioService,
     AuthenticationService,
 
     {provide: LOCALE_ID, useValue: "pt-BR"},

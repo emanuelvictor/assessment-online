@@ -1,7 +1,7 @@
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material";
 import {Component, Input, OnDestroy, OnInit} from "@angular/core";
-import {Atendente} from "../../../../../../entity/atendente/atendente.model";
+import {Atendente} from "../../../../../../entity/atendente/Atendente.model";
 
 @Component({
   selector: 'dados-fornecedor-form',

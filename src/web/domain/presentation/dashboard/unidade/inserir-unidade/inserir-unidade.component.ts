@@ -4,7 +4,7 @@ import {MatSnackBar} from "@angular/material";
 import 'rxjs/add/operator/toPromise';
 import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
 import {Router} from "@angular/router";
-import {Unidade} from "../../../../entity/unidade/unidade.model";
+import {Unidade} from "../../../../entity/unidade/Unidade.model";
 import {UnidadeService} from "../../../../service/unidade.service";
 
 
@@ -49,6 +49,7 @@ export class InserirUnidadeComponent implements OnInit {
    *
    */
   public save(): void {
+    console.log(this.unidade);
     this.unidadeService.save(this.unidade).then(result => {
       this.success('Unidade inserido com sucesso'); // O SAVE NÃO RETORNA TODO vai dar merda vai dar merda
     });

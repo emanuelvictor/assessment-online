@@ -2,8 +2,8 @@ import {Router} from "@angular/router";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {Component, Input, OnInit} from "@angular/core";
 import {UnidadeService} from "../../../../../service/unidade.service";
-import {Unidade} from "../../../../../entity/unidade/unidade.model";
-import {Atendente} from "../../../../../entity/atendente/atendente.model";
+import {Unidade} from "../../../../../entity/unidade/Unidade.model";
+import {Atendente} from "../../../../../entity/atendente/Atendente.model";
 
 @Component({
   selector: 'unidade-item',
@@ -37,6 +37,6 @@ export class UnidadeItemComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.unidadeService.findOne(this.atendente.unidade.key).subscribe( result=> this.unidade = result)
+    // this.unidadeService.findOne(this.atendente.unidade.key).subscribe( result=> this.unidade = result) TODO
   }
 }

@@ -4,8 +4,8 @@ import {MatDialog, MatSnackBar} from "@angular/material";
 import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
 import {AlterarSenhaComponent} from "./alterar-senha/alterar-senha.component";
 import {ConfirmDialogComponent} from "../../../../../application/controls/confirm-dialog/confirm-dialog.component";
-import {AtendenteService} from "../../../../service/usuario.service";
-import {Atendente} from "../../../../entity/atendente/atendente.model";
+import {UsuarioService} from "../../../../service/usuario.service";
+import {Atendente} from "../../../../entity/atendente/Atendente.model";
 import {UnidadeService} from "../../../../service/unidade.service";
 
 @Component({
@@ -32,13 +32,13 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {MatSnackBar} snackBar
    * @param {ActivatedRoute} activatedRoute
    * @param {MatDialog} dialog
-   * @param {AtendenteService} atendenteService
+   * @param {UsuarioService} usuarioService
    * @param {UnidadeService} unidadeService
    */
   constructor(public router: Router,
               public snackBar: MatSnackBar,
               public activatedRoute: ActivatedRoute, public dialog: MatDialog,
-              public atendenteService: AtendenteService, public unidadeService: UnidadeService) {
+              public usuarioService: UsuarioService, public unidadeService: UnidadeService) {
   }
 
   /**
@@ -54,7 +54,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {string} atendenteKey
    */
   public find(atendenteKey: string) {
-    this.atendenteService.findOne(atendenteKey).subscribe(atendente => {
+    this.usuarioService.findOne(atendenteKey).subscribe(atendente => {
       this.atendente = atendente;
     })
   }
@@ -85,7 +85,7 @@ export class VisualizarAtendenteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(remover => {
       if (remover) {
-        this.atendenteService.remove(atendenteKey)
+        this.usuarioService.remove(atendenteKey)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
             this.snackBar.open('Excluído com sucesso', 'Fechar', {

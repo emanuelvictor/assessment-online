@@ -44,24 +44,24 @@
                     </div>
                   </div>
 
-                  <div layout-gt-xs="row" flex>
-                    <!--dados div-->
-                    <div layout="column" flex>
-                      <div layout="row" layout-margin>
-                        <mat-form-field flex>
-                          <input id="endereco" name="endereco" matInput
-                                 [(ngModel)]="unidade.endereco"
-                                 placeholder="Endereço" required
-                                 maxlength="200" formControlName="endereco">
-                          <mat-error>
-                            Esse campo é obrigatório
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                  </div>
+                  <!--<div layout-gt-xs="row" flex>-->
+                    <!--&lt;!&ndash;dados div&ndash;&gt;-->
+                    <!--<div layout="column" flex>-->
+                      <!--<div layout="row" layout-margin>-->
+                        <!--<mat-form-field flex>-->
+                          <!--<input id="endereco" name="endereco" matInput-->
+                                 <!--[(ngModel)]="unidade.endereco"-->
+                                 <!--placeholder="Endereço" required-->
+                                 <!--maxlength="200" formControlName="endereco">-->
+                          <!--<mat-error>-->
+                            <!--Esse campo é obrigatório-->
+                          <!--</mat-error>-->
+                        <!--</mat-form-field>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</div>-->
 
-                  <!--<maps-component [showMap]="false" [endereco]="unidade?.endereco" [form]="form"></maps-component>-->
+                  <maps-component [showMap]="false" [endereco]="unidade?.endereco" [form]="form"></maps-component>
                 </div>
               </div>
 

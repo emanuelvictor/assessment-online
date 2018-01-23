@@ -53,7 +53,7 @@
     <mat-form-field flex="80" *ngIf="endereco?.cidade">
       <input placeholder="Cidade"
              somenteLetras matInput
-             (blur)="findCidade(endereco?.cidade?.nome, endereco?.cidade?.estado?.uf)"
+             (blur)="findCidade(endereco?.cidade?.nome, endereco?.cidade?.estado?.sigla)"
              [(ngModel)]="endereco.cidade.nome"
              required id="cidade" name="cidade"
              formControlName="cidade">
@@ -66,8 +66,8 @@
     </mat-form-field>
     <mat-form-field flex="20" *ngIf="endereco?.cidade?.estado">
       <input matInput placeholder="Estado"
-             (blur)="findCidade(endereco?.cidade?.nome, endereco?.cidade?.estado?.uf)" somenteLetras
-             [(ngModel)]="endereco.cidade.estado.uf"
+             (blur)="findCidade(endereco?.cidade?.nome, endereco?.cidade?.estado?.sigla)" somenteLetras
+             [(ngModel)]="endereco.cidade.estado.sigla"
              required id="estado" name="estado"
              formControlName="estado">
       <mat-error *ngIf="form.controls.endereco.controls['estado'].hasError('required')">

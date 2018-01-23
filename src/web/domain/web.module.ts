@@ -15,7 +15,7 @@ import {SomenteLetras} from "../application/controls/patterns/somente-letras";
 import {SomenteAlfanumericos} from "../application/controls/patterns/somente-alfanumericos";
 import {SomenteNumeros} from "../application/controls/patterns/somente-numeros";
 import {EnderecoService} from "./service/endereco.service";
-import {AtendenteService} from "./service/usuario.service";
+import {UsuarioService} from "./service/usuario.service";
 import {Describer} from "../application/describer/describer";
 import {VisualizarAtendenteComponent} from "./presentation/dashboard/atendente/visualizar-atendente/visualizar-atendente.component";
 import {DadosFornecedorComponent} from "./presentation/dashboard/atendente/inserir-atendente/atendente-form/fornecedor/dados-fornecedor.component";
@@ -63,6 +63,7 @@ import {UnidadeItemComponent} from "./presentation/dashboard/atendente/consultar
 import {UsuarioRepository} from './repository/usuario.repository';
 import {AccountRepository} from './repository/account.repository';
 import {UnidadeRepository} from './repository/unidade.repository';
+import {EnderecoRepository} from './repository/endereco.repository';
 
 /**
  *
@@ -142,7 +143,8 @@ import {UnidadeRepository} from './repository/unidade.repository';
   providers: [
     Describer,
     EnderecoService,
-    AtendenteService,
+    UsuarioService,
+    EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
     AccountRepository,
