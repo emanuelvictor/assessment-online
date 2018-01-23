@@ -1,46 +1,30 @@
 import {Injectable} from '@angular/core';
-import {AbstractService} from "./abstract.service";
-import {AngularFireDatabase, AngularFireList} from "angularfire2/database";
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
+import {UnidadeRepository} from '../repository/unidade.repository';
 
 @Injectable()
-export class UnidadeService extends AbstractService {
+export class UnidadeService {
 
-  private path: string = 'unidades';
-  private itemsRef: AngularFireList<any>;
-  private items: Observable<any[]>;
-
-  constructor(private af: AngularFireDatabase) {
-    super();
-    this.itemsRef = af.list(this.path);
-    this.items = this.itemsRef.snapshotChanges().map(changes => {
-      return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
-    });
+  constructor(private unidadeRepository: UnidadeRepository) {
   }
 
-  public find(): Observable<any> {
-    return this.items;
+  public find(): Observable<any[]> {
+    return this.unidadeRepository.find();
   }
 
-  /**
-   * todo verificar se essa é a melhor forma
-   * @param {string} key
-   * @returns {Observable<any>}
-   */
   public findOne(key: string): Observable<any> {
-    return this.af.object(this.path + '/' + key).snapshotChanges()
-      .map((changes => ({key: changes.payload.key, ...changes.payload.val()})));
+    return this.unidadeRepository.findOne(key);
   }
 
   public save(item: any): PromiseLike<any> {
-    return this.itemsRef.push(item);
+    return this.unidadeRepository.save(item);
   }
 
   public update(key: string, item: any): Promise<any> {
-    return this.itemsRef.update(key, item);
+    return this.unidadeRepository.update(key, item);
   }
 
   public remove(key: string): Promise<any> {
-    return this.itemsRef.remove(key);
+    return this.unidadeRepository.remove(key);
   }
 }

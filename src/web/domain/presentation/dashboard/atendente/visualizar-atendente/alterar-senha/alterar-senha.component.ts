@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
-import {AtendenteService} from "../../../../../service/atendente.service";
+import {AtendenteService} from "../../../../../service/usuario.service";
 
 @Component({
   selector: 'alterar-senha',

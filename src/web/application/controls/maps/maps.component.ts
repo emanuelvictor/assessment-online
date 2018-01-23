@@ -267,25 +267,25 @@ export class MapsComponent implements OnInit, AfterViewInit
   {
     if (cidade && uf)
     {
-      this.enderecoService.find(cidade, uf)
-        .then((result) =>
-        {
-          if (result)
-          {
-            this.endereco.cidade = result;
-            this.cidadeNotFind = false;
-            this.form.get('endereco').get('cidade').setErrors(null);
-          }
-          else
-          {
-            this.cidadeNotFind = true;
-            this.form.get('endereco').get('cidade').setErrors({exception:'Cidade não encontrada'})
-          }
-        }).catch((exception) =>
-      {
-        this.cidadeNotFind = true;
-        this.form.get('endereco').get('cidade').setErrors({exception:'Cidade não encontrada'})
-      });
+      // this.enderecoService.find(cidade, uf)
+      //   .then((result) =>
+      //   {
+      //     if (result)
+      //     {
+      //       this.endereco.cidade = result;
+      //       this.cidadeNotFind = false;
+      //       this.form.get('endereco').get('cidade').setErrors(null);
+      //     }
+      //     else
+      //     {
+      //       this.cidadeNotFind = true;
+      //       this.form.get('endereco').get('cidade').setErrors({exception:'Cidade não encontrada'})
+      //     }
+      //   }).catch((exception) =>
+      // {
+      //   this.cidadeNotFind = true;
+      //   this.form.get('endereco').get('cidade').setErrors({exception:'Cidade não encontrada'})
+      // });
     }
   }
 

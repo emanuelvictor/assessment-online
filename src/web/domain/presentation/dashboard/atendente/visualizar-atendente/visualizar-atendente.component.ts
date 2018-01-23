@@ -4,7 +4,7 @@ import {MatDialog, MatSnackBar} from "@angular/material";
 import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
 import {AlterarSenhaComponent} from "./alterar-senha/alterar-senha.component";
 import {ConfirmDialogComponent} from "../../../../../application/controls/confirm-dialog/confirm-dialog.component";
-import {AtendenteService} from "../../../../service/atendente.service";
+import {AtendenteService} from "../../../../service/usuario.service";
 import {Atendente} from "../../../../entity/atendente/atendente.model";
 import {UnidadeService} from "../../../../service/unidade.service";
 

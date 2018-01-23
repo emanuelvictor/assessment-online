@@ -1,13 +1,12 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {AbstractService} from "./abstract.service";
-import {Atendente} from "../entity/atendente/atendente.model";
-import {AngularFireAuth} from "angularfire2/auth";
+import {Atendente} from '../entity/atendente/atendente.model';
+import {AngularFireAuth} from 'angularfire2/auth';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
 import * as firebase from 'firebase';
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
 
 @Injectable()
-export class AuthenticationService extends AbstractService implements CanActivate, CanActivateChild {
+export class AuthenticationService implements CanActivate, CanActivateChild {
 
   /**
    *
@@ -24,7 +23,6 @@ export class AuthenticationService extends AbstractService implements CanActivat
    * @param {AngularFireAuth} afAuth
    */
   constructor(private afAuth: AngularFireAuth, private router: Router) {
-    super();
 
     /**
      * Carrega configurações no firebase nativo

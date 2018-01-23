@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
-import {AtendenteService} from "../../../../service/atendente.service";
+import {AtendenteService} from "../../../../service/usuario.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Http} from "@angular/http";
 import {MatSnackBar} from "@angular/material";

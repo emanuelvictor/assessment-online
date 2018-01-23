@@ -4,7 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import {textMasks} from '../../../../../application/controls/text-masks/text-masks';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../../service/authentication.service';
-import {AtendenteService} from '../../../../service/atendente.service';
+import {AtendenteService} from '../../../../service/usuario.service';
 import {Atendente} from '../../../../entity/atendente/atendente.model';
 
 /**
@@ -45,11 +45,6 @@ export class AlterarAtendenteComponent implements OnInit {
    *
    */
   ngOnInit() {
-    // admin.initializeApp({
-    //   credential: admin.credential.cert(JSON.stringify(environment.serviceAccount)),
-    //   databaseURL: "https://assessment-online.firebaseio.com"
-    // });
-
     let atendenteKey: string = this.activatedRoute.snapshot.params['key'];
     this.find(atendenteKey);
   }
@@ -67,7 +62,6 @@ export class AlterarAtendenteComponent implements OnInit {
    * @param atendente
    */
   public update(atendente): void {
-    console.log(atendente);
     this.atendenteService.update(atendente.key, atendente).then(result => {
       if (atendente.email && atendente.email.length) {
         this.authenticationService.getNativeFirebaseInstance().auth().createUserWithEmailAndPassword(atendente.email, '123456789')

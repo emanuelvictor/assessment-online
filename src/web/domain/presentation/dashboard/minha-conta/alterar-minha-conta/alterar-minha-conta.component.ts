@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
 import {AuthenticationService} from "../../../../service/authentication.service";
-import {AtendenteService} from "../../../../service/atendente.service";
+import {AtendenteService} from "../../../../service/usuario.service";
 import {Atendente} from "../../../../entity/atendente/atendente.model";
 
 @Component({

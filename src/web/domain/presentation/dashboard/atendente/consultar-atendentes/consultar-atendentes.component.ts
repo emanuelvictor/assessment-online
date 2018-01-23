@@ -1,7 +1,7 @@
 import {Router} from "@angular/router";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {Component, OnInit} from "@angular/core";
-import {AtendenteService} from "../../../../service/atendente.service";
+import {AtendenteService} from "../../../../service/usuario.service";
 
 @Component({
   selector: 'consultar-atendentes',
