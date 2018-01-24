@@ -26,7 +26,7 @@
                       <input placeholder="Nome"
                              formControlName="nome"
                              maxlength="200" required
-                             [(ngModel)]="atendente.nome"
+                             [(ngModel)]="usuario.nome"
                              id="nome" name="nome" matInput>
                       <mat-error>
                         Esse campo é obrigatório
@@ -35,7 +35,7 @@
                   </div>
                   <div layout="row" layout-margin>
                     <mat-form-field flex>
-                      <input [(ngModel)]="atendente.email"
+                      <input [(ngModel)]="usuario.email"
                              matInput name="email" id="email"
                              type="email" formControlName="email"
                              placeholder="E-mail" maxlength="144"
@@ -48,8 +48,8 @@
                       </mat-error>
                     </mat-form-field>
                   </div>
-                  <password-form *ngIf='atendente?.email && !atendente?.key'
-                                 [atendente]='atendente' [form]='form'></password-form>
+                  <password-form *ngIf='usuario?.email && !usuario?.key'
+                                 [usuario]='usuario' [form]='form'></password-form>
                 </div>
               </div>
 

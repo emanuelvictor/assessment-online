@@ -18,6 +18,11 @@ export class VisualizarAtendenteComponent implements OnInit {
   /**
    *
    */
+  public unidades: any;
+
+  /**
+   *
+   */
   masks = textMasks;
 
   /**
@@ -47,6 +52,17 @@ export class VisualizarAtendenteComponent implements OnInit {
   ngOnInit() {
     let atendenteKey: string = this.activatedRoute.snapshot.params['key'];
     this.find(atendenteKey);
+    this.listUnidadesByFilters();
+  }
+
+  /**
+   * Consulta de unidades
+   *
+   */
+  public listUnidadesByFilters() {
+    this.unidadeService.find().subscribe(result => {
+      this.unidades = result;
+    });
   }
 
   /**

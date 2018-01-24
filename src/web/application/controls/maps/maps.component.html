@@ -50,9 +50,8 @@
   </div>
 
   <div layout-gt-xs="row" layout-margin>
-    <mat-form-field flex="80" *ngIf="endereco?.cidade">
-      <input placeholder="Cidade"
-             somenteLetras matInput
+    <mat-form-field flex="80">
+      <input somenteLetras matInput placeholder="Cidade"
              (blur)="findCidade(endereco?.cidade?.nome, endereco?.cidade?.estado?.sigla)"
              [(ngModel)]="endereco.cidade.nome"
              required id="cidade" name="cidade"
@@ -64,9 +63,9 @@
         Esse campo é obrigatório
       </mat-error>
     </mat-form-field>
-    <mat-form-field flex="20" *ngIf="endereco?.cidade?.estado">
-      <input matInput placeholder="Estado"
-             (blur)="findCidade(endereco?.cidade?.nome, endereco?.cidade?.estado?.sigla)" somenteLetras
+    <mat-form-field flex="20">
+      <input somenteLetras matInput placeholder="Estado"
+             (blur)="findCidade(endereco?.cidade?.nome, endereco?.cidade?.estado?.sigla)"
              [(ngModel)]="endereco.cidade.estado.sigla"
              required id="estado" name="estado"
              formControlName="estado">

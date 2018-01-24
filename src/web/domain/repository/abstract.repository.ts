@@ -29,8 +29,6 @@ export abstract class AbstractRepository {
     this._path = path;
     this._angularFireDatabase = angularFireDatabase;
 
-
-
     this._itemsRef = this._angularFireDatabase.list(this._path);
     this._items = this._itemsRef.snapshotChanges().map(changes => {
       return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));

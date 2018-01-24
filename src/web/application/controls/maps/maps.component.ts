@@ -44,44 +44,12 @@ export class MapsComponent implements OnInit, AfterViewInit {
   /**
    *
    */
-  zoom: number = 13;
-
-  /**
-   *
-   */
-  address = {};
-
-  /**
-   *
-   */
-  extend = {};
-
-  /**
-   *
-   */
   cidadeNotFind: Boolean;
 
   /**
    *
    */
-  wasSearched: Boolean = false;
-
-  /**
-   *
-   */
   masks = textMasks;
-
-  /**
-   *
-   */
-  componentForm = {
-    street_number: 'short_name',
-    route: 'long_name',
-    administrative_area_level_2: 'long_name',
-    administrative_area_level_1: 'short_name',
-    postal_code: 'short_name',
-    sublocality_level_1: 'short_name'
-  };
 
   /**
    *
@@ -136,24 +104,24 @@ export class MapsComponent implements OnInit, AfterViewInit {
 
     this.form.addControl('endereco', formGroup);
 
-    if (!this.endereco) {
-      this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
-    }
-
-    if (!this.endereco.cidade || !this.endereco.cidade.estado) {
-      this.endereco.cidade = new Cidade();
-    }
-
-    if (!this.endereco || !Object.keys(this.endereco).length) {
-      if (!Object.keys(this.endereco).length) {
-        this.endereco.cidade = new Cidade();
-      } else {
-        this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
-      }
-    }
-
-    this.endereco.cidade.estado = new Estado();
-    this.endereco.cidade.estado.pais = new Pais();
+    // if (typeof this.endereco === 'string') {
+    //   this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
+    // }
+    //
+    // if (!this.endereco.cidade || !this.endereco.cidade.estado) {
+    //   this.endereco.cidade = new Cidade();
+    // }
+    //
+    // if (!this.endereco || !Object.keys(this.endereco).length) {
+    //   if (!Object.keys(this.endereco).length) {
+    //     this.endereco.cidade = new Cidade();
+    //   } else {
+    //     this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
+    //   }
+    // }
+    //
+    // this.endereco.cidade.estado = new Estado();
+    // this.endereco.cidade.estado.pais = new Pais();
 
     // this.getExtend();
 
@@ -175,80 +143,6 @@ export class MapsComponent implements OnInit, AfterViewInit {
     this.viewLoaded = true;
     this.changeDetectionRef.detectChanges();
   }
-
-  /**
-   *
-   */
-  public getAuthenticatedUser(): void {
-    // this.authenticationService.getPromiseAuthenticatedUser()
-    //   .then((result) =>
-    //   {
-    //     if (result)
-    //     {
-    //       this.authenticatedUser = result;
-    //     }
-    //   })
-  }
-
-  /**
-   *
-   */
-  // public autocomplete()
-  // {
-  //   this._loader.load().then(() =>
-  //   {
-  //     let autocomplete = new google.maps.places.Autocomplete(this.inputAutocomplete.nativeElement, {});
-  //
-  //     google.maps.event.addListener(autocomplete, 'place_changed', () =>
-  //     {
-  //       this._zone.run(() =>
-  //       {
-  //         this.wasSearched = true;
-  //
-  //         let place = autocomplete.getPlace();
-  //
-  //         // Limpa o campo de search
-  //         this.inputAutocomplete.nativeElement.value = "";
-  //
-  //         if (place.geometry)
-  //         {
-  //           this.zoom = 15;
-  //           this.endereco.latitude = place.geometry.location.lat();
-  //           this.endereco.longitude = place.geometry.location.lng();
-  //
-  //           this.getExtend();
-  //
-  //           this.address = {};
-  //
-  //           // Get each component of the address from the place details
-  //           // and fill the corresponding field on the form.
-  //           for (let i = 0; i < place.address_components.length; i++)
-  //           {
-  //             let addressType = place.address_components[i].types[0];
-  //             if (this.componentForm[addressType])
-  //             {
-  //               this.address[addressType] = place.address_components[i][this.componentForm[addressType]];
-  //             }
-  //           }
-  //
-  //           this.parseEndereco(this.address);
-  //           this.findCidadeByNomeAndEstadoUf(this.endereco.cidade.nome, this.endereco.cidade.estado.sigla);
-  //         }
-  //         if (!this.endereco.cidade)
-  //         {
-  //           this.endereco.cidade = new Cidade();
-  //           this.endereco.cidade.estado = new Estado();
-  //           this.endereco.cidade.estado.pais = new Pais();
-  //         }
-  //         if (!this.endereco.cidade.estado || !this.endereco.cidade.estado.sigla)
-  //         {
-  //           this.endereco.cidade.estado = new Estado();
-  //           this.endereco.cidade.estado.pais = new Pais();
-  //         }
-  //       });
-  //     });
-  //   });
-  // }
 
   /**
    *
@@ -279,8 +173,6 @@ export class MapsComponent implements OnInit, AfterViewInit {
    * @param estado
    */
   public findCidadeByNomeAndEstadoUf(cidade, estado) {
-    console.log('cidade ', cidade);
-    console.log('estado ', estado);
     if (cidade && estado) {
       this.enderecoService.getEstados().then(estados => {
 
@@ -295,11 +187,11 @@ export class MapsComponent implements OnInit, AfterViewInit {
           }
         }
 
+        if (!estadoId) return;
+
         this.enderecoService.getCidadeByEstadoId(estadoId)
           .then((cidades) => {
             if (cidades && cidades.length) {
-
-              console.log('cidades ', cidades.length);
 
               for (let i = 0; i < cidades.length; i++) {
                 if (cidades[i].nome.toLowerCase().indexOf(cidade.toLowerCase()) > -1) {
@@ -310,10 +202,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
                   this.form.get('endereco').get('cidade').setErrors(null);
                 }
               }
-
-
-            }
-            else {
+            } else {
               this.cidadeNotFind = true;
               this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
             }
@@ -334,55 +223,5 @@ export class MapsComponent implements OnInit, AfterViewInit {
    */
   public findCidade(cidade, estado) {
     this.findCidadeByNomeAndEstadoUf(cidade, estado);
-  }
-
-  /**
-   *
-   * @param address
-   */
-  public parseEndereco(address) {
-    this.endereco.numero = address.street_number ? address.street_number : '';
-    this.endereco.logradouro = address.route ? address.route : '';
-    this.endereco.cep = address.postal_code ? address.postal_code : '';
-    this.endereco.cidade = new Cidade();
-    this.endereco.cidade.nome = address.administrative_area_level_2 ? address.administrative_area_level_2 : '';
-    this.endereco.cidade.estado = new Estado();
-    this.endereco.cidade.estado.sigla = address.administrative_area_level_1 ? address.administrative_area_level_1 : '';
-    this.endereco.bairro = address.sublocality_level_1 ? address.sublocality_level_1 : '';
-  }
-
-  /**
-   *
-   */
-  public getExtend() {
-    this.extend = {
-      latitude: this.endereco.latitude ? this.endereco.latitude : -25.514861,
-      longitude: this.endereco.longitude ? this.endereco.longitude : -54.568438
-    }
-  }
-
-  /**
-   *
-   * @param event
-   */
-  public markerDragEnd(event) {
-    this.endereco.latitude = event.coords.lat;
-    this.endereco.longitude = event.coords.lng;
-  }
-
-  /**
-   *
-   */
-  public fillWithMyAddress() {
-    this.endereco.logradouro = this.authenticatedUser.endereco.logradouro;
-    this.endereco.numero = this.authenticatedUser.endereco.numero;
-    this.endereco.bairro = this.authenticatedUser.endereco.bairro;
-    this.endereco.cep = this.authenticatedUser.endereco.cep;
-    this.endereco.cidade = this.authenticatedUser.endereco.cidade;
-    this.endereco.complemento = this.authenticatedUser.endereco.complemento;
-  }
-
-  ngOnDestroy() {
-    if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 }

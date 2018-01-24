@@ -103,7 +103,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {Promise<any>}
    */
   public getPromiseAuthenticatedUser(): Promise<any> {
-    return Promise.resolve(this.afAuth.authState.toPromise().then(result => result));
+    return this.afAuth.authState.toPromise().then(result => result);
   }
 
   /**
@@ -164,11 +164,11 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     return this.afAuth.auth.signOut()
   }
 
-  /**
-   *
-   * @returns {firebase}
-   */
-  public getNativeFirebaseInstance(){
-    return firebase;
-  }
+  // /**
+  //  *
+  //  * @returns {firebase}
+  //  */
+  // public getNativeFirebaseInstance(){
+  //   return firebase;
+  // }
 }

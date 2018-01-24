@@ -3,16 +3,16 @@ import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {FormBuilder, Validators} from "@angular/forms";
 import {textMasks} from "../../../../../../application/controls/text-masks/text-masks";
-import {Atendente} from "../../../../../entity/atendente/Atendente.model";
 import {UnidadeService} from "../../../../../service/unidade.service";
+import {Usuario} from '../../../../../entity/usuario/usuario.model';
 
 /**
  *
  */
 @Component({
-  selector: 'atendente-form',
-  templateUrl: './atendente-form.component.html',
-  styleUrls: ['./atendente-form.component.css']
+  selector: 'usuario-form',
+  templateUrl: './usuario-form.component.html',
+  styleUrls: ['./usuario-form.component.css']
 })
 export class AtendenteFormComponent implements OnInit {
 
@@ -44,10 +44,10 @@ export class AtendenteFormComponent implements OnInit {
 
   /**
    *
-   * @type {Atendente}
+   * @type {Usuario}
    */
   @Input()
-  atendente: Atendente;
+  usuario: Usuario;
 
   /**
    *
@@ -66,10 +66,10 @@ export class AtendenteFormComponent implements OnInit {
   ngOnInit() {
 
     /**
-     * Se tem atendente, ou seja, se está editando, busca a unidade dele
+     * Se tem usuario, ou seja, se está editando, busca a unidade dele
      */
-    if (this.atendente && this.atendente.key){
-      // this.unidadeService.findOne(this.atendente.unidade.key).subscribe(result => { TODO
+    if (this.usuario && this.usuario.key){
+      // this.unidadeService.findOne(this.usuario.unidade.key).subscribe(result => { TODO
       //   this.unidadeSelected = [];
       //   this.unidadeSelected.push(result);
       // });
@@ -140,12 +140,12 @@ export class AtendenteFormComponent implements OnInit {
     }
 
     if (valid) {
-      // if (!this.atendente.unidade || !this.atendente.unidade.key){ todo
+      // if (!this.usuario.unidade || !this.usuario.unidade.key){ todo
       //   this.error('Selecione uma unidade');
       //   return;
       // }
 
-      this.save.emit(this.atendente);
+      this.save.emit(this.usuario);
     }
   }
 
@@ -173,7 +173,7 @@ export class AtendenteFormComponent implements OnInit {
    * @param unidade
    */
   public addUnidade(unidade: any) {
-    // this.atendente.unidade = unidade; todo
+    // this.usuario.unidade = unidade; todo
     // this.unidadeService.find().subscribe().unsubscribe();
     // this.unidadesList = [];
   }
@@ -182,7 +182,7 @@ export class AtendenteFormComponent implements OnInit {
    *
    */
   public removeUnidade() {
-    // this.atendente.unidade = null; todo
+    // this.usuario.unidade = null; todo
     //
     // this.unidadeService.find().subscribe((result) => {
     //   this.unidadesList = result;

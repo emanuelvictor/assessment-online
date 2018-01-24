@@ -6,6 +6,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Unidade} from "../../../../entity/unidade/Unidade.model";
 import {UnidadeService} from "../../../../service/unidade.service";
 import {SnapshotAction} from "angularfire2/database";
+import {Endereco} from '../../../../entity/endereco/Endereco.model';
+import {Cidade} from '../../../../entity/endereco/Cidade.model';
 
 /**
  *
@@ -26,7 +28,7 @@ export class AlterarUnidadeComponent implements OnInit {
    *
    * @type {SnapshotAction}
    */
-  unidade: Unidade;
+  unidade: Unidade = new Unidade();
 
   /**
    *
@@ -53,7 +55,14 @@ export class AlterarUnidadeComponent implements OnInit {
    * @param unidadeKey
    */
   public find(unidadeKey: string) {
-    this.unidadeService.findOne(unidadeKey).subscribe(result => this.unidade = result)
+    this.unidadeService.findOne(unidadeKey).subscribe(result => {
+
+      this.unidade = result
+
+      if (typeof this.unidade.endereco === 'string') {
+        this.unidade.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
+      }
+    })
   }
 
   /**

@@ -1,12 +1,12 @@
-<atendente-form [atendente]="atendente" *ngIf="atendente?.key" (save)="update(atendente)">
+<usuario-form [usuario]="atendente" *ngIf="atendente?.key" (save)="update(atendente)">
   <!--cabeçalho div-->
-  <button class="mat-headline tc-grey-500"
-          type="button" routerLink="../"
-          color="primary" mat-icon-button>
+  <button type="button" routerLink="../"
+          color="primary" mat-icon-button
+          class="mat-headline tc-grey-500">
     <mat-icon>arrow_back</mat-icon>
   </button>
 
   <div layout="row" layout-margin>
     <h1 class="mat-headline tc-grey-500" flex> Alterar atendente</h1>
   </div>
-</atendente-form>
+</usuario-form>

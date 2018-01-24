@@ -2,13 +2,11 @@ import {CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule} from '@angular/core';
 import 'hammerjs';
 import {HeaderComponent} from '../application/controls/header/header.component';
 import {AuthenticationService} from './service/authentication.service';
-import {DateAdapter,} from '@angular/material';
+import {DateAdapter, MatExpansionModule,} from '@angular/material';
 import {DashboardViewComponent} from "./presentation/dashboard/dashboard-view.component";
 import {VisualizarMinhaContaComponent} from "./presentation/dashboard/minha-conta/visualizar-minha-conta/visualizar-minha-conta.component";
 import {AlterarMinhaContaComponent} from "./presentation/dashboard/minha-conta/alterar-minha-conta/alterar-minha-conta.component";
-import {UsuarioPessoaJuridicaFormComponent} from "./presentation/dashboard/atendente/inserir-atendente/atendente-form/pessoa-juridica/usuario-pessoa-juridica-form.component";
-import {UsuarioPessoaFisicaFormComponent} from "./presentation/dashboard/atendente/inserir-atendente/atendente-form/pessoa-fisica/usuario-pessoa-fisica-form.component";
-import {PasswordFormComponent} from "./presentation/dashboard/atendente/inserir-atendente/atendente-form/password/password-form.component";
+import {PasswordFormComponent} from "./presentation/dashboard/atendente/inserir-atendente/usuario-form/password/password-form.component";
 import {MapsComponent} from "../application/controls/maps/maps.component";
 import {MinhaContaViewComponent} from "./presentation/dashboard/minha-conta/minha-conta-view.component";
 import {SomenteLetras} from "../application/controls/patterns/somente-letras";
@@ -18,7 +16,6 @@ import {EnderecoService} from "./service/endereco.service";
 import {UsuarioService} from "./service/usuario.service";
 import {Describer} from "../application/describer/describer";
 import {VisualizarAtendenteComponent} from "./presentation/dashboard/atendente/visualizar-atendente/visualizar-atendente.component";
-import {DadosFornecedorComponent} from "./presentation/dashboard/atendente/inserir-atendente/atendente-form/fornecedor/dados-fornecedor.component";
 import {AlterarMinhaSenhaComponent} from "./presentation/dashboard/minha-conta/visualizar-minha-conta/alterar-minha-senha/alterar-minha-senha.component";
 import {AlterarSenhaComponent} from "./presentation/dashboard/atendente/visualizar-atendente/alterar-senha/alterar-senha.component";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
@@ -57,13 +54,13 @@ import {InserirUnidadeComponent} from "./presentation/dashboard/unidade/inserir-
 import {UnidadeFormComponent} from "./presentation/dashboard/unidade/inserir-unidade/unidade-form/unidade-form.component";
 import {ConsultarUnidadesComponent} from "./presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component";
 import {UnidadeService} from "./service/unidade.service";
-import {VisualizarDadosAtendenteComponent} from "./presentation/dashboard/atendente/visualizar-atendente/visualizar-dados-atendente/visualizar-dados-atendente.component";
-import {AtendenteFormComponent} from "./presentation/dashboard/atendente/inserir-atendente/atendente-form/atendente-form.component";
+import {AtendenteFormComponent} from "./presentation/dashboard/atendente/inserir-atendente/usuario-form/usuario-form.component";
 import {UnidadeItemComponent} from "./presentation/dashboard/atendente/consultar-atendentes/unidade-item/unidade-item.component";
 import {UsuarioRepository} from './repository/usuario.repository';
 import {AccountRepository} from './repository/account.repository';
 import {UnidadeRepository} from './repository/unidade.repository';
 import {EnderecoRepository} from './repository/endereco.repository';
+import {VisualizarDadosUsuarioComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-dados-usuario/visualizar-dados-usuario.component';
 
 /**
  *
@@ -100,19 +97,16 @@ import {EnderecoRepository} from './repository/endereco.repository';
     AtendenteViewComponent,
     DashboardViewComponent,
     MinhaContaViewComponent,
-    VisualizarDadosAtendenteComponent,
+    VisualizarDadosUsuarioComponent,
     VisualizarMinhaContaComponent,
     AlterarMinhaContaComponent,
     ConsultarAtendentesComponent,
     AtendenteFormComponent,
-    UsuarioPessoaJuridicaFormComponent,
-    UsuarioPessoaFisicaFormComponent,
     PasswordFormComponent,
     MapsComponent,
     InserirAtendenteComponent,
     AlterarAtendenteComponent,
     VisualizarAtendenteComponent,
-    DadosFornecedorComponent,
 
     // Password
     AlterarMinhaSenhaComponent,
@@ -133,6 +127,7 @@ import {EnderecoRepository} from './repository/endereco.repository';
     BrowserModule,
     BrowserAnimationsModule,
     WebRoutingModule,
+    MatExpansionModule,
     AngularFireModule.initializeApp(environment.firebase, 'assessment-online'), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule // imports firebase/auth, only needed for auth features

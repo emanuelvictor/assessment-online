@@ -16,6 +16,10 @@ export class UsuarioService {
     return this.usuarioRepository.findOne(key);
   }
 
+  public findUsuarioByEmail(email: string): Observable<any> {
+    return this.usuarioRepository.findUsuarioByEmail(email);
+  }
+
   public save(item: any): PromiseLike<any> {
     return this.usuarioRepository.save(item);
   }

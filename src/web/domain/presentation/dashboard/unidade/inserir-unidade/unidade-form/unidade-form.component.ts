@@ -36,7 +36,7 @@ export class UnidadeFormComponent implements OnInit {
    * @type {Unidade}
    */
   @Input()
-  unidade: Unidade = new Unidade();
+  unidade: Unidade;
 
   /**
    *
@@ -52,10 +52,6 @@ export class UnidadeFormComponent implements OnInit {
    *
    */
   ngOnInit() {
-    // if (!this.unidade.endereco) {
-    //   this.unidade.endereco = new Endereco("", "", "", "", "", new Cidade(), 0, 0);
-    // }
-
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]]
     });

@@ -14,14 +14,10 @@
 
     <div layout="row" layout-align="start center" layout-margin flex>
       <div layout="column">
-        <h1 flex class="mat-headline tc-blue-grey-800 no-margin">{{atendente?.nome}}</h1>
-        <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">{{atendente?.email}}</h2>
-        <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">{{atendente?.documento | documento}}</h2>
-        <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">{{atendente?.contatoTelefonico}}</h2>
-
-        <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
-          <unidade-item [atendente]="atendente" *ngIf="atendente?.key"></unidade-item>
-        </h2>
+        <h1 flex class="mat-headline tc-blue-grey-800 no-margin">{{usuario?.nome}}</h1>
+        <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">{{usuario?.email}}</h2>
+        <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">{{usuario?.documento | documento}}</h2>
+        <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">{{usuario?.contatoTelefonico}}</h2>
       </div>
     </div>
   </div>

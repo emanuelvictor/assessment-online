@@ -6,10 +6,9 @@
 
         <!--card informações-->
         <mat-card-content>
-
-          <visualizar-dados-usuario [usuario]="usuario" *ngIf="usuario?.id">
+          <visualizar-dados-usuario [usuario]="usuario" *ngIf="usuario?.key">
             <!--options-->
-            <div layout="column" layout-align="start end" flex *ngIf="usuario.email != 'admin@admin.com'">
+            <div layout="column" layout-align="start end" flex *ngIf="usuario?.isAdministrador">
               <div layout="row">
                 <button mat-icon-button routerLink="alterar" class="tc-blue-grey-900">
                   <mat-icon>mode_edit</mat-icon>

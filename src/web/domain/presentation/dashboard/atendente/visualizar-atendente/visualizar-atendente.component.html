@@ -2,7 +2,7 @@
   <div layout="row" flex-gt-xs="80" layout-margin>
     <div flex layout-margin>
 
-      <mat-card class="bgc-grey-50" layout-margin style="max-width: 1200px">
+      <mat-card class="bgc-grey-50" layout-margin>
 
         <!--card informações-->
         <mat-card-content>
@@ -16,7 +16,7 @@
               </button>
             </div>
 
-            <visualizar-dados-atendente [atendente]="atendente" *ngIf="atendente?.key" flex>
+            <visualizar-dados-usuario [usuario]="atendente" *ngIf="atendente?.key" flex>
               <!--options-->
 
               <div layout="column" layout-align="start end" flex>
@@ -32,18 +32,65 @@
                       <mat-icon>vpn_key</mat-icon>
                       <span>Alterar senha</span>
                     </button>
-                    <button mat-menu-item color="primary" (click)="remove(atendente?.key)">
+                    <button mat-menu-item color="primary" (click)="remove(usuario?.key)">
                       <mat-icon>delete</mat-icon>
                       <span>Remover</span>
                     </button>
                   </mat-menu>
                 </div>
               </div>
-            </visualizar-dados-atendente>
+            </visualizar-dados-usuario>
           </div>
         </mat-card-content>
 
       </mat-card>
+
+
+      <mat-accordion>
+        <mat-expansion-panel class='bgc-grey-50' [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Unidades
+            </mat-panel-title>
+            <mat-panel-description>
+              Vincule unidades ao atendente
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-nav-list>
+            <div *ngFor="let unidade of unidades">
+
+              <mat-list-item layout="row" layout-margin (click)="select.open()">
+                  <h3 matLine> {{unidade?.nome}} </h3>
+                  <p matLine *ngIf="unidade?.endereco?.cidade?.nome">Número {{unidade?.endereco?.numero}},
+                    {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.bairro}} -
+                    {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.sigla}}
+                  </p>
+
+                <mat-form-field flex="30">
+                  <mat-select placeholder='Tipo de vínculo' #select>
+                    <mat-option>
+                      Atendente
+                    </mat-option>
+                    <mat-option>
+                      Atendente e Supervisor
+                    </mat-option>
+                    <mat-option>
+                      Supervisor e Atendente
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-list-item>
+
+            </div>
+          </mat-nav-list>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <!--<h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">-->
+      <!--<unidade-item [atendente]="usuario" *ngIf="usuario?.key"></unidade-item>-->
+      <!--</h2>-->
     </div>
   </div>
 </div>

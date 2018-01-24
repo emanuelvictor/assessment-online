@@ -2,20 +2,20 @@ import {ActivatedRoute} from '@angular/router';
 import {Component, Input, OnInit} from '@angular/core';
 import {AuthenticationService} from "../../../../../service/authentication.service";
 import {textMasks} from '../../../../../../application/controls/text-masks/text-masks';
-import {Atendente} from "../../../../../entity/atendente/Atendente.model";
+import {Usuario} from '../../../../../entity/usuario/usuario.model';
 
 @Component({
-  selector: 'visualizar-dados-atendente',
-  templateUrl: './visualizar-dados-atendente.component.html',
-  styleUrls: ['./visualizar-dados-atendente.component.css']
+  selector: 'visualizar-dados-usuario',
+  templateUrl: './visualizar-dados-usuario.component.html',
+  styleUrls: ['./visualizar-dados-usuario.component.css']
 })
-export class VisualizarDadosAtendenteComponent implements OnInit {
+export class VisualizarDadosUsuarioComponent implements OnInit {
 
   /**
    *
    */
   @Input()
-  atendente: Atendente;
+  usuario: Usuario;
 
   /**
    *
