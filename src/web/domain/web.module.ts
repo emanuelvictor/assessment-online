@@ -61,6 +61,7 @@ import {AccountRepository} from './repository/account.repository';
 import {UnidadeRepository} from './repository/unidade.repository';
 import {EnderecoRepository} from './repository/endereco.repository';
 import {VisualizarDadosUsuarioComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-dados-usuario/visualizar-dados-usuario.component';
+import {VincularUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/vincular-unidade/vincular-unidade.component';
 
 /**
  *
@@ -107,6 +108,7 @@ import {VisualizarDadosUsuarioComponent} from './presentation/dashboard/atendent
     InserirAtendenteComponent,
     AlterarAtendenteComponent,
     VisualizarAtendenteComponent,
+    VincularUnidadeComponent,
 
     // Password
     AlterarMinhaSenhaComponent,

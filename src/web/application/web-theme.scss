@@ -1,1 +1,11 @@
 @import '../../theme';
+
+visualizar-atendente {
+  .mat-expansion-panel-body {
+    padding: 0 !important;
+  }
+
+  mat-list-item {
+    margin: 0 !important;
+  }
+}

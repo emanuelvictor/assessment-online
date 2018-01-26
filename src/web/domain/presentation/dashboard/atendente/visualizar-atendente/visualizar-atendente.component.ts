@@ -11,7 +11,7 @@ import {UnidadeService} from "../../../../service/unidade.service";
 @Component({
   selector: 'visualizar-atendente',
   templateUrl: './visualizar-atendente.component.html',
-  styleUrls: ['./visualizar-atendente.component.css']
+  styleUrls: ['./visualizar-atendente.component.scss']
 })
 export class VisualizarAtendenteComponent implements OnInit {
 
