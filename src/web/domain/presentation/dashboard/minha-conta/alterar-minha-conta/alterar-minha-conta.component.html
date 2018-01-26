@@ -1,4 +1,4 @@
-<usuario-form [usuario]="usuario" *ngIf="usuario.id" (save)="update(usuario)">
+<usuario-form [usuario]="usuario" *ngIf="usuario?.key" (save)="update(usuario)">
   <!--cabeçalho div-->
   <button class="mat-headline tc-grey-500" type="button" routerLink="../" color="primary" mat-icon-button>
     <mat-icon>arrow_back</mat-icon>

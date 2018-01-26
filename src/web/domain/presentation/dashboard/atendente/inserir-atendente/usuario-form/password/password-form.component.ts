@@ -3,7 +3,7 @@ import 'rxjs/add/operator/toPromise';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {confirmPassword, password} from "../../../../../../../application/controls/validators/validators";
 import {Component, Input, OnDestroy, OnInit} from "@angular/core";
-import {Atendente} from "../../../../../../entity/atendente/Atendente.model";
+import {Usuario} from '../../../../../../entity/usuario/usuario.model';
 
 @Component({
   selector: 'password-form',
@@ -20,9 +20,13 @@ export class PasswordFormComponent implements OnInit, OnDestroy
 
   /**
    *
-   * @type {{}}
    */
-  @Input() atendente: Atendente;
+  @Input() usuario: Usuario;
+
+  /**
+   *
+   */
+  confirmacaoPassword: string;
 
   /**
    *

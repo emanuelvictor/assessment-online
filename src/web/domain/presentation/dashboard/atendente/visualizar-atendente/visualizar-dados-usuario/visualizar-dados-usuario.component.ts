@@ -40,6 +40,6 @@ export class VisualizarDadosUsuarioComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.authenticatedUser = this.authenticationService.getObservedAuthenticatedUser();
+    this.authenticatedUser = this.authenticationService.getAuthenticatedUser();
   }
 }

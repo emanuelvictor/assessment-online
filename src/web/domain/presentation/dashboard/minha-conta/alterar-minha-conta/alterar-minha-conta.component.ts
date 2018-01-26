@@ -4,7 +4,7 @@ import {MatSnackBar} from '@angular/material';
 import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
 import {AuthenticationService} from "../../../../service/authentication.service";
 import {UsuarioService} from "../../../../service/usuario.service";
-import {Atendente} from "../../../../entity/atendente/Atendente.model";
+import {Usuario} from '../../../../entity/usuario/usuario.model';
 
 @Component({
   selector: 'alterar-minha-conta',
@@ -20,9 +20,9 @@ export class AlterarMinhaContaComponent implements OnInit {
 
   /**
    *
-   * @type {Atendente}
+   * @type {Usuario}
    */
-  atendente: Atendente = new Atendente();
+  usuario: Usuario = new Usuario();
 
   /**
    *
@@ -47,17 +47,17 @@ export class AlterarMinhaContaComponent implements OnInit {
    */
   public getAuthenticatedUser() {
     // this.authenticationService.getPromiseAuthenticatedUser().then(result => {
-    //   this.atendente = result;
+    //   this.usuario = result;
     // });
   }
 
   /**
    *
    */
-  public update(atendente): void {
-    this.usuarioService.update(atendente.key, atendente)
-      .then((atendenteResult) => {
-        atendente = atendenteResult;
+  public update(usuario): void {
+    this.usuarioService.update(usuario.key, usuario)
+      .then((usuarioResult) => {
+        usuario = usuarioResult;
         this.success('Conta alterada com sucesso');
       })
   }

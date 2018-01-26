@@ -9,7 +9,8 @@
       "root": "src/web",
       "outDir": "dist",
       "assets": [
-        "assets"
+        "assets",
+        "favicon.ico"
       ],
       "prefix": "web",
       "index": "index.html",

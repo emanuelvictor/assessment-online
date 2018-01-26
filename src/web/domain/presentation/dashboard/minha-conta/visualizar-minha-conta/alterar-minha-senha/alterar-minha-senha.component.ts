@@ -46,12 +46,12 @@ export class AlterarMinhaSenhaComponent implements OnInit {
   ngOnInit() {
   }
 
-  // /**
-  //  *
-  //  * @param event
-  //  */
-  // public alterarMinhaSenha(event: Event): void {
-  //   event.preventDefault();
+  /**
+   *
+   * @param event
+   */
+  public alterarMinhaSenha(event: Event): void {
+    event.preventDefault();
   // this.usuarioService.changeMyPassword(this.atendente.id, this.currentPassword, this.newPassword)
   //   .then(result => {
   //     if (result) {
@@ -59,7 +59,7 @@ export class AlterarMinhaSenhaComponent implements OnInit {
   //       this.openSnackBar("Senha alterada com sucesso");
   //     }
   //   })
-  // }
+  }
 
   /**
    *
