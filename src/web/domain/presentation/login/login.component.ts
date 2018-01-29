@@ -3,7 +3,7 @@ import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
-import {Usuario} from '../../entity/usuario/usuario.model';
+import {Usuario} from '../../entity/usuario/Usuario.model';
 
 /**
  *

@@ -1,25 +1,15 @@
 import {Abstract} from '../abstract/Abstract.model';
 import {Vinculo} from './Vinculo.enum';
+import {Unidade} from '../unidade/Unidade.model';
+import {Usuario} from '../usuario/Usuario.model';
 
 export class Atendente extends Abstract {
 
-  private _vinculo: Vinculo;
+  public unidade: Unidade;
 
-  private _isAtivo: boolean;
+  public colaborador: Usuario;
 
-  get vinculo(): Vinculo {
-    return this._vinculo;
-  }
+  public vinculo: Vinculo;
 
-  set vinculo(value: Vinculo) {
-    this._vinculo = value;
-  }
-
-  get isAtivo(): boolean {
-    return this._isAtivo;
-  }
-
-  set isAtivo(value: boolean) {
-    this._isAtivo = value;
-  }
+  public isAtivo: boolean;
 }

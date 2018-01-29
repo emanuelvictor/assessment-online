@@ -1,15 +1,18 @@
 <mat-nav-list>
-  <div *ngFor="let unidade of unidades">
+  <div *ngFor="let unidade of unidades; index">
 
-    <mat-list-item layout="row" layout-margin (click)="select.open()">
+    <mat-list-item layout='row'
+                   layout-margin
+                   (click)='select.open()'>
       <h3 matLine> {{unidade?.nome}} </h3>
       <p matLine *ngIf="unidade?.endereco?.cidade?.nome">Número {{unidade?.endereco?.numero}},
         {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.bairro}} -
         {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.sigla}}
       </p>
 
-      <mat-form-field flex="30">
-        <mat-select placeholder='Tipo de vínculo' #select>
+      <mat-form-field flex='30'>
+        <mat-select placeholder='Tipo de vínculo'
+                    #select (selectionChange)='save($event, unidade.key, usuario.key)'>
           <mat-option>
             Nenhum
           </mat-option>

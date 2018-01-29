@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
-import {Usuario} from '../entity/usuario/usuario.model';
+import {Usuario} from '../entity/usuario/Usuario.model';
 import {isNullOrUndefined} from 'util';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';

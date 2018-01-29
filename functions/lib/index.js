@@ -101,4 +101,20 @@ exports.deleteUser = functions.https.onRequest((req, res) => {
         res.status(500); //TODO retornar a exception também
     });
 });
+/**
+ * Busca o  usuário  pelo e-mail
+ * @type {HttpsFunction}
+ */
+exports.getUserByEmail = functions.https.onRequest((req, res) => {
+    /**
+     * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
+     */
+    admin.auth().getUserByEmail(req.query.email)
+        .then(usuario => {
+        res.send(usuario);
+    })
+        .catch(exception => {
+        res.status(500); //TODO retornar a exception também
+    });
+});
 //# sourceMappingURL=index.js.map

@@ -4,7 +4,7 @@ import {MatSnackBar} from '@angular/material';
 import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
 import {AuthenticationService} from "../../../../service/authentication.service";
 import {UsuarioService} from "../../../../service/usuario.service";
-import {Usuario} from '../../../../entity/usuario/usuario.model';
+import {Usuario} from '../../../../entity/usuario/Usuario.model';
 
 @Component({
   selector: 'alterar-minha-conta',
