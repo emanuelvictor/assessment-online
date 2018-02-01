@@ -1,18 +1,20 @@
 <mat-nav-list>
-  <div *ngFor="let unidade of unidades; index">
-
+  <!--<div *ngFor="let unidade of unidades; i">-->
+    <div *ngFor="let row of matrix">
+      <div *ngFor="let col of row">
     <mat-list-item layout='row'
                    layout-margin
                    (click)='select.open()'>
-      <h3 matLine> {{unidade?.nome}} </h3>
-      <p matLine *ngIf="unidade?.endereco?.cidade?.nome">Número {{unidade?.endereco?.numero}},
-        {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.bairro}} -
-        {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.sigla}}
+      <h3 matLine> {{col.unidade?.key}} - {{col.unidade?.nome}} </h3>
+      <p matLine *ngIf="col.unidade?.endereco?.cidade?.nome">Número {{col.unidade?.endereco?.numero}},
+        {{col.unidade?.endereco?.logradouro}}, {{col.unidade?.endereco?.bairro}} -
+        {{col.unidade?.endereco?.cidade?.nome}} - {{col.unidade?.endereco?.cidade?.estado?.sigla}}
       </p>
 
       <mat-form-field flex='30'>
-        <mat-select placeholder='Tipo de vínculo'
-                    #select (selectionChange)='save($event, unidade.key, usuario.key)'>
+        <mat-select placeholder='Tipo de vínculo' #select
+                    [(value)]="col.vinculo"
+                    (selectionChange)='save($event, col?.unidade?.key, usuario?.key)'>
           <mat-option>
             Nenhum
           </mat-option>
@@ -28,6 +30,12 @@
         </mat-select>
       </mat-form-field>
     </mat-list-item>
-
+      </div>
   </div>
 </mat-nav-list>
+
+<div layout="row" *ngFor="let row of matrix">
+  <div layout="column" *ngFor="let col of row">
+    <div layout-margin>{{col.vinculo | json}} {{col.unidade.key}}</div>
+  </div>
+</div>

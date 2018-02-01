@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AbstractRepository} from './abstract.repository';
 import {AngularFireDatabase} from 'angularfire2/database';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AtendenteRepository extends AbstractRepository {
@@ -10,9 +11,12 @@ export class AtendenteRepository extends AbstractRepository {
     this.init('atendentes', af)
   }
 
-  // public findUsuarioByEmail(email: string): Observable<any> {
-  //   return this.find().filter((items: any[], index: number) =>
-  //     items[index].email === email
-  //   )
-  // }
+  public findAtendenteByUsuarioKey(key: string): Observable<any> {
+    return this.find().filter((items: any[], index: number) => {
+        if (items[index]) {
+          return items[index].colaborador.key === key
+        }
+      }
+    )
+  }
 }

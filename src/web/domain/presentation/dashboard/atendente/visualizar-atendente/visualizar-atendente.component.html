@@ -1,38 +1,38 @@
-<div layout-align="center center" layout-gt-xs="row" layout-margin>
-  <div layout="row" flex-gt-xs="80" layout-margin>
+<div layout-align='center center' layout-gt-xs='row' layout-margin>
+  <div layout='row' flex-gt-xs='80' layout-margin>
     <div flex layout-margin>
 
-      <mat-card class="bgc-grey-50" layout-margin>
+      <mat-card class='bgc-grey-50' layout-margin>
 
         <!--card informações-->
         <mat-card-content>
 
-          <div layout="row">
-            <div layout="column" style="min-width: 17px">
-              <button *ngIf="activatedRoute?.snapshot?.params?.key"
-                      class="mat-headline tc-grey-500" type="button"
-                      routerLink="../" color="primary" mat-icon-button>
+          <div layout='row'>
+            <div layout='column' style='min-width: 17px'>
+              <button *ngIf='activatedRoute?.snapshot?.params?.key'
+                      class='mat-headline tc-grey-500' type='button'
+                      routerLink='../' color='primary' mat-icon-button>
                 <mat-icon>arrow_back</mat-icon>
               </button>
             </div>
 
-            <visualizar-dados-usuario [usuario]="atendente" *ngIf="atendente?.key" flex>
+            <visualizar-dados-usuario [usuario]='atendente' *ngIf='atendente?.key' flex>
               <!--options-->
 
-              <div layout="column" layout-align="start end" flex>
-                <div layout="row">
-                  <button mat-icon-button routerLink="alterar" class="tc-blue-grey-900">
+              <div layout='column' layout-align='start end' flex>
+                <div layout='row'>
+                  <button mat-icon-button routerLink='alterar' class='tc-blue-grey-900'>
                     <mat-icon>mode_edit</mat-icon>
                   </button>
-                  <button mat-icon-button [matMenuTriggerFor]="menu" class="tc-blue-grey-900">
+                  <button mat-icon-button [matMenuTriggerFor]='menu' class='tc-blue-grey-900'>
                     <mat-icon>more_vert</mat-icon>
                   </button>
-                  <mat-menu #menu="matMenu">
-                    <button mat-menu-item color="primary" (click)="alteraSenha()">
+                  <mat-menu #menu='matMenu'>
+                    <button mat-menu-item color='primary' (click)='alteraSenha()'>
                       <mat-icon>vpn_key</mat-icon>
                       <span>Alterar senha</span>
                     </button>
-                    <button mat-menu-item color="primary" (click)="remove(usuario?.key)">
+                    <button mat-menu-item color='primary' (click)='remove(usuario?.key)'>
                       <mat-icon>delete</mat-icon>
                       <span>Remover</span>
                     </button>
@@ -44,21 +44,21 @@
         </mat-card-content>
       </mat-card>
       <mat-accordion>
-        <mat-expansion-panel class='bgc-grey-50' [expanded]="true">
+        <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
           <!--<mat-expansion-panel-header>-->
-            <!--<mat-panel-title>-->
-              <!--Unidades-->
-            <!--</mat-panel-title>-->
-            <!--<mat-panel-description>-->
-              <!--Vincule unidades ao atendente-->
-            <!--</mat-panel-description>-->
+          <!--<mat-panel-title>-->
+          <!--Unidades-->
+          <!--</mat-panel-title>-->
+          <!--<mat-panel-description>-->
+          <!--Vincule unidades ao atendente-->
+          <!--</mat-panel-description>-->
           <!--</mat-expansion-panel-header>-->
-          <vincular-unidade [usuario]="atendente"></vincular-unidade>
+          <vincular-unidade [usuario]='atendente' *ngIf='atendente?.key'></vincular-unidade>
 
           <!--<mat-nav-list>-->
-            <!--<mat-list-item layout="row" layout-margin>-->
-              <!--<h3 matLine> novo </h3>-->
-            <!--</mat-list-item>-->
+          <!--<mat-list-item layout='row' layout-margin>-->
+          <!--<h3 matLine> novo </h3>-->
+          <!--</mat-list-item>-->
           <!--</mat-nav-list>-->
         </mat-expansion-panel>
       </mat-accordion>
