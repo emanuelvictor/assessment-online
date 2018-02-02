@@ -20,6 +20,12 @@ export class VincularUnidadeComponent implements OnInit {
 
   /**
    *
+   * @type {Array}
+   */
+  public atendentes = [];
+
+  /**
+   *
    */
   @Input()
   usuario: Usuario;
@@ -43,8 +49,6 @@ export class VincularUnidadeComponent implements OnInit {
     this.listUnidadesByFilters();
   }
 
-  matrix = [[]];
-
   /**
    * Consulta de unidades
    *
@@ -61,49 +65,57 @@ export class VincularUnidadeComponent implements OnInit {
   /**
    *
    * @param $event
-   * @param unidadeKey
-   * @param usuarioKey
+   * @param atendente
    */
-  public save($event, unidadeKey, usuarioKey): void {
-
-    const atendente: Atendente = new Atendente();
-
-    atendente.unidade = new Unidade();
-    atendente.colaborador = new Usuario();
-
-    atendente.unidade.key = unidadeKey;
-    atendente.colaborador.key = usuarioKey;
-
+  public save($event, atendente: Atendente): void {
+    console.log($event);
     atendente.isAtivo = true;
 
     atendente.vinculo = $event.value;
 
-    this.atendenteService.save(atendente);
+    if (!atendente.key) {
+      if (atendente.vinculo)
+        this.atendenteService.save(atendente);
+    } else {
+      if (atendente.vinculo)
+        this.atendenteService.update(atendente.key, atendente);
+      else
+        this.atendenteService.remove(atendente.key);
+    }
   }
 
+  /**
+   *
+   */
   private createMatrix() {
     this.unidadeService.find().subscribe(unidades => {
-      this.atendenteService.findAtendenteByUsuarioKey(this.usuario.key).toPromise().then(atendentes => {
-        console.log('asdfa');
+      this.atendenteService.findAtendenteByUsuarioKey(this.usuario.key).subscribe(result => {
+        this.atendentes = [];
+
         for (let i = 0; i < unidades.length; i++) {
-          // this.matrix[i] = [];
-          for (let k = 0; k < unidades.length; k++) {
-            if (atendentes[k] /*&& atendentes[k].unidade.key === unidades[i].key*/){
-              // if (atendentes[k].unidade.key === unidades[i].key){
-                this.matrix[i][k] = atendentes[k];
-                this.matrix[i][k].unidade = unidades.filter( (value, index, array) => value.key === this.matrix[i][k].unidade.key)[0];
-              // }
-            } else {
-              this.matrix[i][k] = {
-                vinculo : 'Nenhum',
-                unidade : unidades[k],
-                isAtivo : false,
-                colaborador : this.usuario
+          this.atendentes.push({
+            vinculo: 'Nenhum',
+            unidade: unidades[i],
+            isAtivo: false,
+            colaborador: this.usuario
+          });
+        }
+
+        if (result.length) {
+          for (let i = 0; i < this.atendentes.length; i++) {
+            for (let k = 0; k < result.length; k++) {
+
+              if (result[k].unidade.key === this.atendentes[i].unidade.key) {
+                // if (atendentes[k].unidade.key === unidades[i].key){
+                const unidadeTemp = this.atendentes[i].unidade;
+                this.atendentes[i] = result[k];
+                this.atendentes[i].unidade = unidadeTemp;
+                // }
               }
             }
           }
         }
-      }).catch(exception => console.log('pau'));
+      });
     });
   }
 
