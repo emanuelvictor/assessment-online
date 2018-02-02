@@ -1,6 +1,8 @@
 import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
 import * as firebase from 'firebase';
+import * as _ from 'underscore';
+import {isUndefined} from 'util';
 
 export abstract class AbstractRepository {
 
@@ -51,16 +53,35 @@ export abstract class AbstractRepository {
   }
 
   public save(item: any): PromiseLike<any> {
+
+    this.removeNullProperties(item);
+
+    if (item && item.key)
+      return this.update(item.key, item);
     return this._itemsRef.push(item);
   }
 
-  public update(key: string, item: any): Promise<any> {
+  private update(key: string, item: any): Promise<any> {
     return this._itemsRef.update(key, item);
   }
 
   public remove(key: string): Promise<any> {
-    console.log('key', key);
     return this._itemsRef.remove(key);
+  }
+
+  /**
+   *
+   * @param test
+   */
+  public removeNullProperties(test) {
+    for (const i in test) {
+      if (test[i] === null || isUndefined(test[i])) {
+        delete test[i];
+        this.remove(test.key + '/' + i);
+      } else if (typeof test[i] === 'object') {
+        this.removeNullProperties(test[i]);
+      }
+    }
   }
 
   /**

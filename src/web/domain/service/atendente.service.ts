@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AtendenteRepository} from '../repository/atendente.repository';
+import {Atendente} from '../entity/atendente/Atendente.model';
 
 @Injectable()
 export class AtendenteService {
@@ -21,12 +22,8 @@ export class AtendenteService {
     return this.atendenteRepository.find();
   }
 
-  public save(item: any): PromiseLike<any> {
+  public save(item: Atendente): PromiseLike<any> {
     return this.atendenteRepository.save(item);
-  }
-
-  public update(key: string, item: any): Promise<any> {
-    return this.atendenteRepository.update(key, item);
   }
 
   public remove(key: string): Promise<any> {

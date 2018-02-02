@@ -5,6 +5,7 @@ import {UnidadeService} from '../../../../../service/unidade.service';
 import {AtendenteService} from '../../../../../service/atendente.service';
 import {Atendente} from '../../../../../entity/atendente/Atendente.model';
 import {Unidade} from '../../../../../entity/unidade/Unidade.model';
+import {Vinculo} from '../../../../../entity/atendente/Vinculo.enum';
 
 @Component({
   selector: 'vincular-unidade',
@@ -67,21 +68,8 @@ export class VincularUnidadeComponent implements OnInit {
    * @param $event
    * @param atendente
    */
-  public save($event, atendente: Atendente): void {
-    console.log($event);
-    atendente.isAtivo = true;
-
-    atendente.vinculo = $event.value;
-
-    if (!atendente.key) {
-      if (atendente.vinculo)
-        this.atendenteService.save(atendente);
-    } else {
-      if (atendente.vinculo)
-        this.atendenteService.update(atendente.key, atendente);
-      else
-        this.atendenteService.remove(atendente.key);
-    }
+  public save(atendente: Atendente = new Atendente()): void {
+    this.atendenteService.save(atendente);
   }
 
   /**
@@ -96,7 +84,6 @@ export class VincularUnidadeComponent implements OnInit {
           this.atendentes.push({
             vinculo: 'Nenhum',
             unidade: unidades[i],
-            isAtivo: false,
             colaborador: this.usuario
           });
         }
@@ -106,12 +93,11 @@ export class VincularUnidadeComponent implements OnInit {
             for (let k = 0; k < result.length; k++) {
 
               if (result[k].unidade.key === this.atendentes[i].unidade.key) {
-                // if (atendentes[k].unidade.key === unidades[i].key){
                 const unidadeTemp = this.atendentes[i].unidade;
                 this.atendentes[i] = result[k];
                 this.atendentes[i].unidade = unidadeTemp;
-                // }
               }
+
             }
           }
         }

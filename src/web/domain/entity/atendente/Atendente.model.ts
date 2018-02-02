@@ -11,5 +11,8 @@ export class Atendente extends Abstract {
 
   public vinculo: Vinculo;
 
-  public isAtivo: boolean;
+  constructor() {
+    super();
+    this.vinculo = Vinculo.Nenhum;
+  }
 }

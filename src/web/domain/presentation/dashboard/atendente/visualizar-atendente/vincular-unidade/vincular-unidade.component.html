@@ -4,7 +4,7 @@
     <mat-list-item layout='row'
                    layout-margin
                    (click)='select.open()'>
-      <h3 matLine> {{atendente.unidade?.key}} - {{atendente.unidade?.nome}} </h3>
+      <h3 matLine>{{atendente.unidade?.nome}} </h3>
       <p matLine *ngIf="atendente.unidade?.endereco?.cidade?.nome">Número {{atendente.unidade?.endereco?.numero}},
         {{atendente.unidade?.endereco?.logradouro}}, {{atendente.unidade?.endereco?.bairro}} -
         {{atendente.unidade?.endereco?.cidade?.nome}} - {{atendente.unidade?.endereco?.cidade?.estado?.sigla}}
@@ -13,7 +13,7 @@
       <mat-form-field flex='30'>
         <mat-select placeholder='Tipo de vínculo' #select
                     [(value)]="atendente.vinculo"
-                    (selectionChange)='save($event, atendente)'>
+                    (selectionChange)='save(atendente)'>
           <mat-option>
             Nenhum
           </mat-option>

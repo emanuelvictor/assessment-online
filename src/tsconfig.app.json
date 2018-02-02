@@ -4,7 +4,9 @@
     "outDir": "../out-tsc/web",
     "module": "es2015",
     "baseUrl": "web",
-    "types": []
+    "types": [
+      "underscore"
+    ]
   },
   "exclude": [
     "test.ts",

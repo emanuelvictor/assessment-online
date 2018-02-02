@@ -62,7 +62,7 @@ export class AlterarAtendenteComponent implements OnInit {
    * @param atendente
    */
   public update(atendente): void {
-    this.usuarioService.update(atendente.key, atendente).then(result => {
+    this.usuarioService.save(atendente).then(result => {
       if (atendente.email && atendente.email.length) {
         // this.authenticationService.getNativeFirebaseInstance().auth().createUserWithEmailAndPassword(atendente.email, '123456789')
         //   .then(result => console.log(result))

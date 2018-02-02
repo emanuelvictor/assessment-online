@@ -69,7 +69,7 @@ export class AlterarUnidadeComponent implements OnInit {
    *
    */
   public update(unidade: Unidade): void {
-    this.unidadeService.update(unidade.key, unidade)
+    this.unidadeService.save(unidade)
       .then((result) => {
         unidade = result;
         this.success('Unidades alterado com sucesso');

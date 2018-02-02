@@ -20,10 +20,6 @@ export class UnidadeService {
     return this.unidadeRepository.save(item);
   }
 
-  public update(key: string, item: any): Promise<any> {
-    return this.unidadeRepository.update(key, item);
-  }
-
   public remove(key: string): Promise<any> {
     return this.unidadeRepository.remove(key);
   }

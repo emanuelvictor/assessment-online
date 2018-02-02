@@ -55,7 +55,7 @@ export class AlterarMinhaContaComponent implements OnInit {
    *
    */
   public update(usuario): void {
-    this.usuarioService.update(usuario.key, usuario)
+    this.usuarioService.save(usuario)
       .then((usuarioResult) => {
         usuario = usuarioResult;
         this.success('Conta alterada com sucesso');
