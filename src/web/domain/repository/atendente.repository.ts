@@ -13,10 +13,7 @@ export class AtendenteRepository extends AbstractRepository {
 
   public findAtendenteByUsuarioKey(key: string): Observable<any> {
     return this.find().filter((items: any[], index: number) => {
-        if (items[index]) {
-          return items[index].colaborador.key === key
-        }
-      }
-    )
+      return items[index] && items[index].colaborador.key === key
+    })
   }
 }

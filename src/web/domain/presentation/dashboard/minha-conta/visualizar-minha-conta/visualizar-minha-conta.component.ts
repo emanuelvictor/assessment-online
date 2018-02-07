@@ -46,13 +46,6 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
               public snackBar: MatSnackBar,
               public usuarioService: UsuarioService,
               public authenticationService: AuthenticationService) {
-    // this.userSubscription = authenticationService
-    //   .authenticatedUserChanged.subscribe((user) => {
-    //     this.usuario = user;
-        this.usuarioService.findUsuarioByEmail('admin@admin.com').subscribe(result => {
-            this.usuario = result[0];
-          });
-      // });
   }
 
   /**
@@ -66,8 +59,8 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
    *
    */
   ngOnInit(): void {
-    this.usuarioService.findUsuarioByEmail('admin@admin.com').subscribe(result => {
-      this.usuario = result[0];
+    this.usuarioService.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email).subscribe(result => {
+      this.usuario = result;
     });
   }
 

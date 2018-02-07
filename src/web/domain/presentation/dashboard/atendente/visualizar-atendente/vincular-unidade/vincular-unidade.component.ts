@@ -77,7 +77,10 @@ export class VincularUnidadeComponent implements OnInit {
    */
   private createMatrix() {
     this.unidadeService.find().subscribe(unidades => {
-      this.atendenteService.findAtendenteByUsuarioKey(this.usuario.key).subscribe(result => {
+
+      this.atendenteService.findAtendenteByUsuarioKey(this.usuario.key).toPromise().then(result => {
+
+        console.log('aqui');
         this.atendentes = [];
 
         for (let i = 0; i < unidades.length; i++) {

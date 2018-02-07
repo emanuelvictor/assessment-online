@@ -18,8 +18,7 @@ export class AtendenteService {
   }
 
   public findAtendenteByUsuarioKey(key: string): Observable<any> {
-    // return this.atendenteRepository.findAtendenteByUsuarioKey(key);
-    return this.atendenteRepository.find();
+    return this.atendenteRepository.findAtendenteByUsuarioKey(key);
   }
 
   public save(item: Atendente): PromiseLike<any> {

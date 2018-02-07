@@ -12,8 +12,6 @@ export class UsuarioRepository extends AbstractRepository {
   }
 
   public findUsuarioByEmail(email: string): Observable<any> {
-    return this.find().filter((items: any[], index: number) =>
-      items[index].email === email
-    )
+    return this.find().map(epics => epics.filter(epic => epic.email === email)[0]);
   }
 }

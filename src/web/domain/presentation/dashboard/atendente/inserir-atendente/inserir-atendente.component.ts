@@ -1,14 +1,12 @@
-import {Component, OnInit} from "@angular/core";
-import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
-import {UsuarioService} from "../../../../service/usuario.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Http} from "@angular/http";
-import {MatSnackBar} from "@angular/material";
-import {Atendente} from "../../../../entity/atendente/Atendente.model";
-import {AngularFireAuth} from "angularfire2/auth";
-import * as firebase from 'firebase';
-import {environment} from "../../../../../../environments/environment";
-import {AuthenticationService} from "../../../../service/authentication.service";
+import {Component, OnInit} from '@angular/core';
+import {textMasks} from '../../../../../application/controls/text-masks/text-masks';
+import {UsuarioService} from '../../../../service/usuario.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Http} from '@angular/http';
+import {MatSnackBar} from '@angular/material';
+import {Atendente} from '../../../../entity/atendente/Atendente.model';
+import {AuthenticationService} from '../../../../service/authentication.service';
+import {Usuario} from '../../../../entity/usuario/Usuario.model';
 
 @Component({
   selector: 'inserir-atendente',
@@ -24,9 +22,9 @@ export class InserirAtendenteComponent implements OnInit {
 
   /**
    *
-   * @type {Atendente}
+   * @type {Usuario}
    */
-  atendente: Atendente = new Atendente();
+  atendente: Usuario = new Usuario();
 
   /**
    *
@@ -51,18 +49,18 @@ export class InserirAtendenteComponent implements OnInit {
    *
    */
   public save(): void {
-    // this.usuarioService.save(this.atendente).then(result => {
-    //
-      // if (this.atendente.email && this.atendente.email.length) { TODO
-      //   this.authenticationService.getNativeFirebaseInstance().auth().createUserWithEmailAndPassword(this.atendente.email, '123456789')
-      //     .then(result => console.log(result))
-      //     .catch(exception => console.log(exception));
-      // }
-    //
-    //   // TODO WHATA???
-    //   this.atendente = result;
-    //   this.success('Atendente inserido com sucesso');
-    // })
+    this.usuarioService.save(this.atendente).then(result => {
+
+      if (this.atendente.email && this.atendente.email.length) { //TODO
+        // this.authenticationService.getNativeFirebaseInstance().auth().createUserWithEmailAndPassword(this.atendente.email, '123456789')
+        //   .then(result => console.log(result))
+        //   .catch(exception => console.log(exception));
+      }
+
+      // TODO WHATA???
+      this.atendente = result;
+      this.success('Atendente inserido com sucesso');
+    })
   }
 
   /**
