@@ -44,21 +44,6 @@ export class VincularUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.populateData();
-  }
-
-  /**
-   *
-   * @param {Atendente} atendente
-   */
-  public save(atendente: Atendente = new Atendente()): void {
-    this.atendenteService.save(atendente);
-  }
-
-  /**
-   *
-   */
-  private populateData() {
     this.unidadeService.find().subscribe(unidades => {
 
       this.atendentes = [];
@@ -69,9 +54,8 @@ export class VincularUnidadeComponent implements OnInit {
           colaborador: this.usuario
         });
       }
-      console.log(this.usuario.key);
+
       this.atendenteService.findAtendenteByUsuarioKey(this.usuario.key).subscribe(result => {
-        console.log('sdasfa');
         if (result.length) {
 
           for (let i = 0; i < this.atendentes.length; i++) {
@@ -87,5 +71,13 @@ export class VincularUnidadeComponent implements OnInit {
         }
       });
     });
+  }
+
+  /**
+   *
+   * @param {Atendente} atendente
+   */
+  public save(atendente: Atendente = new Atendente()): void {
+    this.atendenteService.save(atendente);
   }
 }

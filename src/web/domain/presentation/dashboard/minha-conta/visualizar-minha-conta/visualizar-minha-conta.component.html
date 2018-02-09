@@ -24,11 +24,18 @@
                 </mat-menu>
               </div>
             </div>
-          </visualizar-dados-usuario>
 
+          </visualizar-dados-usuario>
         </mat-card-content>
 
       </mat-card>
+
+      <mat-accordion>
+        <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
+          <visualizar-vinculo-unidade [usuario]='usuario' *ngIf='usuario?.key'></visualizar-vinculo-unidade>
+        </mat-expansion-panel>
+      </mat-accordion>
+
     </div>
   </div>
 </div>

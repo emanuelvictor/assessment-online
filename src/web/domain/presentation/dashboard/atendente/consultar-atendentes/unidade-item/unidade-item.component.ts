@@ -39,24 +39,8 @@ export class UnidadeItemComponent implements OnInit {
    *
    */
   ngOnInit() {
-
-    // this.unidadeService.find().subscribe(unidades => {
-      this.atendenteService.findAtendenteByUsuarioKey(this.atendente.key).subscribe(result => {
-        this.atendentes = [];
-        if (result.length) {
-          for (let i = 0; i < this.atendentes.length; i++) {
-            for (let k = 0; k < result.length; k++) {
-
-              if (result[k].unidade.key === this.atendentes[i].unidade.key) {
-                const unidadeTemp = this.atendentes[i].unidade;
-                this.atendentes[i] = result[k];
-                this.atendentes[i].unidade = unidadeTemp;
-              }
-
-            }
-          }
-        }
-      });
-    // });
+    this.atendenteService.findAtendenteByUsuarioKey(this.atendente.key).subscribe(result => {
+      this.atendentes = result;
+    });
   }
 }

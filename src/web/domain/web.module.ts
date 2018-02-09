@@ -64,6 +64,7 @@ import {VisualizarDadosUsuarioComponent} from './presentation/dashboard/atendent
 import {VincularUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/vincular-unidade/vincular-unidade.component';
 import {AtendenteService} from './service/atendente.service';
 import {AtendenteRepository} from './repository/atendente.repository';
+import {VisualizarVinculoUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-vinculo-unidade/visualizar-vinculo-unidade.component';
 
 /**
  *
@@ -111,6 +112,7 @@ import {AtendenteRepository} from './repository/atendente.repository';
     AlterarAtendenteComponent,
     VisualizarAtendenteComponent,
     VincularUnidadeComponent,
+    VisualizarVinculoUnidadeComponent,
 
     // Password
     AlterarMinhaSenhaComponent,

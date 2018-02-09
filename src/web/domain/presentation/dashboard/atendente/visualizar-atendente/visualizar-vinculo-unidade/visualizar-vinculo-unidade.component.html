@@ -1,0 +1,24 @@
+<mat-nav-list>
+  <div *ngFor="let atendente of atendentes">
+    <mat-list-item layout='row'
+                   disableRipple
+                   layout-margin>
+      <h3 matLine *ngIf="atendente.vinculo === 'Atendente'">
+        <strong style='color: rgb(94, 124, 139)'> Atendente</strong>
+        {{'em: ' + atendente.unidade?.nome}}
+      </h3>
+      <h3 matLine *ngIf="atendente.vinculo === 'Supervisor'">
+        <strong style='color: rgb(139,73,82)'> Supervisor</strong>
+        {{'em: ' + atendente.unidade?.nome}}
+      </h3>
+      <h3 matLine *ngIf="atendente.vinculo === 'SupervisorAtendente'">
+        <strong style='color: rgb(107,176,121)'> Supervisor e atendente</strong>
+        {{'em: ' + atendente.unidade?.nome}}
+      </h3>
+      <p matLine *ngIf="atendente.unidade?.endereco?.cidade?.nome">Número {{atendente.unidade?.endereco?.numero}},
+        {{atendente.unidade?.endereco?.logradouro}}, {{atendente.unidade?.endereco?.bairro}} -
+        {{atendente.unidade?.endereco?.cidade?.nome}} - {{atendente.unidade?.endereco?.cidade?.estado?.sigla}}
+      </p>
+    </mat-list-item>
+  </div>
+</mat-nav-list>

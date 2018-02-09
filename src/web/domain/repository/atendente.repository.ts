@@ -12,6 +12,6 @@ export class AtendenteRepository extends AbstractRepository {
   }
 
   public findAtendenteByUsuarioKey(key: string): Observable<any> {
-    return this.find().map(items => items.filter(item => item.colaborador.key === key)[0]);
+    return this.find().map(items => items.filter(item => item.colaborador.key === key));
   }
 }
