@@ -43,23 +43,12 @@
           </div>
         </mat-card-content>
       </mat-card>
+
       <mat-accordion>
         <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
-          <!--<mat-expansion-panel-header>-->
-          <!--<mat-panel-title>-->
-          <!--Unidades-->
-          <!--</mat-panel-title>-->
-          <!--<mat-panel-description>-->
-          <!--Vincule unidades ao atendente-->
-          <!--</mat-panel-description>-->
-          <!--</mat-expansion-panel-header>-->
+
           <vincular-unidade [usuario]='atendente' *ngIf='atendente?.key'></vincular-unidade>
 
-          <!--<mat-nav-list>-->
-          <!--<mat-list-item layout='row' layout-margin>-->
-          <!--<h3 matLine> novo </h3>-->
-          <!--</mat-list-item>-->
-          <!--</mat-nav-list>-->
         </mat-expansion-panel>
       </mat-accordion>
 

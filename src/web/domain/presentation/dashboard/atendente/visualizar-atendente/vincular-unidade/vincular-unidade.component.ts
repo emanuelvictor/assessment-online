@@ -4,8 +4,6 @@ import {Usuario} from '../../../../../entity/usuario/Usuario.model';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {AtendenteService} from '../../../../../service/atendente.service';
 import {Atendente} from '../../../../../entity/atendente/Atendente.model';
-import {Unidade} from '../../../../../entity/unidade/Unidade.model';
-import {Vinculo} from '../../../../../entity/atendente/Vinculo.enum';
 
 @Component({
   selector: 'vincular-unidade',
@@ -46,27 +44,12 @@ export class VincularUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.createMatrix();
-    this.listUnidadesByFilters();
-  }
-
-  /**
-   * Consulta de unidades
-   *
-   */
-  public listUnidadesByFilters() {
-    this.unidadeService.find().subscribe(result => {
-      this.unidades = result;
-      // this.atendenteService.findAtendenteByUsuarioKey(this.usuario.key).subscribe(colaboradores => {
-      //
-      // });
-    });
+    this.populateData();
   }
 
   /**
    *
-   * @param $event
-   * @param atendente
+   * @param {Atendente} atendente
    */
   public save(atendente: Atendente = new Atendente()): void {
     this.atendenteService.save(atendente);
@@ -75,37 +58,34 @@ export class VincularUnidadeComponent implements OnInit {
   /**
    *
    */
-  private createMatrix() {
+  private populateData() {
     this.unidadeService.find().subscribe(unidades => {
 
-      this.atendenteService.findAtendenteByUsuarioKey(this.usuario.key).toPromise().then(result => {
-
-        console.log('aqui');
-        this.atendentes = [];
-
-        for (let i = 0; i < unidades.length; i++) {
-          this.atendentes.push({
-            vinculo: 'Nenhum',
-            unidade: unidades[i],
-            colaborador: this.usuario
-          });
-        }
-
+      this.atendentes = [];
+      for (let i = 0; i < unidades.length; i++) {
+        this.atendentes.push({
+          vinculo: 'Nenhum',
+          unidade: unidades[i],
+          colaborador: this.usuario
+        });
+      }
+      console.log(this.usuario.key);
+      this.atendenteService.findAtendenteByUsuarioKey(this.usuario.key).subscribe(result => {
+        console.log('sdasfa');
         if (result.length) {
+
           for (let i = 0; i < this.atendentes.length; i++) {
             for (let k = 0; k < result.length; k++) {
-
               if (result[k].unidade.key === this.atendentes[i].unidade.key) {
                 const unidadeTemp = this.atendentes[i].unidade;
                 this.atendentes[i] = result[k];
                 this.atendentes[i].unidade = unidadeTemp;
               }
-
             }
           }
+
         }
       });
     });
   }
-
 }
