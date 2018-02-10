@@ -31,6 +31,6 @@ export class LoginComponent {
   public login() {
     this.authenticationService.login(this.usuario).then(result => {
       this.router.navigate(['/']);
-    });
+    }).catch( exception => this.snackBar.open('Login ou senha não coincidem!', 'Fechar'));
   }
 }

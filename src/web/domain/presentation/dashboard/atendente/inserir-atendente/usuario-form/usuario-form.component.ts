@@ -19,11 +19,6 @@ export class AtendenteFormComponent implements OnInit {
   /**
    *
    */
-  public unidadeSelected: any = [];
-
-  /**
-   *
-   */
   public unidadesList: any[];
 
   /**

@@ -5,6 +5,7 @@ import {UnidadeService} from '../../../../../service/unidade.service';
 import {Unidade} from '../../../../../entity/unidade/Unidade.model';
 import {Atendente} from '../../../../../entity/atendente/Atendente.model';
 import {AtendenteService} from '../../../../../service/atendente.service';
+import {Usuario} from "../../../../../entity/usuario/Usuario.model";
 
 @Component({
   selector: 'unidade-item',
@@ -22,7 +23,7 @@ export class UnidadeItemComponent implements OnInit {
    *
    */
   @Input()
-  public atendente: Atendente;
+  public atendente: Usuario;
 
   /**
    *
@@ -39,8 +40,13 @@ export class UnidadeItemComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.atendenteService.findAtendenteByUsuarioKey(this.atendente.key).subscribe(result => {
-      this.atendentes = result;
+    this.atendenteService.findAtendenteByUsuarioKey(this.atendente.key).subscribe(atendentes => {
+      this.atendentes = [];
+      for (let i = 0; i < atendentes.length; i++) {
+        if (atendentes[i].vinculo) {
+          this.atendentes.push(atendentes[i]);
+        }
+      }
     });
   }
 }

@@ -46,9 +46,9 @@ export class AlterarMinhaContaComponent implements OnInit {
    *
    */
   public getAuthenticatedUser() {
-    // this.authenticationService.getPromiseAuthenticatedUser().then(result => {
-    //   this.usuario = result;
-    // });
+    const email = this.authenticationService.getAuthenticatedUser().email;
+    this.usuarioService.findUsuarioByEmail(email)
+      .subscribe(usuario => this.usuario = usuario)
   }
 
   /**
