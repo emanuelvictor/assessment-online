@@ -5,9 +5,10 @@ import {Usuario} from '../entity/usuario/Usuario.model';
 import {isNullOrUndefined} from 'util';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
-export class AuthenticationService implements CanActivate, CanActivateChild {
+export class  AuthenticationService implements CanActivate, CanActivateChild {
 
   /**
    *
@@ -23,8 +24,9 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    *
    * @param {AngularFireAuth} afAuth
    * @param {Router} router
+   * @param {HttpClient} httpClient
    */
-  constructor(private afAuth: AngularFireAuth, private router: Router) {
+  constructor(private afAuth: AngularFireAuth, private router: Router, private httpClient : HttpClient) {
 
     this.authenticatedUserChanged = new EventEmitter();
 
@@ -82,6 +84,13 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    */
   public login(usuario: Usuario): Promise<any> {
     return this.afAuth.auth.signInWithEmailAndPassword(usuario.email, usuario.password).then(result => this.setAuthenticatedUser({'email': result.email}));
+  }
+
+  /**
+   *
+   */
+  public save(usuario: Usuario): Promise<Usuario> {
+    return this.httpClient.post<Usuario>('https://us-central1-assessment-online.cloudfunctions.net/createUser',usuario).toPromise();
   }
 
   /**
