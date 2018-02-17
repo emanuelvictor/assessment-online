@@ -28,9 +28,9 @@ import {AngularFireDatabase} from "angularfire2/database";
 import {AvaliarComponent} from "./presentation/avaliacao/avaliar/avaliar.component";
 import {AvaliacaoComponent} from "./presentation/avaliacao/avaliacao.component";
 import {ConclusaoComponent} from "./presentation/avaliacao/conclusao/conclusao.component";
-import {SelecionarAtendenteComponent} from "./presentation/avaliacao/selecionar-atendente/selecionar-atendente.component";
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/selecionar-unidade/selecionar-unidade.component";
 import {AvaliacaoService} from "./presentation/avaliacao/AvaliacaoService";
+import {SelecionarAtendentesComponent} from "./presentation/avaliacao/selecionar-atendentes/selecionar-atendentes.component";
 
 /**
  *
@@ -39,7 +39,7 @@ import {AvaliacaoService} from "./presentation/avaliacao/AvaliacaoService";
   declarations: [
     MobileComponent,
     SelecionarUnidadeComponent,
-    SelecionarAtendenteComponent,
+    SelecionarAtendentesComponent,
     ConclusaoComponent,
     AvaliacaoComponent,
     AvaliarComponent

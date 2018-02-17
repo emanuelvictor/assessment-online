@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AvaliacaoService} from '../AvaliacaoService';
-import {AngularFireDatabase} from 'angularfire2/database';
-import {FirebaseListObservable} from "angularfire2/database-deprecated";
+import {UnidadeService} from "../../../../../web/domain/service/unidade.service";
 
 @Component({
   selector: 'app-selecionar-unidade',
@@ -19,20 +18,26 @@ export class SelecionarUnidadeComponent implements OnInit {
   /**
    *
    */
-  unidades: FirebaseListObservable<any[]>;
+  unidades: any;
 
   /**
    *
+   * @param {Router} router
+   * @param {AvaliacaoService} avaliacaoService
+   * @param {UnidadeService} unidadeService
    */
-  constructor(private router: Router, private avaliacaoService: AvaliacaoService, private angularFire: AngularFireDatabase) {
-    // this.unidades = this.angularFire.list('/unidades');
+  constructor(private router: Router, private avaliacaoService: AvaliacaoService, private unidadeService: UnidadeService) {
+    this.unidadeService.find().subscribe(unidades => {
+      console.log(unidades);
+      this.unidades = unidades;
+    });
   }
 
   /**
    *
    */
   ngOnInit() {
-    // this.angularFire.list('/unidades').subscribe(unidades => {
+    // this.unidadeService.find().subscribe(unidades => {
     //   this.avaliacaoService.setUnidades(unidades);
     //   if (this.avaliacaoService.getUnidade() != null) {
     //     this.router.navigate(['avaliar']);

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "web": "ng serve -a web",
-    "mobile": "ng serve -a mobile --port 9000",
+    "web": "ng serve -a web --open",
+    "mobile": "ng serve -a mobile --port 9000 --open",
     "start": "ng serve -a web",
     "mavenbuild": "node --max_old_space_size=8192 node_modules/.bin/ng build -a web --prod",
     "ng-high-mem": "node --max_old_space_size=8192 node_modules/.bin/ng"

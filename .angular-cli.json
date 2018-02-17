@@ -36,10 +36,9 @@
     {
       "name": "mobile",
       "root": "src/mobile",
-      "deployUrl": "./modules/mobile/",
-      "outDir": "../resources/META-INF/resources/modules/mobile",
+      "outDir": "dist/mobile/",
       "assets": [
-        "assets"
+        "mobile-assets"
       ],
       "prefix": "mobile",
       "index": "index.html",
