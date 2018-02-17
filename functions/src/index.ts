@@ -16,24 +16,6 @@ admin.initializeApp({
 // Start writing Firebase Functions
 // https://firebase.google.com/functions/write-firebase-functions
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  // response.send("Hello World!");
-  response.send('Hello World!');
-});
-
-// Take the text parameter passed to this HTTP endpoint and insert it into the
-// Realtime Database under the path /messages/:pushId/original
-exports.addUnidade = functions.https.onRequest((req, res) => {
-  // Push the new message into the Realtime Database using the Firebase Admin SDK.
-  admin.database().ref('unidades').push({
-    'nome': 'test',
-    'endereco': 'test',
-  }).then(snapshot => {
-    // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
-    res.redirect(303, snapshot.ref);
-  });
-});
-
 /**
  * Cria o usuário
  * @type {HttpsFunction}
