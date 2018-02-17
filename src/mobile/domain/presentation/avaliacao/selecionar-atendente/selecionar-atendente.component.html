@@ -1,0 +1,31 @@
+<mat-card-title class="push">
+  <div layout="column"
+       layout-align="center center">
+    Selecione um ou mais atendentes
+  </div>
+</mat-card-title>
+<mat-card-content>
+  <mat-nav-list class="no-padding" style="cursor: pointer">
+
+    <mat-list-item layout="row" layout-align="center center" *ngFor="let atendente of atendentes"
+                  (click)="atendente.selected = !atendente.selected"
+                  [ngStyle]="{'background-color': (atendente.selected ? '#c9e5fd' : '')}">
+      <div mat-list-avatar>
+        <!--<avatar class="image-cover" [atendente]="atendente" [size]="0.4"></avatar>-->
+      </div>
+      <div class="push-left" style="margin-top: 7px"> {{atendente.nome}}</div>
+    </mat-list-item>
+  </mat-nav-list>
+</mat-card-content>
+<mat-card-actions>
+  <div layout-align="center end"
+       layout="column"
+       layout-margin>
+    <button layout-align="center end"
+            mat-button
+            color="primary"
+            (click)="concluir()">
+      Concluir
+    </button>
+  </div>
+</mat-card-actions>

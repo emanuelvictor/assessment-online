@@ -1,0 +1,15 @@
+<mat-card-title class="push">
+  Selecione uma unidade
+</mat-card-title>
+<mat-card-content>
+  <div layout="column" layout-margin>
+    <mat-select flex name="unidade" class="mat-select-mobile"
+               placeholder="Unidade de atendimento"
+               [(ngModel)]="model"
+               floatPlaceholder="auto">
+      <mat-option class="mat-option-mobile" *ngFor="let unidade of unidades | async" [value]="unidade.nome" (click)="selecionar(unidade)">
+        {{ unidade.nome }}
+      </mat-option>
+    </mat-select>
+  </div>
+</mat-card-content>

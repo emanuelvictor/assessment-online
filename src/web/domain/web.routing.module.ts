@@ -19,7 +19,6 @@ import {AuthenticationService} from './service/authentication.service';
 
 
 const routes: Routes = [
-
   {
     path: '', redirectTo: 'dashboard/minha-conta', pathMatch: 'full'
   },

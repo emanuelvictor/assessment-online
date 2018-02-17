@@ -45,6 +45,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {NoSubmitDirective} from "../web/application/controls/no-sumbit/no-submit.directive";
 import {DocumentoPipe} from "../web/application/controls/documento-pipe/documento-pipe";
 import {VirgulaPipe} from "../web/application/controls/virgula-pipe/peso-pipe";
+import {AvatarComponent} from "../web/application/controls/avatar/avatar.component";
 
 /**
  *
@@ -55,7 +56,7 @@ import {VirgulaPipe} from "../web/application/controls/virgula-pipe/peso-pipe";
     NoSubmitDirective,
     DocumentoPipe,
     VirgulaPipe,
-
+    AvatarComponent,
     // Authentication
     LoginComponent
   ],
@@ -100,6 +101,7 @@ import {VirgulaPipe} from "../web/application/controls/virgula-pipe/peso-pipe";
     MatAutocompleteModule,
   ],
   exports: [
+    AvatarComponent,
     //Components
     NoSubmitDirective,
     DocumentoPipe,

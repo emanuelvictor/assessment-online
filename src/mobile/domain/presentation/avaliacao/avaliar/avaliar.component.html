@@ -1,0 +1,39 @@
+<mat-card-title class="push" layout-align="center center">
+  <div layout="column" layout-align="center center">
+    Como você avalia nosso atendimento?
+  </div>
+</mat-card-title>
+<mat-card-content>
+  <div layout-gt-xs="row" layout-xs="column" layout-margin>
+    <button mat-button (click)="avaliar(1)">
+      <div layout="column" layout-align="center center">
+        <mat-icon style="fill: #c21c1f" svgIcon="mobile-assets:terrivel"></mat-icon>
+        <span>Terrível</span>
+      </div>
+    </button>
+    <button mat-button (click)="avaliar(2)">
+      <div layout="column" layout-align="center center">
+        <mat-icon style="fill: #e96d01" svgIcon="mobile-assets:ruim"></mat-icon>
+        <span>Ruim</span>
+      </div>
+    </button>
+    <button mat-button (click)="avaliar(3)">
+      <div layout="column" layout-align="center center">
+        <mat-icon style="fill: #d4c40d" svgIcon="mobile-assets:meia-boca"></mat-icon>
+        <span>Meia boca</span>
+      </div>
+    </button>
+    <button mat-button (click)="avaliar(4)">
+      <div layout="column" layout-align="center center">
+        <mat-icon style="fill: #8fc82c" svgIcon="mobile-assets:bacana"></mat-icon>
+        <span>Bacana</span>
+      </div>
+    </button>
+    <button mat-button (click)="avaliar(5)">
+      <div layout="column" layout-align="center center">
+        <mat-icon style="fill: #5ee924" svgIcon="mobile-assets:top-da-balada"></mat-icon>
+        <span style="margin-left: -7px;">Top da balada</span>
+      </div>
+    </button>
+  </div>
+</mat-card-content>

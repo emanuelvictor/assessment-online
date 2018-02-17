@@ -27,7 +27,6 @@ import {GroupByPipe} from '../application/controls/group-by-pipe/group-by';
 import {AddButtonComponent} from '../application/controls/add-button/add-button.component';
 import {CloseButtonComponent} from '../application/controls/close-button/close-button.component';
 import {LoggedMenuComponent} from '../application/controls/logged-menu/logged-menu.component';
-import {AvatarComponent} from '../application/controls/avatar/avatar.component';
 import {ConfirmDialogComponent} from '../application/controls/confirm-dialog/confirm-dialog.component';
 import {CnpjValidator, CpfValidator, DataNascimentoValidator} from '../application/controls/validators/validators';
 import {SomenteNumerosPositivos} from '../application/controls/patterns/somente-numeros-positivos';
@@ -92,7 +91,6 @@ import {VisualizarVinculoUnidadeComponent} from './presentation/dashboard/atende
     CloseButtonComponent,
     AddButtonComponent,
     LoggedMenuComponent,
-    AvatarComponent,
     ConfirmDialogComponent,
     WebComponent,
     HeaderComponent,
@@ -139,7 +137,6 @@ import {VisualizarVinculoUnidadeComponent} from './presentation/dashboard/atende
     AngularFireAuthModule // imports firebase/auth, only needed for auth features
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports: [],
   entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent],
   providers: [
     Describer,
