@@ -29,8 +29,11 @@ export class HeaderComponent implements OnDestroy {
 
   /**
    *
-   * @param snackBar
-   * @param dialog
+   * @param {MatSnackBar} snackBar
+   * @param {MatDialog} dialog
+   * @param {AuthenticationService} authenticationService
+   * @param {Router} router
+   * @param {TdLoadingService} loadingService
    */
   constructor(public snackBar: MatSnackBar, public dialog: MatDialog, public authenticationService: AuthenticationService, public router: Router, public loadingService: TdLoadingService) {
     this.loadingService.create({

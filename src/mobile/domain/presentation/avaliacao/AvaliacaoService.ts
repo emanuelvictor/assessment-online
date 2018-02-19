@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {FirebaseListObservable} from "angularfire2/database-deprecated";
+import {UnidadeService} from "../../../../web/domain/service/unidade.service";
 
 /**
  *
@@ -31,19 +32,20 @@ export class AvaliacaoService {
   /**
    *
    */
-  unidades: any;
+  unidades: any[];
 
   /**
    *
    * @param {AngularFireDatabase} angularFire
    * @param {Router} router
    * @param {ActivatedRoute} activatedRoute
+   * @param {UnidadeService} unidadeService
    */
-  constructor(private angularFire: AngularFireDatabase, public router: Router, private activatedRoute: ActivatedRoute) {
-    // this.avaliacoes = angularFire.list('/avaliacoes'); TODO
-    // angularFire.list('/unidades').subscribe(unidades => {
-    //   this.unidades = unidades;
-    // })
+  constructor(private angularFire: AngularFireDatabase, public router: Router, private activatedRoute: ActivatedRoute, private unidadeService: UnidadeService) {
+    // this.avaliacoes = angularFire.list('/avaliacoes');
+    unidadeService.find().subscribe(unidades => {
+      this.unidades = unidades;
+    })
   }
 
   /**
@@ -71,7 +73,7 @@ export class AvaliacaoService {
     this.avaliacao.unidade = {
       endereo: this.getUnidade().endereco,
       nome: this.getUnidade().nome,
-      key: this.getUnidade().$key
+      key: this.getUnidade().key
     };
     this.avaliacoes.push(this.avaliacao);
     this.avaliacao = {nota: null, atendentes: [], data: null, unidade: null};
@@ -91,14 +93,12 @@ export class AvaliacaoService {
    */
   getUnidade(): any {
     const storage = window.localStorage;
-
     const value = storage.getItem('unidadeKey'); // Pass a key name to get its value.
 
     if (value != null) {
-
       if (this.unidades) {
         for (const unidade of this.unidades) {
-          if (value === unidade.$key) {
+          if (value === unidade.key) {
             this.unidade = unidade;
           }
         }
@@ -112,12 +112,13 @@ export class AvaliacaoService {
    * @param value
    */
   setUnidade(value: any) {
+    console.log('set unidade');
     this.unidade = value;
     const storage = window.localStorage;
 
     storage.removeItem('unidadeKey');
 
-    storage.setItem('unidadeKey', this.unidade.$key);
+    storage.setItem('unidadeKey', this.unidade.key);
   }
 
 
@@ -128,4 +129,15 @@ export class AvaliacaoService {
   setUnidades(value: any) {
     this.unidades = value;
   }
+
+  // /**
+  //  *
+  //  * @returns {[]}
+  //  */
+  // getUnidades(): any[] {
+  //   if (!this.unidades){
+  //     this.unidades = [];
+  //   }
+  //   return this.unidades;
+  // }
 }

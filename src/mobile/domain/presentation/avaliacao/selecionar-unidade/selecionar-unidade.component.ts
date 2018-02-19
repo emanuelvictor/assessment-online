@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AvaliacaoService} from '../AvaliacaoService';
 import {UnidadeService} from "../../../../../web/domain/service/unidade.service";
+import {AtendenteService} from "../../../../../web/domain/service/atendente.service";
+import {AuthenticationService} from "../../../../../web/domain/service/authentication.service";
+import {UsuarioService} from "../../../../../web/domain/service/usuario.service";
 
 @Component({
   selector: 'app-selecionar-unidade',
@@ -22,27 +25,32 @@ export class SelecionarUnidadeComponent implements OnInit {
 
   /**
    *
+   * @param {UsuarioService} usuarioService
+   * @param {AuthenticationService} authenticationService
    * @param {Router} router
+   * @param {AtendenteService} atendenteService
    * @param {AvaliacaoService} avaliacaoService
    * @param {UnidadeService} unidadeService
    */
-  constructor(private router: Router, private avaliacaoService: AvaliacaoService, private unidadeService: UnidadeService) {
-    this.unidadeService.find().subscribe(unidades => {
-      console.log(unidades);
-      this.unidades = unidades;
-    });
+  constructor(private usuarioService: UsuarioService, private authenticationService: AuthenticationService, private router: Router, private atendenteService: AtendenteService, private avaliacaoService: AvaliacaoService, private unidadeService: UnidadeService) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    // this.unidadeService.find().subscribe(unidades => {
-    //   this.avaliacaoService.setUnidades(unidades);
-    //   if (this.avaliacaoService.getUnidade() != null) {
-    //     this.router.navigate(['avaliar']);
-    //   }
-    // });
+    this.usuarioService.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email).subscribe(usuario => {
+      this.atendenteService.findAtendenteByUsuarioKey(usuario.key).subscribe(atendentes => {
+        atendentes.forEach(atendente => {
+          this.unidades = [];
+          if (atendente.vinculo)
+            this.unidadeService.findOne(atendente.unidade.key).subscribe(unidade => {
+              this.unidades.push(unidade);
+              // this.avaliacaoService.getUnidades().push(unidade);
+            })
+        });
+      })
+    });
   }
 
   /**
