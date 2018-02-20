@@ -32,6 +32,11 @@ export class SelecionarAtendentesComponent implements OnInit {
    *
    */
   ngOnInit() {
+    setTimeout(() => {
+      this.mobileService.reset();
+      this.router.navigate(['/avaliar']);
+    }, 15000);
+
     this.colaboradorService.findColaboradorByUnidadeKey(this.mobileService.getUnidade()).subscribe(colaboradores => {
       this.atendentes = [];
       colaboradores.forEach(colaborador => {

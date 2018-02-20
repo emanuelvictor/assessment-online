@@ -8,6 +8,6 @@ export class AvaliacaoColaboradorRepository extends AbstractRepository {
 
   constructor(private af: AngularFireDatabase) {
     super();
-    this.init('avaliacao_colaborador', af)
+    this.init('avaliacoes-colaboradores', af)
   }
 }

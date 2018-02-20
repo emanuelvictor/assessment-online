@@ -51,6 +51,7 @@ export class AvaliarComponent implements OnInit {
    *
    */
   public logout(): void {
+    this.mobileService.removeUnidade();
     this.authenticationService.logout();
     this.router.navigate(['/authentication']);
   }

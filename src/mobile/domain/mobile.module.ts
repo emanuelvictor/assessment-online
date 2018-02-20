@@ -31,6 +31,9 @@ import {MobileService} from './service/mobile.service';
 import {SelecionarAtendentesComponent} from './presentation/avaliacao/selecionar-atendentes/selecionar-atendentes.component';
 import {ColaboradorService} from '../../web/domain/service/colaborador.service';
 import {ColaboradorRepository} from '../../web/domain/repository/colaborador.repository';
+import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
+import {AvaliacaoRepository} from '../../web/domain/repository/avaliacao.repository';
+import {AvaliacaoColaboradorRepository} from '../../web/domain/repository/avaliacao-colaborador.repository';
 
 /**
  *
@@ -59,17 +62,20 @@ import {ColaboradorRepository} from '../../web/domain/repository/colaborador.rep
   providers: [
     Describer,
     ColaboradorRepository,
-    ColaboradorService,
-    EnderecoService,
-    UsuarioService,
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
     AccountRepository,
+    AvaliacaoRepository,
+    ColaboradorService,
+    AvaliacaoColaboradorRepository,
+    EnderecoService,
+    UsuarioService,
     UnidadeService,
     AuthenticationService,
     AngularFireDatabase,
     MobileService,
+    AvaliacaoService,
 
     {provide: LOCALE_ID, useValue: 'pt-BR'},
 

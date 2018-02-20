@@ -58,7 +58,21 @@ export abstract class AbstractRepository {
 
     if (item && item.key)
       return this.update(item.key, item);
-    return this._itemsRef.push(item);
+    return this._itemsRef.push(item)
+      .then(result =>
+        result = this.getItemWithKey(item , result)
+      );
+  }
+
+  /**
+   * Todo FALCATRUA
+   * @param item
+   * @param result
+   * @returns {any}
+   */
+  private getItemWithKey(item: any, result: any): any {
+    item.key = result.key;
+    return item;
   }
 
   private update(key: string, item: any): Promise<any> {
