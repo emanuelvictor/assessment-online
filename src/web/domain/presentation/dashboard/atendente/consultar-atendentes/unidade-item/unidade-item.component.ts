@@ -2,9 +2,7 @@ import {Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {Component, Input, OnInit} from '@angular/core';
 import {UnidadeService} from '../../../../../service/unidade.service';
-import {Unidade} from '../../../../../entity/unidade/Unidade.model';
-import {Atendente} from '../../../../../entity/atendente/Atendente.model';
-import {AtendenteService} from '../../../../../service/atendente.service';
+import {ColaboradorService} from '../../../../../service/colaborador.service';
 import {Usuario} from "../../../../../entity/usuario/Usuario.model";
 
 @Component({
@@ -17,13 +15,13 @@ export class UnidadeItemComponent implements OnInit {
   /**
    *
    */
-  public atendentes = [];
+  public colaboradores = [];
 
   /**
    *
    */
   @Input()
-  public atendente: Usuario;
+  public usuario: Usuario;
 
   /**
    *
@@ -31,20 +29,20 @@ export class UnidadeItemComponent implements OnInit {
    * @param {MatSnackBar} snackBar
    * @param {MatDialog} dialog
    * @param {UnidadeService} unidadeService
-   * @param {AtendenteService} atendenteService
+   * @param {ColaboradorService} colaboradorService
    */
-  constructor(public router: Router, public snackBar: MatSnackBar, public dialog: MatDialog, public unidadeService: UnidadeService, public atendenteService: AtendenteService) {
+  constructor(public router: Router, public snackBar: MatSnackBar, public dialog: MatDialog, public unidadeService: UnidadeService, public colaboradorService: ColaboradorService) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    this.atendenteService.findAtendenteByUsuarioKey(this.atendente.key).subscribe(atendentes => {
-      this.atendentes = [];
-      for (let i = 0; i < atendentes.length; i++) {
-        if (atendentes[i].vinculo) {
-          this.atendentes.push(atendentes[i]);
+    this.colaboradorService.findColaboradorByUsuarioKey(this.usuario.key).subscribe(colaboradores => {
+      this.colaboradores = [];
+      for (let i = 0; i < colaboradores.length; i++) {
+        if (colaboradores[i].vinculo) {
+          this.colaboradores.push(colaboradores[i]);
         }
       }
     });

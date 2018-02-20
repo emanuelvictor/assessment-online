@@ -5,8 +5,8 @@ import {textMasks} from "../../../../../application/controls/text-masks/text-mas
 import {AlterarSenhaComponent} from "./alterar-senha/alterar-senha.component";
 import {ConfirmDialogComponent} from "../../../../../application/controls/confirm-dialog/confirm-dialog.component";
 import {UsuarioService} from "../../../../service/usuario.service";
-import {Atendente} from "../../../../entity/atendente/Atendente.model";
 import {UnidadeService} from "../../../../service/unidade.service";
+import {Usuario} from "../../../../entity/usuario/Usuario.model";
 
 @Component({
   selector: 'visualizar-atendente',
@@ -27,9 +27,9 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @type {Atendente}
+   * @type {Usuario}
    */
-  atendente: Atendente;
+  atendente: Usuario;
 
   /**
    *

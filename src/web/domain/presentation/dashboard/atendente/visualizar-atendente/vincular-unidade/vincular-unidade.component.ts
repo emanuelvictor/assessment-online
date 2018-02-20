@@ -2,8 +2,8 @@ import {ActivatedRoute} from '@angular/router';
 import {Component, Input, OnInit} from '@angular/core';
 import {Usuario} from '../../../../../entity/usuario/Usuario.model';
 import {UnidadeService} from '../../../../../service/unidade.service';
-import {AtendenteService} from '../../../../../service/atendente.service';
-import {Atendente} from '../../../../../entity/atendente/Atendente.model';
+import {ColaboradorService} from "../../../../../service/colaborador.service";
+import {Colaborador} from "../../../../../entity/colaborador/Colaborador.model";
 
 @Component({
   selector: 'vincular-unidade',
@@ -33,11 +33,11 @@ export class VincularUnidadeComponent implements OnInit {
    *
    * @param {ActivatedRoute} activatedRoute
    * @param {UnidadeService} unidadeService
-   * @param {AtendenteService} atendenteService
+   * @param {ColaboradorService} colaboradorService
    */
   constructor(public activatedRoute: ActivatedRoute,
               public unidadeService: UnidadeService,
-              public atendenteService: AtendenteService) {
+              public colaboradorService: ColaboradorService) {
   }
 
   /**
@@ -55,7 +55,7 @@ export class VincularUnidadeComponent implements OnInit {
         });
       }
 
-      this.atendenteService.findAtendenteByUsuarioKey(this.usuario.key).subscribe(result => {
+      this.colaboradorService.findColaboradorByUsuarioKey(this.usuario.key).subscribe(result => {
         if (result.length) {
 
           for (let i = 0; i < this.atendentes.length; i++) {
@@ -75,9 +75,9 @@ export class VincularUnidadeComponent implements OnInit {
 
   /**
    *
-   * @param {Atendente} atendente
+   * @param {Colaborador} colaborador
    */
-  public save(atendente: Atendente = new Atendente()): void {
-    this.atendenteService.save(atendente);
+  public save(colaborador: Colaborador = new Colaborador()): void {
+    this.colaboradorService.save(colaborador);
   }
 }

@@ -6,6 +6,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {FirebaseListObservable} from "angularfire2/database-deprecated";
 import {UnidadeService} from "../../../../web/domain/service/unidade.service";
+import {Avaliacao} from "../../../../web/domain/entity/avaliacao/Avaliacao.model";
+import {Unidade} from "../../../../web/domain/entity/unidade/Unidade.model";
+import {Colaborador} from "../../../../web/domain/entity/colaborador/Colaborador.model";
 
 /**
  *
@@ -14,25 +17,24 @@ import {UnidadeService} from "../../../../web/domain/service/unidade.service";
 export class AvaliacaoService {
 
   /**
-   *
+   * todo
    */
   avaliacoes: FirebaseListObservable<any[]>;
 
   /**
    *
-   * @type {{nota: any; atendentes: Array; data: any; unidade: any}}
    */
-  avaliacao = {nota: null, atendentes: [], data: null, unidade: null};
+  avaliacao : Avaliacao = new Avaliacao();
 
   /**
    *
    */
-  unidade: any;
+  unidade : Unidade = new Unidade();
 
   /**
    *
    */
-  unidades: any[];
+  colaboradores : Colaborador[];
 
   /**
    *
@@ -42,10 +44,7 @@ export class AvaliacaoService {
    * @param {UnidadeService} unidadeService
    */
   constructor(private angularFire: AngularFireDatabase, public router: Router, private activatedRoute: ActivatedRoute, private unidadeService: UnidadeService) {
-    // this.avaliacoes = angularFire.list('/avaliacoes');
-    unidadeService.find().subscribe(unidades => {
-      this.unidades = unidades;
-    })
+    this.unidade.key = window.localStorage.getItem('unidadeKey')
   }
 
   /**
@@ -58,33 +57,39 @@ export class AvaliacaoService {
 
   /**
    *
-   * @param atendente
+   * @param colaborador
    */
-  public addAtendente(atendente) {
-    delete atendente.unidade;
-    this.avaliacao.atendentes.push(atendente);
+  public addColaborador(colaborador) {
+    this.colaboradores.push(colaborador);
   }
 
   /**
-   *
+   * Envia avaliacao
    */
   public enviarAvaliacao() {
+    /**
+     * Configura restante da avaliacao
+     * @type {number}
+     */
     this.avaliacao.data = Date.now();
-    this.avaliacao.unidade = {
-      endereo: this.getUnidade().endereco,
-      nome: this.getUnidade().nome,
-      key: this.getUnidade().key
-    };
+
+    /**
+     * Insere avaliação
+     */
     this.avaliacoes.push(this.avaliacao);
-    this.avaliacao = {nota: null, atendentes: [], data: null, unidade: null};
+    /**
+     * Reseta objseto da avaliação
+     * @type {Avaliacao}
+     */
+    this.avaliacao = new Avaliacao();
   }
 
   /**
    *
    * @returns {Array}
    */
-  getAtendentes() {
-    return this.avaliacao.atendentes;
+  getColaboradores() {
+    return this.colaboradores;
   }
 
   /**
@@ -92,52 +97,20 @@ export class AvaliacaoService {
    * @returns {any}
    */
   getUnidade(): any {
-    const storage = window.localStorage;
-    const value = storage.getItem('unidadeKey'); // Pass a key name to get its value.
-
-    if (value != null) {
-      if (this.unidades) {
-        for (const unidade of this.unidades) {
-          if (value === unidade.key) {
-            this.unidade = unidade;
-          }
-        }
-      }
-    }
-    return this.unidade;
+    return this.unidade.key;
   }
 
   /**
    *
-   * @param value
+   * @param {string} key
    */
-  setUnidade(value: any) {
-    console.log('set unidade');
-    this.unidade = value;
+  setUnidade(key: string) {
     const storage = window.localStorage;
 
     storage.removeItem('unidadeKey');
 
-    storage.setItem('unidadeKey', this.unidade.key);
+    storage.setItem('unidadeKey', key);
+
+    this.unidade.key = key;
   }
-
-
-  /**
-   *
-   * @param value
-   */
-  setUnidades(value: any) {
-    this.unidades = value;
-  }
-
-  // /**
-  //  *
-  //  * @returns {[]}
-  //  */
-  // getUnidades(): any[] {
-  //   if (!this.unidades){
-  //     this.unidades = [];
-  //   }
-  //   return this.unidades;
-  // }
 }

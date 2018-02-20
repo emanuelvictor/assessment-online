@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AvaliacaoService} from '../AvaliacaoService';
 import {MatSnackBar} from '@angular/material';
-import {AtendenteService} from "../../../../../web/domain/service/atendente.service";
 import {UsuarioService} from "../../../../../web/domain/service/usuario.service";
+import {ColaboradorService} from "../../../../../web/domain/service/colaborador.service";
 
 @Component({
   selector: 'selecionar-atendentes',
@@ -21,11 +21,11 @@ export class SelecionarAtendentesComponent implements OnInit {
    *
    * @param {Router} router
    * @param {AvaliacaoService} avaliacaoService
-   * @param {AtendenteService} atendenteService
+   * @param {ColaboradorService} colaboradorService
    * @param {UsuarioService} usuarioService
    * @param {MatSnackBar} snackBar
    */
-  constructor(private router: Router, private avaliacaoService: AvaliacaoService, private atendenteService: AtendenteService, private usuarioService: UsuarioService, private snackBar: MatSnackBar) {
+  constructor(private router: Router, private avaliacaoService: AvaliacaoService, private colaboradorService: ColaboradorService, private usuarioService: UsuarioService, private snackBar: MatSnackBar) {
   }
 
   /**
@@ -41,20 +41,20 @@ export class SelecionarAtendentesComponent implements OnInit {
    *
    */
   public concluir() {
-    this.atendentes.forEach(atendente => {
-      if (atendente.selected) {
-        this.avaliacaoService.addAtendente(atendente);
+    this.atendentes.forEach(colaborador => {
+      if (colaborador.selected) {
+        this.avaliacaoService.addColaborador(colaborador);
       }
     });
 
     /**
-     *
+     * TODO
      */
-    if (this.avaliacaoService.getAtendentes().length > 0) {
-      this.avaliacaoService.enviarAvaliacao();
-      this.router.navigate(['conclusao']);
-    } else {
-      this.snackBar.open('Selecione ao menos um atendente', 'Fechar');
-    }
+    // if (this.avaliacaoService.getAtendentes().length > 0) {
+    //   this.avaliacaoService.enviarAvaliacao();
+    //   this.router.navigate(['conclusao']);
+    // } else {
+    //   this.snackBar.open('Selecione ao menos um atendente', 'Fechar');
+    // }
   }
 }

@@ -3,7 +3,7 @@ import {Vinculo} from './Vinculo.enum';
 import {Unidade} from '../unidade/Unidade.model';
 import {Usuario} from '../usuario/Usuario.model';
 
-export class Atendente extends Abstract {
+export class Colaborador extends Abstract {
 
   public unidade: Unidade;
 

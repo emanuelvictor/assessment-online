@@ -4,7 +4,6 @@ import {UsuarioService} from '../../../../service/usuario.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Http} from '@angular/http';
 import {MatSnackBar} from '@angular/material';
-import {Atendente} from '../../../../entity/atendente/Atendente.model';
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {Usuario} from '../../../../entity/usuario/Usuario.model';
 

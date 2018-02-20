@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {UnidadeRepository} from '../repository/unidade.repository';
-import {AtendenteRepository} from "../repository/atendente.repository";
 
 @Injectable()
 export class UnidadeService {
 
-  constructor(private unidadeRepository: UnidadeRepository, private colaboradorRepository: AtendenteRepository) {
+  constructor(private unidadeRepository: UnidadeRepository) {
   }
 
   public find(): Observable<any[]> {
@@ -24,16 +23,4 @@ export class UnidadeService {
   public remove(key: string): Promise<any> {
     return this.unidadeRepository.remove(key);
   }
-
-  // public findUnidadeByColaboradorKey(colaboradorKey: string): Observable<any[]> {
-  //   const unidades = [];
-  //   this.colaboradorRepository.findAtendenteByUsuarioKey(colaboradorKey).subscribe(atendentes => {
-  //     atendentes.forEach(atendente => {
-  //       if (atendente.vinculo)
-  //         this.findOne(atendente.unidade.key).subscribe(unidade => {
-  //           unidades.push(unidade);
-  //         })
-  //     });
-  //   });
-  // }
 }

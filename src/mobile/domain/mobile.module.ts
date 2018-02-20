@@ -17,8 +17,6 @@ import {AngularFireModule} from "angularfire2";
 import {environment} from "../../environments/environment";
 import {AngularFirestoreModule} from "angularfire2/firestore";
 import {AngularFireAuthModule} from "angularfire2/auth";
-import {AtendenteService} from "../../web/domain/service/atendente.service";
-import {AtendenteRepository} from "../../web/domain/repository/atendente.repository";
 import {EnderecoRepository} from "../../web/domain/repository/endereco.repository";
 import {UnidadeRepository} from "../../web/domain/repository/unidade.repository";
 import {UsuarioRepository} from "../../web/domain/repository/usuario.repository";
@@ -31,6 +29,8 @@ import {ConclusaoComponent} from "./presentation/avaliacao/conclusao/conclusao.c
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/selecionar-unidade/selecionar-unidade.component";
 import {AvaliacaoService} from "./presentation/avaliacao/AvaliacaoService";
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/selecionar-atendentes/selecionar-atendentes.component";
+import {ColaboradorService} from "../../web/domain/service/colaborador.service";
+import {ColaboradorRepository} from "../../web/domain/repository/colaborador.repository";
 
 /**
  *
@@ -58,8 +58,8 @@ import {SelecionarAtendentesComponent} from "./presentation/avaliacao/selecionar
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     Describer,
-    AtendenteRepository,
-    AtendenteService,
+    ColaboradorRepository,
+    ColaboradorService,
     EnderecoService,
     UsuarioService,
     EnderecoRepository,

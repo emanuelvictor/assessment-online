@@ -5,7 +5,7 @@ import {textMasks} from '../../../../../application/controls/text-masks/text-mas
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {UsuarioService} from '../../../../service/usuario.service';
-import {Atendente} from '../../../../entity/atendente/Atendente.model';
+import {Colaborador} from '../../../../entity/colaborador/Colaborador.model';
 
 /**
  *
@@ -24,9 +24,9 @@ export class AlterarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @type {Atendente}
+   * @type {Colaborador}
    */
-  atendente: Atendente = new Atendente();
+  colaborador: Colaborador = new Colaborador();
 
   /**
    *
@@ -45,31 +45,31 @@ export class AlterarAtendenteComponent implements OnInit {
    *
    */
   ngOnInit() {
-    let atendenteKey: string = this.activatedRoute.snapshot.params['key'];
-    this.find(atendenteKey);
+    let colaboradorKey: string = this.activatedRoute.snapshot.params['key'];
+    this.find(colaboradorKey);
   }
 
   /**
    *
-   * @param {string} atendenteKey
+   * @param {string} colaboradorKey
    */
-  public find(atendenteKey: string) {
-    this.usuarioService.findOne(atendenteKey).subscribe(atendente => this.atendente = atendente)
+  public find(colaboradorKey: string) {
+    this.usuarioService.findOne(colaboradorKey).subscribe(colaborador => this.colaborador = colaborador)
   }
 
   /**
    *
-   * @param atendente
+   * @param colaborador
    */
-  public update(atendente): void {
-    this.usuarioService.save(atendente).then(result => {
-      if (atendente.email && atendente.email.length) {
-        // this.authenticationService.getNativeFirebaseInstance().auth().createUserWithEmailAndPassword(atendente.email, '123456789')
+  public update(colaborador): void {
+    this.usuarioService.save(colaborador).then(result => {
+      if (colaborador.email && colaborador.email.length) {
+        // this.authenticationService.getNativeFirebaseInstance().auth().createUserWithEmailAndPassword(colaborador.email, '123456789')
         //   .then(result => console.log(result))
         //   .catch(exception => console.log(exception));
       }
 
-      atendente = result;
+      colaborador = result;
       this.success('Atendente alterado com sucesso');
     })
   }

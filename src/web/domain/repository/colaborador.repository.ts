@@ -4,14 +4,14 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
-export class AtendenteRepository extends AbstractRepository {
+export class ColaboradorRepository extends AbstractRepository {
 
   constructor(private af: AngularFireDatabase) {
     super();
-    this.init('atendentes', af)
+    this.init('colaboradores', af)
   }
 
-  public findAtendenteByUsuarioKey(key: string): Observable<any> {
+  public findColaboradorByUsuarioKey(key: string): Observable<any> {
     return this.find().map(items => items.filter(item => item.colaborador.key === key));
   }
 }

@@ -1,7 +1,7 @@
 import {ActivatedRoute} from '@angular/router';
 import {Component, Input, OnInit} from '@angular/core';
 import {Usuario} from '../../../../../entity/usuario/Usuario.model';
-import {AtendenteService} from '../../../../../service/atendente.service';
+import {ColaboradorService} from "../../../../../service/colaborador.service";
 
 @Component({
   selector: 'visualizar-vinculo-unidade',
@@ -30,17 +30,17 @@ export class VisualizarVinculoUnidadeComponent implements OnInit {
   /**
    *
    * @param {ActivatedRoute} activatedRoute
-   * @param {AtendenteService} atendenteService
+   * @param {ColaboradorService} colaboradorService
    */
   constructor(public activatedRoute: ActivatedRoute,
-              public atendenteService: AtendenteService) {
+              public colaboradorService: ColaboradorService) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    this.atendenteService.findAtendenteByUsuarioKey(this.usuario.key).subscribe(atendentes => {
+    this.colaboradorService.findColaboradorByUsuarioKey(this.usuario.key).subscribe(atendentes => {
       this.atendentes = [];
       for (let i = 0; i < atendentes.length; i++) {
         if (atendentes[i].vinculo) {

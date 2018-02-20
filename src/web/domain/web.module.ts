@@ -61,9 +61,9 @@ import {UnidadeRepository} from './repository/unidade.repository';
 import {EnderecoRepository} from './repository/endereco.repository';
 import {VisualizarDadosUsuarioComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-dados-usuario/visualizar-dados-usuario.component';
 import {VincularUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/vincular-unidade/vincular-unidade.component';
-import {AtendenteService} from './service/atendente.service';
-import {AtendenteRepository} from './repository/atendente.repository';
 import {VisualizarVinculoUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-vinculo-unidade/visualizar-vinculo-unidade.component';
+import {ColaboradorService} from "./service/colaborador.service";
+import {ColaboradorRepository} from "./repository/colaborador.repository";
 
 /**
  *
@@ -140,8 +140,8 @@ import {VisualizarVinculoUnidadeComponent} from './presentation/dashboard/atende
   entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent],
   providers: [
     Describer,
-    AtendenteRepository,
-    AtendenteService,
+    ColaboradorRepository,
+    ColaboradorService,
     EnderecoService,
     UsuarioService,
     EnderecoRepository,
