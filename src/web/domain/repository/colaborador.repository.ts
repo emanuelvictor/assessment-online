@@ -12,6 +12,10 @@ export class ColaboradorRepository extends AbstractRepository {
   }
 
   public findColaboradorByUsuarioKey(key: string): Observable<any> {
-    return this.find().map(items => items.filter(item => item.colaborador.key === key));
+    return this.find().map(items => items.filter(item => item.usuario.key === key));
+  }
+
+  public findColaboradorByUnidadeKey(key: string): Observable<any> {
+    return this.find().map(items => items.filter(item => item.unidade.key === key));
   }
 }

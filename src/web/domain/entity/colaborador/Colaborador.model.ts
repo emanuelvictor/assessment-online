@@ -7,7 +7,7 @@ export class Colaborador extends Abstract {
 
   public unidade: Unidade;
 
-  public colaborador: Usuario;
+  public usuario: Usuario;
 
   public vinculo: Vinculo;
 

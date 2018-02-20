@@ -51,7 +51,7 @@ export class VincularUnidadeComponent implements OnInit {
         this.atendentes.push({
           vinculo: 'Nenhum',
           unidade: unidades[i],
-          colaborador: this.usuario
+          usuario: this.usuario
         });
       }
 

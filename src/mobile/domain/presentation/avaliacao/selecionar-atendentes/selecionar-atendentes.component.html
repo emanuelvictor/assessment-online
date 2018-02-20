@@ -11,7 +11,7 @@
                   (click)="atendente.selected = !atendente.selected"
                   [ngStyle]="{'background-color': (atendente.selected ? '#c9e5fd' : '')}">
       <div mat-list-avatar>
-        <!--<avatar class="image-cover" [atendente]="atendente" [size]="0.4"></avatar>-->
+        <avatar class="image-cover" [usuario]="atendente" [size]="0.4"></avatar>
       </div>
       <div class="push-left" style="margin-top: 7px"> {{atendente.nome}}</div>
     </mat-list-item>

@@ -32,9 +32,14 @@ export class SelecionarAtendentesComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.usuarioService.find().subscribe(usuarios => {
-      this.atendentes = usuarios;
-    })
+    this.colaboradorService.findColaboradorByUnidadeKey(this.avaliacaoService.getUnidade()).subscribe(colaboradores => {
+      this.atendentes = [];
+      colaboradores.forEach(colaborador => {
+        this.usuarioService.findOne(colaborador.usuario.key).subscribe(usuario => {
+          this.atendentes.push(usuario);
+        })
+      });
+    });
   }
 
   /**
@@ -50,11 +55,11 @@ export class SelecionarAtendentesComponent implements OnInit {
     /**
      * TODO
      */
-    // if (this.avaliacaoService.getAtendentes().length > 0) {
-    //   this.avaliacaoService.enviarAvaliacao();
-    //   this.router.navigate(['conclusao']);
-    // } else {
-    //   this.snackBar.open('Selecione ao menos um atendente', 'Fechar');
-    // }
+    if (this.avaliacaoService.getColaboradores().length > 0) {
+      this.avaliacaoService.enviarAvaliacao();
+      this.router.navigate(['conclusao']);
+    } else {
+      this.snackBar.open('Selecione ao menos um atendente', 'Fechar');
+    }
   }
 }

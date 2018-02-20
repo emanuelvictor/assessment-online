@@ -2,10 +2,7 @@
  * Created by emanuel on 13/06/17.
  */
 import {Injectable} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFireDatabase} from 'angularfire2/database';
 import {FirebaseListObservable} from "angularfire2/database-deprecated";
-import {UnidadeService} from "../../../../web/domain/service/unidade.service";
 import {Avaliacao} from "../../../../web/domain/entity/avaliacao/Avaliacao.model";
 import {Unidade} from "../../../../web/domain/entity/unidade/Unidade.model";
 import {Colaborador} from "../../../../web/domain/entity/colaborador/Colaborador.model";
@@ -24,26 +21,22 @@ export class AvaliacaoService {
   /**
    *
    */
-  avaliacao : Avaliacao = new Avaliacao();
+  avaliacao: Avaliacao = new Avaliacao();
 
   /**
    *
    */
-  unidade : Unidade = new Unidade();
+  unidade: Unidade = new Unidade();
 
   /**
    *
    */
-  colaboradores : Colaborador[];
+  colaboradores: Colaborador[];
 
   /**
    *
-   * @param {AngularFireDatabase} angularFire
-   * @param {Router} router
-   * @param {ActivatedRoute} activatedRoute
-   * @param {UnidadeService} unidadeService
    */
-  constructor(private angularFire: AngularFireDatabase, public router: Router, private activatedRoute: ActivatedRoute, private unidadeService: UnidadeService) {
+  constructor() {
     this.unidade.key = window.localStorage.getItem('unidadeKey')
   }
 
@@ -96,7 +89,7 @@ export class AvaliacaoService {
    *
    * @returns {any}
    */
-  getUnidade(): any {
+  getUnidade(): string {
     return this.unidade.key;
   }
 
