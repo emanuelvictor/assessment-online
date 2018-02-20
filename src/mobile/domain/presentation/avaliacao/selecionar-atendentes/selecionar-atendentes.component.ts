@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {AvaliacaoService} from '../AvaliacaoService';
+import {MobileService} from '../../../service/mobile.service';
 import {MatSnackBar} from '@angular/material';
-import {UsuarioService} from "../../../../../web/domain/service/usuario.service";
-import {ColaboradorService} from "../../../../../web/domain/service/colaborador.service";
+import {UsuarioService} from '../../../../../web/domain/service/usuario.service';
+import {ColaboradorService} from '../../../../../web/domain/service/colaborador.service';
 
 @Component({
   selector: 'selecionar-atendentes',
@@ -20,19 +20,19 @@ export class SelecionarAtendentesComponent implements OnInit {
   /**
    *
    * @param {Router} router
-   * @param {AvaliacaoService} avaliacaoService
+   * @param {MobileService} mobileService
    * @param {ColaboradorService} colaboradorService
    * @param {UsuarioService} usuarioService
    * @param {MatSnackBar} snackBar
    */
-  constructor(private router: Router, private avaliacaoService: AvaliacaoService, private colaboradorService: ColaboradorService, private usuarioService: UsuarioService, private snackBar: MatSnackBar) {
+  constructor(private router: Router, private mobileService: MobileService, private colaboradorService: ColaboradorService, private usuarioService: UsuarioService, private snackBar: MatSnackBar) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    this.colaboradorService.findColaboradorByUnidadeKey(this.avaliacaoService.getUnidade()).subscribe(colaboradores => {
+    this.colaboradorService.findColaboradorByUnidadeKey(this.mobileService.getUnidade()).subscribe(colaboradores => {
       this.atendentes = [];
       colaboradores.forEach(colaborador => {
         this.usuarioService.findOne(colaborador.usuario.key).subscribe(usuario => {
@@ -48,18 +48,18 @@ export class SelecionarAtendentesComponent implements OnInit {
   public concluir() {
     this.atendentes.forEach(colaborador => {
       if (colaborador.selected) {
-        this.avaliacaoService.addColaborador(colaborador);
+        this.mobileService.addColaborador(colaborador);
       }
     });
 
     /**
-     * TODO
+     * TODO aumentar o timeout da toast
      */
-    if (this.avaliacaoService.getColaboradores().length > 0) {
-      this.avaliacaoService.enviarAvaliacao();
+    if (this.mobileService.getColaboradores().length > 0) {
+      this.mobileService.enviarAvaliacao();
       this.router.navigate(['conclusao']);
     } else {
-      this.snackBar.open('Selecione ao menos um atendente', 'Fechar');
+      this.snackBar.open('Selecione ao menos um atendente', 'Fechar', this.mobileService.getSnackBarConfig());
     }
   }
 }

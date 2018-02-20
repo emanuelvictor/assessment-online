@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {AvaliacaoService} from '../AvaliacaoService';
-import {UnidadeService} from "../../../../../web/domain/service/unidade.service";
-import {AuthenticationService} from "../../../../../web/domain/service/authentication.service";
-import {UsuarioService} from "../../../../../web/domain/service/usuario.service";
-import {ColaboradorService} from "../../../../../web/domain/service/colaborador.service";
+import {MobileService} from '../../../service/mobile.service';
+import {UnidadeService} from '../../../../../web/domain/service/unidade.service';
+import {AuthenticationService} from '../../../../../web/domain/service/authentication.service';
+import {UsuarioService} from '../../../../../web/domain/service/usuario.service';
+import {ColaboradorService} from '../../../../../web/domain/service/colaborador.service';
 
 @Component({
   selector: 'selecionar-unidade',
@@ -29,10 +29,10 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param {AuthenticationService} authenticationService
    * @param {Router} router
    * @param {ColaboradorService} colaboradorService
-   * @param {AvaliacaoService} avaliacaoService
+   * @param {MobileService} mobileService
    * @param {UnidadeService} unidadeService
    */
-  constructor(private usuarioService: UsuarioService, private authenticationService: AuthenticationService, private router: Router, private colaboradorService: ColaboradorService, private avaliacaoService: AvaliacaoService, private unidadeService: UnidadeService) {
+  constructor(private usuarioService: UsuarioService, private authenticationService: AuthenticationService, private router: Router, private colaboradorService: ColaboradorService, private mobileService: MobileService, private unidadeService: UnidadeService) {
   }
 
   /**
@@ -57,7 +57,7 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param unidade
    */
   selecionar(unidade) {
-    this.avaliacaoService.setUnidade(unidade.key);
+    this.mobileService.setUnidade(unidade.key);
     this.router.navigate(['avaliar']);
   }
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {AvaliacaoService} from '../AvaliacaoService';
+import {MobileService} from '../../../service/mobile.service';
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry} from "@angular/material";
 import {AuthenticationService} from "../../../../../web/domain/service/authentication.service";
@@ -15,12 +15,12 @@ export class AvaliarComponent implements OnInit {
   /**
    *
    * @param {Router} router
-   * @param {AvaliacaoService} avaliacaoService
+   * @param {MobileService} mobileService
    * @param {AuthenticationService} authenticationService
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    */
-  constructor(private router: Router, private avaliacaoService: AvaliacaoService, public authenticationService: AuthenticationService, private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+  constructor(private router: Router, private mobileService: MobileService, public authenticationService: AuthenticationService, private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'terrivel', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/terrivel.svg'));
     this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/ruim.svg'));
     this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'meia-boca', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/meia-boca.svg'));
@@ -35,7 +35,7 @@ export class AvaliarComponent implements OnInit {
     /**
      * Se não tem unidade selecionada vai para tela de selação de unidade
      */
-    if (!this.avaliacaoService.getUnidade())
+    if (!this.mobileService.getUnidade())
       this.router.navigate(['selecionar-unidade']);
   }
 
@@ -43,7 +43,7 @@ export class AvaliarComponent implements OnInit {
    *
    */
   public avaliar(nota: number) {
-    this.avaliacaoService.setNota(nota);
+    this.mobileService.setNota(nota);
     this.router.navigate(['selecionar-atendentes']);
   }
 

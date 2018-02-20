@@ -2,16 +2,19 @@
  * Created by emanuel on 13/06/17.
  */
 import {Injectable} from '@angular/core';
-import {FirebaseListObservable} from "angularfire2/database-deprecated";
-import {Avaliacao} from "../../../../web/domain/entity/avaliacao/Avaliacao.model";
-import {Unidade} from "../../../../web/domain/entity/unidade/Unidade.model";
-import {Colaborador} from "../../../../web/domain/entity/colaborador/Colaborador.model";
+import {FirebaseListObservable} from 'angularfire2/database-deprecated';
+import {Avaliacao} from '../../../web/domain/entity/avaliacao/Avaliacao.model';
+import {Unidade} from '../../../web/domain/entity/unidade/Unidade.model';
+import {Colaborador} from '../../../web/domain/entity/colaborador/Colaborador.model';
+import {MatSnackBarConfig} from '@angular/material';
 
 /**
- *
+ * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
+ * Esse serviço é necessário para o gerenciamento entre diferentes telas no aplicativo móvel.
+ * Esse serviço também é responsável por configurar a snackbar (ou toast)
  */
 @Injectable()
-export class AvaliacaoService {
+export class MobileService {
 
   /**
    * todo
@@ -37,7 +40,17 @@ export class AvaliacaoService {
    *
    */
   constructor() {
-    this.unidade.key = window.localStorage.getItem('unidadeKey')
+    /**
+     * Pega a key da unidade do localStorage
+     * @type {string}
+     */
+    this.unidade.key = window.localStorage.getItem('unidadeKey');
+
+    /**
+     * Seta a duração default da snackbar
+     * @type {number}
+     */
+    this.mdSnackBarConfig.duration = 5000;
   }
 
   /**
@@ -67,11 +80,13 @@ export class AvaliacaoService {
     this.avaliacao.data = Date.now();
 
     /**
+     * todo
      * Insere avaliação
      */
     this.avaliacoes.push(this.avaliacao);
+
     /**
-     * Reseta objseto da avaliação
+     * Reseta objeto da avaliação
      * @type {Avaliacao}
      */
     this.avaliacao = new Avaliacao();
@@ -105,5 +120,19 @@ export class AvaliacaoService {
     storage.setItem('unidadeKey', key);
 
     this.unidade.key = key;
+  }
+
+  /**
+   *
+   * @type {MatSnackBarConfig}
+   */
+  mdSnackBarConfig: MatSnackBarConfig = new MatSnackBarConfig();
+
+  /**
+   *
+   * @returns {MatSnackBarConfig}
+   */
+  public getSnackBarConfig(): MatSnackBarConfig {
+    return this.mdSnackBarConfig
   }
 }
