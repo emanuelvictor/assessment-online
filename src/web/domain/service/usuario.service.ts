@@ -50,14 +50,14 @@ export class UsuarioService {
    * @returns {PromiseLike<any>}
    */
   public save(usuario: Usuario): PromiseLike<any> {
-    console.log(usuario);
-    this.fileRepository.save(usuario.key, usuario.foto)
-      .then(result => console.log(result));
-
+    const foto = usuario.foto;
     const toSave = usuario;
     delete toSave.password;
+
     return this.usuarioRepository.save(toSave).then(result => {
       // this.authenticationService.save(usuario);
+      this.fileRepository.save(result.key, foto)
+        .then(result => console.log(result));
     });
   }
 

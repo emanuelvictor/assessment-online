@@ -162,11 +162,12 @@ export class AtendenteFormComponent implements OnInit {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
       this.file = fileList[0];
+      this.usuario.foto = this.file;
       const reader = new FileReader();
       console.log(this.file);
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (arquivo: any) => {
-        this.usuario.foto = arquivo.target.result;
+        this.foto = arquivo.target.result;
       };
     }
   }
