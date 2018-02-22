@@ -1,7 +1,5 @@
 import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
-import * as firebase from 'firebase';
-import * as _ from 'underscore';
 import {isUndefined} from 'util';
 
 export abstract class AbstractRepository {
@@ -56,8 +54,12 @@ export abstract class AbstractRepository {
 
     this.removeNullProperties(item);
 
+    /**
+     * Se tem key atualiza
+     */
     if (item && item.key)
       return this.update(item.key, item);
+
     return this._itemsRef.push(item)
       .then(result =>
         result = this.getItemWithKey(item , result)
@@ -75,7 +77,9 @@ export abstract class AbstractRepository {
     return item;
   }
 
-  private update(key: string, item: any): Promise<any> {
+  public update(key: string, item: any): Promise<any> {
+    this.removeNullProperties(item);
+
     return this._itemsRef.update(key, item);
   }
 
