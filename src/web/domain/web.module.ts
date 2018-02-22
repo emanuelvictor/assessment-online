@@ -64,6 +64,8 @@ import {VincularUnidadeComponent} from './presentation/dashboard/atendente/visua
 import {VisualizarVinculoUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-vinculo-unidade/visualizar-vinculo-unidade.component';
 import {ColaboradorService} from "./service/colaborador.service";
 import {ColaboradorRepository} from "./repository/colaborador.repository";
+import {FileRepository} from "./repository/file.repository";
+import {AngularFireStorageModule} from "angularfire2/storage";
 
 /**
  *
@@ -134,20 +136,22 @@ import {ColaboradorRepository} from "./repository/colaborador.repository";
     MatExpansionModule,
     AngularFireModule.initializeApp(environment.firebase, 'assessment-online'), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule // imports firebase/auth, only needed for auth features
+    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+    AngularFireStorageModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent],
   providers: [
     Describer,
-    ColaboradorRepository,
-    ColaboradorService,
-    EnderecoService,
-    UsuarioService,
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
     AccountRepository,
+    FileRepository,
+    ColaboradorRepository,
+    ColaboradorService,
+    EnderecoService,
+    UsuarioService,
     UnidadeService,
     AuthenticationService,
     AngularFireDatabase,

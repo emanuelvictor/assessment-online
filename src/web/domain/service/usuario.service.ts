@@ -3,6 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {UsuarioRepository} from '../repository/usuario.repository';
 import {AuthenticationService} from "./authentication.service";
 import {Usuario} from "../entity/usuario/Usuario.model";
+import {FileRepository} from "../repository/file.repository";
 
 /**
  *
@@ -12,9 +13,9 @@ export class UsuarioService {
   /**
    *
    * @param {UsuarioRepository} usuarioRepository
-   * @param {AuthenticationService} authenticationService
+   * @param {AuthenticationService} authenticationService TODO substituir por accountRepository
    */
-  constructor(private usuarioRepository: UsuarioRepository, private authenticationService: AuthenticationService) {
+  constructor(private usuarioRepository: UsuarioRepository, private authenticationService: AuthenticationService, private fileRepository: FileRepository) {
   }
 
   /**
@@ -45,14 +46,18 @@ export class UsuarioService {
 
   /**
    *
-   * @param {Usuario} item
+   * @param {Usuario} usuario
    * @returns {PromiseLike<any>}
    */
-  public save(item: Usuario): PromiseLike<any> {
-    const toSave = item;
+  public save(usuario: Usuario): PromiseLike<any> {
+    const foto = usuario.foto;
+    const toSave = usuario;
     delete toSave.password;
-    return this.usuarioRepository.save(toSave).then(result=>{
-      this.authenticationService.save(item)
+
+    return this.usuarioRepository.save(toSave).then(result => {
+      // this.authenticationService.save(usuario);
+      this.fileRepository.save(result.key, foto)
+        .then(result => console.log(result));
     });
   }
 
