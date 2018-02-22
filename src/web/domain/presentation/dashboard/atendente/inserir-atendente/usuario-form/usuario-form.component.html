@@ -11,14 +11,34 @@
                 <div layout="row" layout-align="start center">
                   <ng-content></ng-content>
                 </div>
-
-                <div layout="row" layout-margin>
-                  <h1 class="mat-subheading-2 ing-2 tc-grey-500" flex>INFORMAÇÕES GERAIS</h1>
-                </div>
               </div>
 
               <!--dados e foto div-->
               <div layout-gt-xs="row" flex>
+                <!--<div flex>-->
+                  <div layout="column" flex layout-align="center center">
+                    <div flex>
+                      <avatar [usuario]="{'key': usuario.key , 'foto': foto}"></avatar>
+                    </div>
+                    <div flex *ngIf="foto">
+                      <button *ngIf="!progress" type="button" (click)="removeFoto()" class="tc-grey-500" mat-button>
+                        REMOVER FOTO
+                      </button>
+                      <span style="color: #5e7c8b" *ngIf="progress">Upload da imagem em <strong>{{(progress * 100).toFixed(0)}}%</strong></span>
+                    </div>
+                    <div flex *ngIf="!foto">
+                      <td-file-upload defaultColor="primary" accept=".png, .gif, .jpg, .jpeg" #singleFileUpload
+                                      (change)="fileChange($event)">
+                        <span>{{ singleFileUpload.files?.name }}</span>
+                        <ng-template td-file-input-label>
+                          <mat-icon>attach_file</mat-icon>
+                          <span>Adicionar foto</span>
+                        </ng-template>
+                      </td-file-upload>
+                    </div>
+                  </div>
+                <!--</div>-->
+
                 <!--dados div-->
                 <div layout="column" flex>
                   <div layout="row" layout-margin>
