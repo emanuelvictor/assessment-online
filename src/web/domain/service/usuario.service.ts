@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {UsuarioRepository} from '../repository/usuario.repository';
-import {AuthenticationService} from "./authentication.service";
-import {Usuario} from "../entity/usuario/Usuario.model";
-import {FileRepository} from "../repository/file.repository";
+import {AuthenticationService} from './authentication.service';
+import {Usuario} from '../entity/usuario/Usuario.model';
+import {FileRepository} from '../repository/file.repository';
 
 /**
  *
@@ -54,12 +54,12 @@ export class UsuarioService {
     const foto = usuario.foto;
     const toSave = usuario;
     delete toSave.password;
-
-    return this.usuarioRepository.update(usuario.key, toSave).then(result => {
+//TODO fazer promise customizada
+    return this.usuarioRepository.save(toSave).then(result => {
       // this.authenticationService.save(usuario);
-      console.log(result);
-      this.fileRepository.save(result.key, foto)
-        .then(result => console.log(result));
+      if (foto)
+        this.fileRepository.save(result.key, foto)
+          .then(result => console.log(result));
     });
   }
 

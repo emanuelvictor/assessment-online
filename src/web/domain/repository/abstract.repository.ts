@@ -40,16 +40,29 @@ export abstract class AbstractRepository {
    *                      CRUD
    * ---------------------------------------------------------------
    */
-
+  /**
+   * Busca todos os ítens
+   * @returns {Observable<any[]>}
+   */
   public find(): Observable<any[]> {
     return this._items;
   }
 
+  /**
+   * Busca somente um ítem
+   * @param {string} key
+   * @returns {Observable<any>}
+   */
   public findOne(key: string): Observable<any> {
     return this._angularFireDatabase.object(this._path + '/' + key).snapshotChanges()
       .map((changes => ({key: changes.payload.key, ...changes.payload.val()})));
   }
 
+  /**
+   *
+   * @param item
+   * @returns {PromiseLike<any>}
+   */
   public save(item: any): PromiseLike<any> {
 
     this.removeNullProperties(item);
@@ -61,37 +74,43 @@ export abstract class AbstractRepository {
       return this.update(item.key, item);
 
     return this._itemsRef.push(item)
-      .then(result =>
-        result = this.getItemWithKey(item , result)
-      );
+      .then(result => AbstractRepository.getItemWithKey(item, result));
   }
 
   /**
-   * Todo FALCATRUA
+   *
+   * @param {string} key
    * @param item
-   * @param result
-   * @returns {any}
+   * @returns {Promise<any>}
    */
-  private getItemWithKey(item: any, result: any): any {
-    item.key = result.key;
-    return item;
+  private update(key: string, item: any): Promise<any> {
+    return new Promise((resolve) => {
+      this._itemsRef.update(key, item)
+        .then(result => {
+          /**
+           * 'result' do angularfire não funciona
+           */
+          this.findOne(key).subscribe(result => {
+            resolve(result);
+          })
+        });
+    });
   }
 
-  public update(key: string, item: any): Promise<any> {
-    this.removeNullProperties(item);
-
-    return this._itemsRef.update(key, item);
-  }
-
+  /**
+   * Remove o ítem
+   * @param {string} key
+   * @returns {Promise<any>}
+   */
   public remove(key: string): Promise<any> {
     return this._itemsRef.remove(key);
   }
 
   /**
-   *
+   * Remove propriedades nulas ou undefined
    * @param test
    */
-  public removeNullProperties(test) {
+  private removeNullProperties(test) {
     for (const i in test) {
       if (test[i] === null || isUndefined(test[i])) {
         delete test[i];
@@ -100,6 +119,16 @@ export abstract class AbstractRepository {
         this.removeNullProperties(test[i]);
       }
     }
+  }
+
+  /**
+   * @param item
+   * @param result
+   * @returns {any}
+   */
+  private static getItemWithKey(item: any, result: any): any {
+    item.key = result.key;
+    return item;
   }
 
   /**
@@ -114,21 +143,5 @@ export abstract class AbstractRepository {
 
   set path(value: string) {
     this._path = value;
-  }
-
-  get itemsRef(): AngularFireList<any> {
-    return this._itemsRef;
-  }
-
-  get items(): Observable<any[]> {
-    return this._items;
-  }
-
-  get angularFireDatabase(): AngularFireDatabase {
-    return this._angularFireDatabase;
-  }
-
-  set angularFireDatabase(value: AngularFireDatabase) {
-    this._angularFireDatabase = value;
   }
 }
