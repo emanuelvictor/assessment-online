@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {textMasks} from '../../../../../application/controls/text-masks/text-masks';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Http} from '@angular/http';
 import {MatSnackBar} from '@angular/material';
-import {AuthenticationService} from '../../../../service/authentication.service';
 import {Usuario} from '../../../../entity/usuario/Usuario.model';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'inserir-atendente',
@@ -13,12 +11,6 @@ import {Usuario} from '../../../../entity/usuario/Usuario.model';
   styleUrls: ['./inserir-atendente.component.css']
 })
 export class InserirAtendenteComponent implements OnInit {
-
-  /**
-   *
-   */
-  masks = textMasks;
-
   /**
    *
    * @type {Usuario}
@@ -29,19 +21,18 @@ export class InserirAtendenteComponent implements OnInit {
    *
    * @param {UsuarioService} usuarioService
    * @param {Router} router
-   * @param {Http} http
    * @param {MatSnackBar} snackBar
    * @param {ActivatedRoute} activatedRoute
-   * @param {AuthenticationService} authenticationService
+   * @param {Title} title
    */
-  constructor(public usuarioService: UsuarioService, public router: Router, public http: Http, public snackBar: MatSnackBar, public activatedRoute: ActivatedRoute, private authenticationService: AuthenticationService) {
+  constructor(public usuarioService: UsuarioService, public router: Router, public snackBar: MatSnackBar, public activatedRoute: ActivatedRoute, private title: Title) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    // this.atendente.perfil = 'COOPERADOR';
+    this.title.setTitle('Inserir atendente');
   }
 
   /**

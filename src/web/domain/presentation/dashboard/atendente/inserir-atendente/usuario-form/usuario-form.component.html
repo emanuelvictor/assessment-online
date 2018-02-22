@@ -1,47 +1,68 @@
-<div layout-align="center center" layout-gt-xs="row" layout-margin>
-  <div layout="row" flex-gt-xs="80" layout-margin>
+<div layout-align='center center' layout-gt-xs='row' layout-margin>
+  <div layout='row' flex-gt-xs='80' layout-margin>
     <div flex layout-margin>
-      <mat-card class="bgc-grey-50" layout-margin style="max-width: 1200px">
-        <form [formGroup]="form" (ngSubmit)="saveAtendente(form)" novalidate>
+      <mat-card class='bgc-grey-50' layout-margin style='max-width: 1200px'>
+        <form [formGroup]='form' (ngSubmit)='saveAtendente(form)' novalidate>
           <mat-card-content>
             <div layout-margin>
 
               <!--cabeçalho div-->
-              <div layout="column" layout-margin flex>
-                <div layout="row" layout-align="start center">
+              <div layout='column' layout-margin flex>
+                <div layout='row' layout-align='start center'>
                   <ng-content></ng-content>
-                </div>
-
-                <div layout="row" layout-margin>
-                  <h1 class="mat-subheading-2 ing-2 tc-grey-500" flex>INFORMAÇÕES GERAIS</h1>
                 </div>
               </div>
 
               <!--dados e foto div-->
-              <div layout-gt-xs="row" flex>
+              <div layout-gt-sm='row' flex>
+                <!--<div flex>-->
+                <div layout='column' flex layout-align='center center'>
+                  <div flex>
+                    <avatar [usuario]="{'key': usuario.key , 'foto': foto}"></avatar>
+                  </div>
+                  <div flex *ngIf='foto'>
+                    <button *ngIf='!progress' type='button' (click)='removeFoto()' class='tc-grey-500' mat-button>
+                      REMOVER FOTO
+                    </button>
+                    <span style='color: #5e7c8b' *ngIf='progress'>Upload da imagem em <strong>{{(progress * 100).toFixed(0)}}%</strong></span>
+                  </div>
+                  <div flex *ngIf='!foto'>
+                    <td-file-upload #singleFileUpload
+                                    defaultColor='primary'
+                                    (change)='fileChange($event)'
+                                    accept='.png, .gif, .jpg, .jpeg'>
+                      <span>{{ singleFileUpload.files?.name }}</span>
+                      <ng-template td-file-input-label>
+                        <mat-icon>attach_file</mat-icon>
+                        <span>Adicionar foto</span>
+                      </ng-template>
+                    </td-file-upload>
+                  </div>
+                </div>
+
                 <!--dados div-->
-                <div layout="column" flex>
-                  <div layout="row" layout-margin>
+                <div layout='column' flex-gt-sm='70'>
+                  <div layout='row' layout-margin>
                     <mat-form-field flex>
-                      <input placeholder="Nome"
-                             formControlName="nome"
-                             maxlength="200" required
-                             [(ngModel)]="usuario.nome"
-                             id="nome" name="nome" matInput>
+                      <input placeholder='Nome'
+                             formControlName='nome'
+                             maxlength='200' required
+                             [(ngModel)]='usuario.nome'
+                             id='nome' name='nome' matInput>
                       <mat-error>
                         Esse campo é obrigatório
                       </mat-error>
                     </mat-form-field>
                   </div>
-                  <div layout="row" layout-margin>
+                  <div layout='row' layout-margin>
                     <mat-form-field flex>
-                      <input [(ngModel)]="usuario.email"
-                             matInput name="email" id="email"
-                             type="email" formControlName="email"
-                             placeholder="E-mail" maxlength="144"
-                             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$">
+                      <input [(ngModel)]='usuario.email'
+                             matInput name='email' id='email'
+                             type='email' formControlName='email'
+                             placeholder='E-mail' maxlength='144'
+                             pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'>
                       <mat-error *ngIf="form.controls['email'].hasError('pattern')">
-                        E-mail inválido, utilize o formato "email@email.com"
+                        E-mail inválido, utilize o formato 'email@email.com'
                       </mat-error>
                       <mat-error>
                         Esse campo é obrigatório

@@ -16,20 +16,36 @@ import {Usuario} from '../../../../../entity/usuario/Usuario.model';
 })
 export class AtendenteFormComponent implements OnInit {
 
-  /**
-   *
-   */
-  public unidadesList: any[];
 
   /**
    *
    */
-  form: any;
+  public foto: any = null;
+
+  /**
+   *
+   */
+  private file: File;
+
+  /**
+   *
+   */
+  private NProgress = window['NProgress'];
+
+  /**
+   *
+   */
+  public progress = 0.0;
 
   /**
    *
    */
   masks = textMasks;
+
+  /**
+   *
+   */
+  form: any;
 
   /**
    *
@@ -59,24 +75,6 @@ export class AtendenteFormComponent implements OnInit {
    *
    */
   ngOnInit() {
-
-    /**
-     * Se tem usuario, ou seja, se está editando, busca a unidade dele
-     */
-    if (this.usuario && this.usuario.key){
-      // this.unidadeService.findOne(this.usuario.unidade.key).subscribe(result => { TODO
-      //   this.unidadeSelected = [];
-      //   this.unidadeSelected.push(result);
-      // });
-    }
-
-    /**
-     * Sobscreve para pegar lista de unidades inicial
-     */
-    this.unidadeService.find().subscribe((result) => {
-      this.unidadesList = result;
-    });
-
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],
       email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
@@ -135,11 +133,6 @@ export class AtendenteFormComponent implements OnInit {
     }
 
     if (valid) {
-      // if (!this.usuario.unidade || !this.usuario.unidade.key){ todo
-      //   this.error('Selecione uma unidade');
-      //   return;
-      // }
-
       this.save.emit(this.usuario);
     }
   }
@@ -161,26 +154,29 @@ export class AtendenteFormComponent implements OnInit {
       duration: 5000
     });
   }
-
-
   /**
    *
-   * @param unidade
+   * @param event
    */
-  public addUnidade(unidade: any) {
-    // this.usuario.unidade = unidade; todo
-    // this.unidadeService.find().subscribe().unsubscribe();
-    // this.unidadesList = [];
+  fileChange(event) {
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      this.file = fileList[0];
+      const reader = new FileReader();
+      console.log(this.file);
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (arquivo: any) => {
+        this.usuario.foto = arquivo.target.result;
+      };
+    }
   }
 
   /**
    *
    */
-  public removeUnidade() {
-    // this.usuario.unidade = null; todo
-    //
-    // this.unidadeService.find().subscribe((result) => {
-    //   this.unidadesList = result;
-    // });
+  public removeFoto() {
+    this.foto = null;
+    this.file = null;
   }
+
 }

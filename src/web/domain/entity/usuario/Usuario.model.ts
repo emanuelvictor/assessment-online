@@ -4,6 +4,8 @@ import {Abstract} from '../abstract/Abstract.model';
 
 export class Usuario extends Abstract {
 
+  public foto: File;
+
   public nome: string;
 
   public isAdministrador: boolean;

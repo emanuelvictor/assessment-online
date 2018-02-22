@@ -5,7 +5,7 @@ import {textMasks} from '../../../../../application/controls/text-masks/text-mas
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {UsuarioService} from '../../../../service/usuario.service';
-import {Colaborador} from '../../../../entity/colaborador/Colaborador.model';
+import {Usuario} from "../../../../entity/usuario/Usuario.model";
 
 /**
  *
@@ -26,7 +26,7 @@ export class AlterarAtendenteComponent implements OnInit {
    *
    * @type {Colaborador}
    */
-  colaborador: Colaborador = new Colaborador();
+  atendente: Usuario = new Usuario();
 
   /**
    *
@@ -45,31 +45,31 @@ export class AlterarAtendenteComponent implements OnInit {
    *
    */
   ngOnInit() {
-    let colaboradorKey: string = this.activatedRoute.snapshot.params['key'];
-    this.find(colaboradorKey);
+    let atendenteKey: string = this.activatedRoute.snapshot.params['key'];
+    this.find(atendenteKey);
   }
 
   /**
    *
-   * @param {string} colaboradorKey
+   * @param {string} atendenteKey
    */
-  public find(colaboradorKey: string) {
-    this.usuarioService.findOne(colaboradorKey).subscribe(colaborador => this.colaborador = colaborador)
+  public find(atendenteKey: string) {
+    this.usuarioService.findOne(atendenteKey).subscribe(atendente => this.atendente = atendente)
   }
 
   /**
    *
-   * @param colaborador
+   * @param atendente
    */
-  public update(colaborador): void {
-    this.usuarioService.save(colaborador).then(result => {
-      if (colaborador.email && colaborador.email.length) {
-        // this.authenticationService.getNativeFirebaseInstance().auth().createUserWithEmailAndPassword(colaborador.email, '123456789')
+  public update(atendente): void {
+    this.usuarioService.save(atendente).then(result => {
+      if (atendente.email && atendente.email.length) {
+        // this.authenticationService.getNativeFirebaseInstance().auth().createUserWithEmailAndPassword(atendente.email, '123456789')
         //   .then(result => console.log(result))
         //   .catch(exception => console.log(exception));
       }
 
-      colaborador = result;
+      atendente = result;
       this.success('Atendente alterado com sucesso');
     })
   }
