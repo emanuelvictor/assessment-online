@@ -17,14 +17,6 @@
             </div>
 
             <visualizar-dados-usuario [usuario]='atendente' *ngIf='atendente?.key' flex>
-              <div flex layout='column'>
-                <mat-checkbox layout-margin
-                              hide-sm hide-xs
-                              [(ngModel)]='atendente.isAdministrador'
-                              (change)='handlerIsAdministrador(atendente)'>
-                  Administrador
-                </mat-checkbox>
-              </div>
 
               <!--options-->
               <div layout='column' layout-align='start end' flex>
@@ -43,11 +35,6 @@
                     <button mat-menu-item color='primary' (click)='remove(atendente?.key)'>
                       <mat-icon>delete</mat-icon>
                       <span>Remover</span>
-                    </button>
-                    <button hide-gt-sm mat-menu-item color='primary'
-                            (click)='handlerIsAdministrador(atendente)'>
-                      <mat-icon>supervisor_account</mat-icon>
-                      <span>Tornar administrador</span>
                     </button>
                   </mat-menu>
                 </div>

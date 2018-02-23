@@ -86,13 +86,6 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   */
-  public handlerIsAdministrador(atendente: Usuario) {
-    this.usuarioService.save(atendente).then(result => atendente = result)
-  }
-
-  /**
-   *
    * @param {number} atendenteKey
    */
   public remove(atendenteKey: string) {

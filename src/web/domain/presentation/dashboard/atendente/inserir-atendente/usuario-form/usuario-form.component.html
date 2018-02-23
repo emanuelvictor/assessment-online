@@ -67,6 +67,11 @@
                         Esse campo é obrigatório
                       </mat-error>
                     </mat-form-field>
+                    <div layout="column" layout-align="center center">
+                      <mat-checkbox [(ngModel)]='usuario.isAdministrador' [ngModelOptions]="{standalone: true}" >
+                        Administrador
+                      </mat-checkbox>
+                    </div>
                   </div>
                   <password-form [usuario]='usuario' [form]='form'
                                  *ngIf='usuario?.email && !usuario?.key'>

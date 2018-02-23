@@ -6,7 +6,8 @@
     "web": "ng serve -a web --open",
     "mobile": "ng serve -a mobile --port 9000 --open",
     "start": "ng serve -a web",
-    "mavenbuild": "node --max_old_space_size=8192 node_modules/.bin/ng build -a web --prod",
+    "build": "ng build -a web --prod && ng build -a mobile --prod",
+    "deploy": "npm run build && firebase deploy",
     "ng-high-mem": "node --max_old_space_size=8192 node_modules/.bin/ng"
   },
   "dependencies": {

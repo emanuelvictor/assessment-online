@@ -56,7 +56,6 @@ export class UsuarioService {
     delete toSave.password;
     delete toSave.arquivoFile;
     delete toSave.urlFile;
-
     return new Promise((resolve) => {
       this.usuarioRepository.save(toSave)
         .then(result => {
