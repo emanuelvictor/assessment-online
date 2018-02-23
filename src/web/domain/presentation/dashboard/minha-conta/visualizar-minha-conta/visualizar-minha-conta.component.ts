@@ -6,6 +6,8 @@ import {AuthenticationService} from '../../../../service/authentication.service'
 import {Usuario} from '../../../../entity/usuario/Usuario.model';
 import {Subscription} from 'rxjs/Subscription';
 import {UsuarioService} from '../../../../service/usuario.service';
+import {ActivatedRoute} from '@angular/router';
+import {FileRepository} from '../../../../repository/file.repository';
 
 @Component({
   selector: 'visualizar-minha-conta',
@@ -39,12 +41,16 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
    *
    * @param {MatDialog} dialog
    * @param {MatSnackBar} snackBar
+   * @param {ActivatedRoute} activatedRoute
    * @param {UsuarioService} usuarioService
+   * @param {FileRepository} fileRepository
    * @param {AuthenticationService} authenticationService
    */
   constructor(public dialog: MatDialog,
               public snackBar: MatSnackBar,
+              public activatedRoute: ActivatedRoute,
               public usuarioService: UsuarioService,
+              public fileRepository: FileRepository,
               public authenticationService: AuthenticationService) {
   }
 

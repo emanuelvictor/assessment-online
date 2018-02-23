@@ -3,6 +3,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {AuthenticationService} from "../../../../../service/authentication.service";
 import {textMasks} from '../../../../../../application/controls/text-masks/text-masks';
 import {Usuario} from '../../../../../entity/usuario/Usuario.model';
+import {FileRepository} from '../../../../../repository/file.repository';
 
 @Component({
   selector: 'visualizar-dados-usuario',
@@ -10,6 +11,12 @@ import {Usuario} from '../../../../../entity/usuario/Usuario.model';
   styleUrls: ['./visualizar-dados-usuario.component.css']
 })
 export class VisualizarDadosUsuarioComponent implements OnInit {
+
+
+  /**
+   *
+   */
+  foto : string;
 
   /**
    *
@@ -30,9 +37,11 @@ export class VisualizarDadosUsuarioComponent implements OnInit {
   /**
    *
    * @param {ActivatedRoute} activatedRoute
+   * @param {FileRepository} fileRepository
    * @param {AuthenticationService} authenticationService
    */
   constructor(public activatedRoute: ActivatedRoute,
+              public fileRepository: FileRepository,
               public authenticationService: AuthenticationService) {
   }
 

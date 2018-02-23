@@ -4,7 +4,9 @@ import {Abstract} from '../abstract/Abstract.model';
 
 export class Usuario extends Abstract {
 
-  public foto: File;
+  public urlFile: string;
+
+  public arquivoFile: File;
 
   public nome: string;
 

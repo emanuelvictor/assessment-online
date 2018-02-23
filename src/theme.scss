@@ -53,7 +53,7 @@ mat-toolbar {
 }
 
 @media screen and (max-width: 800px) {
-  .tfc-content-dialog {
+  .assessment-content-dialog {
     width: inherit;
   }
 }
@@ -109,22 +109,22 @@ mat-toolbar {
   width: 800px !important;
 }
 
-// Referente ao toggle slider
-.mat-slide-toggle-thumb {
-  background-color: #5e7c8b;
-}
-
-.mat-slide-toggle-bar {
-  background-color: rgb(197, 207, 212);
-  width: 40px !important;
-  height: 25px !important;
-  border-radius: 77px !important;
-}
-
-.mat-slide-toggle-thumb-container {
-  top: 2px !important;
-  left: 2px !important;
-}
+//// Referente ao toggle slider
+//.mat-slide-toggle-thumb {
+//  background-color: #5e7c8b;
+//}
+//
+//.mat-slide-toggle-bar {
+//  background-color: #9c27b0 !important;
+//  width: 40px !important;
+//  height: 25px !important;
+//  border-radius: 77px !important;
+//}
+//
+//.mat-slide-toggle-thumb-container {
+//  top: 2px !important;
+//  left: 2px !important;
+//}
 
 /**
 Remove a transparência padrão do mat-icon

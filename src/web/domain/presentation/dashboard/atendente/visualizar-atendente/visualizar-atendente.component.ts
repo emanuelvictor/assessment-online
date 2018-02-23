@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from "@angular/material";
-import {textMasks} from "../../../../../application/controls/text-masks/text-masks";
-import {AlterarSenhaComponent} from "./alterar-senha/alterar-senha.component";
-import {ConfirmDialogComponent} from "../../../../../application/controls/confirm-dialog/confirm-dialog.component";
-import {UsuarioService} from "../../../../service/usuario.service";
-import {UnidadeService} from "../../../../service/unidade.service";
-import {Usuario} from "../../../../entity/usuario/Usuario.model";
+import {MatDialog, MatSnackBar} from '@angular/material';
+import {textMasks} from '../../../../../application/controls/text-masks/text-masks';
+import {AlterarSenhaComponent} from './alterar-senha/alterar-senha.component';
+import {ConfirmDialogComponent} from '../../../../../application/controls/confirm-dialog/confirm-dialog.component';
+import {UsuarioService} from '../../../../service/usuario.service';
+import {UnidadeService} from '../../../../service/unidade.service';
+import {Usuario} from '../../../../entity/usuario/Usuario.model';
 
 @Component({
   selector: 'visualizar-atendente',
@@ -82,6 +82,13 @@ export class VisualizarAtendenteComponent implements OnInit {
     this.dialog.open(AlterarSenhaComponent, {
       data: this.atendente,
     });
+  }
+
+  /**
+   *
+   */
+  public handlerIsAdministrador(atendente: Usuario) {
+    this.usuarioService.save(atendente).then(result => atendente = result)
   }
 
   /**

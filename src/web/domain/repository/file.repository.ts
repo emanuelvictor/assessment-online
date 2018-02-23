@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFireStorage, AngularFireUploadTask} from 'angularfire2/storage';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class FileRepository {
@@ -19,5 +20,14 @@ export class FileRepository {
    */
   save(key: string, file: File): AngularFireUploadTask {
     return this.storage.upload(key, file);
+  }
+
+  /**
+   *
+   * @param {string} key
+   * @returns {Observable<any>}
+   */
+  findOne(key: string): Observable<any> {
+    return this.storage.ref(key).getDownloadURL();
   }
 }

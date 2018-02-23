@@ -11,9 +11,9 @@ import {FileRepository} from '../repository/file.repository';
 @Injectable()
 export class UsuarioService {
   /**
-   *
-   * @param {UsuarioRepository} usuarioRepository
    * @param {AuthenticationService} authenticationService TODO substituir por accountRepository
+   * @param {UsuarioRepository} usuarioRepository
+   * @param {FileRepository} fileRepository
    */
   constructor(private usuarioRepository: UsuarioRepository, private authenticationService: AuthenticationService, private fileRepository: FileRepository) {
   }
@@ -32,6 +32,7 @@ export class UsuarioService {
    * @returns {Observable<any>}
    */
   public findOne(key: string): Observable<any> {
+    // var source = Observable.create(this.usuarioRepository.findOne(key), this.usuarioRepository.findUsuarioByEmail('asdfas')); TODO
     return this.usuarioRepository.findOne(key);
   }
 
@@ -50,16 +51,29 @@ export class UsuarioService {
    * @returns {PromiseLike<any>}
    */
   public save(usuario: Usuario): PromiseLike<any> {
-    console.log('asdfasd');
-    const foto = usuario.foto;
+    const foto = usuario.arquivoFile;
     const toSave = usuario;
     delete toSave.password;
-//TODO fazer promise customizada
-    return this.usuarioRepository.save(toSave).then(result => {
-      // this.authenticationService.save(usuario);
-      if (foto)
-        this.fileRepository.save(result.key, foto)
-          .then(result => console.log(result));
+    delete toSave.arquivoFile;
+    delete toSave.urlFile;
+
+    return new Promise((resolve) => {
+      this.usuarioRepository.save(toSave)
+        .then(result => {
+          // this.authenticationService.save(usuario);
+          if (foto) {
+            this.fileRepository.save(result.key, foto)
+              .then(uploaded => {
+                result.urlFile = uploaded.downloadURL;
+                this.usuarioRepository.save(result)
+                  .then(usuarioAtualizado => {
+                    resolve(usuarioAtualizado);
+                  })
+              });
+          } else {
+            resolve(result);
+          }
+        });
     });
   }
 

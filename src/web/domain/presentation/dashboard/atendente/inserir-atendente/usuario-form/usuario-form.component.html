@@ -18,15 +18,14 @@
                 <!--<div flex>-->
                 <div layout='column' flex layout-align='center center'>
                   <div flex>
-                    <avatar [usuario]="{'key': usuario.key , 'foto': foto}"></avatar>
+                    <avatar [usuario]="{'key': usuario.key , 'foto': urlFile}"></avatar>
                   </div>
-                  <div flex *ngIf='foto'>
-                    <button *ngIf='!progress' type='button' (click)='removeFoto()' class='tc-grey-500' mat-button>
+                  <div flex *ngIf='urlFile'>
+                    <button type='button' (click)='removeFile()' class='tc-grey-500' mat-button>
                       REMOVER FOTO
                     </button>
-                    <span style='color: #5e7c8b' *ngIf='progress'>Upload da imagem em <strong>{{(progress * 100).toFixed(0)}}%</strong></span>
                   </div>
-                  <div flex *ngIf='!foto'>
+                  <div flex *ngIf='!urlFile'>
                     <td-file-upload #singleFileUpload
                                     defaultColor='primary'
                                     (change)='fileChange($event)'
@@ -69,8 +68,9 @@
                       </mat-error>
                     </mat-form-field>
                   </div>
-                  <password-form *ngIf='usuario?.email && !usuario?.key'
-                                 [usuario]='usuario' [form]='form'></password-form>
+                  <password-form [usuario]='usuario' [form]='form'
+                                 *ngIf='usuario?.email && !usuario?.key'>
+                  </password-form>
                 </div>
               </div>
 

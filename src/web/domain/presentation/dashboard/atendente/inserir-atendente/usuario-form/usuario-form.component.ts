@@ -16,26 +16,17 @@ import {Usuario} from '../../../../../entity/usuario/Usuario.model';
 })
 export class AtendenteFormComponent implements OnInit {
 
+  /**
+   *
+   * @type {any}
+   */
+  urlFile = null;
 
   /**
    *
+   * @type {any}
    */
-  public foto: any = null;
-
-  /**
-   *
-   */
-  private file: File;
-
-  /**
-   *
-   */
-  private NProgress = window['NProgress'];
-
-  /**
-   *
-   */
-  public progress = 0.0;
+  arquivoFile = null;
 
   /**
    *
@@ -79,6 +70,8 @@ export class AtendenteFormComponent implements OnInit {
       nome: ['nome', [Validators.required]],
       email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
     });
+    this.urlFile = this.usuario.urlFile;
+    this.arquivoFile = this.usuario.arquivoFile;
   }
 
   /**
@@ -133,6 +126,8 @@ export class AtendenteFormComponent implements OnInit {
     }
 
     if (valid) {
+      this.usuario.arquivoFile = this.arquivoFile;
+      this.usuario.urlFile = this.urlFile;
       this.save.emit(this.usuario);
     }
   }
@@ -154,6 +149,7 @@ export class AtendenteFormComponent implements OnInit {
       duration: 5000
     });
   }
+
   /**
    *
    * @param event
@@ -161,13 +157,11 @@ export class AtendenteFormComponent implements OnInit {
   fileChange(event) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-      this.file = fileList[0];
-      this.usuario.foto = this.file;
+      this.arquivoFile = fileList[0];
       const reader = new FileReader();
-      console.log(this.file);
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (arquivo: any) => {
-        this.foto = arquivo.target.result;
+        this.urlFile = arquivo.target.result;
       };
     }
   }
@@ -175,9 +169,8 @@ export class AtendenteFormComponent implements OnInit {
   /**
    *
    */
-  public removeFoto() {
-    this.foto = null;
-    this.file = null;
+  public removeFile() {
+    this.urlFile = null;
+    this.arquivoFile = null;
   }
-
 }
