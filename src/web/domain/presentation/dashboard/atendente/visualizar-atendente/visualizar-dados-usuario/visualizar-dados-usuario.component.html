@@ -1,17 +1,28 @@
-<div layout="row">
+<div layout='row'>
 
-  <div layout="column" style="min-width: 17px">
-    <button *ngIf="activatedRoute?.snapshot?.params?.id"
-            class="mat-headline tc-grey-500" type="button"
-            routerLink="../" color="primary" mat-icon-button>
-      <mat-icon>arrow_back</mat-icon>
-    </button>
+  <!--<div layout="column" style="min-width: 17px">-->
+    <!--<button *ngIf="activatedRoute?.snapshot?.params?.id"-->
+            <!--class="mat-headline tc-grey-500" type="button"-->
+            <!--routerLink="../" color="primary" mat-icon-button>-->
+      <!--<mat-icon>arrow_back</mat-icon>-->
+    <!--</button>-->
+  <!--</div>-->
+
+
+  <div layout='column' flex layout-align='center start'>
+    <div flex class='push-top push-right push-bottom'>
+      <avatar [usuario]="{'key': usuario.key , 'foto': foto}"></avatar>
+    </div>
+    <div flex *ngIf='foto'>
+      <button *ngIf='!progress' type='button' (click)='removeFoto()' class='tc-grey-500' mat-button>
+        REMOVER FOTO
+      </button>
+    </div>
   </div>
 
 
   <!--div foto e informações-->
-  <div layout-gt-xs="row" layout-align="start center" flex>
-
+  <div layout-gt-xs="row" flex layout-align="start center">
     <div layout="row" layout-align="start center" layout-margin flex>
       <div layout="column">
         <h1 flex class="mat-headline tc-blue-grey-800 no-margin">{{usuario?.nome}}</h1>
@@ -19,6 +30,7 @@
       </div>
     </div>
   </div>
+  <span flex></span>
   <!--div opções-->
   <div layout="row" flex="40">
     <ng-content></ng-content>
