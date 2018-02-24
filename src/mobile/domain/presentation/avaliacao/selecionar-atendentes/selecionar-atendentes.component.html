@@ -1,30 +1,33 @@
-<mat-card-title class="push">
-  <div layout="column"
-       layout-align="center center">
+<mat-card-title class='push'>
+  <div layout='column'
+       layout-align='center center'>
     Selecione um ou mais atendentes
   </div>
 </mat-card-title>
-<mat-card-content style="margin-bottom: 0">
-  <mat-nav-list class="no-padding" style="cursor: pointer">
-
-    <mat-list-item layout="row" layout-align="center center" *ngFor="let atendente of atendentes" style="height: 90px"
-                  (click)="atendente.selected = !atendente.selected"
-                  [ngStyle]="{'background-color': (atendente.selected ? '#c9e5fd' : '')}">
-      <div mat-list-avatar style="width: 70px; height: 70px">
-        <avatar class="image-cover" [size]="0.6" [usuario]="{'key': atendente?.key , 'foto': atendente?.urlFile}"></avatar>
-      </div>
-      <div class="push-left" style="margin-top: 7px"> {{atendente.nome}}</div>
-    </mat-list-item>
+<mat-card-content style='margin-bottom: 0'>
+  <mat-nav-list class='pad-none'>
+    <mat-list class='pad-none'>
+      <mat-list-item layout='row' layout-align='center center' *ngFor='let atendente of atendentes'
+                     style='height: 90px'
+                     (click)='atendente.selected = !atendente.selected'
+                     [ngStyle]="{'background-color': (atendente.selected ? '#c9e5fd' : '')}">
+        <div mat-list-avatar style='width: 70px; height: 70px'>
+          <avatar class='image-cover' [size]='0.6'
+                  [usuario]="{'key': atendente?.key , 'foto': atendente?.urlFile}"></avatar>
+        </div>
+        <div class='push-left' style='margin-top: 7px'> {{atendente.nome}}</div>
+      </mat-list-item>
+    </mat-list>
   </mat-nav-list>
 </mat-card-content>
 <mat-card-actions>
-  <div layout-align="center end"
-       layout="column"
+  <div layout-align='center end'
+       layout='column'
        layout-margin>
-    <button layout-align="center end"
+    <button layout-align='center end'
             mat-button
-            color="primary"
-            (click)="concluir()">
+            color='primary'
+            (click)='concluir()'>
       Concluir
     </button>
   </div>

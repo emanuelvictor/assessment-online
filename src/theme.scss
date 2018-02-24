@@ -173,8 +173,8 @@ Menu da gaveta lateral
 }
 
 .cke_screen_reader_only {
-  width: 0px !important;
-  height: 0px !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .filters-card {
@@ -183,7 +183,7 @@ Menu da gaveta lateral
 }
 
 .mat-list, .mat-nav-list {
-  padding-top: 0px ! important;
+  padding-top: 0 ! important;
 }
 
 //Override
@@ -198,7 +198,7 @@ Menu da gaveta lateral
 .status-title {
   font-size: 14px;
   font-weight: bold;
-  margin: 0px;
+  margin: 0;
   margin-top: 25px;
 }
 
