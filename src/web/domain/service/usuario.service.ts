@@ -32,7 +32,6 @@ export class UsuarioService {
    * @returns {Observable<any>}
    */
   public findOne(key: string): Observable<any> {
-    // var source = Observable.create(this.usuarioRepository.findOne(key), this.usuarioRepository.findUsuarioByEmail('asdfas')); TODO
     return this.usuarioRepository.findOne(key);
   }
 
@@ -51,17 +50,17 @@ export class UsuarioService {
    * @returns {PromiseLike<any>}
    */
   public save(usuario: Usuario): PromiseLike<any> {
-    const foto = usuario.arquivoFile;
+    const file = usuario.arquivoFile;
     const toSave = usuario;
     delete toSave.password;
     delete toSave.arquivoFile;
-    delete toSave.urlFile;
+    // toSave.urlFile = undefined;
     return new Promise((resolve) => {
       this.usuarioRepository.save(toSave)
         .then(result => {
           // this.authenticationService.save(usuario);
-          if (foto) {
-            this.fileRepository.save(result.key, foto)
+          if (file) {
+            this.fileRepository.save(result.key, file)
               .then(uploaded => {
                 result.urlFile = uploaded.downloadURL;
                 this.usuarioRepository.save(result)
@@ -70,6 +69,12 @@ export class UsuarioService {
                   })
               });
           } else {
+            if (!usuario.urlFile) {
+              this.fileRepository.remove(result.key);
+              this.usuarioRepository.save(usuario).then(resulted => {
+                resolve(result);
+              });
+            }
             resolve(result);
           }
         });
@@ -82,6 +87,7 @@ export class UsuarioService {
    * @returns {Promise<any>}
    */
   public remove(key: string): Promise<any> {
-    return this.usuarioRepository.remove(key);
+    return this.usuarioRepository.remove(key)
+      .then(result => this.fileRepository.remove(key));
   }
 }

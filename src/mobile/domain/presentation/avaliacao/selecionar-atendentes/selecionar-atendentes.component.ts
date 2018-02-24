@@ -13,6 +13,7 @@ import {ColaboradorService} from '../../../../../web/domain/service/colaborador.
 export class SelecionarAtendentesComponent implements OnInit {
 
   /**
+   *
    * @type {Array}
    */
   atendentes: any[] = [];
@@ -35,13 +36,24 @@ export class SelecionarAtendentesComponent implements OnInit {
     setTimeout(() => {
       this.mobileService.reset();
       this.router.navigate(['/avaliar']);
-    }, 15000);
+    }, 180000);
 
     this.colaboradorService.findColaboradorByUnidadeKey(this.mobileService.getUnidade()).subscribe(colaboradores => {
       this.atendentes = [];
       colaboradores.forEach(colaborador => {
         this.usuarioService.findOne(colaborador.usuario.key).subscribe(usuario => {
-          this.atendentes.push(usuario);
+          if (colaborador.vinculo && colaborador.vinculo != 'Supervisor') {
+
+            let founded: boolean = false;
+
+            for (let i = 0; i < this.atendentes.length; i++)
+              if (this.atendentes[i].key === usuario.key) {
+                this.atendentes[i] = usuario;
+                founded = true;
+              }
+
+            if (!founded) this.atendentes.push(usuario);
+          }
         })
       });
     });

@@ -15,6 +15,15 @@ export class FileRepository {
   /**
    *
    * @param {string} key
+   * @returns {Observable<any>}
+   */
+  findOne(key: string): Observable<any> {
+    return this.storage.ref(key).getDownloadURL();
+  }
+
+  /**
+   *
+   * @param {string} key
    * @param {File} file
    * @returns {Promise<any>}
    */
@@ -25,9 +34,9 @@ export class FileRepository {
   /**
    *
    * @param {string} key
-   * @returns {Observable<any>}
+   * @returns {AngularFireUploadTask}
    */
-  findOne(key: string): Observable<any> {
-    return this.storage.ref(key).getDownloadURL();
+  remove(key: string): Promise<void> {
+    return this.storage.ref(key).delete().toPromise();
   }
 }

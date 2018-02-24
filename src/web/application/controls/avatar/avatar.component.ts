@@ -6,16 +6,13 @@ import "rxjs/add/operator/switchMap";
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss']
 })
-export class AvatarComponent implements OnInit
-{
-  /*-------------------------------------------------------------------
-   *                           ATTRIBUTES
-   *-------------------------------------------------------------------*/
+export class AvatarComponent implements OnInit {
+
   /**
    *
    */
   @Input()
-  public size: any;
+  public size: number = 0.8;
 
   /**
    * Identificador da foto "person"
@@ -28,33 +25,20 @@ export class AvatarComponent implements OnInit
   @Input()
   public usuario: any =
     {
-      foto: null,
-      isInstrutor : null,
+      foto: null
     };
 
-  /*-------------------------------------------------------------------
-   *                           CONSTRUCTOR
-   *-------------------------------------------------------------------*/
   /**
    *
    */
-  constructor()
-  {
+  constructor() {
   }
 
-
-
-  /*-------------------------------------------------------------------
-   *                           BEHAVIORS
-   *-------------------------------------------------------------------*/
   /**
    *
-   * @constructor
    */
-  public ngOnInit()
-  {
+  public ngOnInit() {
     this.identifier = Math.floor(Math.random() * 2000).toString();
-
     if (!this.size)
       this.size = 1;
   }

@@ -8,7 +8,7 @@
   <div *ngIf="usuario" class="avatar" layout-margin
        style="cursor: pointer" [matMenuTriggerFor]="menu"
        layout-align="center center" layout="row">
-    <avatar style="margin-top:10px" [usuario]="usuario" [size]="0.4"></avatar>
+    <avatar style="margin-top:10px" [usuario]="usuario" [size]="0.2"></avatar>
   </div>
   <mat-menu #menu="matMenu">
     <button mat-menu-item color="primary" (click)="logout()">

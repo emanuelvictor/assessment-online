@@ -34,6 +34,8 @@ import {ColaboradorRepository} from '../../web/domain/repository/colaborador.rep
 import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
 import {AvaliacaoRepository} from '../../web/domain/repository/avaliacao.repository';
 import {AvaliacaoColaboradorRepository} from '../../web/domain/repository/avaliacao-colaborador.repository';
+import {FileRepository} from "../../web/domain/repository/file.repository";
+import {AngularFireStorageModule} from "angularfire2/storage";
 
 /**
  *
@@ -56,11 +58,13 @@ import {AvaliacaoColaboradorRepository} from '../../web/domain/repository/avalia
 
     AngularFireModule.initializeApp(environment.firebase, 'assessment-online'), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule // imports firebase/auth, only needed for auth features
+    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+    AngularFireStorageModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     Describer,
+    FileRepository,
     ColaboradorRepository,
     EnderecoRepository,
     UnidadeRepository,

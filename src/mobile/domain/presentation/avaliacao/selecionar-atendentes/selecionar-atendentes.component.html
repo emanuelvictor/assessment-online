@@ -4,14 +4,14 @@
     Selecione um ou mais atendentes
   </div>
 </mat-card-title>
-<mat-card-content>
+<mat-card-content style="margin-bottom: 0">
   <mat-nav-list class="no-padding" style="cursor: pointer">
 
-    <mat-list-item layout="row" layout-align="center center" *ngFor="let atendente of atendentes"
+    <mat-list-item layout="row" layout-align="center center" *ngFor="let atendente of atendentes" style="height: 90px"
                   (click)="atendente.selected = !atendente.selected"
                   [ngStyle]="{'background-color': (atendente.selected ? '#c9e5fd' : '')}">
-      <div mat-list-avatar>
-        <avatar class="image-cover" [usuario]="atendente" [size]="0.4"></avatar>
+      <div mat-list-avatar style="width: 70px; height: 70px">
+        <avatar class="image-cover" [size]="0.6" [usuario]="{'key': atendente?.key , 'foto': atendente?.urlFile}"></avatar>
       </div>
       <div class="push-left" style="margin-top: 7px"> {{atendente.nome}}</div>
     </mat-list-item>
