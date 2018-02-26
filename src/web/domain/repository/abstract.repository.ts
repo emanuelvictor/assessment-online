@@ -9,6 +9,10 @@ export abstract class AbstractRepository {
    *                      Attributes
    * ---------------------------------------------------------------
    */
+  /**
+   * Instancia a partir do window o NProgress
+   */
+  progress = window['NProgress'];
 
   private _path: string = '';
   private _itemsRef: AngularFireList<any>;
@@ -30,7 +34,10 @@ export abstract class AbstractRepository {
     this._angularFireDatabase = angularFireDatabase;
 
     this._itemsRef = this._angularFireDatabase.list(this._path);
+
+    this.progress.start();
     this._items = this._itemsRef.snapshotChanges().map(changes => {
+      this.progress.done();
       return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
     });
   }
@@ -54,8 +61,11 @@ export abstract class AbstractRepository {
    * @returns {Observable<any>}
    */
   public findOne(key: string): Observable<any> {
-    return this._angularFireDatabase.object(this._path + '/' + key).snapshotChanges()
-      .map((changes => ({key: changes.payload.key, ...changes.payload.val()})));
+    this.progress.start();
+    return this._angularFireDatabase.object(this._path + '/' + key).snapshotChanges().map(changes => {
+      this.progress.done();
+      return {key: changes.payload.key, ...changes.payload.val()};
+    });
   }
 
   /**
@@ -64,7 +74,7 @@ export abstract class AbstractRepository {
    * @returns {PromiseLike<any>}
    */
   public save(item: any): PromiseLike<any> {
-
+    this.progress.start();
     this.removeNullProperties(item);
 
     /**
@@ -74,7 +84,10 @@ export abstract class AbstractRepository {
       return this.update(item.key, item);
 
     return this._itemsRef.push(item)
-      .then(result => AbstractRepository.getItemWithKey(item, result));
+      .then(result => {
+        this.progress.done();
+        return AbstractRepository.getItemWithKey(item, result)
+      });
   }
 
   /**
@@ -91,6 +104,7 @@ export abstract class AbstractRepository {
            * 'result' do angularfire não funciona
            */
           this.findOne(key).subscribe(result => {
+            this.progress.done();
             resolve(result);
           })
         });
@@ -103,7 +117,8 @@ export abstract class AbstractRepository {
    * @returns {Promise<any>}
    */
   public remove(key: string): Promise<any> {
-    return this._itemsRef.remove(key);
+    this.progress.start();
+    return this._itemsRef.remove(key).then(this.progress.done());
   }
 
   /**
