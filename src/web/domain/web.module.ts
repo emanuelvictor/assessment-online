@@ -62,10 +62,11 @@ import {EnderecoRepository} from './repository/endereco.repository';
 import {VisualizarDadosUsuarioComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-dados-usuario/visualizar-dados-usuario.component';
 import {VincularUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/vincular-unidade/vincular-unidade.component';
 import {VisualizarVinculoUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-vinculo-unidade/visualizar-vinculo-unidade.component';
-import {ColaboradorService} from "./service/colaborador.service";
-import {ColaboradorRepository} from "./repository/colaborador.repository";
-import {FileRepository} from "./repository/file.repository";
-import {AngularFireStorageModule} from "angularfire2/storage";
+import {ColaboradorService} from './service/colaborador.service';
+import {ColaboradorRepository} from './repository/colaborador.repository';
+import {FileRepository} from './repository/file.repository';
+import {AngularFireStorageModule} from 'angularfire2/storage';
+import {FotoLoadingComponent} from '../application/controls/foto-loading/foto-loading.component';
 
 /**
  *
@@ -96,6 +97,7 @@ import {AngularFireStorageModule} from "angularfire2/storage";
     ConfirmDialogComponent,
     WebComponent,
     HeaderComponent,
+    FotoLoadingComponent,
 
     // atendente
     AtendenteViewComponent,
@@ -140,7 +142,7 @@ import {AngularFireStorageModule} from "angularfire2/storage";
     AngularFireStorageModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent],
+  entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent],
   providers: [
     Describer,
     EnderecoRepository,

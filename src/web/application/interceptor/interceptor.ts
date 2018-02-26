@@ -6,6 +6,9 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw'
 import {MatSnackBar} from "@angular/material";
 
+/**
+ *
+ */
 @Injectable()
 export class Interceptor implements HttpInterceptor {
 

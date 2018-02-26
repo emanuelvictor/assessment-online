@@ -4,6 +4,8 @@ import {UsuarioRepository} from '../repository/usuario.repository';
 import {AuthenticationService} from './authentication.service';
 import {Usuario} from '../entity/usuario/Usuario.model';
 import {FileRepository} from '../repository/file.repository';
+import {MatSnackBar} from '@angular/material';
+import {FotoLoadingComponent} from '../../application/controls/foto-loading/foto-loading.component';
 
 /**
  *
@@ -11,11 +13,13 @@ import {FileRepository} from '../repository/file.repository';
 @Injectable()
 export class UsuarioService {
   /**
-   * @param {AuthenticationService} authenticationService TODO substituir por accountRepository
+   *
    * @param {UsuarioRepository} usuarioRepository
+   * @param {MatSnackBar} snackBar
+   * @param {AuthenticationService} authenticationService TODO substituir por accountRepository
    * @param {FileRepository} fileRepository
    */
-  constructor(private usuarioRepository: UsuarioRepository, private authenticationService: AuthenticationService, private fileRepository: FileRepository) {
+  constructor(private usuarioRepository: UsuarioRepository, private snackBar: MatSnackBar, private authenticationService: AuthenticationService, private fileRepository: FileRepository) {
   }
 
   /**
@@ -45,17 +49,23 @@ export class UsuarioService {
   }
 
   /**
+   * TODO NORMALIZAAAAAAAAAAAAAAAARR
    *
    * @param {Usuario} usuario
    * @returns {PromiseLike<any>}
    */
   public save(usuario: Usuario): PromiseLike<any> {
+
     const file = usuario.arquivoFile;
     const toSave = usuario;
     delete toSave.password;
     delete toSave.arquivoFile;
     // toSave.urlFile = undefined;
     return new Promise((resolve) => {
+      if (file)
+        this.snackBar.openFromComponent(FotoLoadingComponent, {
+          duration: 60000,
+        });
       this.usuarioRepository.save(toSave)
         .then(result => {
           // this.authenticationService.save(usuario);
@@ -65,6 +75,7 @@ export class UsuarioService {
                 result.urlFile = uploaded.downloadURL;
                 this.usuarioRepository.save(result)
                   .then(usuarioAtualizado => {
+                    this.snackBar.dismiss();
                     resolve(usuarioAtualizado);
                   })
               });

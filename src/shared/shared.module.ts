@@ -16,7 +16,7 @@ import {
   MatMenuModule,
   MatNativeDateModule,
   MatOptionModule,
-  MatPaginatorModule,
+  MatPaginatorModule, MatProgressBarModule,
   MatRadioModule,
   MatSelectModule,
   MatSidenavModule,
@@ -28,7 +28,7 @@ import {
   MatTableModule,
   MatToolbarModule,
   MatTooltipModule
-} from "@angular/material";
+} from '@angular/material';
 import {RouterModule} from "@angular/router";
 import {CovalentMarkdownModule} from "@covalent/markdown";
 import {
@@ -99,6 +99,7 @@ import {AvatarComponent} from "../web/application/controls/avatar/avatar.compone
     MatStepperModule,
     MatChipsModule,
     MatAutocompleteModule,
+    MatProgressBarModule
   ],
   exports: [
     AvatarComponent,
@@ -146,7 +147,8 @@ import {AvatarComponent} from "../web/application/controls/avatar/avatar.compone
     MatSnackBarModule,
     MatStepperModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatProgressBarModule
   ],
 })
 export class SharedModule {
