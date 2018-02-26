@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {AngularFireStorage, AngularFireUploadTask} from 'angularfire2/storage';
 import {Observable} from 'rxjs/Observable';
 
+/**
+ *
+ */
 @Injectable()
 export class FileRepository {
 
@@ -37,6 +40,11 @@ export class FileRepository {
    * @returns {AngularFireUploadTask}
    */
   remove(key: string): Promise<void> {
-    return this.storage.ref(key).delete().toPromise();
+    /**
+     * Captura a exceção de not-found
+     */
+    return this.storage.ref(key).delete().toPromise().catch(exception => {
+      console.log(exception)
+    });
   }
 }
