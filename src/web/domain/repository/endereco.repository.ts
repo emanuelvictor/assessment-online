@@ -10,7 +10,6 @@ export class EnderecoRepository {
 
   constructor(private httpClient: HttpClient) {}
 
-
   public getAdressByCep(cep: string): Promise<any> {
     return this.httpClient.get(this.postmon + cep).toPromise();
   }

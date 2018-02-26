@@ -6,7 +6,7 @@ export class Usuario extends Abstract {
 
   public urlFile: string;
 
-  public arquivoFile: File;
+  public arquivoFile: any;
 
   public nome: string;
 
