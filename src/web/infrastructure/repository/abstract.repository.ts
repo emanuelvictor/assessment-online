@@ -2,6 +2,7 @@ import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
 import {isUndefined} from 'util';
 import {AngularFireStorage, AngularFireUploadTask} from 'angularfire2/storage';
+import {AccountRepository} from './account/account.repository';
 
 export abstract class AbstractRepository {
 
@@ -14,12 +15,13 @@ export abstract class AbstractRepository {
   /**
    * Instancia a partir do window o NProgress
    */
-  private progress = window['NProgress'];
+  private _progress = window['NProgress'];
   private _path: string = '';
   private _itemsRef: AngularFireList<any>;
   private _items: Observable<any[]>;
   private _angularFireDatabase: AngularFireDatabase;
   private _storage: AngularFireStorage;
+  private _accountRepository: AccountRepository;
 
   /**
    * ---------------------------------------------------------------
@@ -32,17 +34,19 @@ export abstract class AbstractRepository {
    * @param {string} path
    * @param {AngularFireDatabase} angularFireDatabase
    * @param {AngularFireStorage} storage
+   * @param {AccountRepository} accountRepository
    */
-  public init(path: string, angularFireDatabase: AngularFireDatabase, storage: AngularFireStorage): void {
+  public init(path: string, angularFireDatabase: AngularFireDatabase, storage: AngularFireStorage, accountRepository: AccountRepository): void {
     this._path = path;
     this._angularFireDatabase = angularFireDatabase;
+    this._accountRepository = accountRepository;
     this._storage = storage;
 
     this._itemsRef = this._angularFireDatabase.list(this._path);
 
-    this.progress.start();
+    this._progress.start();
     this._items = this._itemsRef.snapshotChanges().map(changes => {
-      this.progress.done();
+      this._progress.done();
       return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
     });
   }
@@ -68,45 +72,45 @@ export abstract class AbstractRepository {
    */
   public save(item: any): PromiseLike<any> {
 
-    let promise: Promise<any> = new Promise((resolve) => {
+    this._progress.start();
 
-    });
-    this.progress.start();
+    /**
+     *
+     */
+    return new Promise((resolve) => {
 
-    try {
+      try {
 
-      this.recursiveHandler(null, item);
+        /**
+         *
+         */
+        this.recursiveHandler(item.key, item).then(result => {
 
-      return null;
+          /**
+           * Se tem key atualiza o registro existente
+           */
+          if (item && item.key)
+            this.update(item.key, item)
+              .then(result => {
+                resolve(result)
+              });
 
-      /**
-       * Se tem key atualiza
-       */
-      // if (item && item.key)
-      //   return this.update(item.key, item);
-      //
-      // return this._itemsRef.push(item)
-      //   .then(result => {
-      //     this.progress.done();
-      //     return AbstractRepository.getItemWithKey(item, result)
-      //   });
-    }
-    catch (e) {
-      this.progress.done();
-    }
-  }
+          /**
+           * Se não tem key cria um novo item
+           */
+          else
+            this._itemsRef.push(item)
+              .then(result => {
+                resolve(AbstractRepository.getItemWithKey(item, result))
+              });
 
-  /**
-   * Busca somente um ítem
-   * @param {string} key
-   * @returns {Observable<any>}
-   */
-  public findOne(key: string): Observable<any> {
-    this.progress.start();
-    return this._angularFireDatabase.object(this._path + '/' + key).snapshotChanges().map(changes => {
-      this.progress.done();
-      return {key: changes.payload.key, ...changes.payload.val()};
-    });
+        });
+
+      } catch (e) {
+        this._progress.done();
+      }
+
+    }).then(this._progress.done());
   }
 
   /**
@@ -123,10 +127,22 @@ export abstract class AbstractRepository {
            * 'result' do angularfire não funciona
            */
           this.findOne(key).subscribe(result => {
-            this.progress.done();
             resolve(result);
           })
         });
+    });
+  }
+
+  /**
+   * Busca somente um ítem
+   * @param {string} key
+   * @returns {Observable<any>}
+   */
+  public findOne(key: string): Observable<any> {
+    this._progress.start();
+    return this._angularFireDatabase.object(this._path + '/' + key).snapshotChanges().map(changes => {
+      this._progress.done();
+      return {key: changes.payload.key, ...changes.payload.val()};
     });
   }
 
@@ -136,11 +152,12 @@ export abstract class AbstractRepository {
    * @returns {Promise<any>}
    */
   public remove(key: string): Promise<any> {
-    this.progress.start();
+    this._progress.start();
     return this._itemsRef.remove(key)
-      .then(this.progress.done())
-      .catch(this.progress.done());
+      .then(this._progress.done())
+      .catch(this._progress.done());
   }
+
 
   /**
    * ---------------------------------------------------------------
@@ -194,47 +211,62 @@ export abstract class AbstractRepository {
    * @param entryKey
    * @param entry
    */
-  private recursiveHandler(entryKey, entry) {
-    let key = entryKey;
-    for (const i in entry) {
+  private recursiveHandler(entryKey, entry): Promise<any> {
+    return new Promise((resolve) => {
+      let key = entryKey;
+      for (const i in entry) {
 
-      /**
-       * Se a chave for igual a 'key', ou seja, igual a chave primária, armazena a mesma.
-       * Para os demais handlers
-       */
-      if (i === 'key') {
-        key = entry[i];
+        /**
+         * Se a chave for igual a 'key', ou seja, igual a chave primária, armazena a mesma.
+         * Para os demais handlers
+         */
+        if (i === 'key') {
+          key = entry[i];
+        }
+
+        /**
+         * Assíncrono
+         * Se for null ou undefined remove o valor
+         */
+        if (entry[i] === null || isUndefined(entry[i])) {
+          delete entry[i];
+          this.remove(key + '/' + i);
+          resolve();
+        }
+
+        // /**
+        //  * Síncrono
+        //  * Se não, e for uma instância de um arquivo, faz o upload do arquivo, retorna a url e a retorna no valor.
+        //  */
+        // else if (entry[i] instanceof File) {
+        //
+        //   console.log(this.saveFile(entry.key, entry[i]).downloadURL().subscribe(result => console.log(result)));
+        //   // this.saveFile(entry.key, entry[i]).then(result => {
+        //   //   entry[i] = result.downloadURL;
+        //   //   console.log(entry[i]);
+        //   // });
+        // }
+
+        /**
+         * Síncrono
+         * Se não, salva a conta do usuário caso o mesmo tenha password.
+         */
+        else if (i === 'password') {
+          console.log(i);
+          return this._accountRepository.save(entry['login'], entry[i]);
+        }
+
+        /**
+         * Se não, e for uma instância de um objeto, percorre novamente o mesmo.
+         */
+        else if (typeof entry[i] === 'object') {
+          this.recursiveHandler(key, entry[i])
+            .then(result => resolve(result));
+        }
+
+        else resolve(entry)
       }
-
-      /**
-       * Assíncrono
-       * Se for null ou undefined remove o valor
-       */
-      if (entry[i] === null || isUndefined(entry[i])) {
-        delete entry[i];
-        this.remove(key + '/' + i);
-      }
-
-      /**
-       * Síncrono
-       * Se não, e for uma instância de um arquivo, faz o upload do arquivo, retorna a url e a retorna no valor.
-       */
-      else if (entry[i] instanceof File) {
-
-        console.log(this.saveFile(entry.key, entry[i]).downloadURL().subscribe(result => console.log(result)));
-        // this.saveFile(entry.key, entry[i]).then(result => {
-        //   entry[i] = result.downloadURL;
-        //   console.log(entry[i]);
-        // });
-      }
-
-      /**
-       * Se não, e for uma instância de um objeto, percorre novamente o mesmo.
-       */
-      else if (typeof entry[i] === 'object') {
-        this.recursiveHandler(key, entry[i]);
-      }
-    }
+    });
   }
 
   /**

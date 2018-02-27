@@ -4,7 +4,7 @@ import {MatDialog, MatSnackBar} from "@angular/material";
 import {RouteConfigLoadEnd, RouteConfigLoadStart, Router} from "@angular/router";
 import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
 import {Subscription} from 'rxjs/Subscription';
-import {AuthenticationService} from "../../../domain/service/authentication.service";
+import {AuthenticationService} from "../../../service/authentication.service";
 
 @Component({
   selector: 'header-component',

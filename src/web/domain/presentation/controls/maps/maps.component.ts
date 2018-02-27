@@ -1,13 +1,13 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
 
-import {Endereco} from '../../../domain/entity/endereco/Endereco.model';
+import {Endereco} from '../../../entity/endereco/Endereco.model';
 import {textMasks} from '../text-masks/text-masks';
-import {AuthenticationService} from '../../../domain/service/authentication.service';
+import {AuthenticationService} from '../../../service/authentication.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Cidade} from '../../../domain/entity/endereco/Cidade.model';
-import {EnderecoService} from '../../../domain/service/endereco.service';
-import {Estado} from '../../../domain/entity/endereco/Estado.model';
-import {Pais} from '../../../domain/entity/endereco/Pais.model';
+import {Cidade} from '../../../entity/endereco/Cidade.model';
+import {EnderecoService} from '../../../service/endereco.service';
+import {Estado} from '../../../entity/endereco/Estado.model';
+import {Pais} from '../../../entity/endereco/Pais.model';
 import {exceptions} from '@angular-devkit/core/src/json/schema/serializers/javascript';
 
 

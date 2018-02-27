@@ -42,10 +42,10 @@ import {TextMaskModule} from "angular2-text-mask";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
-import {NoSubmitDirective} from "../web/application/controls/no-sumbit/no-submit.directive";
-import {DocumentoPipe} from "../web/application/controls/documento-pipe/documento-pipe";
-import {VirgulaPipe} from "../web/application/controls/virgula-pipe/peso-pipe";
-import {AvatarComponent} from "../web/application/controls/avatar/avatar.component";
+import {NoSubmitDirective} from "../web/domain/presentation/controls/no-sumbit/no-submit.directive";
+import {DocumentoPipe} from "../web/domain/presentation/controls/documento-pipe/documento-pipe";
+import {VirgulaPipe} from "../web/domain/presentation/controls/virgula-pipe/peso-pipe";
+import {AvatarComponent} from "../web/domain/presentation/controls/avatar/avatar.component";
 
 /**
  *

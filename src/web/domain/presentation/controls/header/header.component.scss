@@ -1,4 +1,4 @@
-@import "../../../domain/presentation/web.component";
+@import "../../web.component";
 
 html, body, mat-sidenav-container {
   margin: 0;
@@ -31,7 +31,7 @@ mat-toolbar {
   cursor: pointer;
   //Alinha com demais botões
   margin-left: -20px;
-  content: url('../../../../assets/images/logo-large.png');
+  content: url('../../../../../assets/images/logo-large.png');
 }
 
 .name-user {

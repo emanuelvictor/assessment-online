@@ -11,7 +11,7 @@ import {DateAdapter} from '@angular/material';
 import {SharedModule} from '../../shared/shared.module';
 import {AuthenticationService} from '../../web/domain/service/authentication.service';
 import {EnderecoService} from '../../web/domain/service/endereco.service';
-import {Describer} from '../../web/application/describer/describer';
+import {Describer} from '../../web/infrastructure/describer/describer';
 import {UsuarioService} from '../../web/domain/service/usuario.service';
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../../environments/environment';
@@ -20,7 +20,7 @@ import {AngularFireAuthModule} from 'angularfire2/auth';
 import {EnderecoRepository} from '../../web/domain/repository/endereco.repository';
 import {UnidadeRepository} from '../../web/domain/repository/unidade.repository';
 import {UsuarioRepository} from '../../web/domain/repository/usuario.repository';
-import {AccountRepository} from '../../web/domain/repository/account.repository';
+import {AccountRepository} from '../../web/infrastructure/repository/account/account.repository';
 import {UnidadeService} from '../../web/domain/service/unidade.service';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {AvaliarComponent} from './presentation/avaliacao/avaliar/avaliar.component';
@@ -34,7 +34,7 @@ import {ColaboradorRepository} from '../../web/domain/repository/colaborador.rep
 import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
 import {AvaliacaoRepository} from '../../web/domain/repository/avaliacao.repository';
 import {AvaliacaoColaboradorRepository} from '../../web/domain/repository/avaliacao-colaborador.repository';
-import {FileRepository} from "../../web/domain/repository/file.repository";
+import {FileRepository} from "../../web/infrastructure/repository/file/file.repository";
 import {AngularFireStorageModule} from "angularfire2/storage";
 
 /**

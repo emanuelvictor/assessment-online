@@ -1,9 +1,9 @@
 import {ActivatedRoute} from '@angular/router';
 import {Component, Input, OnInit} from '@angular/core';
 import {AuthenticationService} from "../../../../../service/authentication.service";
-import {textMasks} from '../../../../../../application/controls/text-masks/text-masks';
+import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../../entity/usuario/Usuario.model';
-import {FileRepository} from '../../../../../repository/file.repository';
+import {FileRepository} from '../../../../../../infrastructure/repository/file/file.repository';
 
 @Component({
   selector: 'visualizar-dados-usuario',

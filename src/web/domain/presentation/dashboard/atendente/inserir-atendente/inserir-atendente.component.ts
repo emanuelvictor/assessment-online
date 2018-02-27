@@ -41,12 +41,6 @@ export class InserirAtendenteComponent implements OnInit {
   public save(): void {
     this.usuarioService.save(this.atendente).then(result => {
 
-      if (this.atendente.email && this.atendente.email.length) { //TODO
-        // this.authenticationService.getNativeFirebaseInstance().auth().createUserWithEmailAndPassword(this.atendente.email, '123456789')
-        //   .then(result => console.log(result))
-        //   .catch(exception => console.log(exception));
-      }
-
       // TODO WHATA???
       this.atendente = result;
       this.success('Atendente inserido com sucesso');

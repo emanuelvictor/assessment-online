@@ -3,8 +3,9 @@ import {Observable} from 'rxjs/Observable';
 import {UsuarioRepository} from '../repository/usuario.repository';
 import {AuthenticationService} from './authentication.service';
 import {Usuario} from '../entity/usuario/Usuario.model';
-import {FileRepository} from '../repository/file.repository';
+import {FileRepository} from '../../infrastructure/repository/file/file.repository';
 import {MatSnackBar} from '@angular/material';
+import {FotoLoadingComponent} from '../presentation/controls/foto-loading/foto-loading.component';
 
 /**
  *
@@ -57,37 +58,37 @@ export class UsuarioService {
 
     const file = usuario.arquivoFile;
     const toSave = usuario;
-    delete toSave.password;
-    // delete toSave.arquivoFile;
+    delete toSave.arquivoFile;
 
-    // return new Promise((resolve) => {
-      // if (file)
-        // this.snackBar.openFromComponent(FotoLoadingComponent, {
-        //   duration: 60000,
-        // });
-   return   this.usuarioRepository.save(toSave)
-        .then(result => {
-          // if (file) {
-          //   this.fileRepository.save(result.key, file)
-          //     .then(uploaded => {
-          //       result.urlFile = uploaded.downloadURL;
-          //       this.usuarioRepository.save(result)
-          //         .then(usuarioAtualizado => {
-          //           this.snackBar.dismiss();
-          //           resolve(usuarioAtualizado);
-          //         })
-          //     });
-          // } else {
-          //   if (!usuario.urlFile) {
-          //     this.fileRepository.remove(result.key);
-          //     this.usuarioRepository.save(usuario).then(resulted => {
-          //       resolve(result);
-          //     });
-          //   }
-          //   resolve(result);
-          // }
+    return new Promise((resolve) => {
+      if (file)
+        this.snackBar.openFromComponent(FotoLoadingComponent, {
+          duration: 60000,
         });
-    // });
+      this.usuarioRepository.save(toSave)
+        .then(result => {
+          if (file) {
+            this.fileRepository.save(result.key, file)
+              .then(uploaded => {
+                result.urlFile = uploaded.downloadURL;
+                console.log('dsfasdfa');
+                this.usuarioRepository.save(result)
+                  .then(usuarioAtualizado => {
+                    console.log('dsfasdfa');
+                    resolve(usuarioAtualizado);
+                  })
+              });
+          } else {
+            if (!usuario.urlFile) {
+              this.fileRepository.remove(result.key);
+              this.usuarioRepository.save(usuario).then(resulted => {
+                resolve(result);
+              });
+            }
+            resolve(result);
+          }
+        });
+    }).then(result => this.snackBar.dismiss());
   }
 
   /**

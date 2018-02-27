@@ -12,7 +12,7 @@ export class Usuario extends Abstract {
 
   public isAdministrador: boolean;
 
-  public email: string;
+  public login: string;
 
   public password: string;
 

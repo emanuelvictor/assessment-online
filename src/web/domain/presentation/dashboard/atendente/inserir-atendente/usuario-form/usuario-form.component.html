@@ -55,7 +55,7 @@
                   </div>
                   <div layout='row' layout-margin>
                     <mat-form-field flex>
-                      <input [(ngModel)]='usuario.email'
+                      <input [(ngModel)]='usuario.login'
                              matInput name='email' id='email'
                              type='email' formControlName='email'
                              placeholder='E-mail' maxlength='144'
@@ -74,7 +74,7 @@
                     </div>
                   </div>
                   <password-form [usuario]='usuario' [form]='form'
-                                 *ngIf='usuario?.email && !usuario?.key'>
+                                 *ngIf='usuario?.login && !usuario?.key'>
                   </password-form>
                 </div>
               </div>

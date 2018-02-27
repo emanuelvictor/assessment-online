@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Rend
 import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {FormBuilder, Validators} from "@angular/forms";
-import {textMasks} from "../../../../../../application/controls/text-masks/text-masks";
+import {textMasks} from "../../../../controls/text-masks/text-masks";
 import {UnidadeService} from "../../../../../service/unidade.service";
 import {Usuario} from '../../../../../entity/usuario/Usuario.model';
 
