@@ -27,6 +27,7 @@ admin.initializeApp({
 exports.save = functions.https.onRequest((req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+  console.log('email', email);
   /**
    * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
    */

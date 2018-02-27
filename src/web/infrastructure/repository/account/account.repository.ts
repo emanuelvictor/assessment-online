@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
+/**
+ *
+ */
 @Injectable()
 export class AccountRepository {
 
@@ -19,8 +22,14 @@ export class AccountRepository {
    * @returns {Promise<any>}
    */
   public save(login, password): Promise<any> {
-    return this.httpClient.post('asdfasdf',
-      {'email': login, 'password': password}
+    var headers: HttpHeaders = new HttpHeaders().set('content-type', 'application/json');
+    console.log(login);
+    console.log(headers);
+    /**
+     * Url hardcoded
+     */
+    return this.httpClient.post( 'http://localhost:5000/assessment-online/us-central1/save',
+      {email: login, password: password}, {headers : headers}
     ).toPromise();
   }
 
