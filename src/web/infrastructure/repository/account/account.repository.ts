@@ -28,7 +28,7 @@ export class AccountRepository {
      */
     return this.httpClient
       .post(
-        'https://us-central1-assessment-online.cloudfunctions.net/save',
+        './save',
         {email: login, password: password}
       ).toPromise();
   }

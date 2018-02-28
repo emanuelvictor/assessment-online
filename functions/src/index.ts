@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+
 const cors = require('cors')({origin: true});
 
 /**
@@ -29,40 +30,62 @@ exports.save = functions.https.onRequest((req, res) => {
 
   cors(req, res, () => {
 
-    console.log(req.body);
+    const key = req.body.key;
     const email = req.body.email;
     const password = req.body.password;
-    console.log('email', email);
+
+    /**
+     * Se não tem e-mail ou não tem senha retorna um erro
+     */
+    if (!(email && password)) {
+      res.sendStatus(500);
+      return
+    }
     /**
      * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
      */
-    admin.auth().getUserByEmail(req.query.email)
+    admin.auth().getUserByEmail(email)
       .then(usuario => {
 
-        if (usuario) {
-          /**
-           * Após encontrar o usuário pelo e-mail, atualiza o mesmo a partir do uid
-           */
-          admin.auth().updateUser(usuario.uid, {email: email, password: password})
-            .then(result => {
-              res.send(result)
-            });
+        /**
+         * Após encontrar o usuário pelo e-mail, atualiza o mesmo a partir do uid
+         */
+        admin.auth().updateUser(usuario.uid, {email: email, password: password})
+          .then(result => {
+            res.send(result)
+          })
+          .catch(exception => {
+            console.log(exception);
+            res.sendStatus(500);
+            return
+          });
 
-        } else {
+      })
+      .catch(exception => {
 
-          /**
-           * Se não encontra o usuário, cria um novo
-           */
+        /**
+         * Se não encontra o usuário, cria um novo
+         */
+        if (exception.code === 'auth/user-not-found') {
           admin.auth().createUser({email: email, password: password})
             .then(result => {
-              res.send(result)
-            });
-
+              /**
+               * Descobrir como retornar json
+               */
+              res.sendStatus(200);
+            })
+            .catch(exception2 => {
+              console.log(exception2);
+              res.sendStatus(500);
+              return
+            })
         }
+
+        res.sendStatus(500);
+        return
       });
 
   })
-
 });
 
 // /**
