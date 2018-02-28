@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+const cors = require('cors')({origin: true});
 
 /**
  * Credenciais
@@ -25,37 +26,42 @@ admin.initializeApp({
  * @type {HttpsFunction}
  */
 exports.save = functions.https.onRequest((req, res) => {
-  console.log(req.body);
-  const email = req.body.email;
-  const password = req.body.password;
-  console.log('email', email);
-  /**
-   * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
-   */
-  admin.auth().getUserByEmail(req.query.email)
-    .then(usuario => {
 
-      if (usuario) {
-        /**
-         * Após encontrar o usuário pelo e-mail, atualiza o mesmo a partir do uid
-         */
-        admin.auth().updateUser(usuario.uid, {email: email, password: password})
-          .then(result => {
-            res.send(result)
-          });
+  cors(req, res, () => {
 
-      } else {
+    console.log(req.body);
+    const email = req.body.email;
+    const password = req.body.password;
+    console.log('email', email);
+    /**
+     * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
+     */
+    admin.auth().getUserByEmail(req.query.email)
+      .then(usuario => {
 
-        /**
-         * Se não encontra o usuário, cria um novo
-         */
-        admin.auth().createUser({email: email, password: password})
-          .then(result => {
-            res.send(result)
-          });
+        if (usuario) {
+          /**
+           * Após encontrar o usuário pelo e-mail, atualiza o mesmo a partir do uid
+           */
+          admin.auth().updateUser(usuario.uid, {email: email, password: password})
+            .then(result => {
+              res.send(result)
+            });
 
-      }
-    });
+        } else {
+
+          /**
+           * Se não encontra o usuário, cria um novo
+           */
+          admin.auth().createUser({email: email, password: password})
+            .then(result => {
+              res.send(result)
+            });
+
+        }
+      });
+
+  })
 
 });
 

@@ -1,0 +1,66 @@
+[debug] [2018-02-28T17:17:53.937Z] ----------------------------------------------------------------------
+[debug] [2018-02-28T17:17:53.939Z] Command:       /usr/bin/node /usr/bin/firebase serve --only functions
+[debug] [2018-02-28T17:17:53.939Z] CLI Version:   3.17.3
+[debug] [2018-02-28T17:17:53.939Z] Platform:      linux
+[debug] [2018-02-28T17:17:53.939Z] Node Version:  v8.9.4
+[debug] [2018-02-28T17:17:53.940Z] Time:          Wed Feb 28 2018 14:17:53 GMT-0300 (-03)
+[debug] [2018-02-28T17:17:53.940Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-02-28T17:17:53.950Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-02-28T17:17:53.950Z] > authorizing via signed-in user
+[debug] [2018-02-28T17:17:53.953Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/assessment-online  
+  
+ Wed Feb 28 2018 14:17:53 GMT-0300 (-03)
+[debug] [2018-02-28T17:17:55.056Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-28T17:17:55.057Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/assessment-online/tokens  
+  
+ Wed Feb 28 2018 14:17:55 GMT-0300 (-03)
+[debug] [2018-02-28T17:17:55.955Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/home/emanuel/projetos/assessment-online'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-02-28T17:18:03.931Z] Fetching environment
+[debug] [2018-02-28T17:18:03.948Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/assessment-online  
+  
+ Wed Feb 28 2018 14:18:03 GMT-0300 (-03)
+[debug] [2018-02-28T17:18:03.948Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/assessment-online/apiKeys  
+  
+ Wed Feb 28 2018 14:18:03 GMT-0300 (-03)
+[debug] [2018-02-28T17:18:05.028Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-28T17:18:05.211Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-28T17:18:05.211Z] Starting @google-cloud/functions-emulator
+[debug] [2018-02-28T17:18:09.423Z] Parsing function triggers
+[debug] [2018-02-28T17:23:51.213Z] ----------------------------------------------------------------------
+[debug] [2018-02-28T17:23:51.217Z] Command:       /usr/bin/node /usr/bin/firebase serve --only functions
+[debug] [2018-02-28T17:23:51.217Z] CLI Version:   3.17.3
+[debug] [2018-02-28T17:23:51.217Z] Platform:      linux
+[debug] [2018-02-28T17:23:51.217Z] Node Version:  v8.9.4
+[debug] [2018-02-28T17:23:51.217Z] Time:          Wed Feb 28 2018 14:23:51 GMT-0300 (-03)
+[debug] [2018-02-28T17:23:51.217Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-02-28T17:23:51.271Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-02-28T17:23:51.271Z] > authorizing via signed-in user
+[debug] [2018-02-28T17:23:51.274Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/assessment-online  
+  
+ Wed Feb 28 2018 14:23:51 GMT-0300 (-03)
+[debug] [2018-02-28T17:23:52.528Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-28T17:23:52.530Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/assessment-online/tokens  
+  
+ Wed Feb 28 2018 14:23:52 GMT-0300 (-03)
+[debug] [2018-02-28T17:23:53.296Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/home/emanuel/projetos/assessment-online'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-02-28T17:24:09.496Z] Fetching environment
+[debug] [2018-02-28T17:24:09.535Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/assessment-online  
+  
+ Wed Feb 28 2018 14:24:09 GMT-0300 (-03)
+[debug] [2018-02-28T17:24:09.536Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/assessment-online/apiKeys  
+  
+ Wed Feb 28 2018 14:24:09 GMT-0300 (-03)
+[debug] [2018-02-28T17:24:10.573Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-28T17:24:10.788Z] <<< HTTP RESPONSE 200
+[debug] [2018-02-28T17:24:10.789Z] Starting @google-cloud/functions-emulator
+[debug] [2018-02-28T17:24:14.666Z] Parsing function triggers

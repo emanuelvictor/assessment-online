@@ -13,6 +13,7 @@ export class AccountRepository {
    * @param {HttpClient} httpClient
    */
   constructor(private httpClient: HttpClient) {
+    this.save('teste@teste.com', '123456')
   }
 
   /**
@@ -27,7 +28,7 @@ export class AccountRepository {
      */
     return this.httpClient
       .post(
-        './save',
+        'https://us-central1-assessment-online.cloudfunctions.net/save',
         {email: login, password: password}
       ).toPromise();
   }
