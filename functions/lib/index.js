@@ -24,6 +24,7 @@ admin.initializeApp({
  * @type {HttpsFunction}
  */
 exports.save = functions.https.onRequest((req, res) => {
+    console.log(req.body);
     const email = req.body.email;
     const password = req.body.password;
     console.log('email', email);
@@ -39,9 +40,6 @@ exports.save = functions.https.onRequest((req, res) => {
             admin.auth().updateUser(usuario.uid, { email: email, password: password })
                 .then(result => {
                 res.send(result);
-            })
-                .catch(exception => {
-                res.status(500); //TODO retornar a exception também
             });
         }
         else {
@@ -51,9 +49,6 @@ exports.save = functions.https.onRequest((req, res) => {
             admin.auth().createUser({ email: email, password: password })
                 .then(result => {
                 res.send(result);
-            })
-                .catch(exception => {
-                res.status(500); //TODO retornar a exception também
             });
         }
     });

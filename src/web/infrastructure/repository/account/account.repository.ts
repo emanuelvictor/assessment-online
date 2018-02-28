@@ -22,15 +22,14 @@ export class AccountRepository {
    * @returns {Promise<any>}
    */
   public save(login, password): Promise<any> {
-    var headers: HttpHeaders = new HttpHeaders().set('content-type', 'application/json');
-    console.log(login);
-    console.log(headers);
     /**
      * Url hardcoded
      */
-    return this.httpClient.post( 'http://localhost:5000/assessment-online/us-central1/save',
-      {email: login, password: password}, {headers : headers}
-    ).toPromise();
+    return this.httpClient
+      .post(
+        './save',
+        {email: login, password: password}
+      ).toPromise();
   }
 
 }
