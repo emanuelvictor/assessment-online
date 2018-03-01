@@ -33,14 +33,14 @@ export abstract class AbstractRepository {
    * Inicializa o angularFireDataBase e aponta para a ALI na base
    * @param {string} path
    * @param {AngularFireDatabase} angularFireDatabase
-   * @param {AngularFireStorage} storage
+   * @param {AngularFireStorage} angularFireStorage
    * @param {AccountRepository} accountRepository
    */
-  public init(path: string, angularFireDatabase: AngularFireDatabase, storage: AngularFireStorage, accountRepository: AccountRepository): void {
+  public init(path: string, angularFireDatabase: AngularFireDatabase, angularFireStorage: AngularFireStorage, accountRepository: AccountRepository): void {
     this._path = path;
     this._angularFireDatabase = angularFireDatabase;
+    this._storage = angularFireStorage;
     this._accountRepository = accountRepository;
-    this._storage = storage;
 
     this._itemsRef = this._angularFireDatabase.list(this._path);
 
@@ -75,20 +75,25 @@ export abstract class AbstractRepository {
     this._progress.start();
 
     /**
-     *
+     * Trhead
      */
     return new Promise((resolve) => {
 
       /**
        *
        */
-      this.recursiveHandler(item.key, item);
-
-      /**
-       *
-       */
       this._accountRepository.handlerUser(item.uid, item.email, item.password).then(account => {
-        item.uid = account.uid;
+
+        /**
+         *
+         */
+        if (account)
+          item.uid = account.uid;
+
+        /**
+         *
+         */
+        this.recursiveHandler(item.key, item);
 
         /**
          * Se tem key atualiza o registro existente
@@ -158,18 +163,20 @@ export abstract class AbstractRepository {
     this._progress.start();
 
     /**
-     * Executa exclusão assíncrona da conta
+     * Promisse para exclusão
      */
-    this.findOne(key).toPromise().then(result => {
-      this._accountRepository.handlerUser(result.uid, null, null)
-    });
-
-    /**
-     * Exclui o registro do storage
-     */
-    return this._itemsRef.remove(key)
-      .then(this._progress.done())
-      .catch(this._progress.done());
+    return new Promise((resolve) => {
+      /**
+       * Executa exclusão assíncrona da conta
+       */
+      this.findOne(key).subscribe(result => {
+        this._accountRepository.handlerUser(result.uid, null, null);
+        this._itemsRef.remove(key)
+          .then(this._progress.done())
+          .catch(this._progress.done());
+        resolve()
+      });
+    })
   }
 
 

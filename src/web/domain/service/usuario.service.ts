@@ -56,19 +56,23 @@ export class UsuarioService {
    */
   public save(usuario: Usuario): PromiseLike<any> {
 
-    const file = usuario.arquivoFile;
+    const arquivoFile = usuario.arquivoFile;
+    const urlFile = usuario.urlFile;
+
     const toSave = usuario;
     delete toSave.arquivoFile;
+    delete  toSave.urlFile;
 
     return new Promise((resolve) => {
-      if (file)
+      if (arquivoFile)
         this.snackBar.openFromComponent(FotoLoadingComponent, {
           duration: 60000,
         });
+
       this.usuarioRepository.save(toSave)
         .then(result => {
-          if (file) {
-            this.fileRepository.save(result.key, file)
+          if (arquivoFile) {
+            this.fileRepository.save(result.key, arquivoFile)
               .then(uploaded => {
                 result.urlFile = uploaded.downloadURL;
                 this.usuarioRepository.save(result)
@@ -77,15 +81,18 @@ export class UsuarioService {
                   })
               });
           } else {
-            if (!usuario.urlFile) {
+            if (!urlFile) {
               this.fileRepository.remove(result.key);
-              this.usuarioRepository.save(usuario).then(resulted => {
-                resolve(result);
+              usuario.urlFile = null;
+              this.usuarioRepository.save(usuario)
+                .then(resulted => {
+                resolve(resulted);
               });
             }
-            resolve(result);
           }
+          // resolve(result);
         });
+
     }).then(result => this.snackBar.dismiss());
   }
 
