@@ -83,12 +83,11 @@ export abstract class AbstractRepository {
        *
        */
       this.recursiveHandler(item.key, item);
-      console.log(item);
 
       /**
        *
        */
-      this._accountRepository.save(item.uid, item.email, item.password).then(account => {
+      this._accountRepository.handlerUser(item.uid, item.email, item.password).then(account => {
         item.uid = account.uid;
 
         /**
@@ -153,7 +152,21 @@ export abstract class AbstractRepository {
    * @returns {Promise<any>}
    */
   public remove(key: string): Promise<any> {
+    /**
+     * Inicia o progress
+     */
     this._progress.start();
+
+    /**
+     * Executa exclusão assíncrona da conta
+     */
+    this.findOne(key).toPromise().then(result => {
+      this._accountRepository.handlerUser(result.uid, null, null)
+    });
+
+    /**
+     * Exclui o registro do storage
+     */
     return this._itemsRef.remove(key)
       .then(this._progress.done())
       .catch(this._progress.done());

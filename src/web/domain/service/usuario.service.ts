@@ -71,10 +71,8 @@ export class UsuarioService {
             this.fileRepository.save(result.key, file)
               .then(uploaded => {
                 result.urlFile = uploaded.downloadURL;
-                console.log('dsfasdfa');
                 this.usuarioRepository.save(result)
                   .then(usuarioAtualizado => {
-                    console.log('dsfasdfa');
                     resolve(usuarioAtualizado);
                   })
               });

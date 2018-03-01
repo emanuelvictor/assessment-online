@@ -27,17 +27,22 @@ admin.initializeApp({
  * Cria o usuário
  * @type {HttpsFunction}
  */
-exports.save = functions.https.onRequest((req, res) => {
-  console.log(req.body);
+exports.handlerUser = functions.https.onRequest((req, res) => {
   corsHandler(req, res, () => {
+
     const uid = req.body.uid;
     const email = req.body.email;
     const password = req.body.password;
 
+    /**
+     * Se tem o uid e o email
+     * Atualiza a conta
+     */
     if (uid && email) {
-console.log('atualizando');
+
       /**
-       * Após encontrar o usuário pelo e-mail, atualiza o mesmo a partir do uid
+       * Atualiza o usuário.
+       * Atenção, para visualizar a atualização no console do firebase, atualize o navegador
        */
       admin.auth().updateUser(uid, {email: email, password: password})
         .then(result => {
@@ -49,11 +54,13 @@ console.log('atualizando');
           res.sendStatus(500);
         });
 
-
+      /**
+       * Se não tem tem o uid e tem o email, cria a conta
+       */
     } else if (!uid && email) {
 
       /**
-       * Se não encontra o usuário, cria um novo
+       * Cria um usuário
        */
       admin.auth().createUser({email: email, password: password})
         .then(result => {
@@ -62,14 +69,27 @@ console.log('atualizando');
         .catch(exception => {
           console.log(exception);
           res.sendStatus(500);
-        })
+        });
 
-
+      /**
+       * Se tem uid e não tem email, deleta a conta
+       */
     } else if (uid && !email) {
 
-      res.send({'deletando': 'removendo'});
+      /**
+       * Deleta o usuário pelo uid
+       */
+      admin.auth().deleteUser(uid)
+        .then(result => {
+          res.sendStatus(200)
+        })
+        .catch(exception => {
+          console.log(exception);
+          res.status(500)
+        });
 
     } else res.sendStatus(200);
+
   })
 });
 
@@ -103,35 +123,35 @@ console.log('atualizando');
 //       res.status(500) //TODO retornar a exception também
 //     });
 // });
-
-/**
- * Deleta o usuário
- * @type {HttpsFunction}
- */
-exports.deleteUser = functions.https.onRequest((req, res) => {
-
-  /**
-   * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
-   */
-  admin.auth().getUserByEmail(req.query.email)
-    .then(usuario => {
-
-      /**
-       * Após encontrar o usuário pelo e-mail, deleta o mesmo pelo uid
-       */
-      admin.auth().deleteUser(usuario.uid)
-        .then(result => {
-          res.sendStatus(200)
-        })
-        .catch(exception => {
-          res.status(500) //TODO retornar a exception também
-        });
-    })
-    .catch(exception => {
-      res.status(500) //TODO retornar a exception também
-    });
-});
-
+//
+// /**
+//  * Deleta o usuário
+//  * @type {HttpsFunction}
+//  */
+// exports.deleteUser = functions.https.onRequest((req, res) => {
+//
+//   /**
+//    * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
+//    */
+//   admin.auth().getUserByEmail(req.query.email)
+//     .then(usuario => {
+//
+//       /**
+//        * Após encontrar o usuário pelo e-mail, deleta o mesmo pelo uid
+//        */
+//       admin.auth().deleteUser(usuario.uid)
+//         .then(result => {
+//           res.sendStatus(200)
+//         })
+//         .catch(exception => {
+//           res.status(500) //TODO retornar a exception também
+//         });
+//     })
+//     .catch(exception => {
+//       res.status(500) //TODO retornar a exception também
+//     });
+// });
+//
 // /**
 //  * Busca o  usuário  pelo e-mail
 //  * @type {HttpsFunction}

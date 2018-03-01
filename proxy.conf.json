@@ -1,20 +1,8 @@
 {
-  "/save": {
-    "target": "http://127.0.0.1:5000/assessment-online/us-central1/save",
+  "/handlerUser": {
+    "target": "http://127.0.0.1:5000/assessment-online/us-central1/handlerUser",
     "changeOrigin": true,
     "secure": false,
-    "pathRewrite": {
-      "^/static": ""
-    },
-    "logLevel": "debug"
-  },
-  "/delete": {
-    "target": "http://127.0.0.1:5000/assessment-online/us-central1/deleteUser",
-    "changeOrigin": true,
-    "secure": false,
-    "pathRewrite": {
-      "^/api": ""
-    },
     "logLevel": "debug"
   }
 }
