@@ -28,53 +28,48 @@ admin.initializeApp({
  * @type {HttpsFunction}
  */
 exports.save = functions.https.onRequest((req, res) => {
+  console.log(req.body);
   corsHandler(req, res, () => {
     const uid = req.body.uid;
     const email = req.body.email;
     const password = req.body.password;
 
-    /**
-     * Se não tem e-mail ou não tem senha retorna um erro
-     */
-    if (!(email && password)) {
-      res.sendStatus(500);
-
-
-    } else {
+    if (uid && email) {
+console.log('atualizando');
       /**
-       *
+       * Após encontrar o usuário pelo e-mail, atualiza o mesmo a partir do uid
        */
-      if (uid) {
-
-        /**
-         * Após encontrar o usuário pelo e-mail, atualiza o mesmo a partir do uid
-         */
-        admin.auth().updateUser(uid, {email: email, password: password})
-          .then(result => {
-            res.send(result)
-          })
-          .catch(exception => {
-            res.sendStatus(500);
-          });
+      admin.auth().updateUser(uid, {email: email, password: password})
+        .then(result => {
+          console.log(result);
+          res.send(result)
+        })
+        .catch(exception => {
+          console.log(exception);
+          res.sendStatus(500);
+        });
 
 
-      } else {
+    } else if (!uid && email) {
 
-        /**
-         * Se não encontra o usuário, cria um novo
-         */
-        admin.auth().createUser({email: email, password: password})
-          .then(result => {
-            /**
-             * Descobrir como retornar json
-             */
-            res.send(result);
-          })
-          .catch(exception2 => {
-            res.sendStatus(500);
-          })
-      }
-    }
+      /**
+       * Se não encontra o usuário, cria um novo
+       */
+      admin.auth().createUser({email: email, password: password})
+        .then(result => {
+          res.send(result);
+        })
+        .catch(exception => {
+          console.log(exception);
+          res.sendStatus(500);
+        })
+
+
+    } else if (uid && !email) {
+
+      res.send({'deletando': 'removendo'});
+
+    } else res.sendStatus(200);
   })
 });
 

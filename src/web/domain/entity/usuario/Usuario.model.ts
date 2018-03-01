@@ -14,7 +14,7 @@ export class Usuario extends Abstract {
 
   public uid: string;
 
-  public login: string;
+  public email: string;
 
   public password: string;
 

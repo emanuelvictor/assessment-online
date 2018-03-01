@@ -79,36 +79,37 @@ export abstract class AbstractRepository {
      */
     return new Promise((resolve) => {
 
-      try {
+      /**
+       *
+       */
+      this.recursiveHandler(item.key, item);
+      console.log(item);
+
+      /**
+       *
+       */
+      this._accountRepository.save(item.uid, item.email, item.password).then(account => {
+        item.uid = account.uid;
 
         /**
-         *
+         * Se tem key atualiza o registro existente
          */
-        this.recursiveHandler(item.key, item).then(result => {
+        if (item && item.key)
+          this.update(item.key, item)
+            .then(result => {
+              resolve(result)
+            });
 
-          /**
-           * Se tem key atualiza o registro existente
-           */
-          if (item && item.key)
-            this.update(item.key, item)
-              .then(result => {
-                resolve(result)
-              });
+        /**
+         * Se não tem key cria um novo item
+         */
+        else
+          this._itemsRef.push(item)
+            .then(result => {
+              resolve(AbstractRepository.getItemWithKey(item, result))
+            });
 
-          /**
-           * Se não tem key cria um novo item
-           */
-          else
-            this._itemsRef.push(item)
-              .then(result => {
-                resolve(AbstractRepository.getItemWithKey(item, result))
-              });
-
-        });
-
-      } catch (e) {
-        this._progress.done();
-      }
+      });
 
     }).then(this._progress.done());
   }
@@ -211,66 +212,61 @@ export abstract class AbstractRepository {
    * @param entryKey
    * @param entry
    */
-  private recursiveHandler(entryKey, entry): Promise<any> {
-    return new Promise((resolve) => {
-      let key = entryKey;
-      for (const i in entry) {
+  private recursiveHandler(entryKey, entry): void {
+    let key = entryKey;
+    for (const i in entry) {
 
-        /**
-         * Se a chave for igual a 'key', ou seja, igual a chave primária, armazena a mesma.
-         * Para os demais handlers
-         */
-        if (i === 'key') {
-          key = entry[i];
-        }
-
-        /**
-         * Assíncrono
-         * Se for null ou undefined remove o valor
-         */
-        if (entry[i] === null || isUndefined(entry[i])) {
-          delete entry[i];
-          if (key)
-            this.remove(key + '/' + i);
-          resolve();
-        }
-
-        // /**
-        //  * Síncrono
-        //  * Se não, e for uma instância de um arquivo, faz o upload do arquivo, retorna a url e a retorna no valor.
-        //  */
-        // else if (entry[i] instanceof File) {
-        //
-        //   console.log(this.saveFile(entry.key, entry[i]).downloadURL().subscribe(result => console.log(result)));
-        //   // this.saveFile(entry.key, entry[i]).then(result => {
-        //   //   entry[i] = result.downloadURL;
-        //   //   console.log(entry[i]);
-        //   // });
-        // }
-
-        /**
-         * Síncrono
-         * Se não, salva a conta do usuário caso o mesmo tenha password.
-         */
-        else if (i === 'password') {
-          this._accountRepository.save(entry['uid'], entry['login'], entry[i])
-            .then(result => {
-              if (result.uid)
-                entry['uid'] = result.uid;
-              // resolve(entry)
-            });
-        }
-
-        /**
-         * Se não, e for uma instância de um objeto, percorre novamente o mesmo.
-         */
-        else if (typeof entry[i] === 'object') {
-          this.recursiveHandler(key, entry[i])
-            .then(result => resolve(result));
-        }
+      /**
+       * Se a chave for igual a 'key', ou seja, igual a chave primária, armazena a mesma.
+       * Para os demais handlers
+       */
+      if (i === 'key') {
+        key = entry[i];
       }
-      resolve(entry)
-    });
+
+      /**
+       * Assíncrono
+       * Se for null ou undefined remove o valor
+       */
+      if (entry[i] === null || isUndefined(entry[i])) {
+        delete entry[i];
+        if (key)
+          this.remove(key + '/' + i);
+      }
+
+      // /**
+      //  * Síncrono
+      //  * Se não, e for uma instância de um arquivo, faz o upload do arquivo, retorna a url e a retorna no valor.
+      //  */
+      // else if (entry[i] instanceof File) {
+      //
+      //   console.log(this.saveFile(entry.key, entry[i]).downloadURL().subscribe(result => console.log(result)));
+      //   // this.saveFile(entry.key, entry[i]).then(result => {
+      //   //   entry[i] = result.downloadURL;
+      //   //   console.log(entry[i]);
+      //   // });
+      // }
+      //
+      // /**
+      //  * Síncrono
+      //  * Se não, salva a conta do usuário caso o mesmo tenha password.
+      //  */
+      // else if (i === 'password') {
+      // this._accountRepository.save(entry['uid'], entry['login'], entry[i])
+      //   .then(result => {
+      //     if (result.uid)
+      //       entry['uid'] = result.uid;
+      //     // resolve(entry)
+      //   });
+      // }
+
+      /**
+       * Se não, e for uma instância de um objeto, percorre novamente o mesmo.
+       */
+      else if (typeof entry[i] === 'object') {
+        this.recursiveHandler(key, entry[i]);
+      }
+    }
   }
 
   /**

@@ -83,7 +83,7 @@ export class  AuthenticationService implements CanActivate, CanActivateChild {
    *
    */
   public login(usuario: Usuario): Promise<any> {
-    return this.afAuth.auth.signInWithEmailAndPassword(usuario.login, usuario.password)
+    return this.afAuth.auth.signInWithEmailAndPassword(usuario.email, usuario.password)
       .then(result => this.setAuthenticatedUser({'email': result.email}));
   }
 
