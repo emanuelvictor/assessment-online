@@ -58,7 +58,7 @@ export class VisualizarUnidadeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(remover => {
       if (remover) {
-        this.unidadeService.remove(unidadeKey)
+        this.unidadeService.remove(this.unidade)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
             this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {

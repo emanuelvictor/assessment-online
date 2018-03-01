@@ -101,7 +101,7 @@ export class VisualizarAtendenteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(remover => {
       if (remover) {
-        this.usuarioService.remove(atendenteKey)
+        this.usuarioService.remove(this.atendente)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
             this.snackBar.open('Excluído com sucesso', 'Fechar', {

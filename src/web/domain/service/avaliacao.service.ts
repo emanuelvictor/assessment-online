@@ -32,7 +32,7 @@ export class AvaliacaoService {
       });
   }
 
-  public remove(key: string): Promise<any> {
-    return this.avaliacaoRepository.remove(key);
+  public remove(avaliacao: any): Promise<any> {
+    return this.avaliacaoRepository.remove(avaliacao);
   }
 }

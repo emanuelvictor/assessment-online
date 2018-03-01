@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {UnidadeRepository} from '../repository/unidade.repository';
+import {Unidade} from '../entity/unidade/Unidade.model';
 
 @Injectable()
 export class UnidadeService {
@@ -20,7 +21,7 @@ export class UnidadeService {
     return this.unidadeRepository.save(item);
   }
 
-  public remove(key: string): Promise<any> {
-    return this.unidadeRepository.remove(key);
+  public remove(unidade: Unidade): Promise<any> {
+    return this.unidadeRepository.remove(unidade);
   }
 }

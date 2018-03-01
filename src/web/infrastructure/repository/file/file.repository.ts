@@ -30,8 +30,14 @@ export class FileRepository {
    * @param {File} file
    * @returns {Promise<any>}
    */
-  save(key: string, file: File): AngularFireUploadTask {
-    return this.storage.upload(key, file);
+  save(key: string, file: File): Promise<string> {
+    return new Promise((resolve) => {
+      this.storage.upload(key, file)
+        .then(result => {
+          console.log(result.downloadURL);
+          resolve(result.downloadURL)
+        })
+    })
   }
 
   /**

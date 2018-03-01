@@ -29,7 +29,7 @@ export class ColaboradorService {
     return this.colaboradorRepository.save(item);
   }
 
-  public remove(key: string): Promise<any> {
-    return this.colaboradorRepository.remove(key);
+  public remove(colaborador: Colaborador): Promise<any> {
+    return this.colaboradorRepository.remove(colaborador);
   }
 }

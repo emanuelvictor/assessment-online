@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
 import {isUndefined} from 'util';
-import {AngularFireStorage, AngularFireUploadTask} from 'angularfire2/storage';
+import {AngularFireStorage} from 'angularfire2/storage';
 import {AccountRepository} from './account/account.repository';
 
 export abstract class AbstractRepository {
@@ -87,7 +87,7 @@ export abstract class AbstractRepository {
         /**
          *
          */
-        if (account)
+        if (account && account.uid)
           item.uid = account.uid;
 
         /**
@@ -128,6 +128,7 @@ export abstract class AbstractRepository {
     return new Promise((resolve) => {
       this._itemsRef.update(key, item)
         .then(result => {
+          // resolve(item);
           /**
            * 'result' do angularfire não funciona
            */
@@ -152,71 +153,23 @@ export abstract class AbstractRepository {
   }
 
   /**
-   * Remove o ítem
-   * @param {string} key
+   *
+   * @param item
    * @returns {Promise<any>}
    */
-  public remove(key: string): Promise<any> {
+  public remove(item: any): Promise<any> {
     /**
      * Inicia o progress
      */
     this._progress.start();
 
     /**
-     * Promisse para exclusão
+     * Executa exclusão assíncrona da conta
      */
-    return new Promise((resolve) => {
-      /**
-       * Executa exclusão assíncrona da conta
-       */
-      this.findOne(key).subscribe(result => {
-        this._accountRepository.handlerUser(result.uid, null, null);
-        this._itemsRef.remove(key)
-          .then(this._progress.done())
-          .catch(this._progress.done());
-        resolve()
-      });
-    })
-  }
-
-
-  /**
-   * ---------------------------------------------------------------
-   *                      DAO - STORAGE
-   * ---------------------------------------------------------------
-   */
-
-  /**
-   *
-   * @param {string} key
-   * @returns {Observable<any>}
-   */
-  findFile(key: string): Observable<any> {
-    return this._storage.ref(key).getDownloadURL();
-  }
-
-  /**
-   *
-   * @param {string} key
-   * @param {File} file
-   * @returns {Promise<any>}
-   */
-  saveFile(key: string, file: File): AngularFireUploadTask {
-    return this._storage.upload(key, file);
-  }
-
-  /**
-   *
-   * @param {string} key
-   * @returns {AngularFireUploadTask}
-   */
-  removeFile(key: string): Promise<void> {
-    /**
-     * Captura a exceção de not-found
-     */
-    return this._storage.ref(key).delete().toPromise().catch(exception => {
-      console.log(exception)
-    });
+    this._accountRepository.handlerUser(item.uid, null, null);
+    return this._itemsRef.remove(item.key)
+      .then(this._progress.done())
+      .catch(this._progress.done());
   }
 
   /**
@@ -250,8 +203,9 @@ export abstract class AbstractRepository {
        */
       if (entry[i] === null || isUndefined(entry[i])) {
         delete entry[i];
+        console.log('DUVIDO SE NÃO É AQUI');
         if (key)
-          this.remove(key + '/' + i);
+          this.remove({key: key + '/' + i, uid: entry['uid']});
       }
 
       // /**

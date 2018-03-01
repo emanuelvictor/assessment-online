@@ -54,7 +54,7 @@ export class UsuarioService {
    * @param {Usuario} usuario
    * @returns {PromiseLike<any>}
    */
-  public save(usuario: Usuario): PromiseLike<any> {
+  public save(usuario: Usuario): Promise<any> {
 
     const arquivoFile = usuario.arquivoFile;
     const urlFile = usuario.urlFile;
@@ -63,7 +63,8 @@ export class UsuarioService {
     delete toSave.arquivoFile;
     delete  toSave.urlFile;
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
+
       if (arquivoFile)
         this.snackBar.openFromComponent(FotoLoadingComponent, {
           duration: 60000,
@@ -74,35 +75,35 @@ export class UsuarioService {
           if (arquivoFile) {
             this.fileRepository.save(result.key, arquivoFile)
               .then(uploaded => {
-                result.urlFile = uploaded.downloadURL;
-                this.usuarioRepository.save(result)
+                toSave.urlFile = uploaded;
+                this.usuarioRepository.save(toSave)
                   .then(usuarioAtualizado => {
+
+                    console.log(uploaded);
                     resolve(usuarioAtualizado);
                   })
               });
           } else {
             if (!urlFile) {
-              this.fileRepository.remove(result.key);
-              usuario.urlFile = null;
-              this.usuarioRepository.save(usuario)
-                .then(resulted => {
-                resolve(resulted);
+              this.fileRepository.remove(result.key).then(result => {
+                usuario.urlFile = null;
+                this.usuarioRepository.save(usuario)
+                  .then(resulted => {
+                    resolve(resulted);
+                  });
               });
-            }
+            } else resolve(result);
           }
-          // resolve(result);
         });
-
     }).then(result => this.snackBar.dismiss());
   }
 
   /**
    *
-   * @param {string} key
+   * @param usuario
    * @returns {Promise<any>}
    */
-  public remove(key: string): Promise<any> {
-    return this.usuarioRepository.remove(key)
-      .then(result => this.fileRepository.remove(key));
+  public remove(usuario: Usuario): Promise<any> {
+    return this.usuarioRepository.remove(usuario);
   }
 }
