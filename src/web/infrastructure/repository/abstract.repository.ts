@@ -230,7 +230,8 @@ export abstract class AbstractRepository {
          */
         if (entry[i] === null || isUndefined(entry[i])) {
           delete entry[i];
-          this.remove(key + '/' + i);
+          if (key)
+            this.remove(key + '/' + i);
           resolve();
         }
 
@@ -252,8 +253,12 @@ export abstract class AbstractRepository {
          * Se não, salva a conta do usuário caso o mesmo tenha password.
          */
         else if (i === 'password') {
-          console.log(i);
-          return this._accountRepository.save(entry['login'], entry[i]);
+          this._accountRepository.save(entry['uid'], entry['login'], entry[i])
+            .then(result => {
+              if (result.uid)
+                entry['uid'] = result.uid;
+              // resolve(entry)
+            });
         }
 
         /**
@@ -263,9 +268,8 @@ export abstract class AbstractRepository {
           this.recursiveHandler(key, entry[i])
             .then(result => resolve(result));
         }
-
-        else resolve(entry)
       }
+      resolve(entry)
     });
   }
 

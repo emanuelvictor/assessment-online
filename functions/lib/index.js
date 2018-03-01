@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const cors = require('cors')({ origin: true });
+const cors = require('cors');
+const corsHandler = cors({ origin: true });
 /**
  * Credenciais
  * TODO Colocar em outro lugar
@@ -25,56 +26,49 @@ admin.initializeApp({
  * @type {HttpsFunction}
  */
 exports.save = functions.https.onRequest((req, res) => {
-    cors(req, res, () => {
-        const key = req.body.key;
+    corsHandler(req, res, () => {
+        console.log('asdfas');
+        const uid = req.body.uid;
         const email = req.body.email;
         const password = req.body.password;
+        // res.send({teste:'teste'});
+        // res.sendStatus(200);
         /**
          * Se não tem e-mail ou não tem senha retorna um erro
          */
         if (!(email && password)) {
             res.sendStatus(500);
-            return;
         }
         /**
-         * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
+         *
          */
-        admin.auth().getUserByEmail(email)
-            .then(usuario => {
+        if (uid) {
             /**
              * Após encontrar o usuário pelo e-mail, atualiza o mesmo a partir do uid
              */
-            admin.auth().updateUser(usuario.uid, { email: email, password: password })
+            admin.auth().updateUser(uid, { email: email, password: password })
                 .then(result => {
                 res.send(result);
             })
                 .catch(exception => {
-                console.log(exception);
                 res.sendStatus(500);
-                return;
             });
-        })
-            .catch(exception => {
+        }
+        else {
             /**
              * Se não encontra o usuário, cria um novo
              */
-            if (exception.code === 'auth/user-not-found') {
-                admin.auth().createUser({ email: email, password: password })
-                    .then(result => {
-                    /**
-                     * Descobrir como retornar json
-                     */
-                    res.sendStatus(200);
-                })
-                    .catch(exception2 => {
-                    console.log(exception2);
-                    res.sendStatus(500);
-                    return;
-                });
-            }
-            res.sendStatus(500);
-            return;
-        });
+            admin.auth().createUser({ email: email, password: password })
+                .then(result => {
+                /**
+                 * Descobrir como retornar json
+                 */
+                res.send(result);
+            })
+                .catch(exception2 => {
+                res.sendStatus(500);
+            });
+        }
     });
 });
 // /**

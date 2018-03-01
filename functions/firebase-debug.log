@@ -1,35 +1,35 @@
-[debug] [2018-02-28T22:15:57.357Z] ----------------------------------------------------------------------
-[debug] [2018-02-28T22:15:57.359Z] Command:       /usr/bin/node /usr/bin/firebase serve --only functions
-[debug] [2018-02-28T22:15:57.359Z] CLI Version:   3.17.3
-[debug] [2018-02-28T22:15:57.360Z] Platform:      linux
-[debug] [2018-02-28T22:15:57.360Z] Node Version:  v8.9.4
-[debug] [2018-02-28T22:15:57.360Z] Time:          Wed Feb 28 2018 19:15:57 GMT-0300 (-03)
-[debug] [2018-02-28T22:15:57.360Z] ----------------------------------------------------------------------
+[debug] [2018-03-01T14:57:14.506Z] ----------------------------------------------------------------------
+[debug] [2018-03-01T14:57:14.508Z] Command:       /usr/bin/node /usr/bin/firebase serve --only functions
+[debug] [2018-03-01T14:57:14.509Z] CLI Version:   3.17.3
+[debug] [2018-03-01T14:57:14.509Z] Platform:      linux
+[debug] [2018-03-01T14:57:14.509Z] Node Version:  v8.9.4
+[debug] [2018-03-01T14:57:14.509Z] Time:          Thu Mar 01 2018 11:57:14 GMT-0300 (-03)
+[debug] [2018-03-01T14:57:14.509Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2018-02-28T22:15:57.369Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-02-28T22:15:57.369Z] > authorizing via signed-in user
-[debug] [2018-02-28T22:15:57.371Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/assessment-online  
+[debug] [2018-03-01T14:57:14.519Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-03-01T14:57:14.519Z] > authorizing via signed-in user
+[debug] [2018-03-01T14:57:14.521Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/assessment-online  
   
- Wed Feb 28 2018 19:15:57 GMT-0300 (-03)
-[debug] [2018-02-28T22:15:58.227Z] <<< HTTP RESPONSE 200
-[debug] [2018-02-28T22:15:58.228Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/assessment-online/tokens  
+ Thu Mar 01 2018 11:57:14 GMT-0300 (-03)
+[debug] [2018-03-01T14:57:15.664Z] <<< HTTP RESPONSE 200
+[debug] [2018-03-01T14:57:15.665Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/assessment-online/tokens  
   
- Wed Feb 28 2018 19:15:58 GMT-0300 (-03)
-[debug] [2018-02-28T22:15:59.057Z] <<< HTTP RESPONSE 200
+ Thu Mar 01 2018 11:57:15 GMT-0300 (-03)
+[debug] [2018-03-01T14:57:16.523Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Serving from '/home/emanuel/projetos/assessment-online'...
 [info] 
 [info] i  functions: Preparing to emulate functions.
-[debug] [2018-02-28T22:15:59.801Z] Fetching environment
-[debug] [2018-02-28T22:15:59.802Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/assessment-online  
+[debug] [2018-03-01T14:57:17.287Z] Fetching environment
+[debug] [2018-03-01T14:57:17.288Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/assessment-online  
   
- Wed Feb 28 2018 19:15:59 GMT-0300 (-03)
-[debug] [2018-02-28T22:15:59.802Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/assessment-online/apiKeys  
+ Thu Mar 01 2018 11:57:17 GMT-0300 (-03)
+[debug] [2018-03-01T14:57:17.289Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/assessment-online/apiKeys  
   
- Wed Feb 28 2018 19:15:59 GMT-0300 (-03)
-[debug] [2018-02-28T22:16:00.760Z] <<< HTTP RESPONSE 200
-[debug] [2018-02-28T22:16:00.987Z] <<< HTTP RESPONSE 200
-[debug] [2018-02-28T22:16:00.988Z] Starting @google-cloud/functions-emulator
-[debug] [2018-02-28T22:16:02.578Z] Parsing function triggers
+ Thu Mar 01 2018 11:57:17 GMT-0300 (-03)
+[debug] [2018-03-01T14:57:18.307Z] <<< HTTP RESPONSE 200
+[debug] [2018-03-01T14:57:18.476Z] <<< HTTP RESPONSE 200
+[debug] [2018-03-01T14:57:18.477Z] Starting @google-cloud/functions-emulator
+[debug] [2018-03-01T14:57:20.191Z] Parsing function triggers
 [info] ✔  functions: save: http://localhost:5000/assessment-online/us-central1/save
 [info] ✔  functions: deleteUser: http://localhost:5000/assessment-online/us-central1/deleteUser

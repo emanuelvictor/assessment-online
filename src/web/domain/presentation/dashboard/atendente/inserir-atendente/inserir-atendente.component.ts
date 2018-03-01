@@ -40,8 +40,6 @@ export class InserirAtendenteComponent implements OnInit {
    */
   public save(): void {
     this.usuarioService.save(this.atendente).then(result => {
-
-      // TODO WHATA???
       this.atendente = result;
       this.success('Atendente inserido com sucesso');
     })
