@@ -116,33 +116,31 @@ exports.handlerUser = functions.https.onRequest((req, res) => {
 //     });
 // });
 //
-// /**
-//  * Deleta o usuário
-//  * @type {HttpsFunction}
-//  */
-// exports.deleteUser = functions.https.onRequest((req, res) => {
-//
-//   /**
-//    * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
-//    */
-//   admin.auth().getUserByEmail(req.query.email)
-//     .then(usuario => {
-//
-//       /**
-//        * Após encontrar o usuário pelo e-mail, deleta o mesmo pelo uid
-//        */
-//       admin.auth().deleteUser(usuario.uid)
-//         .then(result => {
-//           res.sendStatus(200)
-//         })
-//         .catch(exception => {
-//           res.status(500) //TODO retornar a exception também
-//         });
-//     })
-//     .catch(exception => {
-//       res.status(500) //TODO retornar a exception também
-//     });
-// });
+/**
+ * Deleta o usuário
+ * @type {HttpsFunction}
+ */
+exports.removeAccount = functions.https.onRequest((req, res) => {
+    /**
+     * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
+     */
+    admin.auth().getUserByEmail(req.query.email)
+        .then(usuario => {
+        /**
+         * Após encontrar o usuário pelo e-mail, deleta o mesmo pelo uid
+         */
+        admin.auth().deleteUser(usuario.uid)
+            .then(result => {
+            res.sendStatus(200);
+        })
+            .catch(exception => {
+            res.status(500); //TODO retornar a exception também
+        });
+    })
+        .catch(exception => {
+        res.status(500); //TODO retornar a exception também
+    });
+});
 //
 // /**
 //  * Busca o  usuário  pelo e-mail

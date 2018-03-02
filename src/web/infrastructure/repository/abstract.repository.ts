@@ -70,8 +70,11 @@ export abstract class AbstractRepository {
    * @param item
    * @returns {PromiseLike<any>}
    */
-  public save(item: any): PromiseLike<any> {
+  public saveWithAccount(item: any): PromiseLike<any> {
 
+    /**
+     *
+     */
     this._progress.start();
 
     /**
@@ -82,40 +85,57 @@ export abstract class AbstractRepository {
       /**
        *
        */
-      this._accountRepository.handlerUser(item.uid, item.email, item.password).then(account => {
+      if (item.email)
+        this._accountRepository.handlerUser(item.uid, item.email, item.password).then(account => {
 
-        /**
-         *
-         */
-        if (account && account.uid)
-          item.uid = account.uid;
+          /**
+           *
+           */
+          if (account && account.uid)
+            item.uid = account.uid;
 
-        /**
-         *
-         */
-        this.recursiveHandler(item.key, item);
+          /**
+           *
+           */
+          this.save(item)
+            .then(result => resolve(result))
 
-        /**
-         * Se tem key atualiza o registro existente
-         */
-        if (item && item.key)
-          this.update(item.key, item)
-            .then(result => {
-              resolve(result)
-            });
+        });
 
-        /**
-         * Se não tem key cria um novo item
-         */
-        else
-          this._itemsRef.push(item)
-            .then(result => {
-              resolve(AbstractRepository.getItemWithKey(item, result))
-            });
-
-      });
+      /**
+       *
+       */
+      this.save(item)
+        .then(result => resolve(result))
 
     }).then(this._progress.done());
+  }
+
+  /**
+   *
+   * @param item
+   * @returns {PromiseLike<any>}
+   */
+  public save(item): PromiseLike<any> {
+    /**
+     *
+     */
+    this.recursiveHandler(item.key, item);
+
+    /**
+     * Se tem key atualiza o registro existente
+     */
+    if (item && item.key)
+      return this.update(item.key, item);
+
+    /**
+     * Se não tem key cria um novo item
+     */
+    else
+      return this._itemsRef.push(item)
+        .then(result =>
+          AbstractRepository.getItemWithKey(item, result)
+        );
   }
 
   /**

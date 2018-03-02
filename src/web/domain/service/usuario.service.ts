@@ -70,31 +70,38 @@ export class UsuarioService {
           duration: 60000,
         });
 
-      this.usuarioRepository.save(toSave)
+      this.usuarioRepository.saveWithAccount(toSave)
         .then(result => {
+
           if (arquivoFile) {
+
             this.fileRepository.save(result.key, arquivoFile)
               .then(uploaded => {
                 toSave.urlFile = uploaded;
-                this.usuarioRepository.save(toSave)
+                this.usuarioRepository.saveWithAccount(toSave)
                   .then(usuarioAtualizado => {
-
-                    console.log(uploaded);
                     resolve(usuarioAtualizado);
                   })
               });
+
           } else {
+
             if (!urlFile) {
               this.fileRepository.remove(result.key).then(result => {
                 usuario.urlFile = null;
-                this.usuarioRepository.save(usuario)
+                this.usuarioRepository.saveWithAccount(usuario)
                   .then(resulted => {
                     resolve(resulted);
                   });
               });
-            } else resolve(result);
+            }
+
+            else resolve(result);
+
           }
+
         });
+
     }).then(result => this.snackBar.dismiss());
   }
 
