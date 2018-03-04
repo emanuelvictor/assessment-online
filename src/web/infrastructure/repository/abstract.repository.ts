@@ -105,8 +105,9 @@ export abstract class AbstractRepository {
       /**
        *
        */
-      this.save(item)
-        .then(result => resolve(result))
+      else
+        this.save(item)
+          .then(result => resolve(result))
 
     }).then(this._progress.done());
   }
@@ -184,9 +185,22 @@ export abstract class AbstractRepository {
     this._progress.start();
 
     /**
+     * Executa exclusão assíncrona da foto
+     */
+    this._storage.ref(item.key).delete().toPromise()
+      .catch(exception => {
+        console.log(exception)
+      });
+
+    /**
      * Executa exclusão assíncrona da conta
      */
-    this._accountRepository.handlerUser(item.uid, null, null);
+    if (item.uid)
+      this._accountRepository.handlerUser(item.uid, null, null);
+
+    /**
+     * Remove o item em si
+     */
     return this._itemsRef.remove(item.key)
       .then(this._progress.done())
       .catch(this._progress.done());
@@ -223,9 +237,17 @@ export abstract class AbstractRepository {
        */
       if (entry[i] === null || isUndefined(entry[i])) {
         delete entry[i];
-        console.log('DUVIDO SE NÃO É AQUI');
-        if (key)
-          this.remove({key: key + '/' + i, uid: entry['uid']});
+        if (key) {
+          this._itemsRef.remove(key)
+            .then(this._progress.done())
+            .catch(this._progress.done());
+        }
+        /**
+         * Está atualizando usuário e removendo o email
+         * ou Seja revogando o acesso
+         */
+        if (i === 'email' && entry['uid'])
+          this._accountRepository.handlerUser(entry['uid'], null, null);
       }
 
       // /**

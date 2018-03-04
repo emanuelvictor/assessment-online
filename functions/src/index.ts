@@ -88,7 +88,7 @@ exports.handlerUser = functions.https.onRequest((req, res) => {
           res.status(500)
         });
 
-    } else res.send({retorno : 'ok'});
+    } else res.status(200);
 
   })
 });

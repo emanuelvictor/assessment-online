@@ -18,6 +18,12 @@ export class AtendenteFormComponent implements OnInit {
 
   /**
    *
+   * @type {boolean}
+   */
+  showPassword : boolean = false;
+
+  /**
+   *
    * @type {any}
    */
   urlFile = null;
@@ -66,6 +72,9 @@ export class AtendenteFormComponent implements OnInit {
    *
    */
   ngOnInit() {
+    if (!this.usuario.email || !this.usuario.email.length)
+      this.showPassword = true;
+
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],
       email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]

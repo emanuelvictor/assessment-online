@@ -82,7 +82,7 @@ exports.handlerUser = functions.https.onRequest((req, res) => {
             });
         }
         else
-            res.send({ retorno: 'ok' });
+            res.status(200);
     });
 });
 // /**
