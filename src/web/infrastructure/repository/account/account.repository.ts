@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 
 /**
  *
@@ -20,9 +20,11 @@ export class AccountRepository {
    * @param uid
    * @param email
    * @param password
+   * @param photoURL
+   * @param displayName
    * @returns {Promise<any>}
    */
-  public handlerUser(uid, email, password): Promise<any> {
+  public handlerUser(uid, email, password, photoURL, displayName): Promise<any> {
 
     /**
      * Url hardcoded
@@ -30,7 +32,7 @@ export class AccountRepository {
     return this.httpClient
       .post(
         './handlerUser',
-        {uid: uid, email: email, password: password}
+        {uid: uid, email: email, password: password, photoURL: photoURL, displayName: displayName}
       ).toPromise();
   }
 

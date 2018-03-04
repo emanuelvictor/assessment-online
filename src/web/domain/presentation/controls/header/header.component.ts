@@ -54,6 +54,7 @@ export class HeaderComponent implements OnDestroy {
 
     this.userSubscription = authenticationService
       .authenticatedUserChanged.subscribe((user) => {
+      console.log(user);
         this.usuario = user;
       });
   }
@@ -78,16 +79,7 @@ export class HeaderComponent implements OnDestroy {
    *
    */
   ngOnInit() {
-    this.ngAfterViewInit();
     this.getAuthenticatedUser();
-  }
-
-  /**
-   *
-   */
-  ngAfterViewInit(): void {
-    // broadcast to all listener observables when loading the page
-    // this.media.broadcast();
   }
 
   /**
@@ -95,12 +87,5 @@ export class HeaderComponent implements OnDestroy {
    */
   public getAuthenticatedUser(): void {
     this.usuario = this.authenticationService.getAuthenticatedUser();
-    // this.authenticationService.getPromiseAuthenticatedUser()
-    //   .then((authenticatedUser) => {
-    //   console.log(authenticatedUser);
-    //     if (authenticatedUser) {
-    //       this.usuario = authenticatedUser;
-    //     }
-    //   });
   }
 }

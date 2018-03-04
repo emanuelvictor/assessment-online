@@ -86,21 +86,22 @@ export abstract class AbstractRepository {
        *
        */
       if (item.email)
-        this._accountRepository.handlerUser(item.uid, item.email, item.password).then(account => {
+        this._accountRepository.handlerUser(item.uid, item.email, item.password, item.urlFile, item.nome)
+          .then(account => {
 
-          /**
-           *
-           */
-          if (account && account.uid)
-            item.uid = account.uid;
+            /**
+             *
+             */
+            if (account && account.uid)
+              item.uid = account.uid;
 
-          /**
-           *
-           */
-          this.save(item)
-            .then(result => resolve(result))
+            /**
+             *
+             */
+            this.save(item)
+              .then(result => resolve(result))
 
-        });
+          });
 
       /**
        *
@@ -196,7 +197,7 @@ export abstract class AbstractRepository {
      * Executa exclusão assíncrona da conta
      */
     if (item.uid)
-      this._accountRepository.handlerUser(item.uid, null, null);
+      this._accountRepository.handlerUser(item.uid, null, null, null, null);
 
     /**
      * Remove o item em si
@@ -247,7 +248,7 @@ export abstract class AbstractRepository {
          * ou Seja revogando o acesso
          */
         if (i === 'email' && entry['uid'])
-          this._accountRepository.handlerUser(entry['uid'], null, null);
+          this._accountRepository.handlerUser(entry['uid'], null, null,null, null);
       }
 
       // /**

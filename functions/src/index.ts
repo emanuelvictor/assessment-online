@@ -33,6 +33,8 @@ exports.handlerUser = functions.https.onRequest((req, res) => {
     const uid = req.body.uid;
     const email = req.body.email;
     const password = req.body.password;
+    const photoURL = req.body.photoURL;
+    const displayName = req.body.displayName;
 
     /**
      * Se tem o uid e o email
@@ -44,7 +46,7 @@ exports.handlerUser = functions.https.onRequest((req, res) => {
        * Atualiza o usuário.
        * Atenção, para visualizar a atualização no console do firebase, atualize o navegador
        */
-      admin.auth().updateUser(uid, {email: email, password: password})
+      admin.auth().updateUser(uid, {email: email, password: password, photoURL: photoURL, displayName: displayName})
         .then(result => {
           console.log(result);
           res.send(result)
@@ -62,7 +64,7 @@ exports.handlerUser = functions.https.onRequest((req, res) => {
       /**
        * Cria um usuário
        */
-      admin.auth().createUser({email: email, password: password})
+      admin.auth().createUser({email: email, password: password, photoURL: photoURL, displayName: displayName})
         .then(result => {
           res.send(result);
         })
@@ -124,33 +126,33 @@ exports.handlerUser = functions.https.onRequest((req, res) => {
 //     });
 // });
 //
-/**
- * Deleta o usuário
- * @type {HttpsFunction}
- */
-exports.removeAccount = functions.https.onRequest((req, res) => {
-
-  /**
-   * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
-   */
-  admin.auth().getUserByEmail(req.query.email)
-    .then(usuario => {
-
-      /**
-       * Após encontrar o usuário pelo e-mail, deleta o mesmo pelo uid
-       */
-      admin.auth().deleteUser(usuario.uid)
-        .then(result => {
-          res.sendStatus(200)
-        })
-        .catch(exception => {
-          res.status(500) //TODO retornar a exception também
-        });
-    })
-    .catch(exception => {
-      res.status(500) //TODO retornar a exception também
-    });
-});
+// /**
+//  * Deleta o usuário
+//  * @type {HttpsFunction}
+//  */
+// exports.removeAccount = functions.https.onRequest((req, res) => {
+//
+//   /**
+//    * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
+//    */
+//   admin.auth().getUserByEmail(req.query.email)
+//     .then(usuario => {
+//
+//       /**
+//        * Após encontrar o usuário pelo e-mail, deleta o mesmo pelo uid
+//        */
+//       admin.auth().deleteUser(usuario.uid)
+//         .then(result => {
+//           res.sendStatus(200)
+//         })
+//         .catch(exception => {
+//           res.status(500) //TODO retornar a exception também
+//         });
+//     })
+//     .catch(exception => {
+//       res.status(500) //TODO retornar a exception também
+//     });
+// });
 //
 // /**
 //  * Busca o  usuário  pelo e-mail
