@@ -6,9 +6,10 @@ import {isNullOrUndefined} from 'util';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from "@angular/common/http";
+import {UsuarioService} from "./usuario.service";
 
 @Injectable()
-export class  AuthenticationService implements CanActivate, CanActivateChild {
+export class AuthenticationService implements CanActivate, CanActivateChild {
 
   /**
    *
@@ -26,7 +27,7 @@ export class  AuthenticationService implements CanActivate, CanActivateChild {
    * @param {Router} router
    * @param {HttpClient} httpClient
    */
-  constructor(private afAuth: AngularFireAuth, private router: Router, private httpClient : HttpClient) {
+  constructor(private afAuth: AngularFireAuth, private router: Router, private httpClient: HttpClient) {
 
     this.authenticatedUserChanged = new EventEmitter();
 
@@ -44,13 +45,13 @@ export class  AuthenticationService implements CanActivate, CanActivateChild {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.afAuth.authState
       .map(auth => {
-      if (isNullOrUndefined(auth)) {
-        this.router.navigate(['authentication']);
-        return false;
-      } else {
-        return true;
-      }
-    });
+        if (isNullOrUndefined(auth)) {
+          this.router.navigate(['authentication']);
+          return false;
+        } else {
+          return true;
+        }
+      });
   }
 
   /**
@@ -91,7 +92,7 @@ export class  AuthenticationService implements CanActivate, CanActivateChild {
    *
    */
   public save(usuario: Usuario): Promise<Usuario> {
-    return this.httpClient.post<Usuario>('https://us-central1-assessment-online.cloudfunctions.net/createUser',usuario).toPromise();
+    return this.httpClient.post<Usuario>('https://us-central1-assessment-online.cloudfunctions.net/createUser', usuario).toPromise();
   }
 
   /**

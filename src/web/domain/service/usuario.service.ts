@@ -124,4 +124,11 @@ export class UsuarioService {
     usuario.password = newPassword;
     return this.usuarioRepository.changePassword(usuario, newPassword);
   }
+
+  /**
+   *
+   */
+  public getUsuarioAutenticado(): Observable<Usuario> {
+    return this.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email);
+  }
 }

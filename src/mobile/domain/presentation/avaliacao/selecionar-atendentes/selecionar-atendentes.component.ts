@@ -42,7 +42,7 @@ export class SelecionarAtendentesComponent implements OnInit {
       this.atendentes = [];
       colaboradores.forEach(colaborador => {
         this.usuarioService.findOne(colaborador.usuario.key).subscribe(usuario => {
-          if (colaborador.vinculo && colaborador.vinculo != 'Supervisor') {
+          if (colaborador.vinculo && colaborador.vinculo != 'Operador') {
 
             let founded: boolean = false;
 

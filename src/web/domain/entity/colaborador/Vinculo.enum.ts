@@ -1,3 +1,3 @@
 export enum Vinculo {
-  Atendente, Supervisor, SupervisorAtendente, Nenhum
+  Atendente, Operador, OperadorArtendente, Nenhum
 }

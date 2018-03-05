@@ -7,12 +7,12 @@
         <strong style='color: rgb(94, 124, 139)'> Atendente</strong>
         {{'em: ' + atendente.unidade?.nome}}
       </h3>
-      <h3 matLine *ngIf="atendente.vinculo === 'Supervisor'">
-        <strong style='color: rgb(139,73,82)'> Supervisor</strong>
+      <h3 matLine *ngIf="atendente.vinculo === 'Operador'">
+        <strong style='color: rgb(139,73,82)'> Operador</strong>
         {{'em: ' + atendente.unidade?.nome}}
       </h3>
-      <h3 matLine *ngIf="atendente.vinculo === 'SupervisorAtendente'">
-        <strong style='color: rgb(107,176,121)'> Supervisor e atendente</strong>
+      <h3 matLine *ngIf="atendente.vinculo === 'OperadorAtendente'">
+        <strong style='color: rgb(107,176,121)'> Operador e atendente</strong>
         {{'em: ' + atendente.unidade?.nome}}
       </h3>
       <p matLine *ngIf="atendente.unidade?.endereco?.cidade?.nome">Número {{atendente.unidade?.endereco?.numero}},
