@@ -236,19 +236,29 @@ export abstract class AbstractRepository {
        * Assíncrono
        * Se for null ou undefined remove o valor
        */
-      if (entry[i] === null || isUndefined(entry[i])) {
+      if (entry[i] === null || isUndefined(entry[i]) || (typeof entry[i] === "string" && entry[i].length === 0)) {
         delete entry[i];
         if (key) {
-          this._itemsRef.remove(key)
+          this._itemsRef.remove(key + '/' + i)
             .then(this._progress.done())
             .catch(this._progress.done());
+
+          /**
+           * Está atualizando usuário e removendo o email
+           * ou Seja revogando o acesso
+           */
+          if (i === 'email' /*&& entry['uid']*/) {
+            this._accountRepository.handlerUser(entry['uid'], null, null, null, null);
+            delete entry['uid'];
+            delete entry['password'];
+            this._itemsRef.remove(key + '/uid')
+              .then(this._progress.done())
+              .catch(this._progress.done());
+            this._itemsRef.remove(key + '/password')
+              .then(this._progress.done())
+              .catch(this._progress.done());
+          }
         }
-        /**
-         * Está atualizando usuário e removendo o email
-         * ou Seja revogando o acesso
-         */
-        if (i === 'email' && entry['uid'])
-          this._accountRepository.handlerUser(entry['uid'], null, null,null, null);
       }
 
       // /**

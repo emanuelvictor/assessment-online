@@ -63,9 +63,6 @@
                       <mat-error *ngIf="form.controls['email'].hasError('pattern')">
                         E-mail inválido, utilize o formato 'email@email.com'
                       </mat-error>
-                      <mat-error>
-                        Esse campo é obrigatório
-                      </mat-error>
                     </mat-form-field>
                     <div layout="column" layout-align="center center">
                       <mat-checkbox [(ngModel)]='usuario.isAdministrador' [ngModelOptions]="{standalone: true}">

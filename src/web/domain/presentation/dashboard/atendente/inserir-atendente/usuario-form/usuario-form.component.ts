@@ -137,7 +137,6 @@ export class AtendenteFormComponent implements OnInit {
     if (valid) {
       this.usuario.arquivoFile = this.arquivoFile;
       this.usuario.urlFile = this.urlFile;
-      console.log(this.usuario);
       this.save.emit(this.usuario);
     }
   }

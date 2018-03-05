@@ -63,8 +63,7 @@ export class AlterarAtendenteComponent implements OnInit {
    */
   public update(atendente): void {
     this.usuarioService.save(atendente).then(result => {
-      console.log(result);
-      // atendente = result;
+      atendente = result;
       this.success('Atendente alterado com sucesso');
     })
   }

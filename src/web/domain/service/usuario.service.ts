@@ -113,4 +113,15 @@ export class UsuarioService {
   public remove(usuario: Usuario): Promise<any> {
     return this.usuarioRepository.remove(usuario);
   }
+
+  /**
+   *
+   * @param {Usuario} usuario
+   * @param {string} newPassword
+   * @returns {Promise<any>}
+   */
+  changePassword(usuario: Usuario, newPassword: string): Promise<any> {
+    usuario.password = newPassword;
+    return this.usuarioRepository.changePassword(usuario, newPassword);
+  }
 }
