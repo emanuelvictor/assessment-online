@@ -2,6 +2,7 @@ import {Router} from "@angular/router";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {Component, OnInit} from "@angular/core";
 import {UsuarioService} from "../../../../service/usuario.service";
+import {ColaboradorService} from "../../../../service/colaborador.service";
 
 @Component({
   selector: 'consultar-atendentes',
@@ -22,7 +23,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    * @param {MatDialog} dialog
    * @param {UsuarioService} usuarioService
    */
-  constructor(public router: Router, public snackBar: MatSnackBar, public dialog: MatDialog, public usuarioService: UsuarioService) {
+  constructor(public router: Router, public snackBar: MatSnackBar, public dialog: MatDialog, public usuarioService: UsuarioService, private colaboradorService: ColaboradorService) {
   }
 
   /**
@@ -36,7 +37,31 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters() {
-    this.usuarioService.find().subscribe(result => this.atendentes = result)
+
+
+    this.usuarioService.getUsuarioAutenticado().subscribe(usuarioLogado => {
+      console.log(usuarioLogado);
+      this.usuarioService.find().subscribe(usuarios => {
+        console.log('asfdasdf');
+        /**
+         * Se o usuário é administraodr
+         */
+        if (usuarioLogado.isAdministrador)
+          this.atendentes = usuarios;
+
+        /**
+         * Se o usuário não é administrador
+         */
+        else {
+          this.colaboradorService.listOperadoresByUsuarioKey(usuarioLogado.key)
+            .subscribe(colaboradores => {
+              colaboradores.for(colaborador => {
+
+              });
+            })
+        }
+      })
+    })
   }
 
   /**

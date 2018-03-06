@@ -38,7 +38,7 @@ export class SelecionarAtendentesComponent implements OnInit {
       this.router.navigate(['/avaliar']);
     }, 180000);
 
-    this.colaboradorService.findColaboradorByUnidadeKey(this.mobileService.getUnidade()).subscribe(colaboradores => {
+    this.colaboradorService.listColaboradoresByUnidadeKey(this.mobileService.getUnidade()).subscribe(colaboradores => {
       this.atendentes = [];
       colaboradores.forEach(colaborador => {
         this.usuarioService.findOne(colaborador.usuario.key).subscribe(usuario => {

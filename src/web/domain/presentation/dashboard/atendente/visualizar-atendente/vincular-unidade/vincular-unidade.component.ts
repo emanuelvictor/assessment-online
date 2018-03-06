@@ -55,7 +55,7 @@ export class VincularUnidadeComponent implements OnInit {
         });
       }
 
-      this.colaboradorService.findColaboradorByUsuarioKey(this.usuario.key).subscribe(result => {
+      this.colaboradorService.listColaboradoresByUsuarioKey(this.usuario.key).subscribe(result => {
         if (result.length) {
 
           for (let i = 0; i < this.atendentes.length; i++) {

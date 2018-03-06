@@ -38,7 +38,7 @@ export class UnidadeItemComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.colaboradorService.findColaboradorByUsuarioKey(this.usuario.key).subscribe(colaboradores => {
+    this.colaboradorService.listColaboradoresByUsuarioKey(this.usuario.key).subscribe(colaboradores => {
       this.colaboradores = [];
       for (let i = 0; i < colaboradores.length; i++) {
         if (colaboradores[i].vinculo) {

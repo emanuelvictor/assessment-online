@@ -40,7 +40,7 @@ export class SelecionarUnidadeComponent implements OnInit {
    */
   ngOnInit() {
     this.usuarioService.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email).subscribe(usuario => {
-      this.colaboradorService.findColaboradorByUsuarioKey(usuario.key).subscribe(colaboradores => {
+      this.colaboradorService.listColaboradoresByUsuarioKey(usuario.key).subscribe(colaboradores => {
         colaboradores.forEach(colaborador => {
           this.unidades = [];
           if (colaborador.vinculo)

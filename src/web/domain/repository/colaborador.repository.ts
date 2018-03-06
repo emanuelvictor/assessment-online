@@ -17,6 +17,10 @@ export class ColaboradorRepository extends AbstractRepository {
     return this.find().map(items => items.filter(item => item.usuario.key === key));
   }
 
+  public listOperadoresByUsuarioKey(key: string): Observable<any> {
+    return this.find().map(items => items.filter(item => item.usuario.key === key && item.vinculo === 'Operador' || item.vinculo === 'OperadorAtendente' ));
+  }
+
   public findColaboradorByUnidadeKey(key: string): Observable<any> {
     return this.find().map(items => items.filter(item => item.unidade.key === key));
   }

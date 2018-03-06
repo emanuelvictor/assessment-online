@@ -18,11 +18,6 @@ export class LoggedMenuComponent implements OnDestroy {
 
   /**
    *
-   */
-  userSubscription: Subscription;
-
-  /**
-   *
    * @param {AuthenticationService} authenticationService
    * @param {UsuarioService} usuarioService
    * @param {ChangeDetectorRef} changeDetectionRef
@@ -30,15 +25,20 @@ export class LoggedMenuComponent implements OnDestroy {
    */
   constructor(public authenticationService: AuthenticationService, public usuarioService: UsuarioService, public changeDetectionRef: ChangeDetectorRef, public router: Router) {
 
-    this.usuarioService.getUsuarioAutenticado().subscribe( result =>
-      this.authenticatedUser =  result
-    );
+    this.usuarioService.getUsuarioAutenticado().subscribe(result => {
+      this.authenticatedUser = result
+    });
 
     this.userSubscription = authenticationService.authenticatedUserChanged.subscribe((user) => {
       this.authenticatedUser = user;
       this.changeDetectionRef.detectChanges();
     });
   }
+
+  /**
+   *
+   */
+  userSubscription: Subscription;
 
   /**
    *
