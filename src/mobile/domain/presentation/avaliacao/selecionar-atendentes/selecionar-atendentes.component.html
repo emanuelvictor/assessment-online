@@ -13,9 +13,9 @@
                      [ngStyle]="{'background-color': (atendente.selected ? '#c9e5fd' : '')}">
         <div mat-list-avatar style='width: 70px; height: 70px'>
           <avatar class='image-cover' [size]='0.6'
-                  [usuario]="{'key': atendente?.key , 'foto': atendente?.urlFile}"></avatar>
+                  [usuario]="{'key': atendente?.usuario?.key , 'foto': atendente?.usuario?.urlFile}"></avatar>
         </div>
-        <div class='push-left' style='margin-top: 7px'> {{atendente.nome}}</div>
+        <div class='push-left' style='margin-top: 7px'> {{atendente?.usuario?.nome}}</div>
       </mat-list-item>
     </mat-list>
   </mat-nav-list>

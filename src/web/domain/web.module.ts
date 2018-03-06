@@ -67,6 +67,7 @@ import {ColaboradorRepository} from './repository/colaborador.repository';
 import {FileRepository} from '../infrastructure/repository/file/file.repository';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {FotoLoadingComponent} from './presentation/controls/foto-loading/foto-loading.component';
+import {AvaliacaoColaboradorRepository} from "./repository/avaliacao-colaborador.repository";
 
 /**
  *
@@ -145,6 +146,7 @@ import {FotoLoadingComponent} from './presentation/controls/foto-loading/foto-lo
   entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent],
   providers: [
     Describer,
+    AvaliacaoColaboradorRepository,
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,

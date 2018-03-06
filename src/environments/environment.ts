@@ -12,5 +12,7 @@ export const environment = {
     projectId: 'assessment-online',
     storageBucket: 'assessment-online.appspot.com',
     messagingSenderId: '658372006724'
-  }
+  },
+
+  handlerUserUrl: './handlerUser'
 };

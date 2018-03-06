@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../../environments/environment.prod';
 
 /**
  *
@@ -31,7 +32,7 @@ export class AccountRepository {
      */
     return this.httpClient
       .post(
-        './handlerUser',
+        environment.handlerUserUrl,
         {uid: uid, email: email, password: password, photoURL: photoURL, displayName: displayName}
       ).toPromise();
   }

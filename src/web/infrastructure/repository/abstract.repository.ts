@@ -18,7 +18,7 @@ export abstract class AbstractRepository {
   private _progress = window['NProgress'];
   private _path: string = '';
   private _itemsRef: AngularFireList<any>;
-  private _items: Observable<any[]>;
+  // private _items: Observable<any[]>;
   private _angularFireDatabase: AngularFireDatabase;
   private _storage: AngularFireStorage;
   private _accountRepository: AccountRepository;
@@ -45,10 +45,10 @@ export abstract class AbstractRepository {
     this._itemsRef = this._angularFireDatabase.list(this._path);
 
     this._progress.start();
-    this._items = this._itemsRef.snapshotChanges().map(changes => {
-      this._progress.done();
-      return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
-    });
+    // this._items = this._itemsRef.snapshotChanges().map(changes => {
+    //   this._progress.done();
+    //   return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
+    // });
   }
 
   /**
@@ -62,7 +62,10 @@ export abstract class AbstractRepository {
    * @returns {Observable<any[]>}
    */
   public find(): Observable<any[]> {
-    return this._items;
+    return this._itemsRef.snapshotChanges().map(changes => {
+      this._progress.done();
+      return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
+    });
   }
 
   /**
@@ -170,7 +173,10 @@ export abstract class AbstractRepository {
     this._progress.start();
     return this._angularFireDatabase.object(this._path + '/' + key).snapshotChanges().map(changes => {
       this._progress.done();
-      return {key: changes.payload.key, ...changes.payload.val()};
+      if (changes.payload.val())
+        return {key: changes.payload.key, ...changes.payload.val()};
+      else
+        return null;
     });
   }
 

@@ -18,6 +18,11 @@ export class AvaliacaoService {
     return this.avaliacaoRepository.findOne(key);
   }
 
+  /**
+   *
+   * @param {Avaliacao} avaliacao
+   * @returns {PromiseLike<any>}
+   */
   public save(avaliacao: Avaliacao): PromiseLike<any> {
     const avaliacoesColaboradores = avaliacao.avaliacoesColaboradores;
 

@@ -12,4 +12,8 @@ export class AvaliacaoColaboradorRepository extends AbstractRepository {
     super();
     this.init('avaliacoes-colaboradores', af, storage, accountRepository)
   }
+
+  public listAvaliacoesColaboradoresByColaboradorKey(key: string): Observable<any> {
+    return this.find().map(items => items.filter(item => item.colaborador.key === key));
+  }
 }

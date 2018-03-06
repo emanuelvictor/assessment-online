@@ -6,20 +6,27 @@ import {Usuario} from '../entity/usuario/Usuario.model';
 import {FileRepository} from '../../infrastructure/repository/file/file.repository';
 import {MatSnackBar} from '@angular/material';
 import {FotoLoadingComponent} from '../presentation/controls/foto-loading/foto-loading.component';
+import {ColaboradorRepository} from "../repository/colaborador.repository";
+import {AvaliacaoColaboradorRepository} from "../repository/avaliacao-colaborador.repository";
 
 /**
  *
  */
 @Injectable()
 export class UsuarioService {
+
   /**
    *
    * @param {UsuarioRepository} usuarioRepository
    * @param {MatSnackBar} snackBar
-   * @param {AuthenticationService} authenticationService TODO substituir por accountRepository
+   * @param {AuthenticationService} authenticationService
    * @param {FileRepository} fileRepository
+   * @param {ColaboradorRepository} colaboradorReposisotry
+   * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
    */
-  constructor(private usuarioRepository: UsuarioRepository, private snackBar: MatSnackBar, private authenticationService: AuthenticationService, private fileRepository: FileRepository) {
+  constructor(private usuarioRepository: UsuarioRepository, private snackBar: MatSnackBar,
+              private authenticationService: AuthenticationService, private fileRepository: FileRepository,
+              private colaboradorReposisotry: ColaboradorRepository, private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository) {
   }
 
   /**
@@ -111,6 +118,26 @@ export class UsuarioService {
    * @returns {Promise<any>}
    */
   public remove(usuario: Usuario): Promise<any> {
+
+    /**
+     * Remove os vínculos do usuário com as unidades
+     */
+    this.colaboradorReposisotry.findColaboradorByUsuarioKey(usuario.key).subscribe(colaboradores => {
+      for (let k = 0; k < colaboradores.length; k++) {
+        /**
+         * Remove as avaliações do usuário
+         */
+        console.log(colaboradores[k].key);
+        this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaboradores[k].key)
+          .subscribe(avaliacoes => {
+            for (let i = 0; i < avaliacoes.length; i++) {
+              this.avaliacaoColaboradorRepository.remove(avaliacoes[i]);
+            }
+          });
+        this.colaboradorReposisotry.remove(colaboradores[k]);
+      }
+    });
+
     return this.usuarioRepository.remove(usuario);
   }
 

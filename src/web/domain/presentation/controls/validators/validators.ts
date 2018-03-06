@@ -217,9 +217,9 @@ export function dataNascimentoValidator(): ValidatorFn {
 // Valida a confirmação de password
 export function confirmPassword(): ValidatorFn {
   return (c: AbstractControl): { [key: string]: any } => {
-    if (!c.value || !c.value.length) return {
-      exception: null
-    };
+    // if (!c.value || !c.value.length) return {
+    //   exception: null
+    // };
 
     if (c.parent && c.value.length && c.parent.controls['password'].value != c.value) return {
       exception: 'A senha e sua confirmação não conicidem'
@@ -231,15 +231,15 @@ export function confirmPassword(): ValidatorFn {
 // Valida a  password
 export function password(): ValidatorFn {
   return (c: AbstractControl): { [key: string]: any } => {
-    if (!c.value || !c.value.length) return {
-      exception: null
-    };
+    // if (!c.value || !c.value.length) return {
+    //   exception: null
+    // };
 
     if (c.parent && c.value.length && c.parent.controls['confirmacaoPassword'].value != c.value) {
       c.parent.controls['confirmacaoPassword'].setErrors({exception: 'A senha e sua confirmação não conicidem'})
     }
 
-    if (c.value.length < 6) return {
+    if (c.value && c.value.length > 0 && c.value.length < 6) return {
       exception: 'A senha deve conter no mínimo 6 caracteres'
     };
   }

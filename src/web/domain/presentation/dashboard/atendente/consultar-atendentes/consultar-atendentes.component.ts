@@ -1,8 +1,8 @@
-import {Router} from "@angular/router";
-import {MatDialog, MatSnackBar} from "@angular/material";
-import {Component, OnInit} from "@angular/core";
-import {UsuarioService} from "../../../../service/usuario.service";
-import {ColaboradorService} from "../../../../service/colaborador.service";
+import {Router} from '@angular/router';
+import {MatDialog, MatSnackBar} from '@angular/material';
+import {Component, OnInit} from '@angular/core';
+import {UsuarioService} from '../../../../service/usuario.service';
+import {ColaboradorService} from '../../../../service/colaborador.service';
 
 @Component({
   selector: 'consultar-atendentes',
@@ -15,6 +15,11 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public atendentes: any[];
+
+  /**
+   *
+   */
+  public loggedUser: any;
 
   /**
    *
@@ -37,31 +42,42 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters() {
-
-
     this.usuarioService.getUsuarioAutenticado().subscribe(usuarioLogado => {
-      console.log(usuarioLogado);
+      this.loggedUser = usuarioLogado;
+
+      // this.usuarioService.getUsuarioAutenticado().subscribe(usuarioLogado => {
+      //   console.log(usuarioLogado);
       this.usuarioService.find().subscribe(usuarios => {
-        console.log('asfdasdf');
+        this.atendentes = [];
         /**
          * Se o usuário é administraodr
          */
-        if (usuarioLogado.isAdministrador)
+        if (this.loggedUser.isAdministrador)
           this.atendentes = usuarios;
 
         /**
          * Se o usuário não é administrador
          */
         else {
-          this.colaboradorService.listOperadoresByUsuarioKey(usuarioLogado.key)
-            .subscribe(colaboradores => {
-              colaboradores.for(colaborador => {
-
-              });
-            })
+          this.colaboradorService.listOperadoresByUsuarioKey(this.loggedUser.key).subscribe(operadores => {
+            for (let c = 0; c < operadores.length; c++) {
+              this.atendentes = [];
+              this.colaboradorService.listAtendentesByUnidadeKey(operadores[c].unidade.key).subscribe(atendentes => {
+                for (let k = 0; k < atendentes.length; k++) {
+                  let founded = false;
+                  for (let i = 0; i < this.atendentes.length; i++) {
+                    founded = this.atendentes[i].key === atendentes[k].usuario.key;
+                  }
+                  if (!founded) {
+                    this.atendentes.push(atendentes[k].usuario);
+                  }
+                }
+              })
+            }
+          });
         }
       })
-    })
+    });
   }
 
   /**
@@ -69,7 +85,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
   }

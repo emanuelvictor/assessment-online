@@ -47,12 +47,12 @@ export class SelecionarAtendentesComponent implements OnInit {
             let founded: boolean = false;
 
             for (let i = 0; i < this.atendentes.length; i++)
-              if (this.atendentes[i].key === usuario.key) {
-                this.atendentes[i] = usuario;
+              if (this.atendentes[i].usuario.key === usuario.key) {
+                this.atendentes[i].usuario = usuario;
                 founded = true;
               }
 
-            if (!founded) this.atendentes.push(usuario);
+            if (!founded) this.atendentes.push(colaborador);
           }
         })
       });

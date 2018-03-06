@@ -10,8 +10,7 @@ import {Usuario} from '../../../../../../entity/usuario/Usuario.model';
   templateUrl: './password-form.component.html',
   styleUrls: ['./password-form.component.css']
 })
-export class PasswordFormComponent implements OnInit, OnDestroy
-{
+export class PasswordFormComponent implements OnInit, OnDestroy {
 
   /**
    *
@@ -26,25 +25,23 @@ export class PasswordFormComponent implements OnInit, OnDestroy
   /**
    *
    */
-  confirmacaoPassword: string;
+  confirmacaoPassword: string = null;
 
   /**
    *
    * @param {MatSnackBar} snackBar
    * @param {FormBuilder} fb
    */
-  constructor(public snackBar: MatSnackBar, public fb: FormBuilder)
-  {
+  constructor(public snackBar: MatSnackBar, public fb: FormBuilder) {
   }
 
   /**
    *
    */
-  ngOnInit()
-  {
+  ngOnInit() {
     const formGroup = new FormGroup({
-      password: new FormControl('password', [Validators.required, password()]),
-      confirmacaoPassword: new FormControl('confirmacaoPassword', [Validators.required, confirmPassword()])
+      password: new FormControl('password', [password()]),
+      confirmacaoPassword: new FormControl('confirmacaoPassword', [confirmPassword()])
     });
 
     if (!this.form) {
@@ -57,8 +54,7 @@ export class PasswordFormComponent implements OnInit, OnDestroy
   /**
    *
    */
-  ngOnDestroy(): void
-  {
+  ngOnDestroy(): void {
     this.form.removeControl('password');
   }
 }
