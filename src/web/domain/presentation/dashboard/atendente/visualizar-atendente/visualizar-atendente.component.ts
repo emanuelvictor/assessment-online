@@ -7,6 +7,8 @@ import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-d
 import {UsuarioService} from '../../../../service/usuario.service';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {Usuario} from '../../../../entity/usuario/Usuario.model';
+import {Colaborador} from "../../../../entity/colaborador/Colaborador.model";
+import {ColaboradorService} from "../../../../service/colaborador.service";
 
 @Component({
   selector: 'visualizar-atendente',
@@ -35,6 +37,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    * @param {Router} router
    * @param {MatSnackBar} snackBar
+   * @param {ColaboradorService} colaboradorService
    * @param {ActivatedRoute} activatedRoute
    * @param {MatDialog} dialog
    * @param {UsuarioService} usuarioService
@@ -42,6 +45,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    */
   constructor(public router: Router,
               public snackBar: MatSnackBar,
+              public colaboradorService: ColaboradorService,
               public activatedRoute: ActivatedRoute, public dialog: MatDialog,
               public usuarioService: UsuarioService, public unidadeService: UnidadeService) {
   }
@@ -50,7 +54,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    */
   ngOnInit() {
-    let atendenteKey: string = this.activatedRoute.snapshot.params['key'];
+    const atendenteKey: string = this.activatedRoute.snapshot.params['key'];
     this.find(atendenteKey);
     this.listUnidadesByFilters();
   }
@@ -128,5 +132,13 @@ export class VisualizarAtendenteComponent implements OnInit {
     this.snackBar.open(message, "Fechar", {
       duration: 5000
     });
+  }
+
+  /**
+   *
+   * @param {Colaborador} colaborador
+   */
+  public saveColaborador(colaborador: Colaborador = new Colaborador()): void {
+    this.colaboradorService.save(colaborador);
   }
 }

@@ -61,7 +61,7 @@ export class UsuarioService {
    * @param {Usuario} usuario
    * @returns {PromiseLike<any>}
    */
-  public save(usuario: Usuario): Promise<any> {
+  public save(usuario: Usuario): PromiseLike<any> {
 
     const arquivoFile = usuario.arquivoFile;
     const urlFile = usuario.urlFile;
@@ -70,8 +70,7 @@ export class UsuarioService {
     delete toSave.arquivoFile;
     delete  toSave.urlFile;
 
-    return new Promise((resolve, reject) => {
-
+    return new Promise((resolve) => {
       if (arquivoFile)
         this.snackBar.openFromComponent(FotoLoadingComponent, {
           duration: 60000,
@@ -87,6 +86,7 @@ export class UsuarioService {
                 toSave.urlFile = uploaded;
                 this.usuarioRepository.saveWithAccount(toSave)
                   .then(usuarioAtualizado => {
+                    console.log(usuarioAtualizado);
                     resolve(usuarioAtualizado);
                   })
               });
@@ -98,6 +98,7 @@ export class UsuarioService {
                 usuario.urlFile = null;
                 this.usuarioRepository.saveWithAccount(usuario)
                   .then(resulted => {
+                    console.log(resulted);
                     resolve(resulted);
                   });
               });
@@ -109,7 +110,7 @@ export class UsuarioService {
 
         });
 
-    }).then(result => this.snackBar.dismiss());
+    });
   }
 
   /**

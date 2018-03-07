@@ -221,7 +221,7 @@ export function confirmPassword(): ValidatorFn {
     //   exception: null
     // };
 
-    if (c.parent && c.value.length && c.parent.controls['password'].value != c.value) return {
+    if (c.parent && c.value && c.value.length && c.parent.controls['password'].value != c.value) return {
       exception: 'A senha e sua confirmação não conicidem'
     };
   }
@@ -235,7 +235,7 @@ export function password(): ValidatorFn {
     //   exception: null
     // };
 
-    if (c.parent && c.value.length && c.parent.controls['confirmacaoPassword'].value != c.value) {
+    if (c.parent && c.value && c.value.length && c.parent.controls['confirmacaoPassword'].value != c.value) {
       c.parent.controls['confirmacaoPassword'].setErrors({exception: 'A senha e sua confirmação não conicidem'})
     }
 

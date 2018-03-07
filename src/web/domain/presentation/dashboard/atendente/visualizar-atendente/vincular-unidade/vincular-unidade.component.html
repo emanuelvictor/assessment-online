@@ -13,7 +13,7 @@
       <mat-form-field flex='30'>
         <mat-select placeholder='Tipo de vínculo' #select
                     [(value)]="atendente.vinculo"
-                    (selectionChange)='save(atendente)'>
+                    (selectionChange)='saveColaborador(atendente)'>
           <mat-option>
             Nenhum
           </mat-option>

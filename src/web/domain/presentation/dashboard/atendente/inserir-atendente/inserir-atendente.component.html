@@ -1,12 +1,45 @@
 <usuario-form [usuario]="atendente" (save)="save()">
-  <!--cabeçalho div-->
-  <button class="mat-headline tc-grey-500"
-          type="button" routerLink="../"
-          color="primary" mat-icon-button>
-    <mat-icon>arrow_back</mat-icon>
-  </button>
 
-  <div layout="row" layout-margin>
-    <h1 class="mat-headline tc-grey-500" flex> Inserir atendente</h1>
+  <!--cabeçalho div-->
+  <div layout='column' layout-margin header>
+    <div layout='row' layout-align='start center'>
+
+      <button class="mat-headline tc-grey-500"
+              type="button" routerLink="../"
+              color="primary" mat-icon-button>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <div layout="row" layout-margin>
+        <h1 class="mat-headline tc-grey-500" flex> Inserir atendente</h1>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider style='margin-left: -25px; margin-right: -25px; margin-bottom: 40px; margin-top: 40px;' divider>
+  </mat-divider>
+
+  <vincular-unidade [usuario]='atendente' (save)="saveColaborador($event)" unidades></vincular-unidade>
+
+  <!--actions div-->
+  <div flex layout-margin actions>
+
+    <div layout-gt-xs='row' flex layout-margin>
+
+      <span flex='70'></span>
+
+      <button mat-raised-button
+              routerLink='../'
+              type='button'
+              flex>
+        Cancelar
+      </button>
+      <button mat-raised-button
+              color='accent'
+              flex>
+        Salvar
+      </button>
+
+    </div>
   </div>
 </usuario-form>

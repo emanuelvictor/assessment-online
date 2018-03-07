@@ -1,5 +1,5 @@
 import {ActivatedRoute} from '@angular/router';
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Usuario} from '../../../../../entity/usuario/Usuario.model';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {ColaboradorService} from '../../../../../service/colaborador.service';
@@ -29,6 +29,12 @@ export class VincularUnidadeComponent implements OnInit {
    */
   @Input()
   usuario: Usuario;
+
+  /**
+   *
+   */
+  @Output()
+  save: EventEmitter<any> = new EventEmitter();
 
   /**
    *
@@ -132,7 +138,7 @@ export class VincularUnidadeComponent implements OnInit {
    *
    * @param {Colaborador} colaborador
    */
-  public save(colaborador: Colaborador = new Colaborador()): void {
-    this.colaboradorService.save(colaborador);
+  public saveColaborador(colaborador: Colaborador = new Colaborador()): void {
+    this.save.emit(colaborador);
   }
 }

@@ -7,11 +7,7 @@
             <div layout-margin>
 
               <!--cabeçalho div-->
-              <div layout='column' layout-margin flex>
-                <div layout='row' layout-align='start center'>
-                  <ng-content></ng-content>
-                </div>
-              </div>
+              <ng-content select="[header]"></ng-content>
 
               <!--dados e foto div-->
               <div layout-gt-sm='row' flex>
@@ -74,28 +70,15 @@
                 </div>
               </div>
 
-              <!--actions div-->
-              <div flex layout-margin>
+              <!--divider-->
+              <ng-content select="[divider]"></ng-content>
 
-                <div layout-gt-xs='row' flex layout-margin>
+              <!--unidade-->
+              <ng-content select="[unidades]"></ng-content>
 
-                  <span flex='70'></span>
+              <!-- actions -->
+              <ng-content select="[actions]"></ng-content>
 
-                  <button mat-raised-button
-                          routerLink='../'
-                          type='button'
-                          flex>
-                    Cancelar
-                  </button>
-                  <button mat-raised-button
-                          color='accent'
-                          flex>
-                    Salvar
-                  </button>
-
-                </div>
-
-              </div>
             </div>
 
           </mat-card-content>

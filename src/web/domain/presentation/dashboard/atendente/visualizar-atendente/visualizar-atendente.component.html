@@ -47,7 +47,7 @@
       <mat-accordion>
         <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
 
-          <vincular-unidade [usuario]='atendente' *ngIf='atendente?.key'></vincular-unidade>
+          <vincular-unidade [usuario]='atendente' *ngIf='atendente?.key' (save)="saveColaborador($event)"></vincular-unidade>
 
         </mat-expansion-panel>
       </mat-accordion>
