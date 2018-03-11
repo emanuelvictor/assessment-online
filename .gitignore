@@ -13,6 +13,7 @@
 # IDEs and editors
 /.idea
 /.vscode
+/package-lock.json
 
 # misc
 /.sass-cache
