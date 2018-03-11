@@ -4,10 +4,7 @@ import {Endereco} from '../../../entity/endereco/Endereco.model';
 import {textMasks} from '../text-masks/text-masks';
 import {AuthenticationService} from '../../../service/authentication.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Cidade} from '../../../entity/endereco/Cidade.model';
 import {EnderecoService} from '../../../service/endereco.service';
-import {Estado} from '../../../entity/endereco/Estado.model';
-import {Pais} from '../../../entity/endereco/Pais.model';
 import {exceptions} from '@angular-devkit/core/src/json/schema/serializers/javascript';
 
 
@@ -133,7 +130,8 @@ export class MapsComponent implements OnInit, AfterViewInit {
      *
      * Popula endereço inicialmente com dados do paraná
      */
-    this.findCidadeByNomeAndEstadoUf('Foz Do Iguaçu', 'PR');
+    if (!this.endereco.numero)
+      this.findCidadeByNomeAndEstadoUf('Foz Do Iguaçu', 'PR');
   }
 
   /**

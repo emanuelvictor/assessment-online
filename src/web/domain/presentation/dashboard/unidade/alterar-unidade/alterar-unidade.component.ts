@@ -1,11 +1,11 @@
-import {Component, OnInit} from "@angular/core";
-import {MatSnackBar} from "@angular/material";
+import {Component, OnInit} from '@angular/core';
+import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
-import {textMasks} from "../../../controls/text-masks/text-masks";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Unidade} from "../../../../entity/unidade/Unidade.model";
-import {UnidadeService} from "../../../../service/unidade.service";
-import {SnapshotAction} from "angularfire2/database";
+import {textMasks} from '../../../controls/text-masks/text-masks';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Unidade} from '../../../../entity/unidade/Unidade.model';
+import {UnidadeService} from '../../../../service/unidade.service';
+import {SnapshotAction} from 'angularfire2/database';
 import {Endereco} from '../../../../entity/endereco/Endereco.model';
 import {Cidade} from '../../../../entity/endereco/Cidade.model';
 
@@ -57,7 +57,7 @@ export class AlterarUnidadeComponent implements OnInit {
   public find(unidadeKey: string) {
     this.unidadeService.findOne(unidadeKey).subscribe(result => {
 
-      this.unidade = result
+      this.unidade = result;
 
       if (typeof this.unidade.endereco === 'string') {
         this.unidade.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
@@ -90,7 +90,7 @@ export class AlterarUnidadeComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
   }
