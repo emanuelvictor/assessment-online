@@ -59,9 +59,10 @@ export class AlterarUnidadeComponent implements OnInit {
 
       this.unidade = result;
 
-      if (typeof this.unidade.endereco === 'string') {
-        this.unidade.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
-      }
+      if (this.unidade && this.unidade.endereco)
+        if (typeof this.unidade.endereco === 'string')
+          this.unidade.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
+      
     })
   }
 

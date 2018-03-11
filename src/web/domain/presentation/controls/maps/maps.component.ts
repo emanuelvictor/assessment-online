@@ -6,6 +6,7 @@ import {AuthenticationService} from '../../../service/authentication.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {EnderecoService} from '../../../service/endereco.service';
 import {exceptions} from '@angular-devkit/core/src/json/schema/serializers/javascript';
+import {Cidade} from "../../../entity/endereco/Cidade.model";
 
 
 @Component({
@@ -36,7 +37,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
    *
    */
   @Input()
-  endereco: Endereco;
+  endereco: Endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
 
   /**
    *

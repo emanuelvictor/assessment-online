@@ -5,5 +5,5 @@ export class Cidade extends Abstract {
 
   public nome:string;
 
-  public estado: Estado;
+  public estado: Estado = new Estado();
 }

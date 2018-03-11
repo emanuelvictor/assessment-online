@@ -50,8 +50,7 @@ export class InserirUnidadeComponent implements OnInit {
    */
   public save(): void {
     this.unidadeService.save(this.unidade).then(result => {
-      console.log(result);
-      this.success('Unidade inserido com sucesso'); // O SAVE NÃO RETORNA TODO vai dar merda vai dar merda
+      this.success('Unidade inserido com sucesso');
     });
   }
 
