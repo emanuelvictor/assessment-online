@@ -1,11 +1,11 @@
 <div layout-gt-xs="row" *ngIf="multi[0].series.length">
   <div flex-gt-xs="100">
-    <md-card>
-      <md-card-title>
+    <mat-card>
+      <mat-card-title>
         Estatísticas do atendente - {{avaliacoes1+avaliacoes2+avaliacoes3+avaliacoes4+avaliacoes5}} avaliações
-        <md-card-subtitle>{{dataInicio  | date:'dd/MM/yy'}}  á {{dataFim| date:'dd/MM/yy'}}</md-card-subtitle>
-      </md-card-title>
-      <md-divider></md-divider>
+        <mat-card-subtitle>{{dataInicio  | date:'dd/MM/yy'}}  á {{dataFim| date:'dd/MM/yy'}}</mat-card-subtitle>
+      </mat-card-title>
+      <mat-divider></mat-divider>
       <div style="height:500px;">
         <ngx-charts-bar-vertical-2d
           [scheme]="colorScheme"
@@ -23,6 +23,6 @@
           [groupPadding]="8">
         </ngx-charts-bar-vertical-2d>
       </div>
-    </md-card>
+    </mat-card>
   </div>
 </div>

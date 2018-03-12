@@ -16,6 +16,7 @@ import {InserirUnidadeComponent} from './presentation/dashboard/unidade/inserir-
 import {ConsultarUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component';
 import {VisualizarUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/visualizar-unidade.component';
 import {AuthenticationService} from './service/authentication.service';
+import {EstatisticasComponent} from "./presentation/dashboard/atendente/visualizar-atendente/estatisticas/estatisticas.component";
 
 
 const routes: Routes = [
@@ -42,7 +43,8 @@ const routes: Routes = [
             {path: '', component: ConsultarAtendentesComponent},
             {path: 'inserir', component: InserirAtendenteComponent},
             {path: ':key/alterar', component: AlterarAtendenteComponent},
-            {path: ':key', component: VisualizarAtendenteComponent}
+            {path: ':key', component: VisualizarAtendenteComponent},
+            {path: ':key/estatisticas', component: EstatisticasComponent}
           ]
         },
         {
@@ -52,6 +54,7 @@ const routes: Routes = [
             {path: 'inserir', component: InserirUnidadeComponent},
             {path: ':key/alterar', component: AlterarUnidadeComponent},
             {path: ':key', component: VisualizarUnidadeComponent},
+            {path: ':key/estatisticas', component: EstatisticasComponent}
           ]
         }
       ]

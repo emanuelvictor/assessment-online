@@ -21,7 +21,7 @@
               <!--options-->
               <div layout='column' layout-align='start end' flex>
                 <div layout='row'>
-                  <button mat-button hide-sm hide-xs class='tc-grey-700'>
+                  <button mat-button hide-sm hide-xs class='tc-blue-grey-900' routerLink='estatisticas'>
                     <mat-icon>assessment</mat-icon>
                     <span>Estatísticas</span>
                   </button>
@@ -33,7 +33,7 @@
                     <mat-icon>more_vert</mat-icon>
                   </button>
                   <mat-menu #menu='matMenu'>
-                    <button mat-menu-item hide-gt-sm color='primary' (click)='alteraSenha()'>
+                    <button mat-menu-item hide-gt-sm color='primary' routerLink='estatisticas'>
                       <mat-icon>assessment</mat-icon>
                       <span>Estatísticas</span>
                     </button>

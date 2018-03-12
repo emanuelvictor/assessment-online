@@ -140,6 +140,11 @@ export class VisualizarAtendenteComponent implements OnInit {
    */
   public saveColaborador(colaborador: Colaborador = new Colaborador()): void {
     this.colaboradorService.save(colaborador)
-      .then(result => this.openSnackBar('Vínculo criado com sucesso!'))
+      .then(result => {
+        if (colaborador.vinculo)
+          this.openSnackBar('Vínculo salvo com sucesso!');
+        else
+          this.openSnackBar('Vínculo removido com sucesso!')
+      })
   }
 }

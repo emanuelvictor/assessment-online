@@ -15,7 +15,7 @@ export class AvaliacaoRepository extends AbstractRepository {
 
   /**
    * Na real isso é lá no repositório
-   * @param {string} email
+   * @param {string} key
    * @returns {Observable<any>}
    */
   public listAvaliacoesByAtendenteKey(key: string): Observable<any> {

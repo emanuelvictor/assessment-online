@@ -69,6 +69,8 @@ import {AngularFireStorageModule} from 'angularfire2/storage';
 import {FotoLoadingComponent} from './presentation/controls/foto-loading/foto-loading.component';
 import {AvaliacaoColaboradorRepository} from "./repository/avaliacao-colaborador.repository";
 import {EstatisticasComponent} from "./presentation/dashboard/atendente/visualizar-atendente/estatisticas/estatisticas.component";
+import {AvaliacaoService} from "./service/avaliacao.service";
+import {AvaliacaoRepository} from "./repository/avaliacao.repository";
 
 /**
  *
@@ -149,20 +151,23 @@ import {EstatisticasComponent} from "./presentation/dashboard/atendente/visualiz
   providers: [
     Describer,
     AvaliacaoColaboradorRepository,
+    ColaboradorRepository,
+    AvaliacaoRepository,
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
     AccountRepository,
     FileRepository,
-    ColaboradorRepository,
+    AuthenticationService,
     ColaboradorService,
+    AvaliacaoService,
     EnderecoService,
     UsuarioService,
     UnidadeService,
-    AuthenticationService,
+
     AngularFireDatabase,
 
-    {provide: LOCALE_ID, useValue: 'pt-BR'},
+    // {provide: LOCALE_ID, useValue: 'pt-BR'},
 
     {
       provide: HTTP_INTERCEPTORS,

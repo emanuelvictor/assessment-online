@@ -78,37 +78,39 @@ export class EstatisticasComponent implements OnInit {
 
     this.avaliacaoService.listAvaliacoesByAtendenteKey(this.activatedRoute.snapshot.params['key'])
       .subscribe(avaliacoes => {
-        this.initAvaliacoes();
-        avaliacoes.forEach(avaliacao => {
-          for (const atendente of avaliacao.atendentes) {
+        if (avaliacoes) {
+          this.initAvaliacoes();
+          avaliacoes.forEach(avaliacao => {
+            for (const atendente of avaliacao.atendentes) {
 
-            if (this.dataFim < new Date(avaliacao.data)) {
-              this.dataFim = new Date(avaliacao.data);
-            }
+              if (this.dataFim < new Date(avaliacao.data)) {
+                this.dataFim = new Date(avaliacao.data);
+              }
 
-            if (this.dataInicio > new Date(avaliacao.data)) {
-              this.dataInicio = new Date(avaliacao.data);
-            }
+              if (this.dataInicio > new Date(avaliacao.data)) {
+                this.dataInicio = new Date(avaliacao.data);
+              }
 
-            if (atendente.key === this.activatedRoute.snapshot.params['key']) {
-              if (avaliacao.nota === 1) {
-                this.avaliacoes1 = this.avaliacoes1 + 1;
-              }
-              if (avaliacao.nota === 2) {
-                this.avaliacoes2 = this.avaliacoes2 + 1;
-              }
-              if (avaliacao.nota === 3) {
-                this.avaliacoes3 = this.avaliacoes3 + 1;
-              }
-              if (avaliacao.nota === 4) {
-                this.avaliacoes4 = this.avaliacoes4 + 1;
-              }
-              if (avaliacao.nota === 5) {
-                this.avaliacoes5 = this.avaliacoes5 + 1;
+              if (atendente.key === this.activatedRoute.snapshot.params['key']) {
+                if (avaliacao.nota === 1) {
+                  this.avaliacoes1 = this.avaliacoes1 + 1;
+                }
+                if (avaliacao.nota === 2) {
+                  this.avaliacoes2 = this.avaliacoes2 + 1;
+                }
+                if (avaliacao.nota === 3) {
+                  this.avaliacoes3 = this.avaliacoes3 + 1;
+                }
+                if (avaliacao.nota === 4) {
+                  this.avaliacoes4 = this.avaliacoes4 + 1;
+                }
+                if (avaliacao.nota === 5) {
+                  this.avaliacoes5 = this.avaliacoes5 + 1;
+                }
               }
             }
-          }
-        });
+          });
+        }
 
         // Chart Multi
         this.multi = multi.map((group: any) => {
@@ -135,7 +137,6 @@ export class EstatisticasComponent implements OnInit {
 
 
   }
-
 
   // ngx transform using covalent digits pipe
   axisDigits(val: any): any {
