@@ -2,7 +2,7 @@ import {CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule} from '@angular/core';
 import 'hammerjs';
 import {HeaderComponent} from './presentation/controls/header/header.component';
 import {AuthenticationService} from './service/authentication.service';
-import {DateAdapter, MatExpansionModule,} from '@angular/material';
+import {DateAdapter, MatExpansionModule} from '@angular/material';
 import {DashboardViewComponent} from './presentation/dashboard/dashboard-view.component';
 import {VisualizarMinhaContaComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/visualizar-minha-conta.component';
 import {AlterarMinhaContaComponent} from './presentation/dashboard/minha-conta/alterar-minha-conta/alterar-minha-conta.component';
@@ -71,6 +71,7 @@ import {AvaliacaoColaboradorRepository} from "./repository/avaliacao-colaborador
 import {EstatisticasComponent} from "./presentation/dashboard/atendente/visualizar-atendente/estatisticas/estatisticas.component";
 import {AvaliacaoService} from "./service/avaliacao.service";
 import {AvaliacaoRepository} from "./repository/avaliacao.repository";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 /**
  *
@@ -139,6 +140,7 @@ import {AvaliacaoRepository} from "./repository/avaliacao.repository";
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
+    NgxChartsModule,
     WebRoutingModule,
     MatExpansionModule,
     AngularFireModule.initializeApp(environment.firebase, 'assessment-online'), // imports firebase/app needed for everything

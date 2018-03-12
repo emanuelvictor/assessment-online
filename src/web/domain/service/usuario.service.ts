@@ -123,7 +123,7 @@ export class UsuarioService {
     /**
      * Remove os vínculos do usuário com as unidades
      */
-    this.colaboradorReposisotry.findColaboradorByUsuarioKey(usuario.key).subscribe(colaboradores => {
+    this.colaboradorReposisotry.listColaboradorByUsuarioKey(usuario.key).subscribe(colaboradores => {
       for (let k = 0; k < colaboradores.length; k++) {
         /**
          * Remove as avaliações do usuário

@@ -3,7 +3,7 @@ import {AvaliacaoColaborador} from './AvaliacaoColaborador.model';
 
 export class Avaliacao extends Abstract {
 
-  public avaliacoesColaboradores : AvaliacaoColaborador[];
+  public avaliacoesColaboradores: AvaliacaoColaborador[];
 
   public nota: number;
 

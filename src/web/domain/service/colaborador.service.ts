@@ -18,15 +18,15 @@ export class ColaboradorService {
   }
 
   public listColaboradoresByUsuarioKey(key: string): Observable<any> {
-    return this.colaboradorRepository.findColaboradorByUsuarioKey(key);
+    return this.colaboradorRepository.listColaboradorByUsuarioKey(key);
   }
 
   public listOperadoresByUsuarioKey(key: string): Observable<any> {
-    return this.colaboradorRepository.findColaboradorByUsuarioKey(key);
+    return this.colaboradorRepository.listColaboradorByUsuarioKey(key);
   }
 
   public listColaboradoresByUnidadeKey(key: string): Observable<any> {
-    return this.colaboradorRepository.findColaboradorByUnidadeKey(key);
+    return this.colaboradorRepository.listColaboradorByUnidadeKey(key);
   }
 
   public listAtendentesByUnidadeKey(key: string): Observable<any> {
