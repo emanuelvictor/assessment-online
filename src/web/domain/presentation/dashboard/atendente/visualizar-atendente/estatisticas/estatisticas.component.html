@@ -1,0 +1,28 @@
+<div layout-gt-xs="row" *ngIf="multi[0].series.length">
+  <div flex-gt-xs="100">
+    <md-card>
+      <md-card-title>
+        Estatísticas do atendente - {{avaliacoes1+avaliacoes2+avaliacoes3+avaliacoes4+avaliacoes5}} avaliações
+        <md-card-subtitle>{{dataInicio  | date:'dd/MM/yy'}}  á {{dataFim| date:'dd/MM/yy'}}</md-card-subtitle>
+      </md-card-title>
+      <md-divider></md-divider>
+      <div style="height:500px;">
+        <ngx-charts-bar-vertical-2d
+          [scheme]="colorScheme"
+          [results]="multi"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="false"
+          [showYAxisLabel]="false"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [yAxisTickFormatting]="axisDigits"
+          [barPadding]="2"
+          [groupPadding]="8">
+        </ngx-charts-bar-vertical-2d>
+      </div>
+    </md-card>
+  </div>
+</div>

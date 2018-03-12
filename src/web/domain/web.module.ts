@@ -68,6 +68,7 @@ import {FileRepository} from '../infrastructure/repository/file/file.repository'
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {FotoLoadingComponent} from './presentation/controls/foto-loading/foto-loading.component';
 import {AvaliacaoColaboradorRepository} from "./repository/avaliacao-colaborador.repository";
+import {EstatisticasComponent} from "./presentation/dashboard/atendente/visualizar-atendente/estatisticas/estatisticas.component";
 
 /**
  *
@@ -116,6 +117,7 @@ import {AvaliacaoColaboradorRepository} from "./repository/avaliacao-colaborador
     VisualizarAtendenteComponent,
     VincularUnidadeComponent,
     VisualizarVinculoUnidadeComponent,
+    EstatisticasComponent,
 
     // Password
     AlterarMinhaSenhaComponent,

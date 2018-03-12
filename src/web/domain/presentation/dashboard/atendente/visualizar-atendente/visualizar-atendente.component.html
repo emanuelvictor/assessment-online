@@ -21,6 +21,11 @@
               <!--options-->
               <div layout='column' layout-align='start end' flex>
                 <div layout='row'>
+                  <button mat-button hide-sm hide-xs class='tc-grey-700'>
+                    <mat-icon>assessment</mat-icon>
+                    <span>Estatísticas</span>
+                  </button>
+
                   <button mat-icon-button routerLink='alterar' class='tc-blue-grey-900'>
                     <mat-icon>mode_edit</mat-icon>
                   </button>
@@ -28,6 +33,10 @@
                     <mat-icon>more_vert</mat-icon>
                   </button>
                   <mat-menu #menu='matMenu'>
+                    <button mat-menu-item hide-gt-sm color='primary' (click)='alteraSenha()'>
+                      <mat-icon>assessment</mat-icon>
+                      <span>Estatísticas</span>
+                    </button>
                     <button mat-menu-item color='primary' (click)='alteraSenha()'>
                       <mat-icon>vpn_key</mat-icon>
                       <span>Alterar senha</span>
@@ -47,7 +56,8 @@
       <mat-accordion>
         <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
 
-          <vincular-unidade [usuario]='atendente' *ngIf='atendente?.key' (save)="saveColaborador($event)"></vincular-unidade>
+          <vincular-unidade [usuario]='atendente' *ngIf='atendente?.key'
+                            (save)="saveColaborador($event)"></vincular-unidade>
 
         </mat-expansion-panel>
       </mat-accordion>

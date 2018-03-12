@@ -12,4 +12,15 @@ export class AvaliacaoRepository extends AbstractRepository {
     super();
     this.init('avaliacoes', af, storage, accountRepository)
   }
+
+  /**
+   * Na real isso é lá no repositório
+   * @param {string} email
+   * @returns {Observable<any>}
+   */
+  public listAvaliacoesByAtendenteKey(key: string): Observable<any> {
+    return this.find().map(epics => epics.filter(epic =>
+      epic.email && epic.email.toLowerCase() === key && key
+    )[0]);
+  }
 }

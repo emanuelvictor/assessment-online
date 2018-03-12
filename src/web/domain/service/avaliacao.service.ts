@@ -40,4 +40,9 @@ export class AvaliacaoService {
   public remove(avaliacao: any): Promise<any> {
     return this.avaliacaoRepository.remove(avaliacao);
   }
+
+  public listAvaliacoesByAtendenteKey(key: string): Observable<any[]> {
+    return this.avaliacaoRepository.findOne(key);
+    // return this.avaliacaoRepository.listAvaliacoesByAtendenteKey(key);
+  }
 }
