@@ -149,8 +149,18 @@ export class UsuarioService {
    * @returns {Promise<any>}
    */
   changePassword(usuario: Usuario, newPassword: string): Promise<any> {
-    usuario.password = newPassword;
     return this.usuarioRepository.changePassword(usuario, newPassword);
+  }
+
+  /**
+   *
+   * @param {Usuario} usuario
+   * @param {string} currentPassword
+   * @param {string} newPassword
+   * @returns {Promise<any>}
+   */
+  changeMyPassword(usuario: Usuario, currentPassword: string, newPassword: string): Promise<any> {
+    return this.usuarioRepository.changeMyPassword(usuario, currentPassword, newPassword);
   }
 
   /**

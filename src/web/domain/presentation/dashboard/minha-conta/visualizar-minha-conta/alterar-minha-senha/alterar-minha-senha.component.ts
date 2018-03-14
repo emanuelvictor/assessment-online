@@ -52,13 +52,14 @@ export class AlterarMinhaSenhaComponent implements OnInit {
    */
   public alterarMinhaSenha(event: Event): void {
     event.preventDefault();
-  // this.usuarioService.changeMyPassword(this.atendente.id, this.currentPassword, this.newPassword)
-  //   .then(result => {
-  //     if (result) {
-  //       this.dialogRef.close();
-  //       this.openSnackBar("Senha alterada com sucesso");
-  //     }
-  //   })
+    this.usuarioService.changeMyPassword(this.usuario, this.currentPassword, this.newPassword)
+      .then(result => {
+        this.dialogRef.close();
+        this.openSnackBar('Senha alterada com sucesso');
+      })
+      .catch(exception =>
+        this.openSnackBar(exception)
+      )
   }
 
   /**
@@ -66,7 +67,7 @@ export class AlterarMinhaSenhaComponent implements OnInit {
    * @param message
    */
   openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
   }

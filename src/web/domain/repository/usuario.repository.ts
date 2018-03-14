@@ -27,9 +27,34 @@ export class UsuarioRepository extends AbstractRepository {
    * @returns {Observable<any>}
    */
   public changePassword(usuario: Usuario, newPassword: string): Promise<any> {
+    usuario.password = newPassword;
     return new Promise((resolve) => {
       this.saveWithAccount(usuario)
         .then(result => resolve(result));
+    })
+  }
+
+  /**
+   *
+   * @param {Usuario} usuario
+   * @param {string} currentPassword
+   * @param {string} newPassword
+   * @returns {Promise<any>}
+   */
+  public changeMyPassword(usuario: Usuario, currentPassword: string, newPassword: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+
+      if (currentPassword === usuario.password) {
+        usuario.password = newPassword;
+        this.saveWithAccount(usuario)
+          .then(resolved => {
+            resolve(resolved)
+          });
+
+      } else {
+        reject('Senha atual incorreta')
+      }
+
     })
   }
 }
