@@ -18,11 +18,11 @@ export class ColaboradorService {
   }
 
   public listColaboradoresByUsuarioKey(key: string): Observable<any> {
-    return this.colaboradorRepository.listColaboradorByUsuarioKey(key);
+    return this.colaboradorRepository.listColaboradoresByUsuarioKey(key);
   }
 
   public listOperadoresByUsuarioKey(key: string): Observable<any> {
-    return this.colaboradorRepository.listColaboradorByUsuarioKey(key);
+    return this.colaboradorRepository.listColaboradoresByUsuarioKey(key);
   }
 
   public listColaboradoresByUnidadeKey(key: string): Observable<any> {
