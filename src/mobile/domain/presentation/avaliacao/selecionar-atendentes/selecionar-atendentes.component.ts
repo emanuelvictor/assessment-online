@@ -33,10 +33,10 @@ export class SelecionarAtendentesComponent implements OnInit {
    *
    */
   ngOnInit() {
-    setTimeout(() => {
-      this.mobileService.reset();
-      this.router.navigate(['/avaliar']);
-    }, 180000);
+    // setTimeout(() => {
+    //   this.mobileService.reset();
+    //   this.router.navigate(['/avaliar']);
+    // }, 180000);
 
     this.colaboradorService.listColaboradoresByUnidadeKey(this.mobileService.getUnidade()).subscribe(colaboradores => {
       this.atendentes = [];
@@ -52,7 +52,10 @@ export class SelecionarAtendentesComponent implements OnInit {
                 founded = true;
               }
 
-            if (!founded) this.atendentes.push(colaborador);
+            if (!founded) {
+              colaborador.usuario = usuario;
+              this.atendentes.push(colaborador);
+            }
           }
         })
       });

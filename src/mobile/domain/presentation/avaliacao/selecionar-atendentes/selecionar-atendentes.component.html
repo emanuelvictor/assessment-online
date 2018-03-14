@@ -6,12 +6,13 @@
 </mat-card-title>
 <mat-card-content style='margin-bottom: 0'>
   <mat-nav-list class='pad-none'>
-    <mat-list class='pad-none'>
+    <!--todo fazer a altura calculada, dinâmica-->
+    <mat-list style="overflow: auto; flex-grow: 1; max-height: 400px">
       <mat-list-item layout='row' layout-align='center center' *ngFor='let atendente of atendentes'
-                     style='height: 90px'
+                     style='height: 140px'
                      (click)='atendente.selected = !atendente.selected'
                      [ngStyle]="{'background-color': (atendente.selected ? '#c9e5fd' : '')}">
-        <div mat-list-avatar style='width: 70px; height: 70px'>
+        <div mat-list-avatar style='width: 120px; height: 120px'>
           <avatar class='image-cover' [size]='0.6'
                   [usuario]="{'key': atendente?.usuario?.key , 'foto': atendente?.usuario?.urlFile}"></avatar>
         </div>

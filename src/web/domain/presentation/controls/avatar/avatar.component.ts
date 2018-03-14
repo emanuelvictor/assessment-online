@@ -15,6 +15,7 @@ export class AvatarComponent implements OnInit {
   public size: number = 0.8;
 
   /**
+   *
    * Identificador da foto "person"
    */
   public identifier: string;
