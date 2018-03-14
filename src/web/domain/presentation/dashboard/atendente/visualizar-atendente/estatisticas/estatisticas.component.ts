@@ -83,7 +83,7 @@ export class EstatisticasComponent implements OnInit {
     /**
      * Estudar melhor os observables e passar para o serviço
      */
-    this.colaboradorRepository.listColaboradorByUsuarioKey(this.activatedRoute.snapshot.params['key'])
+    this.colaboradorRepository.listColaboradoresByUsuarioKey(this.activatedRoute.snapshot.params['key'])
       .subscribe(colaboradores => {
         if (colaboradores && colaboradores.length)
           colaboradores.forEach(colaborador => {

@@ -13,7 +13,7 @@ export class ColaboradorRepository extends AbstractRepository {
     this.init('colaboradores', af, storage, accountRepository)
   }
 
-  public listColaboradorByUsuarioKey(key: string): Observable<any> {
+  public listColaboradoresByUsuarioKey(key: string): Observable<any> {
     return this.find().map(items => items.filter(item => item.usuario.key === key));
   }
 
