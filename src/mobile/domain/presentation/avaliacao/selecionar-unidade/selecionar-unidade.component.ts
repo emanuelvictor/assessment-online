@@ -40,15 +40,26 @@ export class SelecionarUnidadeComponent implements OnInit {
    */
   ngOnInit() {
     this.usuarioService.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email).subscribe(usuario => {
-      this.colaboradorService.listColaboradoresByUsuarioKey(usuario.key).subscribe(colaboradores => {
-        colaboradores.forEach(colaborador => {
-          this.unidades = [];
-          if (colaborador.vinculo)
-            this.unidadeService.findOne(colaborador.unidade.key).subscribe(unidade => {
-              this.unidades.push(unidade);
-            })
+      /**
+       * Se é administrador pega todas as unidades
+       */
+      if (usuario.isAdministrador)
+        this.unidadeService.find().subscribe(unidades => {
+          this.unidades = unidades;
         });
-      })
+      /**
+       * Senão, pega somente as unidades em que o usuário logado é operador
+       */
+      else
+        this.colaboradorService.listColaboradoresByUsuarioKey(usuario.key).subscribe(colaboradores => {
+          colaboradores.forEach(colaborador => {
+            this.unidades = [];
+            if (colaborador.vinculo)
+              this.unidadeService.findOne(colaborador.unidade.key).subscribe(unidade => {
+                this.unidades.push(unidade);
+              })
+          });
+        })
     });
   }
 
