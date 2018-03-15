@@ -1,28 +1,37 @@
-<div layout-gt-xs="row" *ngIf="multi[0].series.length">
-  <div flex-gt-xs="100">
-    <mat-card>
-      <mat-card-title>
-        Estatísticas da unidade - {{avaliacoes1+avaliacoes2+avaliacoes3+avaliacoes4+avaliacoes5}} avaliações
-        <mat-card-subtitle>{{dataInicio  | date:'dd/MM/yy'}}  á {{dataFim| date:'dd/MM/yy'}}</mat-card-subtitle>
-      </mat-card-title>
-      <mat-divider></mat-divider>
-      <div style="height:500px;">
-        <ngx-charts-bar-vertical-2d
-          [scheme]="colorScheme"
-          [results]="multi"
-          [gradient]="gradient"
-          [xAxis]="showXAxis"
-          [yAxis]="showYAxis"
-          [legend]="showLegend"
-          [showXAxisLabel]="false"
-          [showYAxisLabel]="false"
-          [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabel"
-          [yAxisTickFormatting]="axisDigits"
-          [barPadding]="2"
-          [groupPadding]="8">
-        </ngx-charts-bar-vertical-2d>
+<div layout-gt-xs='row'>
+  <div flex-gt-xs='100'>
+    <div layout='row' layout-align='center start'>
+      <div layout='column' flex='90'>
+
+        <div class='tc-grey-500 size-height-50' layout='row' layout-align='start center'>
+          <span> Estatísticas da unidade</span>
+          <div flex></div>
+          <span> {{avaliacoes1+avaliacoes2+avaliacoes3+avaliacoes4+avaliacoes5}} avaliações </span>
+        </div>
+
+        <mat-card class='push-none bgc-grey-50'
+                  *ngIf='multi[0].series.length'>
+
+          <div style='height:500px;'>
+            <ngx-charts-bar-vertical-2d
+                [scheme]='colorScheme'
+                [results]='multi'
+                [gradient]='gradient'
+                [xAxis]='showXAxis'
+                [yAxis]='showYAxis'
+                [legend]='showLegend'
+                [showXAxisLabel]='false'
+                [showYAxisLabel]='false'
+                [xAxisLabel]='xAxisLabel'
+                [yAxisLabel]='yAxisLabel'
+                [yAxisTickFormatting]='axisDigits'
+                [barPadding]='2'
+                [groupPadding]='8'>
+            </ngx-charts-bar-vertical-2d>
+          </div>
+        </mat-card>
+
       </div>
-    </mat-card>
+    </div>
   </div>
 </div>
