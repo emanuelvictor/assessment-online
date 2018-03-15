@@ -3,16 +3,15 @@ import {Title} from '@angular/platform-browser';
 import {TdDigitsPipe} from '@covalent/core';
 import {ActivatedRoute} from '@angular/router';
 import {AvaliacaoService} from '../../../../../service/avaliacao.service';
-import {ColaboradorRepository} from "../../../../../repository/colaborador.repository";
-import {AvaliacaoColaboradorRepository} from "../../../../../repository/avaliacao-colaborador.repository";
-import {Avaliacao} from "../../../../../entity/avaliacao/Avaliacao.model";
+import {AvaliacaoColaboradorRepository} from '../../../../../repository/avaliacao-colaborador.repository';
+import {ColaboradorRepository} from '../../../../../repository/colaborador.repository';
 
 @Component({
-  selector: 'app-estatisticas',
-  templateUrl: './estatisticas.component.html',
-  styleUrls: ['./estatisticas.component.scss']
+  selector: 'app-estatisticas-unidade',
+  templateUrl: './estatisticas-unidade.component.html',
+  styleUrls: ['./estatisticas-unidade.component.scss']
 })
-export class EstatisticasComponent implements OnInit {
+export class EstatisticasUnidadeComponent implements OnInit {
 
 
   // Chart
@@ -45,14 +44,18 @@ export class EstatisticasComponent implements OnInit {
   dataInicio = new Date(Date.now());
   dataFim = new Date(Date.now());
 
-  avaliacoes: Avaliacao[] = [];
 
   /**
+   *
    * @param {Title} title
    * @param {AvaliacaoService} avaliacaoService
    * @param {ActivatedRoute} activatedRoute
+   * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
+   * @param {ColaboradorRepository} colaboradorRepository
    */
-  constructor(private title: Title, private avaliacaoService: AvaliacaoService, private activatedRoute: ActivatedRoute, private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository, private colaboradorRepository: ColaboradorRepository) {
+  constructor(private title: Title, private avaliacaoService: AvaliacaoService,
+              private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository,
+              private activatedRoute: ActivatedRoute, private colaboradorRepository: ColaboradorRepository) {
     // Chart Multi
     this.multi = multi.map((group: any) => {
       group.series = group.series.map((dataItem: any) => {
@@ -78,12 +81,12 @@ export class EstatisticasComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.title.setTitle('Estatisticas do atendente');
+    this.title.setTitle('Estatisticas da unidade');
 
     /**
      * Estudar melhor os observables e passar para o serviço
      */
-    this.colaboradorRepository.listColaboradoresByUsuarioKey(this.activatedRoute.snapshot.params['key'])
+    this.colaboradorRepository.listColaboradorByUnidadeKey(this.activatedRoute.snapshot.params['key'])
       .subscribe(colaboradores => {
         if (colaboradores && colaboradores.length)
           colaboradores.forEach(colaborador => {
@@ -95,7 +98,7 @@ export class EstatisticasComponent implements OnInit {
                     if (avaliacaoColaborador)
                       this.avaliacaoService.findOne(avaliacaoColaborador.avaliacao.key)
                         .subscribe(avaliacao => {
-                          this.avaliacoes.push(avaliacao);
+                          // this.avaliacoes.push(avaliacao);
                           if (avaliacao) {
                             if (this.dataFim < new Date(avaliacao.data)) {
                               this.dataFim = new Date(avaliacao.data);
@@ -152,16 +155,16 @@ export class EstatisticasComponent implements OnInit {
 
   }
 
+
   // ngx transform using covalent digits pipe
   axisDigits(val: any): any {
     return new TdDigitsPipe().transform(val);
   }
 }
 
-export let
-  multi: any = [
-    {
-      'name': 'Avaliações',
-      'series': [],
-    },
-  ];
+export let multi: any = [
+  {
+    'name': 'Avaliações',
+    'series': [],
+  },
+];

@@ -36,7 +36,7 @@ import {WebComponent} from './presentation/web.component';
 import {SharedModule} from '../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
-import {CommonModule} from '@angular/common';
+import {CommonModule, registerLocaleData} from '@angular/common';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {AngularFireAuthModule} from 'angularfire2/auth';
@@ -67,11 +67,16 @@ import {ColaboradorRepository} from './repository/colaborador.repository';
 import {FileRepository} from '../infrastructure/repository/file/file.repository';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {FotoLoadingComponent} from './presentation/controls/foto-loading/foto-loading.component';
-import {AvaliacaoColaboradorRepository} from "./repository/avaliacao-colaborador.repository";
-import {EstatisticasComponent} from "./presentation/dashboard/atendente/visualizar-atendente/estatisticas/estatisticas.component";
-import {AvaliacaoService} from "./service/avaliacao.service";
-import {AvaliacaoRepository} from "./repository/avaliacao.repository";
-import {NgxChartsModule} from "@swimlane/ngx-charts";
+import {AvaliacaoColaboradorRepository} from './repository/avaliacao-colaborador.repository';
+import {EstatisticasAtendenteComponent} from './presentation/dashboard/atendente/visualizar-atendente/estatisticas/estatisticas-atendente.component';
+import {AvaliacaoService} from './service/avaliacao.service';
+import {AvaliacaoRepository} from './repository/avaliacao.repository';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {EstatisticasUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/estatisticas/estatisticas-unidade.component';
+import localePt from '@angular/common/locales/pt';
+import {EvDatepicker} from './presentation/controls/ev-datepicker/ev-datepicker';
+
+registerLocaleData(localePt, 'pt-BR');
 
 /**
  *
@@ -103,6 +108,7 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
     WebComponent,
     HeaderComponent,
     FotoLoadingComponent,
+    EvDatepicker,
 
     // atendente
     AtendenteViewComponent,
@@ -120,7 +126,7 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
     VisualizarAtendenteComponent,
     VincularUnidadeComponent,
     VisualizarVinculoUnidadeComponent,
-    EstatisticasComponent,
+    EstatisticasAtendenteComponent,
 
     // Password
     AlterarMinhaSenhaComponent,
@@ -133,7 +139,8 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
     VisualizarUnidadeComponent,
     InserirUnidadeComponent,
     UnidadeFormComponent,
-    UnidadeItemComponent
+    UnidadeItemComponent,
+    EstatisticasUnidadeComponent
   ],
   imports: [
     SharedModule,
@@ -169,7 +176,7 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
 
     AngularFireDatabase,
 
-    // {provide: LOCALE_ID, useValue: 'pt-BR'},
+    {provide: LOCALE_ID, useValue: 'pt-BR'},
 
     {
       provide: HTTP_INTERCEPTORS,

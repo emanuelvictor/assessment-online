@@ -1,0 +1,80 @@
+<mat-card class='push-none bgc-grey-50'>
+  <div layout='row' layout-align='center center'>
+    <div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>
+
+      <div layout='row' layout-margin>
+        <ev-datepicker layout="row"
+                       [(dataInput)]="dataInicio"
+                       style='margin-bottom: -14px;padding-top: 0;'>
+          <mat-form-field>
+            <input [(ngModel)]='dataInicio'
+                   placeholder='Data de criação - Início'
+                   matInput name='dataInicio' id='dataInicio'
+                   [textMask]='{mask: masks.date, guide: false}'>
+          </mat-form-field>
+        </ev-datepicker>
+
+        <ev-datepicker layout="row"
+                       [(dataInput)]="dataFim"
+                       style='margin-bottom: -14px;padding-top: 0;'>
+          <mat-form-field>
+            <input [(ngModel)]='dataFim'
+                   placeholder='Data de criação - Fim'
+                   matInput name='dataFim' id='dataFim'
+                   [textMask]='{mask: masks.date, guide: false}'>
+          </mat-form-field>
+        </ev-datepicker>
+      </div>
+
+      <!--<td-chips placeholder='Pesquisar por nome' [(ngModel)]='filter'-->
+      <!--flex-md='40' flex-gt-md='45' flex-gt-lg='50'-->
+      <!--(add)='onChangeFilters()' (remove)='onChangeFilters()'></td-chips>-->
+
+      <!--<td-chips placeholder='Pesquisar por endereço' [(ngModel)]='enderecoFilters'-->
+      <!--flex='30'-->
+      <!--(add)='onChangeFilters()' (remove)='onChangeFilters()'></td-chips>-->
+
+      <!--<div flex-gt-md></div>-->
+
+    </div>
+  </div>
+</mat-card>
+
+<div layout-gt-xs='row' *ngIf='multi[0].series.length'>
+  <div flex-gt-xs='100'>
+    <div layout='row' layout-align='center start'>
+      <div layout='column' flex='90'>
+
+        <div class='tc-grey-500 size-height-50' layout='row' layout-align='start center'>
+          <span> Estatísticas do atendente </span>
+          <div flex></div>
+          <span> {{avaliacoes1+avaliacoes2+avaliacoes3+avaliacoes4+avaliacoes5}} avaliações </span>
+        </div>
+
+
+        <mat-card-subtitle>{{dataInicio | date:'dd/MM/yy'}} á {{dataFim| date:'dd/MM/yy'}}</mat-card-subtitle>
+        <mat-card class='push-none bgc-grey-50'>
+
+          <div style='height:500px;'>
+            <ngx-charts-bar-vertical-2d
+                [scheme]='colorScheme'
+                [results]='multi'
+                [gradient]='gradient'
+                [xAxis]='showXAxis'
+                [yAxis]='showYAxis'
+                [legend]='showLegend'
+                [showXAxisLabel]='false'
+                [showYAxisLabel]='false'
+                [xAxisLabel]='xAxisLabel'
+                [yAxisLabel]='yAxisLabel'
+                [yAxisTickFormatting]='axisDigits'
+                [barPadding]='2'
+                [groupPadding]='8'>
+            </ngx-charts-bar-vertical-2d>
+          </div>
+        </mat-card>
+
+      </div>
+    </div>
+  </div>
+</div>
