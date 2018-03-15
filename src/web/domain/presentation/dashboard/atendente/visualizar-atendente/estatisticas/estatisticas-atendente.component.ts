@@ -102,6 +102,7 @@ export class EstatisticasAtendenteComponent implements OnInit {
                       && (!this.dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(this.dataFim))
                     ) {
 
+
                       if (avaliacao.nota === 1) {
                         this.avaliacoes1 = this.avaliacoes1 + 1;
                       }
