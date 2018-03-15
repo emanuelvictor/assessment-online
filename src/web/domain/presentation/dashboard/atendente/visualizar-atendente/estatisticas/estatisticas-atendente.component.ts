@@ -6,7 +6,7 @@ import {AvaliacaoService} from '../../../../../service/avaliacao.service';
 import {ColaboradorRepository} from '../../../../../repository/colaborador.repository';
 import {AvaliacaoColaboradorRepository} from '../../../../../repository/avaliacao-colaborador.repository';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
-import moment = require("moment");
+import * as moment from 'moment';
 
 @Component({
   selector: 'estatisticas-atendente',
@@ -22,7 +22,7 @@ export class EstatisticasAtendenteComponent implements OnInit {
 
 
   // Chart
-  multi: any[];
+  multi: any[] = [];
 
   // options
   showXAxis = true;
@@ -52,19 +52,15 @@ export class EstatisticasAtendenteComponent implements OnInit {
   public dataFim; // = moment(new Date(Date.now()), 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
 
   /**
+   *
    * @param {Title} title
    * @param {AvaliacaoService} avaliacaoService
    * @param {ActivatedRoute} activatedRoute
+   * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
+   * @param {ColaboradorRepository} colaboradorRepository
    */
   constructor(private title: Title, private avaliacaoService: AvaliacaoService, private activatedRoute: ActivatedRoute, private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository, private colaboradorRepository: ColaboradorRepository) {
-    // Chart Multi
-    this.multi = multi.map((group: any) => {
-      group.series = group.series.map((dataItem: any) => {
-        // dataItem.name = new Date(dataItem.name);
-        return dataItem;
-      });
-      return group;
-    });
+
   }
 
   /**
@@ -78,10 +74,28 @@ export class EstatisticasAtendenteComponent implements OnInit {
     this.avaliacoes5 = 0;
   }
 
+  initResults() {
+    // Chart Multi
+    this.multi = multi.map((group: any) => {
+      group.series = group.series.map((dataItem: any) => {
+        return dataItem;
+      });
+      return group;
+    });
+  }
+
   /**
    *
    */
   ngOnInit() {
+    this.initAvaliacoes();
+    // Chart Multi
+    this.multi = multi.map((group: any) => {
+      group.series = group.series.map((dataItem: any) => {
+        return dataItem;
+      });
+      return group;
+    });
     this.title.setTitle('Estatisticas do atendente');
     console.log(this.activatedRoute.snapshot.params['key']);
     /**
@@ -92,8 +106,9 @@ export class EstatisticasAtendenteComponent implements OnInit {
         colaboradores.forEach(colaborador => {
           this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
             .subscribe(avaliacoesColaborador => {
+              console.log(avaliacoesColaborador);
+              this.initAvaliacoes();
               avaliacoesColaborador.forEach(avaliacaoColaborador => {
-                this.initAvaliacoes();
                 this.avaliacaoService.findOne(avaliacaoColaborador.avaliacao.key)
                   .subscribe(avaliacao => {
 
@@ -148,10 +163,10 @@ export class EstatisticasAtendenteComponent implements OnInit {
 
   }
 
-  // ngx transform using covalent digits pipe
-  axisDigits(val: any): any {
-    return new TdDigitsPipe().transform(val);
-  }
+  // // ngx transform using covalent digits pipe
+  // static axisDigits(val: any): any {
+  //   return new TdDigitsPipe().transform(val);
+  // }
 }
 
 export let
