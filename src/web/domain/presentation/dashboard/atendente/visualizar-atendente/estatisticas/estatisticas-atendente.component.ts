@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {TdDigitsPipe} from '@covalent/core';
 import {ActivatedRoute} from '@angular/router';
 import {AvaliacaoService} from '../../../../../service/avaliacao.service';
 import {ColaboradorRepository} from '../../../../../repository/colaborador.repository';
 import {AvaliacaoColaboradorRepository} from '../../../../../repository/avaliacao-colaborador.repository';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import * as moment from 'moment';
+import {TdDigitsPipe} from '@covalent/core';
 
 @Component({
   selector: 'estatisticas-atendente',
@@ -51,6 +51,14 @@ export class EstatisticasAtendenteComponent implements OnInit {
   public dataInicio; // = moment(new Date(Date.now()), 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
   public dataFim; // = moment(new Date(Date.now()), 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
 
+
+  mapper: any = [
+    {
+      'name': 'Avaliações',
+      'series': [],
+    },
+  ];
+
   /**
    *
    * @param {Title} title
@@ -60,7 +68,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
    * @param {ColaboradorRepository} colaboradorRepository
    */
   constructor(private title: Title, private avaliacaoService: AvaliacaoService, private activatedRoute: ActivatedRoute, private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository, private colaboradorRepository: ColaboradorRepository) {
-
   }
 
   /**
@@ -74,9 +81,12 @@ export class EstatisticasAtendenteComponent implements OnInit {
     this.avaliacoes5 = 0;
   }
 
+  /**
+   *
+   */
   initResults() {
     // Chart Multi
-    this.multi = multi.map((group: any) => {
+    this.multi = this.mapper.map((group: any) => {
       group.series = group.series.map((dataItem: any) => {
         return dataItem;
       });
@@ -88,16 +98,21 @@ export class EstatisticasAtendenteComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.initAvaliacoes();
-    // Chart Multi
-    this.multi = multi.map((group: any) => {
-      group.series = group.series.map((dataItem: any) => {
-        return dataItem;
-      });
-      return group;
-    });
     this.title.setTitle('Estatisticas do atendente');
-    console.log(this.activatedRoute.snapshot.params['key']);
+    this.listEstatisticasByDates(this.dataInicio, this.dataFim);
+  }
+
+  /**
+   *
+   * @param dataInicio
+   * @param dataFim
+   */
+  public listEstatisticasByDates(dataInicio, dataFim) {
+    console.log(dataInicio);
+    console.log(dataFim);
+    this.initResults();
+    this.initAvaliacoes();
+
     /**
      * Estudar melhor os observables e passar para o serviço
      */
@@ -106,15 +121,14 @@ export class EstatisticasAtendenteComponent implements OnInit {
         colaboradores.forEach(colaborador => {
           this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
             .subscribe(avaliacoesColaborador => {
-              console.log(avaliacoesColaborador);
               this.initAvaliacoes();
               avaliacoesColaborador.forEach(avaliacaoColaborador => {
                 this.avaliacaoService.findOne(avaliacaoColaborador.avaliacao.key)
                   .subscribe(avaliacao => {
 
-                    if (avaliacao
-                      && (!this.dataInicio || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(this.dataInicio))
-                      && (!this.dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(this.dataFim))
+                    if (
+                      (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(dataFim))
+                      && (!dataInicio || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(dataInicio))
                     ) {
 
 
@@ -135,7 +149,7 @@ export class EstatisticasAtendenteComponent implements OnInit {
                       }
 
                       // Chart Multi
-                      this.multi = multi.map((group: any) => {
+                      this.multi = this.mapper.map((group: any) => {
                         group.series = group.series.map((dataItem: any) => {
                           // dataItem.name = new Date(dataItem.name);
                           return dataItem;
@@ -159,20 +173,10 @@ export class EstatisticasAtendenteComponent implements OnInit {
             })
         })
       });
-
-
   }
 
-  // // ngx transform using covalent digits pipe
-  // static axisDigits(val: any): any {
-  //   return new TdDigitsPipe().transform(val);
-  // }
+  // ngx transform using covalent digits pipe
+  axisDigits(val: any): any {
+    return new TdDigitsPipe().transform(val);
+  }
 }
-
-export let
-  multi: any = [
-    {
-      'name': 'Avaliações',
-      'series': [],
-    },
-  ];

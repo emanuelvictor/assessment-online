@@ -26,16 +26,12 @@
         </ev-datepicker>
       </div>
 
-      <!--<td-chips placeholder='Pesquisar por nome' [(ngModel)]='filter'-->
-      <!--flex-md='40' flex-gt-md='45' flex-gt-lg='50'-->
-      <!--(add)='onChangeFilters()' (remove)='onChangeFilters()'></td-chips>-->
+      <div flex-gt-md></div>
 
-      <!--<td-chips placeholder='Pesquisar por endereço' [(ngModel)]='enderecoFilters'-->
-      <!--flex='30'-->
-      <!--(add)='onChangeFilters()' (remove)='onChangeFilters()'></td-chips>-->
-
-      <!--<div flex-gt-md></div>-->
-
+      <button color='accent' mat-raised-button class='push-right'
+              (click)='listEstatisticasByDates(dataInicio, dataFim)'>
+        Pesquisar
+      </button>
     </div>
   </div>
 </mat-card>
