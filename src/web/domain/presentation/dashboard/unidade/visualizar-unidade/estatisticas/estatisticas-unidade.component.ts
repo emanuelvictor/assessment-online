@@ -5,6 +5,8 @@ import {ActivatedRoute} from '@angular/router';
 import {AvaliacaoService} from '../../../../../service/avaliacao.service';
 import {AvaliacaoColaboradorRepository} from '../../../../../repository/avaliacao-colaborador.repository';
 import {ColaboradorRepository} from '../../../../../repository/colaborador.repository';
+import {textMasks} from '../../../../controls/text-masks/text-masks';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-estatisticas-unidade',
@@ -13,14 +15,44 @@ import {ColaboradorRepository} from '../../../../../repository/colaborador.repos
 })
 export class EstatisticasUnidadeComponent implements OnInit {
 
+  /**
+   *
+   */
+  masks = textMasks;
+
 
   // Chart
-  multi: any[];
+  multi: any[] = [
+    {
+      series: [
+        {
+          name: 'Terrivel',
+          value: 0
+        },
+        {
+          name: 'Ruim',
+          value: 0
+        },
+        {
+          name: 'Meia boca',
+          value: 0
+        },
+        {
+          name: 'Bacana',
+          value: 0
+        },
+        {
+          name: 'Top da balada',
+          value: 0
+        },
+      ]
+    }
+  ];
+
 
   // options
   showXAxis = true;
   showYAxis = true;
-  gradient = true;
   showLegend = false;
   xAxisLabel = '';
   yAxisLabel = 'Avaliações';
@@ -41,9 +73,16 @@ export class EstatisticasUnidadeComponent implements OnInit {
   avaliacoes4 = 0;
   avaliacoes5 = 0;
 
-  dataInicio = new Date(Date.now());
-  dataFim = new Date(Date.now());
+  public dataInicio; // = moment(new Date(Date.now()), 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+  public dataFim; // = moment(new Date(Date.now()), 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
 
+
+  mapper: any = [
+    {
+      'name': 'Avaliações',
+      'series': [],
+    },
+  ];
 
   /**
    *
@@ -53,17 +92,15 @@ export class EstatisticasUnidadeComponent implements OnInit {
    * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
    * @param {ColaboradorRepository} colaboradorRepository
    */
-  constructor(private title: Title, private avaliacaoService: AvaliacaoService,
-              private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository,
-              private activatedRoute: ActivatedRoute, private colaboradorRepository: ColaboradorRepository) {
-    // Chart Multi
-    this.multi = multi.map((group: any) => {
-      group.series = group.series.map((dataItem: any) => {
-        // dataItem.name = new Date(dataItem.name);
-        return dataItem;
-      });
-      return group;
-    });
+  constructor(private title: Title, private avaliacaoService: AvaliacaoService, private activatedRoute: ActivatedRoute, private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository, private colaboradorRepository: ColaboradorRepository) {
+  }
+
+  /**
+   *
+   */
+  ngOnInit() {
+    this.title.setTitle('Estatisticas do atendente');
+    this.listEstatisticasByDates(this.dataInicio, this.dataFim);
   }
 
   /**
@@ -80,76 +117,106 @@ export class EstatisticasUnidadeComponent implements OnInit {
   /**
    *
    */
-  ngOnInit() {
-    this.title.setTitle('Estatisticas da unidade');
+  initResults() {
+    // // Chart Multi
+    // this.multi[0].series[0] = {value: this.avaliacoes1, name: 'Terrível'};
+    // this.multi[0].series[1] = {value: this.avaliacoes2, name: 'Ruim'};
+    // this.multi[0].series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
+    // this.multi[0].series[3] = {value: this.avaliacoes4, name: 'Bacana'};
+    // this.multi[0].series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
+    // Chart Multi
+    this.multi = this.mapper.map((group: any) => {
+      group.series = group.series.map((dataItem: any) => {
+        dataItem.value = 0;
+        return dataItem;
+      });
+      return group;
+    });
+  }
 
+  /**
+   *
+   * @param dataInicio
+   * @param dataFim
+   */
+  public listEstatisticasByDates(dataInicio, dataFim) {
+    this.initAvaliacoes();
+    this.initResults();
     /**
      * Estudar melhor os observables e passar para o serviço
      */
     this.colaboradorRepository.listColaboradorByUnidadeKey(this.activatedRoute.snapshot.params['key'])
       .subscribe(colaboradores => {
-        if (colaboradores && colaboradores.length)
-          colaboradores.forEach(colaborador => {
-            if (colaborador)
-              this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
-                .subscribe(avaliacoesColaborador => {
-                  avaliacoesColaborador.forEach(avaliacaoColaborador => {
-                    this.initAvaliacoes();
-                    if (avaliacaoColaborador)
-                      this.avaliacaoService.findOne(avaliacaoColaborador.avaliacao.key)
-                        .subscribe(avaliacao => {
-                          // this.avaliacoes.push(avaliacao);
-                          if (avaliacao) {
-                            if (this.dataFim < new Date(avaliacao.data)) {
-                              this.dataFim = new Date(avaliacao.data);
-                            }
+        colaboradores.forEach(colaborador => {
+          this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
+            .subscribe(avaliacoesColaborador => {
+              avaliacoesColaborador.forEach(avaliacaoColaborador => {
+                this.initAvaliacoes();
+                this.avaliacaoService.findOne(avaliacaoColaborador.avaliacao.key)
+                  .subscribe(avaliacao => {
+                    if (
+                      (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY')))
+                      && (!dataInicio || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(moment(dataInicio, 'DD/MM/YYYY')))
+                    ) {
 
-                            if (this.dataInicio > new Date(avaliacao.data)) {
-                              this.dataInicio = new Date(avaliacao.data);
-                            }
 
-                            if (avaliacao.nota === 1) {
-                              this.avaliacoes1 = this.avaliacoes1 + 1;
-                            }
-                            if (avaliacao.nota === 2) {
-                              this.avaliacoes2 = this.avaliacoes2 + 1;
-                            }
-                            if (avaliacao.nota === 3) {
-                              this.avaliacoes3 = this.avaliacoes3 + 1;
-                            }
-                            if (avaliacao.nota === 4) {
-                              this.avaliacoes4 = this.avaliacoes4 + 1;
-                            }
-                            if (avaliacao.nota === 5) {
-                              this.avaliacoes5 = this.avaliacoes5 + 1;
-                            }
+                      if (avaliacao.nota === 1) {
+                        this.avaliacoes1 = this.avaliacoes1 + 1;
+                      }
+                      if (avaliacao.nota === 2) {
+                        this.avaliacoes2 = this.avaliacoes2 + 1;
+                      }
+                      if (avaliacao.nota === 3) {
+                        this.avaliacoes3 = this.avaliacoes3 + 1;
+                      }
+                      if (avaliacao.nota === 4) {
+                        this.avaliacoes4 = this.avaliacoes4 + 1;
+                      }
+                      if (avaliacao.nota === 5) {
+                        this.avaliacoes5 = this.avaliacoes5 + 1;
+                      }
 
-                            // Chart Multi
-                            this.multi = multi.map((group: any) => {
-                              group.series = group.series.map((dataItem: any) => {
-                                // dataItem.name = new Date(dataItem.name);
-                                return dataItem;
-                              });
 
-                              this.multi[0].series[0] = {value: this.avaliacoes1, name: 'Terrível'};
-                              // console.log({value: this.avaliacoes1, name: 'Terrível'});
-                              this.multi[0].series[1] = {value: this.avaliacoes2, name: 'Ruim'};
-                              // console.log({value: this.avaliacoes2, name: 'Ruim'});
-                              this.multi[0].series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
-                              // console.log({value: this.avaliacoes3, name: 'Meia boca'});
-                              this.multi[0].series[3] = {value: this.avaliacoes4, name: 'Bacana'};
-                              // console.log({value: this.avaliacoes4, name: 'Bacana'});
-                              this.multi[0].series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
-                              // console.log({value: this.avaliacoes4, name: 'Top da balada'});
-                              return group;
-                            });
-                            console.log('início ', this.dataInicio);
-                            console.log('fim ', this.dataFim);
+                      /**
+                       * Falcatrua
+                       */
+                      this.multi = this.mapper.map((group: any) => {
+                        group.series = group.series.map((dataItem: any) => {
+                          console.log(dataItem);
+                          switch (dataItem.name) {
+                            case 'Terrível':
+                              dataItem.value = this.avaliacoes1;
+                              break;
+                            case 'Ruim':
+                              dataItem.value = this.avaliacoes2;
+                              break;
+                            case 'Meia boca':
+                              dataItem.value = this.avaliacoes3;
+                              break;
+                            case 'Bacana':
+                              dataItem.value = this.avaliacoes4;
+                              break;
+                            default:
+                              dataItem.value = this.avaliacoes5;
+                              break;
                           }
+                          return dataItem;
                         });
-                  })
-                })
-          })
+
+
+                        this.multi[0].series[0] = {value: this.avaliacoes1, name: 'Terrível'};
+                        this.multi[0].series[1] = {value: this.avaliacoes2, name: 'Ruim'};
+                        this.multi[0].series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
+                        this.multi[0].series[3] = {value: this.avaliacoes4, name: 'Bacana'};
+                        this.multi[0].series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
+
+                        return group;
+                      });
+                    }
+                  });
+              })
+            })
+        })
       });
 
 

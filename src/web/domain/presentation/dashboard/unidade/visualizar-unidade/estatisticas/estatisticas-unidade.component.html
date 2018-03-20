@@ -1,10 +1,48 @@
+<mat-card class='push-none bgc-grey-50'>
+  <div layout='row' layout-align='center center'>
+    <div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>
+
+      <div layout='row' layout-margin>
+        <ev-datepicker layout="row"
+                       [(dataInput)]="dataInicio"
+                       style='margin-bottom: -14px;padding-top: 0;'>
+          <mat-form-field>
+            <input [(ngModel)]='dataInicio'
+                   placeholder='Data de criação - Início'
+                   matInput name='dataInicio' id='dataInicio'
+                   [textMask]='{mask: masks.date, guide: false}'>
+          </mat-form-field>
+        </ev-datepicker>
+
+        <ev-datepicker layout="row"
+                       [(dataInput)]="dataFim"
+                       style='margin-bottom: -14px;padding-top: 0;'>
+          <mat-form-field>
+            <input [(ngModel)]='dataFim'
+                   placeholder='Data de criação - Fim'
+                   matInput name='dataFim' id='dataFim'
+                   [textMask]='{mask: masks.date, guide: false}'>
+          </mat-form-field>
+        </ev-datepicker>
+      </div>
+
+      <div flex-gt-md></div>
+
+      <button color='accent' mat-raised-button class='push-right'
+              (click)='listEstatisticasByDates(dataInicio, dataFim)'>
+        Pesquisar
+      </button>
+    </div>
+  </div>
+</mat-card>
+
 <div layout-gt-xs='row'>
   <div flex-gt-xs='100'>
     <div layout='row' layout-align='center start'>
       <div layout='column' flex='90'>
 
         <div class='tc-grey-500 size-height-50' layout='row' layout-align='start center'>
-          <span> Estatísticas da unidade</span>
+          <span> Estatísticas do atendente </span>
           <div flex></div>
           <span> {{avaliacoes1+avaliacoes2+avaliacoes3+avaliacoes4+avaliacoes5}} avaliações </span>
         </div>
@@ -16,7 +54,7 @@
             <ngx-charts-bar-vertical-2d
                 [scheme]='colorScheme'
                 [results]='multi'
-                [gradient]='gradient'
+                [gradient]='false'
                 [xAxis]='showXAxis'
                 [yAxis]='showYAxis'
                 [legend]='showLegend'

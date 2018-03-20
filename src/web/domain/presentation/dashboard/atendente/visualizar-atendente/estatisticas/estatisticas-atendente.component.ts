@@ -53,7 +53,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
   // options
   showXAxis = true;
   showYAxis = true;
-  gradient = true;
   showLegend = false;
   xAxisLabel = '';
   yAxisLabel = 'Avaliações';
@@ -144,8 +143,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
     this.initAvaliacoes();
     this.initResults();
 
-    console.log(this.mapper);
-    console.log(this.multi);
     /**
      * Estudar melhor os observables e passar para o serviço
      */
