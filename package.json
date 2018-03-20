@@ -30,7 +30,6 @@
     "angular2-text-mask": "8.0.4",
     "angularfire2": "5.0.0-rc.6",
     "core-js": "2.5.3",
-    "d3": "^5.0.0-rc.4",
     "enhanced-resolve": "3.3.0",
     "firebase": "4.10.0",
     "firebase-admin": "~5.8.1",
