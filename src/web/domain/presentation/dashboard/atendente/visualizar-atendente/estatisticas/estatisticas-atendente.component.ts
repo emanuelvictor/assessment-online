@@ -22,7 +22,33 @@ export class EstatisticasAtendenteComponent implements OnInit {
 
 
   // Chart
-  multi: any[] = [];
+  multi: any[] = [
+    {
+      series: [
+        {
+          name: 'Terrivel',
+          value: 0
+        },
+        {
+          name: 'Ruim',
+          value: 0
+        },
+        {
+          name: 'Meia boca',
+          value: 0
+        },
+        {
+          name: 'Bacana',
+          value: 0
+        },
+        {
+          name: 'Top da balada',
+          value: 0
+        },
+      ]
+    }
+  ];
+
 
   // options
   showXAxis = true;
@@ -93,9 +119,16 @@ export class EstatisticasAtendenteComponent implements OnInit {
    *
    */
   initResults() {
+    // // Chart Multi
+    // this.multi[0].series[0] = {value: this.avaliacoes1, name: 'Terrível'};
+    // this.multi[0].series[1] = {value: this.avaliacoes2, name: 'Ruim'};
+    // this.multi[0].series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
+    // this.multi[0].series[3] = {value: this.avaliacoes4, name: 'Bacana'};
+    // this.multi[0].series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
     // Chart Multi
     this.multi = this.mapper.map((group: any) => {
       group.series = group.series.map((dataItem: any) => {
+        dataItem.value = 0;
         return dataItem;
       });
       return group;
@@ -108,8 +141,11 @@ export class EstatisticasAtendenteComponent implements OnInit {
    * @param dataFim
    */
   public listEstatisticasByDates(dataInicio, dataFim) {
-    this.initResults();
     this.initAvaliacoes();
+    this.initResults();
+
+    console.log(this.mapper);
+    console.log(this.multi);
     /**
      * Estudar melhor os observables e passar para o serviço
      */
@@ -144,23 +180,40 @@ export class EstatisticasAtendenteComponent implements OnInit {
                         this.avaliacoes5 = this.avaliacoes5 + 1;
                       }
 
-                      // Chart Multi
+
+                      /**
+                       * Falcatrua
+                       */
                       this.multi = this.mapper.map((group: any) => {
                         group.series = group.series.map((dataItem: any) => {
-                          // dataItem.name = new Date(dataItem.name);
+                          console.log(dataItem);
+                          switch (dataItem.name) {
+                            case 'Terrível':
+                              dataItem.value = this.avaliacoes1;
+                              break;
+                            case 'Ruim':
+                              dataItem.value = this.avaliacoes2;
+                              break;
+                            case 'Meia boca':
+                              dataItem.value = this.avaliacoes3;
+                              break;
+                            case 'Bacana':
+                              dataItem.value = this.avaliacoes4;
+                              break;
+                            default:
+                              dataItem.value = this.avaliacoes5;
+                              break;
+                          }
                           return dataItem;
                         });
 
+
                         this.multi[0].series[0] = {value: this.avaliacoes1, name: 'Terrível'};
-                        // console.log({value: this.avaliacoes1, name: 'Terrível'});
                         this.multi[0].series[1] = {value: this.avaliacoes2, name: 'Ruim'};
-                        // console.log({value: this.avaliacoes2, name: 'Ruim'});
                         this.multi[0].series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
-                        // console.log({value: this.avaliacoes3, name: 'Meia boca'});
                         this.multi[0].series[3] = {value: this.avaliacoes4, name: 'Bacana'};
-                        // console.log({value: this.avaliacoes4, name: 'Bacana'});
                         this.multi[0].series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
-                        // console.log({value: this.avaliacoes4, name: 'Top da balada'});
+
                         return group;
                       });
                     }
