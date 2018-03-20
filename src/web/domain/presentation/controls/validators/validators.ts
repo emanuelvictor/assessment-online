@@ -39,16 +39,16 @@ export function invalidateCpf(strCPF) {
   let soma, resto: number;
   soma = 0;
 
-  if (strCPF == "00000000000" ||
-    strCPF == "11111111111" ||
-    strCPF == "22222222222" ||
-    strCPF == "33333333333" ||
-    strCPF == "44444444444" ||
-    strCPF == "55555555555" ||
-    strCPF == "66666666666" ||
-    strCPF == "77777777777" ||
-    strCPF == "88888888888" ||
-    strCPF == "99999999999") {
+  if (strCPF == '00000000000' ||
+    strCPF == '11111111111' ||
+    strCPF == '22222222222' ||
+    strCPF == '33333333333' ||
+    strCPF == '44444444444' ||
+    strCPF == '55555555555' ||
+    strCPF == '66666666666' ||
+    strCPF == '77777777777' ||
+    strCPF == '88888888888' ||
+    strCPF == '99999999999') {
     return true;
   }
 
@@ -121,16 +121,16 @@ export function invalidateCnpj(cnpj) {
     return true;
 
   // Elimina CNPJs invalidos conhecidos
-  if (cnpj == "00000000000000" ||
-    cnpj == "11111111111111" ||
-    cnpj == "22222222222222" ||
-    cnpj == "33333333333333" ||
-    cnpj == "44444444444444" ||
-    cnpj == "55555555555555" ||
-    cnpj == "66666666666666" ||
-    cnpj == "77777777777777" ||
-    cnpj == "88888888888888" ||
-    cnpj == "99999999999999")
+  if (cnpj == '00000000000000' ||
+    cnpj == '11111111111111' ||
+    cnpj == '22222222222222' ||
+    cnpj == '33333333333333' ||
+    cnpj == '44444444444444' ||
+    cnpj == '55555555555555' ||
+    cnpj == '66666666666666' ||
+    cnpj == '77777777777777' ||
+    cnpj == '88888888888888' ||
+    cnpj == '99999999999999')
     return true;
 
   // Valida DVs
@@ -187,14 +187,14 @@ export function dataNascimentoValidator(): ValidatorFn {
         exception: null
       };
 
-      let momentDataNascimento = moment(c.value, "DD-MM-YYYY");
+      let momentDataNascimento = moment(c.value, 'DD-MM-YYYY');
 
       if (!momentDataNascimento.isValid() || c.value.length < 8) {
         return {
           exception: 'Data de nascimento inválida'
         };
       }
-      if (momentDataNascimento.isBefore(new Date("01/01/1500"))) {
+      if (momentDataNascimento.isBefore(new Date('01/01/1500'))) {
         return {
           exception: 'Insira uma data de nascimento posterior á "01/01/1500"'
         };

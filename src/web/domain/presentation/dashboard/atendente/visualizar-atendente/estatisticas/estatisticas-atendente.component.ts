@@ -73,6 +73,14 @@ export class EstatisticasAtendenteComponent implements OnInit {
   /**
    *
    */
+  ngOnInit() {
+    this.title.setTitle('Estatisticas do atendente');
+    this.listEstatisticasByDates(this.dataInicio, this.dataFim);
+  }
+
+  /**
+   *
+   */
   initAvaliacoes() {
     this.avaliacoes1 = 0;
     this.avaliacoes2 = 0;
@@ -96,23 +104,12 @@ export class EstatisticasAtendenteComponent implements OnInit {
 
   /**
    *
-   */
-  ngOnInit() {
-    this.title.setTitle('Estatisticas do atendente');
-    this.listEstatisticasByDates(this.dataInicio, this.dataFim);
-  }
-
-  /**
-   *
    * @param dataInicio
    * @param dataFim
    */
   public listEstatisticasByDates(dataInicio, dataFim) {
-    console.log(dataInicio);
-    console.log(dataFim);
     this.initResults();
     this.initAvaliacoes();
-
     /**
      * Estudar melhor os observables e passar para o serviço
      */
@@ -121,14 +118,13 @@ export class EstatisticasAtendenteComponent implements OnInit {
         colaboradores.forEach(colaborador => {
           this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
             .subscribe(avaliacoesColaborador => {
-              this.initAvaliacoes();
               avaliacoesColaborador.forEach(avaliacaoColaborador => {
                 this.avaliacaoService.findOne(avaliacaoColaborador.avaliacao.key)
                   .subscribe(avaliacao => {
 
                     if (
-                      (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(dataFim))
-                      && (!dataInicio || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(dataInicio))
+                      (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY')))
+                      && (!dataInicio || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(moment(dataInicio, 'DD/MM/YYYY')))
                     ) {
 
 
