@@ -100,6 +100,21 @@ export class EstatisticasAtendenteComponent implements OnInit {
    */
   ngOnInit() {
     this.title.setTitle('Estatisticas do atendente');
+    // this.avaliacaoService
+    //   .listAvaliacoesByAtendenteKey(this.activatedRoute.snapshot.params['key'])
+    //   .subscribe(a => {
+    //     // console.log(a);
+    //     a.subscribe(b => {
+    //         // console.log(b);
+    //         b.subscribe(c => {
+    //           console.log(c)
+    //
+    //
+    //
+    //         })
+    //       }
+    //     )
+    //   });
     this.listEstatisticasByDates(this.dataInicio, this.dataFim);
   }
 
@@ -143,82 +158,159 @@ export class EstatisticasAtendenteComponent implements OnInit {
     this.initAvaliacoes();
     this.initResults();
 
+
+
+    this.avaliacaoService
+      .listAvaliacoesByAtendenteKey(this.activatedRoute.snapshot.params['key'])
+      .subscribe(a => {
+        // console.log(a);
+        a.subscribe(b => {
+            // console.log(b);
+            b.subscribe(avaliacao => {
+              console.log(avaliacao)
+
+              if (
+                (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY')))
+                && (!dataInicio || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(moment(dataInicio, 'DD/MM/YYYY')))
+              ) {
+
+
+                if (avaliacao.nota === 1) {
+                  this.avaliacoes1 = this.avaliacoes1 + 1;
+                }
+                if (avaliacao.nota === 2) {
+                  this.avaliacoes2 = this.avaliacoes2 + 1;
+                }
+                if (avaliacao.nota === 3) {
+                  this.avaliacoes3 = this.avaliacoes3 + 1;
+                }
+                if (avaliacao.nota === 4) {
+                  this.avaliacoes4 = this.avaliacoes4 + 1;
+                }
+                if (avaliacao.nota === 5) {
+                  this.avaliacoes5 = this.avaliacoes5 + 1;
+                }
+
+
+                /**
+                 * Falcatrua
+                 */
+                this.multi = this.mapper.map((group: any) => {
+                  group.series = group.series.map((dataItem: any) => {
+                    console.log(dataItem);
+                    switch (dataItem.name) {
+                      case 'Terrível':
+                        dataItem.value = this.avaliacoes1;
+                        break;
+                      case 'Ruim':
+                        dataItem.value = this.avaliacoes2;
+                        break;
+                      case 'Meia boca':
+                        dataItem.value = this.avaliacoes3;
+                        break;
+                      case 'Bacana':
+                        dataItem.value = this.avaliacoes4;
+                        break;
+                      default:
+                        dataItem.value = this.avaliacoes5;
+                        break;
+                    }
+                    return dataItem;
+                  });
+
+
+                  this.multi[0].series[0] = {value: this.avaliacoes1, name: 'Terrível'};
+                  this.multi[0].series[1] = {value: this.avaliacoes2, name: 'Ruim'};
+                  this.multi[0].series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
+                  this.multi[0].series[3] = {value: this.avaliacoes4, name: 'Bacana'};
+                  this.multi[0].series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
+
+                  return group;
+                });
+              }
+
+            })
+          }
+        )
+      });
+
+
     /**
      * Estudar melhor os observables e passar para o serviço
      */
-    this.colaboradorRepository.listColaboradoresByUsuarioKey(this.activatedRoute.snapshot.params['key'])
-      .subscribe(colaboradores => {
-        colaboradores.forEach(colaborador => {
-          this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
-            .subscribe(avaliacoesColaborador => {
-              avaliacoesColaborador.forEach(avaliacaoColaborador => {
-                this.avaliacaoService.findOne(avaliacaoColaborador.avaliacao.key)
-                  .subscribe(avaliacao => {
-
-                    if (
-                      (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY')))
-                      && (!dataInicio || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(moment(dataInicio, 'DD/MM/YYYY')))
-                    ) {
-
-
-                      if (avaliacao.nota === 1) {
-                        this.avaliacoes1 = this.avaliacoes1 + 1;
-                      }
-                      if (avaliacao.nota === 2) {
-                        this.avaliacoes2 = this.avaliacoes2 + 1;
-                      }
-                      if (avaliacao.nota === 3) {
-                        this.avaliacoes3 = this.avaliacoes3 + 1;
-                      }
-                      if (avaliacao.nota === 4) {
-                        this.avaliacoes4 = this.avaliacoes4 + 1;
-                      }
-                      if (avaliacao.nota === 5) {
-                        this.avaliacoes5 = this.avaliacoes5 + 1;
-                      }
-
-
-                      /**
-                       * Falcatrua
-                       */
-                      this.multi = this.mapper.map((group: any) => {
-                        group.series = group.series.map((dataItem: any) => {
-                          console.log(dataItem);
-                          switch (dataItem.name) {
-                            case 'Terrível':
-                              dataItem.value = this.avaliacoes1;
-                              break;
-                            case 'Ruim':
-                              dataItem.value = this.avaliacoes2;
-                              break;
-                            case 'Meia boca':
-                              dataItem.value = this.avaliacoes3;
-                              break;
-                            case 'Bacana':
-                              dataItem.value = this.avaliacoes4;
-                              break;
-                            default:
-                              dataItem.value = this.avaliacoes5;
-                              break;
-                          }
-                          return dataItem;
-                        });
-
-
-                        this.multi[0].series[0] = {value: this.avaliacoes1, name: 'Terrível'};
-                        this.multi[0].series[1] = {value: this.avaliacoes2, name: 'Ruim'};
-                        this.multi[0].series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
-                        this.multi[0].series[3] = {value: this.avaliacoes4, name: 'Bacana'};
-                        this.multi[0].series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
-
-                        return group;
-                      });
-                    }
-                  });
-              })
-            })
-        })
-      });
+    // this.colaboradorRepository.listColaboradoresByUsuarioKey(this.activatedRoute.snapshot.params['key'])
+    //   .subscribe(colaboradores => {
+    //     colaboradores.forEach(colaborador => {
+    //       this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
+    //         .subscribe(avaliacoesColaborador => {
+    //           avaliacoesColaborador.forEach(avaliacaoColaborador => {
+    //             this.avaliacaoService.findOne(avaliacaoColaborador.avaliacao.key)
+    //               .subscribe(avaliacao => {
+    //
+    //                 if (
+    //                   (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY')))
+    //                   && (!dataInicio || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(moment(dataInicio, 'DD/MM/YYYY')))
+    //                 ) {
+    //
+    //
+    //                   if (avaliacao.nota === 1) {
+    //                     this.avaliacoes1 = this.avaliacoes1 + 1;
+    //                   }
+    //                   if (avaliacao.nota === 2) {
+    //                     this.avaliacoes2 = this.avaliacoes2 + 1;
+    //                   }
+    //                   if (avaliacao.nota === 3) {
+    //                     this.avaliacoes3 = this.avaliacoes3 + 1;
+    //                   }
+    //                   if (avaliacao.nota === 4) {
+    //                     this.avaliacoes4 = this.avaliacoes4 + 1;
+    //                   }
+    //                   if (avaliacao.nota === 5) {
+    //                     this.avaliacoes5 = this.avaliacoes5 + 1;
+    //                   }
+    //
+    //
+    //                   /**
+    //                    * Falcatrua
+    //                    */
+    //                   this.multi = this.mapper.map((group: any) => {
+    //                     group.series = group.series.map((dataItem: any) => {
+    //                       console.log(dataItem);
+    //                       switch (dataItem.name) {
+    //                         case 'Terrível':
+    //                           dataItem.value = this.avaliacoes1;
+    //                           break;
+    //                         case 'Ruim':
+    //                           dataItem.value = this.avaliacoes2;
+    //                           break;
+    //                         case 'Meia boca':
+    //                           dataItem.value = this.avaliacoes3;
+    //                           break;
+    //                         case 'Bacana':
+    //                           dataItem.value = this.avaliacoes4;
+    //                           break;
+    //                         default:
+    //                           dataItem.value = this.avaliacoes5;
+    //                           break;
+    //                       }
+    //                       return dataItem;
+    //                     });
+    //
+    //
+    //                     this.multi[0].series[0] = {value: this.avaliacoes1, name: 'Terrível'};
+    //                     this.multi[0].series[1] = {value: this.avaliacoes2, name: 'Ruim'};
+    //                     this.multi[0].series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
+    //                     this.multi[0].series[3] = {value: this.avaliacoes4, name: 'Bacana'};
+    //                     this.multi[0].series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
+    //
+    //                     return group;
+    //                   });
+    //                 }
+    //               });
+    //           })
+    //         })
+    //     })
+    //   });
   }
 
   // ngx transform using covalent digits pipe

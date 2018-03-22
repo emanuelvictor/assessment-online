@@ -5,8 +5,8 @@ import {AvaliacaoColaboradorRepository} from '../repository/avaliacao-colaborado
 import {Avaliacao} from '../entity/avaliacao/Avaliacao.model';
 import {ColaboradorRepository} from '../repository/colaborador.repository';
 import 'rxjs/Rx';
-import {from} from "rxjs/observable/from";
-import {of} from "rxjs/observable/of";
+import {from} from 'rxjs/observable/from';
+import {of} from 'rxjs/observable/of';
 
 @Injectable()
 export class AvaliacaoService {
@@ -41,27 +41,49 @@ export class AvaliacaoService {
       });
   }
 
-  avaliacoes = [];
 
   public listAvaliacoesByAtendenteKey(key: string): Observable<any> {
 
-    return this.colaboradorRepository.listColaboradoresByUsuarioKey(key);
+    // return this.colaboradorRepository.listColaboradoresByUsuarioKey(key);
+
+    return this.colaboradorRepository.listColaboradoresByUsuarioKey(key)
+      .flatMap(colaboradores => colaboradores.map(
+        colaborador => {
+          return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key).flatMap(
+            avaliacoesColaborador =>
+              avaliacoesColaborador.map(
+                avaliacaoColaborador => {
+                  return this.findOne(avaliacaoColaborador.avaliacao.key)
+                    .map(x => {
+                      return x
+                    })
+                }
+              ))
+        }
+      )).map(o => {
+        console.log(o);
+        return o
+      });
+
 
     // return this.colaboradorRepository.listColaboradoresByUsuarioKey(key)
     //   .flatMap(colaboradores => colaboradores.map(
     //     colaborador => {
-    //       return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
-    //         .map(avaliacoesColaborador => avaliacoesColaborador.map(
-    //           avaliacaoColaborador => {
-    //             return this.findOne(avaliacaoColaborador.avaliacao.key)
-    //               .subscribe(result => {
-    //                 console.log(result);
-    //               })
-    //           }
-    //         ))
-    //         .subscribe()
+    //       return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key).flatMap(
+    //         avaliacoesColaborador =>
+    //           avaliacoesColaborador.map(
+    //             avaliacaoColaborador => {
+    //               return this.findOne(avaliacaoColaborador.avaliacao.key)
+    //                 .map(x => {
+    //                   return x
+    //                 })
+    //             }
+    //           ))
     //     }
-    //   ));
+    //   )).map(o => {
+    //     // console.log(o);
+    //     return o
+    //   });
 
     // return new Observable(observer => {
     //   observer.next()
