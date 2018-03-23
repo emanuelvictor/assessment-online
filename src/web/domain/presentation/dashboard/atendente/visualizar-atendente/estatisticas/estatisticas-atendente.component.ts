@@ -100,21 +100,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
    */
   ngOnInit() {
     this.title.setTitle('Estatisticas do atendente');
-    // this.avaliacaoService
-    //   .listAvaliacoesByAtendenteKey(this.activatedRoute.snapshot.params['key'])
-    //   .subscribe(a => {
-    //     // console.log(a);
-    //     a.subscribe(b => {
-    //         // console.log(b);
-    //         b.subscribe(c => {
-    //           console.log(c)
-    //
-    //
-    //
-    //         })
-    //       }
-    //     )
-    //   });
     this.listEstatisticasByDates(this.dataInicio, this.dataFim);
   }
 
@@ -158,16 +143,12 @@ export class EstatisticasAtendenteComponent implements OnInit {
     this.initAvaliacoes();
     this.initResults();
 
-
-
     this.avaliacaoService
       .listAvaliacoesByAtendenteKey(this.activatedRoute.snapshot.params['key'])
       .subscribe(a => {
-        // console.log(a);
         a.subscribe(b => {
-            // console.log(b);
+            this.initAvaliacoes();
             b.subscribe(avaliacao => {
-              console.log(avaliacao)
 
               if (
                 (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY')))

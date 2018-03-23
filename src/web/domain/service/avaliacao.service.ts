@@ -18,52 +18,37 @@ export class AvaliacaoService {
     return this.avaliacaoRepository.find();
   }
 
-  public findOne(key: string): Observable<any> {
-    return this.avaliacaoRepository.findOne(key);
-  }
-
-  /**
-   *
-   * @param {Avaliacao} avaliacao
-   * @returns {PromiseLike<any>}
-   */
-  public save(avaliacao: Avaliacao): PromiseLike<any> {
-    const avaliacoesColaboradores = avaliacao.avaliacoesColaboradores;
-
-    delete avaliacao.avaliacoesColaboradores;
-
-    return this.avaliacaoRepository.save(avaliacao)
-      .then(result => {
-        avaliacoesColaboradores.forEach(avaliacaoColaborador => {
-          avaliacaoColaborador.avaliacao = result;
-          this.avaliacaoColaboradorRepository.save(avaliacaoColaborador)
-        })
-      });
-  }
-
-
   public listAvaliacoesByAtendenteKey(key: string): Observable<any> {
 
     // return this.colaboradorRepository.listColaboradoresByUsuarioKey(key);
 
     return this.colaboradorRepository.listColaboradoresByUsuarioKey(key)
-      .flatMap(colaboradores => colaboradores.map(
-        colaborador => {
-          return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key).flatMap(
-            avaliacoesColaborador =>
-              avaliacoesColaborador.map(
-                avaliacaoColaborador => {
-                  return this.findOne(avaliacaoColaborador.avaliacao.key)
-                    .map(x => {
-                      return x
-                    })
-                }
-              ))
-        }
-      )).map(o => {
-        console.log(o);
-        return o
-      });
+      .flatMap(colaboradores =>
+        colaboradores.map(
+          colaborador => {
+            return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
+            .flatMap(avaliacoesColaborador => avaliacoesColaborador.map(
+              avaliacaoColaborador => {
+                return this.findOne(avaliacaoColaborador.avaliacao.key)
+                  .map(x => {
+                    return x
+                  })
+              }
+            ));
+          }
+        )
+      );
+    // .map(b =>
+    //     // {
+    //     //   console.log(b);
+    //     /*  return */b
+    //   // }
+    // );
+    // .flatMap(a => {
+    //     console.log(a);
+    //     return a;
+    //   }
+    // );
 
 
     // return this.colaboradorRepository.listColaboradoresByUsuarioKey(key)
@@ -133,6 +118,30 @@ export class AvaliacaoService {
     //   });
     // return observable;
     // return null;
+  }
+
+  public findOne(key: string): Observable<any> {
+    return this.avaliacaoRepository.findOne(key);
+  }
+
+
+  /**
+   *
+   * @param {Avaliacao} avaliacao
+   * @returns {PromiseLike<any>}
+   */
+  public save(avaliacao: Avaliacao): PromiseLike<any> {
+    const avaliacoesColaboradores = avaliacao.avaliacoesColaboradores;
+
+    delete avaliacao.avaliacoesColaboradores;
+
+    return this.avaliacaoRepository.save(avaliacao)
+      .then(result => {
+        avaliacoesColaboradores.forEach(avaliacaoColaborador => {
+          avaliacaoColaborador.avaliacao = result;
+          this.avaliacaoColaboradorRepository.save(avaliacaoColaborador)
+        })
+      });
   }
 
 
