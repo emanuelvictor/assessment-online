@@ -89,10 +89,8 @@ export class EstatisticasAtendenteComponent implements OnInit {
    * @param {Title} title
    * @param {AvaliacaoService} avaliacaoService
    * @param {ActivatedRoute} activatedRoute
-   * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
-   * @param {ColaboradorRepository} colaboradorRepository
    */
-  constructor(private title: Title, private avaliacaoService: AvaliacaoService, private activatedRoute: ActivatedRoute, private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository, private colaboradorRepository: ColaboradorRepository) {
+  constructor(private title: Title, private avaliacaoService: AvaliacaoService, private activatedRoute: ActivatedRoute) {
   }
 
   /**
@@ -100,11 +98,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
    */
   ngOnInit() {
     this.title.setTitle('Estatisticas do atendente');
-    // this.avaliacaoService
-    //   .listAvaliacoesByAtendenteKey(this.activatedRoute.snapshot.params['key'])
-    //   .subscribe(x => {
-    //     console.log(x);
-    //   })
     this.listEstatisticasByDates(this.dataInicio, this.dataFim);
   }
 
@@ -123,12 +116,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
    *
    */
   initResults() {
-    // // Chart Multi
-    // this.multi[0].series[0] = {value: this.avaliacoes1, name: 'Terrível'};
-    // this.multi[0].series[1] = {value: this.avaliacoes2, name: 'Ruim'};
-    // this.multi[0].series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
-    // this.multi[0].series[3] = {value: this.avaliacoes4, name: 'Bacana'};
-    // this.multi[0].series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
     // Chart Multi
     this.multi = this.mapper.map((group: any) => {
       group.series = group.series.map((dataItem: any) => {
@@ -152,7 +139,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
     this.avaliacaoService
       .listAvaliacoesByAtendenteKey(this.activatedRoute.snapshot.params['key'])
       .subscribe(avaliacao => {
-        // console.log(avaliacao);
 
         if (
           (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY')))
