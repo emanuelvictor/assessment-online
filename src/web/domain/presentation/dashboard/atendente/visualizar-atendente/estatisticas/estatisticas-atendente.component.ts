@@ -146,12 +146,14 @@ export class EstatisticasAtendenteComponent implements OnInit {
    */
   public listEstatisticasByDates(dataInicio, dataFim) {
     this.initResults();
+    this.initAvaliacoes();
+
 
     this.avaliacaoService
       .listAvaliacoesByAtendenteKey(this.activatedRoute.snapshot.params['key'])
       .subscribe(avaliacao => {
-        console.log(avaliacao);
-        this.initAvaliacoes();
+        // console.log(avaliacao);
+
         if (
           (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY')))
           && (!dataInicio || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(moment(dataInicio, 'DD/MM/YYYY')))

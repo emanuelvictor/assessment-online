@@ -20,91 +20,120 @@ export class AvaliacaoService {
   constructor(private avaliacaoRepository: AvaliacaoRepository, private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository, private colaboradorRepository: ColaboradorRepository) {
   }
 
+
   public find(): Observable<any[]> {
     return this.avaliacaoRepository.find();
   }
 
+
   public listAvaliacoesByAtendenteKey(key: string): Observable<any> {
-    return new Observable
-    (
-      observer => {
-        this.colaboradorRepository.listColaboradoresByUsuarioKey(key)
-          .flatMap(colaboradores =>
-            colaboradores.map(
-              colaborador => {
-                return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
-                  .flatMap(avaliacoesColaborador => avaliacoesColaborador.map(
-                    avaliacaoColaborador => {
-                      return this.findOne(avaliacaoColaborador.avaliacao.key)
-                        .map(x => {
-                          return x
-                        })
-                    }
-                  ));
-              }
+
+    return this.colaboradorRepository.listColaboradoresByUsuarioKey(key)
+      .flatMap(colaboradores =>
+        {
+          return colaboradores.map(
+            colaborador => {
+              return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
+            }
+          )
+        }
+      )
+      .flatMap((avaliacoesColaboradoresObservers: Observable<any>) =>
+          {
+            return avaliacoesColaboradoresObservers
+              .flatMap(avaliacaoColaborador =>
+                avaliacaoColaborador.map(avalicaoColaborador =>
+                {
+                  return this.findOne(avalicaoColaborador.avaliacao.key)
+                }
+              )
             )
-          )
-          .subscribe((a: Observable<any>) =>
-            a.subscribe((b: Observable<any>) => {
-              b.subscribe(c => {
-                observer.next(c);
-              })
-            })
-          )
+          }
+        )
+      .flatMap((a: Observable<any>) => {
+        return a
+      });
 
-        // /**
-        //  * Estudar melhor os observables e passar para o serviço
-        //  */
-        // this.colaboradorRepository.listColaboradorByUnidadeKey(key)
-        //   .subscribe(colaboradores => {
-        //     colaboradores.forEach(colaborador => {
-        //       this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
-        //         .subscribe(avaliacoesColaborador => {
-        //           avaliacoesColaborador.forEach(avaliacaoColaborador => {
-        //             this.findOne(avaliacaoColaborador.avaliacao.key)
-        //               .subscribe(avaliacao => {
-        //                 console.log(avaliacao);
-        //                 observer.next(avaliacao);
-        //               });
-        //           })
-        //         })
-        //     })
-        //   });
-
-        // this.get(key)
-        //   .subscribe(a => {
-        //     a.subscribe(b => {
-        //       b.subscribe(c => {
-        //         observer.next(c);
-        //       })
-        //     })
-        //   })
-
-
-        // this.colaboradorRepository.listColaboradoresByUsuarioKey(key)
-        //   .flatMap(colaboradores =>
-        //     colaboradores.map(
-        //       colaborador => {
-        //         return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
-        //           .flatMap(avaliacoesColaborador => avaliacoesColaborador.map(
-        //             avaliacaoColaborador => {
-        //               return this.findOne(avaliacaoColaborador.avaliacao.key)
-        //                 .map(x => {
-        //                   return x
-        //                 })
-        //             }
-        //           ));
-        //       }
-        //     )
-        //   )
-        //   .subscribe(a => {
-        //     a.subscribe(b => {
-        //
-        //     })
-        //   });
-
-      }
-    );
+    // return new Observable
+    // (
+    //   observer => {
+    //     this.colaboradorRepository.listColaboradoresByUsuarioKey(key)
+    //       .flatMap(colaboradores =>
+    //         colaboradores.map(
+    //           colaborador => {
+    //             return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
+    //               .flatMap(avaliacoesColaborador => avaliacoesColaborador.map(
+    //                 avaliacaoColaborador => {
+    //                   return this.findOne(avaliacaoColaborador.avaliacao.key)
+    //                     .map(x => {
+    //                       return x
+    //                     })
+    //                 }
+    //               ));
+    //           }
+    //         )
+    //       )
+    //       .subscribe((a: Observable<any>) =>
+    //         a.subscribe((b: Observable<any>) => {
+    //           b.subscribe(c => {
+    //             observer.next(c);
+    //           })
+    //         })
+    //       )
+    //
+    //     // /**
+    //     //  * Estudar melhor os observables e passar para o serviço
+    //     //  */
+    //     // this.colaboradorRepository.listColaboradorByUnidadeKey(key)
+    //     //   .subscribe(colaboradores => {
+    //     //     colaboradores.forEach(colaborador => {
+    //     //       this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
+    //     //         .subscribe(avaliacoesColaborador => {
+    //     //           avaliacoesColaborador.forEach(avaliacaoColaborador => {
+    //     //             this.findOne(avaliacaoColaborador.avaliacao.key)
+    //     //               .subscribe(avaliacao => {
+    //     //                 console.log(avaliacao);
+    //     //                 observer.next(avaliacao);
+    //     //               });
+    //     //           })
+    //     //         })
+    //     //     })
+    //     //   });
+    //
+    //     // this.get(key)
+    //     //   .subscribe(a => {
+    //     //     a.subscribe(b => {
+    //     //       b.subscribe(c => {
+    //     //         observer.next(c);
+    //     //       })
+    //     //     })
+    //     //   })
+    //
+    //
+    //     // this.colaboradorRepository.listColaboradoresByUsuarioKey(key)
+    //     //   .flatMap(colaboradores =>
+    //     //     colaboradores.map(
+    //     //       colaborador => {
+    //     //         return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
+    //     //           .flatMap(avaliacoesColaborador => avaliacoesColaborador.map(
+    //     //             avaliacaoColaborador => {
+    //     //               return this.findOne(avaliacaoColaborador.avaliacao.key)
+    //     //                 .map(x => {
+    //     //                   return x
+    //     //                 })
+    //     //             }
+    //     //           ));
+    //     //       }
+    //     //     )
+    //     //   )
+    //     //   .subscribe(a => {
+    //     //     a.subscribe(b => {
+    //     //
+    //     //     })
+    //     //   });
+    //
+    //   }
+    // );
 
     // return this.colaboradorRepository.listColaboradoresByUsuarioKey(key);
 
