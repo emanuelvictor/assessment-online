@@ -39,5 +39,16 @@
       </div>
     </mat-list-item>
 
+    <mat-list-item *ngIf="authenticatedUser?.isAdministrador" class="push-bottom" routerLink="/dashboard/ranking"
+                   routerLinkActive #rlaRanking="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaRanking.isActive}">
+      <div layout="row" flex class="pad-left">
+        <span flex="10"></span>
+        <mat-icon matListAvatar flex>assessment</mat-icon>
+        <h3 matLine style="color: white" flex="85"> Ranking </h3>
+      </div>
+      ,
+    </mat-list-item>
+
   </mat-list>
 </mat-nav-list>

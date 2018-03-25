@@ -57,6 +57,16 @@ const routes: Routes = [
             {path: ':key', component: VisualizarUnidadeComponent},
             {path: ':key/estatisticas', component: EstatisticasUnidadeComponent}
           ]
+        },
+        {
+          path: 'ranking', component: UnidadeViewComponent,
+          children: [
+            {path: '', component: ConsultarUnidadesComponent},
+            {path: 'inserir', component: InserirUnidadeComponent},
+            {path: ':key/alterar', component: AlterarUnidadeComponent},
+            {path: ':key', component: VisualizarUnidadeComponent},
+            {path: ':key/estatisticas', component: EstatisticasUnidadeComponent}
+          ]
         }
       ]
   }

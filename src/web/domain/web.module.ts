@@ -75,6 +75,7 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {EstatisticasUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/estatisticas/estatisticas-unidade.component';
 import localePt from '@angular/common/locales/pt';
 import {EvDatepicker} from './presentation/controls/ev-datepicker/ev-datepicker';
+import {RankingViewComponent} from './presentation/dashboard/ranking/ranking-view.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -140,7 +141,10 @@ registerLocaleData(localePt, 'pt-BR');
     InserirUnidadeComponent,
     UnidadeFormComponent,
     UnidadeItemComponent,
-    EstatisticasUnidadeComponent
+    EstatisticasUnidadeComponent,
+
+    // Ranking
+    RankingViewComponent
   ],
   imports: [
     SharedModule,
