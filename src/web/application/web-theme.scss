@@ -9,3 +9,12 @@ visualizar-atendente, visualizar-minha-conta {
     margin: 0 !important;
   }
 }
+
+#date-filters {
+  margin-top: 10px;
+  margin-right: 5px;
+  margin-left: -24px;
+  .mat-form-field-underline {
+    height: 0 !important;
+  }
+}

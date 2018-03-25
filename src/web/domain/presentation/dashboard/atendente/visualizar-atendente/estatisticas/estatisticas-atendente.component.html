@@ -1,25 +1,25 @@
-<mat-card class='push-none bgc-grey-50'>
+<mat-card class='push-none bgc-grey-50' style='border-radius: 0'>
   <div layout='row' layout-align='center center'>
     <div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>
 
       <div layout='row' layout-margin>
-        <ev-datepicker layout="row"
-                       [(dataInput)]="dataInicio"
-                       style='margin-bottom: -14px;padding-top: 0;'>
-          <mat-form-field>
+        <ev-datepicker layout='row'
+                       [(dataInput)]='dataInicio'
+                       style='margin-bottom: -14px; padding-top: 0; margin-left: -8px' flex>
+          <mat-form-field style='width: 210px;'>
             <input [(ngModel)]='dataInicio'
-                   placeholder='Data de criação - Início'
+                   placeholder='Data da avaliação - Início'
                    matInput name='dataInicio' id='dataInicio'
                    [textMask]='{mask: masks.date, guide: false}'>
           </mat-form-field>
         </ev-datepicker>
 
-        <ev-datepicker layout="row"
-                       [(dataInput)]="dataFim"
-                       style='margin-bottom: -14px;padding-top: 0;'>
-          <mat-form-field>
+        <ev-datepicker layout='row'
+                       [(dataInput)]='dataFim'
+                       style='margin-bottom: -14px;padding-top: 0' flex>
+          <mat-form-field style='width: 210px;'>
             <input [(ngModel)]='dataFim'
-                   placeholder='Data de criação - Fim'
+                   placeholder='Data da avaliação - Fim'
                    matInput name='dataFim' id='dataFim'
                    [textMask]='{mask: masks.date, guide: false}'>
           </mat-form-field>

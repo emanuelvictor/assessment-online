@@ -132,6 +132,7 @@ export class EstatisticasAtendenteComponent implements OnInit {
    * @param dataFim
    */
   public listEstatisticasByDates(dataInicio, dataFim) {
+    console.log('asfda');
     this.initResults();
     this.initAvaliacoes();
 
