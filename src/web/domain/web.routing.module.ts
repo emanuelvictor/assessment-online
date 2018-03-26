@@ -65,13 +65,35 @@ const routes: Routes = [
           ]
         },
         {
+          path: 'melhores-unidades', component: UnidadeRankingViewComponent,
+          children: [
+            {
+              path: '', component: SelecionarUnidadeComponent
+            },
+            {
+              path: ':key', component: VisualizarUnidadeComponent
+            }
+          ]
+        },
+        {
+          path: 'melhores-atendentes', component: AtendenteRankingViewComponent,
+          children: [
+            {
+              path: '', component: SelecionarAtendenteComponent
+            },
+            {
+              path: ':key', component: VisualizarAtendenteComponent
+            }
+          ]
+        },
+        {
           path: 'ranking', component: RankingViewComponent,
           children: [
             {
               path: '', component: SelecionarRankingComponent,
             },
             {
-              path: 'unidades', component: UnidadeRankingViewComponent,
+              path: 'melhores-unidades', component: UnidadeRankingViewComponent,
               children: [
                 {
                   path: '', component: SelecionarUnidadeComponent
@@ -82,7 +104,7 @@ const routes: Routes = [
               ]
             },
             {
-              path: 'atendentes', component: AtendenteRankingViewComponent,
+              path: 'melhores-atendentes', component: AtendenteRankingViewComponent,
               children: [
                 {
                   path: '', component: SelecionarAtendenteComponent

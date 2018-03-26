@@ -34,14 +34,14 @@
                    [ngClass]="{'menu-active': rlaFornecedores.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
-        <mat-icon matListAvatar flex>store</mat-icon>
+        <mat-icon matListAv                                                                                                                                                                                                                   atar flex>store</mat-icon>
         <h3 matLine style="color: white" flex="85"> Unidades </h3>
       </div>
     </mat-list-item>
 
-    <mat-list-item *ngIf="authenticatedUser?.isAdministrador" class="push-bottom" routerLink="/dashboard/ranking"
-                   routerLinkActive #rlaRanking="routerLinkActive"
-                   [ngClass]="{'menu-active': rlaRanking.isActive}">
+    <mat-list-item *ngIf="authenticatedUser?.isAdministrador" class="push-bottom" routerLink="/dashboard/melhores-atendentes"
+                   routerLinkActive #rlaMelhoresAtendentes="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaMelhoresAtendentes.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>supervisor_account</mat-icon>
@@ -49,9 +49,9 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item *ngIf="authenticatedUser?.isAdministrador" class="push-bottom" routerLink="/dashboard/ranking"
-                   routerLinkActive #rlaRanking="routerLinkActive"
-                   [ngClass]="{'menu-active': rlaRanking.isActive}">
+    <mat-list-item *ngIf="authenticatedUser?.isAdministrador" class="push-bottom" routerLink="/dashboard/melhores-unidades"
+                   routerLinkActive #rlaMelhoresUnidades="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaMelhoresUnidades.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>assessment</mat-icon>
