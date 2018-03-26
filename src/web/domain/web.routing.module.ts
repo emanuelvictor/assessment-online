@@ -13,11 +13,17 @@ import {AtendenteViewComponent} from './presentation/dashboard/atendente/atenden
 import {UnidadeViewComponent} from './presentation/dashboard/unidade/unidade-view.component';
 import {AlterarUnidadeComponent} from './presentation/dashboard/unidade/alterar-unidade/alterar-unidade.component';
 import {InserirUnidadeComponent} from './presentation/dashboard/unidade/inserir-unidade/inserir-unidade.component';
-import {ConsultarUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component';
 import {VisualizarUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/visualizar-unidade.component';
 import {AuthenticationService} from './service/authentication.service';
 import {EstatisticasAtendenteComponent} from './presentation/dashboard/atendente/visualizar-atendente/estatisticas/estatisticas-atendente.component';
-import {EstatisticasUnidadeComponent} from "./presentation/dashboard/unidade/visualizar-unidade/estatisticas/estatisticas-unidade.component";
+import {EstatisticasUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/estatisticas/estatisticas-unidade.component';
+import {ConsultarUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component';
+import {SelecionarRankingComponent} from './presentation/dashboard/ranking/selecionar-ranking/selecionar-ranking.component';
+import {SelecionarUnidadeComponent} from './presentation/dashboard/ranking/unidade/selecionar-unidade/selecionar-unidade.component';
+import {RankingViewComponent} from './presentation/dashboard/ranking/ranking-view.component';
+import {UnidadeRankingViewComponent} from './presentation/dashboard/ranking/unidade/unidade-ranking-view.component';
+import {AtendenteRankingViewComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking-view.component';
+import {SelecionarAtendenteComponent} from './presentation/dashboard/ranking/atendente/selecionar-atendente/selecionar-atendente.component';
 
 
 const routes: Routes = [
@@ -59,13 +65,33 @@ const routes: Routes = [
           ]
         },
         {
-          path: 'ranking', component: UnidadeViewComponent,
+          path: 'ranking', component: RankingViewComponent,
           children: [
-            {path: '', component: ConsultarUnidadesComponent},
-            {path: 'inserir', component: InserirUnidadeComponent},
-            {path: ':key/alterar', component: AlterarUnidadeComponent},
-            {path: ':key', component: VisualizarUnidadeComponent},
-            {path: ':key/estatisticas', component: EstatisticasUnidadeComponent}
+            {
+              path: '', component: SelecionarRankingComponent,
+            },
+            {
+              path: 'unidades', component: UnidadeRankingViewComponent,
+              children: [
+                {
+                  path: '', component: SelecionarUnidadeComponent
+                },
+                {
+                  path: ':key', component: VisualizarUnidadeComponent
+                }
+              ]
+            },
+            {
+              path: 'atendentes', component: AtendenteRankingViewComponent,
+              children: [
+                {
+                  path: '', component: SelecionarAtendenteComponent
+                },
+                {
+                  path: ':key', component: VisualizarAtendenteComponent
+                }
+              ]
+            },
           ]
         }
       ]

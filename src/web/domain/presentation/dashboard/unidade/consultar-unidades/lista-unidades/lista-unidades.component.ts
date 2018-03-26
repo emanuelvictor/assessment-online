@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {UsuarioService} from '../../../../service/usuario.service';
-import {UnidadeService} from '../../../../service/unidade.service';
+import {UnidadeService} from '../../../../../service/unidade.service';
+import {UsuarioService} from '../../../../../service/usuario.service';
 
 @Component({
-  selector: 'consultar-unidades',
-  templateUrl: './consultar-unidades.component.html',
-  styleUrls: ['./consultar-unidades.component.css']
+  selector: 'lista-unidades',
+  templateUrl: './lista-unidades.component.html',
+  styleUrls: ['./lista-unidades.component.css']
 })
-export class ConsultarUnidadesComponent implements OnInit {
+export class ListaUnidadesComponent implements OnInit {
 
   /**
    *
@@ -42,6 +42,7 @@ export class ConsultarUnidadesComponent implements OnInit {
   public listUnidadesByFilters() {
 
 
+
     this.unidadeService.find().subscribe(result => {
       this.unidades = result;
     });
@@ -52,7 +53,7 @@ export class ConsultarUnidadesComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.snackBar.open(message, "Fechar", {
       duration: 5000
     });
   }

@@ -1,56 +1,8 @@
-<!--<mat-card class="push-none bgc-grey-50 filters-card">-->
-  <!--<div layout="row" layout-align="center center">-->
-    <!--<div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>-->
-
-      <!--<td-chips placeholder="Pesquisar por nome" [(ngModel)]="filter"-->
-                <!--flex-md="40" flex-gt-md="45" flex-gt-lg="50"-->
-                <!--(add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>-->
-
-      <!--<td-chips placeholder="Pesquisar por endereço" [(ngModel)]="enderecoFilters"-->
-                <!--flex="30"-->
-                <!--(add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>-->
-
-      <!--<div flex-gt-md></div>-->
-
-      <!--<add-button routerLink="inserir"></add-button>-->
-    <!--</div>-->
-  <!--</div>-->
-  <!---->
-<!--</mat-card>-->
-
-
-
-<!--Listagem-->
-<div layout="row" layout-align="center start">
-
-  <div layout="column" flex="90">
-
-    <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center">
-      <span> Resultado da pesquisa </span>
-      <div flex></div>
-      <span> {{ unidades?.length}} resultados </span>
-      <add-button routerLink="inserir" matTooltip="Inserir uma nova unidade" [matTooltipPosition]="'below'"></add-button>
-    </div>
-
-    <mat-card class="push-none bgc-grey-50">
-      <mat-nav-list>
-        <div *ngFor="let unidade of unidades" routerLink="{{unidade?.key}}">
-          <mat-list-item>
-            <h3 matLine> {{unidade?.nome}} </h3>
-            <p matLine *ngIf="unidade?.endereco?.cidade?.nome">
-              {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.numero}}, {{unidade?.endereco?.bairro}} -
-              {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.sigla}} </p>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-        </div>
-      </mat-nav-list>
-    </mat-card>
-
-    <!--<div layout="row" class="push-top push-bottom">-->
-      <!--<button mat-raised-button class="tc-grey-500" (click)="showMore()" flex *ngIf="!page?.last">-->
-        <!--VER MAIS-->
-      <!--</button>-->
-    <!--</div>-->
-
+<lista-unidades>
+  <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center">
+    <span> Resultado da pesquisa </span>
+    <div flex></div>
+    <span> {{ unidades?.length}} resultados </span>
+    <add-button routerLink="inserir" matTooltip="Inserir uma nova unidade" [matTooltipPosition]="'below'"></add-button>
   </div>
-</div>
+</lista-unidades>

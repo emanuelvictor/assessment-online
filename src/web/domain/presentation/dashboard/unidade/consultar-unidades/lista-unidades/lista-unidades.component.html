@@ -1,0 +1,25 @@
+<!--Listagem-->
+<div layout="row" layout-align="center start">
+
+  <div layout="column" flex="90">
+
+    <ng-content>
+
+    </ng-content>
+
+
+    <mat-card class="push-none bgc-grey-50">
+      <mat-nav-list>
+        <div *ngFor="let unidade of unidades" routerLink="{{unidade?.key}}">
+          <mat-list-item>
+            <h3 matLine> {{unidade?.nome}} </h3>
+            <p matLine *ngIf="unidade?.endereco?.cidade?.nome">
+              {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.numero}}, {{unidade?.endereco?.bairro}} -
+              {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.sigla}} </p>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-nav-list>
+    </mat-card>
+  </div>
+</div>

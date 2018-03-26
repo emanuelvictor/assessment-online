@@ -51,7 +51,6 @@ import {AlterarUnidadeComponent} from './presentation/dashboard/unidade/alterar-
 import {VisualizarUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/visualizar-unidade.component';
 import {InserirUnidadeComponent} from './presentation/dashboard/unidade/inserir-unidade/inserir-unidade.component';
 import {UnidadeFormComponent} from './presentation/dashboard/unidade/inserir-unidade/unidade-form/unidade-form.component';
-import {ConsultarUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component';
 import {UnidadeService} from './service/unidade.service';
 import {AtendenteFormComponent} from './presentation/dashboard/atendente/inserir-atendente/usuario-form/usuario-form.component';
 import {UnidadeItemComponent} from './presentation/dashboard/atendente/consultar-atendentes/unidade-item/unidade-item.component';
@@ -75,7 +74,14 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {EstatisticasUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/estatisticas/estatisticas-unidade.component';
 import localePt from '@angular/common/locales/pt';
 import {EvDatepicker} from './presentation/controls/ev-datepicker/ev-datepicker';
+import {SelecionarRankingComponent} from './presentation/dashboard/ranking/selecionar-ranking/selecionar-ranking.component';
+import {ListaUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/lista-unidades/lista-unidades.component';
+import {ConsultarUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component';
+import {SelecionarUnidadeComponent} from './presentation/dashboard/ranking/unidade/selecionar-unidade/selecionar-unidade.component';
 import {RankingViewComponent} from './presentation/dashboard/ranking/ranking-view.component';
+import {UnidadeRankingViewComponent} from './presentation/dashboard/ranking/unidade/unidade-ranking-view.component';
+import {SelecionarAtendenteComponent} from './presentation/dashboard/ranking/atendente/selecionar-atendente/selecionar-atendente.component';
+import {AtendenteRankingViewComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking-view.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -135,6 +141,7 @@ registerLocaleData(localePt, 'pt-BR');
 
     // Unidades
     UnidadeViewComponent,
+    ListaUnidadesComponent,
     ConsultarUnidadesComponent,
     AlterarUnidadeComponent,
     VisualizarUnidadeComponent,
@@ -144,7 +151,12 @@ registerLocaleData(localePt, 'pt-BR');
     EstatisticasUnidadeComponent,
 
     // Ranking
-    RankingViewComponent
+    RankingViewComponent,
+    SelecionarRankingComponent,
+    SelecionarUnidadeComponent,
+    UnidadeRankingViewComponent,
+    SelecionarAtendenteComponent,
+    AtendenteRankingViewComponent,
   ],
   imports: [
     SharedModule,
