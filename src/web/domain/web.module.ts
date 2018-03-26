@@ -74,14 +74,14 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {EstatisticasUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/estatisticas/estatisticas-unidade.component';
 import localePt from '@angular/common/locales/pt';
 import {EvDatepicker} from './presentation/controls/ev-datepicker/ev-datepicker';
-import {SelecionarRankingComponent} from './presentation/dashboard/ranking/selecionar-ranking/selecionar-ranking.component';
 import {ListaUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/lista-unidades/lista-unidades.component';
 import {ConsultarUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component';
-import {SelecionarUnidadeComponent} from './presentation/dashboard/ranking/unidade/selecionar-unidade/selecionar-unidade.component';
-import {RankingViewComponent} from './presentation/dashboard/ranking/ranking-view.component';
+import {UnidadeRankingComponent} from './presentation/dashboard/ranking/unidade/unidade-ranking/unidade-ranking.component';
 import {UnidadeRankingViewComponent} from './presentation/dashboard/ranking/unidade/unidade-ranking-view.component';
-import {SelecionarAtendenteComponent} from './presentation/dashboard/ranking/atendente/selecionar-atendente/selecionar-atendente.component';
+import {AtendenteRankingComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking/atendente-ranking.component';
 import {AtendenteRankingViewComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking-view.component';
+import {RankingComponent} from './presentation/dashboard/ranking/ranking.component';
+import {SelecionarUnidadeComponent} from './presentation/dashboard/ranking/atendente/selecionar-unidade/selecionar-unidade.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -151,12 +151,12 @@ registerLocaleData(localePt, 'pt-BR');
     EstatisticasUnidadeComponent,
 
     // Ranking
-    RankingViewComponent,
-    SelecionarRankingComponent,
     SelecionarUnidadeComponent,
+    UnidadeRankingComponent,
     UnidadeRankingViewComponent,
-    SelecionarAtendenteComponent,
+    AtendenteRankingComponent,
     AtendenteRankingViewComponent,
+    RankingComponent
   ],
   imports: [
     SharedModule,

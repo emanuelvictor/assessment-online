@@ -1,26 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 
 @Component({
-  selector: 'selecionar-ranking',
-  templateUrl: './selecionar-ranking.component.html',
-  styleUrls: ['./selecionar-ranking.component.css']
+  selector: 'unidade-ranking',
+  templateUrl: './unidade-ranking.component.html',
+  styleUrls: ['./unidade-ranking.component.css']
 })
-export class SelecionarRankingComponent implements OnInit {
-
-  /**
-   *
-   */
-  public unidades: any;
-
+export class UnidadeRankingComponent implements OnInit {
 
   /**
    *
    * @param {Router} router
    * @param {MatSnackBar} snackBar
+   * @param {MatDialog} dialog
    */
-  constructor(public router: Router, public snackBar: MatSnackBar) {
+  constructor(public router: Router, public snackBar: MatSnackBar, public dialog: MatDialog) {
   }
 
   /**

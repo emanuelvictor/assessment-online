@@ -3,11 +3,11 @@ import {Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
 
 @Component({
-  selector: 'selecionar-atendente',
-  templateUrl: './selecionar-atendente.component.html',
-  styleUrls: ['./selecionar-atendente.component.css']
+  selector: 'atendente-ranking',
+  templateUrl: './atendente-ranking.component.html',
+  styleUrls: ['./atendente-ranking.component.css']
 })
-export class SelecionarAtendenteComponent implements OnInit {
+export class AtendenteRankingComponent implements OnInit {
 
   /**
    *

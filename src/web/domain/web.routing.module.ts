@@ -18,12 +18,11 @@ import {AuthenticationService} from './service/authentication.service';
 import {EstatisticasAtendenteComponent} from './presentation/dashboard/atendente/visualizar-atendente/estatisticas/estatisticas-atendente.component';
 import {EstatisticasUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/estatisticas/estatisticas-unidade.component';
 import {ConsultarUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component';
-import {SelecionarRankingComponent} from './presentation/dashboard/ranking/selecionar-ranking/selecionar-ranking.component';
-import {SelecionarUnidadeComponent} from './presentation/dashboard/ranking/unidade/selecionar-unidade/selecionar-unidade.component';
-import {RankingViewComponent} from './presentation/dashboard/ranking/ranking-view.component';
+import {UnidadeRankingComponent} from './presentation/dashboard/ranking/unidade/unidade-ranking/unidade-ranking.component';
 import {UnidadeRankingViewComponent} from './presentation/dashboard/ranking/unidade/unidade-ranking-view.component';
 import {AtendenteRankingViewComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking-view.component';
-import {SelecionarAtendenteComponent} from './presentation/dashboard/ranking/atendente/selecionar-atendente/selecionar-atendente.component';
+import {AtendenteRankingComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking/atendente-ranking.component';
+import {SelecionarUnidadeComponent} from './presentation/dashboard/ranking/atendente/selecionar-unidade/selecionar-unidade.component';
 
 
 const routes: Routes = [
@@ -65,55 +64,22 @@ const routes: Routes = [
           ]
         },
         {
-          path: 'melhores-unidades', component: UnidadeRankingViewComponent,
+          path: 'melhores-atendentes', component: AtendenteRankingViewComponent,
           children: [
             {
               path: '', component: SelecionarUnidadeComponent
             },
             {
-              path: ':key', component: VisualizarUnidadeComponent
+              path: ':key', component: AtendenteRankingComponent
             }
           ]
         },
         {
-          path: 'melhores-atendentes', component: AtendenteRankingViewComponent,
+          path: 'melhores-unidades', component: UnidadeRankingViewComponent,
           children: [
             {
-              path: '', component: SelecionarAtendenteComponent
-            },
-            {
-              path: ':key', component: VisualizarAtendenteComponent
+              path: '', component: UnidadeRankingComponent
             }
-          ]
-        },
-        {
-          path: 'ranking', component: RankingViewComponent,
-          children: [
-            {
-              path: '', component: SelecionarRankingComponent,
-            },
-            {
-              path: 'melhores-unidades', component: UnidadeRankingViewComponent,
-              children: [
-                {
-                  path: '', component: SelecionarUnidadeComponent
-                },
-                {
-                  path: ':key', component: VisualizarUnidadeComponent
-                }
-              ]
-            },
-            {
-              path: 'melhores-atendentes', component: AtendenteRankingViewComponent,
-              children: [
-                {
-                  path: '', component: SelecionarAtendenteComponent
-                },
-                {
-                  path: ':key', component: VisualizarAtendenteComponent
-                }
-              ]
-            },
           ]
         }
       ]
