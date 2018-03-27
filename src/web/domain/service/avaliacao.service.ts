@@ -5,8 +5,6 @@ import {AvaliacaoColaboradorRepository} from '../repository/avaliacao-colaborado
 import {Avaliacao} from '../entity/avaliacao/Avaliacao.model';
 import {ColaboradorRepository} from '../repository/colaborador.repository';
 import 'rxjs/Rx';
-import {from} from 'rxjs/observable/from';
-import {of} from 'rxjs/observable/of';
 
 @Injectable()
 export class AvaliacaoService {
@@ -113,11 +111,17 @@ export class AvaliacaoService {
         avaliacoesColaboradores.forEach(avaliacaoColaborador => {
           avaliacaoColaborador.avaliacao = result;
           this.avaliacaoColaboradorRepository.save(avaliacaoColaborador)
+            .then(saved => {
+
+            })
         })
       });
   }
 
-
+  /**
+   * @param avaliacao
+   * @returns {Promise<any>}
+   */
   public remove(avaliacao: any): Promise<any> {
     return this.avaliacaoRepository.remove(avaliacao);
   }
