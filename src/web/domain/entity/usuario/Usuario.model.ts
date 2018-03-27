@@ -20,34 +20,57 @@ export class Usuario extends Abstract {
 
   public endereco: Endereco;
 
-  public avaliacoes1: number = 0;
+  public avaliacoes1 = 0;
 
-  public avaliacoes2: number = 0;
+  public avaliacoes2 = 0;
 
-  public avaliacoes3: number = 0;
+  public avaliacoes3 = 0;
 
-  public avaliacoes4: number = 0;
+  public avaliacoes4 = 0;
 
-  public avaliacoes5: number = 0;
+  public avaliacoes5 = 0;
 
-  /**
-   *
-   * @returns {number}
-   */
-  get media(): number {
+  public media = 0;
 
-    const soma = this.avaliacoes1 + this.avaliacoes2 + this.avaliacoes3 + this.avaliacoes4 + this.avaliacoes5;
+}
 
-    const avaliacoes2 = this.avaliacoes2 * 2;
+/**
+ *
+ * @returns {number}
+ */
+export function calcularMedia(avaliavel): number {
+  let avaliacoes1 = 0;
 
-    const avaliacoes3 = this.avaliacoes3 * 3;
+  let avaliacoes2 = 0;
 
-    const avaliacoes4 = this.avaliacoes4 * 4;
+  let avaliacoes3 = 0;
 
-    const avaliacoes5 = this.avaliacoes5 * 5;
+  let avaliacoes4 = 0;
 
-    const somaMedia = this.avaliacoes1 + avaliacoes2 + avaliacoes3 + avaliacoes4 + avaliacoes5;
-
-    return somaMedia / soma;
+  let avaliacoes5 = 0;
+  let soma = 0;
+  if (avaliavel.avaliacoes1) {
+    soma = soma + avaliavel.avaliacoes1;
+    avaliacoes1 = avaliavel.avaliacoes1 * 2;
   }
+  if (avaliavel.avaliacoes2) {
+    avaliacoes2 = avaliavel.avaliacoes2 * 2;
+    soma = soma + avaliavel.avaliacoes2;
+  }
+  if (avaliavel.avaliacoes3) {
+    avaliacoes3 = avaliavel.avaliacoes3 * 3;
+    soma = soma + avaliavel.avaliacoes3;
+  }
+  if (avaliavel.avaliacoes4) {
+    avaliacoes4 = avaliavel.avaliacoes4 * 4;
+    soma = soma + avaliavel.avaliacoes4;
+  }
+  if (avaliavel.avaliacoes5) {
+    avaliacoes5 = avaliavel.avaliacoes5 * 5;
+    soma = soma + avaliavel.avaliacoes5;
+  }
+
+  const somaMedia = avaliacoes1 + avaliacoes2 + avaliacoes3 + avaliacoes4 + avaliacoes5;
+
+  return somaMedia / soma;
 }

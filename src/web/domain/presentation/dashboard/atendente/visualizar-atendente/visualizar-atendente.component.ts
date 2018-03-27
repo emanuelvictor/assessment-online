@@ -6,7 +6,7 @@ import {AlterarSenhaComponent} from './alterar-senha/alterar-senha.component';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {UnidadeService} from '../../../../service/unidade.service';
-import {Usuario} from '../../../../entity/usuario/Usuario.model';
+import {calcularMedia, Usuario} from '../../../../entity/usuario/Usuario.model';
 import {Colaborador} from "../../../../entity/colaborador/Colaborador.model";
 import {ColaboradorService} from "../../../../service/colaborador.service";
 
@@ -31,7 +31,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    * @type {Usuario}
    */
-  atendente: Usuario;
+  atendente: Usuario = new Usuario();
 
   /**
    *
@@ -74,8 +74,9 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {string} atendenteKey
    */
   public find(atendenteKey: string) {
-    this.usuarioService.findOne(atendenteKey).subscribe(atendente => {
+    this.usuarioService.findOne(atendenteKey).subscribe((atendente: any) => {
       this.atendente = atendente;
+      this.atendente.media = calcularMedia(atendente);
     })
   }
 

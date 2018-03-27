@@ -16,7 +16,7 @@ export class VisualizarDadosUsuarioComponent implements OnInit {
   /**
    *
    */
-  foto : string;
+  foto: string;
 
   /**
    *

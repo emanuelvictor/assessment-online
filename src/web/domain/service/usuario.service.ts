@@ -6,8 +6,8 @@ import {Usuario} from '../entity/usuario/Usuario.model';
 import {FileRepository} from '../../infrastructure/repository/file/file.repository';
 import {MatSnackBar} from '@angular/material';
 import {FotoLoadingComponent} from '../presentation/controls/foto-loading/foto-loading.component';
-import {ColaboradorRepository} from "../repository/colaborador.repository";
-import {AvaliacaoColaboradorRepository} from "../repository/avaliacao-colaborador.repository";
+import {ColaboradorRepository} from '../repository/colaborador.repository';
+import {AvaliacaoColaboradorRepository} from '../repository/avaliacao-colaborador.repository';
 
 /**
  *
@@ -42,7 +42,7 @@ export class UsuarioService {
    * @param {string} key
    * @returns {Observable<any>}
    */
-  public findOne(key: string): Observable<any> {
+  public findOne(key: string): Observable<Usuario> {
     return this.usuarioRepository.findOne(key);
   }
 
@@ -94,14 +94,15 @@ export class UsuarioService {
           } else {
 
             if (!urlFile) {
-              this.fileRepository.remove(result.key).then(result => {
-                usuario.urlFile = null;
-                this.usuarioRepository.saveWithAccount(usuario)
-                  .then(resulted => {
-                    console.log(resulted);
-                    resolve(resulted);
-                  });
-              });
+              this.fileRepository.remove(result.key)
+                .then(result => {
+                  usuario.urlFile = null;
+                  this.usuarioRepository.saveWithAccount(usuario)
+                    .then(resulted => {
+                      console.log(resulted);
+                      resolve(resulted);
+                    });
+                });
             }
 
             else resolve(result);
