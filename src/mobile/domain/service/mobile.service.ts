@@ -2,7 +2,6 @@
  * Created by emanuel on 13/06/17.
  */
 import {Injectable} from '@angular/core';
-import {FirebaseListObservable} from 'angularfire2/database-deprecated';
 import {Avaliacao} from '../../../web/domain/entity/avaliacao/Avaliacao.model';
 import {Unidade} from '../../../web/domain/entity/unidade/Unidade.model';
 import {Colaborador} from '../../../web/domain/entity/colaborador/Colaborador.model';
@@ -51,7 +50,7 @@ export class MobileService {
     this.mdSnackBarConfig.duration = 5000;
   }
 
-  public reset(){
+  public reset() {
     this.avaliacao = new Avaliacao();
     this.colaboradores = [];
   }
@@ -92,19 +91,35 @@ export class MobileService {
      * Percorre os colaboradores
      */
     this.colaboradores.forEach(colaborador => {
+
+      /**
+       * Salva a nota da avaliação no usuário. Facilita o cálculo da média.
+       */
+      if (this.avaliacao.nota === 1) {
+        colaborador.usuario.avaliacoes1 = colaborador.usuario.avaliacoes1 != null ? colaborador.usuario.avaliacoes1 + 1 : 1;
+      } else if (this.avaliacao.nota === 2) {
+        colaborador.usuario.avaliacoes2 = colaborador.usuario.avaliacoes2 != null ? colaborador.usuario.avaliacoes2 + 1 : 1;
+      } else if (this.avaliacao.nota === 3) {
+        colaborador.usuario.avaliacoes3 = colaborador.usuario.avaliacoes3 != null ? colaborador.usuario.avaliacoes3 + 1 : 1;
+      } else if (this.avaliacao.nota === 4) {
+        colaborador.usuario.avaliacoes4 = colaborador.usuario.avaliacoes4 != null ? colaborador.usuario.avaliacoes4 + 1 : 1;
+      } else {
+        colaborador.usuario.avaliacoes5 = colaborador.usuario.avaliacoes5 != null ? colaborador.usuario.avaliacoes5 + 1 : 1;
+      }
+
       /**
        * Cria um registro tabela associativa e adiciona dentro da avaliação
        */
-      const avaliacaoColaborador : AvaliacaoColaborador = new AvaliacaoColaborador();
+      const avaliacaoColaborador: AvaliacaoColaborador = new AvaliacaoColaborador();
 
       // Impede recursividade
       const avaliacaoAux: Avaliacao = new Avaliacao();
       avaliacaoAux.data = this.avaliacao.data;
       avaliacaoAux.nota = this.avaliacao.nota;
       avaliacaoAux.key = this.avaliacao.key;
-      avaliacaoColaborador.avaliacao =  avaliacaoAux;
+      avaliacaoColaborador.avaliacao = avaliacaoAux;
 
-      avaliacaoColaborador.colaborador =  colaborador;
+      avaliacaoColaborador.colaborador = colaborador;
 
       this.avaliacao.avaliacoesColaboradores.push(avaliacaoColaborador);
     });
@@ -142,6 +157,7 @@ export class MobileService {
    * @param {string} key
    */
   setUnidade(key: string) {
+
     const storage = window.localStorage;
 
     storage.removeItem('unidadeKey');

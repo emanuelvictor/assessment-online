@@ -5,6 +5,8 @@ import {AvaliacaoColaboradorRepository} from '../repository/avaliacao-colaborado
 import {Avaliacao} from '../entity/avaliacao/Avaliacao.model';
 import {ColaboradorRepository} from '../repository/colaborador.repository';
 import 'rxjs/Rx';
+import {UsuarioService} from './usuario.service';
+import {UsuarioRepository} from '../repository/usuario.repository';
 
 @Injectable()
 export class AvaliacaoService {
@@ -14,8 +16,10 @@ export class AvaliacaoService {
    * @param {AvaliacaoRepository} avaliacaoRepository
    * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
    * @param {ColaboradorRepository} colaboradorRepository
+   * @param {UsuarioRepository} usuarioRepository
    */
-  constructor(private avaliacaoRepository: AvaliacaoRepository, private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository, private colaboradorRepository: ColaboradorRepository) {
+  constructor(private avaliacaoRepository: AvaliacaoRepository, private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository,
+              private colaboradorRepository: ColaboradorRepository, private usuarioRepository: UsuarioRepository) {
   }
 
 
@@ -49,8 +53,8 @@ export class AvaliacaoService {
             )
         }
       )
-      .flatMap((a: Observable<any>) => {
-        return a
+      .flatMap((avaliacao: Observable<any>) => {
+        return avaliacao
       });
   }
 
@@ -110,10 +114,8 @@ export class AvaliacaoService {
       .then(result => {
         avaliacoesColaboradores.forEach(avaliacaoColaborador => {
           avaliacaoColaborador.avaliacao = result;
-          this.avaliacaoColaboradorRepository.save(avaliacaoColaborador)
-            .then(saved => {
-
-            })
+          this.usuarioRepository.save(avaliacaoColaborador.colaborador.usuario);
+          this.avaliacaoColaboradorRepository.save(avaliacaoColaborador);
         })
       });
   }
