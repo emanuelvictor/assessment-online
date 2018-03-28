@@ -1,11 +1,11 @@
-<div layout-align='center center' layout-gt-xs='row' layout-margin>
+<div *ngIf="!atendentes?.length" layout-align='center center' layout-gt-xs='row' layout-margin>
   <div layout='row' flex-gt-xs='80' layout-margin>
     <div flex layout-margin>
       <div class="tc-grey-500 size-height-50" layout="row" flex layout-align="start center">
-        <span *ngIf="atendentes?.length"> Meus melhores atendentes em: {{unidade?.nome}} </span>
+        <!--<span *ngIf="atendentes?.length"> Meus melhores atendentes em: {{unidade?.nome}} </span>-->
         <span *ngIf="!atendentes?.length"> Você não possui atendentes vinculados á essa unidade</span>
-        <div flex></div>
-        <span *ngIf="atendentes?.length"> Total: {{ atendentes?.length}}</span>
+        <!--<div flex></div>-->
+        <!--<span *ngIf="atendentes?.length"> Total: {{ atendentes?.length}}</span>-->
       </div>
     </div>
   </div>

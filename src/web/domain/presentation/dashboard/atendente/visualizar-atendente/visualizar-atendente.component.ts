@@ -6,7 +6,7 @@ import {AlterarSenhaComponent} from './alterar-senha/alterar-senha.component';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {UnidadeService} from '../../../../service/unidade.service';
-import {calcularMedia, Usuario} from '../../../../entity/usuario/Usuario.model';
+import { Usuario} from '../../../../entity/usuario/Usuario.model';
 import {Colaborador} from "../../../../entity/colaborador/Colaborador.model";
 import {ColaboradorService} from "../../../../service/colaborador.service";
 
@@ -76,7 +76,6 @@ export class VisualizarAtendenteComponent implements OnInit {
   public find(atendenteKey: string) {
     this.usuarioService.findOne(atendenteKey).subscribe((atendente: any) => {
       this.atendente = atendente;
-      this.atendente.media = calcularMedia(atendente);
     })
   }
 
@@ -91,7 +90,7 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param {number} atendenteKey
+   * @param {string} atendenteKey
    */
   public remove(atendenteKey: string) {
     let dialogRef = this.dialog.open(ConfirmDialogComponent,

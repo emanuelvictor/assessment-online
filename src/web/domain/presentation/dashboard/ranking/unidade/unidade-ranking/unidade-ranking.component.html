@@ -1,1 +1,13 @@
-<ranking></ranking>
+<div *ngIf="!unidades?.length" layout-align='center center' layout-gt-xs='row' layout-margin>
+  <div layout='row' flex-gt-xs='80' layout-margin>
+    <div flex layout-margin>
+      <div class="tc-grey-500 size-height-50" layout="row" flex layout-align="start center">
+        <!--<span *ngIf="unidades?.length"> Meus melhores unidades em: {{unidade?.nome}} </span>-->
+        <span *ngIf="!unidades?.length"> Você não possui unidades vinculados á essa unidade</span>
+        <!--<div flex></div>-->
+        <!--<span *ngIf="unidades?.length"> Total: {{ unidades?.length}}</span>-->
+      </div>
+    </div>
+  </div>
+</div>
+<ranking *ngFor='let unidade of unidades' [rankeavel]='unidade'></ranking>

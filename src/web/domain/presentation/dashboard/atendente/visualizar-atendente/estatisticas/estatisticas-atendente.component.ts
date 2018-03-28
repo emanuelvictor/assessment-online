@@ -132,11 +132,12 @@ export class EstatisticasAtendenteComponent implements OnInit {
    * @param dataFim
    */
   public listEstatisticasByDates(dataInicio, dataFim) {
-    console.log('asfda');
     this.initResults();
     this.initAvaliacoes();
 
-
+    /**
+     * todo BUG identificado, tem que retornar a lista
+     */
     this.avaliacaoService
       .listAvaliacoesByAtendenteKey(this.activatedRoute.snapshot.params['key'])
       .subscribe(avaliacao => {

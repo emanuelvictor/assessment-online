@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {calcularMedia, Usuario} from '../../../../../entity/usuario/Usuario.model';
+import {Usuario} from '../../../../../entity/usuario/Usuario.model';
 import {UsuarioService} from '../../../../../service/usuario.service';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {ColaboradorService} from '../../../../../service/colaborador.service';
-import {AvaliacaoService} from '../../../../../service/avaliacao.service';
 import {Unidade} from '../../../../../entity/unidade/Unidade.model';
 
 @Component({
@@ -38,7 +37,7 @@ export class AtendenteRankingComponent implements OnInit {
    * @param {UsuarioService} usuarioService
    */
   constructor(public router: Router, public activatedRoute: ActivatedRoute,
-              public unidadeService: UnidadeService, public colaboradorService: ColaboradorService, private avaliacaoService: AvaliacaoService,
+              public unidadeService: UnidadeService, public colaboradorService: ColaboradorService,
               public snackBar: MatSnackBar, public dialog: MatDialog, public usuarioService: UsuarioService) {
   }
 
