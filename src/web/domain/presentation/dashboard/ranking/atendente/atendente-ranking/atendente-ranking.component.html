@@ -1,1 +1,3 @@
-<ranking></ranking>
+<div *ngIf="atendentes?.length > 1">
+  <ranking *ngFor="let atendente of atendentes | sort:'media' " [rankeavel]='atendente'></ranking>
+</div>

@@ -7,6 +7,7 @@ import {ColaboradorRepository} from '../repository/colaborador.repository';
 import 'rxjs/Rx';
 import {UsuarioService} from './usuario.service';
 import {UsuarioRepository} from '../repository/usuario.repository';
+import {calcularMedia} from '../entity/usuario/Usuario.model';
 
 @Injectable()
 export class AvaliacaoService {
@@ -114,6 +115,9 @@ export class AvaliacaoService {
       .then(result => {
         avaliacoesColaboradores.forEach(avaliacaoColaborador => {
           avaliacaoColaborador.avaliacao = result;
+
+          avaliacaoColaborador.colaborador.usuario.media = calcularMedia(avaliacaoColaborador.colaborador.usuario);
+
           this.usuarioRepository.save(avaliacaoColaborador.colaborador.usuario);
           this.avaliacaoColaboradorRepository.save(avaliacaoColaborador);
         })

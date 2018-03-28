@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
+import {calcularMedia} from '../../../entity/usuario/Usuario.model';
 
 
 /**
@@ -10,5 +11,17 @@ import 'rxjs/add/operator/toPromise';
   templateUrl: './ranking.component.html',
   styleUrls: ['./ranking.component.css']
 })
-export class RankingComponent {
+export class RankingComponent implements OnInit {
+
+  /**
+   *
+   */
+  @Input()
+  rankeavel: any;
+
+  /**
+   *
+   */
+  ngOnInit(): void {
+  }
 }

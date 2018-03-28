@@ -39,6 +39,9 @@ export class Usuario extends Abstract {
  * @returns {number}
  */
 export function calcularMedia(avaliavel): number {
+
+  if (!avaliavel) return 0;
+
   let avaliacoes1 = 0;
 
   let avaliacoes2 = 0;
@@ -71,6 +74,5 @@ export function calcularMedia(avaliavel): number {
   }
 
   const somaMedia = avaliacoes1 + avaliacoes2 + avaliacoes3 + avaliacoes4 + avaliacoes5;
-
   return somaMedia / soma;
 }

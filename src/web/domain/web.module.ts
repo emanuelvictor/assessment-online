@@ -24,6 +24,7 @@ import {RatingComponent} from './presentation/controls/rating/rating.component';
 import {LongPressDirective} from './presentation/controls/long-press/long-press.directive';
 import {CurrencyFormatPipe} from './presentation/controls/currency-pipe-brl/currency-pipe-brl';
 import {GroupByPipe} from './presentation/controls/group-by-pipe/group-by';
+import {OrderByPipe} from './presentation/controls/order-by-pipe/order-by';
 import {AddButtonComponent} from './presentation/controls/add-button/add-button.component';
 import {CloseButtonComponent} from './presentation/controls/close-button/close-button.component';
 import {LoggedMenuComponent} from './presentation/controls/logged-menu/logged-menu.component';
@@ -101,6 +102,7 @@ registerLocaleData(localePt, 'pt-BR');
 
     StopPropagationDirective,
     GroupByPipe,
+    OrderByPipe,
 
     SomenteAlfanumericos,
     SomenteLetras,
