@@ -20,9 +20,10 @@
   </mat-menu>
 </mat-toolbar>
 <mat-sidenav-container>
-  <mat-sidenav #sidenav mode="over" class="mat-elevation-z5 bgc-purple-500" (click)="sidenav.toggle()">
+  <mat-sidenav *ngIf="usuario?.isOperador || usuario?.isAdministrador" #sidenav mode="over" class="mat-elevation-z5 bgc-purple-500" (click)="sidenav.toggle()">
     <logged-menu></logged-menu>
   </mat-sidenav>
+
   <!--Tag será substiuída pelo content da tag pai chamada-->
   <ng-content></ng-content>
 </mat-sidenav-container>

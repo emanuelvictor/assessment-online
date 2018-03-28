@@ -1,10 +1,10 @@
-import {Component, OnDestroy} from "@angular/core";
-import "rxjs/add/operator/switchMap";
-import {MatDialog, MatSnackBar} from "@angular/material";
-import {RouteConfigLoadEnd, RouteConfigLoadStart, Router} from "@angular/router";
-import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core";
+import {Component, OnDestroy} from '@angular/core';
+import 'rxjs/add/operator/switchMap';
+import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import {AuthenticationService} from "../../../service/authentication.service";
+import {AuthenticationService} from '../../../service/authentication.service';
+import {ColaboradorService} from '../../../service/colaborador.service';
+import {UsuarioService} from '../../../service/usuario.service';
 
 @Component({
   selector: 'header-component',
@@ -29,34 +29,22 @@ export class HeaderComponent implements OnDestroy {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
-   * @param {MatDialog} dialog
    * @param {AuthenticationService} authenticationService
    * @param {Router} router
-   * @param {TdLoadingService} loadingService
+   * @param {UsuarioService} usuarioService
+   * @param {ColaboradorService} colaboradorService
    */
-  constructor(public snackBar: MatSnackBar, public dialog: MatDialog, public authenticationService: AuthenticationService, public router: Router, public loadingService: TdLoadingService) {
-    this.loadingService.create({
-      name: 'loadingLogin',
-      mode: LoadingMode.Indeterminate,
-      type: LoadingType.Circular,
-      color: 'accent',
-    });
-
-    this.routerSubscription = router.events.subscribe(event => {
-      if (event instanceof RouteConfigLoadStart) {
-        this.loadingService.register("loadingLogin");
-      }
-      if (event instanceof RouteConfigLoadEnd) {
-        this.loadingService.resolve("loadingLogin");
-      }
-    });
-
-    this.userSubscription = authenticationService
-      .authenticatedUserChanged.subscribe((user) => {
-      console.log(user);
-        this.usuario = user;
+  constructor(private authenticationService: AuthenticationService, private router: Router, private usuarioService: UsuarioService, private colaboradorService: ColaboradorService) {
+    this.usuarioService.getUsuarioAutenticado().subscribe(result => {
+      this.usuario = result;
+      this.colaboradorService.listOperadoresByUsuarioKey(this.usuario.key).subscribe(operadores => {
+        this.usuario.isOperador = operadores.length > 0;
       });
+    });
+
+    this.userSubscription = authenticationService.authenticatedUserChanged.subscribe((user) => {
+      this.usuario = user;
+    });
   }
 
   /**
@@ -75,17 +63,4 @@ export class HeaderComponent implements OnDestroy {
     this.router.navigate(['/authentication']);
   }
 
-  /**
-   *
-   */
-  ngOnInit() {
-    this.getAuthenticatedUser();
-  }
-
-  /**
-   *
-   */
-  public getAuthenticatedUser(): void {
-    this.usuario = this.authenticationService.getAuthenticatedUser();
-  }
 }

@@ -1,6 +1,8 @@
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {TdMediaService} from '@covalent/core';
 import {Subscription} from 'rxjs/Subscription';
+import {UsuarioService} from '../../service/usuario.service';
+import {ColaboradorService} from '../../service/colaborador.service';
 
 
 @Component({
@@ -16,7 +18,10 @@ export class DashboardViewComponent implements OnInit, OnDestroy
    * @type {boolean}
    */
   isSmallScreen: boolean = true;
-
+  /**
+   *
+   */
+  usuario: any;
   /**
    *
    */
@@ -27,16 +32,22 @@ export class DashboardViewComponent implements OnInit, OnDestroy
    */
   public routerSubscription: Subscription;
 
-  /*-------------------------------------------------------------------
-   *                           CONSTRUCTOR
-   *-------------------------------------------------------------------*/
   /**
    *
    * @param {TdMediaService} media
    * @param {NgZone} ngZone
+   * @param {UsuarioService} usuarioService
+   * @param {ColaboradorService} colaboradorService
    */
-  constructor(public media: TdMediaService,  public ngZone: NgZone)
+  constructor(public media: TdMediaService,  public ngZone: NgZone, private usuarioService: UsuarioService, private colaboradorService: ColaboradorService)
   {
+    this.usuarioService.getUsuarioAutenticado().subscribe(result => {
+      this.usuario = result;
+      this.colaboradorService.listOperadoresByUsuarioKey(this.usuario.key).subscribe(operadores => {
+        console.log(operadores);
+        this.usuario.isOperador = operadores.length > 0;
+      });
+    });
   }
 
   /**

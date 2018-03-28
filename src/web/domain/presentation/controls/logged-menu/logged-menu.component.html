@@ -11,7 +11,6 @@
       </div>
     </mat-list-item>
     <mat-divider class="bgc-blue-grey-300"></mat-divider>
-
     <mat-list-item disableRipple>
       <div layout="row" class="push-top push-bottom pad-left" flex>
         <span flex="10"></span>
@@ -19,27 +18,30 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item class="push-bottom" routerLink="/dashboard/atendentes"
+    <mat-list-item class="push-bottom"
+                   routerLink="/dashboard/atendentes"
                    routerLinkActive #rlaUsuarios="routerLinkActive"
                    [ngClass]="{'menu-active': rlaUsuarios.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>supervisor_account</mat-icon>
-        <h3 matLine style="color: white" flex="85"> {{authenticatedUser?.isAdministrador ? 'Atendentes' : 'Meus atendentes'}} </h3>
+        <h3 matLine style="color: white" flex="85"> {{authenticatedUser?.isAdministrador ? 'Atendentes' : 'Meus
+          atendentes'}} </h3>
       </div>
     </mat-list-item>
 
-    <mat-list-item *ngIf="authenticatedUser?.isAdministrador" class="push-bottom" routerLink="/dashboard/unidades"
+    <mat-list-item class="push-bottom" routerLink="/dashboard/unidades"
                    routerLinkActive #rlaFornecedores="routerLinkActive"
                    [ngClass]="{'menu-active': rlaFornecedores.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>store</mat-icon>
-        <h3 matLine style="color: white" flex="85"> Unidades </h3>
+        <h3 matLine style="color: white" flex="85"> {{authenticatedUser?.isAdministrador ? 'Unidades' : 'Minhas unidades'}} </h3>
       </div>
     </mat-list-item>
 
-    <mat-list-item *ngIf="authenticatedUser?.isAdministrador" class="push-bottom" routerLink="/dashboard/melhores-atendentes"
+    <mat-list-item class="push-bottom"
+                   routerLink="/dashboard/melhores-atendentes"
                    routerLinkActive #rlaMelhoresAtendentes="routerLinkActive"
                    [ngClass]="{'menu-active': rlaMelhoresAtendentes.isActive}">
       <div layout="row" flex class="pad-left">
@@ -49,7 +51,8 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item *ngIf="authenticatedUser?.isAdministrador" class="push-bottom" routerLink="/dashboard/melhores-unidades"
+    <mat-list-item class="push-bottom"
+                   routerLink="/dashboard/melhores-unidades"
                    routerLinkActive #rlaMelhoresUnidades="routerLinkActive"
                    [ngClass]="{'menu-active': rlaMelhoresUnidades.isActive}">
       <div layout="row" flex class="pad-left">
@@ -58,6 +61,5 @@
         <h3 matLine style="color: white" flex="85"> Minhas melhores unidades </h3>
       </div>
     </mat-list-item>
-
   </mat-list>
 </mat-nav-list>

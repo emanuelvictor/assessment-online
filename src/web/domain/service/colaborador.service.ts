@@ -22,7 +22,7 @@ export class ColaboradorService {
   }
 
   public listOperadoresByUsuarioKey(key: string): Observable<any> {
-    return this.colaboradorRepository.listColaboradoresByUsuarioKey(key);
+    return this.colaboradorRepository.listOperadoresByUsuarioKey(key);
   }
 
   public listColaboradoresByUnidadeKey(key: string): Observable<any> {

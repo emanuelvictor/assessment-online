@@ -1,8 +1,9 @@
 import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
-import {AuthenticationService} from "../../../service/authentication.service";
-import {Router} from "@angular/router";
+import {AuthenticationService} from '../../../service/authentication.service';
+import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import {UsuarioService} from "../../../service/usuario.service";
+import {UsuarioService} from '../../../service/usuario.service';
+import {ColaboradorService} from '../../../service/colaborador.service';
 
 @Component({
   selector: 'logged-menu',
@@ -18,15 +19,26 @@ export class LoggedMenuComponent implements OnDestroy {
 
   /**
    *
+   */
+  userSubscription: Subscription;
+
+  /**
+   *
    * @param {AuthenticationService} authenticationService
    * @param {UsuarioService} usuarioService
    * @param {ChangeDetectorRef} changeDetectionRef
-   * @param {Router} router
+   * @param {ColaboradorService} colaboradorService
    */
-  constructor(public authenticationService: AuthenticationService, public usuarioService: UsuarioService, public changeDetectionRef: ChangeDetectorRef, public router: Router) {
+  constructor(private authenticationService: AuthenticationService, private usuarioService: UsuarioService, private changeDetectionRef: ChangeDetectorRef, private colaboradorService: ColaboradorService) {
 
     this.usuarioService.getUsuarioAutenticado().subscribe(result => {
-      this.authenticatedUser = result
+      this.authenticatedUser = result;
+      this.colaboradorService.listOperadoresByUsuarioKey(this.authenticatedUser.key).subscribe(operadores => {
+        if (operadores.length > 0)
+          this.authenticatedUser.isOperator = true;
+        else
+          this.authenticatedUser.isOperator = false;
+      });
     });
 
     this.userSubscription = authenticationService.authenticatedUserChanged.subscribe((user) => {
@@ -35,10 +47,6 @@ export class LoggedMenuComponent implements OnDestroy {
     });
   }
 
-  /**
-   *
-   */
-  userSubscription: Subscription;
 
   /**
    *

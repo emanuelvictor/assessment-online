@@ -45,8 +45,6 @@ export class ConsultarAtendentesComponent implements OnInit {
     this.usuarioService.getUsuarioAutenticado().subscribe(usuarioLogado => {
       this.loggedUser = usuarioLogado;
 
-      // this.usuarioService.getUsuarioAutenticado().subscribe(usuarioLogado => {
-      //   console.log(usuarioLogado);
       this.usuarioService.find().subscribe(usuarios => {
         this.atendentes = [];
         /**
