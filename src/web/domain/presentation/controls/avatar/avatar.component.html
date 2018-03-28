@@ -3,14 +3,14 @@
     <pattern height="1" id="person" patternUnits="objectBoundingBox" width="1" x="0" y="0">
       <image xlink:href="https://www.thefullclass.com/static/images/person.svg" height="140" width="140" x="0" y="0"></image>
     </pattern>
-    <pattern id="foto" x="0" y="0" height="200" width="200" patternUnits="userSpaceOnUse">
+    <pattern id="{{identifier}}" x="0" y="0" height="200" width="200" patternUnits="userSpaceOnUse">
       <image width="200" height="200" preserveAspectRatio="xMidYMid slice" [attr.xlink:href]="usuario.foto"></image>
     </pattern>
   </defs>
   <!--todo cor hardcoded-->
-  <circle *ngIf="!usuario.foto" fill="#5E7C8B" cx="100" cy="100" r="100"></circle>
+  <circle *ngIf="!usuario.foto" fill="#5E7C8B" cx="100" cy="100" r="99"></circle>
 
-  <circle *ngIf="usuario.foto" fill="url(#foto)" cx="100" cy="100" r="100"></circle>
+  <circle *ngIf="usuario.foto" [style.fill]="'url(#'+identifier+')'" cx="100" cy="100" r="100"></circle>
 
   <circle *ngIf="!usuario.foto" fill="url(#person)" cx="100" cy="100" r="70"></circle>
 </svg>

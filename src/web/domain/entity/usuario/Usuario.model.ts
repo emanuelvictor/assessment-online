@@ -74,5 +74,5 @@ export function calcularMedia(avaliavel): number {
   }
 
   const somaMedia = avaliacoes1 + avaliacoes2 + avaliacoes3 + avaliacoes4 + avaliacoes5;
-  return somaMedia / soma;
+  return (somaMedia / soma);
 }

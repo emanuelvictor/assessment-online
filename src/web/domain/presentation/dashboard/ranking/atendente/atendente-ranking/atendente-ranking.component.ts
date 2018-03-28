@@ -6,6 +6,7 @@ import {UsuarioService} from '../../../../../service/usuario.service';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {ColaboradorService} from '../../../../../service/colaborador.service';
 import {AvaliacaoService} from '../../../../../service/avaliacao.service';
+import {Unidade} from '../../../../../entity/unidade/Unidade.model';
 
 @Component({
   selector: 'atendente-ranking',
@@ -13,6 +14,12 @@ import {AvaliacaoService} from '../../../../../service/avaliacao.service';
   styleUrls: ['./atendente-ranking.component.css']
 })
 export class AtendenteRankingComponent implements OnInit {
+
+  /**
+   *
+   * @type {Unidade}
+   */
+  unidade: Unidade;
 
   /**
    *
@@ -48,6 +55,7 @@ export class AtendenteRankingComponent implements OnInit {
    * @param {string} unidadeKey
    */
   public find(unidadeKey: string) {
+    this.unidadeService.findOne(unidadeKey).subscribe(unidade => this.unidade = unidade);
     this.colaboradorService.listColaboradoresByUnidadeKey(unidadeKey).subscribe(colaboradores => {
       this.atendentes = [];
       colaboradores.forEach(colaborador => {
@@ -65,6 +73,16 @@ export class AtendenteRankingComponent implements OnInit {
             if (!founded) {
               this.atendentes.push(usuario);
             }
+
+            this.atendentes.sort((a: any, b: any) => {
+              if (a['media'] > b['media']) {
+                return -1;
+              } else if (a['media'] < b['media']) {
+                return 1;
+              } else {
+                return 0;
+              }
+            });
           }
         })
       });
