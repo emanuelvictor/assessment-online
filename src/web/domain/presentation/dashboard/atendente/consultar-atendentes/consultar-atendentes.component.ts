@@ -67,7 +67,10 @@ export class ConsultarAtendentesComponent implements OnInit {
                     founded = this.atendentes[i].key === atendentes[k].usuario.key;
                   }
                   if (!founded) {
-                    this.atendentes.push(atendentes[k].usuario);
+                    this.usuarioService.findOne(atendentes[k].usuario.key)
+                      .subscribe(result => {
+                        this.atendentes.push(result);
+                      })
                   }
                 }
               })

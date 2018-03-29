@@ -1,5 +1,5 @@
 <mat-toolbar class="mat-elevation-z2" style="background-color : white">
-  <button mat-icon-button (click)="sidenav.toggle()" hide-gt-md>
+  <button mat-icon-button (click)="sidenav.toggle()" hide-gt-md *ngIf="usuario?.isOperador || usuario?.isAdministrador">
     <mat-icon>menu</mat-icon>
   </button>
   <img hide-sm hide-xs hide-md routerLink="" class="size-height-50 logo-image">
@@ -10,7 +10,7 @@
   <div *ngIf="usuario" class="avatar"
        style="cursor: pointer" [matMenuTriggerFor]="menu"
        layout-align="center center" layout="row" layout-margin>
-    <avatar style="margin-top:10px" [usuario]="{'key': usuario?.key , 'foto': usuario?.photoURL}" [size]="0.2"></avatar>
+    <avatar style="margin-top:10px" [usuario]="{'key': usuario?.key , 'foto': usuario?.urlFile}" [size]="0.2"></avatar>
   </div>
   <mat-menu #menu="matMenu">
     <button mat-menu-item color="primary" (click)="logout()">
@@ -20,7 +20,7 @@
   </mat-menu>
 </mat-toolbar>
 <mat-sidenav-container>
-  <mat-sidenav *ngIf="usuario?.isOperador || usuario?.isAdministrador" #sidenav mode="over" class="mat-elevation-z5 bgc-purple-500" (click)="sidenav.toggle()">
+  <mat-sidenav #sidenav mode="over" class="mat-elevation-z5 bgc-purple-500" (click)="sidenav.toggle()">
     <logged-menu></logged-menu>
   </mat-sidenav>
 

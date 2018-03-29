@@ -44,7 +44,6 @@ export class DashboardViewComponent implements OnInit, OnDestroy
     this.usuarioService.getUsuarioAutenticado().subscribe(result => {
       this.usuario = result;
       this.colaboradorService.listOperadoresByUsuarioKey(this.usuario.key).subscribe(operadores => {
-        console.log(operadores);
         this.usuario.isOperador = operadores.length > 0;
       });
     });
