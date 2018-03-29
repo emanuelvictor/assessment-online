@@ -33,6 +33,10 @@ export class ColaboradorService {
     return this.colaboradorRepository.listAtendentesByUnidadeKey(key);
   }
 
+  public listAllByUnidadeKey(key: string): Observable<any> {
+    return this.colaboradorRepository.listAllByUnidadeKey(key);
+  }
+
   public save(item: Colaborador): PromiseLike<any> {
     return this.colaboradorRepository.save(item);
   }

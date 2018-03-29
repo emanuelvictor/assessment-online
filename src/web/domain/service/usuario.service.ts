@@ -8,6 +8,8 @@ import {MatSnackBar} from '@angular/material';
 import {FotoLoadingComponent} from '../presentation/controls/foto-loading/foto-loading.component';
 import {ColaboradorRepository} from '../repository/colaborador.repository';
 import {AvaliacaoColaboradorRepository} from '../repository/avaliacao-colaborador.repository';
+import {ColaboradorService} from './colaborador.service';
+import {Colaborador} from '../entity/colaborador/Colaborador.model';
 
 /**
  *
@@ -21,11 +23,13 @@ export class UsuarioService {
    * @param {MatSnackBar} snackBar
    * @param {AuthenticationService} authenticationService
    * @param {FileRepository} fileRepository
+   * @param {ColaboradorService} colaboradorService
    * @param {ColaboradorRepository} colaboradorReposisotry
    * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
    */
   constructor(private usuarioRepository: UsuarioRepository, private snackBar: MatSnackBar,
               private authenticationService: AuthenticationService, private fileRepository: FileRepository,
+              private colaboradorService: ColaboradorService,
               private colaboradorReposisotry: ColaboradorRepository, private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository) {
   }
 
@@ -35,6 +39,97 @@ export class UsuarioService {
    */
   public find(): Observable<any[]> {
     return this.usuarioRepository.find();
+
+  }
+
+  /**
+   * Lista todos os usuarios atendnetes do cooperador
+   * @param {string} key
+   * @returns {Observable<any>}
+   */
+  public listAtendentesByCooperadorKey(key: string): Observable<any> {
+
+    return Observable.create(observer => {
+
+      let atendentesReturn = [];
+
+      this.colaboradorService.listOperadoresByUsuarioKey(key)
+        .flatMap(colaboradores => {
+          atendentesReturn = [];
+          return colaboradores;
+        })
+        .flatMap((colaborador: Colaborador) => {
+          atendentesReturn = [];
+          return this.colaboradorService.listAllByUnidadeKey(colaborador.unidade.key)
+        })
+        .map(atendentes => {
+          return atendentes.map(atendente => {
+            return atendente.usuario;
+          })
+        })
+        .subscribe(atendentes => {
+
+          atendentes.forEach(atendente => {
+
+            let founded = false;
+            for (let i = 0; i < atendentesReturn.length; i++) {
+              founded = atendentesReturn[i].key === atendente.key;
+              if (founded) break
+            }
+            if (!founded) {
+              atendentesReturn.push(atendente);
+            }
+          });
+
+          observer.next(atendentesReturn)
+        })
+    });
+
+
+    // return this.colaboradorService.listOperadoresByUsuarioKey(key)
+    //   .flatMap(colaboradores => {
+    //     return colaboradores;
+    //   })
+    //   .flatMap((colaborador: Colaborador) => {
+    //     return this.colaboradorService.listAtendentesByUnidadeKey(colaborador.unidade.key)
+    //   })
+    //   .map(atendentes => {
+    //     return atendentes.map(atendente => atendente.usuario)
+    //   })
+    // .flatMap( a: Observ => {
+    //   console.log(a)
+    // })
+
+    // return this.getUsuarioAutenticado()
+    //   .flatMap(usuarioAutenticado => {
+    //     return this.colaboradorService.listOperadoresByUsuarioKey(usuarioAutenticado.key)
+    //   })
+    //   .flatMap(colaboradores => {
+    //     return colaboradores;
+    //   })
+    //   .flatMap((colaborador: Colaborador) => {
+    //     return this.colaboradorService.listAtendentesByUnidadeKey(colaborador.unidade.key)
+    //   })
+    //   .flatMap(atendentes => {
+    //     console.log(atendentes);
+    //     return atendentes;
+    //     // .map(
+    //     //   atendente => {
+    //     //     return this.findOne(atendente.usuario.key)
+    //     //   }
+    //     // );
+    //   })
+
+    // .flatMap((atendente: Colaborador) => {
+    //   return this.findOne(atendente.usuario.key)
+    // })
+    // .map(a => {
+    //   console.log(a);
+    //   return a
+    // })
+    // .map(a => {
+    //   return a
+    // });
   }
 
   /**
@@ -167,7 +262,7 @@ export class UsuarioService {
   /**
    *
    */
-  public getUsuarioAutenticado(): Observable<Usuario> {
+  public getUsuarioAutenticado(): Observable<any> {
     return this.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email);
   }
 }

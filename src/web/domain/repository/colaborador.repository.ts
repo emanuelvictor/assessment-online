@@ -18,7 +18,7 @@ export class ColaboradorRepository extends AbstractRepository {
   }
 
   public listOperadoresByUsuarioKey(key: string): Observable<any> {
-    return this.find().map(items => items.filter(item => item.usuario.key === key && item.vinculo === 'Operador' || item.vinculo === 'OperadorAtendente' ));
+    return this.find().map(items => items.filter(item => item.usuario.key === key && item.vinculo === 'Operador' || item.vinculo === 'OperadorAtendente'));
   }
 
   public listColaboradorByUnidadeKey(key: string): Observable<any> {
@@ -26,6 +26,11 @@ export class ColaboradorRepository extends AbstractRepository {
   }
 
   public listAtendentesByUnidadeKey(key: string): Observable<any> {
-    return this.find().map(items => items.filter(item => item.unidade.key === key && (item.vinculo === 'Atendente')));
+    return this.find().map(items => items.filter(item => item.unidade.key === key && (item.vinculo && item.vinculo === 'Atendente')));
   }
+
+  public listAllByUnidadeKey(key: string): Observable<any> {
+    return this.find().map(items => items.filter(item => item.unidade.key));
+  }
+
 }

@@ -28,7 +28,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    * @param {MatDialog} dialog
    * @param {UsuarioService} usuarioService
    */
-  constructor(public router: Router, public snackBar: MatSnackBar, public dialog: MatDialog, public usuarioService: UsuarioService, private colaboradorService: ColaboradorService) {
+  constructor(private router: Router, private snackBar: MatSnackBar, private dialog: MatDialog, private usuarioService: UsuarioService) {
   }
 
   /**
@@ -42,43 +42,60 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters() {
-    this.usuarioService.getUsuarioAutenticado().subscribe(usuarioLogado => {
-      this.loggedUser = usuarioLogado;
+    this.atendentes = [];
+    this.usuarioService.getUsuarioAutenticado().subscribe(result => {
 
-      this.usuarioService.find().subscribe(usuarios => {
-        this.atendentes = [];
-        /**
-         * Se o usuário é administraodr
-         */
-        if (this.loggedUser.isAdministrador)
-          this.atendentes = usuarios;
+      if (result.isAdministrador) {
 
-        /**
-         * Se o usuário não é administrador
-         */
-        else {
-          this.colaboradorService.listOperadoresByUsuarioKey(this.loggedUser.key).subscribe(operadores => {
-            for (let c = 0; c < operadores.length; c++) {
-              this.atendentes = [];
-              this.colaboradorService.listAtendentesByUnidadeKey(operadores[c].unidade.key).subscribe(atendentes => {
-                for (let k = 0; k < atendentes.length; k++) {
-                  let founded = false;
-                  for (let i = 0; i < this.atendentes.length; i++) {
-                    founded = this.atendentes[i].key === atendentes[k].usuario.key;
-                  }
-                  if (!founded) {
-                    this.usuarioService.findOne(atendentes[k].usuario.key)
-                      .subscribe(result => {
-                        this.atendentes.push(result);
-                      })
-                  }
-                }
-              })
-            }
-          });
-        }
-      })
-    });
+        this.usuarioService.find().subscribe(atendentes => {
+          this.atendentes = atendentes;
+        })
+
+      } else {
+
+        this.usuarioService.listAtendentesByCooperadorKey(result.key)
+          .subscribe(atendentes => {
+            // console.log(atendentes);
+            this.atendentes = atendentes;
+          })
+
+      }
+
+    })
+
+
+    //     /**
+    //      * Se o usuário é administraodr
+    //      */
+    //     if (this.loggedUser.isAdministrador)
+    //       this.atendentes = usuarios;
+    //
+    //     /**
+    //      * Se o usuário não é administrador
+    //      */
+    //     else {
+    //       this.colaboradorService.listOperadoresByUsuarioKey(this.loggedUser.key).subscribe(operadores => {
+    //         for (let c = 0; c < operadores.length; c++) {
+    //           this.atendentes = [];
+    //           this.colaboradorService.listAtendentesByUnidadeKey(operadores[c].unidade.key).subscribe(atendentes => {
+    //             for (let k = 0; k < atendentes.length; k++) {
+    //               let founded = false;
+    //               for (let i = 0; i < this.atendentes.length; i++) {
+    //                 founded = this.atendentes[i].key === atendentes[k].usuario.key;
+    //               }
+    //               if (!founded) {
+    //                 this.usuarioService.findOne(atendentes[k].usuario.key)
+    //                   .subscribe(result => {
+    //                     this.atendentes.push(result);
+    //                   })
+    //               }
+    //             }
+    //           })
+    //         }
+    //       });
+    //     }
+    //   })
+    // });
   }
 
   /**
