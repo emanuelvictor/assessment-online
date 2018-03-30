@@ -39,6 +39,8 @@ export class HeaderComponent implements OnDestroy {
       this.usuario = result;
       this.colaboradorService.listOperadoresByUsuarioKey(this.usuario.key).subscribe(operadores => {
         this.usuario.isOperador = operadores.length > 0;
+        if (!this.usuario.isOperador && !this.usuario.isAdministrador)
+          this.router.navigate(['/dashboard/minha-conta'])
       });
     });
 

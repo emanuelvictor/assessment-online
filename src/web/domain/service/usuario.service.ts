@@ -71,43 +71,37 @@ export class UsuarioService {
    */
   public listAtendentesByCooperadorKey(key: string): Observable<any> {
 
-    return Observable.create(observer => {
+    let atendentesReturn = [];
 
-      let atendentesReturn = [];
+    return this.colaboradorService.listOperadoresByUsuarioKey(key)
+      .flatMap(colaboradores => {
+        atendentesReturn = [];
+        return colaboradores;
+      })
+      .flatMap((colaborador: Colaborador) => {
+        atendentesReturn = [];
+        return this.colaboradorService.listAllByUnidadeKey(colaborador.unidade.key)
+      })
+      .flatMap(colaboradores => {
+        return colaboradores;
+      })
+      .flatMap((colaborador: Colaborador) => {
+        return this.findOne(colaborador.usuario.key)
+      })
+      .map(atendente => {
 
-      this.colaboradorService.listOperadoresByUsuarioKey(key)
-        .flatMap(colaboradores => {
-          atendentesReturn = [];
-          return colaboradores;
-        })
-        .flatMap((colaborador: Colaborador) => {
-          atendentesReturn = [];
-          return this.colaboradorService.listAllByUnidadeKey(colaborador.unidade.key)
-        })
-        .map(atendentes => {
-          return atendentes.map(atendente => {
-            return atendente.usuario;
-          })
-        })
-        .subscribe(atendentes => {
+        let founded = false;
 
-          atendentes.forEach(atendente => {
+        for (let i = 0; i < atendentesReturn.length; i++) {
+          founded = atendentesReturn[i].key === atendente.key;
+          if (founded) break
+        }
 
-            let founded = false;
-            for (let i = 0; i < atendentesReturn.length; i++) {
-              founded = atendentesReturn[i].key === atendente.key;
-              if (founded) break
-            }
-            if (!founded) {
-              atendentesReturn.push(atendente);
-            }
+        if (!founded)
+          atendentesReturn.push(atendente);
 
-          });
-
-          observer.next(atendentesReturn)
-        })
-    });
-
+        return atendentesReturn;
+      })
   }
 
   /**

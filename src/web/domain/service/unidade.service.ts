@@ -22,6 +22,7 @@ export class UnidadeService {
               private unidadeRepository: UnidadeRepository,
               private colaboradorService: ColaboradorService) {
   }
+
   /**
    *
    * @returns {Observable<any[]>}
@@ -43,6 +44,7 @@ export class UnidadeService {
 
             this.listUnidadesByCooperadorKey(usuarioAutenticado.key)
               .subscribe(unidades => {
+                console.log(unidades);
                 observer.next(unidades);
               })
 
@@ -60,49 +62,54 @@ export class UnidadeService {
    */
   public listUnidadesByCooperadorKey(key: string): Observable<any> {
 
-    return Observable.create(observer => {
+    let unidadesReturn = [];
 
-      let unidadesReturn = [];
+    return this.colaboradorService.listOperadoresByUsuarioKey(key)
+      .flatMap(colaboradores => {
+        unidadesReturn = [];
+        return colaboradores;
+      })
+      .flatMap((colaborador: Colaborador) => {
+        unidadesReturn = [];
+        return this.colaboradorService.listOperadoresByUnidadeKey(colaborador.unidade.key)
+      })
+      .flatMap(colaboradores => {
+        return colaboradores;
+      })
+      .flatMap((colaborador: Colaborador) => {
+        return this.findOne(colaborador.unidade.key)
+      })
+      .map(unidade => {
 
-      this.colaboradorService.listOperadoresByUsuarioKey(key)
-        .flatMap(colaboradores => {
-          unidadesReturn = [];
-          return colaboradores;
-        })
-        .flatMap((colaborador: Colaborador) => {
-          unidadesReturn = [];
-          return this.colaboradorService.listOperadoresByUnidadeKey(colaborador.unidade.key)
-        })
-        .map(atendentes => {
-          return atendentes.map(atendente => {
-            return atendente.unidade;
-          })
-        })
-        .subscribe(unidades => {
+        let founded = false;
 
-          unidades.forEach(unidade => {
+        for (let i = 0; i < unidadesReturn.length; i++) {
+          founded = unidadesReturn[i].key === unidade.key;
+          if (founded) break
+        }
 
-            let founded = false;
-            for (let i = 0; i < unidadesReturn.length; i++) {
-              founded = unidadesReturn[i].key === unidade.key;
-              if (founded) break
-            }
-            if (!founded) {
-              unidadesReturn.push(unidade);
-            }
+        if (!founded)
+          unidadesReturn.push(unidade);
 
-          });
-
-          observer.next(unidadesReturn)
-        })
-    });
+        return unidadesReturn;
+      })
 
   }
 
+  /**
+   *
+   * @param {string} key
+   * @returns {Observable<any>}
+   */
   public findOne(key: string): Observable<any> {
     return this.unidadeRepository.findOne(key);
   }
 
+  /**
+   *
+   * @param item
+   * @returns {PromiseLike<any>}
+   */
   public save(item: any): PromiseLike<any> {
     return this.unidadeRepository.save(item);
   }
