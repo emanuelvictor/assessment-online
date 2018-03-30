@@ -1,6 +1,5 @@
 import {Unidade} from '../unidade/Unidade.model';
 import {Endereco} from '../endereco/Endereco.model';
-import {Abstract} from '../abstract/Abstract.model';
 import {Rankeavel} from '../abstract/Rankeavel.model';
 
 export class Usuario extends Rankeavel {

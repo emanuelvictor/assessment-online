@@ -26,11 +26,15 @@ export class ColaboradorRepository extends AbstractRepository {
   }
 
   public listAtendentesByUnidadeKey(key: string): Observable<any> {
-    return this.find().map(items => items.filter(item => item.unidade.key === key && (item.vinculo && item.vinculo === 'Atendente')));
+    return this.find().map(items => items.filter(item => item.unidade.key === key && (item.vinculo && (item.vinculo === 'Atendente' || item.vinculo === 'OperadorAtendente'))));
   }
 
   public listAllByUnidadeKey(key: string): Observable<any> {
-    return this.find().map(items => items.filter(item => item.unidade.key));
+    return this.find().map(items => items.filter(item => item.unidade.key === key && (item.vinculo && (item.vinculo === 'Atendente' || item.vinculo === 'Operador' || item.vinculo === 'OperadorAtendente'))));
+  }
+
+  public listOperadoresByUnidadeKey(key: string): Observable<any> {
+    return this.find().map(items => items.filter(item => item.unidade.key === key && (item.vinculo && (item.vinculo === 'Operador' || item.vinculo === 'OperadorAtendente'))));
   }
 
 }

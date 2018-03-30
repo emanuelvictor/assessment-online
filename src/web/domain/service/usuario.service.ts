@@ -38,8 +38,30 @@ export class UsuarioService {
    * @returns {Observable<any[]>}
    */
   public find(): Observable<any[]> {
-    return this.usuarioRepository.find();
+    return Observable.create(observer => {
 
+      this.getUsuarioAutenticado()
+        .subscribe(usuarioAutenticado => {
+
+          if (usuarioAutenticado.isAdministrador) {
+
+            this.usuarioRepository.find()
+              .subscribe(atendentes => {
+                observer.next(atendentes);
+              })
+
+          } else {
+
+            this.listAtendentesByCooperadorKey(usuarioAutenticado.key)
+              .subscribe(atendentes => {
+                observer.next(atendentes);
+              })
+
+          }
+
+        })
+
+    })
   }
 
   /**
@@ -79,57 +101,13 @@ export class UsuarioService {
             if (!founded) {
               atendentesReturn.push(atendente);
             }
+
           });
 
           observer.next(atendentesReturn)
         })
     });
 
-
-    // return this.colaboradorService.listOperadoresByUsuarioKey(key)
-    //   .flatMap(colaboradores => {
-    //     return colaboradores;
-    //   })
-    //   .flatMap((colaborador: Colaborador) => {
-    //     return this.colaboradorService.listAtendentesByUnidadeKey(colaborador.unidade.key)
-    //   })
-    //   .map(atendentes => {
-    //     return atendentes.map(atendente => atendente.usuario)
-    //   })
-    // .flatMap( a: Observ => {
-    //   console.log(a)
-    // })
-
-    // return this.getUsuarioAutenticado()
-    //   .flatMap(usuarioAutenticado => {
-    //     return this.colaboradorService.listOperadoresByUsuarioKey(usuarioAutenticado.key)
-    //   })
-    //   .flatMap(colaboradores => {
-    //     return colaboradores;
-    //   })
-    //   .flatMap((colaborador: Colaborador) => {
-    //     return this.colaboradorService.listAtendentesByUnidadeKey(colaborador.unidade.key)
-    //   })
-    //   .flatMap(atendentes => {
-    //     console.log(atendentes);
-    //     return atendentes;
-    //     // .map(
-    //     //   atendente => {
-    //     //     return this.findOne(atendente.usuario.key)
-    //     //   }
-    //     // );
-    //   })
-
-    // .flatMap((atendente: Colaborador) => {
-    //   return this.findOne(atendente.usuario.key)
-    // })
-    // .map(a => {
-    //   console.log(a);
-    //   return a
-    // })
-    // .map(a => {
-    //   return a
-    // });
   }
 
   /**

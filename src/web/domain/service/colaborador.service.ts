@@ -29,6 +29,10 @@ export class ColaboradorService {
     return this.colaboradorRepository.listColaboradorByUnidadeKey(key);
   }
 
+  public listOperadoresByUnidadeKey(key: string): Observable<any> {
+    return this.colaboradorRepository.listOperadoresByUnidadeKey(key);
+  }
+
   public listAtendentesByUnidadeKey(key: string): Observable<any> {
     return this.colaboradorRepository.listAtendentesByUnidadeKey(key);
   }

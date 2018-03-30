@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from '@angular/material';
-import {UsuarioService} from '../../../../service/usuario.service';
+import {MatSnackBar} from '@angular/material';
 import {UnidadeService} from '../../../../service/unidade.service';
 
 @Component({
@@ -19,13 +17,10 @@ export class ConsultarUnidadesComponent implements OnInit {
 
   /**
    *
-   * @param {Router} router
    * @param {MatSnackBar} snackBar
-   * @param {MatDialog} dialog
    * @param {UnidadeService} unidadeService
-   * @param {UsuarioService} usuarioService
    */
-  constructor(public router: Router, public snackBar: MatSnackBar, public dialog: MatDialog, public unidadeService: UnidadeService, public usuarioService: UsuarioService) {
+  constructor(private snackBar: MatSnackBar, private unidadeService: UnidadeService) {
   }
 
   /**
@@ -40,8 +35,6 @@ export class ConsultarUnidadesComponent implements OnInit {
    *
    */
   public listUnidadesByFilters() {
-
-
     this.unidadeService.find().subscribe(result => {
       this.unidades = result;
     });
