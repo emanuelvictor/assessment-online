@@ -13,6 +13,7 @@
         <div *ngFor="let unidade of unidades" routerLink="{{unidade?.key}}">
           <mat-list-item>
             <h3 matLine> {{unidade?.nome}} </h3>
+            <h2 matLine flex class="mat-subheading-2 tc-blue-grey-500 no-margin">CNPJ: {{unidade?.cnpj | documento}}</h2>
             <p matLine *ngIf="unidade?.endereco?.cidade?.nome">
               {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.numero}}, {{unidade?.endereco?.bairro}} -
               {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.sigla}} </p>

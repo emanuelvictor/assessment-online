@@ -98,9 +98,7 @@ export function cnpjValidator(): ValidatorFn {
 
   return (c: AbstractControl): { [key: string]: any } => {
 
-    if (!c.value || !c.value.length) return {
-      exception: null
-    };
+    if (!c.value || !c.value.length) return null;
 
     if (invalidateCnpj(c.value.replace(/[^0-9]/g, ''))) return {
       exception: 'CNPJ inválido'
@@ -112,7 +110,7 @@ export function cnpjValidator(): ValidatorFn {
 
 //Verifica se CPF é válido
 export function invalidateCnpj(cnpj) {
-
+console.log(cnpj);
   cnpj = cnpj.replace(/[^\d]+/g, '');
 
   if (cnpj == '') return true;

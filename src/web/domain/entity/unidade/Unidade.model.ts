@@ -6,6 +6,8 @@ export class Unidade extends Rankeavel {
 
   public nome: string;
 
+  public cnpj: string;
+
   public endereco: Endereco;
 
   constructor() {

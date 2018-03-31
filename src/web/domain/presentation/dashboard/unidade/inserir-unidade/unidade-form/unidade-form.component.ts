@@ -1,9 +1,10 @@
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {textMasks} from "../../../../controls/text-masks/text-masks";
 import {Unidade} from "../../../../../entity/unidade/Unidade.model";
+import {cnpjValidator} from "../../../../controls/validators/validators";
 
 /**
  *
@@ -53,7 +54,8 @@ export class UnidadeFormComponent implements OnInit {
    */
   ngOnInit() {
     this.form = this.fb.group({
-      nome: ['nome', [Validators.required]]
+      nome: ['nome', [Validators.required]],
+      cnpj: new FormControl('cnpj', [cnpjValidator()]),
     });
   }
 
@@ -63,27 +65,26 @@ export class UnidadeFormComponent implements OnInit {
   public saveUnidade(form: any): void {
     // TODO provisório
     let valid = true;
-    let controls: any = [];
+    const controls: any = [];
     Object.keys(form.controls).map(function (key) {
       if (form.controls[key].invalid) {
-        let control = form.controls[key];
+        const control = form.controls[key];
         control.key = '#' + key;
         if (control.controls) {
           Object.keys(control.controls).map(function (key) {
             if (control.controls[key].invalid) {
-              let controlInner = control.controls[key];
+              const controlInner = control.controls[key];
               controlInner.key = '#' + key;
               controls.push(controlInner);
             }
           });
-        }
-        else {
+        } else {
           controls.push(control);
         }
       }
     });
 
-    for (let control of controls) {
+    for (const control of controls) {
       if (control) {
         const element = this.element.nativeElement.querySelector(control.key);
         if (element && control.invalid) {
@@ -94,7 +95,7 @@ export class UnidadeFormComponent implements OnInit {
           break;
         }
         if (control.controls && control.invalid) {
-          for (let controlInner of control.controls) {
+          for (const controlInner of control.controls) {
             const element = this.element.nativeElement.querySelector(controlInner.key);
             if (element && controlInner.invalid) {
               this.renderer.invokeElementMethod(element, 'focus', []);
