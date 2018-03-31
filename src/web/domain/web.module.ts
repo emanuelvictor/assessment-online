@@ -83,6 +83,7 @@ import {AtendenteRankingComponent} from './presentation/dashboard/ranking/atende
 import {AtendenteRankingViewComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking-view.component';
 import {RankingComponent} from './presentation/dashboard/ranking/ranking.component';
 import {SelecionarUnidadeComponent} from './presentation/dashboard/ranking/atendente/selecionar-unidade/selecionar-unidade.component';
+import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -136,6 +137,7 @@ registerLocaleData(localePt, 'pt-BR');
     VincularUnidadeComponent,
     VisualizarVinculoUnidadeComponent,
     EstatisticasAtendenteComponent,
+    MinhasEstatisticasComponent,
 
     // Password
     AlterarMinhaSenhaComponent,

@@ -23,6 +23,7 @@ import {UnidadeRankingViewComponent} from './presentation/dashboard/ranking/unid
 import {AtendenteRankingViewComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking-view.component';
 import {AtendenteRankingComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking/atendente-ranking.component';
 import {SelecionarUnidadeComponent} from './presentation/dashboard/ranking/atendente/selecionar-unidade/selecionar-unidade.component';
+import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component';
 
 
 const routes: Routes = [
@@ -40,7 +41,8 @@ const routes: Routes = [
           path: 'minha-conta', component: MinhaContaViewComponent,
           children: [
             {path: '', component: VisualizarMinhaContaComponent},
-            {path: 'alterar', component: AlterarMinhaContaComponent}
+            {path: 'alterar', component: AlterarMinhaContaComponent},
+            {path: 'minhas-estatisticas', component: MinhasEstatisticasComponent}
           ]
         },
         {

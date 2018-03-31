@@ -7,8 +7,14 @@
 
             <visualizar-dados-usuario [usuario]='usuario' *ngIf='usuario?.key'>
 
+              <!--options-->
               <div layout="column" layout-align="start end" flex *ngIf="usuario">
                 <div layout="row">
+                  <button mat-button hide-sm hide-xs class='tc-blue-grey-900' routerLink='minhas-estatisticas'>
+                    <mat-icon>show_chart</mat-icon>
+                    <span>Minhas estatísticas</span>
+                  </button>
+
                   <button mat-icon-button routerLink="alterar" class="tc-blue-grey-900">
                     <mat-icon>mode_edit</mat-icon>
                   </button>
