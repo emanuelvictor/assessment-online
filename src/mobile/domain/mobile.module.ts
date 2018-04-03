@@ -34,8 +34,9 @@ import {ColaboradorRepository} from '../../web/domain/repository/colaborador.rep
 import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
 import {AvaliacaoRepository} from '../../web/domain/repository/avaliacao.repository';
 import {AvaliacaoColaboradorRepository} from '../../web/domain/repository/avaliacao-colaborador.repository';
-import {FileRepository} from "../../web/infrastructure/repository/file/file.repository";
-import {AngularFireStorageModule} from "angularfire2/storage";
+import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
+import {AngularFireStorageModule} from 'angularfire2/storage';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 /**
  *
@@ -50,6 +51,7 @@ import {AngularFireStorageModule} from "angularfire2/storage";
     AvaliarComponent
   ],
   imports: [
+    MatGridListModule,
     SharedModule,
     CommonModule,
     BrowserModule,

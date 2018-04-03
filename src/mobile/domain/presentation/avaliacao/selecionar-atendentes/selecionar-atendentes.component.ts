@@ -18,6 +18,13 @@ export class SelecionarAtendentesComponent implements OnInit {
    */
   atendentes: any[] = [];
 
+  tiles = [
+    {text: 'One', cols: 3, rows: 1, color: 'lightblue'},
+    {text: 'Two', cols: 1, rows: 2, color: 'lightgreen'},
+    {text: 'Three', cols: 1, rows: 1, color: 'lightpink'},
+    {text: 'Four', cols: 2, rows: 1, color: '#DDBDF1'},
+  ];
+
   /**
    *
    * @param {Router} router
@@ -42,9 +49,9 @@ export class SelecionarAtendentesComponent implements OnInit {
       this.atendentes = [];
       colaboradores.forEach(colaborador => {
         this.usuarioService.findOne(colaborador.usuario.key).subscribe(usuario => {
-          if (colaborador.vinculo && colaborador.vinculo != 'Operador') {
+          if (colaborador.vinculo && colaborador.vinculo !== 'Operador') {
 
-            let founded: boolean = false;
+            let founded = false;
 
             for (let i = 0; i < this.atendentes.length; i++)
               if (this.atendentes[i].usuario.key === usuario.key) {

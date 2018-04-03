@@ -4,7 +4,19 @@
     Selecione um ou mais atendentes
   </div>
 </mat-card-title>
-<mat-card-content style='margin-bottom: 0'>
+<mat-card-content style='margin-bottom: 0' class="material-ripple">
+
+  <!--<mat-grid-list cols="4" rowHeight="100px" class="material-ripple" data-ripple-color="#3498db">-->
+    <!--<mat-grid-tile-->
+        <!--[colspan]="tile.cols"-->
+        <!--[rowspan]="tile.rows"-->
+        <!--*ngFor="let tile of tiles"-->
+        <!--[style.background]="tile.color">-->
+      <!--{{tile.text}}-->
+    <!--</mat-grid-tile>-->
+  <!--</mat-grid-list>-->
+
+
   <mat-nav-list class='pad-none'>
     <!--todo fazer a altura calculada, dinâmica-->
     <mat-list style="overflow: auto; flex-grow: 1; max-height: 400px">
