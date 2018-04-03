@@ -28,6 +28,11 @@
 
       <div flex-gt-md></div>
 
+      <button mat-raised-button class='push-right'
+              (click)='dataInicio = null; dataFim = null; listEstatisticasByDates(dataInicio, dataFim)'>
+        Limpar filtros
+      </button>
+
       <button color='accent' mat-raised-button class='push-right'
               (click)='listEstatisticasByDates(dataInicio, dataFim)'>
         Pesquisar

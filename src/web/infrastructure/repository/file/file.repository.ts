@@ -34,7 +34,6 @@ export class FileRepository {
     return new Promise((resolve) => {
       this.storage.upload(key, file)
         .then(result => {
-          console.log(result.downloadURL);
           resolve(result.downloadURL)
         })
     })

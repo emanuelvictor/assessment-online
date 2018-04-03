@@ -44,7 +44,6 @@ export class UnidadeService {
 
             this.listUnidadesByCooperadorKey(usuarioAutenticado.key)
               .subscribe(unidades => {
-                console.log(unidades);
                 observer.next(unidades);
               })
 

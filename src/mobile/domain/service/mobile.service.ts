@@ -8,6 +8,7 @@ import {Colaborador} from '../../../web/domain/entity/colaborador/Colaborador.mo
 import {MatSnackBarConfig} from '@angular/material';
 import {AvaliacaoService} from '../../../web/domain/service/avaliacao.service';
 import {AvaliacaoColaborador} from '../../../web/domain/entity/avaliacao/AvaliacaoColaborador.model';
+import {UnidadeService} from '../../../web/domain/service/unidade.service';
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -34,14 +35,22 @@ export class MobileService {
 
   /**
    *
+   * @param {UnidadeService} unidadeService
    * @param {AvaliacaoService} avaliacaoService
    */
-  constructor(private avaliacaoService: AvaliacaoService) {
+  constructor(private unidadeService: UnidadeService, private avaliacaoService: AvaliacaoService) {
+
     /**
      * Pega a key da unidade do localStorage
      * @type {string}
      */
     this.unidade.key = window.localStorage.getItem('unidadeKey');
+
+    /**
+     * Popula restante dos dados da unidade,
+     * Desta forma as avaliacoes da unidade não ficam zeradas
+     */
+    this.loadUnidade(this.unidade.key);
 
     /**
      * Seta a duração default da snackbar
@@ -93,6 +102,12 @@ export class MobileService {
     this.colaboradores.forEach(colaborador => {
 
       /**
+       * Seta no colaborador a unidade correta
+       * @type {Unidade}
+       */
+      colaborador.unidade = this.unidade;
+
+      /**
        * Salva a nota da avaliação no usuário. Facilita o cálculo da média.
        */
       if (this.avaliacao.nota === 1) {
@@ -117,7 +132,10 @@ export class MobileService {
        */
       const avaliacaoColaborador: AvaliacaoColaborador = new AvaliacaoColaborador();
 
-      // Impede recursividade
+      /**
+       *
+       * @type {Avaliacao}
+       */
       const avaliacaoAux: Avaliacao = new Avaliacao();
       avaliacaoAux.data = this.avaliacao.data;
       avaliacaoAux.nota = this.avaliacao.nota;
@@ -170,6 +188,18 @@ export class MobileService {
     storage.setItem('unidadeKey', key);
 
     this.unidade.key = key;
+
+    this.loadUnidade(key);
+  }
+
+  /**
+   * Carrega demais dados da unidade
+   * @param {string} key
+   */
+  private loadUnidade(key: string){
+    if (key)
+      this.unidadeService.findOne(this.unidade.key)
+        .subscribe(unidade => this.unidade = unidade);
   }
 
   /**

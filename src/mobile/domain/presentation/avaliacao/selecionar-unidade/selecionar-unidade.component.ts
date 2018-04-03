@@ -48,6 +48,7 @@ export class SelecionarUnidadeComponent implements OnInit {
           this.unidades = unidades;
         });
       /**
+       * TODO  bug, TEM QUE RETONRAR SOMENTE AS UNIDADES ONDE O USUÁRIO  É OPERADOR
        * Senão, pega somente as unidades em que o usuário logado é operador
        */
       else

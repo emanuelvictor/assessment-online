@@ -110,7 +110,6 @@ export function cnpjValidator(): ValidatorFn {
 
 //Verifica se CPF é válido
 export function invalidateCnpj(cnpj) {
-console.log(cnpj);
   cnpj = cnpj.replace(/[^\d]+/g, '');
 
   if (cnpj == '') return true;

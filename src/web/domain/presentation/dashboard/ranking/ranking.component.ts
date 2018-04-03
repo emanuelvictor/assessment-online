@@ -13,6 +13,13 @@ export class RankingComponent implements OnInit {
 
   /**
    *
+   * @type {boolean}
+   */
+  @Input()
+  hasFile = true;
+
+  /**
+   *
    */
   @Input()
   rankeavel: any;

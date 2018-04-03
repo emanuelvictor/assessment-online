@@ -41,7 +41,16 @@ export class UnidadeRankingComponent implements OnInit {
    */
   public find() {
     this.unidadeService.find().subscribe(unidades => {
+
       this.unidades = unidades;
+
+      /**
+       * Insere média zero para unidades sem média
+       */
+      for (let i = 0; i < this.unidades.length; i++)
+        if (!this.unidades[i].media)
+          this.unidades[i].media = 0;
+
       this.unidades.sort((a: any, b: any) => {
         if (a['media'] > b['media']) {
           return -1;
@@ -51,6 +60,7 @@ export class UnidadeRankingComponent implements OnInit {
           return 0;
         }
       });
+
     });
   }
 

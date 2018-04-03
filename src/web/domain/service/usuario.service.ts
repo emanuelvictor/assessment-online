@@ -80,7 +80,7 @@ export class UsuarioService {
       })
       .flatMap((colaborador: Colaborador) => {
         atendentesReturn = [];
-        return this.colaboradorService.listAllByUnidadeKey(colaborador.unidade.key)
+        return this.colaboradorService.listColaboradoresByUnidadeKey(colaborador.unidade.key)
       })
       .flatMap(colaboradores => {
         return colaboradores;
@@ -153,7 +153,6 @@ export class UsuarioService {
                 toSave.urlFile = uploaded;
                 this.usuarioRepository.saveWithAccount(toSave)
                   .then(usuarioAtualizado => {
-                    console.log(usuarioAtualizado);
                     resolve(usuarioAtualizado);
                   })
               });
@@ -166,7 +165,6 @@ export class UsuarioService {
                   usuario.urlFile = null;
                   this.usuarioRepository.saveWithAccount(usuario)
                     .then(resulted => {
-                      console.log(resulted);
                       resolve(resulted);
                     });
                 });
@@ -196,7 +194,6 @@ export class UsuarioService {
         /**
          * Remove as avaliações do usuário
          */
-        console.log(colaboradores[k].key);
         this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaboradores[k].key)
           .subscribe(avaliacoes => {
             for (let i = 0; i < avaliacoes.length; i++) {

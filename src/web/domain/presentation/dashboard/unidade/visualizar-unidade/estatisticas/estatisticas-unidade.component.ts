@@ -166,7 +166,6 @@ export class EstatisticasUnidadeComponent implements OnInit {
            */
           this.multi = this.mapper.map((group: any) => {
             group.series = group.series.map((dataItem: any) => {
-              console.log(dataItem);
               switch (dataItem.name) {
                 case 'Terrível':
                   dataItem.value = this.avaliacoes1;

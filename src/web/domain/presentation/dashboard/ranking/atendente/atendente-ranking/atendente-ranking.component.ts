@@ -45,9 +45,50 @@ export class AtendenteRankingComponent implements OnInit {
    *
    */
   ngOnInit() {
+    /**
+     * Pega a key da unidade que está nos parâmetros
+     * @type {any}
+     */
     const unidadeKey: string = this.activatedRoute.snapshot.params['key'];
-    this.find(unidadeKey);
+
+    /**
+     * Se houver parâmetro da key da unidade, pega somente os atendentes do usuário
+     */
+    if (unidadeKey)
+      this.find(unidadeKey);
+
+    /**
+     * Se não houver parâmetro da key da unidade, pega todos os atendentes
+     */
+    else
+      this.getAtendentes();
   }
+
+  /**
+   *
+   */
+  public getAtendentes() {
+    this.usuarioService.find().subscribe(atendentes => {
+
+      this.atendentes = atendentes;
+
+      for (let i = 0; i < this.atendentes.length; i++)
+        if (!this.atendentes[i].media)
+          this.atendentes[i].media = 0;
+
+      this.atendentes.sort((a: any, b: any) => {
+        if (a['media'] > b['media']) {
+          return -1;
+        } else if (a['media'] < b['media']) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
+    });
+  }
+
 
   /**
    *
@@ -55,6 +96,9 @@ export class AtendenteRankingComponent implements OnInit {
    */
   public find(unidadeKey: string) {
     this.unidadeService.findOne(unidadeKey).subscribe(unidade => this.unidade = unidade);
+    /**
+     * TODO não precisa mais disso
+     */
     this.colaboradorService.listColaboradoresByUnidadeKey(unidadeKey).subscribe(colaboradores => {
       this.atendentes = [];
       colaboradores.forEach(colaborador => {
@@ -70,6 +114,13 @@ export class AtendenteRankingComponent implements OnInit {
               }
 
             if (!founded) {
+              /**
+               * Se não tem média define como 0,
+               * Isso é feito para não bugar a ordenação
+               */
+              if (!usuario.media) {
+                usuario.media = 0;
+              }
               this.atendentes.push(usuario);
             }
 

@@ -7,7 +7,6 @@ import {CurrencyPipe} from "@angular/common";
 export class CurrencyFormatPipe implements PipeTransform {
 
   transform(value: number, currencyCode: string = 'BRL', symbolDisplay: boolean = true, digits?: string): string {
-    console.log(value);
     let currencyPipe: CurrencyPipe = new CurrencyPipe('pt-BR');
 
     if(!value || value < 0){

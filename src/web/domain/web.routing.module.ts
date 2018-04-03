@@ -77,6 +77,14 @@ const routes: Routes = [
           ]
         },
         {
+          path: 'melhores-atendentes-rede', component: AtendenteRankingViewComponent,
+          children: [
+            {
+              path: '', component: AtendenteRankingComponent
+            }
+          ]
+        },
+        {
           path: 'melhores-unidades', component: UnidadeRankingViewComponent,
           children: [
             {

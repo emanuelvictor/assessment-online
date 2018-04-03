@@ -72,7 +72,7 @@ export class AvaliacaoService {
    */
   public listAvaliacoesByUnidadeKey(key: string): Observable<any> {
 
-    return this.colaboradorRepository.listColaboradorByUnidadeKey(key)
+    return this.colaboradorRepository.listColaboradoresByUnidadeKey(key)
       .flatMap(colaboradores => {
           return colaboradores.map(
             colaborador => {
