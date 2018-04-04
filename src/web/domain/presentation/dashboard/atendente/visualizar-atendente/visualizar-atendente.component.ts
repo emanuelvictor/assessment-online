@@ -6,9 +6,9 @@ import {AlterarSenhaComponent} from './alterar-senha/alterar-senha.component';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {UnidadeService} from '../../../../service/unidade.service';
-import { Usuario} from '../../../../entity/usuario/Usuario.model';
-import {Colaborador} from "../../../../entity/colaborador/Colaborador.model";
-import {ColaboradorService} from "../../../../service/colaborador.service";
+import {Usuario} from '../../../../entity/usuario/Usuario.model';
+import {Colaborador} from '../../../../entity/colaborador/Colaborador.model';
+import {ColaboradorService} from '../../../../service/colaborador.service';
 
 @Component({
   selector: 'visualizar-atendente',
@@ -35,6 +35,11 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
+   */
+  authenticatedUser : any;
+
+  /**
+   *
    * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {ColaboradorService} colaboradorService
@@ -48,6 +53,13 @@ export class VisualizarAtendenteComponent implements OnInit {
               public colaboradorService: ColaboradorService,
               public activatedRoute: ActivatedRoute, public dialog: MatDialog,
               public usuarioService: UsuarioService, public unidadeService: UnidadeService) {
+    /**
+     * Pega o usuário logado
+     */
+    this.usuarioService.getUsuarioAutenticado().subscribe(result => {
+      this.authenticatedUser = result;
+    });
+
   }
 
   /**
@@ -129,7 +141,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
   }

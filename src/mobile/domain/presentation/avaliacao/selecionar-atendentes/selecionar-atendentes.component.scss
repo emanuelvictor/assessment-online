@@ -1,25 +1,27 @@
 mat-card-content {
   margin-bottom: 0;
   padding: 0;
+  mat-grid-list {
+    overflow: auto;
+    flex-grow: 1;
+    @media screen and (min-height: 400px) {
+      // Se estiver em landscape
+      max-height: 410px
+    }
+
+    @media screen and (min-height: 800px) {
+      // Se estiver em portrait
+      max-height: 610px
+    }
+  }
 }
 
 div {
   font-size: 25px;
 }
 
-mat-checkbox {
-  div {
-    height: 40px;
-    margin-top: 17px;
-  }
-}
-
 button {
   height: 50px;
   width: 125px;
   font-size: 25px
-}
-
-mat-grid-tile {
-  background: lightblue;
 }

@@ -18,7 +18,7 @@
             <visualizar-dados-usuario [usuario]='atendente' *ngIf='atendente?.key' flex>
 
               <!--options-->
-              <div layout='column' layout-align='start end' flex>
+              <div layout='column' layout-align='start end' flex *ngIf="authenticatedUser?.isAdministrador || !atendente?.isAdministrador">
                 <div layout='row'>
                   <button mat-button hide-sm hide-xs class='tc-blue-grey-900' routerLink='estatisticas'>
                     <mat-icon>show_chart</mat-icon>

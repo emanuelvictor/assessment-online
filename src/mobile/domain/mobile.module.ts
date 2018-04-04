@@ -7,7 +7,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {Interceptor} from '../../web/application/interceptor/interceptor';
 import {MobileRoutingModule} from './mobile.routing.module';
-import {DateAdapter} from '@angular/material';
+import {DateAdapter, MatRippleModule} from '@angular/material';
 import {SharedModule} from '../../shared/shared.module';
 import {AuthenticationService} from '../../web/domain/service/authentication.service';
 import {EnderecoService} from '../../web/domain/service/endereco.service';
@@ -37,6 +37,7 @@ import {AvaliacaoColaboradorRepository} from '../../web/domain/repository/avalia
 import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { EllipsisModule } from 'ngx-ellipsis';
 
 /**
  *
@@ -51,6 +52,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     AvaliarComponent
   ],
   imports: [
+    EllipsisModule,
+    MatRippleModule,
     MatGridListModule,
     SharedModule,
     CommonModule,
