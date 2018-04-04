@@ -25,8 +25,13 @@ export class ColaboradorRepository extends AbstractRepository {
     return this.find().map(items => items.filter(item => item.unidade.key === key && (item.vinculo && (item.vinculo === 'Atendente' || item.vinculo === 'OperadorAtendente'))));
   }
 
+  /**
+   * Lista todos os colaboradores ligados a unidade, inclusive os com vínculo 'Nenhum'
+   * @param {string} key
+   * @returns {Observable<any>}
+   */
   public listColaboradoresByUnidadeKey(key: string): Observable<any> {
-    return this.find().map(items => items.filter(item => item.unidade.key === key && (item.vinculo && (item.vinculo === 'Atendente' || item.vinculo === 'Operador' || item.vinculo === 'OperadorAtendente'))));
+    return this.find().map(items => items.filter(item => item.unidade.key === key));
   }
 
   public listOperadoresByUnidadeKey(key: string): Observable<any> {

@@ -45,7 +45,7 @@ export class ColaboradorService {
   }
 
   /**
-   * Retorna todos os colaboradores pela key da unidade
+   * Lista todos os colaboradores ligados a unidade, inclusive os com vínculo 'Nenhum'
    * @param {string} key
    * @returns {Observable<any>}
    */
