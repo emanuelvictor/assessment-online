@@ -16,9 +16,8 @@ export abstract class AbstractRepository {
    * Instancia a partir do window o NProgress
    */
   private _progress = window['NProgress'];
-  private _path: string = '';
+  private _path = '';
   private _itemsRef: AngularFireList<any>;
-  // private _items: Observable<any[]>;
   private _angularFireDatabase: AngularFireDatabase;
   private _storage: AngularFireStorage;
   private _accountRepository: AccountRepository;
@@ -45,10 +44,6 @@ export abstract class AbstractRepository {
     this._itemsRef = this._angularFireDatabase.list(this._path);
 
     this._progress.start();
-    // this._items = this._itemsRef.snapshotChanges().map(changes => {
-    //   this._progress.done();
-    //   return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
-    // });
   }
 
   /**
@@ -266,32 +261,6 @@ export abstract class AbstractRepository {
           }
         }
       }
-
-      // /**
-      //  * Síncrono
-      //  * Se não, e for uma instância de um arquivo, faz o upload do arquivo, retorna a url e a retorna no valor.
-      //  */
-      // else if (entry[i] instanceof File) {
-      //
-      //   console.log(this.saveFile(entry.key, entry[i]).downloadURL().subscribe(result => console.log(result)));
-      //   // this.saveFile(entry.key, entry[i]).then(result => {
-      //   //   entry[i] = result.downloadURL;
-      //   //   console.log(entry[i]);
-      //   // });
-      // }
-      //
-      // /**
-      //  * Síncrono
-      //  * Se não, salva a conta do usuário caso o mesmo tenha password.
-      //  */
-      // else if (i === 'password') {
-      // this._accountRepository.save(entry['uid'], entry['login'], entry[i])
-      //   .then(result => {
-      //     if (result.uid)
-      //       entry['uid'] = result.uid;
-      //     // resolve(entry)
-      //   });
-      // }
 
       /**
        * Se não, e for uma instância de um objeto, percorre novamente o mesmo.

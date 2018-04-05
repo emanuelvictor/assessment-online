@@ -1,6 +1,6 @@
 {
   "/handlerUser": {
-    "target": "http://127.0.0.1:5000/assessment-online/us-central1/handlerUser",
+    "target": "http://127.0.0.1:5000/d-assessment-online/us-central1/handlerUser",
     "changeOrigin": true,
     "secure": false,
     "logLevel": "debug"

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "assessment-online"
+    "default": "assessment-online",
+    "d-assessment-online": "d-assessment-online"
   }
 }
