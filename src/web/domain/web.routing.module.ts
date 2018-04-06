@@ -73,6 +73,9 @@ const routes: Routes = [
             },
             {
               path: ':key', component: AtendenteRankingComponent
+            },
+            {
+              path: ':key/estatisticas/:key', component: EstatisticasAtendenteComponent
             }
           ]
         },
@@ -81,6 +84,9 @@ const routes: Routes = [
           children: [
             {
               path: '', component: AtendenteRankingComponent
+            },
+            {
+              path: 'estatisticas/:key', component: EstatisticasAtendenteComponent
             }
           ]
         },
@@ -89,6 +95,9 @@ const routes: Routes = [
           children: [
             {
               path: '', component: UnidadeRankingComponent
+            },
+            {
+              path: 'estatisticas/:key', component: EstatisticasUnidadeComponent
             }
           ]
         }

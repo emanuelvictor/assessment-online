@@ -7,6 +7,7 @@ import {AvaliacaoColaboradorRepository} from '../../../../../repository/avaliaca
 import {ColaboradorRepository} from '../../../../../repository/colaborador.repository';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import * as moment from 'moment';
+import {UnidadeService} from '../../../../../service/unidade.service';
 
 @Component({
   selector: 'estatisticas-unidade',
@@ -67,6 +68,8 @@ export class EstatisticasUnidadeComponent implements OnInit {
     ]
   };
 
+  unidade: any;
+
   avaliacoes1 = 0;
   avaliacoes2 = 0;
   avaliacoes3 = 0;
@@ -87,17 +90,25 @@ export class EstatisticasUnidadeComponent implements OnInit {
   /**
    *
    * @param {Title} title
+   * @param {UnidadeService} unidadeService
    * @param {ActivatedRoute} activatedRoute
    * @param {AvaliacaoService} avaliacaoService
    */
-  constructor(private title: Title, private activatedRoute: ActivatedRoute, private avaliacaoService: AvaliacaoService) {
+  constructor(private title: Title, private unidadeService: UnidadeService, private activatedRoute: ActivatedRoute, private avaliacaoService: AvaliacaoService) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    this.title.setTitle('Estatisticas da unidade');
+
+    const unidadeKey: string = this.activatedRoute.snapshot.params['key'];
+
+    this.unidadeService.findOne(unidadeKey).subscribe((unidade: any) => {
+      this.unidade = unidade;
+      this.title.setTitle('Estatisticas de ' + this.unidade.nome); // TODO fazer o title para todos os componentes
+    });
+
     this.listEstatisticasByDates(this.dataInicio, this.dataFim);
   }
 

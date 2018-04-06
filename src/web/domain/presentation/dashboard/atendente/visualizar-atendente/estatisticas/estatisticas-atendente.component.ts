@@ -7,6 +7,7 @@ import {AvaliacaoColaboradorRepository} from '../../../../../repository/avaliaca
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import * as moment from 'moment';
 import {TdDigitsPipe} from '@covalent/core';
+import {UsuarioService} from '../../../../../service/usuario.service';
 
 @Component({
   selector: 'estatisticas-atendente',
@@ -67,6 +68,8 @@ export class EstatisticasAtendenteComponent implements OnInit {
     ]
   };
 
+  atendente: any;
+
   avaliacoes1 = 0;
   avaliacoes2 = 0;
   avaliacoes3 = 0;
@@ -87,17 +90,25 @@ export class EstatisticasAtendenteComponent implements OnInit {
   /**
    *
    * @param {Title} title
+   * @param {UsuarioService} usuarioService
    * @param {AvaliacaoService} avaliacaoService
    * @param {ActivatedRoute} activatedRoute
    */
-  constructor(private title: Title, private avaliacaoService: AvaliacaoService, private activatedRoute: ActivatedRoute) {
+  constructor(private title: Title, private usuarioService: UsuarioService, private avaliacaoService: AvaliacaoService, private activatedRoute: ActivatedRoute) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    this.title.setTitle('Estatisticas do atendente');
+
+    const atendenteKey: string = this.activatedRoute.snapshot.params['key'];
+
+    this.usuarioService.findOne(atendenteKey).subscribe((atendente: any) => {
+      this.atendente = atendente;
+      this.title.setTitle('Estatisticas de ' + this.atendente.nome); // TODO fazer o title para todos os componentes
+    });
+
     this.listEstatisticasByDates(this.dataInicio, this.dataFim);
   }
 
