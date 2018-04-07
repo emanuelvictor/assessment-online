@@ -1,44 +1,119 @@
 <mat-card class='push-none bgc-grey-50' style='border-radius: 0'>
-  <div layout='row' layout-align='center center'>
-    <div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>
+  <mat-card-content style="padding: 19px 0 19px 0">
+    <div layout-gt-xs='row'>
+      <div flex-gt-xs='100'>
+        <div layout='row' layout-align='center start'>
+          <div layout='column' flex='90'>
 
-      <div layout='row' layout-margin>
-        <ev-datepicker layout='row'
-                       [(dataInput)]='dataInicio'
-                       style='margin-bottom: -14px; padding-top: 0; margin-left: -8px' flex>
-          <mat-form-field style='width: 210px;'>
-            <input [(ngModel)]='dataInicio'
-                   placeholder='Data da avaliação - Início'
-                   matInput name='dataInicio' id='dataInicio'
-                   [textMask]='{mask: masks.date, guide: false}'>
-          </mat-form-field>
-        </ev-datepicker>
+            <div layout-gt-xs="row" layout-align="start center" flex>
 
-        <ev-datepicker layout='row'
-                       [(dataInput)]='dataFim'
-                       style='margin-bottom: -14px;padding-top: 0' flex>
-          <mat-form-field style='width: 210px;'>
-            <input [(ngModel)]='dataFim'
-                   placeholder='Data da avaliação - Fim'
-                   matInput name='dataFim' id='dataFim'
-                   [textMask]='{mask: masks.date, guide: false}'>
-          </mat-form-field>
-        </ev-datepicker>
+
+              <div class='push-top push-right push-bottom'>
+                Minhas estatísticas
+                <!--<h1 class='mat-headline tc-blue-grey-800' style='margin-bottom: -14px; padding-top: 0; margin-left: -8px' flex>-->
+                  <!--Minhas estatísticas-->
+                <!--</h1>-->
+              </div>
+
+              <!--div foto e informações-->
+              <div flex
+                   layout="row"
+                   layout-align="start center">
+                <!--<mat-form-field>-->
+                  <!--<input [(ngModel)]='dataInicio'-->
+                         <!--placeholder='Data da avaliação - Início'-->
+                         <!--matInput name='dataInicio' id='dataInicio'-->
+                         <!--[textMask]='{mask: masks.date, guide: false}'>-->
+                <!--</mat-form-field>-->
+
+                <ev-datepicker class='push-left' [(dataInput)]='dataInicio'>
+                  <mat-form-field style='width: 210px;'>
+                    <input [(ngModel)]='dataInicio'
+                           placeholder='Data da avaliação - Início'
+                           matInput name='dataInicio' id='dataInicio'
+                           [textMask]='{mask: masks.date, guide: false}'>
+                  </mat-form-field>
+                </ev-datepicker>
+
+
+                <!--<mat-form-field class='push-left'>-->
+                  <!--<input [(ngModel)]='dataInicio'-->
+                         <!--placeholder='Data da avaliação - Início'-->
+                         <!--matInput name='dataInicio' id='dataInicio'-->
+                         <!--[textMask]='{mask: masks.date, guide: false}'>-->
+                <!--</mat-form-field>-->
+              </div>
+              <!--</div>-->
+
+              <span flex></span>
+
+              <!--&lt;!&ndash;div opções&ndash;&gt;-->
+              <!--<div layout="row" flex="40">-->
+              <div flex
+                   layout="row"
+                   layout-margin
+                   layout-align="end start">
+                <button mat-button class='tc-blue-grey-900' routerLink='estatisticas/{{rankeavel?.key}}'>
+                  <mat-icon>show_chart</mat-icon>
+                  <span hide-sm hide-xs>Estatísticas</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
-
-      <div flex-gt-md></div>
-
-      <button mat-raised-button class='push-right'
-              (click)='dataInicio = null; dataFim = null; listEstatisticasByDates(dataInicio, dataFim)'>
-        Limpar filtros
-      </button>
-
-      <button mat-raised-button color='accent'
-              (click)='listEstatisticasByDates(dataInicio, dataFim)'>
-        Pesquisar
-      </button>
     </div>
-  </div>
+  </mat-card-content>
+
+
+  <!--<div layout='row' layout-align='center center'>-->
+    <!--<div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>-->
+
+      <!--<div layout='row' layout-margin>-->
+
+        <!--&lt;!&ndash;<div layout='row' flex='40'>&ndash;&gt;-->
+        <!--<h1 class='mat-headline tc-blue-grey-800' style='margin-bottom: -14px; padding-top: 0; margin-left: -8px' flex>-->
+          <!--Minhas estatísticas-->
+        <!--</h1>-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+        <!--<ev-datepicker layout='row'-->
+                       <!--[(dataInput)]='dataInicio'-->
+                       <!--style='margin-bottom: -14px; padding-top: 0; margin-left: -8px' flex>-->
+          <!--<mat-form-field style='width: 210px;'>-->
+            <!--<input [(ngModel)]='dataInicio'-->
+                   <!--placeholder='Data da avaliação - Início'-->
+                   <!--matInput name='dataInicio' id='dataInicio'-->
+                   <!--[textMask]='{mask: masks.date, guide: false}'>-->
+          <!--</mat-form-field>-->
+        <!--</ev-datepicker>-->
+
+        <!--<ev-datepicker layout='row'-->
+                       <!--[(dataInput)]='dataFim'-->
+                       <!--style='margin-bottom: -14px;padding-top: 0' flex>-->
+          <!--<mat-form-field style='width: 210px;'>-->
+            <!--<input [(ngModel)]='dataFim'-->
+                   <!--placeholder='Data da avaliação - Fim'-->
+                   <!--matInput name='dataFim' id='dataFim'-->
+                   <!--[textMask]='{mask: masks.date, guide: false}'>-->
+          <!--</mat-form-field>-->
+        <!--</ev-datepicker>-->
+      <!--</div>-->
+
+      <!--<div flex-gt-md></div>-->
+
+      <!--<button mat-raised-button class='push-right'-->
+              <!--(click)='dataInicio = null; dataFim = null; listEstatisticasByDates(dataInicio, dataFim)'>-->
+        <!--Limpar filtros-->
+      <!--</button>-->
+
+      <!--<button mat-raised-button color='accent'-->
+              <!--(click)='listEstatisticasByDates(dataInicio, dataFim)'>-->
+        <!--Pesquisar-->
+      <!--</button>-->
+    <!--</div>-->
+  <!--</div>-->
 </mat-card>
 
 <div layout-gt-xs='row'>

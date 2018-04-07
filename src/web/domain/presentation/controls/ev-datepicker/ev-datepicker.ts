@@ -6,7 +6,7 @@ import 'moment/locale/pt-br';
 @Component({
   selector: 'ev-datepicker',
   templateUrl: 'ev-datepicker.html',
-  styleUrls: ['ev-datepicker.css']
+  styleUrls: ['ev-datepicker.scss']
 })
 export class EvDatepicker implements OnChanges, OnInit {
 
