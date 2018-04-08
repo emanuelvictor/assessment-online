@@ -11,30 +11,28 @@
     Minhas estatísticas
   </div>
 
-  <div flex='60' layout='row' layout-margin class='push-left'>
-
-    <ev-datepicker [(dataInput)]='dataInicio' layout='row'
-                   style='margin-top: 0; margin-bottom: 0'
-                   flex-xl='25' flex-lg='35' flex-gt-lg='50'>
-      <mat-form-field>
-        <input [(ngModel)]='dataInicio' style='width: 200px'
+  <div layout='row' layout-margin style='margin-left: 41px; margin-top: -6px'>
+    <ev-datepicker layout='row'
+                   [(dataInput)]='dataInicio'
+                   style='margin-bottom: -14px; padding-top: 0; margin-left: -8px' flex>
+      <mat-form-field style='width: 210px;'>
+        <input [(ngModel)]='dataInicio'
                placeholder='Data da avaliação - Início'
                matInput name='dataInicio' id='dataInicio'
                [textMask]='{mask: masks.date, guide: false}'>
       </mat-form-field>
     </ev-datepicker>
 
-    <ev-datepicker [(dataInput)]='dataFim' layout='row'
-                   style='margin-top: 0; margin-bottom: 0'
-                   flex-xl='25' flex-lg='25' flex-gt-lg='50'>
-      <mat-form-field flex>
-        <input [(ngModel)]='dataFim' style='width: 200px'
+    <ev-datepicker layout='row'
+                   [(dataInput)]='dataFim'
+                   style='margin-bottom: -14px;padding-top: 0' flex>
+      <mat-form-field style='width: 210px;'>
+        <input [(ngModel)]='dataFim'
                placeholder='Data da avaliação - Fim'
                matInput name='dataFim' id='dataFim'
                [textMask]='{mask: masks.date, guide: false}'>
       </mat-form-field>
     </ev-datepicker>
-
   </div>
 
   <div flex-gt-md></div>
@@ -44,7 +42,7 @@
     Limpar filtros
   </button>
 
-  <button mat-raised-button color='accent'
+  <button color='accent' mat-raised-button
           (click)='listEstatisticasByDates(dataInicio, dataFim)'>
     Pesquisar
   </button>

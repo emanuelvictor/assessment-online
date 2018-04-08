@@ -68,6 +68,9 @@ export class EstatisticasAtendenteComponent implements OnInit {
     ]
   };
 
+  /**
+   *
+   */
   atendente: any;
 
   avaliacoes1 = 0;

@@ -68,8 +68,15 @@ export class EstatisticasUnidadeComponent implements OnInit {
     ]
   };
 
+  /**
+   *
+   */
   unidade: any;
 
+  /**
+   *
+   * @type {number}
+   */
   avaliacoes1 = 0;
   avaliacoes2 = 0;
   avaliacoes3 = 0;
