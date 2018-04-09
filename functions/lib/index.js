@@ -26,11 +26,6 @@ admin.initializeApp({
     }),
     databaseURL: 'https://d-assessment-online.firebaseio.com',
 });
-// const functions = require('firebase-functions');
-// const admin = require('firebase-admin');
-//
-// Start writing Firebase Functions
-// https://firebase.google.com/functions/write-firebase-functions
 /**
  * Cria o usuário
  * @type {HttpsFunction}
@@ -97,80 +92,4 @@ exports.handlerUser = functions.https.onRequest((req, res) => {
             res.status(200);
     });
 });
-// /**
-//  * Atualiza o usuário
-//  * @type {HttpsFunction}
-//  */
-// exports.updateUser = functions.https.onRequest((req, res) => {
-//
-//   const email = req.body.email;
-//   const password = req.body.password;
-//
-//   /**
-//    * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
-//    */
-//   admin.auth().getUserByEmail(req.query.email)
-//     .then(usuario => {
-//
-//       /**
-//        * Após encontrar o usuário pelo e-mail, atualiza o mesmo a partir do uid
-//        */
-//       admin.auth().updateUser(usuario.uid, {email: email, password: password})
-//         .then(result => {
-//           res.send(result)
-//         })
-//         .catch(exception => {
-//           res.status(500) //TODO retornar a exception também
-//         });
-//     })
-//     .catch(exception => {
-//       res.status(500) //TODO retornar a exception também
-//     });
-// });
-//
-// /**
-//  * Deleta o usuário
-//  * @type {HttpsFunction}
-//  */
-// exports.removeAccount = functions.https.onRequest((req, res) => {
-//
-//   /**
-//    * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
-//    */
-//   admin.auth().getUserByEmail(req.query.email)
-//     .then(usuario => {
-//
-//       /**
-//        * Após encontrar o usuário pelo e-mail, deleta o mesmo pelo uid
-//        */
-//       admin.auth().deleteUser(usuario.uid)
-//         .then(result => {
-//           res.sendStatus(200)
-//         })
-//         .catch(exception => {
-//           res.status(500) //TODO retornar a exception também
-//         });
-//     })
-//     .catch(exception => {
-//       res.status(500) //TODO retornar a exception também
-//     });
-// });
-//
-// /**
-//  * Busca o  usuário  pelo e-mail
-//  * @type {HttpsFunction}
-//  */
-// exports.getUserByEmail = functions.https.onRequest((req, res) => {
-//
-//   /**
-//    * Procurar o usuário pelo e-mail que veio como parâmetro da requisição
-//    */
-//   admin.auth().getUserByEmail(req.query.email)
-//     .then(usuario => {
-//       res.send(usuario)
-//     })
-//     .catch(exception => {
-//       res.status(500) //TODO retornar a exception também
-//     });
-// });
 //# sourceMappingURL=index.js.map

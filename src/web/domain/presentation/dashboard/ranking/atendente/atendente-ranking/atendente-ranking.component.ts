@@ -92,6 +92,10 @@ export class AtendenteRankingComponent implements OnInit {
         }
       });
 
+      for (let i = 0; i < this.atendentes.length; i++){
+        this.atendentes[i].posicao = i + 1;
+      }
+
     });
   }
 

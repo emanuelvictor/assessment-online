@@ -8,6 +8,9 @@ import 'rxjs/Rx';
 import {UsuarioRepository} from '../repository/usuario.repository';
 import {calcularMedia} from '../entity/abstract/Rankeavel.model';
 import {UnidadeRepository} from '../repository/unidade.repository';
+import {Colaborador} from '../entity/colaborador/Colaborador.model';
+import {ColaboradorService} from './colaborador.service';
+import {AvaliacaoColaborador} from '../entity/avaliacao/AvaliacaoColaborador.model';
 
 @Injectable()
 export class AvaliacaoService {
@@ -17,12 +20,14 @@ export class AvaliacaoService {
    * @param {AvaliacaoRepository} avaliacaoRepository
    * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
    * @param {ColaboradorRepository} colaboradorRepository
+   * @param {ColaboradorService} colaboradorService
    * @param {UsuarioRepository} usuarioRepository
    * @param {UnidadeRepository} unidadeRepository
    */
   constructor(private avaliacaoRepository: AvaliacaoRepository,
               private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository,
-              private colaboradorRepository: ColaboradorRepository, private usuarioRepository: UsuarioRepository, private unidadeRepository: UnidadeRepository) {
+              private colaboradorService: ColaboradorService, private usuarioRepository: UsuarioRepository,
+              private colaboradorRepository: ColaboradorRepository, private unidadeRepository: UnidadeRepository,) {
   }
 
   /**
@@ -40,27 +45,39 @@ export class AvaliacaoService {
    */
   public listAvaliacoesByAtendenteKey(key: string): Observable<any> {
 
-    return this.colaboradorRepository.listColaboradoresByUsuarioKey(key)
+    let quantidadeAvaliacoes = 0;
+
+    let avaliacoesReturn = [];
+
+    return this.colaboradorService.listColaboradoresByUsuarioKey(key)
       .flatMap(colaboradores => {
-          return colaboradores.map(
-            colaborador => {
-              return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
-            }
-          )
+        avaliacoesReturn = [];
+        return colaboradores;
+      })
+      .flatMap((colaborador: Colaborador) => {
+        avaliacoesReturn = [];
+        return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
+      })
+      .flatMap(avaliacoesColaboradores => {
+        quantidadeAvaliacoes = quantidadeAvaliacoes + avaliacoesColaboradores.length;
+        return avaliacoesColaboradores;
+      })
+      .flatMap((avaliacaoColaborador: AvaliacaoColaborador) => {
+        return this.findOne(avaliacaoColaborador.avaliacao.key)
+      })
+      .map(avaliacao => {
+        console.log(quantidadeAvaliacoes);
+        let founded = false;
+
+        for (let i = 0; i < avaliacoesReturn.length; i++) {
+          founded = avaliacoesReturn[i].key === avaliacao.key;
+          if (founded) break
         }
-      )
-      .flatMap((avaliacoesColaboradoresObservers: Observable<any>) => {
-          return avaliacoesColaboradoresObservers
-            .flatMap(avaliacaoColaborador =>
-              avaliacaoColaborador.map(avalicaoColaborador => {
-                  return this.findOne(avalicaoColaborador.avaliacao.key)
-                }
-              )
-            )
-        }
-      )
-      .flatMap((avaliacao: Observable<any>) => {
-        return avaliacao
+
+        if (!founded)
+          avaliacoesReturn.push(avaliacao);
+
+        return avaliacoesReturn;
       });
   }
 
