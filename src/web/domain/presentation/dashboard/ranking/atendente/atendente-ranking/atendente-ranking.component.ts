@@ -28,6 +28,12 @@ export class AtendenteRankingComponent implements OnInit {
 
   /**
    *
+   * @type {Usuario}
+   */
+  filter: Usuario = new Usuario();
+
+  /**
+   *
    * @param {Router} router
    * @param {ActivatedRoute} activatedRoute
    * @param {UnidadeService} unidadeService

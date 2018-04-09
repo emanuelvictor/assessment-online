@@ -1,6 +1,7 @@
 import {MatSnackBar} from '@angular/material';
 import {Component, OnInit} from '@angular/core';
 import {UsuarioService} from '../../../../service/usuario.service';
+import {Usuario} from '../../../../entity/usuario/Usuario.model';
 
 @Component({
   selector: 'consultar-atendentes',
@@ -13,6 +14,12 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public atendentes: any[];
+
+  /**
+   *
+   * @type {Usuario}
+   */
+  filter: Usuario = new Usuario();
 
   /**
    *

@@ -1,15 +1,9 @@
 <search-bar>
 
-  <mat-form-field flex>
+  <mat-form-field flex style="margin-left:0">
     <input id="filter" name="filter"
-           placeholder="Pesquisar unidade" matInput
+           placeholder="Filtre por nome" matInput
            [(ngModel)]="filter.nome" maxlength="200">
-  </mat-form-field>
-
-  <mat-form-field flex>
-    <input id="cidade" name="cidade"
-           placeholder="Pesquisar por cidade" matInput
-           [(ngModel)]="filter.endereco.cidade.nome" maxlength="200">
   </mat-form-field>
 
   <div flex-gt-md></div>
@@ -24,8 +18,7 @@
 
 <lista-unidades [(filter)]="filter">
   <div class="tc-grey-500 size-height-50"
-       layout="row" layout-align="start center"
-       style="min-width: 17px; margin-top: 6px">
+       layout="row" layout-align="start center">
     <span> Resultado da pesquisa </span>
     <div flex></div>
     <span> {{ unidades?.length}} resultados </span>

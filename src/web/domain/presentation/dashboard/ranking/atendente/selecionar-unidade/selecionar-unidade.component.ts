@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
+import {Unidade} from '../../../../../entity/unidade/Unidade.model';
 
 @Component({
   selector: 'selecionar-unidade',
@@ -8,6 +9,12 @@ import {MatDialog, MatSnackBar} from '@angular/material';
   styleUrls: ['./selecionar-unidade.component.css']
 })
 export class SelecionarUnidadeComponent implements OnInit {
+
+  /**
+   *
+   * @type {Unidade}
+   */
+  filter: Unidade = new Unidade();
 
   /**
    *

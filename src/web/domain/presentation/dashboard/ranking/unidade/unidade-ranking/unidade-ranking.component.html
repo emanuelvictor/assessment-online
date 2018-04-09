@@ -1,14 +1,31 @@
-<div layout-align='center center' layout-gt-xs='row' layout-margin style="height: 51px">
-  <div layout='row' flex-gt-xs='80' layout-margin>
-    <div flex layout-margin>
-      <div class="tc-grey-500 size-height-50" layout="row" flex layout-align="start center" style="margin-top: 5px">
-        <!--todo COLOCAR EM NGCONTENT-->
-        <span *ngIf="unidades?.length"> Minhas melhores unidades </span>
-        <span *ngIf="!unidades?.length"> Você não possui unidades</span>
-        <div flex></div>
-        <span *ngIf="unidades?.length"> Total: {{ unidades?.length}}</span>
-      </div>
+<search-bar>
+
+  <mat-form-field flex style="margin-left:0">
+    <input id="filter" name="filter"
+           placeholder="Filtre por nome" matInput
+           [(ngModel)]="filter.nome" maxlength="200">
+  </mat-form-field>
+
+  <div flex-gt-md></div>
+
+</search-bar>
+
+<!--Listagem-->
+<div layout="row" layout-align="center start">
+
+  <div layout="column" flex="90">
+
+    <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center">
+      <!--todo COLOCAR EM NGCONTENT-->
+      <span *ngIf="unidades?.length"> Minhas melhores unidades </span>
+      <span *ngIf="!unidades?.length"> Você não possui unidades</span>
+      <div flex></div>
+      <span *ngIf="unidades?.length"> Total: {{ unidades?.length}}</span>
     </div>
+
+    <ranking *ngFor='let unidade of unidades | filter:filter' style='margin-top: -30px'
+             [hasFile]='false' [rankeavel]='unidade'></ranking>
+
   </div>
+
 </div>
-<ranking *ngFor='let unidade of unidades' [hasFile]='false' [rankeavel]='unidade'></ranking>

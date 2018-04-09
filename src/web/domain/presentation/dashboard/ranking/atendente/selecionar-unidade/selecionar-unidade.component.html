@@ -1,6 +1,18 @@
-<lista-unidades>
-  <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center"
-       style="min-width: 17px; margin-top: 6px">
+<search-bar>
+
+  <mat-form-field flex style="margin-left:0">
+    <input id="filter" name="filter"
+           placeholder="Filtre por nome" matInput
+           [(ngModel)]="filter.nome" maxlength="200">
+  </mat-form-field>
+
+  <div flex-gt-md></div>
+
+</search-bar>
+
+
+<lista-unidades [(filter)]="filter">
+  <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center">
     <span> Selecione a unidade </span>
     <div flex></div>
   </div>
