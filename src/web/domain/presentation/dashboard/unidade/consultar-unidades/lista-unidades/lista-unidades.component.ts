@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {UnidadeService} from '../../../../../service/unidade.service';
@@ -16,6 +16,11 @@ export class ListaUnidadesComponent implements OnInit {
    */
   public unidades: any;
 
+  /**
+   *
+   */
+  @Input()
+  public filter: any;
 
   /**
    *

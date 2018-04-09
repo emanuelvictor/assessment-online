@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {UnidadeService} from '../../../../service/unidade.service';
+import {Unidade} from "../../../../entity/unidade/Unidade.model";
 
 @Component({
   selector: 'consultar-unidades',
@@ -12,8 +13,13 @@ export class ConsultarUnidadesComponent implements OnInit {
   /**
    *
    */
-  public unidades: any;
+  public unidades: Unidade[];
 
+  /**
+   *
+   * @type {Unidade}
+   */
+  filter: Unidade = new Unidade();
 
   /**
    *

@@ -85,6 +85,7 @@ import {RankingComponent} from './presentation/dashboard/ranking/ranking.compone
 import {SelecionarUnidadeComponent} from './presentation/dashboard/ranking/atendente/selecionar-unidade/selecionar-unidade.component';
 import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component';
 import {SearchBarComponent} from "./presentation/controls/search-bar/search-bar.component";
+import {FilterPipe} from "./presentation/controls/filter-pipe/filter";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -98,6 +99,7 @@ registerLocaleData(localePt, 'pt-BR');
     CnpjValidator,
     DataNascimentoValidator,
     CurrencyFormatPipe,
+    FilterPipe,
 
     RatingComponent,
     LongPressDirective,
