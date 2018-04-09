@@ -1,15 +1,23 @@
-<div layout-align='center center' layout-gt-xs='row' layout-margin style="height: 51px">
-  <div layout='row' flex-gt-xs='80' layout-margin>
-    <div flex layout-margin>
-      <div class="tc-grey-500 size-height-50" layout="row" flex layout-align="start center" style="margin-top: 5px">
-        <!--todo COLOCAR EM NGCONTENT-->
-        <span *ngIf="atendentes?.length && !unidade?.nome"> Melhores atendentes da rede </span>
-        <span *ngIf="atendentes?.length && unidade?.nome"> Meus melhores atendentes em: {{unidade?.nome}} </span>
-        <span *ngIf="!atendentes?.length"> Você não possui atendentes vinculados á essa unidade</span>
-        <div flex></div>
-        <span *ngIf="atendentes?.length"> Total: {{ atendentes?.length}}</span>
-      </div>
-    </div>
-  </div>
-</div>
-<ranking *ngFor='let atendente of atendentes' [rankeavel]='atendente'></ranking>
+<!--<div layout-align='center center' layout-gt-xs='row' layout-margin style="height: 51px">-->
+  <!--<div layout='row' flex-gt-xs='80' layout-margin>-->
+    <!--<div flex layout-margin>-->
+      <!--<div class="tc-grey-500 size-height-50" layout="row" flex layout-align="start center" style="margin-top: 5px">-->
+        <!--&lt;!&ndash;todo COLOCAR EM NGCONTENT&ndash;&gt;-->
+        <!--<span *ngIf="atendentes?.length && !unidade?.nome"> Melhores atendentes da rede </span>-->
+        <!--<span *ngIf="atendentes?.length && unidade?.nome"> Meus melhores atendentes em: {{unidade?.nome}} </span>-->
+        <!--<span *ngIf="!atendentes?.length"> Você não possui atendentes vinculados á essa unidade</span>-->
+        <!--<div flex></div>-->
+        <!--<span *ngIf="atendentes?.length"> Total: {{ atendentes?.length}}</span>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+<ranking *ngFor='let atendente of atendentes' [rankeavel]='atendente'>
+
+  <mat-accordion>
+    <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
+      <visualizar-vinculo-unidade [usuario]='atendente' *ngIf='atendente?.key'></visualizar-vinculo-unidade>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</ranking>
