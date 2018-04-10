@@ -20,7 +20,15 @@
                   <button mat-icon-button [matMenuTriggerFor]="menu" class="tc-blue-grey-900">
                     <mat-icon>more_vert</mat-icon>
                   </button>
+
                   <mat-menu #menu="matMenu">
+                    <button hide-gt-sm
+                            mat-menu-item color="primary"
+                            routerLink='minhas-estatisticas'>
+                      <mat-icon>show_chart</mat-icon>
+                      <span>Minhas estatísticas</span>
+                    </button>
+
                     <button mat-menu-item color="primary" (click)="alterarMinhaSenha()">
                       <mat-icon>vpn_key</mat-icon>
                       <span>Alterar minha senha</span>

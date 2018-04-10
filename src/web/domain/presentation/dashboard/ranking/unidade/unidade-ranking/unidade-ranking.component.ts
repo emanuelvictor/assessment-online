@@ -64,6 +64,10 @@ export class UnidadeRankingComponent implements OnInit {
         }
       });
 
+      for (let i = 0; i < this.unidades.length; i++){
+        this.unidades[i].posicao = i + 1;
+      }
+
     });
   }
 
