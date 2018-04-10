@@ -4,10 +4,31 @@
 
       <mat-card class="bgc-grey-50" layout-margin>
         <mat-card-content style="margin-left: 35px">
-{{rankeavel.posicao}}
+
           <div layout='row'>
 
             <div layout-gt-xs="row" layout-align="start center" flex>
+
+              <div flex
+                   layout="row"
+                   layout-margin
+                   layout-align="center center">
+                <button style=' height: 45px;
+                                border-radius: 50%;
+                                min-width: fit-content;
+                                margin-top: 145px;
+                                margin-left: 8px;
+                                margin-right: -56px;
+                                z-index: 1;'
+                        mat-raised-button
+                        color="accent" flex>
+                  <b>{{rankeavel.posicao}}º</b>
+                </button>
+              </div>
+
+
+
+
 
               <div class='push-top push-right push-bottom' *ngIf='hasFile'>
                 <avatar [usuario]="{'key': rankeavel?.key , 'foto': rankeavel?.urlFile}"></avatar>
