@@ -92,13 +92,19 @@ export class AtendenteRankingComponent implements OnInit {
         }
       });
 
-      for (let i = 0; i < this.atendentes.length; i++){
-        this.atendentes[i].posicao = i + 1;
-      }
+      this.indexar();
 
     });
   }
 
+  /**
+   * Coloca as posições nos atendnetes
+   */
+  private indexar(){
+    for (let i = 0; i < this.atendentes.length; i++){
+      this.atendentes[i].posicao = i + 1;
+    }
+  }
 
   /**
    *
@@ -143,6 +149,8 @@ export class AtendenteRankingComponent implements OnInit {
                 return 0;
               }
             });
+
+            this.indexar();
           }
         })
       });

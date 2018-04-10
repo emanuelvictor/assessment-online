@@ -40,6 +40,7 @@
     "moment": "2.20.1",
     "ng2-currency-mask": "4.4.1",
     "ngx-ellipsis": "^1.0.7",
+    "ngx-order-pipe": "^2.0.1",
     "node-sass": "^4.7.2",
     "nprogress": "0.2.0",
     "roboto-fontface": "0.8.0",

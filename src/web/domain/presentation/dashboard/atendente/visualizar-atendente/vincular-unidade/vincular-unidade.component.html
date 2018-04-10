@@ -1,6 +1,5 @@
 <mat-nav-list>
-  <!--<div *ngFor="let unidade of unidades; i">-->
-  <div *ngFor="let atendente of atendentes">
+  <div *ngFor="let atendente of atendentes | orderBy:'unidade.nome':reverse:'case-insensitive'">
     <mat-list-item layout='row'
                    layout-margin
                    (click)='select.open()'>

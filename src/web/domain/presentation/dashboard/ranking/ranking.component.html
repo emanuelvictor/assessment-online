@@ -9,27 +9,17 @@
 
             <div layout-gt-xs="row" layout-align="start center" flex>
 
-              <div flex
-                   layout="row"
-                   layout-margin
-                   layout-align="center center">
-                <button *ngIf='rankeavel?.posicao'
-                        style='height: 45px;
-                                border-radius: 50%;
-                                min-width: fit-content;
-                                margin-top: 145px;
-                                margin-left: 8px;
-                                margin-right: -56px;
-                                max-width: 10px;
-                                z-index: 1;'
-                        mat-raised-button
-                        color="accent" flex>
-                  <b>{{rankeavel?.posicao}}º</b>
-                </button>
+              <div layout="column">
+                <!--cabeçalho div-->
+                <ng-content select="[avatar]"></ng-content>
 
-                <div class='push-top push-right push-bottom' *ngIf='hasFile'>
-                  <avatar [usuario]="{'key': rankeavel?.key , 'foto': rankeavel?.urlFile}"></avatar>
-                </div>
+                <button style='margin-top: -25px;margin-left: -27px'
+                        hide-xl hide-lg hide-md
+                        mat-button class='tc-blue-grey-900'
+                        routerLink='estatisticas/{{rankeavel?.key}}'>
+                  <mat-icon>show_chart</mat-icon>
+                  <span>Estatísticas</span>
+                </button>
               </div>
 
               <!--div foto e informações-->
@@ -38,6 +28,7 @@
                    layout-margin
                    layout-align="start center">
                 <div layout="column">
+
                   <h1 flex *ngIf="rankeavel?.media" class="mat-headline no-margin">
                     Média: <span class="tc-purple-500"> {{rankeavel?.media| number:'.1-3' : 'en-US'}}</span>
                   </h1>
@@ -49,17 +40,17 @@
               </div>
             </div>
 
-            <span flex></span>
+            <span flex-xl flex-lg='15' flex-md='15' flex-sm='10' hide-sm hide-xs></span>
 
             <!--div opções-->
-            <div layout="row" flex="40">
+            <div layout="row" flex="25" hide-xs hide-sm>
               <div flex
                    layout="row"
                    layout-margin
                    layout-align="end start">
                 <button mat-button class='tc-blue-grey-900' routerLink='estatisticas/{{rankeavel?.key}}'>
                   <mat-icon>show_chart</mat-icon>
-                  <span hide-sm hide-xs>Estatísticas</span>
+                  <span>Estatísticas</span>
                 </button>
               </div>
             </div>
@@ -69,7 +60,7 @@
         </mat-card-content>
       </mat-card>
 
-      <ng-content></ng-content>
+      <ng-content select="[vinculos]"></ng-content>
 
     </div>
   </div>
