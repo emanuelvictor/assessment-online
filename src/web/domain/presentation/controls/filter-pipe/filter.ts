@@ -1,4 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
+import normalize, {normalizeWhitespaces, normalizeDiacritics} from 'normalize-text';
 
 
 @Pipe({
@@ -18,7 +19,7 @@ export class FilterPipe implements PipeTransform {
     for (const field in filter) {
       if (filter[field]) {
         if (typeof filter[field] === 'string') {
-          if (object[field].toLowerCase().indexOf(filter[field].toLowerCase()) === -1) {
+          if (FilterPipe.normalizeString(object[field]).toLowerCase().indexOf(FilterPipe.normalizeString(filter[field]).toLowerCase()) === -1) {
             return false;
           }
         } else if (typeof filter[field] === 'number') {
@@ -29,6 +30,29 @@ export class FilterPipe implements PipeTransform {
       }
     }
     return true;
+  }
+
+  /**
+   * Normaliza a string, recebe uma string com acentos e devolve sem acentos. Normalizada.
+   * @param {string} string
+   * @returns {string}
+   */
+  static normalizeString(string: string): string {
+    return string.replace(/á/g, 'a')
+      .replace(/â/g, 'a')
+      .replace(/é/g, 'e')
+      .replace(/è/g, 'e')
+      .replace(/ê/g, 'e')
+      .replace(/í/g, 'i')
+      .replace(/ï/g, 'i')
+      .replace(/ì/g, 'i')
+      .replace(/ó/g, 'o')
+      .replace(/ô/g, 'o')
+      .replace(/ú/g, 'u')
+      .replace(/ü/g, 'u')
+      .replace(/ç/g, 'c')
+      .replace(/ß/g, 's')
+      .replace(/[!#$%&'()*+,-./:;?@[\\\]_`{|}~]/g, '');
   }
 
   /**

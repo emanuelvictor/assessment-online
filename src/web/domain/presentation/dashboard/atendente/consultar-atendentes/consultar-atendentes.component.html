@@ -28,7 +28,7 @@
 
     <mat-card class="push-none bgc-grey-50">
       <mat-nav-list>
-        <div *ngFor="let atendente of atendentes | filter:filter | orderBy: 'nome':reverse:'case-insensitive'" routerLink="{{atendente?.key}}">
+        <div *ngFor="let atendente of atendentes | filter:filter | orderBy: 'nome':false:'case-insensitive'" routerLink="{{atendente?.key}}">
           <mat-list-item>
 
             <!--avatar-->
