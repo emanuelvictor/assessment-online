@@ -1,6 +1,4 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import normalize, {normalizeWhitespaces, normalizeDiacritics} from 'normalize-text';
-
 
 @Pipe({
   name: 'filter',
@@ -26,6 +24,8 @@ export class FilterPipe implements PipeTransform {
           if (object[field] !== filter[field]) {
             return false;
           }
+        } else if (typeof filter[field] === 'object') {
+          return FilterPipe.applyFilter(filter[field], filter)
         }
       }
     }
