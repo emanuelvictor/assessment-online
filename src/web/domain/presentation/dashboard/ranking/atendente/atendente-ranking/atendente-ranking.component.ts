@@ -51,60 +51,80 @@ export class AtendenteRankingComponent implements OnInit {
    *
    */
   ngOnInit() {
-    /**
-     * Pega a key da unidade que está nos parâmetros
-     * @type {any}
-     */
-    const unidadeKey: string = this.activatedRoute.snapshot.params['key'];
+    this.usuarioService.getUsuarioAutenticado()
+      .subscribe(usuarioAutenticado => {
 
-    // /**
-    //  * Se houver parâmetro da key da unidade, pega somente os atendentes do usuário
-    //  */
-    // if (unidadeKey)
-    //   this.find(unidadeKey);
-    //
-    // /**
-    //  * Se não houver parâmetro da key da unidade, pega todos os atendentes
-    //  */
-    // else
-      this.getAtendentes();
-  }
+        if (usuarioAutenticado.isAdministrador) {
 
-  /**
-   *
-   */
-  public getAtendentes() {
-    this.usuarioService.find().subscribe(atendentes => {
+          this.usuarioService.find()
+            .subscribe(atendentes => {
+              this.atendentes = atendentes;
 
-      this.atendentes = atendentes;
+              for (let i = 0; i < this.atendentes.length; i++)
+                if (!this.atendentes[i].media)
+                  this.atendentes[i].media = 0;
 
-      for (let i = 0; i < this.atendentes.length; i++)
-        if (!this.atendentes[i].media)
-          this.atendentes[i].media = 0;
+              this.atendentes.forEach(atendente => {
+                /**
+                 * TODO Substituir por innerjoins
+                 */
+                this.unidadeService.listUnidadesByColaboradorKey(atendente.key)
+                  .subscribe(unidades => {
+                    atendente.unidades = unidades.map(unidade => unidade.nome).join();
+                  })
+              });
 
-      this.atendentes.forEach(atendente => {
-        /**
-         * TODO Substituir por innerjoins
-         */
-        this.unidadeService.listUnidadesByColaboradorKey(atendente.key)
-          .subscribe(unidades => {
-            atendente.unidades = unidades.map(unidade => unidade.nome).join();
-          })
-      });
+              this.atendentes.sort((a: any, b: any) => {
+                if (a['media'] > b['media']) {
+                  return -1;
+                } else if (a['media'] < b['media']) {
+                  return 1;
+                } else {
+                  return 0;
+                }
+              });
 
-      this.atendentes.sort((a: any, b: any) => {
-        if (a['media'] > b['media']) {
-          return -1;
-        } else if (a['media'] < b['media']) {
-          return 1;
+              this.indexar();
+            })
+
         } else {
-          return 0;
+
+          this.usuarioService.listAtendentesByOperadorKey(usuarioAutenticado.key)
+            .subscribe(atendentes => {
+
+              this.atendentes = atendentes;
+
+              for (let i = 0; i < this.atendentes.length; i++)
+                if (!this.atendentes[i].media)
+                  this.atendentes[i].media = 0;
+
+              this.atendentes.forEach(atendente => {
+                /**
+                 * TODO Substituir por innerjoins
+                 */
+                this.unidadeService.listUnidadesByColaboradorKey(atendente.key)
+                  .subscribe(unidades => {
+                    atendente.unidades = unidades.map(unidade => unidade.nome).join();
+                  })
+              });
+
+              this.atendentes.sort((a: any, b: any) => {
+                if (a['media'] > b['media']) {
+                  return -1;
+                } else if (a['media'] < b['media']) {
+                  return 1;
+                } else {
+                  return 0;
+                }
+              });
+
+              this.indexar();
+
+            });
+
         }
-      });
 
-      this.indexar();
-
-    });
+      })
   }
 
   /**

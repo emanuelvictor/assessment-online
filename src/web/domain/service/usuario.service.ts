@@ -52,7 +52,7 @@ export class UsuarioService {
 
           } else {
 
-            this.listAtendentesByCooperadorKey(usuarioAutenticado.key)
+            this.listColaboradoresByOperadorKey(usuarioAutenticado.key)
               .subscribe(atendentes => {
                 observer.next(atendentes);
               })
@@ -65,11 +65,11 @@ export class UsuarioService {
   }
 
   /**
-   * Lista todos os usuarios atendnetes do cooperador
+   * Lista todos os colaboradores do cooeprador
    * @param {string} key
    * @returns {Observable<any>}
    */
-  public listAtendentesByCooperadorKey(key: string): Observable<any> {
+  public listColaboradoresByOperadorKey(key: string): Observable<any> {
 
     let atendentesReturn = [];
 
@@ -81,6 +81,46 @@ export class UsuarioService {
       .flatMap((colaborador: Colaborador) => {
         atendentesReturn = [];
         return this.colaboradorService.listColaboradoresByUnidadeKey(colaborador.unidade.key)
+      })
+      .flatMap(colaboradores => {
+        return colaboradores;
+      })
+      .flatMap((colaborador: Colaborador) => {
+        return this.findOne(colaborador.usuario.key)
+      })
+      .map(atendente => {
+
+        let founded = false;
+
+        for (let i = 0; i < atendentesReturn.length; i++) {
+          founded = atendentesReturn[i].key === atendente.key;
+          if (founded) break
+        }
+
+        if (!founded)
+          atendentesReturn.push(atendente);
+
+        return atendentesReturn;
+      })
+  }
+
+  /**
+   * Lista todos os usuarios atendnetes do cooperador
+   * @param {string} key
+   * @returns {Observable<any>}
+   */
+  public listAtendentesByOperadorKey(key: string): Observable<any> {
+
+    let atendentesReturn = [];
+
+    return this.colaboradorService.listOperadoresByUsuarioKey(key)
+      .flatMap(colaboradores => {
+        atendentesReturn = [];
+        return colaboradores;
+      })
+      .flatMap((colaborador: Colaborador) => {
+        atendentesReturn = [];
+        return this.colaboradorService.listAtendentesByUnidadeKey(colaborador.unidade.key)
       })
       .flatMap(colaboradores => {
         return colaboradores;
