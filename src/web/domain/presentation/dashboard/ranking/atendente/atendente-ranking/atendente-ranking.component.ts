@@ -57,16 +57,16 @@ export class AtendenteRankingComponent implements OnInit {
      */
     const unidadeKey: string = this.activatedRoute.snapshot.params['key'];
 
-    /**
-     * Se houver parâmetro da key da unidade, pega somente os atendentes do usuário
-     */
-    if (unidadeKey)
-      this.find(unidadeKey);
-
-    /**
-     * Se não houver parâmetro da key da unidade, pega todos os atendentes
-     */
-    else
+    // /**
+    //  * Se houver parâmetro da key da unidade, pega somente os atendentes do usuário
+    //  */
+    // if (unidadeKey)
+    //   this.find(unidadeKey);
+    //
+    // /**
+    //  * Se não houver parâmetro da key da unidade, pega todos os atendentes
+    //  */
+    // else
       this.getAtendentes();
   }
 
@@ -81,6 +81,16 @@ export class AtendenteRankingComponent implements OnInit {
       for (let i = 0; i < this.atendentes.length; i++)
         if (!this.atendentes[i].media)
           this.atendentes[i].media = 0;
+
+      this.atendentes.forEach(atendente => {
+        /**
+         * TODO Substituir por innerjoins
+         */
+        this.unidadeService.listUnidadesByColaboradorKey(atendente.key)
+          .subscribe(unidades => {
+            atendente.unidades = unidades.map(unidade => unidade.nome).join();
+          })
+      });
 
       this.atendentes.sort((a: any, b: any) => {
         if (a['media'] > b['media']) {
@@ -100,8 +110,8 @@ export class AtendenteRankingComponent implements OnInit {
   /**
    * Coloca as posições nos atendnetes
    */
-  private indexar(){
-    for (let i = 0; i < this.atendentes.length; i++){
+  private indexar() {
+    for (let i = 0; i < this.atendentes.length; i++) {
       this.atendentes[i].posicao = i + 1;
     }
   }
@@ -123,11 +133,20 @@ export class AtendenteRankingComponent implements OnInit {
 
             let founded = false;
 
-            for (let i = 0; i < this.atendentes.length; i++)
-              if (this.atendentes[i].key === usuario.key) {
-                this.atendentes[i] = usuario;
+            this.atendentes.forEach(atendente => {
+              if (atendente.key === usuario.key) {
+                atendente = usuario;
                 founded = true;
               }
+
+              /**
+               * TODO Substituir por innerjoins
+               */
+              this.unidadeService.listUnidadesByColaboradorKey(atendente.key)
+                .subscribe(unidades => {
+                  atendente.unidades = unidades.map(unidade => unidade.nome).join();
+                })
+            });
 
             if (!founded) {
               /**
@@ -167,4 +186,3 @@ export class AtendenteRankingComponent implements OnInit {
     });
   }
 }
-

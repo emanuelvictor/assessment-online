@@ -80,7 +80,7 @@ const routes: Routes = [
           ]
         },
         {
-          path: 'melhores-atendentes-rede', component: AtendenteRankingViewComponent,
+          path: 'meus-melhores-atendentes', component: AtendenteRankingViewComponent,
           children: [
             {
               path: '', component: AtendenteRankingComponent
@@ -91,7 +91,7 @@ const routes: Routes = [
           ]
         },
         {
-          path: 'melhores-unidades', component: UnidadeRankingViewComponent,
+          path: 'minhas-melhores-unidades', component: UnidadeRankingViewComponent,
           children: [
             {
               path: '', component: UnidadeRankingComponent

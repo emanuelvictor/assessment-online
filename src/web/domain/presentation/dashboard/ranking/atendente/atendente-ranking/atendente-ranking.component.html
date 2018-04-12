@@ -6,6 +6,12 @@
            [(ngModel)]="filter.nome" maxlength="200">
   </mat-form-field>
 
+  <mat-form-field flex>
+    <input id="unidadeFilter" name="unidadeFilter"
+           placeholder="Selecione a unidade" matInput
+           [(ngModel)]="filter.unidades" maxlength="200">
+  </mat-form-field>
+
   <div flex-gt-md></div>
 
 </search-bar>

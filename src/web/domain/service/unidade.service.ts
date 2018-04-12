@@ -42,7 +42,7 @@ export class UnidadeService {
 
           } else {
 
-            this.listUnidadesByCooperadorKey(usuarioAutenticado.key)
+            this.listUnidadesByOperadorKey(usuarioAutenticado.key)
               .subscribe(unidades => {
                 observer.next(unidades);
               })
@@ -55,11 +55,11 @@ export class UnidadeService {
   }
 
   /**
-   * Lista todas as unidades em que o usuário é cooperador
+   * Lista todas as unidades em que o usuário é operador
    * @param {string} key
    * @returns {Observable<any>}
    */
-  public listUnidadesByCooperadorKey(key: string): Observable<any> {
+  public listUnidadesByOperadorKey(key: string): Observable<any> {
 
     let unidadesReturn = [];
 
@@ -92,7 +92,40 @@ export class UnidadeService {
 
         return unidadesReturn;
       })
+  }
 
+
+  /**
+   * Lista todas as unidades em que o usuário está vinculado, serviço utilizado pela consulta de atendentes
+   * @param {string} key
+   * @returns {Observable<any>}
+   */
+  public listUnidadesByColaboradorKey(key: string): Observable<any> {
+
+    let unidadesReturn = [];
+
+    return this.colaboradorService.listColaboradoresByUsuarioKey(key)
+      .flatMap(colaboradores => {
+        unidadesReturn = [];
+        return colaboradores;
+      })
+      .flatMap((colaborador: Colaborador) => {
+        return this.findOne(colaborador.unidade.key)
+      })
+      .map(unidade => {
+
+        let founded = false;
+
+        for (let i = 0; i < unidadesReturn.length; i++) {
+          founded = unidadesReturn[i].key === unidade.key;
+          if (founded) break
+        }
+
+        if (!founded)
+          unidadesReturn.push(unidade);
+
+        return unidadesReturn;
+      })
   }
 
   /**

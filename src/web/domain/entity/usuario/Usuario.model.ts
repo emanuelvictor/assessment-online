@@ -16,7 +16,10 @@ export class Usuario extends Rankeavel {
 
   public password: string;
 
-  public unidade: Unidade;
+  /**
+   * Utilizado para paliativo em consulta de atendentes
+   */
+  public unidades: string;
 
   public endereco: Endereco;
 

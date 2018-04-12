@@ -40,37 +40,37 @@
       </div>
     </mat-list-item>
 
+    <!--<mat-list-item class="push-bottom"-->
+                   <!--routerLink="/dashboard/melhores-atendentes"-->
+                   <!--routerLinkActive #rlaMelhoresAtendentes="routerLinkActive"-->
+                   <!--[ngClass]="{'menu-active': rlaMelhoresAtendentes.isActive}"-->
+                   <!--matTooltip="Filtro por unidade" [matTooltipPosition]="'before'">-->
+      <!--<div layout="row" flex class="pad-left">-->
+        <!--<span flex="10"></span>-->
+        <!--<mat-icon matListAvatar flex>supervisor_account</mat-icon>-->
+        <!--<h3 matLine style="color: white" flex="85"> Meus melhores atendentes </h3>-->
+      <!--</div>-->
+    <!--</mat-list-item>-->
+
     <mat-list-item class="push-bottom"
-                   routerLink="/dashboard/melhores-atendentes"
-                   routerLinkActive #rlaMelhoresAtendentes="routerLinkActive"
-                   [ngClass]="{'menu-active': rlaMelhoresAtendentes.isActive}"
-                   matTooltip="Filtro por unidade" [matTooltipPosition]="'before'">
+                   routerLink="/dashboard/meus-melhores-atendentes"
+                   routerLinkActive #rlaMelhorAtendente="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaMelhorAtendente.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
-        <mat-icon matListAvatar flex>supervisor_account</mat-icon>
+        <mat-icon matListAvatar flex>card_giftcard</mat-icon>
         <h3 matLine style="color: white" flex="85"> Meus melhores atendentes </h3>
       </div>
     </mat-list-item>
 
     <mat-list-item class="push-bottom"
-                   routerLink="/dashboard/melhores-unidades"
+                   routerLink="/dashboard/minhas-melhores-unidades"
                    routerLinkActive #rlaMelhoresUnidades="routerLinkActive"
                    [ngClass]="{'menu-active': rlaMelhoresUnidades.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>assessment</mat-icon>
         <h3 matLine style="color: white" flex="85"> Minhas melhores unidades </h3>
-      </div>
-    </mat-list-item>
-
-    <mat-list-item class="push-bottom" *ngIf='authenticatedUser?.isAdministrador'
-                   routerLink="/dashboard/melhores-atendentes-rede"
-                   routerLinkActive #rlaMelhorAtendente="routerLinkActive"
-                   [ngClass]="{'menu-active': rlaMelhorAtendente.isActive}">
-      <div layout="row" flex class="pad-left">
-        <span flex="10"></span>
-        <mat-icon matListAvatar flex>card_giftcard</mat-icon>
-        <h3 matLine style="color: white" flex="85"> Melhores atendentes da rede </h3>
       </div>
     </mat-list-item>
 

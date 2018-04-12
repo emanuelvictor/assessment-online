@@ -17,6 +17,8 @@ export class FilterPipe implements PipeTransform {
     for (const field in filter) {
       if (filter[field]) {
         if (typeof filter[field] === 'string') {
+          if (!object[field])
+            return false;
           if (FilterPipe.normalizeString(object[field]).toLowerCase().indexOf(FilterPipe.normalizeString(filter[field]).toLowerCase()) === -1) {
             return false;
           }
@@ -24,8 +26,6 @@ export class FilterPipe implements PipeTransform {
           if (object[field] !== filter[field]) {
             return false;
           }
-        } else if (typeof filter[field] === 'object') {
-          return FilterPipe.applyFilter(filter[field], filter)
         }
       }
     }
