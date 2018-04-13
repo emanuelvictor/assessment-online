@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {Unidade} from "../../../../entity/unidade/Unidade.model";
+import {UsuarioService} from '../../../../service/usuario.service';
+import {Usuario} from '../../../../entity/usuario/Usuario.model';
 
 @Component({
   selector: 'consultar-unidades',
@@ -23,16 +25,24 @@ export class ConsultarUnidadesComponent implements OnInit {
 
   /**
    *
+   */
+  usuarioAutenticado: Usuario = new Usuario();
+
+  /**
+   *
    * @param {MatSnackBar} snackBar
    * @param {UnidadeService} unidadeService
+   * @param {UsuarioService} usuarioService
    */
-  constructor(private snackBar: MatSnackBar, private unidadeService: UnidadeService) {
+  constructor(private snackBar: MatSnackBar, private unidadeService: UnidadeService, private usuarioService: UsuarioService) {
   }
 
   /**
    *
    */
   ngOnInit() {
+    this.usuarioService.getUsuarioAutenticado()
+      .subscribe(usuarioAutenticado => this.usuarioAutenticado = usuarioAutenticado)
     this.listUnidadesByFilters();
   }
 

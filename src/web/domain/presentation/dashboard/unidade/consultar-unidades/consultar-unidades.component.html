@@ -10,7 +10,8 @@
 
   <add-button routerLink="inserir"
               [matTooltipPosition]="'below'"
-              matTooltip="Inserir uma nova unidade">
+              matTooltip="Inserir uma nova unidade"
+              *ngIf="usuarioAutenticado?.isAdministrador">
   </add-button>
 
 </search-bar>
