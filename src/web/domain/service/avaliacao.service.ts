@@ -81,6 +81,11 @@ export class AvaliacaoService {
       });
   }
 
+  /**
+   * Retorna todas as avaliações da unidade
+   * @param {string} key
+   * @returns {Observable<any>}
+   */
   public listAvaliacoesByUnidadeKey(key: string): Observable<any> {
     return Observable.create(observer => {
       this.sufoco(key)
@@ -97,136 +102,50 @@ export class AvaliacaoService {
    */
   private sufoco(key: string): Observable<any> {
 
-    let quantidadeAvaliacoes = 0;
 
     let avaliacoesReturn = [];
 
-    let test = [];
-
-
-    const keys = new Set();
-    let x = [];
+    const quantidadeAvaliacoesPorColaborador = [];
 
     return this.colaboradorService.listColaboradoresByUnidadeKey(key)
       .flatMap(colaboradores => {
         avaliacoesReturn = [];
-        quantidadeAvaliacoes = 0;
         colaboradores.map(colaborador => {
-          test[colaborador.key] = colaborador;
+          quantidadeAvaliacoesPorColaborador[colaborador.key] = colaborador;
         });
         return colaboradores;
       })
       .flatMap((colaborador: Colaborador) => {
-        quantidadeAvaliacoes = 0;
         return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
       })
       .flatMap(avaliacoesColaboradores => {
         avaliacoesReturn = [];
-        x = [];
         if (avaliacoesColaboradores.length) {
-          keys.add(avaliacoesColaboradores[0].colaborador.key);
-          test[avaliacoesColaboradores[0].colaborador.key].avaliacoes = avaliacoesColaboradores.map( a => a.avaliacao);
-          // quantidadeAvaliacoes = 0;
-          console.log(test[avaliacoesColaboradores[0].colaborador.key].avaliacoes.length);
-          x.push(test[avaliacoesColaboradores[0].colaborador.key].avaliacoes.length);
+          quantidadeAvaliacoesPorColaborador[avaliacoesColaboradores[0].colaborador.key].avaliacoes = avaliacoesColaboradores.map(a => a.avaliacao);
+          // console.log(test[avaliacoesColaboradores[0].colaborador.key].avaliacoes.length);
         }
         return avaliacoesColaboradores;
       })
-    .flatMap((avaliacaoColaborador: AvaliacaoColaborador) => {
-      return this.findOne(avaliacaoColaborador.avaliacao.key)
-    })
-    .map(avaliacao => {
+      .flatMap((avaliacaoColaborador: AvaliacaoColaborador) => {
+        return this.findOne(avaliacaoColaborador.avaliacao.key)
+      })
+      .map(avaliacao => {
 
-      let s = 0;
-      // x.forEach(r => {
-      //   s = s + r
-      // });
-      //
-      // console.log(s);
+        let totalDeAvaliacoes = 0;
 
-// console.log(keys);
-      keys.forEach(k => {
-        if (test[k] && test[k].avaliacoes)
-          s = s + test[k].avaliacoes.length;
-      });
-      // console.log(s);
-//       console.log(test.map ( tes => console.log(tes)));
+        for (const field in quantidadeAvaliacoesPorColaborador) {
+          if (quantidadeAvaliacoesPorColaborador[field] && quantidadeAvaliacoesPorColaborador[field].avaliacoes)
+            totalDeAvaliacoes = totalDeAvaliacoes + quantidadeAvaliacoesPorColaborador[field].avaliacoes.length;
+        }
 
-      // let founded = false;
-      //
-      // for (let i = 0; i < avaliacoesReturn.length; i++) {
-      //   founded = avaliacoesReturn[i].key === avaliacao.key;
-      //   if (founded) break
-      // }
-      //
-      // if (!founded)
         avaliacoesReturn.push(avaliacao);
 
-      if (avaliacoesReturn.length === s) {
-        console.log('TERMINOU =>', avaliacoesReturn);
-        return avaliacoesReturn;
-      }
-    });
-
-
-    // return this.colaboradorService.listColaboradoresByUnidadeKey(key)
-    //   .flatMap(colaboradores => {
-    //     avaliacoesReturn = [];
-    //     return colaboradores;
-    //   })
-    //   .flatMap((colaborador: Colaborador) => {
-    //     avaliacoesReturn = [];
-    //     return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
-    //   })
-    //   .flatMap(avaliacoesColaboradores => {
-    //     quantidadeAvaliacoes = 0;
-    //     quantidadeAvaliacoes = avaliacoesColaboradores.length;
-    //     // console.log('avaliacoesColaboradores', avaliacoesColaboradores.length);
-    //     return avaliacoesColaboradores.map(a => a.avaliacao);
-    //   })
-    //   .map((avaliacao: Avaliacao) => {
-    //
-    //     // console.log('avaliacoes', avaliacao);
-    //
-    //     let founded = false;
-    //
-    //     for (let i = 0; i < avaliacoesReturn.length; i++) {
-    //       founded = avaliacoesReturn[i].key === avaliacao.key;
-    //       if (founded) break
-    //     }
-    //
-    //     if (!founded)
-    //       avaliacoesReturn.push(avaliacao);
-    //
-    //     if (avaliacoesReturn.length === quantidadeAvaliacoes) {
-    //       console.log('TERMINOU =>', avaliacoesReturn);
-    //       return avaliacoesReturn;
-    //     }
-    //   });
+        if (avaliacoesReturn.length === totalDeAvaliacoes) {
+          console.log(avaliacoesReturn.length);
+          return avaliacoesReturn;
+        }
+      });
   }
-
-  /**
-   * Retorna todas as avaliações da unidade
-   * @param {string} key
-   * @returns {Observable<any>}
-   */
-//   public listAvaliacoesByUnidadeKey(key: string): Observable<any> {
-// let a = 0;
-//     this.colaboradorRepository.listColaboradoresByUnidadeKey(key)
-//       .subscribe(colaboradores => {
-//         a = 0;
-//         colaboradores.forEach(colaborador => {
-//           this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
-//             .subscribe(avaliacoesColaboradores => {
-//               a = a + avaliacoesColaboradores.length;
-//               console.log('avaliacoes ' + a);
-//             })
-//         })
-//       });
-//
-//     return null;
-//   }
-
 
   /**
    *

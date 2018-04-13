@@ -66,27 +66,13 @@ const routes: Routes = [
           ]
         },
         {
-          path: 'melhores-atendentes', component: AtendenteRankingViewComponent,
-          children: [
-            {
-              path: '', component: SelecionarUnidadeComponent
-            },
-            {
-              path: ':key', component: AtendenteRankingComponent
-            },
-            {
-              path: ':key/estatisticas/:key', component: EstatisticasAtendenteComponent
-            }
-          ]
-        },
-        {
           path: 'meus-melhores-atendentes', component: AtendenteRankingViewComponent,
           children: [
             {
               path: '', component: AtendenteRankingComponent
             },
             {
-              path: 'estatisticas/:key', component: EstatisticasAtendenteComponent
+              path: ':key', component: EstatisticasAtendenteComponent
             }
           ]
         },
@@ -97,7 +83,7 @@ const routes: Routes = [
               path: '', component: UnidadeRankingComponent
             },
             {
-              path: 'estatisticas/:key', component: EstatisticasUnidadeComponent
+              path: ':key', component: EstatisticasUnidadeComponent
             }
           ]
         }

@@ -59,10 +59,11 @@
         </div>
 
         <mat-card class='push-none bgc-grey-50'
-                  *ngIf='multi[0].series.length'>
-
-          <div style='height:500px;' *ngIf="avaliacoes?.length">
+                  [@tdFadeInOut]="hasAvaliation"
+                  >
+          <div style='height:500px;'>
             <ngx-charts-bar-vertical-2d
+                *ngIf="hasAvaliation "
                 [scheme]='colorScheme'
                 [results]='multi'
                 [gradient]='true'

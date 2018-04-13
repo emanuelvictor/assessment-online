@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {TdDigitsPipe} from '@covalent/core';
+import {TdDigitsPipe, TdFadeInOutAnimation} from '@covalent/core';
 import {ActivatedRoute} from '@angular/router';
 import {AvaliacaoService} from '../../../../../service/avaliacao.service';
 import {AvaliacaoColaboradorRepository} from '../../../../../repository/avaliacao-colaborador.repository';
@@ -11,6 +11,7 @@ import {UnidadeService} from '../../../../../service/unidade.service';
 import {Avaliacao} from '../../../../../entity/avaliacao/Avaliacao.model';
 
 @Component({
+  animations: [TdFadeInOutAnimation()],
   selector: 'estatisticas-unidade',
   templateUrl: './estatisticas-unidade.component.html',
   styleUrls: ['./estatisticas-unidade.component.scss']
@@ -18,7 +19,7 @@ import {Avaliacao} from '../../../../../entity/avaliacao/Avaliacao.model';
 export class EstatisticasUnidadeComponent implements OnInit {
 
 
-  avaliacoes : Avaliacao[];
+  avaliacoes: Avaliacao[];
 
   /**
    *
@@ -94,6 +95,8 @@ export class EstatisticasUnidadeComponent implements OnInit {
     },
   ];
 
+  hasAvaliation = false;
+
   /**
    *
    * @param {Title} title
@@ -154,22 +157,17 @@ export class EstatisticasUnidadeComponent implements OnInit {
     this.initResults();
     this.avaliacaoService.listAvaliacoesByUnidadeKey(this.activatedRoute.snapshot.params['key'])
       .subscribe(avaliacoes => {
-        // this.initResults();
+        this.avaliacoes = avaliacoes;
         this.initAvaliacoes();
 
-        this.mapper = [
-          {
-            'name': 'Avaliações',
-            'series': [],
-          },
-        ];
+        this.hasAvaliation = false;
 
-        this.avaliacoes = avaliacoes;
         avaliacoes.forEach(avaliacao => {
           if (
-            (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY')))
+            (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY').add(1, 'days')))
             && (!dataInicio || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(moment(dataInicio, 'DD/MM/YYYY')))
           ) {
+            this.hasAvaliation = true;
 
             if (avaliacao.nota === 1) {
               this.avaliacoes1 = this.avaliacoes1 + 1;
@@ -222,6 +220,10 @@ export class EstatisticasUnidadeComponent implements OnInit {
 
               return group;
             });
+          }
+
+          if (!this.hasAvaliation) {
+            this.avaliacoes = [];
           }
         });
 
