@@ -59,19 +59,19 @@
         </div>
 
         <mat-card class='push-none bgc-grey-50'
-                  *ngIf='multi[0].series.length'>
-
+                  [@tdFadeInOut]="hasAvaliation"
+        >
           <div style='height:500px;'>
             <ngx-charts-bar-vertical-2d
+                *ngIf="hasAvaliation "
                 [scheme]='colorScheme'
                 [results]='multi'
-                [gradient]='false'
-                [xAxis]='showXAxis'
-                [yAxis]='showYAxis'
+                [gradient]='true'
+                [xAxis]='true'
+                [yAxis]='true'
                 [legend]='showLegend'
                 [showXAxisLabel]='false'
                 [showYAxisLabel]='false'
-                [xAxisLabel]='xAxisLabel'
                 [yAxisLabel]='yAxisLabel'
                 [yAxisTickFormatting]='axisDigits'
                 [barPadding]='2'

@@ -19,15 +19,13 @@ export class AvaliacaoService {
    *
    * @param {AvaliacaoRepository} avaliacaoRepository
    * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
-   * @param {ColaboradorRepository} colaboradorRepository
    * @param {ColaboradorService} colaboradorService
    * @param {UsuarioRepository} usuarioRepository
    * @param {UnidadeRepository} unidadeRepository
    */
   constructor(private avaliacaoRepository: AvaliacaoRepository,
               private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository,
-              private colaboradorService: ColaboradorService, private usuarioRepository: UsuarioRepository,
-              private colaboradorRepository: ColaboradorRepository, private unidadeRepository: UnidadeRepository) {
+              private colaboradorService: ColaboradorService, private usuarioRepository: UsuarioRepository, private unidadeRepository: UnidadeRepository) {
   }
 
   /**
@@ -44,51 +42,8 @@ export class AvaliacaoService {
    * @returns {Observable<any>}
    */
   public listAvaliacoesByAtendenteKey(key: string): Observable<any> {
-
-    let quantidadeAvaliacoes = 0;
-
-    let avaliacoesReturn = [];
-
-    return this.colaboradorService.listColaboradoresByUsuarioKey(key)
-      .flatMap(colaboradores => {
-        avaliacoesReturn = [];
-        return colaboradores;
-      })
-      .flatMap((colaborador: Colaborador) => {
-        avaliacoesReturn = [];
-        return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
-      })
-      .flatMap(avaliacoesColaboradores => {
-        quantidadeAvaliacoes = quantidadeAvaliacoes + avaliacoesColaboradores.length;
-        return avaliacoesColaboradores;
-      })
-      .flatMap((avaliacaoColaborador: AvaliacaoColaborador) => {
-        return this.findOne(avaliacaoColaborador.avaliacao.key)
-      })
-      .map(avaliacao => {
-        console.log(quantidadeAvaliacoes);
-        let founded = false;
-
-        for (let i = 0; i < avaliacoesReturn.length; i++) {
-          founded = avaliacoesReturn[i].key === avaliacao.key;
-          if (founded) break
-        }
-
-        if (!founded)
-          avaliacoesReturn.push(avaliacao);
-
-        return avaliacoesReturn;
-      });
-  }
-
-  /**
-   * Retorna todas as avaliações da unidade
-   * @param {string} key
-   * @returns {Observable<any>}
-   */
-  public listAvaliacoesByUnidadeKey(key: string): Observable<any> {
     return Observable.create(observer => {
-      this.sufoco(key)
+      this.sufoco(this.listColaboradoresByUsuarioKey(key))
         .subscribe(result => {
           if (result) observer.next(result);
         });
@@ -100,14 +55,35 @@ export class AvaliacaoService {
    * @param {string} key
    * @returns {Observable<any>}
    */
-  private sufoco(key: string): Observable<any> {
+  public listAvaliacoesByUnidadeKey(key: string): Observable<any> {
+    return Observable.create(observer => {
+      this.sufoco(this.listColaboradoresByUnidadeKey(key))
+        .subscribe(result => {
+          if (result) observer.next(result);
+        });
+    });
+  }
 
+  private listColaboradoresByUsuarioKey(key): Observable<any> {
+    return this.colaboradorService.listColaboradoresByUsuarioKey(key)
+  }
+
+  private listColaboradoresByUnidadeKey(key): Observable<any> {
+    return this.colaboradorService.listColaboradoresByUnidadeKey(key)
+  }
+  /**
+   * Retorna todas as avaliações da unidade ou do atendente,
+   * Sufoco, pq foi um sufoco implementar.
+   * @param {Observable<any>} observable
+   * @returns {Observable<any>}
+   */
+  private sufoco(observable: Observable<any>): Observable<any> {
 
     let avaliacoesReturn = [];
 
     const quantidadeAvaliacoesPorColaborador = [];
 
-    return this.colaboradorService.listColaboradoresByUnidadeKey(key)
+    return observable
       .flatMap(colaboradores => {
         avaliacoesReturn = [];
         colaboradores.map(colaborador => {

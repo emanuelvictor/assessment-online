@@ -4,15 +4,20 @@ import {ActivatedRoute} from '@angular/router';
 import {AvaliacaoService} from '../../../../../service/avaliacao.service';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import * as moment from 'moment';
-import {TdDigitsPipe} from '@covalent/core';
+import {TdDigitsPipe, TdFadeInOutAnimation} from '@covalent/core';
 import {UsuarioService} from '../../../../../service/usuario.service';
+import {Avaliacao} from '../../../../../entity/avaliacao/Avaliacao.model';
 
 @Component({
+  animations: [TdFadeInOutAnimation()],
   selector: 'estatisticas-atendente',
   templateUrl: './estatisticas-atendente.component.html',
   styleUrls: ['./estatisticas-atendente.component.scss']
 })
 export class EstatisticasAtendenteComponent implements OnInit {
+
+
+  avaliacoes: Avaliacao[];
 
   /**
    *
@@ -50,10 +55,7 @@ export class EstatisticasAtendenteComponent implements OnInit {
 
 
   // options
-  showXAxis = true;
-  showYAxis = true;
   showLegend = false;
-  xAxisLabel = '';
   yAxisLabel = 'Avaliações';
 
   colorScheme: any = {
@@ -71,6 +73,10 @@ export class EstatisticasAtendenteComponent implements OnInit {
    */
   atendente: any;
 
+  /**
+   *
+   * @type {number}
+   */
   avaliacoes1 = 0;
   avaliacoes2 = 0;
   avaliacoes3 = 0;
@@ -80,7 +86,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
   public dataInicio; // = moment(new Date(Date.now()), 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
   public dataFim; // = moment(new Date(Date.now()), 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
 
-
   mapper: any = [
     {
       'name': 'Avaliações',
@@ -88,14 +93,15 @@ export class EstatisticasAtendenteComponent implements OnInit {
     },
   ];
 
+  hasAvaliation = false;
+
   /**
-   *
    * @param {Title} title
    * @param {UsuarioService} usuarioService
-   * @param {AvaliacaoService} avaliacaoService
    * @param {ActivatedRoute} activatedRoute
+   * @param {AvaliacaoService} avaliacaoService
    */
-  constructor(private title: Title, private usuarioService: UsuarioService, private avaliacaoService: AvaliacaoService, private activatedRoute: ActivatedRoute) {
+  constructor(private title: Title, private usuarioService: UsuarioService, private activatedRoute: ActivatedRoute, private avaliacaoService: AvaliacaoService) {
   }
 
   /**
@@ -129,13 +135,13 @@ export class EstatisticasAtendenteComponent implements OnInit {
    */
   initResults() {
     // Chart Multi
-    this.multi = this.mapper.map((group: any) => {
+    this.mapper.map((group: any) => {
       group.series = group.series.map((dataItem: any) => {
         dataItem.value = 0;
         return dataItem;
       });
       return group;
-    });
+    })
   }
 
   /**
@@ -144,23 +150,21 @@ export class EstatisticasAtendenteComponent implements OnInit {
    * @param dataFim
    */
   public listEstatisticasByDates(dataInicio, dataFim) {
-
-    this.initResults();
-
     this.initAvaliacoes();
-    /**
-     * todo BUG identificado, tem que retornar a lista
-     */
-    this.avaliacaoService
-      .listAvaliacoesByAtendenteKey(this.activatedRoute.snapshot.params['key'])
+    this.initResults();
+    this.avaliacaoService.listAvaliacoesByAtendenteKey(this.activatedRoute.snapshot.params['key'])
       .subscribe(avaliacoes => {
+        this.avaliacoes = avaliacoes;
+        this.initAvaliacoes();
+
+        this.hasAvaliation = false;
 
         avaliacoes.forEach(avaliacao => {
-
           if (
-            (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY')))
+            (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY').add(1, 'days')))
             && (!dataInicio || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(moment(dataInicio, 'DD/MM/YYYY')))
           ) {
+            this.hasAvaliation = true;
 
             if (avaliacao.nota === 1) {
               this.avaliacoes1 = this.avaliacoes1 + 1;
@@ -214,13 +218,25 @@ export class EstatisticasAtendenteComponent implements OnInit {
               return group;
             });
           }
-        })
 
-      });
+          if (!this.hasAvaliation) {
+            this.avaliacoes = [];
+          }
+        });
+
+      })
   }
+
 
   // ngx transform using covalent digits pipe
   axisDigits(val: any): any {
     return new TdDigitsPipe().transform(val);
   }
 }
+
+export let multi: any = [
+  {
+    'name': 'Avaliações',
+    'series': [],
+  },
+];
