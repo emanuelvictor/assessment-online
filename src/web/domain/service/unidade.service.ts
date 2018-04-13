@@ -146,6 +146,11 @@ export class UnidadeService {
     return this.unidadeRepository.save(item);
   }
 
+  /**
+   * Remove a unidade
+   * @param {Unidade} unidade
+   * @returns {Promise<any>}
+   */
   public remove(unidade: Unidade): Promise<any> {
     return this.unidadeRepository.remove(unidade);
   }

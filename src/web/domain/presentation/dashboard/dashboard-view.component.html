@@ -1,5 +1,6 @@
 <header-component>
   <mat-sidenav-container>
+
     <mat-sidenav mode="side" *ngIf="usuario?.isOperador || usuario?.isAdministrador" [opened]="isSmallScreen" class="mat-elevation-z5">
       <logged-menu></logged-menu>
     </mat-sidenav>

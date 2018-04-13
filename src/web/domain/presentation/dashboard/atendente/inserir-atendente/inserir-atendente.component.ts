@@ -5,6 +5,7 @@ import {MatSnackBar} from '@angular/material';
 import {Usuario} from '../../../../entity/usuario/Usuario.model';
 import {Colaborador} from "../../../../entity/colaborador/Colaborador.model";
 import {ColaboradorService} from "../../../../service/colaborador.service";
+import {TdLoadingService} from '@covalent/core';
 
 @Component({
   selector: 'inserir-atendente',
@@ -32,23 +33,26 @@ export class InserirAtendenteComponent implements OnInit {
    * @param {ColaboradorService} colaboradorService
    * @param {MatSnackBar} snackBar
    * @param {ActivatedRoute} activatedRoute
-   * @param {Title} title
+   * @param {TdLoadingService} _loadingService
    */
-  constructor(public usuarioService: UsuarioService, public router: Router, private colaboradorService: ColaboradorService,
-              public snackBar: MatSnackBar, public activatedRoute: ActivatedRoute) {
+  constructor(private usuarioService: UsuarioService, private router: Router, private colaboradorService: ColaboradorService,
+              private snackBar: MatSnackBar, private activatedRoute: ActivatedRoute, private _loadingService: TdLoadingService) {
   }
+
+  overlayStarSyntax: boolean = false;
 
   /**
    *
    */
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
   /**
    *
    */
   public save(): void {
-
+    this._loadingService.register('overlayStarSyntax');
+    // this.toggleOverlayStarSyntax();
     if (!this.colaboradores.length)
       this.snackBar.open('Selecione ao menos uma unidade', 'Fechar');
 
@@ -58,6 +62,7 @@ export class InserirAtendenteComponent implements OnInit {
           this.colaboradorService.save(colaborador)
         });
 
+        this._loadingService.resolve('overlayStarSyntax');
         this.success('Atendente inserido com sucesso');
       });
     }
