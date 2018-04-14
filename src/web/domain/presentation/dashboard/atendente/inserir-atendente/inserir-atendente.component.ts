@@ -39,8 +39,6 @@ export class InserirAtendenteComponent implements OnInit {
               private snackBar: MatSnackBar, private activatedRoute: ActivatedRoute, private _loadingService: TdLoadingService) {
   }
 
-  overlayStarSyntax: boolean = false;
-
   /**
    *
    */
@@ -57,14 +55,15 @@ export class InserirAtendenteComponent implements OnInit {
       this.snackBar.open('Selecione ao menos uma unidade', 'Fechar');
 
     else {
-      this.usuarioService.save(this.atendente).then(result => {
-        this.colaboradores.forEach(colaborador => {
-          this.colaboradorService.save(colaborador)
-        });
+      this.usuarioService.save(this.atendente)
+        .then(result => {
+          this.colaboradores.forEach(colaborador => {
+            this.colaboradorService.save(colaborador)
+          });
 
-        this._loadingService.resolve('overlayStarSyntax');
-        this.success('Atendente inserido com sucesso');
-      });
+          this._loadingService.resolve('overlayStarSyntax');
+          this.success('Atendente inserido com sucesso');
+        });
     }
   }
 

@@ -5,7 +5,8 @@ import {textMasks} from '../../../controls/text-masks/text-masks';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {UsuarioService} from '../../../../service/usuario.service';
-import {Usuario} from "../../../../entity/usuario/Usuario.model";
+import {Usuario} from '../../../../entity/usuario/Usuario.model';
+import {TdLoadingService} from "@covalent/core";
 
 /**
  *
@@ -35,21 +36,22 @@ export class AlterarAtendenteComponent implements OnInit {
    * @param {AuthenticationService} authenticationService
    * @param {ActivatedRoute} activatedRoute
    * @param {UsuarioService} usuarioService
+   * @param {TdLoadingService} _loadingService
    */
   constructor(public router: Router, public snackBar: MatSnackBar,
-              public authenticationService: AuthenticationService, public activatedRoute: ActivatedRoute,
-              public usuarioService: UsuarioService) {
+              public usuarioService: UsuarioService, private _loadingService: TdLoadingService,
+              public authenticationService: AuthenticationService, public activatedRoute: ActivatedRoute) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    let atendenteKey: string = this.activatedRoute.snapshot.params['key'];
+    const atendenteKey: string = this.activatedRoute.snapshot.params['key'];
     this.find(atendenteKey);
   }
 
-  /**
+  /**1
    *
    * @param {string} atendenteKey
    */
@@ -62,8 +64,10 @@ export class AlterarAtendenteComponent implements OnInit {
    * @param atendente
    */
   public update(atendente): void {
+    this._loadingService.register('overlayStarSyntax');
     this.usuarioService.save(atendente).then(result => {
       atendente = result;
+      this._loadingService.resolve('overlayStarSyntax');
       this.success('Atendente alterado com sucesso');
     })
   }

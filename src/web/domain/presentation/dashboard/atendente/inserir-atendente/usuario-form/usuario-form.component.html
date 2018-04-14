@@ -1,8 +1,9 @@
 <div layout-align='center center' layout-gt-xs='row' layout-margin>
   <div layout='row' flex-gt-xs='80' layout-margin>
     <div flex layout-margin>
-      <mat-card class='bgc-grey-50' layout-margin style='max-width: 1200px'>
-        <form [formGroup]='form' (ngSubmit)='saveAtendente(form)' novalidate>
+      <mat-card class='bgc-grey-50' layout-margin>
+        <form [formGroup]='form' (ngSubmit)='saveAtendente(form)' novalidate
+              *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
           <mat-card-content>
             <div layout-margin>
 

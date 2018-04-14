@@ -26,7 +26,11 @@ export class SelecionarAtendentesComponent implements OnInit {
    * @param {UsuarioService} usuarioService
    * @param {MatSnackBar} snackBar
    */
-  constructor(private router: Router, private mobileService: MobileService, private colaboradorService: ColaboradorService, private usuarioService: UsuarioService, private snackBar: MatSnackBar) {
+  constructor(private router: Router,
+              private snackBar: MatSnackBar,
+              private mobileService: MobileService,
+              private usuarioService: UsuarioService,
+              private colaboradorService: ColaboradorService) {
   }
 
   /**
