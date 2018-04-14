@@ -2,6 +2,8 @@ import {Abstract} from './Abstract.model';
 
 export abstract class Rankeavel extends Abstract {
 
+  public nome: string;
+
   public posicao: number;
 
   public avaliacoes1 = 0;

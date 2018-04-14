@@ -55,13 +55,11 @@
 
         <div class='tc-grey-500 size-height-50' layout='row' layout-align='start center'>
           <div flex></div>
-          <span> {{avaliacoes1+avaliacoes2+avaliacoes3+avaliacoes4+avaliacoes5}} avaliações </span>
+          <span> {{avaliacoes?.length < 1 ? 'Carregando estatísticas' : avaliacoes1+avaliacoes2+avaliacoes3+avaliacoes4+avaliacoes5}} avaliações </span>
         </div>
 
-        <mat-card class='push-none bgc-grey-50'
-                  [@tdFadeInOut]="hasAvaliation"
-                  >
-          <div style='height:500px;'>
+        <mat-card class='push-none bgc-grey-50'>
+          <div style='height:500px;' *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
             <ngx-charts-bar-vertical-2d
                 *ngIf="hasAvaliation "
                 [scheme]='colorScheme'

@@ -16,7 +16,9 @@ import {Avaliacao} from '../../../../../entity/avaliacao/Avaliacao.model';
 })
 export class EstatisticasAtendenteComponent implements OnInit {
 
-
+  /**
+   *
+   */
   avaliacoes: Avaliacao[];
 
   /**
