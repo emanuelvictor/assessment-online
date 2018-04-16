@@ -112,19 +112,14 @@ export class MobileService {
        */
       if (this.avaliacao.nota === 1) {
         colaborador.usuario.avaliacoes1 = colaborador.usuario.avaliacoes1 != null ? colaborador.usuario.avaliacoes1 + 1 : 1;
-        colaborador.unidade.avaliacoes1 = colaborador.unidade.avaliacoes1 != null ? colaborador.unidade.avaliacoes1 + 1 : 1;
       } else if (this.avaliacao.nota === 2) {
         colaborador.usuario.avaliacoes2 = colaborador.usuario.avaliacoes2 != null ? colaborador.usuario.avaliacoes2 + 1 : 1;
-        colaborador.unidade.avaliacoes2 = colaborador.unidade.avaliacoes2 != null ? colaborador.unidade.avaliacoes2 + 1 : 1;
       } else if (this.avaliacao.nota === 3) {
         colaborador.usuario.avaliacoes3 = colaborador.usuario.avaliacoes3 != null ? colaborador.usuario.avaliacoes3 + 1 : 1;
-        colaborador.unidade.avaliacoes3 = colaborador.unidade.avaliacoes3 != null ? colaborador.unidade.avaliacoes3 + 1 : 1;
       } else if (this.avaliacao.nota === 4) {
         colaborador.usuario.avaliacoes4 = colaborador.usuario.avaliacoes4 != null ? colaborador.usuario.avaliacoes4 + 1 : 1;
-        colaborador.unidade.avaliacoes4 = colaborador.unidade.avaliacoes4 != null ? colaborador.unidade.avaliacoes4 + 1 : 1;
       } else {
         colaborador.usuario.avaliacoes5 = colaborador.usuario.avaliacoes5 != null ? colaborador.usuario.avaliacoes5 + 1 : 1;
-        colaborador.unidade.avaliacoes5 = colaborador.unidade.avaliacoes5 != null ? colaborador.unidade.avaliacoes5 + 1 : 1;
       }
 
       /**
@@ -146,6 +141,21 @@ export class MobileService {
 
       this.avaliacao.avaliacoesColaboradores.push(avaliacaoColaborador);
     });
+
+    /**
+     * Popula nota da unidade
+     */
+    if (this.avaliacao.nota === 1) {
+      this.colaboradores[0].unidade.avaliacoes1 = this.colaboradores[0].unidade.avaliacoes1 != null ? this.colaboradores[0].unidade.avaliacoes1 + 1 : 1;
+    } else if (this.avaliacao.nota === 2) {
+      this.colaboradores[0].unidade.avaliacoes2 = this.colaboradores[0].unidade.avaliacoes2 != null ? this.colaboradores[0].unidade.avaliacoes2 + 1 : 1;
+    } else if (this.avaliacao.nota === 3) {
+      this.colaboradores[0].unidade.avaliacoes3 = this.colaboradores[0].unidade.avaliacoes3 != null ? this.colaboradores[0].unidade.avaliacoes3 + 1 : 1;
+    } else if (this.avaliacao.nota === 4) {
+      this.colaboradores[0].unidade.avaliacoes4 = this.colaboradores[0].unidade.avaliacoes4 != null ? this.colaboradores[0].unidade.avaliacoes4 + 1 : 1;
+    } else {
+      this.colaboradores[0].unidade.avaliacoes5 = this.colaboradores[0].unidade.avaliacoes5 != null ? this.colaboradores[0].unidade.avaliacoes5 + 1 : 1;
+    }
 
     /**
      * Insere avaliação

@@ -71,6 +71,7 @@ export class AvaliacaoService {
   private listColaboradoresByUnidadeKey(key): Observable<any> {
     return this.colaboradorService.listColaboradoresByUnidadeKey(key)
   }
+
   /**
    * Retorna todas as avaliações da unidade ou do atendente,
    * Sufoco, pq foi um sufoco implementar.
@@ -145,14 +146,20 @@ export class AvaliacaoService {
 
     return this.avaliacaoRepository.save(avaliacao)
       .then(result => {
+
+        /**
+         * Calcula e salva média da unidade.
+         * @type {number}
+         */
+        avaliacoesColaboradores[0].colaborador.unidade.media = calcularMedia(avaliacoesColaboradores[0].colaborador.unidade);
+        this.unidadeRepository.save(avaliacoesColaboradores[0].colaborador.unidade);
+
         avaliacoesColaboradores.forEach(avaliacaoColaborador => {
+
           avaliacaoColaborador.avaliacao = result;
 
           avaliacaoColaborador.colaborador.usuario.media = calcularMedia(avaliacaoColaborador.colaborador.usuario);
           this.usuarioRepository.save(avaliacaoColaborador.colaborador.usuario);
-
-          avaliacaoColaborador.colaborador.unidade.media = calcularMedia(avaliacaoColaborador.colaborador.unidade);
-          this.unidadeRepository.save(avaliacaoColaborador.colaborador.unidade);
 
           this.avaliacaoColaboradorRepository.save(avaliacaoColaborador);
         })
