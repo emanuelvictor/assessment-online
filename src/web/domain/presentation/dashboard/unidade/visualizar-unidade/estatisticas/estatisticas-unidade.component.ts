@@ -85,8 +85,8 @@ export class EstatisticasUnidadeComponent implements OnInit {
   avaliacoes4 = 0;
   avaliacoes5 = 0;
 
-  public dataInicio; // = moment(new Date(Date.now()), 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
-  public dataFim; // = moment(new Date(Date.now()), 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+  public dataInicio;
+  public dataFim;
 
   mapper: any = [
     {
@@ -94,12 +94,6 @@ export class EstatisticasUnidadeComponent implements OnInit {
       'series': [],
     },
   ];
-
-  // /**
-  //  * Variável responsável por informar se é o primeiro carregamento
-  //  * @type {boolean}
-  //  */
-  // primeiroCarregamento = true;
 
   /**
    * Informa se há avaliações a serem exibidas
@@ -116,8 +110,10 @@ export class EstatisticasUnidadeComponent implements OnInit {
    * @param {AvaliacaoService} avaliacaoService
    */
   constructor(private title: Title,
+              private unidadeService: UnidadeService,
+              private activatedRoute: ActivatedRoute,
               private _loadingService: TdLoadingService,
-              private unidadeService: UnidadeService, private activatedRoute: ActivatedRoute, private avaliacaoService: AvaliacaoService) {
+              private avaliacaoService: AvaliacaoService) {
   }
 
   /**
@@ -139,6 +135,7 @@ export class EstatisticasUnidadeComponent implements OnInit {
    *
    */
   initAvaliacoes() {
+    console.log('initAvaliacoes');
     this.avaliacoes1 = 0;
     this.avaliacoes2 = 0;
     this.avaliacoes3 = 0;
@@ -168,9 +165,7 @@ export class EstatisticasUnidadeComponent implements OnInit {
 
     this.avaliacaoService.listAvaliacoesByUnidadeKey(this.activatedRoute.snapshot.params['key'])
       .subscribe(avaliacoes => {
-        // this.initResults();
         this.avaliacoes = avaliacoes;
-        console.log(this.avaliacoes.length);
         this.listEstatisticasByDates(this.dataInicio, this.dataFim);
       })
   }
@@ -186,10 +181,16 @@ export class EstatisticasUnidadeComponent implements OnInit {
 
     this.hasAvaliation = false;
 
+    const dataInicioAux = dataInicio ? moment(dataInicio, 'DD/MM/YYYY').hour(0).minute(0) : null;
+
+    const dataFimAux = dataFim ? moment(dataFim, 'DD/MM/YYYY').hour(23).minute(59) : null;
+console.log('asdfasdfa');
+
     this.avaliacoes.forEach(avaliacao => {
+
       if (
-        (!dataFim || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFim, 'DD/MM/YYYY').add(1, 'days')))
-        && (!dataInicio || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(moment(dataInicio, 'DD/MM/YYYY')))
+        (!dataFimAux || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFimAux, 'DD/MM/YYYY')))
+        && (!dataInicioAux || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(moment(dataInicioAux, 'DD/MM/YYYY')))
       ) {
 
         this._loadingService.resolve('overlayStarSyntax');
@@ -213,41 +214,26 @@ export class EstatisticasUnidadeComponent implements OnInit {
         }
 
 
-        /**
-         * Falcatrua
-         */
-        this.multi = this.mapper.map((group: any) => {
-          group.series = group.series.map((dataItem: any) => {
-            switch (dataItem.name) {
-              case 'Terrível':
-                dataItem.value = this.avaliacoes1;
-                break;
-              case 'Ruim':
-                dataItem.value = this.avaliacoes2;
-                break;
-              case 'Meia boca':
-                dataItem.value = this.avaliacoes3;
-                break;
-              case 'Bacana':
-                dataItem.value = this.avaliacoes4;
-                break;
-              default:
-                dataItem.value = this.avaliacoes5;
-                break;
-            }
-            return dataItem;
-          });
 
-
-          this.multi[0].series[0] = {value: this.avaliacoes1, name: 'Terrível'};
-          this.multi[0].series[1] = {value: this.avaliacoes2, name: 'Ruim'};
-          this.multi[0].series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
-          this.multi[0].series[3] = {value: this.avaliacoes4, name: 'Bacana'};
-          this.multi[0].series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
-
-          return group;
-        });
       }
+    });
+
+    console.log(this.avaliacoes1);
+    console.log(this.avaliacoes2);
+    console.log(this.avaliacoes3);
+    console.log(this.avaliacoes4);
+    console.log(this.avaliacoes5);
+
+    /**
+     * Falcatrua
+     */
+    this.multi = this.mapper.map((group: any) => {
+      group.series[0] = {value: this.avaliacoes1, name: 'Terrível'};
+      group.series[1] = {value: this.avaliacoes2, name: 'Ruim'};
+      group.series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
+      group.series[3] = {value: this.avaliacoes4, name: 'Bacana'};
+      group.series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
+      return group;
     });
   }
 
