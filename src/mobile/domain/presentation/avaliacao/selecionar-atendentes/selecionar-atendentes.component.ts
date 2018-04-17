@@ -20,6 +20,11 @@ export class SelecionarAtendentesComponent implements OnInit {
 
   /**
    *
+   */
+  timeout: any;
+
+  /**
+   *
    * @param {Router} router
    * @param {MobileService} mobileService
    * @param {ColaboradorService} colaboradorService
@@ -37,7 +42,7 @@ export class SelecionarAtendentesComponent implements OnInit {
    *
    */
   ngOnInit() {
-    setTimeout(() => {
+    this.timeout = setTimeout(() => {
       this.mobileService.reset();
       this.router.navigate(['/avaliar']);
     }, 180000);
@@ -70,6 +75,7 @@ export class SelecionarAtendentesComponent implements OnInit {
    *
    */
   public concluir() {
+    clearTimeout(this.timeout);
     this.atendentes.forEach(colaborador => {
       if (colaborador.selected) {
         this.mobileService.addColaborador(colaborador);
