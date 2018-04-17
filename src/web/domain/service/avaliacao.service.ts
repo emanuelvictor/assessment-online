@@ -45,7 +45,7 @@ export class AvaliacaoService {
     return Observable.create(observer => {
       this.sufoco(this.listColaboradoresByUsuarioKey(key))
         .subscribe(result => {
-          if (result) observer.next(result);
+          observer.next(result);
         });
     });
   }
@@ -59,7 +59,7 @@ export class AvaliacaoService {
     return Observable.create(observer => {
       this.sufoco(this.listColaboradoresByUnidadeKey(key))
         .subscribe(result => {
-          if (result) observer.next(result);
+          observer.next(result);
         });
     });
   }
@@ -82,45 +82,27 @@ export class AvaliacaoService {
 
     let avaliacoesReturn = [];
 
-    const quantidadeAvaliacoesPorColaborador = [];
-
     return observable
       .flatMap(colaboradores => {
         avaliacoesReturn = [];
-        colaboradores.map(colaborador => {
-          quantidadeAvaliacoesPorColaborador[colaborador.key] = colaborador;
-        });
         return colaboradores;
       })
       .flatMap((colaborador: Colaborador) => {
         return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
       })
-      .flatMap(avaliacoesColaboradores => {
-        avaliacoesReturn = [];
-        if (avaliacoesColaboradores.length) {
-          quantidadeAvaliacoesPorColaborador[avaliacoesColaboradores[0].colaborador.key].avaliacoes = avaliacoesColaboradores.map(a => a.avaliacao);
-          // console.log(test[avaliacoesColaboradores[0].colaborador.key].avaliacoes.length);
-        }
-        return avaliacoesColaboradores;
+      .map(avaliacoesColaboradores => {
+        return avaliacoesColaboradores.map(b => b.avaliacao);
       })
-      .flatMap((avaliacaoColaborador: AvaliacaoColaborador) => {
-        return this.findOne(avaliacaoColaborador.avaliacao.key)
-      })
-      .map(avaliacao => {
+      .map(avaliacoes => {
+        avaliacoesReturn = avaliacoesReturn.concat(avaliacoes);
+        avaliacoesReturn = avaliacoesReturn.filter(function (este, i) {
+          return avaliacoesReturn.map(a => {
+            return a.key;
+          }).indexOf(este.key) === i;
+        });
 
-        let totalDeAvaliacoes = 0;
+        return avaliacoesReturn
 
-        for (const field in quantidadeAvaliacoesPorColaborador) {
-          if (quantidadeAvaliacoesPorColaborador[field] && quantidadeAvaliacoesPorColaborador[field].avaliacoes)
-            totalDeAvaliacoes = totalDeAvaliacoes + quantidadeAvaliacoesPorColaborador[field].avaliacoes.length;
-        }
-
-        avaliacoesReturn.push(avaliacao);
-
-        if (avaliacoesReturn.length === totalDeAvaliacoes) {
-          console.log(avaliacoesReturn.length);
-          return avaliacoesReturn;
-        }
       });
   }
 

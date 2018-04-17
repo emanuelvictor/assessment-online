@@ -1,25 +1,65 @@
-import {Component, OnInit} from '@angular/core';
-import {Title} from '@angular/platform-browser';
-import {TdDigitsPipe, TdFadeInOutAnimation, TdLoadingService} from '@covalent/core';
-import {ActivatedRoute} from '@angular/router';
-import {AvaliacaoService} from '../../../../../service/avaliacao.service';
-import {textMasks} from '../../../../controls/text-masks/text-masks';
+import {Component, Input, OnInit} from '@angular/core';
+import 'rxjs/add/operator/toPromise';
+import {TdDigitsPipe} from '@covalent/core';
 import * as moment from 'moment';
-import {UnidadeService} from '../../../../../service/unidade.service';
-import {Avaliacao} from '../../../../../entity/avaliacao/Avaliacao.model';
+import {Avaliacao} from '../../../../entity/avaliacao/Avaliacao.model';
 
+/**
+ *
+ */
 @Component({
-  animations: [TdFadeInOutAnimation()],
-  selector: 'estatisticas-unidade',
-  templateUrl: './estatisticas-unidade.component.html',
-  styleUrls: ['./estatisticas-unidade.component.scss']
+  selector: 'charts-bar',
+  templateUrl: './charts-bar.component.html',
+  styleUrls: ['./charts-bar.component.css']
 })
-export class EstatisticasUnidadeComponent implements OnInit {
+export class ChartsBarComponent implements OnInit {
+
+
+  // options
+  showLegend = false;
+  yAxisLabel = 'Avaliações';
+
+  colorScheme: any = {
+    domain: [
+      '#c21c1f',
+      '#e96d01',
+      '#d4c40d',
+      '#8fc82c',
+      '#5ee924'
+    ]
+  };
+
+  /**
+   * Avaliações do rankeável
+   */
+  @Input()
+  avaliacoes: Avaliacao[];
 
   /**
    *
+   * @type {number}
    */
-  masks = textMasks;
+  avaliacoes1 = 0;
+  avaliacoes2 = 0;
+  avaliacoes3 = 0;
+  avaliacoes4 = 0;
+  avaliacoes5 = 0;
+
+  public dataInicio;
+  public dataFim;
+
+  /**
+   * Informa se há avaliações a serem exibidas
+   * @type {boolean}
+   */
+  loading = true;
+
+  mapper: any = [
+    {
+      'name': 'Avaliações',
+      'series': [],
+    },
+  ];
 
   // Chart
   multi: any[] = [
@@ -49,82 +89,19 @@ export class EstatisticasUnidadeComponent implements OnInit {
     }
   ];
 
-
-  // options
-  showLegend = false;
-  yAxisLabel = 'Avaliações';
-
-  colorScheme: any = {
-    domain: [
-      '#c21c1f',
-      '#e96d01',
-      '#d4c40d',
-      '#8fc82c',
-      '#5ee924'
-    ]
-  };
-
-  /**
-   *
-   */
-  avaliacoes: Avaliacao[];
-
-  /**
-   * Armazena o nome do rankeavel
-   */
-  rankeavel: any;
-
-  /**
-   *
-   * @type {number}
-   */
-  avaliacoes1 = 0;
-  avaliacoes2 = 0;
-  avaliacoes3 = 0;
-  avaliacoes4 = 0;
-  avaliacoes5 = 0;
-
-  public dataInicio;
-  public dataFim;
-
-  mapper: any = [
-    {
-      'name': 'Avaliações',
-      'series': [],
-    },
-  ];
-
-  /**
-   * Informa se há avaliações a serem exibidas
-   * @type {boolean}
-   */
-  loading = true;
-
-  /**
-   *
-   * @param {Title} title
-   * @param {UnidadeService} unidadeService
-   * @param {ActivatedRoute} activatedRoute
-   * @param {AvaliacaoService} avaliacaoService
-   */
-  constructor(private title: Title,
-              private unidadeService: UnidadeService,
-              private activatedRoute: ActivatedRoute,
-              private avaliacaoService: AvaliacaoService) {
-  }
-
   /**
    *
    */
   ngOnInit() {
 
-    this.unidadeService.findOne(this.activatedRoute.snapshot.params['key'])
-      .subscribe((rankeavel: any) => {
-        this.rankeavel = rankeavel;
-        this.title.setTitle('Estatisticas de ' + this.rankeavel.nome); // TODO fazer o title para todos os componentes
-      });
+    /**
+     * Inicia o loading
+     * @type {boolean}
+     */
+    this.loading = true;
 
-    this.listAll();
+    this.listEstatisticasByDates(this.dataInicio, this.dataFim);
+
   }
 
   /**
@@ -138,22 +115,6 @@ export class EstatisticasUnidadeComponent implements OnInit {
     this.avaliacoes5 = 0;
   }
 
-  /**
-   *
-   */
-  public listAll() {
-
-    this.loading = true;
-
-    /**
-     * Filtra as avaliações
-     */
-    this.avaliacaoService.listAvaliacoesByUnidadeKey(this.activatedRoute.snapshot.params['key'])
-      .subscribe(avaliacoes => {
-        this.avaliacoes = avaliacoes;
-        this.listEstatisticasByDates(this.dataInicio, this.dataFim);
-      })
-  }
 
   /**
    *
@@ -168,11 +129,6 @@ export class EstatisticasUnidadeComponent implements OnInit {
     this.initAvaliacoes();
 
     /**
-     * Encerra loading inicial
-     */
-    this.loading = false;
-
-    /**
      * Trada as datas, setando meia noite na data de início, e 23:59 na data de fim.
      * @type {moment.Moment}
      */
@@ -180,6 +136,11 @@ export class EstatisticasUnidadeComponent implements OnInit {
     const dataFimAux = dataFim ? moment(dataFim, 'DD/MM/YYYY').hour(23).minute(59) : null;
 
     this.avaliacoes.forEach(avaliacao => {
+
+      /**
+       * Encerra loading inicial
+       */
+      this.loading = false;
 
       if (
         (!dataFimAux || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFimAux, 'DD/MM/YYYY')))

@@ -48,11 +48,11 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {UsuarioService} usuarioService
    * @param {UnidadeService} unidadeService
    */
-  constructor(public router: Router,
-              public snackBar: MatSnackBar,
-              public colaboradorService: ColaboradorService,
-              public activatedRoute: ActivatedRoute, public dialog: MatDialog,
-              public usuarioService: UsuarioService, public unidadeService: UnidadeService) {
+  constructor(private router: Router,
+              private snackBar: MatSnackBar,
+              private colaboradorService: ColaboradorService,
+              private activatedRoute: ActivatedRoute, private dialog: MatDialog,
+              private usuarioService: UsuarioService, private unidadeService: UnidadeService) {
     /**
      * Pega o usuário logado
      */

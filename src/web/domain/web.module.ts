@@ -84,10 +84,12 @@ import {AtendenteRankingViewComponent} from './presentation/dashboard/ranking/at
 import {RankingComponent} from './presentation/dashboard/ranking/ranking.component';
 import {SelecionarUnidadeComponent} from './presentation/dashboard/ranking/atendente/selecionar-unidade/selecionar-unidade.component';
 import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component';
-import {SearchBarComponent} from "./presentation/controls/search-bar/search-bar.component";
-import {FilterPipe} from "./presentation/controls/filter-pipe/filter";
+import {SearchBarComponent} from './presentation/controls/search-bar/search-bar.component';
+import {FilterPipe} from './presentation/controls/filter-pipe/filter';
 import {AutofocusDirective} from './presentation/controls/autofocus/autofocus';
 import {OrderModule} from 'ngx-order-pipe';
+import {EstatisticasComponent} from './presentation/dashboard/estatisticas/estatisticas.component';
+import {ChartsBarComponent} from './presentation/dashboard/estatisticas/chart/charts-bar.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -126,6 +128,8 @@ registerLocaleData(localePt, 'pt-BR');
     FotoLoadingComponent,
     EvDatepicker,
     SearchBarComponent,
+    EstatisticasComponent,
+    ChartsBarComponent,
 
     // atendente
     AtendenteViewComponent,

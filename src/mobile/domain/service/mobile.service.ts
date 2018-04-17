@@ -35,6 +35,12 @@ export class MobileService {
 
   /**
    *
+   * @type {MatSnackBarConfig}
+   */
+  private mdSnackBarConfig: MatSnackBarConfig = new MatSnackBarConfig();
+
+  /**
+   *
    * @param {UnidadeService} unidadeService
    * @param {AvaliacaoService} avaliacaoService
    */
@@ -219,12 +225,6 @@ export class MobileService {
     this.unidade = new Unidade();
     window.localStorage.removeItem('unidadeKey');
   }
-
-  /**
-   *
-   * @type {MatSnackBarConfig}
-   */
-  mdSnackBarConfig: MatSnackBarConfig = new MatSnackBarConfig();
 
   /**
    *

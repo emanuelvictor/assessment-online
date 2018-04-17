@@ -55,7 +55,7 @@
 
         <div class='tc-grey-500 size-height-50' layout='row' layout-align='start center'>
           <div flex></div>
-          <span> {{loading ? 'Carregando estatísticas' : avaliacoes1+avaliacoes2+avaliacoes3+avaliacoes4+avaliacoes5}} avaliações </span>
+          <span>{{avaliacoes1+avaliacoes2+avaliacoes3+avaliacoes4+avaliacoes5}} avaliações</span>
         </div>
 
         <mat-card class='push-none bgc-grey-50' *ngIf="loading || avaliacoes?.length">
@@ -76,11 +76,6 @@
             </ngx-charts-bar-vertical-2d>
           </div>
         </mat-card>
-
-        <div *ngIf="!loading && !avaliacoes?.length">
-          Sem estatísticas por aqui =(
-        </div>
-
 
       </div>
     </div>

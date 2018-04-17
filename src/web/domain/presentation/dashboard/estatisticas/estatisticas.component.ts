@@ -1,20 +1,23 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import 'rxjs/add/operator/toPromise';
+import {textMasks} from '../../controls/text-masks/text-masks';
+import {Avaliacao} from '../../../entity/avaliacao/Avaliacao.model';
 import {Title} from '@angular/platform-browser';
-import {TdDigitsPipe, TdFadeInOutAnimation, TdLoadingService} from '@covalent/core';
 import {ActivatedRoute} from '@angular/router';
-import {AvaliacaoService} from '../../../../../service/avaliacao.service';
-import {textMasks} from '../../../../controls/text-masks/text-masks';
+import {AvaliacaoService} from '../../../service/avaliacao.service';
+import {TdDigitsPipe} from '@covalent/core';
 import * as moment from 'moment';
-import {UnidadeService} from '../../../../../service/unidade.service';
-import {Avaliacao} from '../../../../../entity/avaliacao/Avaliacao.model';
+import {Rankeavel} from '../../../entity/abstract/Rankeavel.model';
 
+/**
+ *
+ */
 @Component({
-  animations: [TdFadeInOutAnimation()],
-  selector: 'estatisticas-unidade',
-  templateUrl: './estatisticas-unidade.component.html',
-  styleUrls: ['./estatisticas-unidade.component.scss']
+  selector: 'estatisticas',
+  templateUrl: './estatisticas.component.html',
+  styleUrls: ['./estatisticas.component.css']
 })
-export class EstatisticasUnidadeComponent implements OnInit {
+export class EstatisticasComponent implements OnInit {
 
   /**
    *
@@ -65,14 +68,16 @@ export class EstatisticasUnidadeComponent implements OnInit {
   };
 
   /**
-   *
-   */
-  avaliacoes: Avaliacao[];
-
-  /**
    * Armazena o nome do rankeavel
    */
-  rankeavel: any;
+  @Input()
+  rankeavel: Rankeavel;
+
+  /**
+   * Avaliações do rankeável
+   */
+  @Input()
+  avaliacoes: Avaliacao[];
 
   /**
    *
@@ -103,14 +108,8 @@ export class EstatisticasUnidadeComponent implements OnInit {
   /**
    *
    * @param {Title} title
-   * @param {UnidadeService} unidadeService
-   * @param {ActivatedRoute} activatedRoute
-   * @param {AvaliacaoService} avaliacaoService
    */
-  constructor(private title: Title,
-              private unidadeService: UnidadeService,
-              private activatedRoute: ActivatedRoute,
-              private avaliacaoService: AvaliacaoService) {
+  constructor(private title: Title) {
   }
 
   /**
@@ -118,13 +117,15 @@ export class EstatisticasUnidadeComponent implements OnInit {
    */
   ngOnInit() {
 
-    this.unidadeService.findOne(this.activatedRoute.snapshot.params['key'])
-      .subscribe((rankeavel: any) => {
-        this.rankeavel = rankeavel;
-        this.title.setTitle('Estatisticas de ' + this.rankeavel.nome); // TODO fazer o title para todos os componentes
-      });
+    this.title.setTitle('Estatisticas de ' + this.rankeavel.nome);
 
-    this.listAll();
+    this.listEstatisticasByDates(this.dataInicio, this.dataFim);
+
+    /**
+     * Inicia o loading
+     * @type {boolean}
+     */
+    this.loading = true;
   }
 
   /**
@@ -138,22 +139,6 @@ export class EstatisticasUnidadeComponent implements OnInit {
     this.avaliacoes5 = 0;
   }
 
-  /**
-   *
-   */
-  public listAll() {
-
-    this.loading = true;
-
-    /**
-     * Filtra as avaliações
-     */
-    this.avaliacaoService.listAvaliacoesByUnidadeKey(this.activatedRoute.snapshot.params['key'])
-      .subscribe(avaliacoes => {
-        this.avaliacoes = avaliacoes;
-        this.listEstatisticasByDates(this.dataInicio, this.dataFim);
-      })
-  }
 
   /**
    *
