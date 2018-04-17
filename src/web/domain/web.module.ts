@@ -88,8 +88,6 @@ import {SearchBarComponent} from './presentation/controls/search-bar/search-bar.
 import {FilterPipe} from './presentation/controls/filter-pipe/filter';
 import {AutofocusDirective} from './presentation/controls/autofocus/autofocus';
 import {OrderModule} from 'ngx-order-pipe';
-import {EstatisticasComponent} from './presentation/dashboard/estatisticas/estatisticas.component';
-import {ChartsBarComponent} from './presentation/dashboard/estatisticas/chart/charts-bar.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -128,8 +126,6 @@ registerLocaleData(localePt, 'pt-BR');
     FotoLoadingComponent,
     EvDatepicker,
     SearchBarComponent,
-    EstatisticasComponent,
-    ChartsBarComponent,
 
     // atendente
     AtendenteViewComponent,

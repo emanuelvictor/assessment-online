@@ -9,9 +9,8 @@ import {UnidadeService} from '../../../../../service/unidade.service';
 import {Avaliacao} from '../../../../../entity/avaliacao/Avaliacao.model';
 
 @Component({
-  animations: [TdFadeInOutAnimation()],
   selector: 'estatisticas-unidade',
-  templateUrl: './estatisticas-unidade.component.html',
+  templateUrl: '../../../minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component.html',
   styleUrls: ['./estatisticas-unidade.component.scss']
 })
 export class EstatisticasUnidadeComponent implements OnInit {

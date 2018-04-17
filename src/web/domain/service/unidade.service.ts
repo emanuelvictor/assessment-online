@@ -117,7 +117,7 @@ export class UnidadeService {
         let founded = false;
 
         for (let i = 0; i < unidadesReturn.length; i++) {
-          founded = unidadesReturn[i].key === unidade.key;
+          founded = !unidade || unidadesReturn[i].key === unidade.key;
           if (founded) break
         }
 
