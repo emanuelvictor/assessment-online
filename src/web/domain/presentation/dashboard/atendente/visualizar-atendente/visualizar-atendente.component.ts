@@ -51,7 +51,7 @@ export class VisualizarAtendenteComponent implements OnInit {
   constructor(private router: Router,
               private snackBar: MatSnackBar,
               private colaboradorService: ColaboradorService,
-              private activatedRoute: ActivatedRoute, private dialog: MatDialog,
+              public activatedRoute: ActivatedRoute, private dialog: MatDialog,
               private usuarioService: UsuarioService, private unidadeService: UnidadeService) {
     /**
      * Pega o usuário logado
