@@ -22,7 +22,8 @@
       <span *ngIf="unidades?.length"> Total: {{ unidades?.length}}</span>
     </div>
 
-    <ranking *ngFor="let unidade of unidades | filter:filter | orderBy:'media':'case-insensitive'" style='margin-top: -30px' [rankeavel]='unidade'>
+    <ranking style='margin-top: -30px' [rankeavel]='unidade'
+             *ngFor="let unidade of unidades | filter:filter :'case-insensitive' | orderBy:'posicao'">
       <div layout="row"
            layout-margin avatar
            layout-align="center center">
