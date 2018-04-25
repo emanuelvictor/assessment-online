@@ -47,6 +47,7 @@ import {NoSubmitDirective} from '../web/domain/presentation/controls/no-sumbit/n
 import {DocumentoPipe} from '../web/domain/presentation/controls/documento-pipe/documento-pipe';
 import {VirgulaPipe} from '../web/domain/presentation/controls/virgula-pipe/peso-pipe';
 import {AvatarComponent} from '../web/domain/presentation/controls/avatar/avatar.component';
+import {NoWhiteSpace} from '../web/domain/presentation/controls/patterns/no-white-space';
 
 /**
  *
@@ -57,6 +58,7 @@ import {AvatarComponent} from '../web/domain/presentation/controls/avatar/avatar
     NoSubmitDirective,
     DocumentoPipe,
     VirgulaPipe,
+    NoWhiteSpace,
     AvatarComponent,
     // Authentication
     LoginComponent
@@ -103,6 +105,7 @@ import {AvatarComponent} from '../web/domain/presentation/controls/avatar/avatar
     TextMaskModule
   ],
   exports: [
+    NoWhiteSpace,
     AvatarComponent,
 
     NoSubmitDirective,

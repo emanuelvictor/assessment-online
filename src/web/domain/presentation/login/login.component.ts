@@ -27,10 +27,43 @@ export class LoginComponent {
   }
 
   /**
+   *
    */
   public login() {
-    this.authenticationService.login(this.usuario).then(result => {
-      this.router.navigate(['/']);
-    }).catch( exception => this.snackBar.open('Login ou senha não coincidem!', 'Fechar'));
+
+    /**
+     * Remove os espaços do usuário
+     * @type {string}
+     */
+    this.usuario.email = this.usuario.email.trim();
+    this.authenticationService.login(this.usuario)
+      .then(result => {
+        this.router.navigate(['/']);
+      })
+      .catch(exception => {
+console.log(exception);
+        switch (exception.code) {
+          case 'auth/user-not-found': {
+            this.snackBar.open('Conta não encontrada!', 'Fechar');
+            break;
+          }
+          case 'auth/wrong-password': {
+            this.snackBar.open('A senha não confere!', 'Fechar');
+            break;
+          }
+          case 'auth/invalid-email': {
+            this.snackBar.open('O endereço de email está mal formatado!', 'Fechar');
+            break;
+          }
+          case 'auth/user-disabled': {
+            this.snackBar.open('Esta conta foi desabilitada pelo administrador!', 'Fechar');
+            break;
+          }
+          default: {
+            this.snackBar.open('Ops ... alguma coisa aconteceu, contacte o administrador e informe o erro: ' + exception.message, 'Fechar');
+            break;
+          }
+        }
+      });
   }
 }
