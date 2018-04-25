@@ -27,10 +27,10 @@
       "scripts": [
         "../../node_modules/nprogress/nprogress.js"
       ],
-      "environmentSource": "environment.ts",
+      "environmentSource": "../environments/environment.ts",
       "environments": {
-        "dev": "environment.ts",
-        "prod": "environment.prod.ts"
+        "dev": "../environments/environment.ts",
+        "prod": "../environments/environment.prod.ts"
       }
     },
     {
@@ -55,10 +55,10 @@
       "scripts": [
         "../../node_modules/nprogress/nprogress.js"
       ],
-      "environmentSource": "environment.ts",
+      "environmentSource": "../environments/environment.ts",
       "environments": {
-        "dev": "environment.ts",
-        "prod": "environment.prod.ts"
+        "dev": "../environments/environment.ts",
+        "prod": "../environments/environment.prod.ts"
       }
     }
   ],
