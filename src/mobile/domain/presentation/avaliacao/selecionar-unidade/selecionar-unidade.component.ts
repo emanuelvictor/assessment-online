@@ -25,10 +25,7 @@ export class SelecionarUnidadeComponent implements OnInit {
 
   /**
    *
-   * @param {UsuarioService} usuarioService
-   * @param {AuthenticationService} authenticationService
    * @param {Router} router
-   * @param {ColaboradorService} colaboradorService
    * @param {MobileService} mobileService
    * @param {UnidadeService} unidadeService
    */
