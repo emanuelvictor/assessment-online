@@ -1,7 +1,7 @@
 import {ActivatedRoute} from '@angular/router';
 import {Component, Input, OnInit} from '@angular/core';
 import {Usuario} from '../../../../../entity/usuario/Usuario.model';
-import {ColaboradorService} from "../../../../../service/colaborador.service";
+import {ColaboradorService} from '../../../../../service/colaborador.service';
 
 @Component({
   selector: 'visualizar-vinculo-unidade',
