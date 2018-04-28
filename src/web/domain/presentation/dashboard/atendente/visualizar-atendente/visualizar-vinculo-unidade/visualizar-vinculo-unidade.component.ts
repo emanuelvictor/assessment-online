@@ -40,13 +40,8 @@ export class VisualizarVinculoUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.colaboradorService.listColaboradoresByUsuarioKey(this.usuario.key).subscribe(atendentes => {
-      this.atendentes = [];
-      for (let i = 0; i < atendentes.length; i++) {
-        if (atendentes[i].vinculo) {
-          this.atendentes.push(atendentes[i]);
-        }
-      }
+    this.colaboradorService.listOperadoresByUsuarioKey(this.usuario.key).subscribe(atendentes => {
+      this.atendentes = atendentes;
     });
   }
 }
