@@ -5,6 +5,15 @@
 export const environment = {
   production: false,
 
+  // firebase: {
+  //   apiKey: 'AIzaSyB8yIabxNk_4FgBqbdH2k87b24dX7T0LaI',
+  //   authDomain: 'assessment-online.firebaseapp.com',
+  //   databaseURL: 'https://assessment-online.firebaseio.com',
+  //   projectId: 'assessment-online',
+  //   storageBucket: 'assessment-online.appspot.com',
+  //   messagingSenderId: '658372006724'
+  // },
+
   firebase: {
     apiKey: 'AIzaSyAHHXCFeVqid9fOpnt2sKHbJViTFMXGQ8o',
     authDomain: 'd-assessment-online.firebaseapp.com',

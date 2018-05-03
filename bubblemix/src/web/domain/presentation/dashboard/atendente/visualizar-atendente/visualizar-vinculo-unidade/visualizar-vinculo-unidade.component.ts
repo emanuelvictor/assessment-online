@@ -1,7 +1,7 @@
 import {ActivatedRoute} from '@angular/router';
 import {Component, Input, OnInit} from '@angular/core';
 import {Usuario} from '../../../../../entity/usuario/Usuario.model';
-import {ColaboradorService} from "../../../../../service/colaborador.service";
+import {ColaboradorService} from '../../../../../service/colaborador.service';
 
 @Component({
   selector: 'visualizar-vinculo-unidade',
@@ -40,13 +40,10 @@ export class VisualizarVinculoUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.colaboradorService.listColaboradoresByUsuarioKey(this.usuario.key).subscribe(atendentes => {
-      this.atendentes = [];
-      for (let i = 0; i < atendentes.length; i++) {
-        if (atendentes[i].vinculo) {
-          this.atendentes.push(atendentes[i]);
-        }
-      }
+
+    this.colaboradorService.listOperadoresByUsuarioKey(this.usuario.key).subscribe(atendentes => {
+      console.log(atendentes);
+      this.atendentes = atendentes;
     });
   }
 }

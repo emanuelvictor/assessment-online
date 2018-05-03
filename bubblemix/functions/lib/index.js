@@ -8,7 +8,7 @@ const corsHandler = cors({ origin: true });
  * Credenciais
  * TODO Colocar em outro lugar
  */
-// // Produção
+// Produção
 // admin.initializeApp({
 //   credential: admin.credential.cert({
 //     projectId: 'assessment-online',
