@@ -9,7 +9,7 @@
 
 @include mat-core();
 
-$primary: mat-palette($mat-amber, 600);
+$primary: mat-palette($mat-blue, 900);
 $accent: mat-palette($mat-blue-grey);
 $warn: mat-palette($mat-red, 300);
 
@@ -70,8 +70,8 @@ mat-toolbar {
 
 //Override
 .md2-datepicker-input-focused {
-  color: #1976d2 !important;
-  border-color: #1976d2 !important;
+  color: #0c3e6f !important;
+  border-color: #0c3e6f !important;
 }
 
 .app-container {
@@ -88,7 +88,7 @@ mat-toolbar {
 }
 
 .button-activate {
-  color: #1976d2 !important;
+  color: #0c3e6f !important;
   min-height: 80px;
 }
 

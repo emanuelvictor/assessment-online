@@ -2,5 +2,5 @@ button {
     -ms-transform: rotate(45deg); /* IE 9 */
     -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
     transform: rotate(45deg);
-    color: #607d8b !important;
+    color: #0c3e6f !important;
 }
