@@ -24,7 +24,7 @@ CREATE SCHEMA IF NOT EXISTS public;
 
 CREATE SCHEMA IF NOT EXISTS auditing;
 
-ALTER SCHEMA auditing OWNER TO reactor;
+ALTER SCHEMA auditing OWNER TO assessment;
 
 --
 -- TOC entry 2 (class 3079 OID 11859)
