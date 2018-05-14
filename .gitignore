@@ -1,7 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/front-end/dist
+/front-end/dist/**
 /front-end/deploy
 /front-end/tmp
 
@@ -14,6 +14,7 @@
 /front-end/.idea
 /back-end/.idea
 /back-end/back-end.iml
+/back-end/target/**
 /.vscode
 /front-end/package-lock.json
 
