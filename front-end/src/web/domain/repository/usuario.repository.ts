@@ -5,13 +5,23 @@ import {Observable} from 'rxjs/Observable';
 import {AngularFireStorage} from 'angularfire2/storage';
 import {AccountRepository} from '../../infrastructure/repository/account/account.repository';
 import {Usuario} from "../entity/usuario/Usuario.model";
+import {HttpClient, HttpParams} from "@angular/common/http";
+
 
 @Injectable()
 export class UsuarioRepository extends AbstractRepository {
 
-  constructor(private af: AngularFireDatabase, storage: AngularFireStorage, accountRepository: AccountRepository) {
+  constructor(private httpClient: HttpClient, private af: AngularFireDatabase, storage: AngularFireStorage, accountRepository: AccountRepository) {
     super();
     this.init('usuarios', af, storage, accountRepository)
+  }
+
+  public findAll(): Promise<any> {
+    return this.httpClient.get('usuarios').toPromise();
+  }
+
+  public save(usuario: Usuario): Promise<any> {
+    return this.httpClient.post('usuarios', usuario).toPromise();
   }
 
   public findUsuarioByEmail(email: string): Observable<any> {

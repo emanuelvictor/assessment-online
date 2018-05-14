@@ -51,80 +51,80 @@ export class AtendenteRankingComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.usuarioService.getUsuarioAutenticado()
-      .subscribe(usuarioAutenticado => {
-
-        if (usuarioAutenticado.isAdministrador) {
-
-          this.usuarioService.find()
-            .subscribe(atendentes => {
-              this.atendentes = atendentes;
-
-              for (let i = 0; i < this.atendentes.length; i++)
-                if (!this.atendentes[i].media)
-                  this.atendentes[i].media = 0;
-
-              this.atendentes.forEach(atendente => {
-                /**
-                 * TODO Substituir por innerjoins
-                 */
-                this.unidadeService.listUnidadesByColaboradorKey(atendente.key)
-                  .subscribe(unidades => {
-                    atendente.unidades = unidades.map(unidade => unidade.nome).join();
-                  })
-              });
-
-              this.atendentes.sort((a: any, b: any) => {
-                if (a['media'] > b['media']) {
-                  return -1;
-                } else if (a['media'] < b['media']) {
-                  return 1;
-                } else {
-                  return 0;
-                }
-              });
-
-              this.indexar();
-            })
-
-        } else {
-
-          this.usuarioService.listAtendentesByOperadorKey(usuarioAutenticado.key)
-            .subscribe(atendentes => {
-
-              this.atendentes = atendentes;
-
-              for (let i = 0; i < this.atendentes.length; i++)
-                if (!this.atendentes[i].media)
-                  this.atendentes[i].media = 0;
-
-              this.atendentes.forEach(atendente => {
-                /**
-                 * TODO Substituir por innerjoins
-                 */
-                this.unidadeService.listUnidadesByColaboradorKey(atendente.key)
-                  .subscribe(unidades => {
-                    atendente.unidades = unidades.map(unidade => unidade.nome).join();
-                  })
-              });
-
-              this.atendentes.sort((a: any, b: any) => {
-                if (a['media'] > b['media']) {
-                  return -1;
-                } else if (a['media'] < b['media']) {
-                  return 1;
-                } else {
-                  return 0;
-                }
-              });
-
-              this.indexar();
-
-            });
-
-        }
-
-      })
+    // this.usuarioService.getUsuarioAutenticado()
+    //   .subscribe(usuarioAutenticado => {
+    //
+    //     if (usuarioAutenticado.isAdministrador) {
+    //
+    //       this.usuarioService.find()
+    //         .subscribe(atendentes => {
+    //           this.atendentes = atendentes;
+    //
+    //           for (let i = 0; i < this.atendentes.length; i++)
+    //             if (!this.atendentes[i].media)
+    //               this.atendentes[i].media = 0;
+    //
+    //           this.atendentes.forEach(atendente => {
+    //             /**
+    //              * TODO Substituir por innerjoins
+    //              */
+    //             this.unidadeService.listUnidadesByColaboradorKey(atendente.key)
+    //               .subscribe(unidades => {
+    //                 atendente.unidades = unidades.map(unidade => unidade.nome).join();
+    //               })
+    //           });
+    //
+    //           this.atendentes.sort((a: any, b: any) => {
+    //             if (a['media'] > b['media']) {
+    //               return -1;
+    //             } else if (a['media'] < b['media']) {
+    //               return 1;
+    //             } else {
+    //               return 0;
+    //             }
+    //           });
+    //
+    //           this.indexar();
+    //         })
+    //
+    //     } else {
+    //
+    //       this.usuarioService.listAtendentesByOperadorKey(usuarioAutenticado.key)
+    //         .subscribe(atendentes => {
+    //
+    //           this.atendentes = atendentes;
+    //
+    //           for (let i = 0; i < this.atendentes.length; i++)
+    //             if (!this.atendentes[i].media)
+    //               this.atendentes[i].media = 0;
+    //
+    //           this.atendentes.forEach(atendente => {
+    //             /**
+    //              * TODO Substituir por innerjoins
+    //              */
+    //             this.unidadeService.listUnidadesByColaboradorKey(atendente.key)
+    //               .subscribe(unidades => {
+    //                 atendente.unidades = unidades.map(unidade => unidade.nome).join();
+    //               })
+    //           });
+    //
+    //           this.atendentes.sort((a: any, b: any) => {
+    //             if (a['media'] > b['media']) {
+    //               return -1;
+    //             } else if (a['media'] < b['media']) {
+    //               return 1;
+    //             } else {
+    //               return 0;
+    //             }
+    //           });
+    //
+    //           this.indexar();
+    //
+    //         });
+    //
+    //     }
+    //
+    //   })
   }
 
   /**

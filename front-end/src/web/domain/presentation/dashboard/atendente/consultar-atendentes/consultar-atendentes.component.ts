@@ -43,17 +43,8 @@ export class ConsultarAtendentesComponent implements OnInit {
    */
   public listUsuariosByFilters() {
 
-    this.usuarioService.find().subscribe(atendentes => {
+    this.usuarioService.find().then(atendentes => {
       this.atendentes = atendentes;
-      this.atendentes.forEach(atendente => {
-        /**
-         * TODO Substituir por innerjoins
-         */
-        this.unidadeService.listUnidadesByColaboradorKey(atendente.key)
-          .subscribe(unidades => {
-            atendente.unidades = unidades.map(unidade => unidade.nome).join();
-          })
-      })
     })
 
   }

@@ -11,7 +11,7 @@ public interface UsuarioRepository
 //    /**
 //     * @return
 //     */
-//    Flux<Usuario> findByName(Mono<String> name);
+//    Flux<Usuario> findByName(Mono<String> nome);
 //
 //
     /**

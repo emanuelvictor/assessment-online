@@ -46,29 +46,26 @@ public class Usuario extends AbstractEntity implements UserDetails, Serializable
     /**
      *
      */
-    @NotNull
+    @NotEmpty
+    private String nome;
+
+    /**
+     *
+     */
     private String username;
 
     /**
      *
      */
-    @NotEmpty
-    private String name;
-
-    /**
-     *
-     */
-    @NotBlank
-    @Length(min = 6)
     private String password;
 
-    /**
-     *
-     */
-    @NotNull
-    @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    private Profile profile;
+//    /**
+//     *
+//     */
+//    @NotNull
+//    @Column(nullable = false)
+//    @Enumerated(EnumType.ORDINAL)
+//    private Profile profile;
 
     /**
      * // TODO: 10/01/18 alterar para LocalDateTime
@@ -107,10 +104,6 @@ public class Usuario extends AbstractEntity implements UserDetails, Serializable
     @Override
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        if (this.profile == null) {
-            return null;
-        }
 
         final Set<GrantedAuthority> authorities = new HashSet<>();
 
@@ -162,10 +155,9 @@ public class Usuario extends AbstractEntity implements UserDetails, Serializable
     public static UserDetails getMasterUser() {
 
         final Usuario usuario = new Usuario();
-        usuario.setName("Administrator");
+        usuario.setNome("Administrator");
         usuario.setUsername(MASTER_USERNAME);
         usuario.setPassword(new BCryptPasswordEncoder().encode(MASTER_PASSWORD));
-        usuario.setProfile(Profile.ADMINISTRATOR);
 
         return usuario;
 

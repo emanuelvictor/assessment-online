@@ -13,7 +13,7 @@ public interface MongoUsuarioRepository
     /**
      * @return
      */
-    Flux<Usuario> findByName(Mono<String> name);
+    Flux<Usuario> findByNome(Mono<String> nome);
 
 
     /**

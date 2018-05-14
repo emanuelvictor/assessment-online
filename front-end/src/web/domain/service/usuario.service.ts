@@ -37,31 +37,33 @@ export class UsuarioService {
    *
    * @returns {Observable<any[]>}
    */
-  public find(): Observable<any[]> {
-    return Observable.create(observer => {
+  public find(): Promise<any[]> {
+    return this.usuarioRepository.findAll();
 
-      this.getUsuarioAutenticado()
-        .subscribe(usuarioAutenticado => {
-
-          if (usuarioAutenticado.isAdministrador) {
-
-            this.usuarioRepository.find()
-              .subscribe(atendentes => {
-                observer.next(atendentes);
-              })
-
-          } else {
-
-            this.listColaboradoresByOperadorKey(usuarioAutenticado.key)
-              .subscribe(atendentes => {
-                observer.next(atendentes);
-              })
-
-          }
-
-        })
-
-    })
+    // return Observable.create(observer => {
+    //
+    //   this.getUsuarioAutenticado()
+    //     .subscribe(usuarioAutenticado => {
+    //
+    //       if (usuarioAutenticado.isAdministrador) {
+    //
+    //         this.usuarioRepository.find()
+    //           .subscribe(atendentes => {
+    //             observer.next(atendentes);
+    //           })
+    //
+    //       } else {
+    //
+    //         this.listColaboradoresByOperadorKey(usuarioAutenticado.key)
+    //           .subscribe(atendentes => {
+    //             observer.next(atendentes);
+    //           })
+    //
+    //       }
+    //
+    //     })
+    //
+    // })
   }
 
   /**
@@ -168,55 +170,58 @@ export class UsuarioService {
    * @param {Usuario} usuario
    * @returns {PromiseLike<any>}
    */
-  public save(usuario: Usuario): PromiseLike<any> {
+  public save(usuario: Usuario): Promise<any> {
 
-    const arquivoFile = usuario.arquivoFile;
-    const urlFile = usuario.urlFile;
+    return this.usuarioRepository.save(usuario);
 
-    const toSave = usuario;
-    delete toSave.arquivoFile;
-    delete  toSave.urlFile;
 
-    return new Promise((resolve) => {
-      if (arquivoFile)
-        this.snackBar.openFromComponent(FotoLoadingComponent, {
-          duration: 60000,
-        });
-
-      this.usuarioRepository.saveWithAccount(toSave)
-        .then(result => {
-
-          if (arquivoFile) {
-
-            this.fileRepository.save(result.key, arquivoFile)
-              .then(uploaded => {
-                toSave.urlFile = uploaded;
-                this.usuarioRepository.saveWithAccount(toSave)
-                  .then(usuarioAtualizado => {
-                    resolve(usuarioAtualizado);
-                  })
-              });
-
-          } else {
-
-            if (!urlFile) {
-              this.fileRepository.remove(result.key)
-                .then(result => {
-                  usuario.urlFile = null;
-                  this.usuarioRepository.saveWithAccount(usuario)
-                    .then(resulted => {
-                      resolve(resulted);
-                    });
-                });
-            }
-
-            else resolve(result);
-
-          }
-
-        });
-
-    });
+    // const arquivoFile = usuario.arquivoFile;
+    // const urlFile = usuario.urlFile;
+    //
+    // const toSave = usuario;
+    // delete toSave.arquivoFile;
+    // delete  toSave.urlFile;
+    //
+    // return new Promise((resolve) => {
+    //   if (arquivoFile)
+    //     this.snackBar.openFromComponent(FotoLoadingComponent, {
+    //       duration: 60000,
+    //     });
+    //
+    //   this.usuarioRepository.saveWithAccount(toSave)
+    //     .then(result => {
+    //
+    //       if (arquivoFile) {
+    //
+    //         this.fileRepository.save(result.key, arquivoFile)
+    //           .then(uploaded => {
+    //             toSave.urlFile = uploaded;
+    //             this.usuarioRepository.saveWithAccount(toSave)
+    //               .then(usuarioAtualizado => {
+    //                 resolve(usuarioAtualizado);
+    //               })
+    //           });
+    //
+    //       } else {
+    //
+    //         if (!urlFile) {
+    //           this.fileRepository.remove(result.key)
+    //             .then(result => {
+    //               usuario.urlFile = null;
+    //               this.usuarioRepository.saveWithAccount(usuario)
+    //                 .then(resulted => {
+    //                   resolve(resulted);
+    //                 });
+    //             });
+    //         }
+    //
+    //         else resolve(result);
+    //
+    //       }
+    //
+    //     });
+    //
+    // });
   }
 
   /**

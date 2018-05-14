@@ -2,6 +2,7 @@ package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.UsuarioRepository;
+import org.reactivestreams.Subscriber;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.List;
 
 @Service
@@ -27,40 +29,33 @@ public class UsuarioService {
 
     /**
      *
-     * O parâmero pode ser um mono? TODO
      */
-    public Mono<UserDetails> findByUsername(String username) {
+    public Mono<UserDetails> findByUsername(final String username) {
         if (username.equals(Usuario.MASTER_USERNAME)) {
-            UserDetails userDetails = Usuario.getMasterUser();
-            return Mono.just(userDetails);
+            return Mono.just(Usuario.getMasterUser());
         }
         return Mono.just(usuarioRepository.findByUsername(username));
     }
 
     /**
      *
-     * O parâmero pode ser um mono? TODO
      */
     @PreAuthorize("hasRole('ADMINISTRATOR')")
-    public Mono<Usuario> insertUser(final Mono<Usuario> usuario) {
-        final Usuario usuarioToSave = usuario.block();
-        usuarioToSave.setPassword(this.passwordEncoder.encode(usuarioToSave.getPassword()));
-        return Mono.just(this.usuarioRepository.save(usuarioToSave));
+    public Mono<Usuario> insertUser(final Usuario usuario) {
+        return Mono.just(this.usuarioRepository.save(usuario));
     }
 
-//    @PreAuthorize("hasRole('ADMINISTRATOR')")
-//    public void removeUser(long usuarioId) {
-//        this.usuarioRepository.deleteById(usuarioId);
-//    }
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    public void removeUser(long usuarioId) {
+        this.usuarioRepository.deleteById(usuarioId);
+    }
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     public Flux<Usuario> findAll() {
 
         final List<Usuario> list = this.usuarioRepository.findAll();
 
-        final Usuario[] usuarios = this.usuarioRepository.findAll().toArray(new Usuario[list.size()]);
-
-        return Flux.just(usuarios);
+        return Flux.just(list.toArray(new Usuario[list.size()]));
     }
 
 }

@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/usuarios")
 public class UsuarioResource {
 
     private final UsuarioService usuarioService;
@@ -17,14 +17,9 @@ public class UsuarioResource {
         this.usuarioService = usuarioService;
     }
 
-    /**
-     * TODO parâmetro deve ser um Mono
-     * @param usuarioMono
-     * @return
-     */
     @PostMapping
-    public Mono<Usuario> insertUsuario(@RequestBody Mono<Usuario> usuarioMono) {
-        return this.usuarioService.insertUser(usuarioMono);
+    public Mono<Usuario> insertUsuario(@RequestBody Usuario usuario) {
+        return this.usuarioService.insertUser(usuario);
     }
 
     @GetMapping
