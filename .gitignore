@@ -13,7 +13,7 @@
 # IDEs and editors
 /front-end/.idea
 /back-end/.idea
-/back-end/back-enb.iml
+/back-end/back-end.iml
 /.vscode
 /front-end/package-lock.json
 
