@@ -38,13 +38,13 @@ export class UnidadeItemComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.colaboradorService.listColaboradoresByUsuarioKey(this.usuario.key).subscribe(colaboradores => {
-      this.colaboradores = [];
-      for (let i = 0; i < colaboradores.length; i++) {
-        if (colaboradores[i].vinculo) {
-          this.colaboradores.push(colaboradores[i]);
-        }
-      }
-    });
+    // this.colaboradorService.listColaboradoresByUsuarioKey(this.usuario.key).subscribe(colaboradores => {
+    //   this.colaboradores = [];
+    //   for (let i = 0; i < colaboradores.length; i++) {
+    //     if (colaboradores[i].vinculo) {
+    //       this.colaboradores.push(colaboradores[i]);
+    //     }
+    //   }
+    // });
   }
 }

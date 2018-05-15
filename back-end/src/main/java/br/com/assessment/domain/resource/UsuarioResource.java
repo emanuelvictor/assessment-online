@@ -18,8 +18,13 @@ public class UsuarioResource {
     }
 
     @PostMapping
-    public Mono<Usuario> insertUsuario(@RequestBody Usuario usuario) {
-        return this.usuarioService.insertUser(usuario);
+    public Mono<Usuario> save(@RequestBody Mono<Usuario> usuario) {
+        return this.usuarioService.save(usuario);
+    }
+
+    @DeleteMapping
+    public void delete(@RequestParam long usuarioId) {
+        this.usuarioService.delete(usuarioId);
     }
 
     @GetMapping

@@ -97,7 +97,7 @@ export class InserirAtendenteComponent implements OnInit {
       /**
        * Se o vínculo a ser inserido é undefined, remove o mesmo do array a ser inserido
        */
-      if (this.colaboradores[i].unidade.key === colaborador.unidade.key && !this.colaboradores[i].vinculo) {
+      if (this.colaboradores[i].unidade.id === colaborador.unidade.id && !this.colaboradores[i].vinculo) {
         this.colaboradores.splice(i, 1);
         return;
       }
@@ -105,14 +105,14 @@ export class InserirAtendenteComponent implements OnInit {
       /**
        * Já tem o mesmo vinculo cancela o restante do algorítimo
        */
-      if (this.colaboradores[i].unidade.key === colaborador.unidade.key && this.colaboradores[i].vinculo === colaborador.vinculo) {
+      if (this.colaboradores[i].unidade.id === colaborador.unidade.id && this.colaboradores[i].vinculo === colaborador.vinculo) {
         return;
       }
 
       /**
        * Se o vínculo a ser inserido não é undefined, mas é diferente do contido no array
        */
-      if (this.colaboradores[i].unidade.key === colaborador.unidade.key && this.colaboradores[i].vinculo !== undefined && this.colaboradores[i].vinculo !== colaborador.vinculo) {
+      if (this.colaboradores[i].unidade.id === colaborador.unidade.id && this.colaboradores[i].vinculo !== undefined && this.colaboradores[i].vinculo !== colaborador.vinculo) {
         this.colaboradores[i] = colaborador;
         return;
       }

@@ -2,7 +2,6 @@ package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.UsuarioRepository;
-import org.reactivestreams.Subscriber;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
 import java.util.List;
 
 @Service
@@ -30,27 +28,35 @@ public class UsuarioService {
     /**
      *
      */
-    public Mono<UserDetails> findByUsername(final String username) {
-        if (username.equals(Usuario.MASTER_USERNAME)) {
+    public Mono<UserDetails> findByUsername(final String email) {
+        if (email.equals(Usuario.MASTER_USER_EMAIL)) {
             return Mono.just(Usuario.getMasterUser());
         }
-        return Mono.just(usuarioRepository.findByUsername(username));
+        return Mono.just(usuarioRepository.findByEmail(email));
     }
 
     /**
      *
      */
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
-    public Mono<Usuario> insertUser(final Usuario usuario) {
-        return Mono.just(this.usuarioRepository.save(usuario));
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public Mono<Usuario> save(final Mono<Usuario> usuario) {
+
+        return Mono.create(monoSink ->
+                usuario.subscribe(usuarioToSave -> {
+                            usuarioToSave.setPassword(this.passwordEncoder.encode(usuarioToSave.getPassword()));
+                            monoSink.success(this.usuarioRepository.save(usuarioToSave));
+                        }
+                )
+        );
+
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
-    public void removeUser(long usuarioId) {
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public void delete(final long usuarioId) {
         this.usuarioRepository.deleteById(usuarioId);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Flux<Usuario> findAll() {
 
         final List<Usuario> list = this.usuarioRepository.findAll();

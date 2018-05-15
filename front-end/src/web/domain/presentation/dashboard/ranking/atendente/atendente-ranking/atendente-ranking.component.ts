@@ -56,7 +56,7 @@ export class AtendenteRankingComponent implements OnInit {
     //
     //     if (usuarioAutenticado.isAdministrador) {
     //
-    //       this.usuarioService.find()
+    //       this.usuarioService.findById()
     //         .subscribe(atendentes => {
     //           this.atendentes = atendentes;
     //
@@ -136,65 +136,65 @@ export class AtendenteRankingComponent implements OnInit {
     }
   }
 
-  /**
-   *
-   * @param {string} unidadeKey
-   */
-  public find(unidadeKey: string) {
-    this.unidadeService.findOne(unidadeKey).subscribe(unidade => this.unidade = unidade);
-    /**
-     * TODO não precisa mais disso
-     */
-    this.colaboradorService.listColaboradoresByUnidadeKey(unidadeKey).subscribe(colaboradores => {
-      this.atendentes = [];
-      colaboradores.forEach(colaborador => {
-        this.usuarioService.findOne(colaborador.usuario.key).subscribe(usuario => {
-          if (colaborador.vinculo && colaborador.vinculo !== 'Operador') {
-
-            let founded = false;
-
-            this.atendentes.forEach(atendente => {
-              if (atendente.key === usuario.key) {
-                atendente = usuario;
-                founded = true;
-              }
-
-              /**
-               * TODO Substituir por innerjoins
-               */
-              this.unidadeService.listUnidadesByColaboradorKey(atendente.key)
-                .subscribe(unidades => {
-                  atendente.unidades = unidades.map(unidade => unidade.nome).join();
-                })
-            });
-
-            if (!founded) {
-              /**
-               * Se não tem média define como 0,
-               * Isso é feito para não bugar a ordenação
-               */
-              if (!usuario.media) {
-                usuario.media = 0;
-              }
-              this.atendentes.push(usuario);
-            }
-
-            this.atendentes.sort((a: any, b: any) => {
-              if (a['media'] > b['media']) {
-                return -1;
-              } else if (a['media'] < b['media']) {
-                return 1;
-              } else {
-                return 0;
-              }
-            });
-
-            this.indexar();
-          }
-        })
-      });
-    });
-  }
+  // /**
+  //  *
+  //  * @param {string} unidadeKey
+  //  */
+  // public findById(unidadeKey: string) {
+  //   this.unidadeService.findOne(unidadeKey).subscribe(unidade => this.unidade = unidade);
+  //   /**
+  //    * TODO não precisa mais disso
+  //    */
+  //   this.colaboradorService.listColaboradoresByUnidadeKey(unidadeKey).subscribe(colaboradores => {
+  //     this.atendentes = [];
+  //     colaboradores.forEach(colaborador => {
+  //       this.usuarioService.findOne(colaborador.usuario.key).subscribe(usuario => {
+  //         if (colaborador.vinculo && colaborador.vinculo !== 'Operador') {
+  //
+  //           let founded = false;
+  //
+  //           this.atendentes.forEach(atendente => {
+  //             if (atendente.key === usuario.key) {
+  //               atendente = usuario;
+  //               founded = true;
+  //             }
+  //
+  //             /**
+  //              * TODO Substituir por innerjoins
+  //              */
+  //             this.unidadeService.listUnidadesByColaboradorKey(atendente.key)
+  //               .subscribe(unidades => {
+  //                 atendente.unidades = unidades.map(unidade => unidade.nome).join();
+  //               })
+  //           });
+  //
+  //           if (!founded) {
+  //             /**
+  //              * Se não tem média define como 0,
+  //              * Isso é feito para não bugar a ordenação
+  //              */
+  //             if (!usuario.media) {
+  //               usuario.media = 0;
+  //             }
+  //             this.atendentes.push(usuario);
+  //           }
+  //
+  //           this.atendentes.sort((a: any, b: any) => {
+  //             if (a['media'] > b['media']) {
+  //               return -1;
+  //             } else if (a['media'] < b['media']) {
+  //               return 1;
+  //             } else {
+  //               return 0;
+  //             }
+  //           });
+  //
+  //           this.indexar();
+  //         }
+  //       })
+  //     });
+  //   });
+  // }
 
   /**
    *

@@ -43,7 +43,7 @@ export class UnidadeRankingComponent implements OnInit {
    *
    */
   public find() {
-    this.unidadeService.find().subscribe(unidades => {
+    this.unidadeService.find().then(unidades => {
 
       this.unidades = unidades;
 

@@ -27,31 +27,8 @@ export class UnidadeService {
    *
    * @returns {Observable<any[]>}
    */
-  public find(): Observable<any[]> {
-    return Observable.create(observer => {
-
-      this.usuarioService.getUsuarioAutenticado()
-        .subscribe(usuarioAutenticado => {
-
-          if (usuarioAutenticado.isAdministrador) {
-
-            this.unidadeRepository.find()
-              .subscribe(unidades => {
-                observer.next(unidades);
-              })
-
-          } else {
-
-            this.listUnidadesByOperadorKey(usuarioAutenticado.key)
-              .subscribe(unidades => {
-                observer.next(unidades);
-              })
-
-          }
-
-        })
-
-    })
+  public find(): Promise<any[]> {
+    return this.unidadeRepository.findAll();
   }
 
   /**
@@ -60,38 +37,38 @@ export class UnidadeService {
    * @returns {Observable<any>}
    */
   public listUnidadesByOperadorKey(key: string): Observable<any> {
-
-    let unidadesReturn = [];
-
-    return this.colaboradorService.listOperadoresByUsuarioKey(key)
-      .flatMap(colaboradores => {
-        unidadesReturn = [];
-        return colaboradores;
-      })
-      .flatMap((colaborador: Colaborador) => {
-        unidadesReturn = [];
-        return this.colaboradorService.listOperadoresByUnidadeKey(colaborador.unidade.key)
-      })
-      .flatMap(colaboradores => {
-        return colaboradores;
-      })
-      .flatMap((colaborador: Colaborador) => {
-        return this.findOne(colaborador.unidade.key)
-      })
-      .map(unidade => {
-
-        let founded = false;
-
-        for (let i = 0; i < unidadesReturn.length; i++) {
-          founded = !unidade || unidadesReturn[i].key === unidade.key;
-          if (founded) break
-        }
-
-        if (!founded)
-          unidadesReturn.push(unidade);
-
-        return unidadesReturn;
-      })
+return null;
+    // let unidadesReturn = [];
+    //
+    // return this.colaboradorService.listOperadoresByUsuarioKey(key)
+    //   .flatMap(colaboradores => {
+    //     unidadesReturn = [];
+    //     return colaboradores;
+    //   })
+    //   .flatMap((colaborador: Colaborador) => {
+    //     unidadesReturn = [];
+    //     return this.colaboradorService.listOperadoresByUnidadeKey(colaborador.unidade.key)
+    //   })
+    //   .flatMap(colaboradores => {
+    //     return colaboradores;
+    //   })
+    //   .flatMap((colaborador: Colaborador) => {
+    //     return this.findOne(colaborador.unidade.key)
+    //   })
+    //   .map(unidade => {
+    //
+    //     let founded = false;
+    //
+    //     for (let i = 0; i < unidadesReturn.length; i++) {
+    //       founded = !unidade || unidadesReturn[i].key === unidade.key;
+    //       if (founded) break
+    //     }
+    //
+    //     if (!founded)
+    //       unidadesReturn.push(unidade);
+    //
+    //     return unidadesReturn;
+    //   })
   }
 
 
@@ -102,56 +79,56 @@ export class UnidadeService {
    */
   public listUnidadesByColaboradorKey(key: string): Observable<any> {
 
-    let unidadesReturn = [];
-
-    return this.colaboradorService.listColaboradoresByUsuarioKey(key)
-      .flatMap(colaboradores => {
-        unidadesReturn = [];
-        return colaboradores;
-      })
-      .flatMap((colaborador: Colaborador) => {
-        return this.findOne(colaborador.unidade.key)
-      })
-      .map(unidade => {
-
-        let founded = false;
-
-        for (let i = 0; i < unidadesReturn.length; i++) {
-          founded = !unidade || unidadesReturn[i].key === unidade.key;
-          if (founded) break
-        }
-
-        if (!founded)
-          unidadesReturn.push(unidade);
-
-        return unidadesReturn;
-      })
+    return null;
+    // let unidadesReturn = [];
+    //
+    // return this.colaboradorService.listColaboradoresByUsuarioKey(key)
+    //   .flatMap(colaboradores => {
+    //     unidadesReturn = [];
+    //     return colaboradores;
+    //   })
+    //   .flatMap((colaborador: Colaborador) => {
+    //     return this.findOne(colaborador.unidade.key)
+    //   })
+    //   .map(unidade => {
+    //
+    //     let founded = false;
+    //
+    //     for (let i = 0; i < unidadesReturn.length; i++) {
+    //       founded = !unidade || unidadesReturn[i].key === unidade.key;
+    //       if (founded) break
+    //     }
+    //
+    //     if (!founded)
+    //       unidadesReturn.push(unidade);
+    //
+    //     return unidadesReturn;
+    //   })
   }
 
   /**
    *
-   * @param {string} key
-   * @returns {Observable<any>}
+   * @param {number} unidadeId
+   * @returns {Promise<Unidade>}
    */
-  public findOne(key: string): Observable<any> {
-    return this.unidadeRepository.findOne(key);
+  public findById(unidadeId: number): Promise<Unidade> {
+    return this.unidadeRepository.findById(unidadeId);
   }
 
   /**
    *
-   * @param item
-   * @returns {PromiseLike<any>}
-   */
-  public save(item: any): PromiseLike<any> {
-    return this.unidadeRepository.save(item);
-  }
-
-  /**
-   * Remove a unidade
-   * @param {Unidade} unidade
+   * @param unidade
    * @returns {Promise<any>}
    */
-  public remove(unidade: Unidade): Promise<any> {
-    return this.unidadeRepository.remove(unidade);
+  public save(unidade: Unidade): Promise<Unidade> {
+    return this.unidadeRepository.save(unidade);
+  }
+
+  /**
+   *
+   * @param {number} unidadeId
+   */
+  public delete(unidadeId: number): void {
+    this.unidadeRepository.delete(unidadeId);
   }
 }

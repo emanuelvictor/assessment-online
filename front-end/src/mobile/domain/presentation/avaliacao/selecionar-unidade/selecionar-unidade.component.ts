@@ -2,9 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MobileService} from '../../../service/mobile.service';
 import {UnidadeService} from '../../../../../web/domain/service/unidade.service';
-import {AuthenticationService} from '../../../../../web/domain/service/authentication.service';
-import {UsuarioService} from '../../../../../web/domain/service/usuario.service';
-import {ColaboradorService} from '../../../../../web/domain/service/colaborador.service';
 
 @Component({
   selector: 'selecionar-unidade',
@@ -37,10 +34,11 @@ export class SelecionarUnidadeComponent implements OnInit {
    */
   ngOnInit() {
     this.unidadeService.find()
-      .subscribe(unidades => {
+      .then(unidades => {
         this.unidades = unidades;
       });
   }
+
 
   /**
    *

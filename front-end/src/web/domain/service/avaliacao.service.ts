@@ -80,30 +80,31 @@ export class AvaliacaoService {
    */
   private sufoco(observable: Observable<any>): Observable<any> {
 
-    let avaliacoesReturn = [];
-
-    return observable
-      .flatMap(colaboradores => {
-        avaliacoesReturn = [];
-        return colaboradores;
-      })
-      .flatMap((colaborador: Colaborador) => {
-        return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
-      })
-      .map(avaliacoesColaboradores => {
-        return avaliacoesColaboradores.map(b => b.avaliacao);
-      })
-      .map(avaliacoes => {
-        avaliacoesReturn = avaliacoesReturn.concat(avaliacoes);
-        avaliacoesReturn = avaliacoesReturn.filter(function (este, i) {
-          return avaliacoesReturn.map(a => {
-            return a.key;
-          }).indexOf(este.key) === i;
-        });
-
-        return avaliacoesReturn
-
-      });
+    return null;
+  //   let avaliacoesReturn = [];
+  //
+  //   return observable
+  //     .flatMap(colaboradores => {
+  //       avaliacoesReturn = [];
+  //       return colaboradores;
+  //     })
+  //     .flatMap((colaborador: Colaborador) => {
+  //       return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
+  //     })
+  //     .map(avaliacoesColaboradores => {
+  //       return avaliacoesColaboradores.map(b => b.avaliacao);
+  //     })
+  //     .map(avaliacoes => {
+  //       avaliacoesReturn = avaliacoesReturn.concat(avaliacoes);
+  //       avaliacoesReturn = avaliacoesReturn.filter(function (este, i) {
+  //         return avaliacoesReturn.map(a => {
+  //           return a.key;
+  //         }).indexOf(este.key) === i;
+  //       });
+  //
+  //       return avaliacoesReturn
+  //
+  //     });
   }
 
   /**

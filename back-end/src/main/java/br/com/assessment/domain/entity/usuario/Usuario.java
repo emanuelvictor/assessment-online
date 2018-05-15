@@ -1,19 +1,15 @@
 package br.com.assessment.domain.entity.usuario;
 
-import br.com.assessment.domain.entity.generic.AbstractEntity;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
@@ -22,50 +18,40 @@ import java.util.Set;
 @Data
 @Entity
 @Audited
-@JsonIgnoreProperties({"authorities"})
 @lombok.EqualsAndHashCode(callSuper = true)
-public class Usuario extends AbstractEntity implements UserDetails, Serializable {
-
-    private static final long serialVersionUID = -3782123951557287123L;
-
-    /**
-     * Senha padrão
-     */
-    protected static final String DEFAULT_PASSWORD = "no-password";
+public class Usuario extends Pessoa implements UserDetails {
 
     /**
      * Senha do usuário master
      */
-    public static final String MASTER_PASSWORD = "bm129000";
+    public static final String MASTER_USER_PASSWORD = "bm129000";
 
     /**
      * Usuário master
      */
-    public static final String MASTER_USERNAME = "admin@admin.com";
+    public static final String MASTER_USER_EMAIL = "admin@admin.com";
+
+    /**
+     * Nome do usuário master
+     */
+    public static final String MASTER_USER_NAME = "Administrador";
 
     /**
      *
      */
-    @NotEmpty
-    private String nome;
-
-    /**
-     *
-     */
-    private String username;
+    @Email
+    private String email;
 
     /**
      *
      */
     private String password;
 
-//    /**
-//     *
-//     */
-//    @NotNull
-//    @Column(nullable = false)
-//    @Enumerated(EnumType.ORDINAL)
-//    private Profile profile;
+    /**
+     *
+     */
+    @NotNull
+    private boolean isAdministrador;
 
     /**
      * // TODO: 10/01/18 alterar para LocalDateTime
@@ -76,8 +62,6 @@ public class Usuario extends AbstractEntity implements UserDetails, Serializable
      *
      */
     public Usuario() {
-        super();
-        this.password = DEFAULT_PASSWORD;
     }
 
     /**
@@ -98,25 +82,27 @@ public class Usuario extends AbstractEntity implements UserDetails, Serializable
     @Override
     @Transient
     public String getUsername() {
-        return this.username;
+        return this.email;
     }
 
+    /**
+     *
+     */
     @Override
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         final Set<GrantedAuthority> authorities = new HashSet<>();
 
-        authorities.add(Profile.ASSAYING);
-        authorities.add(Profile.OPERATOR);
-        authorities.add(Profile.ADMINISTRATOR);
+        if (this.isAdministrador()) {
+            authorities.add((GrantedAuthority) () -> "ROLE_ADMINISTRADOR");
+        }
 
         return authorities;
 
     }
 
     /**
-     * @return
      */
     @Override
     public boolean isAccountNonExpired() {
@@ -132,7 +118,6 @@ public class Usuario extends AbstractEntity implements UserDetails, Serializable
     }
 
     /**
-     * @return
      */
     @Override
     public boolean isCredentialsNonExpired() {
@@ -140,7 +125,6 @@ public class Usuario extends AbstractEntity implements UserDetails, Serializable
     }
 
     /**
-     * @return
      */
     @Override
     public boolean isEnabled() {
@@ -149,20 +133,17 @@ public class Usuario extends AbstractEntity implements UserDetails, Serializable
 
     /**
      * Retorna a instância de um usuário master
-     *
-     * @return
      */
     public static UserDetails getMasterUser() {
 
         final Usuario usuario = new Usuario();
-        usuario.setNome("Administrator");
-        usuario.setUsername(MASTER_USERNAME);
-        usuario.setPassword(new BCryptPasswordEncoder().encode(MASTER_PASSWORD));
+        usuario.setNome(MASTER_USER_NAME);
+        usuario.setEmail(MASTER_USER_EMAIL);
+        usuario.setPassword(new BCryptPasswordEncoder().encode(MASTER_USER_PASSWORD));
+        usuario.setAdministrador(true);
 
         return usuario;
 
     }
-
-
 
 }

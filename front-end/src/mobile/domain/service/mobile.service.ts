@@ -50,13 +50,13 @@ export class MobileService {
      * Pega a key da unidade do localStorage
      * @type {string}
      */
-    this.unidade.key = window.localStorage.getItem('unidadeKey');
+    this.unidade.id = parseInt(window.localStorage.getItem('unidadeId'));
 
     /**
      * Popula restante dos dados da unidade,
      * Desta forma as avaliacoes da unidade não ficam zeradas
      */
-    this.loadUnidade(this.unidade.key);
+    this.loadUnidade(this.unidade.id);
 
     /**
      * Seta a duração default da snackbar
@@ -140,7 +140,7 @@ export class MobileService {
       const avaliacaoAux: Avaliacao = new Avaliacao();
       avaliacaoAux.data = this.avaliacao.data;
       avaliacaoAux.nota = this.avaliacao.nota;
-      avaliacaoAux.key = this.avaliacao.key;
+      avaliacaoAux.id = this.avaliacao.id;
       avaliacaoColaborador.avaliacao = avaliacaoAux;
 
       avaliacaoColaborador.colaborador = colaborador;
@@ -187,35 +187,35 @@ export class MobileService {
    *
    * @returns {any}
    */
-  getUnidade(): string {
-    return this.unidade.key;
+  getUnidade(): number {
+    return this.unidade.id;
   }
 
   /**
    *
-   * @param {string} key
+   * @param {number} id
    */
-  setUnidade(key: string) {
+  setUnidade(id: number) {
 
     const storage = window.localStorage;
 
-    storage.removeItem('unidadeKey');
+    storage.removeItem('unidadeId');
 
-    storage.setItem('unidadeKey', key);
+    storage.setItem('unidadeId', id.toString());
 
-    this.unidade.key = key;
+    this.unidade.id = id;
 
-    this.loadUnidade(key);
+    this.loadUnidade(id);
   }
 
   /**
    * Carrega demais dados da unidade
-   * @param {string} key
+   * @param {number} id
    */
-  private loadUnidade(key: string){
-    if (key)
-      this.unidadeService.findOne(this.unidade.key)
-        .subscribe(unidade => this.unidade = unidade);
+  private loadUnidade(id: number){
+    if (id)
+      this.unidadeService.findById(this.unidade.id)
+        .then(unidade => this.unidade = unidade);
   }
 
   /**

@@ -117,10 +117,10 @@ export class EstatisticasUnidadeComponent implements OnInit {
    */
   ngOnInit() {
 
-    this.unidadeService.findOne(this.activatedRoute.snapshot.params['key'])
-      .subscribe((rankeavel: any) => {
+    this.unidadeService.findById(this.activatedRoute.snapshot.params['id'])
+      .then((rankeavel: any) => {
         this.rankeavel = rankeavel;
-        this.title.setTitle('Estatisticas de ' + this.rankeavel.nome); // TODO fazer o title para todos os componentes
+        this.title.setTitle('Estatisticas de ' + this.rankeavel.nome);
       });
 
     this.listAll();

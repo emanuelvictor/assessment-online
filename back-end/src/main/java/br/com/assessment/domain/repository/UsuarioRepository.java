@@ -8,15 +8,9 @@ public interface UsuarioRepository
         extends JpaRepository<Usuario, Long>
 {
 
-//    /**
-//     * @return
-//     */
-//    Flux<Usuario> findByName(Mono<String> nome);
-//
-//
     /**
      * @return
      */
-    UserDetails findByUsername(String username);
+    UserDetails findByEmail(final String email);
 
 }

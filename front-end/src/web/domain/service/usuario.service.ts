@@ -5,11 +5,9 @@ import {AuthenticationService} from './authentication.service';
 import {Usuario} from '../entity/usuario/Usuario.model';
 import {FileRepository} from '../../infrastructure/repository/file/file.repository';
 import {MatSnackBar} from '@angular/material';
-import {FotoLoadingComponent} from '../presentation/controls/foto-loading/foto-loading.component';
 import {ColaboradorRepository} from '../repository/colaborador.repository';
 import {AvaliacaoColaboradorRepository} from '../repository/avaliacao-colaborador.repository';
 import {ColaboradorService} from './colaborador.service';
-import {Colaborador} from '../entity/colaborador/Colaborador.model';
 
 /**
  *
@@ -47,7 +45,7 @@ export class UsuarioService {
     //
     //       if (usuarioAutenticado.isAdministrador) {
     //
-    //         this.usuarioRepository.find()
+    //         this.usuarioRepository.findById()
     //           .subscribe(atendentes => {
     //             observer.next(atendentes);
     //           })
@@ -73,37 +71,38 @@ export class UsuarioService {
    */
   public listColaboradoresByOperadorKey(key: string): Observable<any> {
 
-    let atendentesReturn = [];
-
-    return this.colaboradorService.listOperadoresByUsuarioKey(key)
-      .flatMap(colaboradores => {
-        atendentesReturn = [];
-        return colaboradores;
-      })
-      .flatMap((colaborador: Colaborador) => {
-        atendentesReturn = [];
-        return this.colaboradorService.listColaboradoresByUnidadeKey(colaborador.unidade.key)
-      })
-      .flatMap(colaboradores => {
-        return colaboradores;
-      })
-      .flatMap((colaborador: Colaborador) => {
-        return this.findOne(colaborador.usuario.key)
-      })
-      .map(atendente => {
-
-        let founded = false;
-
-        for (let i = 0; i < atendentesReturn.length; i++) {
-          founded = atendentesReturn[i].key === atendente.key;
-          if (founded) break
-        }
-
-        if (!founded)
-          atendentesReturn.push(atendente);
-
-        return atendentesReturn;
-      })
+    return null;
+    // let atendentesReturn = [];
+    //
+    // return this.colaboradorService.listOperadoresByUsuarioKey(key)
+    //   .flatMap(colaboradores => {
+    //     atendentesReturn = [];
+    //     return colaboradores;
+    //   })
+    //   .flatMap((colaborador: Colaborador) => {
+    //     atendentesReturn = [];
+    //     return this.colaboradorService.listColaboradoresByUnidadeKey(colaborador.unidade.key)
+    //   })
+    //   .flatMap(colaboradores => {
+    //     return colaboradores;
+    //   })
+    //   .flatMap((colaborador: Colaborador) => {
+    //     return this.findOne(colaborador.usuario.key)
+    //   })
+    //   .map(atendente => {
+    //
+    //     let founded = false;
+    //
+    //     for (let i = 0; i < atendentesReturn.length; i++) {
+    //       founded = atendentesReturn[i].key === atendente.key;
+    //       if (founded) break
+    //     }
+    //
+    //     if (!founded)
+    //       atendentesReturn.push(atendente);
+    //
+    //     return atendentesReturn;
+    //   })
   }
 
   /**
@@ -113,37 +112,39 @@ export class UsuarioService {
    */
   public listAtendentesByOperadorKey(key: string): Observable<any> {
 
-    let atendentesReturn = [];
+    return null;
 
-    return this.colaboradorService.listOperadoresByUsuarioKey(key)
-      .flatMap(colaboradores => {
-        atendentesReturn = [];
-        return colaboradores;
-      })
-      .flatMap((colaborador: Colaborador) => {
-        atendentesReturn = [];
-        return this.colaboradorService.listAtendentesByUnidadeKey(colaborador.unidade.key)
-      })
-      .flatMap(colaboradores => {
-        return colaboradores;
-      })
-      .flatMap((colaborador: Colaborador) => {
-        return this.findOne(colaborador.usuario.key)
-      })
-      .map(atendente => {
-
-        let founded = false;
-
-        for (let i = 0; i < atendentesReturn.length; i++) {
-          founded = atendentesReturn[i].key === atendente.key;
-          if (founded) break
-        }
-
-        if (!founded)
-          atendentesReturn.push(atendente);
-
-        return atendentesReturn;
-      })
+    // let atendentesReturn = [];
+    //
+    // return this.colaboradorService.listOperadoresByUsuarioKey(key)
+    //   .flatMap(colaboradores => {
+    //     atendentesReturn = [];
+    //     return colaboradores;
+    //   })
+    //   .flatMap((colaborador: Colaborador) => {
+    //     atendentesReturn = [];
+    //     return this.colaboradorService.listAtendentesByUnidadeKey(colaborador.unidade.key)
+    //   })
+    //   .flatMap(colaboradores => {
+    //     return colaboradores;
+    //   })
+    //   .flatMap((colaborador: Colaborador) => {
+    //     return this.findOne(colaborador.usuario.key)
+    //   })
+    //   .map(atendente => {
+    //
+    //     let founded = false;
+    //
+    //     for (let i = 0; i < atendentesReturn.length; i++) {
+    //       founded = atendentesReturn[i].key === atendente.key;
+    //       if (founded) break
+    //     }
+    //
+    //     if (!founded)
+    //       atendentesReturn.push(atendente);
+    //
+    //     return atendentesReturn;
+    //   })
   }
 
   /**
@@ -165,7 +166,6 @@ export class UsuarioService {
   }
 
   /**
-   * TODO NORMALIZAAAAAAAAAAAAAAAARR
    *
    * @param {Usuario} usuario
    * @returns {PromiseLike<any>}
@@ -234,20 +234,20 @@ export class UsuarioService {
     /**
      * Remove os vínculos do usuário com as unidades
      */
-    this.colaboradorReposisotry.listColaboradoresByUsuarioKey(usuario.key).subscribe(colaboradores => {
-      for (let k = 0; k < colaboradores.length; k++) {
-        /**
-         * Remove as avaliações do usuário
-         */
-        this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaboradores[k].key)
-          .subscribe(avaliacoes => {
-            for (let i = 0; i < avaliacoes.length; i++) {
-              this.avaliacaoColaboradorRepository.remove(avaliacoes[i]);
-            }
-          });
-        this.colaboradorReposisotry.remove(colaboradores[k]);
-      }
-    });
+    // this.colaboradorReposisotry.listColaboradoresByUsuarioKey(usuario.id).subscribe(colaboradores => {
+    //   for (let k = 0; k < colaboradores.length; k++) {
+    //     /**
+    //      * Remove as avaliações do usuário
+    //      */
+    //     this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaboradores[k].key)
+    //       .subscribe(avaliacoes => {
+    //         for (let i = 0; i < avaliacoes.length; i++) {
+    //           this.avaliacaoColaboradorRepository.remove(avaliacoes[i]);
+    //         }
+    //       });
+    //     this.colaboradorReposisotry.remove(colaboradores[k]);
+    //   }
+    // });
 
     return this.usuarioRepository.remove(usuario);
   }

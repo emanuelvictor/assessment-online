@@ -42,7 +42,7 @@ export class ConsultarUnidadesComponent implements OnInit {
    */
   ngOnInit() {
     this.usuarioService.getUsuarioAutenticado()
-      .subscribe(usuarioAutenticado => this.usuarioAutenticado = usuarioAutenticado)
+      .subscribe(usuarioAutenticado => this.usuarioAutenticado = usuarioAutenticado);
     this.listUnidadesByFilters();
   }
 
@@ -51,9 +51,10 @@ export class ConsultarUnidadesComponent implements OnInit {
    *
    */
   public listUnidadesByFilters() {
-    this.unidadeService.find().subscribe(unidade => {
-      this.unidades = unidade;
-    });
+    this.unidadeService.find()
+      .then(unidade => {
+        this.unidades = unidade;
+      });
   }
 
   /**

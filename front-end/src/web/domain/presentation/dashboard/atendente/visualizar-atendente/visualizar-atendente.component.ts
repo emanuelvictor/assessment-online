@@ -76,7 +76,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    */
   public listUnidadesByFilters() {
-    this.unidadeService.find().subscribe(result => {
+    this.unidadeService.find().then(result => {
       this.unidades = result;
     });
   }

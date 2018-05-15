@@ -29,16 +29,19 @@ export class VisualizarUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    const key: string = this.activatedRoute.snapshot.params['key'];
-    this.find(key);
+    const id: number = this.activatedRoute.snapshot.params['id'];
+    this.findById(id);
   }
 
   /**
    *
-   * @param key
+   * @param {number} id
    */
-  public find(key: string) {
-    this.unidadeService.findOne(key).subscribe(result => this.unidade = result)
+  public findById(id: number) {
+    this.unidadeService.findById(id)
+      .then(result => {
+        this.unidade = result;
+      })
   }
 
   /**
@@ -46,27 +49,27 @@ export class VisualizarUnidadeComponent implements OnInit {
    * @param {string} unidadeKey
    */
   public remove(unidadeKey: string) {
-    let dialogRef = this.dialog.open(ConfirmDialogComponent,
-      {
-        data: {
-          text: 'Deseja realmente excluir a unidade?',
-          confirm: 'Sim',
-          cancel: 'Não'
-        }
-      }
-    );
-
-    dialogRef.afterClosed().subscribe(remover => {
-      if (remover) {
-        this.unidadeService.remove(this.unidade)
-          .then(() => {
-            this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-            this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {
-              duration: 3000
-            });
-          })
-      }
-    });
+    // let dialogRef = this.dialog.open(ConfirmDialogComponent,
+    //   {
+    //     data: {
+    //       text: 'Deseja realmente excluir a unidade?',
+    //       confirm: 'Sim',
+    //       cancel: 'Não'
+    //     }
+    //   }
+    // );
+    //
+    // dialogRef.afterClosed().subscribe(remover => {
+    //   if (remover) {
+    //     this.unidadeService.delete(this.unidade.id)
+    //       .then(() => {
+    //         this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+    //         this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {
+    //           duration: 3000
+    //         });
+    //       })
+    //   }
+    // });
   }
 
   /**

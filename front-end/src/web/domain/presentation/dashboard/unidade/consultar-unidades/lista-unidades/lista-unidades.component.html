@@ -10,7 +10,7 @@
 
     <mat-card class="push-none bgc-grey-50">
       <mat-nav-list>
-        <div *ngFor="let unidade of unidades | filter:filter | orderBy:'nome':false:'case-insensitive'" routerLink="{{unidade?.key}}">
+        <div *ngFor="let unidade of unidades | filter:filter | orderBy:'nome':false:'case-insensitive'" routerLink="{{unidade?.id}}">
           <mat-list-item>
             <h3 matLine> {{unidade?.nome}} </h3>
             <h2 matLine flex class="mat-subheading-2 tc-blue-grey-500 no-margin" *ngIf='unidade?.cnpj'>CNPJ: {{unidade?.cnpj | documento}}</h2>

@@ -10,7 +10,7 @@
           <div layout="row">
 
             <div layout="column" style="min-width: 17px">
-              <button *ngIf="activatedRoute?.snapshot?.params?.key"
+              <button *ngIf="activatedRoute?.snapshot?.params?.id"
                       class="mat-headline tc-grey-500" type="button"
                       routerLink="../" color="primary" mat-icon-button>
                 <mat-icon>arrow_back</mat-icon>
@@ -52,7 +52,7 @@
                       <mat-icon>show_chart</mat-icon>
                       <span>Estatísticas</span>
                     </button>
-                    <button mat-menu-item class="tc-blue-grey-900" (click)="remove(unidade?.key)">
+                    <button mat-menu-item class="tc-blue-grey-900" (click)="remove(unidade?.id)">
                       <mat-icon>delete</mat-icon>
                       <span>Remover</span>
                     </button>

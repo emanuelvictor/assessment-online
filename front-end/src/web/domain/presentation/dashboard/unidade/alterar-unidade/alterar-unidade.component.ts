@@ -46,34 +46,35 @@ export class AlterarUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    let unidadeKey: string = this.activatedRoute.snapshot.params['key'];
-    this.find(unidadeKey);
+    let id: number = this.activatedRoute.snapshot.params['id'];
+    this.findById(id);
   }
 
   /**
    *
-   * @param unidadeKey
+   * @param id
    */
-  public find(unidadeKey: string) {
-    this.unidadeService.findOne(unidadeKey).subscribe(result => {
+  public findById(id: number) {
+    this.unidadeService.findById(id)
+      .then(result => {
 
-      this.unidade = result;
+        this.unidade = result;
 
-      if (this.unidade && this.unidade.endereco)
-        if (typeof this.unidade.endereco === 'string')
-          this.unidade.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
-      
-    })
+        if (this.unidade && this.unidade.endereco)
+          if (typeof this.unidade.endereco === 'string')
+            this.unidade.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
+
+      })
   }
 
   /**
    *
    */
-  public update(unidade: Unidade): void {
+  public save(unidade: Unidade): void {
     this.unidadeService.save(unidade)
       .then((result) => {
         unidade = result;
-        this.success('Unidades alterado com sucesso');
+        this.success('Unidade alterada com sucesso');
       })
   }
 
@@ -83,7 +84,7 @@ export class AlterarUnidadeComponent implements OnInit {
    */
   public success(message: string) {
     this.openSnackBar(message);
-    this.router.navigate(['dashboard/unidades/' + this.unidade.key]);
+    this.router.navigate(['dashboard/unidades/' + this.unidade.id]);
   }
 
   /**

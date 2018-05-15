@@ -48,7 +48,7 @@ export class ListaUnidadesComponent implements OnInit {
 
 
 
-    this.unidadeService.find().subscribe(result => {
+    this.unidadeService.find().then(result => {
       this.unidades = result;
     });
   }
