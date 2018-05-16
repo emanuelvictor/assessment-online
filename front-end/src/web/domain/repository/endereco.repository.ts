@@ -1,12 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 @Injectable()
 export class EnderecoRepository {
 
-  private postmon: string = 'http://api.postmon.com.br/v1/cep/';
-
-  private ibgeApi: string = 'https://servicodados.ibge.gov.br/api/v1/localidades';
+  private postmon = 'http://api.postmon.com.br/v1/cep/';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -14,11 +12,12 @@ export class EnderecoRepository {
     return this.httpClient.get(this.postmon + cep).toPromise();
   }
 
-  public getEstados(): Promise<any> {
-    return this.httpClient.get(this.ibgeApi+'/estados').toPromise();
-  }
+  public find(cidade: string, uf: string): Promise<any> {
+    let params = new HttpParams();
+    params = params.set('cidade', cidade ? cidade.toString() : '');
+    params = params.set('uf', uf ? uf : '');
 
-  public getCidadeByEstadoId(estadoId: number): Promise<any> {
-    return this.httpClient.get(this.ibgeApi+'/estados' + '/' + estadoId + '/municipios').toPromise();
+
+    return this.httpClient.get('cidades', {params: params}).toPromise().then(result => result);
   }
 }

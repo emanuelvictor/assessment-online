@@ -14,13 +14,13 @@ export class ConsultarAtendentesComponent implements OnInit {
   /**
    *
    */
-  public atendentes: any[];
+   public atendentes: any[];
 
   /**
    *
    * @type {Usuario}
    */
-  filter: Usuario = new Usuario();
+   filter: Usuario = new Usuario();
 
   /**
    *
@@ -28,35 +28,36 @@ export class ConsultarAtendentesComponent implements OnInit {
    * @param {UsuarioService} usuarioService
    * @param {UnidadeService} unidadeService
    */
-  constructor(private snackBar: MatSnackBar, private usuarioService: UsuarioService, private unidadeService: UnidadeService) {
-  }
+   constructor(private snackBar: MatSnackBar, private usuarioService: UsuarioService, private unidadeService: UnidadeService) {
+     
+   }
 
   /**
    *
    */
-  ngOnInit() {
-    this.listUsuariosByFilters();
-  }
+   ngOnInit() {
+     this.listUsuariosByFilters();
+   }
 
   /**
    *
    */
-  public listUsuariosByFilters() {
+   public listUsuariosByFilters() {
 
-    this.usuarioService.find().then(atendentes => {
-      this.atendentes = atendentes;
-    })
+     this.usuarioService.find().then(atendentes => {
+       this.atendentes = atendentes;
+     })
 
-  }
+   }
 
   /**
    *
    * @param message
    */
-  public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 5000
-    });
-  }
+   public openSnackBar(message: string) {
+     this.snackBar.open(message, 'Fechar', {
+       duration: 5000
+     });
+   }
 
-}
+ }

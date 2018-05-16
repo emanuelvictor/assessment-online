@@ -5,7 +5,7 @@ export class Estado extends Abstract {
 
   public nome: string;
 
-  public sigla: string;
+  public uf: string;
 
   public pais: Pais;
 

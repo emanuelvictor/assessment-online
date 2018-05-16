@@ -4,6 +4,7 @@
 /front-end/dist/**
 /front-end/deploy
 /front-end/tmp
+/.idea/**
 
 # dependencies
 /front-end/node_modules

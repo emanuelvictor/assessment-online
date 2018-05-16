@@ -4,7 +4,6 @@ import {EnderecoRepository} from '../repository/endereco.repository';
 @Injectable()
 export class EnderecoService {
 
-
   constructor(private enderecoRepository: EnderecoRepository) {
   }
 
@@ -12,11 +11,7 @@ export class EnderecoService {
     return this.enderecoRepository.getAdressByCep(cep);
   }
 
-  public getEstados(): Promise<any> {
-    return this.enderecoRepository.getEstados()
-  }
-
-  public getCidadeByEstadoId(estadoId: number): Promise<any> {
-    return this.enderecoRepository.getCidadeByEstadoId(estadoId);
+  public find(cidade: string, uf: string): Promise<any> {
+    return this.enderecoRepository.find(cidade, uf);
   }
 }

@@ -48,7 +48,6 @@ public class UsuarioService {
                         }
                 )
         );
-
     }
 
     @PreAuthorize("hasRole('ADMINISTRADOR')")

@@ -5,8 +5,7 @@ import {textMasks} from '../text-masks/text-masks';
 import {AuthenticationService} from '../../../service/authentication.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {EnderecoService} from '../../../service/endereco.service';
-import {exceptions} from '@angular-devkit/core/src/json/schema/serializers/javascript';
-import {Cidade} from "../../../entity/endereco/Cidade.model";
+import {Cidade} from '../../../entity/endereco/Cidade.model';
 
 
 @Component({
@@ -31,7 +30,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
    *
    */
   @Input()
-  showMap: boolean = true;
+  showMap = true;
 
   /**
    *
@@ -63,12 +62,17 @@ export class MapsComponent implements OnInit, AfterViewInit {
   /**
    *
    */
-  viewLoaded: boolean = false;
+  viewLoaded = false;
 
   /**
    *
    */
   userSubscription: any;
+
+  /**
+   *
+   */
+  cidadeAux: string;
 
   /**
    *
@@ -102,31 +106,6 @@ export class MapsComponent implements OnInit, AfterViewInit {
 
     this.form.addControl('endereco', formGroup);
 
-    // if (typeof this.endereco === 'string') {
-    //   this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
-    // }
-    //
-    // if (!this.endereco.cidade || !this.endereco.cidade.estado) {
-    //   this.endereco.cidade = new Cidade();
-    // }
-    //
-    // if (!this.endereco || !Object.keys(this.endereco).length) {
-    //   if (!Object.keys(this.endereco).length) {
-    //     this.endereco.cidade = new Cidade();
-    //   } else {
-    //     this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
-    //   }
-    // }
-    //
-    // this.endereco.cidade.estado = new Estado();
-    // this.endereco.cidade.estado.pais = new Pais();
-
-    // this.getExtend();
-
-    // this.autocomplete();
-
-    // this.getAuthenticatedUser();
-
     /**
      *
      * Popula endereço inicialmente com dados do paraná
@@ -145,25 +124,17 @@ export class MapsComponent implements OnInit, AfterViewInit {
 
   /**
    *
+   * @param {string} cep
    */
-  public getAdressByCep(cep) {
-    if (cep) {
+  public getAdressByCep(cep: string) {
+    if (cep)
       this.enderecoService.getAdressByCep(cep)
-        .then((result) => {
-          if (result) {
-            this.endereco.cidade = result;
-            this.cidadeNotFind = false;
-            this.form.get('endereco').get('cidade').setErrors(null);
-          }
-          else {
-            this.cidadeNotFind = true;
-            this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
-          }
-        }).catch((exception) => {
-        this.cidadeNotFind = true;
-        this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
-      });
-    }
+        .then(result => {
+          this.endereco.bairro = result.bairro;
+          this.endereco.logradouro = result.logradouro;
+          this.cidadeAux = result.cidade;
+          this.findCidadeByNomeAndEstadoUf(result.cidade, result.estado)
+        });
   }
 
   /**
@@ -173,54 +144,27 @@ export class MapsComponent implements OnInit, AfterViewInit {
    */
   public findCidadeByNomeAndEstadoUf(cidade, estado) {
     if (cidade && estado) {
-      this.enderecoService.getEstados().then(estados => {
-
-        let estadoId: number = 0;
-
-        for (let i = 0; i < estados.length; i++) {
-          if (estados[i].sigla.toLowerCase() === estado.toLowerCase() || estados[i].nome.toLowerCase().indexOf(estado.toLowerCase()) > -1) {
-            /**
-             * Encontrou o ID
-             */
-            estadoId = estados[i].id;
-          }
-        }
-
-        if (!estadoId) return;
-
-        this.enderecoService.getCidadeByEstadoId(estadoId)
-          .then((cidades) => {
-            if (cidades && cidades.length) {
-
-              for (let i = 0; i < cidades.length; i++) {
-                if (cidades[i].nome.toLowerCase().indexOf(cidade.toLowerCase()) > -1) {
-
-                  this.endereco.cidade = cidades[i];
-                  this.endereco.cidade.estado = cidades[i].microrregiao.mesorregiao.UF;
-                  this.cidadeNotFind = false;
-                  this.form.get('endereco').get('cidade').setErrors(null);
-                }
-              }
-            } else {
-              this.cidadeNotFind = true;
-              this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
+      this.enderecoService.find(cidade, estado)
+        .then(result => {
+          if (result) {
+            if (this.cidadeAux && this.cidadeAux.toLocaleLowerCase() !== result.nome.toLocaleLowerCase()) {
+              this.endereco.cep = null;
             }
-          }).catch((exception) => {
+
+            this.endereco.cidade = result;
+            this.endereco.cidade.estado = result.estado;
+            this.cidadeNotFind = false;
+            this.form.get('endereco').get('cidade').setErrors(null);
+          } else {
+            this.cidadeNotFind = true;
+            this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
+          }
+        })
+        .catch(exception => {
           this.cidadeNotFind = true;
           this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
         });
-
-      }).then(exceptions => {
-        this.cidadeNotFind = true;
-        this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
-      });
     }
   }
 
-  /**
-   *
-   */
-  public findCidade(cidade, estado) {
-    this.findCidadeByNomeAndEstadoUf(cidade, estado);
-  }
 }

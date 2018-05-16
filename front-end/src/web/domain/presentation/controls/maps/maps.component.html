@@ -2,10 +2,12 @@
 
   <div layout-gt-xs="row" layout-margin>
     <mat-form-field flex *ngIf="endereco">
-      <input [textMask]="{mask: masks.cep, guide: false}"
-             [ngModelOptions]="{standalone: true}"
-             placeholder="CEP" [(ngModel)]="endereco.cep"
-             noSubmit matInput id="cep" name="cep">
+      <input
+          (blur)="getAdressByCep(endereco?.cep)"
+          [textMask]="{mask: masks.cep, guide: false}"
+          [ngModelOptions]="{standalone: true}"
+          placeholder="CEP" [(ngModel)]="endereco.cep"
+          noSubmit matInput id="cep" name="cep">
     </mat-form-field>
     <mat-form-field flex *ngIf="endereco">
       <input matInput placeholder="Logradouro (rua, avenida, linha, etc ...)"
@@ -52,7 +54,7 @@
   <div layout-gt-xs="row" layout-margin>
     <mat-form-field flex="80">
       <input somenteLetras matInput placeholder="Cidade"
-             (blur)="findCidade(endereco?.cidade?.nome, endereco?.cidade?.estado?.sigla)"
+             (blur)="findCidadeByNomeAndEstadoUf(endereco?.cidade?.nome, endereco?.cidade?.estado?.uf)"
              [(ngModel)]="endereco.cidade.nome"
              required id="cidade" name="cidade"
              formControlName="cidade">
@@ -65,8 +67,8 @@
     </mat-form-field>
     <mat-form-field flex="20">
       <input somenteLetras matInput placeholder="Estado"
-             (blur)="findCidade(endereco?.cidade?.nome, endereco?.cidade?.estado?.sigla)"
-             [(ngModel)]="endereco.cidade.estado.sigla"
+             (blur)="findCidadeByNomeAndEstadoUf(endereco?.cidade?.nome, endereco?.cidade?.estado?.uf)"
+             [(ngModel)]="endereco.cidade.estado.uf"
              required id="estado" name="estado"
              formControlName="estado">
       <mat-error *ngIf="form.controls.endereco.controls['estado'].hasError('required')">
