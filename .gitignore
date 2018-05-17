@@ -9,7 +9,7 @@
 /node_modules
 /functions/node_modules
 /bower_components
-
+/functions/package-lock.json
 # IDEs and editors
 /.idea
 /.vscode
