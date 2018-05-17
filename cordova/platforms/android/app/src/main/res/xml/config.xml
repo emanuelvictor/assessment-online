@@ -1,10 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="br.com.assessment-online" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="br.com.assessment" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <feature name="Insomnia">
         <param name="android-package" value="nl.xservices.plugins.Insomnia" />
-    </feature>
-    <feature name="KioskPlugin">
-        <param name="android-package" value="jk.cordova.plugin.kiosk.KioskPlugin" />
     </feature>
     <feature name="Whitelist">
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
@@ -21,7 +18,7 @@
     <author email="emanuel.info@gmail.com" href="http://www.emanuelvictor.com">
         Emanuel Victor
     </author>
-    <content src="https://assessment-online.firebaseapp.com/mobile/" />
+    <content src="http://179.106.227.78:9000/" />
     <access origin="*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
@@ -34,7 +31,6 @@
     <icon density="xxhdpi" src="mobile-assets/res/mipmap-xxhdpi/ic_launcher.png" />
     <icon density="xxxhdpi" src="mobile-assets/res/mipmap-xxxhdpi/ic_launcher.png" />
     <preference name="loglevel" value="DEBUG" />
-    <preference name="CRIInjectFirstFiles" value="www/js/init.js" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="android-targetSdkVersion" value="22" />
     <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />

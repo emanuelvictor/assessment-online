@@ -8,16 +8,13 @@
   },
   "installed_plugins": {
     "cordova-plugin-insomnia": {
-      "PACKAGE_NAME": "br.org.pti.smrs"
-    },
-    "cordova-plugin-kiosk": {
-      "PACKAGE_NAME": "br.org.pti.smrs"
+      "PACKAGE_NAME": "br.com.assessment"
     },
     "cordova-plugin-remote-injection": {
-      "PACKAGE_NAME": "br.org.pti.smrs"
+      "PACKAGE_NAME": "br.com.assessment"
     },
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "br.org.pti.smrs"
+      "PACKAGE_NAME": "br.com.assessment"
     }
   },
   "dependent_plugins": {}

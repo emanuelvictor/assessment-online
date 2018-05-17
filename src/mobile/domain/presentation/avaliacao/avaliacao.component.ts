@@ -16,6 +16,15 @@ export class AvaliacaoComponent implements OnInit {
    *
    */
   ngOnInit() {
+
+    document.addEventListener("backbutton", this.onBackKeyDown, false);
+
+  }
+
+  onBackKeyDown() {
+
+    alert('SAIR DO APLICATIVO');
+
   }
 
 }
