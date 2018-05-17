@@ -1,0 +1,24 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-insomnia": {
+      "PACKAGE_NAME": "br.org.pti.smrs"
+    },
+    "cordova-plugin-kiosk": {
+      "PACKAGE_NAME": "br.org.pti.smrs"
+    },
+    "cordova-plugin-remote-injection": {
+      "PACKAGE_NAME": "br.org.pti.smrs"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "br.org.pti.smrs"
+    }
+  },
+  "dependent_plugins": {}
+}
