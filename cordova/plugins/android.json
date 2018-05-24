@@ -10,6 +10,9 @@
     "cordova-plugin-insomnia": {
       "PACKAGE_NAME": "br.com.assessment"
     },
+    "cordova-plugin-kiosk": {
+      "PACKAGE_NAME": "br.com.assessment"
+    },
     "cordova-plugin-remote-injection": {
       "PACKAGE_NAME": "br.com.assessment"
     },

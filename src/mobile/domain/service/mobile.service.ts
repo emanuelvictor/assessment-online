@@ -233,4 +233,14 @@ export class MobileService {
   public getSnackBarConfig(): MatSnackBarConfig {
     return this.mdSnackBarConfig
   }
+
+  private logoutIsOpening = false;
+
+  public getLogoutIsOpening(){
+    return this.logoutIsOpening;
+  }
+
+  public setLogoutIsOpening(a){
+    this.logoutIsOpening = a;
+  }
 }

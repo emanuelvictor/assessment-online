@@ -6,7 +6,7 @@
     "web": "ng serve --proxy-config proxy.conf.json -a web --open",
     "debug-web": "node $NODE_DEBUG_OPTION node_modules/.bin/ng serve --proxy-config proxy.conf.json -a web --open",
     "debug-mobile": "node $NODE_DEBUG_OPTION node_modules/.bin/ng serve --proxy-config proxy.conf.json -a mobile --port 9000 --open",
-    "mobile": "ng serve --proxy-config proxy.conf.json -a mobile --port 9000 --open",
+    "mobile": "ng serve --proxy-config proxy.conf.json -a mobile --port 8080 --open",
     "build": "ng build -a web --prod && ng build -a mobile --prod",
     "deploy": "npm run build && firebase deploy",
     "ng-high-mem": "node --max_old_space_size=8192 node_modules/.bin/ng"

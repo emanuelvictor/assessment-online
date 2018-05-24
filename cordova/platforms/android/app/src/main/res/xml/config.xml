@@ -3,6 +3,9 @@
     <feature name="Insomnia">
         <param name="android-package" value="nl.xservices.plugins.Insomnia" />
     </feature>
+    <feature name="KioskPlugin">
+        <param name="android-package" value="jk.cordova.plugin.kiosk.KioskPlugin" />
+    </feature>
     <feature name="Whitelist">
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
@@ -18,12 +21,13 @@
     <author email="emanuel.info@gmail.com" href="http://www.emanuelvictor.com">
         Emanuel Victor
     </author>
-    <content src="http://179.106.227.78:9000/" />
+    <content src="http://129fc373.ngrok.io/" />
     <access origin="*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <allow-navigation hap-rule="yes" href="http://7ae52398.ngrok.io/*" />
     <allow-intent href="market:*" />
     <icon density="mdpi" src="mobile-assets/res/mipmap-mdpi/ic_launcher.png" />
     <icon density="hdpi" src="mobile-assets/res/mipmap-hdpi/ic_launcher.png" />
@@ -31,6 +35,7 @@
     <icon density="xxhdpi" src="mobile-assets/res/mipmap-xxhdpi/ic_launcher.png" />
     <icon density="xxxhdpi" src="mobile-assets/res/mipmap-xxxhdpi/ic_launcher.png" />
     <preference name="loglevel" value="DEBUG" />
+    <preference name="CRIInjectFirstFiles" value="www/js/init.js" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="android-targetSdkVersion" value="22" />
     <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />

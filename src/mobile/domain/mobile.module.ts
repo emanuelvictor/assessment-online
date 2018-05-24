@@ -38,6 +38,7 @@ import {FileRepository} from '../../web/infrastructure/repository/file/file.repo
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { EllipsisModule } from 'ngx-ellipsis';
+import {LogoutComponent} from './presentation/avaliacao/logout/logout.component';
 
 /**
  *
@@ -49,7 +50,8 @@ import { EllipsisModule } from 'ngx-ellipsis';
     SelecionarAtendentesComponent,
     ConclusaoComponent,
     AvaliacaoComponent,
-    AvaliarComponent
+    AvaliarComponent,
+    LogoutComponent
   ],
   imports: [
     EllipsisModule,
@@ -67,6 +69,7 @@ import { EllipsisModule } from 'ngx-ellipsis';
     AngularFireStorageModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  entryComponents: [LogoutComponent],
   providers: [
     Describer,
     FileRepository,

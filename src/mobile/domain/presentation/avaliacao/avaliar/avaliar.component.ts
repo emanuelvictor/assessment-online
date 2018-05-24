@@ -32,6 +32,7 @@ export class AvaliarComponent implements OnInit {
    *
    */
   ngOnInit() {
+
     /**
      * Se não tem unidade selecionada vai para tela de selação de unidade
      */
