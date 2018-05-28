@@ -120,7 +120,6 @@ registerLocaleData(localePt, 'pt-BR');
     CloseButtonComponent,
     AddButtonComponent,
     LoggedMenuComponent,
-    ConfirmDialogComponent,
     WebComponent,
     HeaderComponent,
     FotoLoadingComponent,

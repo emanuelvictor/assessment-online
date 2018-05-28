@@ -48,6 +48,7 @@ import {DocumentoPipe} from '../web/domain/presentation/controls/documento-pipe/
 import {VirgulaPipe} from '../web/domain/presentation/controls/virgula-pipe/peso-pipe';
 import {AvatarComponent} from '../web/domain/presentation/controls/avatar/avatar.component';
 import {NoWhiteSpace} from '../web/domain/presentation/controls/patterns/no-white-space';
+import {ConfirmDialogComponent} from "../web/domain/presentation/controls/confirm-dialog/confirm-dialog.component";
 
 /**
  *
@@ -61,7 +62,8 @@ import {NoWhiteSpace} from '../web/domain/presentation/controls/patterns/no-whit
     NoWhiteSpace,
     AvatarComponent,
     // Authentication
-    LoginComponent
+    LoginComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,

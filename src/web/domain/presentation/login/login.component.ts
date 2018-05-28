@@ -1,10 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
 import {Usuario} from '../../entity/usuario/Usuario.model';
-import {LogoutComponent} from '../../../../mobile/domain/presentation/avaliacao/logout/logout.component';
 import {MobileService} from '../../../../mobile/domain/service/mobile.service';
 
 /**
@@ -15,7 +14,8 @@ import {MobileService} from '../../../../mobile/domain/service/mobile.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+
 
   /**
    *
@@ -24,21 +24,34 @@ export class LoginComponent {
 
   /**
    *
+   * @param {MatSnackBar} snackBar
+   * @param {Router} router
+   * @param {AuthenticationService} authenticationService
    */
-  constructor(public snackBar: MatSnackBar, private router: Router, private dialog: MatDialog, private authenticationService: AuthenticationService, private mobileService: MobileService) {
-    setTimeout(function () {
-      document.addEventListener('backbutton', function () {
+  constructor(public snackBar: MatSnackBar, private router: Router, private authenticationService: AuthenticationService) {
+
+  }
+
+  /**
+   *
+   */
+  ngOnInit(): void {
+
+    setTimeout(() => {
+      document.addEventListener('backbutton', () => {
 
         if (window.location.hash === '#/authentication')
-
           window['KioskPlugin'].exitKiosk();
 
-        else if ((window.location.hash === '#/avaliar' || window.location.hash === '#/selecionar-unidade') && !this.mobileService.getLogoutIsOpening()) {
-          dialog.open(LogoutComponent);
-        }
+        else if (window.location.hash === '#/avaliar' || window.location.hash === '#/selecionar-unidade')
+          this.router.navigate(['logout']);
+
+        else if (window.location.hash === '#/logout')
+          this.router.navigate(['avaliar']);
 
       }, false);
     }, 1000);
+
   }
 
   /**

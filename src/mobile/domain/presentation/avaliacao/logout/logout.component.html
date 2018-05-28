@@ -1,3 +1,42 @@
-<div layout-margin>
-  <h3 mat-dialog-title flex> Sair do aplicativo </h3>
-</div>
+<mat-card-title class="push">
+  Sair do aplicativo
+</mat-card-title>
+<mat-card-content>
+
+  <form #logoutForm="ngForm" (ngSubmit)='logout()' novalidate>
+    <div layout="column" layout-margin class='push-left'>
+      Os operadores desta unidade são:
+      <ul>
+        <li *ngFor='let operador of operadores'>{{operador?.nome}}</li>
+      </ul>
+      Insira a senha de um deles para realizar o logout.
+
+      <mat-form-field>
+        <input type="password" matInput
+               placeholder="Sua senha"
+               [(ngModel)]="password"
+               required name="password"/>
+      </mat-form-field>
+
+
+      <div layout-gt-xs='row'>
+
+        <span flex='70'></span>
+
+        <button mat-raised-button
+                routerLink='../'
+                type='button'
+                flex>
+          Cancelar
+        </button>
+        <button class="push-left" mat-raised-button
+                color='accent'
+                flex>
+          Sair
+        </button>
+
+      </div>
+
+    </div>
+  </form>
+</mat-card-content>

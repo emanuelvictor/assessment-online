@@ -57,4 +57,12 @@ export class UsuarioRepository extends AbstractRepository {
 
     })
   }
+
+  /**
+   *
+   * @returns {Observable<any>}
+   */
+  public getAdministradores(): Observable<any> {
+    return this.find().map(items => items.filter(item => item.isAdministrador === true));
+  }
 }

@@ -37,7 +37,7 @@ import {AvaliacaoColaboradorRepository} from '../../web/domain/repository/avalia
 import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {MatGridListModule} from '@angular/material/grid-list';
-import { EllipsisModule } from 'ngx-ellipsis';
+import {EllipsisModule} from 'ngx-ellipsis';
 import {LogoutComponent} from './presentation/avaliacao/logout/logout.component';
 
 /**
@@ -69,7 +69,6 @@ import {LogoutComponent} from './presentation/avaliacao/logout/logout.component'
     AngularFireStorageModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [LogoutComponent],
   providers: [
     Describer,
     FileRepository,

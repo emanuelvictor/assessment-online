@@ -1,24 +1,28 @@
 {
-  "prepare_queue": {
-    "installed": [],
-    "uninstalled": []
-  },
-  "config_munge": {
-    "files": {}
-  },
-  "installed_plugins": {
-    "cordova-plugin-insomnia": {
-      "PACKAGE_NAME": "br.com.assessment"
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
     },
-    "cordova-plugin-kiosk": {
-      "PACKAGE_NAME": "br.com.assessment"
+    "config_munge": {
+        "files": {}
     },
-    "cordova-plugin-remote-injection": {
-      "PACKAGE_NAME": "br.com.assessment"
+    "installed_plugins": {
+        "cordova-plugin-insomnia": {
+            "PACKAGE_NAME": "br.com.assessment"
+        },
+        "cordova-plugin-kiosk": {
+            "PACKAGE_NAME": "br.com.assessment"
+        },
+        "cordova-plugin-remote-injection": {
+            "PACKAGE_NAME": "br.com.assessment"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "br.com.assessment"
+        }
     },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "br.com.assessment"
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "br.com.assessment"
+        }
     }
-  },
-  "dependent_plugins": {}
 }

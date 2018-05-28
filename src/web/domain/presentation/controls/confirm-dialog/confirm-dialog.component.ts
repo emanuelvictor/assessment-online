@@ -8,10 +8,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 })
 export class ConfirmDialogComponent implements OnInit {
 
-  /*-------------------------------------------------------------------
-   *                           ATTRIBUTES
-   *-------------------------------------------------------------------*/
-
   /**
    *
    */
@@ -27,13 +23,10 @@ export class ConfirmDialogComponent implements OnInit {
    */
   public cancel: string;
 
-  /*-------------------------------------------------------------------
- *                           CONSTRUCTOR
- *-------------------------------------------------------------------*/
-
   /**
    *
-   * @param dialogRef
+   * @param {MatDialogRef<ConfirmDialogComponent>} dialogRef
+   * @param dataDialog
    */
   constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public dataDialog: any) {
@@ -45,11 +38,9 @@ export class ConfirmDialogComponent implements OnInit {
 
   }
 
-
-  /*-------------------------------------------------------------------
-   *                           BEHAVIORS
-   *-------------------------------------------------------------------*/
-
+  /**
+   *
+   */
   ngOnInit() {
   }
 

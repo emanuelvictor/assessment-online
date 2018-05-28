@@ -1,7 +1,10 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MatSnackBar} from '@angular/material';
 import {UsuarioService} from '../../../../../web/domain/service/usuario.service';
 import {MobileService} from '../../../service/mobile.service';
+import {Router} from "@angular/router";
+import {ColaboradorService} from "../../../../../web/domain/service/colaborador.service";
+import {AuthenticationService} from "../../../../../web/domain/service/authentication.service";
 
 @Component({
   selector: 'logout',
@@ -13,23 +16,83 @@ export class LogoutComponent implements OnDestroy, OnInit {
   /**
    *
    */
-  usuario: any;
+  password: string;
 
   /**
    *
-   * @param {MatDialogRef<LogoutComponent>} dialogRef
+   */
+  operadores = [];
+
+  /**
+   *
+   */
+  timeout: any;
+
+  /**
+   *
+   * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {UsuarioService} usuarioService
+   * @param {MobileService} mobileService
+   * @param {ColaboradorService} colaboradorService
+   * @param {AuthenticationService} authenticationService
    */
-  constructor(public dialogRef: MatDialogRef<LogoutComponent>, public snackBar: MatSnackBar, public usuarioService: UsuarioService, public mobileService: MobileService) {
+  constructor(private router: Router, private snackBar: MatSnackBar, private usuarioService: UsuarioService, private mobileService: MobileService, private colaboradorService: ColaboradorService, private authenticationService: AuthenticationService) {
+
+    this.timeout = setTimeout(() => {
+      this.mobileService.reset();
+      this.router.navigate(['/avaliar']);
+    }, 180000);
+
   }
 
   /**
    *
-   * @param event
    */
-  public logout(event: Event): void {
-    event.preventDefault();
+  ngOnInit(): void {
+    this.usuarioService.getAdministradores()
+      .subscribe(administradores => {
+        this.operadores = this.operadores.concat(administradores);
+      });
+
+    if (this.mobileService.getUnidade())
+      this.colaboradorService
+        .listOperadoresByUnidadeKey(this.mobileService.getUnidade())
+        .subscribe(operadores => {
+          operadores.forEach(operador => {
+            this.usuarioService.findOne(operador.usuario.key)
+              .subscribe(usuario => {
+                let founded = false;
+                this.operadores.forEach(operadorIn => {
+                  if (operadorIn.nome === usuario.nome)
+                    founded = true;
+                });
+                if (!founded)
+                  this.operadores.push(usuario);
+              })
+          })
+        });
+  }
+
+  /**
+   *
+   */
+  public logout(): void {
+    if (this.operadores.filter(operador => operador.password === this.password).length > 0) {
+
+      this.mobileService.removeUnidade();
+      this.mobileService.reset();
+
+      this.authenticationService.logout()
+        .then(() => {
+          clearTimeout(this.timeout);
+          this.router.navigate(['authentication']);
+        });
+
+    } else {
+      this.openSnackBar('A senha não coincide');
+    }
+
   }
 
   /**
@@ -37,7 +100,7 @@ export class LogoutComponent implements OnDestroy, OnInit {
    * @param message
    */
   openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
   }
@@ -45,16 +108,6 @@ export class LogoutComponent implements OnDestroy, OnInit {
   /**
    *
    */
-  ngOnInit(): void {
-    console.log('ngOnInit');
-    this.mobileService.setLogoutIsOpening(true)
-  }
-
-  /**
-   *
-   */
   ngOnDestroy(): void {
-    console.log('ngOnDestroy');
-    this.mobileService.setLogoutIsOpening(false);
   }
 }

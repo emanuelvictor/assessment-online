@@ -65,6 +65,9 @@ export class MobileService {
     this.mdSnackBarConfig.duration = 5000;
   }
 
+  /**
+   *
+   */
   public reset() {
     this.avaliacao = new Avaliacao();
     this.colaboradores = [];
@@ -232,15 +235,5 @@ export class MobileService {
    */
   public getSnackBarConfig(): MatSnackBarConfig {
     return this.mdSnackBarConfig
-  }
-
-  private logoutIsOpening = false;
-
-  public getLogoutIsOpening(){
-    return this.logoutIsOpening;
-  }
-
-  public setLogoutIsOpening(a){
-    this.logoutIsOpening = a;
   }
 }
