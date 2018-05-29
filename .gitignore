@@ -35,5 +35,7 @@ yarn.lock
 #System Files
 .DS_Store
 
-
+cordova/package-lock.json
 node_modules/
+cordova/platforms/
+cordova/plugins/
