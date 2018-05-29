@@ -7,7 +7,7 @@
     <author email="emanuel.info@gmail.com" href="http://www.emanuelvictor.com">
         Emanuel Victor
     </author>
-    <content src="http://192.168.1.24:8080/" />
+    <content src="http://192.168.0.103:8080/" />
     <access origin="*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
@@ -15,7 +15,7 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
-        <preference name="android-minSdkVersion" value="19" />
+        <preference name="android-minSdkVersion" value="16" />
         <preference name="android-targetSdkVersion" value="22" />
         <icon density="mdpi" src="mobile-assets/res/mipmap-mdpi/ic_launcher.png" />
         <icon density="hdpi" src="mobile-assets/res/mipmap-hdpi/ic_launcher.png" />
@@ -33,11 +33,11 @@
     </platform>
     <platform name="wp8">
     </platform>
-    <allow-navigation hap-rule="yes" href="http://7ae52398.ngrok.io/*" />
+    <allow-navigation hap-rule="yes" href="http://192.168.0.103:8080/*" />
     <preference name="CRIInjectFirstFiles" value="www/js/init.js" />
     <engine name="android" spec="^6.2.3" />
     <plugin name="cordova-plugin-insomnia" spec="git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git" />
-    <plugin name="cordova-plugin-kiosk" spec="git+https://github.com/hkalina/cordova-plugin-kiosk.git" />
+    <plugin name="cordova-plugin-kiosk" spec="^0.2.2" />
     <plugin name="cordova-plugin-remote-injection" spec="^0.5.2" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
 </widget>

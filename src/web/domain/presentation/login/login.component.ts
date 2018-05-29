@@ -37,6 +37,8 @@ export class LoginComponent implements OnInit {
    */
   ngOnInit(): void {
 
+    const that = this;
+
     setTimeout(() => {
       document.addEventListener('backbutton', () => {
 
@@ -44,10 +46,13 @@ export class LoginComponent implements OnInit {
           window['KioskPlugin'].exitKiosk();
 
         else if (window.location.hash === '#/avaliar' || window.location.hash === '#/selecionar-unidade')
-          this.router.navigate(['logout']);
+          that.router.navigate(['logout']);
 
         else if (window.location.hash === '#/logout')
-          this.router.navigate(['avaliar']);
+          that.router.navigate(['avaliar']);
+
+        else
+          that.router.navigate(['../']);
 
       }, false);
     }, 1000);

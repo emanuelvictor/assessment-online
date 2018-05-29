@@ -20,9 +20,5 @@
             "PACKAGE_NAME": "br.com.assessment"
         }
     },
-    "dependent_plugins": {
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "br.com.assessment"
-        }
-    }
+    "dependent_plugins": {}
 }

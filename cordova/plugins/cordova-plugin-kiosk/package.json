@@ -2,23 +2,26 @@
   "_from": "git+https://github.com/hkalina/cordova-plugin-kiosk.git",
   "_id": "cordova-plugin-kiosk@1.0.0",
   "_inBundle": false,
+  "_integrity": "sha1-0640hUY0ld9ALir4qxrMzHpbDY8=",
   "_location": "/cordova-plugin-kiosk",
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw": "https://github.com/hkalina/cordova-plugin-kiosk.git",
-    "rawSpec": "https://github.com/hkalina/cordova-plugin-kiosk.git",
+    "raw": "cordova-plugin-kiosk@git+https://github.com/hkalina/cordova-plugin-kiosk.git",
+    "name": "cordova-plugin-kiosk",
+    "escapedName": "cordova-plugin-kiosk",
+    "rawSpec": "git+https://github.com/hkalina/cordova-plugin-kiosk.git",
     "saveSpec": "git+https://github.com/hkalina/cordova-plugin-kiosk.git",
     "fetchSpec": "https://github.com/hkalina/cordova-plugin-kiosk.git",
-    "gitCommittish": null
+    "gitCommittish": "master"
   },
   "_requiredBy": [
     "#USER",
     "/"
   ],
   "_resolved": "git+https://github.com/hkalina/cordova-plugin-kiosk.git#bf30f1fa37d08c130c86e7c2b00cbca45b1c84a2",
-  "_spec": "https://github.com/hkalina/cordova-plugin-kiosk.git",
-  "_where": "/home/emanuel/projetos/assessment-online/cordova",
+  "_spec": "cordova-plugin-kiosk@git+https://github.com/hkalina/cordova-plugin-kiosk.git",
+  "_where": "D:\\projetos\\assessment-online\\cordova\\node_modules",
   "author": {
     "name": "Jan Kalina"
   },

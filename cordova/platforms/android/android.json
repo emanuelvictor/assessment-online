@@ -77,9 +77,6 @@
         }
     },
     "installed_plugins": {
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "br.com.assessment"
-        },
         "cordova-plugin-insomnia": {
             "PACKAGE_NAME": "br.com.assessment"
         },
@@ -113,7 +110,6 @@
         }
     ],
     "plugin_metadata": {
-        "cordova-plugin-compat": "1.2.0",
         "cordova-plugin-insomnia": "4.3.0",
         "cordova-plugin-kiosk": "0.2",
         "cordova-plugin-remote-injection": "0.5.2",

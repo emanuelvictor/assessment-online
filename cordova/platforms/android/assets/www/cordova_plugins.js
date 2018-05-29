@@ -20,7 +20,6 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "cordova-plugin-compat": "1.2.0",
     "cordova-plugin-insomnia": "4.3.0",
     "cordova-plugin-kiosk": "0.2",
     "cordova-plugin-remote-injection": "0.5.2",

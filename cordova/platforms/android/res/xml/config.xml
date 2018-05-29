@@ -21,13 +21,13 @@
     <author email="emanuel.info@gmail.com" href="http://www.emanuelvictor.com">
         Emanuel Victor
     </author>
-    <content src="http://192.168.1.24:8080/" />
+    <content src="http://192.168.0.103:8080/" />
     <access origin="*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <allow-navigation hap-rule="yes" href="http://7ae52398.ngrok.io/*" />
+    <allow-navigation hap-rule="yes" href="http://192.168.0.103:8080/*" />
     <allow-intent href="market:*" />
     <icon density="mdpi" src="mobile-assets/res/mipmap-mdpi/ic_launcher.png" />
     <icon density="hdpi" src="mobile-assets/res/mipmap-hdpi/ic_launcher.png" />
@@ -36,7 +36,7 @@
     <icon density="xxxhdpi" src="mobile-assets/res/mipmap-xxxhdpi/ic_launcher.png" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="CRIInjectFirstFiles" value="www/js/init.js" />
-    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-minSdkVersion" value="16" />
     <preference name="android-targetSdkVersion" value="22" />
     <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />
     <preference name="fullscreen" value="true" />
