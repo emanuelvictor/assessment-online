@@ -40,8 +40,8 @@ var app = {
   receivedEvent: function (id) {
     console.log('Received Event: ' + id);
     window.plugins.insomnia.keepAwake();
-    console.log(window['KioskPlugin']);
-    window['KioskPlugin'].setAllowedKeys([ 04 ]);
+    // console.log(window['KioskPlugin']);
+    // window['KioskPlugin'].setAllowedKeys([ 04 ]);
   }
 };
 
