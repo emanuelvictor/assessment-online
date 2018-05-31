@@ -37,26 +37,35 @@ export class LoginComponent implements OnInit {
    */
   ngOnInit(): void {
 
-    const that = this;
-
     setTimeout(() => {
+      console.log('setTimeout');
       document.addEventListener('backbutton', () => {
+
+        console.log('back');
 
         if (window.location.hash === '#/authentication')
           window['KioskPlugin'].exitKiosk();
 
         else if (window.location.hash === '#/avaliar' || window.location.hash === '#/selecionar-unidade')
-          that.router.navigate(['logout']);
+          this.router.navigate(['logout']);
 
         else if (window.location.hash === '#/logout')
-          that.router.navigate(['avaliar']);
+          this.router.navigate(['avaliar']);
 
         else
-          that.router.navigate(['../']);
+          this.router.navigate(['../']);
 
       }, false);
-    }, 1000);
+    }, 10000);
 
+  }
+
+  /**
+   *
+   */
+  public exitKiosk(){
+    console.log('saia do kiosk');
+    window['KioskPlugin'].exitKiosk();
   }
 
   /**
