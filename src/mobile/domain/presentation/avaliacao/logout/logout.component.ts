@@ -11,7 +11,7 @@ import {AuthenticationService} from "../../../../../web/domain/service/authentic
   templateUrl: './logout.component.html',
   styleUrls: ['./logout.component.css']
 })
-export class LogoutComponent implements OnDestroy, OnInit {
+export class LogoutComponent implements OnInit {
 
   /**
    *
@@ -103,11 +103,5 @@ export class LogoutComponent implements OnDestroy, OnInit {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
-  }
-
-  /**
-   *
-   */
-  ngOnDestroy(): void {
   }
 }

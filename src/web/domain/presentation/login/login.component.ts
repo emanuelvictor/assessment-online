@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
 import {Usuario} from '../../entity/usuario/Usuario.model';
-import {MobileService} from '../../../../mobile/domain/service/mobile.service';
 
 /**
  *
@@ -37,36 +36,36 @@ export class LoginComponent implements OnInit {
    */
   ngOnInit(): void {
 
-    setTimeout(() => {
-      console.log('setTimeout');
-      document.addEventListener('backbutton', () => {
-
-        console.log('back');
-
-        if (window.location.hash === '#/authentication')
-          window['KioskPlugin'].exitKiosk();
-
-        else if (window.location.hash === '#/avaliar' || window.location.hash === '#/selecionar-unidade')
-          this.router.navigate(['logout']);
-
-        else if (window.location.hash === '#/logout')
-          this.router.navigate(['avaliar']);
-
-        else
-          this.router.navigate(['../']);
-
-      }, false);
-    }, 10000);
+    // setTimeout(() => {
+    //   console.log('setTimeout');
+    //   document.addEventListener('backbutton', () => {
+    //
+    //     console.log('back');
+    //
+    //     if (window.location.hash === '#/authentication')
+    //       window['KioskPlugin'].exitKiosk();
+    //
+    //     else if (window.location.hash === '#/avaliar' || window.location.hash === '#/selecionar-unidade')
+    //       this.router.navigate(['logout']);
+    //
+    //     else if (window.location.hash === '#/logout')
+    //       this.router.navigate(['avaliar']);
+    //
+    //     else
+    //       this.router.navigate(['../']);
+    //
+    //   }, false);
+    // }, 1000);
 
   }
 
-  /**
-   *
-   */
-  public exitKiosk(){
-    console.log('saia do kiosk');
-    window['KioskPlugin'].exitKiosk();
-  }
+  // /**
+  //  *
+  //  */
+  // public exitKiosk(){
+  //   console.log('saia do kiosk');
+  //   window['KioskPlugin'].exitKiosk();
+  // }
 
   /**
    *
