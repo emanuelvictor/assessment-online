@@ -13,7 +13,7 @@ import {Usuario} from '../../entity/usuario/Usuario.model';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
 
   /**
@@ -31,41 +31,6 @@ export class LoginComponent implements OnInit {
 
   }
 
-  /**
-   *
-   */
-  ngOnInit(): void {
-
-    // setTimeout(() => {
-    //   console.log('setTimeout');
-    //   document.addEventListener('backbutton', () => {
-    //
-    //     console.log('back');
-    //
-    //     if (window.location.hash === '#/authentication')
-    //       window['KioskPlugin'].exitKiosk();
-    //
-    //     else if (window.location.hash === '#/avaliar' || window.location.hash === '#/selecionar-unidade')
-    //       this.router.navigate(['logout']);
-    //
-    //     else if (window.location.hash === '#/logout')
-    //       this.router.navigate(['avaliar']);
-    //
-    //     else
-    //       this.router.navigate(['../']);
-    //
-    //   }, false);
-    // }, 1000);
-
-  }
-
-  // /**
-  //  *
-  //  */
-  // public exitKiosk(){
-  //   console.log('saia do kiosk');
-  //   window['KioskPlugin'].exitKiosk();
-  // }
 
   /**
    *
