@@ -18,8 +18,7 @@ admin.initializeApp({
   databaseURL: 'https://cinecataratas-online.firebaseio.com'
 });
 
-
-// // Desenvolvimento
+// Desenvolvimento
 // admin.initializeApp({
 //   credential: admin.credential.cert({
 //     projectId: 'd-assessment-online',

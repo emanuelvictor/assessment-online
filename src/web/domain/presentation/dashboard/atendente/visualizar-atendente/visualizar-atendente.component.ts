@@ -36,7 +36,7 @@ export class VisualizarAtendenteComponent implements OnInit {
   /**
    *
    */
-  authenticatedUser : any;
+  authenticatedUser: any;
 
   /**
    *

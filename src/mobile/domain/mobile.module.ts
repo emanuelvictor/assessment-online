@@ -37,7 +37,8 @@ import {AvaliacaoColaboradorRepository} from '../../web/domain/repository/avalia
 import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {MatGridListModule} from '@angular/material/grid-list';
-import { EllipsisModule } from 'ngx-ellipsis';
+import {EllipsisModule} from 'ngx-ellipsis';
+import {LogoutComponent} from './presentation/avaliacao/logout/logout.component';
 
 /**
  *
@@ -49,7 +50,8 @@ import { EllipsisModule } from 'ngx-ellipsis';
     SelecionarAtendentesComponent,
     ConclusaoComponent,
     AvaliacaoComponent,
-    AvaliarComponent
+    AvaliarComponent,
+    LogoutComponent
   ],
   imports: [
     EllipsisModule,

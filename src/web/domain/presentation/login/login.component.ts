@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {Router} from '@angular/router';
@@ -15,6 +15,7 @@ import {Usuario} from '../../entity/usuario/Usuario.model';
 })
 export class LoginComponent {
 
+
   /**
    *
    */
@@ -22,9 +23,14 @@ export class LoginComponent {
 
   /**
    *
+   * @param {MatSnackBar} snackBar
+   * @param {Router} router
+   * @param {AuthenticationService} authenticationService
    */
   constructor(public snackBar: MatSnackBar, private router: Router, private authenticationService: AuthenticationService) {
+
   }
+
 
   /**
    *
@@ -41,7 +47,7 @@ export class LoginComponent {
         this.router.navigate(['/']);
       })
       .catch(exception => {
-console.log(exception);
+        console.log(exception);
         switch (exception.code) {
           case 'auth/user-not-found': {
             this.snackBar.open('Conta não encontrada!', 'Fechar');

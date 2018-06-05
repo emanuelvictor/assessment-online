@@ -65,6 +65,9 @@ export class MobileService {
     this.mdSnackBarConfig.duration = 5000;
   }
 
+  /**
+   *
+   */
   public reset() {
     this.avaliacao = new Avaliacao();
     this.colaboradores = [];

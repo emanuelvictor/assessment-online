@@ -1,7 +1,7 @@
 /**
  * Created by Emanuel Victor on 17/04/2017.
  */
-import {Component} from "@angular/core";
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'mobile-root',
@@ -9,5 +9,4 @@ import {Component} from "@angular/core";
   styleUrls: ['./mobile.component.scss']
 })
 export class MobileComponent {
-
 }

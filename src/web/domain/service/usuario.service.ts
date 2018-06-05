@@ -274,4 +274,12 @@ export class UsuarioService {
   public getUsuarioAutenticado(): Observable<any> {
     return this.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email);
   }
+
+  /**
+   * Retorna todos usuários administradores
+   * @returns {Observable<any>}
+   */
+  public  getAdministradores(): Observable<any>  {
+    return this.usuarioRepository.getAdministradores();
+  }
 }
