@@ -1,11 +1,18 @@
 .login {
   height: 100%;
   background-size: cover;
-  background-color: #0c3e6f;
+
   .logo {
     height: 50px;
     margin-top: 10px;
     margin-bottom: 28px;
     content: url('https://firebasestorage.googleapis.com/v0/b/sodupe-online.appspot.com/o/bm-1.png?alt=media&token=546b8543-0f61-4136-b64b-8313ed1a8a18');
   }
+
+  //background: url('https://firebasestorage.googleapis.com/v0/b/sodupe-online.appspot.com/o/sapatinho_large-inverse.png?alt=media&token=568d86c1-14af-4e3e-8609-e3a8bd3bd194');
+  //background-position: bottom left;
+  //background-attachment: fixed;
+  //background-repeat: no-repeat;
+  background-color: #0c3e6f;
+
 }
