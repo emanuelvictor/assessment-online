@@ -7,7 +7,7 @@
     <author email="emanuel.info@gmail.com" href="http://www.emanuelvictor.com">
         Emanuel Victor
     </author>
-    <content src="index.html" />
+    <content src="https://sodupe-online.firebaseapp.com/mobile/" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
