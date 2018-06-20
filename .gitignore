@@ -36,6 +36,8 @@ yarn.lock
 .DS_Store
 
 app/package-lock.json
+functions/package-lock.json
 node_modules/
 app/platforms/
 app/plugins/
+package-lock.json
