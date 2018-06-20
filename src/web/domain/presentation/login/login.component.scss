@@ -1,11 +1,19 @@
 .login {
   height: 100%;
   background-size: cover;
-  background-image: url('../../../../assets/images/authentication-background.jpg');
+
   .logo {
     height: 50px;
     margin-top: 10px;
     margin-bottom: 28px;
-    content: url('https://firebasestorage.googleapis.com/v0/b/cinecataratas-online.appspot.com/o/bm-1.png?alt=media&token=98ad9ad0-18c7-4d8f-b284-1cfa27bdc88f');
+    content: url('https://firebasestorage.googleapis.com/v0/b/sodupe-online.appspot.com/o/a.png?alt=media&token=2e45d0d0-5831-4828-b882-c8b073bd1519');
   }
+
+  background: url('https://firebasestorage.googleapis.com/v0/b/sodupe-online.appspot.com/o/3.png?alt=media&token=951ab64f-3a2e-4d69-9ae1-0d6c8d3420e7');
+  background-position: bottom right;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-color: #0c3e6f;
+
 }
+
