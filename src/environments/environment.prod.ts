@@ -2,15 +2,15 @@ export const environment = {
   production: true,
 
   firebase: {
-    apiKey: 'AIzaSyBEAZr-4h4hc9p_X1grFu52gMHbt2LhtOY',
-    authDomain: 'cinecataratas-online.firebaseapp.com',
-    databaseURL: 'https://cinecataratas-online.firebaseio.com',
-    projectId: 'cinecataratas-online',
-    storageBucket: 'cinecataratas-online.appspot.com',
-    messagingSenderId: '450535726461'
+    apiKey: 'AIzaSyCPaQmMo-sL2ppM2pSaYSs_ug6dLVyS6eI',
+    authDomain: 'sodupe-online.firebaseapp.com',
+    databaseURL: 'https://sodupe-online.firebaseio.com',
+    projectId: 'sodupe-online',
+    storageBucket: 'sodupe-online.appspot.com',
+    messagingSenderId: '365696996794'
   },
 
-  handlerUserUrl : 'https://us-central1-cinecataratas-online.cloudfunctions.net/handlerUser',
+  handlerUserUrl : 'https://us-central1-sodupe-online.cloudfunctions.net/handlerUser',
 
   // firebase: {
   //   apiKey: 'AIzaSyAHHXCFeVqid9fOpnt2sKHbJViTFMXGQ8o',

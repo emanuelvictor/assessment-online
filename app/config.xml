@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="br.com.assessment" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Bubblemix 2</name>
+    <name>Sódupé</name>
     <description>
         Sistema de Monitoramento de Avaliações
     </description>
     <author email="emanuel.info@gmail.com" href="http://www.emanuelvictor.com">
         Emanuel Victor
     </author>
-    <content src="index.html" />
+    <content src="https://sodupe-online.firebaseapp.com/mobile/" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -19,11 +19,11 @@
         <allow-intent href="market:*" />
         <preference name="android-minSdkVersion" value="16" />
         <preference name="android-targetSdkVersion" value="22" />
-        <icon density="mdpi" src="mobile-assets/res/mipmap-mdpi/ic_launcher.png" />
-        <icon density="hdpi" src="mobile-assets/res/mipmap-hdpi/ic_launcher.png" />
-        <icon density="xhdpi" src="mobile-assets/res/mipmap-xhdpi/ic_launcher.png" />
-        <icon density="xxhdpi" src="mobile-assets/res/mipmap-xxhdpi/ic_launcher.png" />
-        <icon density="xxxhdpi" src="mobile-assets/res/mipmap-xxxhdpi/ic_launcher.png" />
+        <icon density="mdpi" src="mobile-assets/res/drawable-mdpi/ic_launcher.png" />
+        <icon density="hdpi" src="mobile-assets/res/drawable-hdpi/ic_launcher.png" />
+        <icon density="xhdpi" src="mobile-assets/res/drawable-xhdpi/ic_launcher.png" />
+        <icon density="xxhdpi" src="mobile-assets/res/drawable-xxhdpi/ic_launcher.png" />
+        <icon density="xxxhdpi" src="mobile-assets/res/drawable-xxxhdpi/ic_launcher.png" />
         <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />
         <preference name="fullscreen" value="true" />
     </platform>
