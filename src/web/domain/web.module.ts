@@ -88,6 +88,7 @@ import {SearchBarComponent} from './presentation/controls/search-bar/search-bar.
 import {FilterPipe} from './presentation/controls/filter-pipe/filter';
 import {AutofocusDirective} from './presentation/controls/autofocus/autofocus';
 import {OrderModule} from 'ngx-order-pipe';
+import {SettingsComponent} from "./presentation/dashboard/settings/settings.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -125,6 +126,9 @@ registerLocaleData(localePt, 'pt-BR');
     FotoLoadingComponent,
     EvDatepicker,
     SearchBarComponent,
+
+    // Settings
+    SettingsComponent,
 
     // atendente
     AtendenteViewComponent,
