@@ -39,6 +39,7 @@ import {AngularFireStorageModule} from 'angularfire2/storage';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {EllipsisModule} from 'ngx-ellipsis';
 import {LogoutComponent} from './presentation/avaliacao/logout/logout.component';
+import {ConfiguracaoRepository} from "../../web/domain/repository/configuracao.repository";
 
 /**
  *
@@ -87,6 +88,7 @@ import {LogoutComponent} from './presentation/avaliacao/logout/logout.component'
     AngularFireDatabase,
     MobileService,
     AvaliacaoService,
+    ConfiguracaoRepository,
 
     {provide: LOCALE_ID, useValue: 'pt-BR'},
 

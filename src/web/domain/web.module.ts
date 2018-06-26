@@ -89,6 +89,7 @@ import {FilterPipe} from './presentation/controls/filter-pipe/filter';
 import {AutofocusDirective} from './presentation/controls/autofocus/autofocus';
 import {OrderModule} from 'ngx-order-pipe';
 import {SettingsComponent} from "./presentation/dashboard/settings/settings.component";
+import {ConfiguracaoRepository} from "./repository/configuracao.repository";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -204,6 +205,7 @@ registerLocaleData(localePt, 'pt-BR');
     EnderecoService,
     UsuarioService,
     UnidadeService,
+    ConfiguracaoRepository,
 
     AngularFireDatabase,
 

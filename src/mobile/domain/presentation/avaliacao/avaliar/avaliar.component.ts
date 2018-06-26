@@ -4,6 +4,8 @@ import {MobileService} from '../../../service/mobile.service';
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry} from "@angular/material";
 import {AuthenticationService} from "../../../../../web/domain/service/authentication.service";
+import {ConfiguracaoRepository} from "../../../../../web/domain/repository/configuracao.repository";
+import {Configuracao} from "../../../../../web/domain/entity/configuracao/Configuracao.model";
 
 @Component({
   selector: 'avaliar',
@@ -14,18 +16,22 @@ export class AvaliarComponent implements OnInit {
 
   /**
    *
+   * @type {Configuracao}
+   */
+  configuracao: Configuracao;
+
+  /**
+   *
    * @param {Router} router
    * @param {MobileService} mobileService
+   * @param {ConfiguracaoRepository} configuracaoRepository
    * @param {AuthenticationService} authenticationService
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    */
-  constructor(private router: Router, private mobileService: MobileService, public authenticationService: AuthenticationService, private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
-    this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'terrivel', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/terrivel.svg'));
-    this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/ruim.svg'));
-    this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'meia-boca', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/meia-boca.svg'));
-    this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'bacana', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/bacana.svg'));
-    this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'top-da-balada', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/top-da-balada.svg'));
+  constructor(private router: Router, private mobileService: MobileService, private configuracaoRepository: ConfiguracaoRepository,
+              public authenticationService: AuthenticationService, private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+
   }
 
   /**
@@ -33,11 +39,23 @@ export class AvaliarComponent implements OnInit {
    */
   ngOnInit() {
 
+    this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'terrivel', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/terrivel.svg'));
+    this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/ruim.svg'));
+    this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'meia-boca', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/meia-boca.svg'));
+    this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'bacana', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/bacana.svg'));
+    this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'top-da-balada', this.domSanitizer.bypassSecurityTrustResourceUrl('mobile-assets/emojis/top-da-balada.svg'));
+
     /**
      * Se não tem unidade selecionada vai para tela de selação de unidade
      */
     if (!this.mobileService.getUnidade())
       this.router.navigate(['selecionar-unidade']);
+
+    this.configuracaoRepository.find()
+      .subscribe(result => {
+        if (result)
+          this.configuracao = result[0]
+      })
   }
 
   /**
