@@ -1,0 +1,127 @@
+<div layout-align="center center" layout-gt-xs="row" layout-margin>
+  <div layout="row" flex-gt-xs="80" layout-margin>
+    <div flex layout-margin>
+
+      <mat-card class="bgc-grey-50">
+        <form [formGroup]='form' (ngSubmit)='save(form)' novalidate
+              *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+          <mat-card-content>
+
+            <!--cabeçalho div-->
+            <div layout='column' layout-margin header>
+              <div layout='row' layout-align='start center'>
+
+                <div layout="column" layout-margin>
+                  <h1 class="mat-headline tc-grey-500" flex>Configurações</h1>
+                  <h2 class="mat-subheading-2 tc-grey-500" flex>Configurações gerais do sistema</h2>
+                </div>
+              </div>
+            </div>
+
+
+            <div layout-align="center center" layout-gt-xs="row" layout-xs="column" layout-margin>
+              <div layout="column" layout-align="center center" flex>
+                <button mat-button type="button">
+                  <div layout="column" layout-align="center center">
+                    <mat-icon style="fill: #c21c1f" svgIcon="mobile-assets:terrivel"></mat-icon>
+                  </div>
+                </button>
+                <mat-form-field flex>
+                  <input [(ngModel)]='configuracao.um'
+                         matInput name='um' id='um' formControlName='um'
+                         placeholder='Terrível' maxlength='144'>
+                  <mat-error>
+                    Campo obrigatório
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div layout="column" layout-align="center center" flex>
+                <button mat-button type="button">
+                  <div layout="column" layout-align="center center">
+                    <mat-icon style="fill: #e96d01" svgIcon="mobile-assets:ruim"></mat-icon>
+                  </div>
+                </button>
+                <mat-form-field flex>
+                  <input [(ngModel)]='configuracao.dois'
+                         matInput name='dois' id='dois' formControlName='dois'
+                         placeholder='Ruim' maxlength='144'>
+                  <mat-error>
+                    Campo obrigatório
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div layout="column" layout-align="center center" flex>
+                <button mat-button type="button">
+                  <div layout="column" layout-align="center center">
+                    <mat-icon style="fill: #d4c40d" svgIcon="mobile-assets:meia-boca"></mat-icon>
+                  </div>
+                </button>
+                <mat-form-field flex>
+                  <input [(ngModel)]='configuracao.tres'
+                         matInput name='tres' id='tres' formControlName='tres'
+                         placeholder='Regular' maxlength='144'>
+                  <mat-error>
+                    Campo obrigatório
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div layout="column" layout-align="center center" flex>
+                <button mat-button type="button">
+                  <div layout="column" layout-align="center center">
+                    <mat-icon style="fill: #8fc82c" svgIcon="mobile-assets:bacana"></mat-icon>
+                  </div>
+                </button>
+                <mat-form-field flex>
+                  <input [(ngModel)]='configuracao.quatro'
+                         matInput name='quatro' id='quatro'
+                         placeholder='Bom' maxlength='144' formControlName='quatro'>
+                  <mat-error>
+                    Campo obrigatório
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div layout="column" layout-align="center center" flex>
+                <button mat-button type="button">
+                  <div layout="column" layout-align="center center">
+                    <mat-icon style="fill: #5ee924" svgIcon="mobile-assets:top-da-balada"></mat-icon>
+                  </div>
+                </button>
+                <mat-form-field flex>
+                  <input [(ngModel)]='configuracao.cinco'
+                         matInput name='cinco' id='cinco'
+                         formControlName='cinco'
+                         placeholder='Ótimo' maxlength='144'>
+                  <mat-error>
+                    Campo obrigatório
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+
+            <!--actions div-->
+            <div flex layout-margin actions>
+
+              <div layout-gt-xs='row' flex layout-margin>
+
+                <span flex='70'></span>
+
+                <button mat-raised-button
+                        color='accent'
+                        flex>
+                  Salvar
+                </button>
+
+              </div>
+            </div>
+          </mat-card-content>
+        </form>
+      </mat-card>
+
+    </div>
+  </div>
+</div>

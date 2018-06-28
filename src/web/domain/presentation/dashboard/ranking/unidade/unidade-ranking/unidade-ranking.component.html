@@ -21,20 +21,21 @@
       <div flex></div>
       <span *ngIf="unidades?.length"> Total: {{ unidades?.length}}</span>
     </div>
+    <div *ngFor="let unidade of unidades | filter:filter :'case-insensitive' | orderBy:'posicao'">
+      <ranking [rankeavel]='unidade'
+               *ngIf="unidade?.media"
+               style='margin-top: -30px'>
+        <div layout="row"
+             layout-margin avatar
+             layout-align="center center">
+          <button color="accent" flex mat-raised-button
+                  *ngIf='unidade?.media && unidade?.posicao'
+                  style='height: 45px;border-radius: 50%; min-width: fit-content;max-width: 10px;margin-left:-30px'>
+            <b>{{unidade?.posicao}}º</b>
+          </button>
 
-    <ranking style='margin-top: -30px' [rankeavel]='unidade'
-             *ngFor="let unidade of unidades | filter:filter :'case-insensitive' | orderBy:'posicao'">
-      <div layout="row"
-           layout-margin avatar
-           layout-align="center center">
-        <button color="accent" flex mat-raised-button *ngIf='unidade?.media && unidade?.posicao'
-                style='height: 45px;border-radius: 50%; min-width: fit-content;max-width: 10px;margin-left:-30px'>
-          <b>{{unidade?.posicao}}º</b>
-        </button>
-
-      </div>
-    </ranking>
-
+        </div>
+      </ranking>
+    </div>
   </div>
-
 </div>

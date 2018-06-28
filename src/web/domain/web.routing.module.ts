@@ -22,8 +22,8 @@ import {UnidadeRankingComponent} from './presentation/dashboard/ranking/unidade/
 import {UnidadeRankingViewComponent} from './presentation/dashboard/ranking/unidade/unidade-ranking-view.component';
 import {AtendenteRankingViewComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking-view.component';
 import {AtendenteRankingComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking/atendente-ranking.component';
-import {SelecionarUnidadeComponent} from './presentation/dashboard/ranking/atendente/selecionar-unidade/selecionar-unidade.component';
 import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component';
+import {SettingsComponent} from "./presentation/dashboard/settings/settings.component";
 
 
 const routes: Routes = [
@@ -86,6 +86,9 @@ const routes: Routes = [
               path: ':key', component: EstatisticasUnidadeComponent
             }
           ]
+        },
+        {
+          path: 'settings', component: SettingsComponent,
         }
       ]
   }

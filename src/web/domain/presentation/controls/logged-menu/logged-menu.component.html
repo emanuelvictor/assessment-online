@@ -1,4 +1,4 @@
-<mat-nav-list class="pad-none">
+<mat-nav-list flex class="pad-none">
   <mat-list class="pad-none">
     <mat-list-item routerLink="/dashboard/minha-conta"
                    #rla="routerLinkActive" routerLinkActive
@@ -36,21 +36,10 @@
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>store</mat-icon>
-        <h3 matLine style="color: white" flex="85"> {{authenticatedUser?.isAdministrador ? 'Unidades' : 'Minhas unidades'}} </h3>
+        <h3 matLine style="color: white" flex="85"> {{authenticatedUser?.isAdministrador ? 'Unidades' : 'Minhas
+          unidades'}} </h3>
       </div>
     </mat-list-item>
-
-    <!--<mat-list-item class="push-bottom"-->
-                   <!--routerLink="/dashboard/melhores-atendentes"-->
-                   <!--routerLinkActive #rlaMelhoresAtendentes="routerLinkActive"-->
-                   <!--[ngClass]="{'menu-active': rlaMelhoresAtendentes.isActive}"-->
-                   <!--matTooltip="Filtro por unidade" [matTooltipPosition]="'before'">-->
-      <!--<div layout="row" flex class="pad-left">-->
-        <!--<span flex="10"></span>-->
-        <!--<mat-icon matListAvatar flex>supervisor_account</mat-icon>-->
-        <!--<h3 matLine style="color: white" flex="85"> Meus melhores atendentes </h3>-->
-      <!--</div>-->
-    <!--</mat-list-item>-->
 
     <mat-list-item class="push-bottom"
                    routerLink="/dashboard/meus-melhores-atendentes"
@@ -71,6 +60,18 @@
         <span flex="10"></span>
         <mat-icon matListAvatar flex>assessment</mat-icon>
         <h3 matLine style="color: white" flex="85"> Minhas melhores unidades </h3>
+      </div>
+    </mat-list-item>
+    <mat-divider class="bgc-blue-grey-300 push-top push-bottom pad-left"></mat-divider>
+
+    <mat-list-item class="push-bottom"
+                   routerLink="/dashboard/settings"
+                   routerLinkActive #rlaSettings="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaSettings.isActive}">
+      <div layout="row" flex class="pad-left">
+        <span flex="10"></span>
+        <mat-icon matListAvatar flex>settings</mat-icon>
+        <h3 matLine style="color: white" flex="85"> Configurações </h3>
       </div>
     </mat-list-item>
 

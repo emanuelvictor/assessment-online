@@ -29,16 +29,16 @@
       <span *ngIf="atendentes?.length"> Total: {{ atendentes?.length}}</span>
     </div>
 
-    <ranking [rankeavel]='atendente' style='margin-top: -30px'
-             *ngFor="let atendente of atendentes | filter:filter :'case-insensitive' | orderBy:'posicao'">
+    <div *ngFor="let atendente of atendentes | filter:filter :'case-insensitive' | orderBy:'posicao'">
+      <ranking [rankeavel]='atendente' style='margin-top: -30px' *ngIf="atendente?.media">
 
 
-      <div flex
-           layout="row"
-           layout-margin avatar
-           layout-align="center center">
-        <button *ngIf='atendente?.media && atendente?.posicao'
-                style='height: 45px;
+        <div flex
+             layout="row"
+             layout-margin avatar
+             layout-align="center center">
+          <button *ngIf='atendente?.media && atendente?.posicao'
+                  style='height: 45px;
                                 border-radius: 50%;
                                 min-width: fit-content;
                                 margin-top: 145px;
@@ -46,24 +46,24 @@
                                 margin-right: -56px;
                                 max-width: 10px;
                                 z-index: 1;'
-                mat-raised-button
-                color="accent" flex>
-          <b>{{atendente?.posicao}}º</b>
-        </button>
+                  mat-raised-button
+                  color="accent" flex>
+            <b>{{atendente?.posicao}}º</b>
+          </button>
 
-        <div class='push-top push-right push-bottom'>
-          <avatar [usuario]="{'key': atendente?.key , 'foto': atendente?.urlFile}"></avatar>
+          <div class='push-top push-right push-bottom'>
+            <avatar [usuario]="{'key': atendente?.key , 'foto': atendente?.urlFile}"></avatar>
+          </div>
         </div>
-      </div>
 
-      <mat-accordion vinculos>
-        <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
-          <visualizar-vinculo-unidade [usuario]='atendente' *ngIf='atendente?.key'></visualizar-vinculo-unidade>
-        </mat-expansion-panel>
-      </mat-accordion>
+        <mat-accordion vinculos>
+          <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
+            <visualizar-vinculo-unidade [usuario]='atendente' *ngIf='atendente?.key'></visualizar-vinculo-unidade>
+          </mat-expansion-panel>
+        </mat-accordion>
 
-    </ranking>
-
+      </ranking>
+    </div>
   </div>
 
 </div>

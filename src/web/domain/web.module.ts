@@ -88,6 +88,9 @@ import {SearchBarComponent} from './presentation/controls/search-bar/search-bar.
 import {FilterPipe} from './presentation/controls/filter-pipe/filter';
 import {AutofocusDirective} from './presentation/controls/autofocus/autofocus';
 import {OrderModule} from 'ngx-order-pipe';
+import {SettingsComponent} from "./presentation/dashboard/settings/settings.component";
+import {ConfiguracaoRepository} from "./repository/configuracao.repository";
+import {ConfiguracaoService} from "./service/configuracao.service";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -125,6 +128,9 @@ registerLocaleData(localePt, 'pt-BR');
     FotoLoadingComponent,
     EvDatepicker,
     SearchBarComponent,
+
+    // Settings
+    SettingsComponent,
 
     // atendente
     AtendenteViewComponent,
@@ -190,10 +196,12 @@ registerLocaleData(localePt, 'pt-BR');
     ColaboradorRepository,
     AvaliacaoRepository,
     EnderecoRepository,
+    ConfiguracaoRepository,
     UnidadeRepository,
     UsuarioRepository,
     AccountRepository,
     FileRepository,
+    ConfiguracaoService,
     AuthenticationService,
     ColaboradorService,
     AvaliacaoService,
