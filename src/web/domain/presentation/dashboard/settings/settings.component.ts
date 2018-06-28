@@ -10,6 +10,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TdLoadingService} from '@covalent/core';
 
 import {FormBuilder, Validators} from "@angular/forms";
+import {ConfiguracaoService} from "../../../service/configuracao.service";
 
 
 /**
@@ -35,18 +36,18 @@ export class SettingsComponent implements OnInit {
 
   /**
    *
-   * @param {MatIconRegistry} iconRegistry
-   * @param {DomSanitizer} domSanitizer
-   * @param {ConfiguracaoRepository} configuracaoRepository
+   * @param {MatSnackBar} snackBar
+   * @param {TdLoadingService} _loadingService
    * @param {ElementRef} element
    * @param {Renderer} renderer
    * @param {FormBuilder} fb
-   * @param {MatSnackBar} snackBar
-   * @param {TdLoadingService} _loadingService
+   * @param {MatIconRegistry} iconRegistry
+   * @param {DomSanitizer} domSanitizer
+   * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private configuracaoRepository: ConfiguracaoRepository,
+  constructor(private snackBar: MatSnackBar, private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef, private renderer: Renderer, private fb: FormBuilder,
-              private snackBar: MatSnackBar, private _loadingService: TdLoadingService) {
+              private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private configuracaoService: ConfiguracaoService) {
   }
 
   /**
@@ -67,10 +68,10 @@ export class SettingsComponent implements OnInit {
     this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'bacana', this.domSanitizer.bypassSecurityTrustResourceUrl('web-assets/emojis/bacana.svg'));
     this.iconRegistry.addSvgIconInNamespace('mobile-assets', 'top-da-balada', this.domSanitizer.bypassSecurityTrustResourceUrl('web-assets/emojis/top-da-balada.svg'));
 
-    this.configuracaoRepository.find()
+    this.configuracaoService.find()
       .subscribe(result => {
-        if (result)
-          this.configuracao = result[0]
+        console.log(result);
+        this.configuracao = result
       })
   }
 
@@ -128,7 +129,7 @@ export class SettingsComponent implements OnInit {
 
     if (valid) {
       this._loadingService.register('overlayStarSyntax');
-      this.configuracaoRepository.save(this.configuracao)
+      this.configuracaoService.save(this.configuracao)
         .then(result => {
           this.configuracao = result;
           this._loadingService.resolve('overlayStarSyntax');

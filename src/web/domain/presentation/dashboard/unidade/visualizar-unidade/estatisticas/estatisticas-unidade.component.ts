@@ -1,12 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {TdDigitsPipe, TdFadeInOutAnimation, TdLoadingService} from '@covalent/core';
+import {TdDigitsPipe} from '@covalent/core';
 import {ActivatedRoute} from '@angular/router';
 import {AvaliacaoService} from '../../../../../service/avaliacao.service';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import * as moment from 'moment';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {Avaliacao} from '../../../../../entity/avaliacao/Avaliacao.model';
+import {ConfiguracaoRepository} from "../../../../../repository/configuracao.repository";
+import {ConfiguracaoService} from "../../../../../service/configuracao.service";
 
 @Component({
   selector: 'estatisticas-unidade',
@@ -105,17 +107,50 @@ export class EstatisticasUnidadeComponent implements OnInit {
    * @param {UnidadeService} unidadeService
    * @param {ActivatedRoute} activatedRoute
    * @param {AvaliacaoService} avaliacaoService
+   * @param {ConfiguracaoService} configuracaoService
    */
   constructor(private title: Title,
               private unidadeService: UnidadeService,
               private activatedRoute: ActivatedRoute,
-              private avaliacaoService: AvaliacaoService) {
+              private avaliacaoService: AvaliacaoService,
+              private configuracaoService: ConfiguracaoService) {
   }
 
   /**
    *
    */
   ngOnInit() {
+
+    this.configuracaoService.find()
+      .subscribe(result => {
+        // Chart
+        this.multi = [
+          {
+            series: [
+              {
+                name: result.um,
+                value: 0
+              },
+              {
+                name: result.dois,
+                value: 0
+              },
+              {
+                name: result.tres,
+                value: 0
+              },
+              {
+                name: result.quatro,
+                value: 0
+              },
+              {
+                name: result.cinco,
+                value: 0
+              },
+            ]
+          }
+        ];
+      });
 
     this.unidadeService.findOne(this.activatedRoute.snapshot.params['key'])
       .subscribe((rankeavel: any) => {
@@ -206,14 +241,17 @@ export class EstatisticasUnidadeComponent implements OnInit {
     /**
      * Falcatrua
      */
-    this.multi = this.mapper.map((group: any) => {
-      group.series[0] = {value: this.avaliacoes1, name: 'Terrível'};
-      group.series[1] = {value: this.avaliacoes2, name: 'Ruim'};
-      group.series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
-      group.series[3] = {value: this.avaliacoes4, name: 'Bacana'};
-      group.series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
-      return group;
-    });
+    this.configuracaoService.find()
+      .subscribe(result => {
+        this.multi = this.mapper.map((group: any) => {
+          group.series[0] = {value: this.avaliacoes1, name: result.um};
+          group.series[1] = {value: this.avaliacoes2, name: result.dois};
+          group.series[2] = {value: this.avaliacoes3, name: result.tres};
+          group.series[3] = {value: this.avaliacoes4, name: result.quatro};
+          group.series[4] = {value: this.avaliacoes5, name: result.cinco};
+          return group;
+        });
+      });
   }
 
   // ngx transform using covalent digits pipe

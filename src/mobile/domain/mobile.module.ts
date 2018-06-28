@@ -40,6 +40,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {EllipsisModule} from 'ngx-ellipsis';
 import {LogoutComponent} from './presentation/avaliacao/logout/logout.component';
 import {ConfiguracaoRepository} from "../../web/domain/repository/configuracao.repository";
+import {ConfiguracaoService} from "../../web/domain/service/configuracao.service";
 
 /**
  *
@@ -87,6 +88,7 @@ import {ConfiguracaoRepository} from "../../web/domain/repository/configuracao.r
     AuthenticationService,
     AngularFireDatabase,
     MobileService,
+    ConfiguracaoService,
     AvaliacaoService,
     ConfiguracaoRepository,
 

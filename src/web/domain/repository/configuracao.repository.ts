@@ -6,7 +6,6 @@ import {AngularFireStorage} from 'angularfire2/storage';
 import {AccountRepository} from '../../infrastructure/repository/account/account.repository';
 
 /**
- * TODO criar também o service
  */
 @Injectable()
 export class ConfiguracaoRepository extends AbstractRepository {

@@ -4,9 +4,10 @@ import {ActivatedRoute} from '@angular/router';
 import {AvaliacaoService} from '../../../../../service/avaliacao.service';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import * as moment from 'moment';
-import {TdDigitsPipe, TdFadeInOutAnimation} from '@covalent/core';
+import {TdDigitsPipe} from '@covalent/core';
 import {UsuarioService} from '../../../../../service/usuario.service';
 import {Avaliacao} from '../../../../../entity/avaliacao/Avaliacao.model';
+import {ConfiguracaoService} from "../../../../../service/configuracao.service";
 
 @Component({
   selector: 'estatisticas-atendente',
@@ -47,7 +48,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
       ]
     }
   ];
-
 
   // options
   showLegend = false;
@@ -105,17 +105,50 @@ export class EstatisticasAtendenteComponent implements OnInit {
    * @param {UsuarioService} usuarioService
    * @param {ActivatedRoute} activatedRoute
    * @param {AvaliacaoService} avaliacaoService
+   * @param {ConfiguracaoService} configuracaoService
    */
   constructor(private title: Title,
               private usuarioService: UsuarioService,
               private activatedRoute: ActivatedRoute,
-              private avaliacaoService: AvaliacaoService) {
+              private avaliacaoService: AvaliacaoService,
+              private configuracaoService: ConfiguracaoService) {
   }
 
   /**
    *
    */
   ngOnInit() {
+
+    this.configuracaoService.find()
+      .subscribe(result => {
+        // Chart
+        this.multi = [
+          {
+            series: [
+              {
+                name: result.um,
+                value: 0
+              },
+              {
+                name: result.dois,
+                value: 0
+              },
+              {
+                name: result.tres,
+                value: 0
+              },
+              {
+                name: result.quatro,
+                value: 0
+              },
+              {
+                name: result.cinco,
+                value: 0
+              },
+            ]
+          }
+        ];
+      });
 
     this.usuarioService.findOne(this.activatedRoute.snapshot.params['key'])
       .subscribe((rankeavel: any) => {
@@ -173,7 +206,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
 
     /**
      * Trada as datas, setando meia noite na data de início, e 23:59 na data de fim.
-     * @type {moment.Moment}
      */
     const dataInicioAux = dataInicio ? moment(dataInicio, 'DD/MM/YYYY').hour(0).minute(0) : null;
     const dataFimAux = dataFim ? moment(dataFim, 'DD/MM/YYYY').hour(23).minute(59) : null;
@@ -206,14 +238,17 @@ export class EstatisticasAtendenteComponent implements OnInit {
     /**
      * Falcatrua
      */
-    this.multi = this.mapper.map((group: any) => {
-      group.series[0] = {value: this.avaliacoes1, name: 'Terrível'};
-      group.series[1] = {value: this.avaliacoes2, name: 'Ruim'};
-      group.series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
-      group.series[3] = {value: this.avaliacoes4, name: 'Bacana'};
-      group.series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
-      return group;
-    });
+    this.configuracaoService.find()
+      .subscribe(result => {
+        this.multi = this.mapper.map((group: any) => {
+          group.series[0] = {value: this.avaliacoes1, name: result.um};
+          group.series[1] = {value: this.avaliacoes2, name: result.dois};
+          group.series[2] = {value: this.avaliacoes3, name: result.tres};
+          group.series[3] = {value: this.avaliacoes4, name: result.quatro};
+          group.series[4] = {value: this.avaliacoes5, name: result.cinco};
+          return group;
+        });
+      });
   }
 
   // ngx transform using covalent digits pipe

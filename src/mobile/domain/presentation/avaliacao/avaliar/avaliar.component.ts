@@ -6,6 +6,7 @@ import {MatIconRegistry} from "@angular/material";
 import {AuthenticationService} from "../../../../../web/domain/service/authentication.service";
 import {ConfiguracaoRepository} from "../../../../../web/domain/repository/configuracao.repository";
 import {Configuracao} from "../../../../../web/domain/entity/configuracao/Configuracao.model";
+import {ConfiguracaoService} from "../../../../../web/domain/service/configuracao.service";
 
 @Component({
   selector: 'avaliar',
@@ -24,12 +25,12 @@ export class AvaliarComponent implements OnInit {
    *
    * @param {Router} router
    * @param {MobileService} mobileService
-   * @param {ConfiguracaoRepository} configuracaoRepository
+   * @param {ConfiguracaoService} configuracaoService
    * @param {AuthenticationService} authenticationService
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    */
-  constructor(private router: Router, private mobileService: MobileService, private configuracaoRepository: ConfiguracaoRepository,
+  constructor(private router: Router, private mobileService: MobileService, private configuracaoService: ConfiguracaoService,
               public authenticationService: AuthenticationService, private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
 
   }
@@ -51,10 +52,9 @@ export class AvaliarComponent implements OnInit {
     if (!this.mobileService.getUnidade())
       this.router.navigate(['selecionar-unidade']);
 
-    this.configuracaoRepository.find()
+    this.configuracaoService.find()
       .subscribe(result => {
-        if (result)
-          this.configuracao = result[0]
+        this.configuracao = result;
       })
   }
 
