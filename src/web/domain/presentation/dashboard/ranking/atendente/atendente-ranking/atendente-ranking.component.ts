@@ -6,6 +6,7 @@ import {UsuarioService} from '../../../../../service/usuario.service';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {ColaboradorService} from '../../../../../service/colaborador.service';
 import {Unidade} from '../../../../../entity/unidade/Unidade.model';
+import {AvaliacaoService} from "../../../../../service/avaliacao.service";
 
 @Component({
   selector: 'atendente-ranking',
