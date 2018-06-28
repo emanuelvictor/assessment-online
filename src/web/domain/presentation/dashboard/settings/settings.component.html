@@ -3,7 +3,7 @@
     <div flex layout-margin>
 
       <mat-card class="bgc-grey-50">
-        <form [formGroup]='form' (ngSubmit)='save(form)'
+        <form [formGroup]='form' (ngSubmit)='save(form)' novalidate
               *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
           <mat-card-content>
 
@@ -21,7 +21,7 @@
 
             <div layout-align="center center" layout-gt-xs="row" layout-xs="column" layout-margin>
               <div layout="column" layout-align="center center" flex>
-                <button mat-button>
+                <button mat-button type="button">
                   <div layout="column" layout-align="center center">
                     <mat-icon style="fill: #c21c1f" svgIcon="mobile-assets:terrivel"></mat-icon>
                   </div>
@@ -37,7 +37,7 @@
               </div>
 
               <div layout="column" layout-align="center center" flex>
-                <button mat-button>
+                <button mat-button type="button">
                   <div layout="column" layout-align="center center">
                     <mat-icon style="fill: #e96d01" svgIcon="mobile-assets:ruim"></mat-icon>
                   </div>
@@ -53,7 +53,7 @@
               </div>
 
               <div layout="column" layout-align="center center" flex>
-                <button mat-button>
+                <button mat-button type="button">
                   <div layout="column" layout-align="center center">
                     <mat-icon style="fill: #d4c40d" svgIcon="mobile-assets:meia-boca"></mat-icon>
                   </div>
@@ -69,7 +69,7 @@
               </div>
 
               <div layout="column" layout-align="center center" flex>
-                <button mat-button>
+                <button mat-button type="button">
                   <div layout="column" layout-align="center center">
                     <mat-icon style="fill: #8fc82c" svgIcon="mobile-assets:bacana"></mat-icon>
                   </div>
@@ -85,14 +85,15 @@
               </div>
 
               <div layout="column" layout-align="center center" flex>
-                <button mat-button>
+                <button mat-button type="button">
                   <div layout="column" layout-align="center center">
                     <mat-icon style="fill: #5ee924" svgIcon="mobile-assets:top-da-balada"></mat-icon>
                   </div>
                 </button>
                 <mat-form-field flex>
                   <input [(ngModel)]='configuracao.cinco'
-                         matInput name='cinco' id='cinco' formControlName='cinco'
+                         matInput name='cinco' id='cinco'
+                         formControlName='cinco'
                          placeholder='Ótimo' maxlength='144'>
                   <mat-error>
                     Campo obrigatório

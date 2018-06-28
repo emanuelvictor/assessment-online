@@ -11,6 +11,7 @@ import {TdLoadingService} from '@covalent/core';
 
 import {FormBuilder, Validators} from "@angular/forms";
 import {ConfiguracaoService} from "../../../service/configuracao.service";
+import {AvaliacaoService} from "../../../service/avaliacao.service";
 
 
 /**
@@ -54,6 +55,7 @@ export class SettingsComponent implements OnInit {
    *
    */
   ngOnInit(): void {
+
     this.form = this.fb.group({
       um: ['um', [Validators.required]],
       dois: ['dois', [Validators.required]],
