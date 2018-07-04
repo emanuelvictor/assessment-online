@@ -25,9 +25,15 @@ public class Subscriber {
 
     private UnicastProcessor<Usuario> getUnicastProcessor(/*final Flux<Usuario> fluxUsuarios*/){
 
-        final List<Usuario> list = this.usuarioRepository.findAll();
+//        final List<Usuario> list = this.usuarioRepository.findAll();
+//
+//        final Usuario[] usuarios = this.usuarioRepository.findAll().toArray(new Usuario[list.size()]);
 
-        final Usuario[] usuarios = this.usuarioRepository.findAll().toArray(new Usuario[list.size()]);
+
+        final Usuario usuario = new Usuario();
+        usuario.setNome("asdfasdf");
+
+        final Usuario[] usuarios = new Usuario[]{usuario};
 
         final Flux<Usuario> fluxUsuarios = Flux.just(usuarios);
 

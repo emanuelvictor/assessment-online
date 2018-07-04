@@ -2,6 +2,7 @@ package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.UsuarioRepository;
+import br.com.assessment.application.websocket.Subscriber;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,9 +21,12 @@ public class UsuarioService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(final UsuarioRepository usuarioRepository, final PasswordEncoder passwordEncoder) {
+    private final Subscriber subscriber;
+
+    public UsuarioService(final UsuarioRepository usuarioRepository, final PasswordEncoder passwordEncoder, final Subscriber subscriber) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.subscriber = subscriber;
     }
 
     /**
@@ -38,16 +42,21 @@ public class UsuarioService {
     /**
      *
      */
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+//    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Usuario> save(final Mono<Usuario> usuario) {
 
-        return Mono.create(monoSink ->
-                usuario.subscribe(usuarioToSave -> {
-                            usuarioToSave.setPassword(this.passwordEncoder.encode(usuarioToSave.getPassword()));
-                            monoSink.success(this.usuarioRepository.save(usuarioToSave));
-                        }
-                )
-        );
+        usuario.subscribe( usuario1 -> subscriber.getPublisher().onNext(usuario1));
+
+return null;
+//        return Mono.create(monoSink ->
+//                usuario.subscribe(usuarioToSave -> {
+//                            usuarioToSave.setPassword(this.passwordEncoder.encode(usuarioToSave.getPassword()));
+//                            final Usuario usuarioSalvo = this.usuarioRepository.save(usuarioToSave);
+//                            monoSink.success(usuarioSalvo);
+//                            subscriber.getPublisher().onNext(usuarioSalvo);
+//                        }
+//                )
+//        );
     }
 
     @PreAuthorize("hasRole('ADMINISTRADOR')")

@@ -24,8 +24,8 @@ public class SecurityConfig {
     SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) throws Exception {
         return http
                 .authorizeExchange()
-//                .anyExchange().permitAll()
-                .anyExchange().authenticated()
+                .anyExchange().permitAll()
+//                .anyExchange().authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin()
