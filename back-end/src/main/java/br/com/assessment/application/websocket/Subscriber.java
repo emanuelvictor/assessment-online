@@ -12,28 +12,26 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
 @Component
 public class Subscriber {
 
+    private UnicastProcessor<Usuario> unicastProcessor;
+
     private final UsuarioRepository usuarioRepository;
 
+
     public Subscriber(final UsuarioRepository usuarioRepository) {
-
         this.usuarioRepository = usuarioRepository;
-
+        this.unicastProcessor = this.getUnicastProcessor();
     }
+
 
     private UnicastProcessor<Usuario> getUnicastProcessor(/*final Flux<Usuario> fluxUsuarios*/){
 
-//        final List<Usuario> list = this.usuarioRepository.findAll();
-//
-//        final Usuario[] usuarios = this.usuarioRepository.findAll().toArray(new Usuario[list.size()]);
+        final List<Usuario> list = this.usuarioRepository.findAll();
 
-
-        final Usuario usuario = new Usuario();
-        usuario.setNome("asdfasdf");
-
-        final Usuario[] usuarios = new Usuario[]{usuario};
+        final Usuario[] usuarios = list.toArray(new Usuario[list.size()]);
 
         final Flux<Usuario> fluxUsuarios = Flux.just(usuarios);
 
@@ -44,7 +42,7 @@ public class Subscriber {
         return UnicastProcessor.create(queue);
     }
 
-    public UnicastProcessor<Usuario> getPublisher(){
-        return this.getUnicastProcessor();
+    public UnicastProcessor<Usuario> getPublisher() {
+        return this.unicastProcessor;
     }
 }

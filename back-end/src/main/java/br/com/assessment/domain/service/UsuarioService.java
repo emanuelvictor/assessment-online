@@ -44,19 +44,15 @@ public class UsuarioService {
      */
 //    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Usuario> save(final Mono<Usuario> usuario) {
-
-        usuario.subscribe( usuario1 -> subscriber.getPublisher().onNext(usuario1));
-
-return null;
-//        return Mono.create(monoSink ->
-//                usuario.subscribe(usuarioToSave -> {
-//                            usuarioToSave.setPassword(this.passwordEncoder.encode(usuarioToSave.getPassword()));
-//                            final Usuario usuarioSalvo = this.usuarioRepository.save(usuarioToSave);
-//                            monoSink.success(usuarioSalvo);
-//                            subscriber.getPublisher().onNext(usuarioSalvo);
-//                        }
-//                )
-//        );
+        return Mono.create(monoSink ->
+                usuario.subscribe(usuarioToSave -> {
+                            usuarioToSave.setPassword(this.passwordEncoder.encode(usuarioToSave.getPassword()));
+                            final Usuario usuarioSalvo = this.usuarioRepository.save(usuarioToSave);
+                            monoSink.success(usuarioSalvo);
+                            subscriber.getPublisher().onNext(usuarioSalvo);
+                        }
+                )
+        );
     }
 
     @PreAuthorize("hasRole('ADMINISTRADOR')")

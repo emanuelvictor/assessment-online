@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguratio
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 
-@EnableReactiveMongoRepositories(basePackages = "com.emanuelvictor.domain.repository")
+@EnableReactiveMongoRepositories(basePackages = "br.com.assessment.domain.repository")
 public class MongoConfig
         extends AbstractReactiveMongoConfiguration
 {

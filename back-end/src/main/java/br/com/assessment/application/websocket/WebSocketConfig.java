@@ -35,7 +35,7 @@ public class WebSocketConfig {
     @Bean
     public HandlerMapping webSocketMapping() {
         final Map<String, Object> map = new HashMap<>();
-        map.put("/ws/users", this.webSocketHandler());
+        map.put("/ws/usuarios", this.webSocketHandler());
         final SimpleUrlHandlerMapping simpleUrlHandlerMapping = new SimpleUrlHandlerMapping();
         simpleUrlHandlerMapping.setUrlMap(map);
 
@@ -52,11 +52,9 @@ public class WebSocketConfig {
         return new WebSocketHandlerAdapter();
     }
 
-
     /**
      * Websocket handler
      */
-
     @Bean
     WebSocketHandler webSocketHandler() {
         return new WebSocketHandler() {
@@ -77,9 +75,10 @@ public class WebSocketConfig {
                         .map(WebSocketMessage::getPayloadAsText)
                         // Transform the JSON to Objeto
                         .map(this::toObject)
-                        .subscribe(subscriber.getPublisher()::onNext,
-                                subscriber.getPublisher()::onError,
-                                subscriber.getPublisher()::onComplete);
+                        .subscribe(subscriber.getPublisher()::onNext
+                                , subscriber.getPublisher()::onError
+                                , subscriber.getPublisher()::onComplete
+                        );
                 return session.send(outputEvents.map(session::textMessage));
             }
 
