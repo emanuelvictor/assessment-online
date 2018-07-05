@@ -13,16 +13,20 @@ export class ColaboradorRepository extends AbstractRepository {
     this.init('colaboradores', af, storage, accountRepository)
   }
 
-  public listColaboradoresByUsuarioKey(key: string): Observable<any> {
-    return this.find().map(items => items.filter(item => item.usuario.key === key));
-  }
-
   public listOperadoresByUsuarioKey(key: string): Observable<any> {
     return this.find().map(items => items.filter(item => item.usuario.key === key && (item.vinculo === 'Operador' || item.vinculo === 'OperadorAtendente')));
   }
 
-  public listAtendentesByUnidadeKey(key: string): Observable<any> {
+  public listColaboradoresByUsuarioKey(key: string): Observable<any> {
+    return this.find().map(items => items.filter(item => item.usuario.key === key));
+  }
+
+  public listColaboradoresAtendentesByUnidadeKey(key: string): Observable<any> {
     return this.find().map(items => items.filter(item => item.unidade.key === key && (item.vinculo && (item.vinculo === 'Atendente' || item.vinculo === 'OperadorAtendente'))));
+  }
+
+  public listColaboradoresAtendentesByUsuarioKey(key: string): Observable<any> {
+    return this.find().map(items => items.filter(item => item.usuario.key === key && (item.vinculo && (item.vinculo === 'Atendente' || item.vinculo === 'OperadorAtendente'))));
   }
 
   /**

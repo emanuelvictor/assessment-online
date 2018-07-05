@@ -120,7 +120,7 @@ export class UsuarioService {
       })
       .flatMap((colaborador: Colaborador) => {
         atendentesReturn = [];
-        return this.colaboradorService.listAtendentesByUnidadeKey(colaborador.unidade.key)
+        return this.colaboradorService.listColaboradoresAtendentesByUnidadeKey(colaborador.unidade.key)
       })
       .flatMap(colaboradores => {
         return colaboradores;

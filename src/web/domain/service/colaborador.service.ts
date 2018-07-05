@@ -63,14 +63,24 @@ export class ColaboradorService {
   }
 
   /**
-   * TODO não é utilizado pq?
    *
    * Retorna todos os colaboradores em que o usuário é atendente ou operador atendnete, pela key da unidade
    * @param {string} key
    * @returns {Observable<any>}
    */
-  public listAtendentesByUnidadeKey(key: string): Observable<any> {
-    return this.colaboradorRepository.listAtendentesByUnidadeKey(key);
+  public listColaboradoresAtendentesByUnidadeKey(key: string): Observable<any> {
+    return this.colaboradorRepository.listColaboradoresAtendentesByUnidadeKey(key);
+  }
+
+
+  /**
+   *
+   * Retorna todos os colaboradores em que o usuário é atendente ou operador atendnete, pela key da unidade
+   * @param {string} key
+   * @returns {Observable<any>}
+   */
+  public listColaboradoresAtendentesByUsuarioKey(key: string): Observable<any> {
+    return this.colaboradorRepository.listColaboradoresAtendentesByUsuarioKey(key);
   }
 
   /**
