@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from "@angular/material";
-import {ConfirmDialogComponent} from "../../../controls/confirm-dialog/confirm-dialog.component";
-import {Unidade} from "../../../../entity/unidade/Unidade.model";
-import {UnidadeService} from "../../../../service/unidade.service";
+import {MatDialog, MatSnackBar} from '@angular/material';
+import {Unidade} from '../../../../entity/unidade/Unidade.model';
+import {UnidadeService} from '../../../../service/unidade.service';
 
 @Component({
   selector: 'visualizar-unidade',
@@ -39,7 +38,7 @@ export class VisualizarUnidadeComponent implements OnInit {
    */
   public findById(id: number) {
     this.unidadeService.findById(id)
-      .then(result => {
+      .subscribe(result => {
         this.unidade = result;
       })
   }
@@ -77,7 +76,7 @@ export class VisualizarUnidadeComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
   }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {TdDigitsPipe, TdFadeInOutAnimation, TdLoadingService} from '@covalent/core';
+import {TdDigitsPipe} from '@covalent/core';
 import {ActivatedRoute} from '@angular/router';
 import {AvaliacaoService} from '../../../../../service/avaliacao.service';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
@@ -118,7 +118,7 @@ export class EstatisticasUnidadeComponent implements OnInit {
   ngOnInit() {
 
     this.unidadeService.findById(this.activatedRoute.snapshot.params['id'])
-      .then((rankeavel: any) => {
+      .subscribe((rankeavel: any) => {
         this.rankeavel = rankeavel;
         this.title.setTitle('Estatisticas de ' + this.rankeavel.nome);
       });

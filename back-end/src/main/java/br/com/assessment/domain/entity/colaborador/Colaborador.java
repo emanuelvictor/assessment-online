@@ -1,4 +1,4 @@
-package br.com.assessment.domain.entity.vinculo;
+package br.com.assessment.domain.entity.colaborador;
 
 import br.com.assessment.domain.entity.generic.AbstractEntity;
 import br.com.assessment.domain.entity.unidade.Unidade;
@@ -37,11 +37,15 @@ public class Colaborador extends AbstractEntity implements Serializable {
      *
      */
     @NotNull
-    private boolean isAtendente;
+    @Column(nullable = false)
+    private Vinculo vinculo;
 
     /**
      *
      */
-    @NotNull
-    private boolean isOperador;
+    public Colaborador() {
+        super();
+        this.vinculo = Vinculo.Nenhum;
+    }
+
 }

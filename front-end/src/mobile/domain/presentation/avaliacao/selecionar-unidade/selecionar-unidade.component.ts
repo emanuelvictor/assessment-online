@@ -34,7 +34,7 @@ export class SelecionarUnidadeComponent implements OnInit {
    */
   ngOnInit() {
     this.unidadeService.find()
-      .then(unidades => {
+      .subscribe(unidades => {
         this.unidades = unidades;
       });
   }

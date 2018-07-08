@@ -17,9 +17,6 @@ import {AngularFireModule} from 'angularfire2';
 import {environment} from '../../environments/environment';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {AngularFireAuthModule} from 'angularfire2/auth';
-import {EnderecoRepository} from '../../web/domain/repository/endereco.repository';
-import {UnidadeRepository} from '../../web/domain/repository/unidade.repository';
-import {UsuarioRepository} from '../../web/domain/repository/usuario.repository';
 import {AccountRepository} from '../../web/infrastructure/repository/account/account.repository';
 import {UnidadeService} from '../../web/domain/service/unidade.service';
 import {AngularFireDatabase} from 'angularfire2/database';
@@ -30,14 +27,17 @@ import {SelecionarUnidadeComponent} from './presentation/avaliacao/selecionar-un
 import {MobileService} from './service/mobile.service';
 import {SelecionarAtendentesComponent} from './presentation/avaliacao/selecionar-atendentes/selecionar-atendentes.component';
 import {ColaboradorService} from '../../web/domain/service/colaborador.service';
-import {ColaboradorRepository} from '../../web/domain/repository/colaborador.repository';
 import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
-import {AvaliacaoRepository} from '../../web/domain/repository/avaliacao.repository';
-import {AvaliacaoColaboradorRepository} from '../../web/domain/repository/avaliacao-colaborador.repository';
 import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { EllipsisModule } from 'ngx-ellipsis';
+import {AvaliacaoRepository} from "../../web/domain/repositories/avaliacao.repository";
+import {UsuarioRepository} from "../../web/domain/repositories/usuario.repository";
+import {UnidadeRepository} from "../../web/domain/repositories/unidade.repository";
+import {EnderecoRepository} from "../../web/domain/repositories/endereco.repository";
+import {ColaboradorRepository} from "../../web/domain/repositories/colaborador.repository";
+import {AvaliacaoColaboradorRepository} from "../../web/domain/repositories/avaliacao-colaborador.repository";
 
 /**
  *

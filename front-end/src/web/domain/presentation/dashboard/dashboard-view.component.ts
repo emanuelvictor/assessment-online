@@ -10,14 +10,13 @@ import {ColaboradorService} from '../../service/colaborador.service';
   templateUrl: './dashboard-view.component.html',
   styleUrls: ['./dashboard-view.component.scss']
 })
-export class DashboardViewComponent implements OnInit, OnDestroy
-{
+export class DashboardViewComponent implements OnInit, OnDestroy {
 
   /**
    *
    * @type {boolean}
    */
-  isSmallScreen: boolean = true;
+  isSmallScreen = true;
   /**
    *
    */
@@ -39,8 +38,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy
    * @param {UsuarioService} usuarioService
    * @param {ColaboradorService} colaboradorService
    */
-  constructor(public media: TdMediaService,  public ngZone: NgZone, private usuarioService: UsuarioService, private colaboradorService: ColaboradorService)
-  {
+  constructor(public media: TdMediaService, public ngZone: NgZone, private usuarioService: UsuarioService, private colaboradorService: ColaboradorService) {
     this.usuarioService.getUsuarioAutenticado().subscribe(result => {
       this.usuario = result;
       this.colaboradorService.listOperadoresByUsuarioKey(this.usuario.key).subscribe(operadores => {
@@ -52,8 +50,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy
   /**
    *
    */
-  ngOnInit()
-  {
+  ngOnInit() {
     this.checkScreen();
   }
 
@@ -72,7 +69,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy
    */
   watchScreen(): void {
     this.querySubscription = this.media.registerQuery('gt-md').subscribe((matches: boolean) => {
-       this.ngZone.run(() => {
+      this.ngZone.run(() => {
         this.isSmallScreen = matches;
       });
     });
@@ -82,7 +79,7 @@ export class DashboardViewComponent implements OnInit, OnDestroy
    *
    */
   ngOnDestroy(): void {
-    if(this.querySubscription) this.querySubscription.unsubscribe();
-    if(this.routerSubscription) this.routerSubscription.unsubscribe();
+    if (this.querySubscription) this.querySubscription.unsubscribe();
+    if (this.routerSubscription) this.routerSubscription.unsubscribe();
   }
 }

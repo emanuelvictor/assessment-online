@@ -4,13 +4,15 @@ import br.com.assessment.domain.entity.usuario.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public interface UsuarioRepository
-        extends JpaRepository<Usuario, Long>
-{
+import java.util.Optional;
+
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     /**
+     *
+     * @param email
      * @return
      */
-    UserDetails findByEmail(final String email);
+    Usuario findByEmail(final String email);
 
 }

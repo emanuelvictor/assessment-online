@@ -28,9 +28,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    * @param {UsuarioService} usuarioService
    * @param {UnidadeService} unidadeService
    */
-   constructor(private snackBar: MatSnackBar, private usuarioService: UsuarioService, private unidadeService: UnidadeService) {
-     
-   }
+   constructor(private snackBar: MatSnackBar, private usuarioService: UsuarioService, private unidadeService: UnidadeService) {}
 
   /**
    *
@@ -43,11 +41,9 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
    public listUsuariosByFilters() {
-
-     this.usuarioService.find().then(atendentes => {
+     this.usuarioService.find().subscribe(atendentes => {
        this.atendentes = atendentes;
      })
-
    }
 
   /**
@@ -59,5 +55,4 @@ export class ConsultarAtendentesComponent implements OnInit {
        duration: 5000
      });
    }
-
  }

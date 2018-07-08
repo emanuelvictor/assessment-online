@@ -8,14 +8,14 @@
 
           <div layout='row'>
             <div layout='column' style='min-width: 17px'>
-              <button *ngIf='activatedRoute?.snapshot?.params?.key'
+              <button *ngIf='activatedRoute?.snapshot?.params?.id'
                       class='mat-headline tc-grey-500' type='button'
                       routerLink='../' color='primary' mat-icon-button>
                 <mat-icon>arrow_back</mat-icon>
               </button>
             </div>
 
-            <visualizar-dados-usuario [usuario]='atendente' *ngIf='atendente?.key' flex>
+            <visualizar-dados-usuario [usuario]='atendente' *ngIf='atendente?.id' flex>
 
               <!--options-->
               <div layout='column' layout-align='start end' flex *ngIf="authenticatedUser?.isAdministrador || !atendente?.isAdministrador">
@@ -40,7 +40,7 @@
                       <mat-icon>vpn_key</mat-icon>
                       <span>Alterar senha</span>
                     </button>
-                    <button mat-menu-item color='primary' (click)='remove(atendente?.key)'>
+                    <button mat-menu-item color='primary' (click)='remove(atendente?.id)'>
                       <mat-icon>delete</mat-icon>
                       <span>Remover</span>
                     </button>
@@ -55,7 +55,7 @@
       <mat-accordion>
         <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
 
-          <vincular-unidade [usuario]='atendente' *ngIf='atendente?.key'
+          <vincular-unidade [usuario]='atendente' *ngIf='atendente?.id'
                             (save)="saveColaborador($event)"></vincular-unidade>
 
         </mat-expansion-panel>

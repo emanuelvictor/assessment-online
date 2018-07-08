@@ -49,12 +49,12 @@ export class InserirAtendenteComponent implements OnInit {
    *
    */
   public save(): void {
-    this._loadingService.register('overlayStarSyntax');
-    // this.toggleOverlayStarSyntax();
     if (!this.colaboradores.length)
       this.snackBar.open('Selecione ao menos uma unidade', 'Fechar');
 
     else {
+      this._loadingService.register('overlayStarSyntax');
+
       this.usuarioService.save(this.atendente)
         .then(result => {
           this.colaboradores.forEach(colaborador => {

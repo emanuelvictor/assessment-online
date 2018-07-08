@@ -65,9 +65,10 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
    *
    */
   ngOnInit(): void {
-    this.usuarioService.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email).subscribe(result => {
-      this.usuario = result;
-    });
+    this.usuarioService.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email)
+      .subscribe(result =>
+        this.usuario = result
+      );
   }
 
   /**

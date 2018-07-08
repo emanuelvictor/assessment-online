@@ -4,10 +4,10 @@
       <mat-card class="bgc-grey-50" layout-margin>
         <mat-card-content style="margin-left: 35px">
 
-            <visualizar-dados-usuario [usuario]='usuario' *ngIf='usuario?.key'>
+            <visualizar-dados-usuario [usuario]='usuario' *ngIf='usuario?.id'>
 
               <!--options-->
-              <div layout="column" layout-align="start end" flex *ngIf="usuario">
+              <div layout="column" layout-align="start end" flex>
                 <div layout="row">
                   <button mat-button hide-sm hide-xs class='tc-blue-grey-900' routerLink='minhas-estatisticas'>
                     <mat-icon>show_chart</mat-icon>

@@ -117,7 +117,7 @@ export class EstatisticasAtendenteComponent implements OnInit {
    */
   ngOnInit() {
 
-    this.usuarioService.findOne(this.activatedRoute.snapshot.params['key'])
+    this.usuarioService.findById(this.activatedRoute.snapshot.params['key'])
       .subscribe((rankeavel: any) => {
         this.rankeavel = rankeavel;
         this.title.setTitle('Estatisticas de ' + this.rankeavel.nome);

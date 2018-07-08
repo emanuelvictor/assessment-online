@@ -50,9 +50,9 @@ const routes: Routes = [
           children: [
             {path: '', component: ConsultarAtendentesComponent},
             {path: 'inserir', component: InserirAtendenteComponent},
-            {path: ':key/alterar', component: AlterarAtendenteComponent},
-            {path: ':key', component: VisualizarAtendenteComponent},
-            {path: ':key/estatisticas', component: EstatisticasAtendenteComponent}
+            {path: ':id/alterar', component: AlterarAtendenteComponent},
+            {path: ':id', component: VisualizarAtendenteComponent},
+            {path: ':id/estatisticas', component: EstatisticasAtendenteComponent}
           ]
         },
         {
@@ -72,7 +72,7 @@ const routes: Routes = [
               path: '', component: AtendenteRankingComponent
             },
             {
-              path: ':key', component: EstatisticasAtendenteComponent
+              path: ':id', component: EstatisticasAtendenteComponent
             }
           ]
         },
@@ -83,7 +83,7 @@ const routes: Routes = [
               path: '', component: UnidadeRankingComponent
             },
             {
-              path: ':key', component: EstatisticasUnidadeComponent
+              path: ':id', component: EstatisticasUnidadeComponent
             }
           ]
         }

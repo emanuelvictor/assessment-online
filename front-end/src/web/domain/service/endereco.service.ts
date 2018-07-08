@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {EnderecoRepository} from '../repository/endereco.repository';
+import {EnderecoRepository} from '../repositories/endereco.repository';
 
 @Injectable()
 export class EnderecoService {

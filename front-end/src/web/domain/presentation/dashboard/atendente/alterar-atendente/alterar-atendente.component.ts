@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {Usuario} from '../../../../entity/usuario/Usuario.model';
-import {TdLoadingService} from "@covalent/core";
+import {TdLoadingService} from '@covalent/core';
 
 /**
  *
@@ -47,16 +47,16 @@ export class AlterarAtendenteComponent implements OnInit {
    *
    */
   ngOnInit() {
-    const atendenteKey: string = this.activatedRoute.snapshot.params['key'];
-    this.find(atendenteKey);
+    const atendenteId: number = this.activatedRoute.snapshot.params['id'];
+    this.find(atendenteId);
   }
 
-  /**1
+  /**
    *
-   * @param {string} atendenteKey
+   * @param {number} id
    */
-  public find(atendenteKey: string) {
-    this.usuarioService.findOne(atendenteKey).subscribe(atendente => this.atendente = atendente)
+  public find(id: number) {
+    this.usuarioService.findById(id).subscribe(atendente => this.atendente = atendente)
   }
 
   /**

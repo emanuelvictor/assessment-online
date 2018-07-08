@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {Unidade} from '../../../../../entity/unidade/Unidade.model';
 

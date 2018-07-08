@@ -1,31 +1,29 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {AvaliacaoRepository} from '../repository/avaliacao.repository';
-import {AvaliacaoColaboradorRepository} from '../repository/avaliacao-colaborador.repository';
 import {Avaliacao} from '../entity/avaliacao/Avaliacao.model';
-import {ColaboradorRepository} from '../repository/colaborador.repository';
 import 'rxjs/Rx';
-import {UsuarioRepository} from '../repository/usuario.repository';
 import {calcularMedia} from '../entity/abstract/Rankeavel.model';
-import {UnidadeRepository} from '../repository/unidade.repository';
-import {Colaborador} from '../entity/colaborador/Colaborador.model';
 import {ColaboradorService} from './colaborador.service';
-import {AvaliacaoColaborador} from '../entity/avaliacao/AvaliacaoColaborador.model';
+import {AvaliacaoRepository} from '../repositories/avaliacao.repository';
+import {AvaliacaoColaboradorRepository} from '../repositories/avaliacao-colaborador.repository';
+import {UsuarioRepository} from '../repositories/usuario.repository';
+import {UnidadeRepository} from '../repositories/unidade.repository';
 
 @Injectable()
 export class AvaliacaoService {
 
   /**
    *
+   * @param {UnidadeRepository} unidadeRepository
    * @param {AvaliacaoRepository} avaliacaoRepository
    * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
    * @param {ColaboradorService} colaboradorService
    * @param {UsuarioRepository} usuarioRepository
-   * @param {UnidadeRepository} unidadeRepository
    */
-  constructor(private avaliacaoRepository: AvaliacaoRepository,
+  constructor(private unidadeRepository: UnidadeRepository,
+              private avaliacaoRepository: AvaliacaoRepository,
               private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository,
-              private colaboradorService: ColaboradorService, private usuarioRepository: UsuarioRepository, private unidadeRepository: UnidadeRepository) {
+              private colaboradorService: ColaboradorService, private usuarioRepository: UsuarioRepository) {
   }
 
   /**
@@ -81,30 +79,30 @@ export class AvaliacaoService {
   private sufoco(observable: Observable<any>): Observable<any> {
 
     return null;
-  //   let avaliacoesReturn = [];
-  //
-  //   return observable
-  //     .flatMap(colaboradores => {
-  //       avaliacoesReturn = [];
-  //       return colaboradores;
-  //     })
-  //     .flatMap((colaborador: Colaborador) => {
-  //       return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
-  //     })
-  //     .map(avaliacoesColaboradores => {
-  //       return avaliacoesColaboradores.map(b => b.avaliacao);
-  //     })
-  //     .map(avaliacoes => {
-  //       avaliacoesReturn = avaliacoesReturn.concat(avaliacoes);
-  //       avaliacoesReturn = avaliacoesReturn.filter(function (este, i) {
-  //         return avaliacoesReturn.map(a => {
-  //           return a.key;
-  //         }).indexOf(este.key) === i;
-  //       });
-  //
-  //       return avaliacoesReturn
-  //
-  //     });
+    //   let avaliacoesReturn = [];
+    //
+    //   return observable
+    //     .flatMap(colaboradores => {
+    //       avaliacoesReturn = [];
+    //       return colaboradores;
+    //     })
+    //     .flatMap((colaborador: Colaborador) => {
+    //       return this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaborador.key)
+    //     })
+    //     .map(avaliacoesColaboradores => {
+    //       return avaliacoesColaboradores.map(b => b.avaliacao);
+    //     })
+    //     .map(avaliacoes => {
+    //       avaliacoesReturn = avaliacoesReturn.concat(avaliacoes);
+    //       avaliacoesReturn = avaliacoesReturn.filter(function (este, i) {
+    //         return avaliacoesReturn.map(a => {
+    //           return a.key;
+    //         }).indexOf(este.key) === i;
+    //       });
+    //
+    //       return avaliacoesReturn
+    //
+    //     });
   }
 
   /**

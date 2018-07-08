@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {UnidadeService} from '../../../../service/unidade.service';
-import {Unidade} from "../../../../entity/unidade/Unidade.model";
 import {UsuarioService} from '../../../../service/usuario.service';
 import {Usuario} from '../../../../entity/usuario/Usuario.model';
+import {Unidade} from '../../../../entity/unidade/Unidade.model';
 
 @Component({
   selector: 'consultar-unidades',
@@ -22,7 +22,7 @@ export class ConsultarUnidadesComponent implements OnInit {
    * @type {Unidade}
    */
   filter: Unidade = new Unidade();
-
+  
   /**
    *
    */
@@ -52,7 +52,7 @@ export class ConsultarUnidadesComponent implements OnInit {
    */
   public listUnidadesByFilters() {
     this.unidadeService.find()
-      .then(unidade => {
+      .subscribe(unidade => {
         this.unidades = unidade;
       });
   }

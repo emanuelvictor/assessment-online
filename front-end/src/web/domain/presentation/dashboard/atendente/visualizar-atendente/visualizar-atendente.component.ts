@@ -36,7 +36,7 @@ export class VisualizarAtendenteComponent implements OnInit {
   /**
    *
    */
-  authenticatedUser : any;
+  authenticatedUser: any;
 
   /**
    *
@@ -66,8 +66,8 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    */
   ngOnInit() {
-    const atendenteKey: string = this.activatedRoute.snapshot.params['key'];
-    this.find(atendenteKey);
+    const atendenteId: number = this.activatedRoute.snapshot.params['id'];
+    this.find(atendenteId);
     this.listUnidadesByFilters();
   }
 
@@ -76,19 +76,21 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    */
   public listUnidadesByFilters() {
-    this.unidadeService.find().then(result => {
-      this.unidades = result;
-    });
+    this.unidadeService.find()
+      .subscribe(result => {
+        this.unidades = result;
+      });
   }
 
   /**
    *
-   * @param {string} atendenteKey
+   * @param {number} atendenteId
    */
-  public find(atendenteKey: string) {
-    this.usuarioService.findOne(atendenteKey).subscribe((atendente: any) => {
-      this.atendente = atendente;
-    })
+  public find(atendenteId: number) {
+    this.usuarioService.findById(atendenteId)
+      .subscribe((atendente: any) => {
+        this.atendente = atendente;
+      })
   }
 
   /**
@@ -102,10 +104,10 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param {string} atendenteKey
+   * @param {string} atendenteId
    */
-  public remove(atendenteKey: string) {
-    let dialogRef = this.dialog.open(ConfirmDialogComponent,
+  public remove(atendenteId: number) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
         data: {
           text: 'Deseja realmente excluir?',

@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {UsuarioRepository} from '../repository/usuario.repository';
 import {AuthenticationService} from './authentication.service';
 import {Usuario} from '../entity/usuario/Usuario.model';
 import {FileRepository} from '../../infrastructure/repository/file/file.repository';
 import {MatSnackBar} from '@angular/material';
-import {ColaboradorRepository} from '../repository/colaborador.repository';
-import {AvaliacaoColaboradorRepository} from '../repository/avaliacao-colaborador.repository';
 import {ColaboradorService} from './colaborador.service';
+import {UsuarioRepository} from '../repositories/usuario.repository';
+import {ColaboradorRepository} from '../repositories/colaborador.repository';
+import {AvaliacaoColaboradorRepository} from '../repositories/avaliacao-colaborador.repository';
 
 /**
  *
@@ -25,9 +25,8 @@ export class UsuarioService {
    * @param {ColaboradorRepository} colaboradorReposisotry
    * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
    */
-  constructor(private usuarioRepository: UsuarioRepository, private snackBar: MatSnackBar,
-              private authenticationService: AuthenticationService, private fileRepository: FileRepository,
-              private colaboradorService: ColaboradorService,
+  constructor(private authenticationService: AuthenticationService, private fileRepository: FileRepository,
+              private usuarioRepository: UsuarioRepository, private snackBar: MatSnackBar, private colaboradorService: ColaboradorService,
               private colaboradorReposisotry: ColaboradorRepository, private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository) {
   }
 
@@ -35,10 +34,10 @@ export class UsuarioService {
    *
    * @returns {Observable<any[]>}
    */
-  public find(): Promise<any[]> {
+  public find(): Observable<Usuario[]> {
     return this.usuarioRepository.findAll();
 
-    // return Observable.create(observer => {
+    // return Observable.save(observer => {
     //
     //   this.getUsuarioAutenticado()
     //     .subscribe(usuarioAutenticado => {
@@ -149,11 +148,11 @@ export class UsuarioService {
 
   /**
    *
-   * @param {string} key
-   * @returns {Observable<any>}
+   * @param {number} id
+   * @returns {Observable<Usuario>}
    */
-  public findOne(key: string): Observable<Usuario> {
-    return this.usuarioRepository.findOne(key);
+  public findById(id: number): Observable<Usuario> {
+    return this.usuarioRepository.findById(id);
   }
 
   /**
@@ -249,7 +248,7 @@ export class UsuarioService {
     //   }
     // });
 
-    return this.usuarioRepository.remove(usuario);
+    return this.usuarioRepository.delete(usuario.id);
   }
 
   /**

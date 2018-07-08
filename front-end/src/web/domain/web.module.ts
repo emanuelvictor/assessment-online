@@ -55,22 +55,16 @@ import {UnidadeFormComponent} from './presentation/dashboard/unidade/inserir-uni
 import {UnidadeService} from './service/unidade.service';
 import {AtendenteFormComponent} from './presentation/dashboard/atendente/inserir-atendente/usuario-form/usuario-form.component';
 import {UnidadeItemComponent} from './presentation/dashboard/atendente/consultar-atendentes/unidade-item/unidade-item.component';
-import {UsuarioRepository} from './repository/usuario.repository';
 import {AccountRepository} from '../infrastructure/repository/account/account.repository';
-import {UnidadeRepository} from './repository/unidade.repository';
-import {EnderecoRepository} from './repository/endereco.repository';
 import {VisualizarDadosUsuarioComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-dados-usuario/visualizar-dados-usuario.component';
 import {VincularUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/vincular-unidade/vincular-unidade.component';
 import {VisualizarVinculoUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-vinculo-unidade/visualizar-vinculo-unidade.component';
 import {ColaboradorService} from './service/colaborador.service';
-import {ColaboradorRepository} from './repository/colaborador.repository';
 import {FileRepository} from '../infrastructure/repository/file/file.repository';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {FotoLoadingComponent} from './presentation/controls/foto-loading/foto-loading.component';
-import {AvaliacaoColaboradorRepository} from './repository/avaliacao-colaborador.repository';
 import {EstatisticasAtendenteComponent} from './presentation/dashboard/atendente/visualizar-atendente/estatisticas/estatisticas-atendente.component';
 import {AvaliacaoService} from './service/avaliacao.service';
-import {AvaliacaoRepository} from './repository/avaliacao.repository';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {EstatisticasUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/estatisticas/estatisticas-unidade.component';
 import localePt from '@angular/common/locales/pt';
@@ -88,6 +82,12 @@ import {SearchBarComponent} from './presentation/controls/search-bar/search-bar.
 import {FilterPipe} from './presentation/controls/filter-pipe/filter';
 import {AutofocusDirective} from './presentation/controls/autofocus/autofocus';
 import {OrderModule} from 'ngx-order-pipe';
+import {UsuarioRepository} from './repositories/usuario.repository';
+import {UnidadeRepository} from './repositories/unidade.repository';
+import {EnderecoRepository} from './repositories/endereco.repository';
+import {AvaliacaoRepository} from './repositories/avaliacao.repository';
+import {ColaboradorRepository} from './repositories/colaborador.repository';
+import {AvaliacaoColaboradorRepository} from './repositories/avaliacao-colaborador.repository';
 
 registerLocaleData(localePt, 'pt-BR');
 

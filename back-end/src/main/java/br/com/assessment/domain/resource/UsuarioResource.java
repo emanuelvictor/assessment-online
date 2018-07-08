@@ -2,9 +2,12 @@ package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.service.UsuarioService;
 import br.com.assessment.domain.entity.usuario.Usuario;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -22,9 +25,24 @@ public class UsuarioResource {
         return this.usuarioService.save(usuario);
     }
 
+    @PutMapping
+    public Mono<Usuario> update(@RequestBody Mono<Usuario> usuario) {
+        return this.usuarioService.save(usuario);
+    }
+
     @DeleteMapping
     public void delete(@RequestParam long usuarioId) {
         this.usuarioService.delete(usuarioId);
+    }
+
+    @GetMapping("{id}")
+    public Mono<Optional<Usuario>> findUsuarioById(@PathVariable final long id) {
+        return this.usuarioService.findUsuarioById(id);
+    }
+
+    @GetMapping(params = "email")
+    public Mono<UserDetails> findUsuarioByEmail(@RequestParam final String email) {
+        return this.usuarioService.findUsuarioByEmail(email);
     }
 
     @GetMapping

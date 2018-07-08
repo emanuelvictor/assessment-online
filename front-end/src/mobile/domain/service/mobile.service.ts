@@ -215,7 +215,7 @@ export class MobileService {
   private loadUnidade(id: number){
     if (id)
       this.unidadeService.findById(this.unidade.id)
-        .then(unidade => this.unidade = unidade);
+        .subscribe(unidade => this.unidade = unidade);
   }
 
   /**

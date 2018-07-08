@@ -1,10 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {UnidadeRepository} from '../repository/unidade.repository';
 import {Unidade} from '../entity/unidade/Unidade.model';
-import {ColaboradorService} from './colaborador.service';
-import {Colaborador} from '../entity/colaborador/Colaborador.model';
-import {UsuarioService} from './usuario.service';
+import {UnidadeRepository} from '../repositories/unidade.repository';
 
 /**
  *
@@ -13,21 +10,16 @@ import {UsuarioService} from './usuario.service';
 export class UnidadeService {
 
   /**
-   *
-   * @param {UsuarioService} usuarioService
    * @param {UnidadeRepository} unidadeRepository
-   * @param {ColaboradorService} colaboradorService
    */
-  constructor(private usuarioService: UsuarioService,
-              private unidadeRepository: UnidadeRepository,
-              private colaboradorService: ColaboradorService) {
+  constructor(private unidadeRepository: UnidadeRepository) {
   }
 
   /**
    *
    * @returns {Observable<any[]>}
    */
-  public find(): Promise<any[]> {
+  public find(): Observable<Unidade[]> {
     return this.unidadeRepository.findAll();
   }
 
@@ -37,7 +29,7 @@ export class UnidadeService {
    * @returns {Observable<any>}
    */
   public listUnidadesByOperadorKey(key: string): Observable<any> {
-return null;
+    return null;
     // let unidadesReturn = [];
     //
     // return this.colaboradorService.listOperadoresByUsuarioKey(key)
@@ -111,7 +103,7 @@ return null;
    * @param {number} unidadeId
    * @returns {Promise<Unidade>}
    */
-  public findById(unidadeId: number): Promise<Unidade> {
+  public findById(unidadeId: number): Observable<Unidade> {
     return this.unidadeRepository.findById(unidadeId);
   }
 

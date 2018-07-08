@@ -10,10 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Entity
@@ -137,6 +134,7 @@ public class Usuario extends Pessoa implements UserDetails {
     public static UserDetails getMasterUser() {
 
         final Usuario usuario = new Usuario();
+        usuario.setId(1L);
         usuario.setNome(MASTER_USER_NAME);
         usuario.setEmail(MASTER_USER_EMAIL);
         usuario.setPassword(new BCryptPasswordEncoder().encode(MASTER_USER_PASSWORD));

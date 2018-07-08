@@ -46,7 +46,7 @@ export class AlterarUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    let id: number = this.activatedRoute.snapshot.params['id'];
+    const id: number = this.activatedRoute.snapshot.params['id'];
     this.findById(id);
   }
 
@@ -56,7 +56,7 @@ export class AlterarUnidadeComponent implements OnInit {
    */
   public findById(id: number) {
     this.unidadeService.findById(id)
-      .then(result => {
+      .subscribe(result => {
 
         this.unidade = result;
 
