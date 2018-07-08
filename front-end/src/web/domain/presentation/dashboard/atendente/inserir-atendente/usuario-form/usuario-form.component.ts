@@ -72,6 +72,7 @@ export class AtendenteFormComponent implements OnInit {
    */
   constructor(private snackBar: MatSnackBar, private fb: FormBuilder, @Inject(ElementRef) private element: ElementRef, private renderer: Renderer, private usuarioService: UsuarioService) {
     this.usuarioService.getUsuarioAutenticado().subscribe(result => {
+      console.log(result);
       this.usuarioLogado = result;
     });
   }

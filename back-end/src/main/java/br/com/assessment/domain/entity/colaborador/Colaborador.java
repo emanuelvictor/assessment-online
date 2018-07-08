@@ -8,6 +8,7 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -23,14 +24,14 @@ public class Colaborador extends AbstractEntity implements Serializable {
      *
      */
     @NotNull
-    @Column(nullable = false)
+    @ManyToOne(optional = false)
     private Usuario usuario;
 
     /**
      *
      */
     @NotNull
-    @Column(nullable = false)
+    @ManyToOne(optional = false)
     private Unidade unidade;
 
     /**

@@ -1,5 +1,7 @@
 package br.com.assessment.domain.entity.usuario;
 
+import br.com.assessment.domain.entity.colaborador.Colaborador;
+import br.com.assessment.domain.entity.colaborador.Vinculo;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -51,6 +55,13 @@ public class Usuario extends Pessoa implements UserDetails {
     private boolean isAdministrador;
 
     /**
+     *
+     */
+    @Transient
+    @OneToMany(mappedBy = "usuario")
+    private List<Colaborador> colaboradores;
+
+    /**
      * // TODO: 10/01/18 alterar para LocalDateTime
      */
     private Calendar lastLogin;
@@ -91,12 +102,15 @@ public class Usuario extends Pessoa implements UserDetails {
 
         final Set<GrantedAuthority> authorities = new HashSet<>();
 
-        if (this.isAdministrador()) {
+        authorities.add((GrantedAuthority) () -> "ROLE_ATENDENTE");
+
+        if (this.isOperador())
+            authorities.add((GrantedAuthority) () -> "ROLE_OPERADOR");
+
+        if (this.isAdministrador)
             authorities.add((GrantedAuthority) () -> "ROLE_ADMINISTRADOR");
-        }
 
         return authorities;
-
     }
 
     /**
@@ -127,6 +141,53 @@ public class Usuario extends Pessoa implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    /**
+     *
+     * @return
+     */
+    public boolean getIsAdministrador() {
+        return this.isAdministrador;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean getIsOperador() {
+        return this.isOperador();
+    }
+
+    /**
+     * @return
+     */
+    public boolean isOperador() {
+        if (isAdministrador)
+            return true;
+
+        if (this.colaboradores != null)
+            for (final Colaborador colaborador : this.colaboradores) {
+                if (colaborador.getVinculo().equals(Vinculo.Operador) || colaborador.getVinculo().equals(Vinculo.OperadorArtendente))
+                    return true;
+            }
+
+        return false;
+    }
+
+    /**
+     * @return
+     */
+    @Transient
+    public boolean isAtendente() {
+        if (this.colaboradores != null)
+            for (final Colaborador colaborador : this.colaboradores) {
+                if (colaborador.getVinculo().equals(Vinculo.Atendente) || colaborador.getVinculo().equals(Vinculo.OperadorArtendente))
+                    return true;
+            }
+
+        return false;
+    }
+
 
     /**
      * Retorna a instância de um usuário master

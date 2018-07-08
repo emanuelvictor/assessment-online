@@ -5,7 +5,7 @@
   <img hide-sm hide-xs hide-md routerLink="" class="size-height-50 logo-image">
   <span flex> </span>
   <label *ngIf="usuario" class="mat-body-2 name-user" [matMenuTriggerFor]="menu">
-    {{usuario?.displayName ? usuario?.displayName : usuario?.email}}
+    {{usuario?.nome ? usuario?.nome : usuario?.email}}
   </label>
   <div *ngIf="usuario" class="avatar"
        style="cursor: pointer" [matMenuTriggerFor]="menu"
