@@ -35,8 +35,9 @@ export class InserirAtendenteComponent implements OnInit {
    * @param {ActivatedRoute} activatedRoute
    * @param {TdLoadingService} _loadingService
    */
-  constructor(private usuarioService: UsuarioService, private router: Router, private colaboradorService: ColaboradorService,
-              private snackBar: MatSnackBar, private activatedRoute: ActivatedRoute, private _loadingService: TdLoadingService) {
+  constructor(private usuarioService: UsuarioService, private router: Router,
+              private colaboradorService: ColaboradorService, private snackBar: MatSnackBar,
+              private activatedRoute: ActivatedRoute, private _loadingService: TdLoadingService) {
   }
 
   /**
@@ -57,7 +58,9 @@ export class InserirAtendenteComponent implements OnInit {
 
       this.usuarioService.save(this.atendente)
         .then(result => {
+          this.atendente = result;
           this.colaboradores.forEach(colaborador => {
+            colaborador.usuario = this.atendente;
             this.colaboradorService.save(colaborador)
           });
 

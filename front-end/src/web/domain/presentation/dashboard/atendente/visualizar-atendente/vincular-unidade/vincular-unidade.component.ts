@@ -94,7 +94,7 @@ export class VincularUnidadeComponent implements OnInit {
               colaboradores.forEach(colaborador => {
                 for (let i = 0; i < unidades.length; i++) {
                   if (unidades[i].id === colaborador.unidade.id &&
-                    (colaborador.vinculo === Vinculo.Operador || colaborador.vinculo === Vinculo.OperadorArtendente)) {
+                    (colaborador.vinculo === Vinculo.Operador || colaborador.vinculo === Vinculo.OperadorAtendente)) {
                     let founded = false;
                     for (let j = 0; j < novasUnidades.length; j++) {
                       if (novasUnidades[j].id === unidades[i].id) {

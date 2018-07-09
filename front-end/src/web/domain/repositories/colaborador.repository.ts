@@ -17,11 +17,11 @@ export class ColaboradorRepository extends BaseRepository<Colaborador> {
   }
 
   public listOperadoresByUsuarioKey(id: number): Observable<Colaborador[]> {
-    return this.findAll().map(items => items.filter(item => item.usuario.id === id && (item.vinculo === Vinculo.Operador || item.vinculo === Vinculo.OperadorArtendente)));
+    return this.findAll().map(items => items.filter(item => item.usuario.id === id && (item.vinculo === Vinculo.Operador || item.vinculo === Vinculo.OperadorAtendente)));
   }
 
   public listAtendentesByUnidadeKey(id: number): Observable<Colaborador[]> {
-    return this.findAll().map(items => items.filter(item => item.unidade.id === id && (item.vinculo && (item.vinculo === Vinculo.Operador || item.vinculo === Vinculo.OperadorArtendente))));
+    return this.findAll().map(items => items.filter(item => item.unidade.id === id && (item.vinculo && (item.vinculo === Vinculo.Operador || item.vinculo === Vinculo.OperadorAtendente))));
   }
 
   /**
@@ -34,7 +34,7 @@ export class ColaboradorRepository extends BaseRepository<Colaborador> {
   }
 
   public listOperadoresByUnidadeKey(id: number): Observable<Colaborador[]> {
-    return this.findAll().map(items => items.filter(item => item.unidade.id === id && (item.vinculo && (item.vinculo === Vinculo.Operador || item.vinculo === Vinculo.OperadorArtendente))));
+    return this.findAll().map(items => items.filter(item => item.unidade.id === id && (item.vinculo && (item.vinculo === Vinculo.Operador || item.vinculo === Vinculo.OperadorAtendente))));
   }
 
 }

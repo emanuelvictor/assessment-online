@@ -159,7 +159,6 @@ public class Usuario extends Pessoa implements UserDetails {
     }
 
     /**
-     * @return
      */
     public boolean isOperador() {
         if (isAdministrador)
@@ -167,7 +166,7 @@ public class Usuario extends Pessoa implements UserDetails {
 
         if (this.colaboradores != null)
             for (final Colaborador colaborador : this.colaboradores) {
-                if (colaborador.getVinculo().equals(Vinculo.Operador) || colaborador.getVinculo().equals(Vinculo.OperadorArtendente))
+                if (colaborador.getVinculo().equals(Vinculo.Operador) || colaborador.getVinculo().equals(Vinculo.OperadorAtendente))
                     return true;
             }
 
@@ -175,13 +174,11 @@ public class Usuario extends Pessoa implements UserDetails {
     }
 
     /**
-     * @return
      */
-    @Transient
     public boolean isAtendente() {
         if (this.colaboradores != null)
             for (final Colaborador colaborador : this.colaboradores) {
-                if (colaborador.getVinculo().equals(Vinculo.Atendente) || colaborador.getVinculo().equals(Vinculo.OperadorArtendente))
+                if (colaborador.getVinculo().equals(Vinculo.Atendente) || colaborador.getVinculo().equals(Vinculo.OperadorAtendente))
                     return true;
             }
 
