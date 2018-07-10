@@ -45,7 +45,6 @@ public class UsuarioService {
     }
 
     /**
-     *
      * @param usuarioId
      * @return
      */
@@ -60,7 +59,8 @@ public class UsuarioService {
     public Mono<Usuario> save(final Mono<Usuario> usuario) {
         return Mono.create(monoSink ->
                 usuario.subscribe(usuarioToSave -> {
-                            usuarioToSave.setPassword(this.passwordEncoder.encode(usuarioToSave.getPassword()));
+                            if (usuarioToSave.getPassword() != null)
+                                usuarioToSave.setPassword(this.passwordEncoder.encode(usuarioToSave.getPassword()));
                             final Usuario usuarioSalvo = this.usuarioRepository.save(usuarioToSave);
                             monoSink.success(usuarioSalvo);
                         }

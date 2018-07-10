@@ -50,7 +50,7 @@ export class InserirAtendenteComponent implements OnInit {
    *
    */
   public save(): void {
-    if (!this.colaboradores.length)
+    if (!this.colaboradores.length && !this.atendente.isAdministrador)
       this.snackBar.open('Selecione ao menos uma unidade', 'Fechar');
 
     else {

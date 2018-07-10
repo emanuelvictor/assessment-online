@@ -57,6 +57,10 @@ export class Interceptor implements HttpInterceptor {
         this.error(res.error.message)
       }
 
+      if (res.status === 504) {
+        this.error(res.error.message)
+      }
+
       if (res.status === 401 || res.status === 403) {
         //handle authorization errors
         //in this example I am navigating to logout route which brings the login screen

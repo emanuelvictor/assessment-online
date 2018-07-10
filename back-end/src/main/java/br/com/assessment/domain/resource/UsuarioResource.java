@@ -30,9 +30,10 @@ public class UsuarioResource {
         return this.usuarioService.save(usuario);
     }
 
-    @DeleteMapping
-    public void delete(@RequestParam long usuarioId) {
-        this.usuarioService.delete(usuarioId);
+    @DeleteMapping("{id}")
+    public boolean delete(@PathVariable final long id) {
+        this.usuarioService.delete(id);
+        return true;
     }
 
     @GetMapping("{id}")
