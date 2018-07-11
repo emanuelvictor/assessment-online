@@ -53,6 +53,7 @@ export class Interceptor implements HttpInterceptor {
     this.progress.done();
 
     return (res: any) => {
+      console.log(res);
       if (res.status === 500) {
         this.error(res.error.message)
       }

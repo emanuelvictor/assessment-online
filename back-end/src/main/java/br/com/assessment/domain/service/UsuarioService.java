@@ -55,17 +55,13 @@ public class UsuarioService {
     /**
      *
      */
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public Mono<Usuario> save(final Mono<Usuario> usuario) {
-        return Mono.create(monoSink ->
-                usuario.subscribe(usuarioToSave -> {
-                            if (usuarioToSave.getPassword() != null)
-                                usuarioToSave.setPassword(this.passwordEncoder.encode(usuarioToSave.getPassword()));
-                            final Usuario usuarioSalvo = this.usuarioRepository.save(usuarioToSave);
-                            monoSink.success(usuarioSalvo);
-                        }
-                )
-        );
+//    @PreAuthorize("hasRole('ADMINISTRADOR')") aqui vai ter que entrar um usuário e retorna o mono
+    public Mono<Usuario> save(final Usuario usuario) {
+
+        if (usuario.getPassword() != null)
+            usuario.setPassword(this.passwordEncoder.encode(usuario.getPassword()));
+
+        return Mono.just(this.usuarioRepository.save(usuario));
     }
 
     @PreAuthorize("hasRole('ADMINISTRADOR')")

@@ -72,7 +72,7 @@ public class UnidadeService {
     /**
      * @return
      */
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+//    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Flux<Unidade> findAll() {
 
         final List<Unidade> list = this.unidadeRepository.findAll();
