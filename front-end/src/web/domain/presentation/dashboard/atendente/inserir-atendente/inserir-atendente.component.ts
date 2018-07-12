@@ -66,7 +66,7 @@ export class InserirAtendenteComponent implements OnInit {
 
           this._loadingService.resolve('overlayStarSyntax');
           this.success('Atendente inserido com sucesso');
-        });
+        }).catch(() => this._loadingService.resolve('overlayStarSyntax'));
     }
   }
 
