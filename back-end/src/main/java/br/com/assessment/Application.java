@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.i18n.LocaleContext;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -83,26 +84,36 @@ public class Application extends SpringBootServletInitializer {
         return application.sources(Application.class);
     }
 
-    /**
-     * @return
-     */
+//    /**
+//     * @return
+//     */
+//    @Bean
+//    public MessageSource messageSource() {
+        final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+//        messageSource.setAlwaysUseMessageFormat(true);
+//        messageSource.setDefaultEncoding("UTF-8");
+//        messageSource.setBasenames("classpath:i18n/exceptions", "classpath:i18n/labels", "classpath:i18n/messages");
+//        return messageSource;
+//    }
+
     @Bean
     public MessageSource messageSource() {
-        final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setAlwaysUseMessageFormat(true);
-        messageSource.setDefaultEncoding("UTF-8");
+        final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasenames("classpath:i18n/exceptions", "classpath:i18n/labels", "classpath:i18n/messages");
+        messageSource.setUseCodeAsDefaultMessage(true);
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setCacheSeconds(5);
         return messageSource;
     }
 
-    /**
-     * @return
-     */
-    @Bean
-    public WebMvcProperties.LocaleResolver localeResolver() {
-
-        return WebMvcProperties.LocaleResolver.FIXED;
-    }
+//    /**
+//     * @return
+//     */
+//    @Bean
+//    public WebMvcProperties.LocaleResolver localeResolver() {
+//
+//        return WebMvcProperties.LocaleResolver.FIXED;
+//    }
 
 
 
