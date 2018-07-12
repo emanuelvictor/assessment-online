@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.ConstraintViolation;
 import java.util.logging.Logger;
@@ -29,15 +28,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     /**
      *
      */
-    private MessageSource messageSource;
-
-    /**
-     * @param messageSource
-     */
     @Autowired
-    public RestResponseEntityExceptionHandler(final MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
+    private MessageSource messageSource;
 
     /**
      * Trata exceções de Constraint geradas pelo PostgreSQL
@@ -47,8 +39,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      * @return
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<Object> handleException(final org.springframework.dao.DataIntegrityViolationException exception, final WebRequest request) {
-        String message = this.messageSource.getMessage("repository.dataIntegrityViolation", null, LocaleContextHolder.getLocale());
+    public ResponseEntity<Object> handleException(final org.springframework.dao.DataIntegrityViolationException exception) {
+        this.messageSource.getMessage("repository.dataIntegrityViolation", null, LocaleContextHolder.getLocale());
+        String message = "Pau";// this.messageSource.getMessage("repository.dataIntegrityViolation", null, LocaleContextHolder.getLocale());
 
         final Error error = new Error();
 
@@ -62,24 +55,24 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             //Verifica o código do erro gerado pelo PostgreSQL
             if (cause.getSQLState().equals("23503")) {
                 key = detail.substring(detail.indexOf('"'), detail.indexOf('.'));
-                message = this.messageSource.getMessage("repository.foreignKeyViolation", new String[]{key}, LocaleContextHolder.getLocale());
+                message = "Pau"; //= this.messageSource.getMessage("repository.foreignKeyViolation", new String[]{key}, LocaleContextHolder.getLocale());
             } else if (cause.getSQLState().equals("23505")) {
                 key = detail.substring(detail.indexOf('(') + 1, detail.indexOf(')'));
                 if (key.startsWith("lower(")) {
                     key = key.replace("lower(", "");
                     key = key.replace("::text", "");
                 }
-                message = this.messageSource.getMessage("repository.uniqueViolation", new String[]{key}, LocaleContextHolder.getLocale());
+                message = "Pau"; //message = this.messageSource.getMessage("repository.uniqueViolation", new String[]{key}, LocaleContextHolder.getLocale());
             } else if (cause.getSQLState().equals("23502")) {
                 LOGGER.info(detail); //TODO
                 LOGGER.info("Not null violation.");
             } else {
-                message = this.messageSource.getMessage("repository.uniqueViolation", new String[]{cause.getSQLState()}, LocaleContextHolder.getLocale());
+                message = "Pau"; //message = this.messageSource.getMessage("repository.uniqueViolation", new String[]{cause.getSQLState()}, LocaleContextHolder.getLocale());
             }
         }
 
         error.setMessage(message);
-        return handleExceptionInternal(new Exception(message), error, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        return handleExceptionInternal(new Exception(message), error, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -90,7 +83,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      * @return
      */
     @ExceptionHandler(javax.validation.ConstraintViolationException.class)
-    public ResponseEntity<Object> handleException(final javax.validation.ConstraintViolationException exception, final WebRequest request) {
+    public ResponseEntity<Object> handleException(final javax.validation.ConstraintViolationException exception) {
         final StringBuilder message = new StringBuilder();
         for (ConstraintViolation<?> constraint : exception.getConstraintViolations()) {
             final String annotationType = constraint.getConstraintDescriptor().getAnnotation().annotationType().getName();
@@ -103,7 +96,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             }
         }
 
-        return handleExceptionInternal(new Exception(message.toString()), new Error(message.toString()), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        return handleExceptionInternal(new Exception(message.toString()), new Error(message.toString()), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -112,9 +105,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      * @return
      */
     @ExceptionHandler(DuplicateKeyException.class)
-    public ResponseEntity<Object> handleException(final DuplicateKeyException exception, final WebRequest request) {
+    public ResponseEntity<Object> handleException(final DuplicateKeyException exception) {
         final String message = this.messageSource.getMessage("repository.duplicatedKey", null, LocaleContextHolder.getLocale());
-        return handleExceptionInternal(exception, new Error(message), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        return handleExceptionInternal(exception, new Error(message), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -123,9 +116,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      * @return
      */
     @ExceptionHandler(org.springframework.dao.EmptyResultDataAccessException.class)
-    public ResponseEntity<Object> handleException(final org.springframework.dao.EmptyResultDataAccessException exception, final WebRequest request) {
+    public ResponseEntity<Object> handleException(final org.springframework.dao.EmptyResultDataAccessException exception) {
         final String message = messageSource.getMessage("repository.emptyResult", null, LocaleContextHolder.getLocale());
-        return handleExceptionInternal(exception, new Error(message), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        return handleExceptionInternal(exception, new Error(message), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -135,8 +128,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      * @param request
      */
     @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
-    public ResponseEntity<Object> handleException(final org.springframework.security.access.AccessDeniedException exception, final WebRequest request) {
-        return handleExceptionInternal(exception, new Error(this.messageSource.getMessage("security.accessDenied", null, LocaleContextHolder.getLocale())), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    public ResponseEntity<Object> handleException(final org.springframework.security.access.AccessDeniedException exception) {
+        return handleExceptionInternal(exception, new Error(this.messageSource.getMessage("security.accessDenied", null, LocaleContextHolder.getLocale())), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**

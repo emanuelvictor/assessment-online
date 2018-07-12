@@ -45,6 +45,7 @@ public class UsuarioService {
     }
 
     /**
+     *
      * @param usuarioId
      * @return
      */

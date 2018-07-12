@@ -28,6 +28,20 @@ spring:
       org.hibernate.envers.revision_type_field_name: revision_type
       org.hibernate.envers.default_schema: auditing
 
+#THYMELEAF
+  thymeleaf:
+    mode: HTML
+    cache: false
+    prefix: classpath:/META-INF/resources/
+    suffix: .html
+
+#STATIC RESOURCES
+  resources.static-locations: classpath:/META-INF/resources/
+  resources.chain:
+    cache: false
+    strategy.content.enabled: true
+    strategy.content.paths: /**
+
 #FLYWAY
   flyway:
     enabled: true
@@ -37,6 +51,10 @@ spring:
     baseline-on-migrate: true
     sql-migration-prefix: v
 
+  webflux:
+    static-path-pattern: /resources/**
+
+
 #LOGGING
 logging.level:
   org.hibernate: INFO
@@ -44,3 +62,4 @@ logging.level:
   org.springframework.web: INFO
   org.springframework.context.support: INFO
   org.springframework.security: INFO
+

@@ -2,6 +2,7 @@ package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.service.UsuarioService;
 import br.com.assessment.domain.entity.usuario.Usuario;
+import org.reactivestreams.Publisher;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,12 @@ public class UsuarioResource {
     }
 
     @PostMapping
-    public Mono<Usuario> save(@RequestBody Usuario usuario) {
+    public Mono<Usuario> save(@RequestBody final Usuario usuario) {
         return this.usuarioService.save(usuario);
-//        return Mono.error(new DuplicateKeyException("PAU"));
     }
 
     @PutMapping
-    public Mono<Usuario> update(@RequestBody Usuario usuario) {
+    public Mono<Usuario> update(@RequestBody final Usuario usuario) {
         return this.usuarioService.save(usuario);
     }
 

@@ -19,22 +19,22 @@ public class UnidadeResource {
     }
 
     @PostMapping
-    public Mono<Unidade> save(@RequestBody Mono<Unidade> unidade) {
+    public Mono<Unidade> save(@RequestBody final Unidade unidade) {
         return this.unidadeService.save(unidade);
     }
 
     @PutMapping("{id}")
-    public Mono<Unidade> save(@PathVariable long id, @RequestBody Mono<Unidade> unidade) {
+    public Mono<Unidade> save(@PathVariable final long id, @RequestBody final Unidade unidade) {
         return this.unidadeService.save(id, unidade);
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable long id) {
+    public void delete(@PathVariable final long id) {
         this.unidadeService.delete(id);
     }
 
     @GetMapping("{id}")
-    public Mono<Optional<Unidade>> findById(@PathVariable long id) {
+    public Mono<Optional<Unidade>> findById(@PathVariable final long id) {
         return this.unidadeService.findById(id);
     }
 

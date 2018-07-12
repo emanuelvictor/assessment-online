@@ -42,17 +42,4 @@ public class SecurityConfig {
         return usuarioService::findByUsername;
     }
 
-    @Bean
-    @Order(0)
-    public WebExceptionHandler responseStatusExceptionHandler() {
-        return new MyWebExceptionHandler();
-    }
-//todo NÃO FUNCIONA
-    private class MyWebExceptionHandler implements WebExceptionHandler {
-        @Override
-        public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
-            return null;
-        }
-    }
-
 }
