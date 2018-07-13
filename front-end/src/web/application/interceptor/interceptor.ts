@@ -5,6 +5,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw'
 import {MatSnackBar} from "@angular/material";
+import {Router} from '@angular/router';
 
 /**
  *
@@ -18,9 +19,11 @@ export class Interceptor implements HttpInterceptor {
   progress = window['NProgress'];
 
   /**
+   *
    * @param {MatSnackBar} snackBar
+   * @param {Router} router
    */
-  constructor(public snackBar: MatSnackBar) {
+  constructor(public snackBar: MatSnackBar, private router: Router) {
   }
 
   /**
@@ -63,9 +66,7 @@ export class Interceptor implements HttpInterceptor {
       }
 
       if (res.status === 401 || res.status === 403) {
-        //handle authorization errors
-        //in this example I am navigating to logout route which brings the login screen
-        // this.router.navigate(['logout']);
+        this.router.navigate(['authentication']);
       }
 
       return Observable.throw(res);

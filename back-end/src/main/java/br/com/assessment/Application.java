@@ -1,5 +1,8 @@
 package br.com.assessment;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +35,6 @@ public class Application extends SpringBootServletInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     /**
-     *
      * @param args
      */
     public static void main(String[] args) {
@@ -44,7 +47,6 @@ public class Application extends SpringBootServletInitializer {
     public static final String AUDIT_SCHEMA = "auditing";
 
     /**
-     *
      * Exibe o perfil da aplicação quando a mesma inicia
      *
      * @return
@@ -62,15 +64,13 @@ public class Application extends SpringBootServletInitializer {
         };
     }
 
-
     /**
-     *
      * Bean de criptografia
      *
      * @return
      */
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -84,18 +84,6 @@ public class Application extends SpringBootServletInitializer {
         return application.sources(Application.class);
     }
 
-//    /**
-//     * @return
-//     */
-//    @Bean
-//    public MessageSource messageSource() {
-        final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-//        messageSource.setAlwaysUseMessageFormat(true);
-//        messageSource.setDefaultEncoding("UTF-8");
-//        messageSource.setBasenames("classpath:i18n/exceptions", "classpath:i18n/labels", "classpath:i18n/messages");
-//        return messageSource;
-//    }
-
     @Bean
     public MessageSource messageSource() {
         final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -106,16 +94,19 @@ public class Application extends SpringBootServletInitializer {
         return messageSource;
     }
 
-//    /**
-//     * @return
-//     */
-//    @Bean
-//    public WebMvcProperties.LocaleResolver localeResolver() {
-//
-//        return WebMvcProperties.LocaleResolver.FIXED;
-//    }
-
-
+    /**
+     * Habilita o Jackson para retornar a data formatada
+     *
+     * @param builder
+     * @return
+     */
+    @Bean
+    public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
+        ObjectMapper objectMapper = builder.createXmlMapper(false).build();
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return objectMapper;
+    }
 
     /**
      * @return
@@ -124,6 +115,5 @@ public class Application extends SpringBootServletInitializer {
     public Validator validator() {
         return new LocalValidatorFactoryBean();
     }
-
 
 }

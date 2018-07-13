@@ -24,17 +24,24 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      *
      */
     private static final Logger LOGGER = Logger.getLogger(RestResponseEntityExceptionHandler.class.getName());
+
     /**
      *
      */
-    @Autowired
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
+
+    /**
+     *
+     * @param messageSource
+     */
+    public RestResponseEntityExceptionHandler(final MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
     /**
      * Trata exceções de Constraint geradas pelo PostgreSQL
      *
      * @param exception
-     * @param request
      * @return
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -80,7 +87,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      * Trata exceções geradas pelo Hibernate antes de enviar para o banco
      *
      * @param exception
-     * @param request
      * @return
      */
     @ExceptionHandler(javax.validation.ConstraintViolationException.class)
@@ -102,7 +108,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     /**
      * @param exception
-     * @param request
      * @return
      */
     @ExceptionHandler(DuplicateKeyException.class)
@@ -113,7 +118,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     /**
      * @param exception
-     * @param request
      * @return
      */
     @ExceptionHandler(org.springframework.dao.EmptyResultDataAccessException.class)
@@ -126,11 +130,10 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      * Trata exceções de acesso negado
      *
      * @param exception
-     * @param request
      */
     @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
     public ResponseEntity<Object> handleException(final org.springframework.security.access.AccessDeniedException exception) {
-        return handleExceptionInternal(exception, new Error(this.messageSource.getMessage("security.accessDenied", null, LocaleContextHolder.getLocale())), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return handleExceptionInternal(exception, new Error(this.messageSource.getMessage("security.accessDenied", null, LocaleContextHolder.getLocale())), new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
 
     /**
