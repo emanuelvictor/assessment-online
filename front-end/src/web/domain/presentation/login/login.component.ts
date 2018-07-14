@@ -38,10 +38,10 @@ export class LoginComponent {
     this.usuario.email = this.usuario.email.trim();
     this.authenticationService.login(this.usuario)
       .then(result => {
+        this.authenticationService.setAuthenticatedUser(result);
         this.router.navigate(['/']);
       })
       .catch(exception => {
-console.log(exception);
         switch (exception.code) {
           case 'auth/user-not-found': {
             this.snackBar.open('Conta não encontrada!', 'Fechar');

@@ -22,6 +22,10 @@ import java.util.logging.Logger;
  */
 @Component
 public class AuthenticationSuccessHandler implements ServerAuthenticationSuccessHandler {
+
+    /**
+     *
+     */
     private static final Logger LOG = Logger.getLogger(AuthenticationSuccessHandler.class.getName());
 
     /**

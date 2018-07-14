@@ -56,7 +56,7 @@ public class UsuarioService {
     /**
      *
      */
-//    @PreAuthorize("hasRole('ADMINISTRADOR')") aqui vai ter que entrar um usuário e retorna o mono
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Usuario> save(final Usuario usuario) {
 
         if (usuario.getPassword() != null)

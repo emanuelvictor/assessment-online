@@ -1,12 +1,10 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {AngularFireAuth} from 'angularfire2/auth';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
 import {Usuario} from '../entity/usuario/Usuario.model';
 import {isNullOrUndefined} from 'util';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
-import {HttpClient} from "@angular/common/http";
-import {UsuarioService} from "./usuario.service";
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 @Injectable()
 export class AuthenticationService implements CanActivate, CanActivateChild {
@@ -23,17 +21,18 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
 
   /**
    *
-   * @param {AngularFireAuth} afAuth
    * @param {Router} router
    * @param {HttpClient} httpClient
    */
-  constructor(private afAuth: AngularFireAuth, private router: Router, private httpClient: HttpClient) {
+  constructor(private router: Router, private httpClient: HttpClient) {
 
     this.authenticatedUserChanged = new EventEmitter();
 
-    this.afAuth.authState.subscribe(result => {
+
+    this.httpClient.get('principal').subscribe(result => {
       this.setAuthenticatedUser(result);
     });
+
   }
 
   /**
@@ -43,8 +42,9 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {boolean}
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.afAuth.authState
+    return this.httpClient.get('principal')
       .map(auth => {
+        console.log(auth);
         if (isNullOrUndefined(auth)) {
           this.router.navigate(['authentication']);
           return false;
@@ -68,7 +68,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    *
    */
   public getAuthenticatedUser(): any {
-    return this.afAuth.auth.currentUser;
+    return this.authenticatedUser;
   }
 
   /**
@@ -82,23 +82,27 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
 
   /**
    *
+   * @param {Usuario} usuario
+   * @returns {Promise<any>}
    */
   public login(usuario: Usuario): Promise<any> {
-    return this.afAuth.auth.signInWithEmailAndPassword(usuario.email, usuario.password)
-      .then(result => this.setAuthenticatedUser({'email': result.email}));
-  }
+    const credentials = 'username=' + usuario.email + '&password=' + usuario.password;
 
-  /**
-   *
-   */
-  public save(usuario: Usuario): Promise<Usuario> {
-    return this.httpClient.post<Usuario>('https://us-central1-assessment-online.cloudfunctions.net/createUser', usuario).toPromise();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.httpClient.post('login', credentials.toString(), {
+      headers: headers
+    }).toPromise();
   }
 
   /**
    *
    */
   public logout(): Promise<any> {
-    return this.afAuth.auth.signOut()
+    let body = new HttpParams();
+    body = body.set('logout', 'logout');
+    return this.httpClient.post('logout', body).toPromise();
   }
 }
