@@ -44,7 +44,6 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.httpClient.get('principal')
       .map(auth => {
-        console.log(auth);
         if (isNullOrUndefined(auth)) {
           this.router.navigate(['authentication']);
           return false;

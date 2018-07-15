@@ -11,10 +11,10 @@ import java.security.Principal;
 @Transactional
 public class AuthenticationService {
 
-//    @PreAuthorize("hasRole('ATENDENTE')")
     public Mono<Object> principal(Principal principal) {
-
-        return Mono.just(((UsernamePasswordAuthenticationToken) principal).getPrincipal());
+        if (principal != null && ((UsernamePasswordAuthenticationToken) principal).getPrincipal() != null)
+            return Mono.just(((UsernamePasswordAuthenticationToken) principal).getPrincipal());
+        return Mono.empty();
     }
 
 }
