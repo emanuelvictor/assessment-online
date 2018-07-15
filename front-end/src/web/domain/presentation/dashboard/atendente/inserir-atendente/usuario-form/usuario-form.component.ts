@@ -72,7 +72,6 @@ export class AtendenteFormComponent implements OnInit {
    */
   constructor(private snackBar: MatSnackBar, private fb: FormBuilder, @Inject(ElementRef) private element: ElementRef, private renderer: Renderer, private usuarioService: UsuarioService) {
     this.usuarioService.getUsuarioAutenticado().subscribe(result => {
-      console.log(result);
       this.usuarioLogado = result;
     });
   }
@@ -98,27 +97,26 @@ export class AtendenteFormComponent implements OnInit {
   public saveAtendente(form: any): void {
     // TODO provisório
     let valid = true;
-    let controls: any = [];
+    const controls: any = [];
     Object.keys(form.controls).map(function (key) {
       if (form.controls[key].invalid) {
-        let control = form.controls[key];
+        const control = form.controls[key];
         control.key = '#' + key;
         if (control.controls) {
           Object.keys(control.controls).map(function (key) {
             if (control.controls[key].invalid) {
-              let controlInner = control.controls[key];
+              const controlInner = control.controls[key];
               controlInner.key = '#' + key;
               controls.push(controlInner);
             }
           });
-        }
-        else {
+        } else {
           controls.push(control);
         }
       }
     });
 
-    for (let control of controls) {
+    for (const control of controls) {
       if (control) {
         const element = this.element.nativeElement.querySelector(control.key);
         if (element && control.invalid) {
@@ -129,7 +127,7 @@ export class AtendenteFormComponent implements OnInit {
           break;
         }
         if (control.controls && control.invalid) {
-          for (let controlInner of control.controls) {
+          for (const controlInner of control.controls) {
             const element = this.element.nativeElement.querySelector(controlInner.key);
             if (element && controlInner.invalid) {
               this.renderer.invokeElementMethod(element, 'focus', []);
@@ -163,7 +161,7 @@ export class AtendenteFormComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
   }

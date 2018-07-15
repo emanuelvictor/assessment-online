@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFireStorage, AngularFireUploadTask} from 'angularfire2/storage';
 import {Observable} from 'rxjs/Observable';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 /**
  *
@@ -12,7 +13,7 @@ export class FileRepository {
    *
    * @param {AngularFireStorage} storage
    */
-  constructor(private storage: AngularFireStorage) {
+  constructor(private httpClient: HttpClient, private storage: AngularFireStorage) {
   }
 
   /**
@@ -30,13 +31,25 @@ export class FileRepository {
    * @param {File} file
    * @returns {Promise<any>}
    */
-  save(key: string, file: File): Promise<string> {
-    return new Promise((resolve) => {
-      this.storage.upload(key, file)
-        .then(result => {
-          resolve(result.downloadURL)
-        })
-    })
+  save(key: string, file: File): Promise<any> {
+    console.log(file);
+    // return this.httpClient.post<string>('uploads', file).toPromise();
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'multipart/form-data'
+    });
+
+    return this.httpClient.post('uploads', file, {
+      headers: headers
+    }).toPromise();
+
+    // return new Promise((resolve) => {
+    //
+    //   this.storage.upload(key, file)
+    //     .then(result => {
+    //       resolve(result.downloadURL)
+    //     })
+    // })
   }
 
   /**

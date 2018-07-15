@@ -8,6 +8,7 @@ import {ColaboradorService} from './colaborador.service';
 import {UsuarioRepository} from '../repositories/usuario.repository';
 import {ColaboradorRepository} from '../repositories/colaborador.repository';
 import {AvaliacaoColaboradorRepository} from '../repositories/avaliacao-colaborador.repository';
+import {FotoLoadingComponent} from '../presentation/controls/foto-loading/foto-loading.component';
 
 /**
  *
@@ -171,56 +172,48 @@ export class UsuarioService {
    */
   public save(usuario: Usuario): Promise<any> {
 
-    return this.usuarioRepository.save(usuario);
+    // return this.usuarioRepository.save(usuario);
+console.log(usuario);
 
+    const arquivoFile = usuario.arquivoFile;
+    const urlFile = usuario.urlFile;
 
-    // const arquivoFile = usuario.arquivoFile;
-    // const urlFile = usuario.urlFile;
-    //
-    // const toSave = usuario;
-    // delete toSave.arquivoFile;
-    // delete  toSave.urlFile;
-    //
-    // return new Promise((resolve) => {
-    //   if (arquivoFile)
-    //     this.snackBar.openFromComponent(FotoLoadingComponent, {
-    //       duration: 60000,
-    //     });
-    //
-    //   this.usuarioRepository.saveWithAccount(toSave)
-    //     .then(result => {
-    //
-    //       if (arquivoFile) {
-    //
-    //         this.fileRepository.save(result.key, arquivoFile)
-    //           .then(uploaded => {
-    //             toSave.urlFile = uploaded;
-    //             this.usuarioRepository.saveWithAccount(toSave)
-    //               .then(usuarioAtualizado => {
-    //                 resolve(usuarioAtualizado);
-    //               })
-    //           });
-    //
-    //       } else {
-    //
-    //         if (!urlFile) {
-    //           this.fileRepository.remove(result.key)
-    //             .then(result => {
-    //               usuario.urlFile = null;
-    //               this.usuarioRepository.saveWithAccount(usuario)
-    //                 .then(resulted => {
-    //                   resolve(resulted);
-    //                 });
-    //             });
-    //         }
-    //
-    //         else resolve(result);
-    //
-    //       }
-    //
-    //     });
-    //
-    // });
+    const toSave = usuario;
+    delete toSave.arquivoFile;
+    delete  toSave.urlFile;
+
+    return new Promise((resolve) => {
+      if (arquivoFile)
+        this.snackBar.openFromComponent(FotoLoadingComponent, {
+          duration: 60000,
+        });
+
+      this.usuarioRepository.save(toSave)
+        .then(result => {
+
+          if (arquivoFile) {
+
+            this.fileRepository.save('usuario' + String(result.id), arquivoFile)
+              .then(uploaded => {
+                toSave.urlFile = uploaded;
+              });
+
+          } else {
+
+            if (!urlFile) {
+              this.fileRepository.remove('usuario' + String(result.id))
+                .then(() => {
+                  usuario.urlFile = null;
+                });
+            }
+
+            else resolve(result);
+
+          }
+
+        });
+
+    });
   }
 
   /**

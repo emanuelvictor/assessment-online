@@ -47,7 +47,7 @@ public class ColaboradorService {
         this.colaboradorRepository.deleteById(id);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ATENDENTE')")
     public Flux<Colaborador> findAll() {
 
         final List<Colaborador> list = this.colaboradorRepository.findAll();

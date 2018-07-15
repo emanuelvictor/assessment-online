@@ -102,6 +102,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
   public logout(): Promise<any> {
     let body = new HttpParams();
     body = body.set('logout', 'logout');
-    return this.httpClient.post('logout', body).toPromise();
+    return this.httpClient.post('logout', body).toPromise()
+      .catch(() => {});
   }
 }
