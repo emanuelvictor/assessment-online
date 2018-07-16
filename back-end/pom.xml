@@ -163,6 +163,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
         <!--gson-->
         <dependency>
             <groupId>com.google.code.gson</groupId>

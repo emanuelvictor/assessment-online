@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFireStorage, AngularFireUploadTask} from 'angularfire2/storage';
 import {Observable} from 'rxjs/Observable';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 /**
  *
@@ -35,9 +35,18 @@ export class FileRepository {
     console.log(file);
     // return this.httpClient.post<string>('uploads', file).toPromise();
 
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'multipart/form-data'
+    // });
+
+
     const headers = new HttpHeaders({
-      'Content-Type': 'multipart/form-data'
+      'Content-Disposition': 'form-data; name="file"; filename="generate.png"'
     });
+
+    let body = new HttpParams();
+    body = body.set('file', 'file');
+    let vai = { 'file': file};
 
     return this.httpClient.post('uploads', file, {
       headers: headers

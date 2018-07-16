@@ -26,6 +26,7 @@
                     <td-file-upload #singleFileUpload
                                     defaultColor='primary'
                                     (change)='fileChange($event)'
+                                    name="file"
                                     accept='.png, .gif, .jpg, .jpeg'>
                       <span>{{ singleFileUpload.files?.name }}</span>
                       <ng-template td-file-input-label>
