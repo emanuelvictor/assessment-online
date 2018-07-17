@@ -36,6 +36,25 @@ public class Usuario extends Pessoa implements UserDetails {
 
     /**
      *
+     * -----------------------------------------------------------
+     *                          Foto
+     * -----------------------------------------------------------
+     */
+
+    /**
+     *
+     */
+    @Column
+    private byte[] foto;
+
+    /**
+     *
+     */
+    @Column
+    private byte[] miniFoto;
+
+    /**
+     *
      */
     @Email
     @Column(unique = true)
@@ -141,7 +160,6 @@ public class Usuario extends Pessoa implements UserDetails {
     }
 
     /**
-     *
      * @return
      */
     public boolean getIsAdministrador() {
@@ -149,7 +167,6 @@ public class Usuario extends Pessoa implements UserDetails {
     }
 
     /**
-     *
      * @return
      */
     public boolean getIsOperador() {

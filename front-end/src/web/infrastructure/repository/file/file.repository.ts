@@ -36,8 +36,9 @@ export class FileRepository {
     formData.append('file', file, file.name);
 
     return this.httpClient
-      .post('uploads', formData)
+      .post('usuarios/2/foto', formData)
       .toPromise();
+
   }
 
   /**

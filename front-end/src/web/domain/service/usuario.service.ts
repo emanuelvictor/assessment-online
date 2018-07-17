@@ -195,6 +195,7 @@ export class UsuarioService {
 
             this.fileRepository.save('usuario' + String(result.id), arquivoFile)
               .then(uploaded => {
+                console.log(uploaded);
                 toSave.urlFile = uploaded;
               })
               .catch(error => {
