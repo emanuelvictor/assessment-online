@@ -27,38 +27,17 @@ export class FileRepository {
 
   /**
    *
-   * @param {string} key
+   * @param {string} path
    * @param {File} file
    * @returns {Promise<any>}
    */
-  save(key: string, file: File): Promise<any> {
-    console.log(file);
-    // return this.httpClient.post<string>('uploads', file).toPromise();
+  save(path: string, file: File): Promise<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
 
-    // const headers = new HttpHeaders({
-    //   'Content-Type': 'multipart/form-data'
-    // });
-
-
-    const headers = new HttpHeaders({
-      'Content-Disposition': 'form-data; name="file"; filename="generate.png"'
-    });
-
-    let body = new HttpParams();
-    body = body.set('file', 'file');
-    let vai = { 'file': file};
-
-    return this.httpClient.post('uploads', file, {
-      headers: headers
-    }).toPromise();
-
-    // return new Promise((resolve) => {
-    //
-    //   this.storage.upload(key, file)
-    //     .then(result => {
-    //       resolve(result.downloadURL)
-    //     })
-    // })
+    return this.httpClient
+      .post('uploads', formData)
+      .toPromise();
   }
 
   /**

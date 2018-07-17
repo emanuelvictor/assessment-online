@@ -26,10 +26,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.server.i18n.LocaleContextResolver;
 
+import javax.servlet.MultipartConfigElement;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -114,21 +116,33 @@ public class Application extends SpringBootServletInitializer {
         return objectMapper;
     }
 
+//    @Bean
+//    public CommonsMultipartResolver multipartResolver() {
+//        CommonsMultipartResolver multipart = new CommonsMultipartResolver();
+//        multipart.setMaxUploadSize(3 * 1024 * 1024);
+//        return multipart;
+//    }
+//
+//    @Bean
+//    @Order(0)
+//    public MultipartFilter multipartFilter() {
+//        MultipartFilter multipartFilter = new MultipartFilter();
+//        multipartFilter.setMultipartResolverBeanName("multipartResolver");
+//        return multipartFilter;
+//    }
+
+
     @Bean
-    public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver multipart = new CommonsMultipartResolver();
-        multipart.setMaxUploadSize(3 * 1024 * 1024);
-        return multipart;
+    public MultipartConfigElement multipartConfigElement() {
+        return new MultipartConfigElement("");
     }
 
     @Bean
-    @Order(0)
-    public MultipartFilter multipartFilter() {
-        MultipartFilter multipartFilter = new MultipartFilter();
-        multipartFilter.setMultipartResolverBeanName("multipartResolver");
-        return multipartFilter;
+    public MultipartResolver multipartResolver() {
+        org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(1000000);
+        return multipartResolver;
     }
-
     /**
      * @return
      */

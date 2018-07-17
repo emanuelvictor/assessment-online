@@ -20,8 +20,13 @@ public class FileResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileResource.class);
 
-    @PostMapping(value = "", consumes = MediaType.IMAGE_JPEG_VALUE)
-    Mono<String> requestBodyFlux(@RequestPart("file") Mono<Part> file) {
+    /**
+     *
+     * @param file
+     * @return
+     */
+    @PostMapping
+    Mono<String> requestBodyFlux(@RequestPart("file") Flux<Part> file) {
         LOGGER.info("Storing a new file. Recieved by Controller");
 //        this.storageService.store(file);
 
@@ -29,7 +34,7 @@ public class FileResource {
             System.out.println(multipart.name());
         });
 
-        return Mono.empty();
+        return partFluxDescription(file);
     }
 
 

@@ -21,7 +21,7 @@ export class AtendenteFormComponent implements OnInit {
    *
    * @type {boolean}
    */
-  showPassword : boolean = false;
+  showPassword = false;
 
   /**
    *
@@ -128,9 +128,9 @@ export class AtendenteFormComponent implements OnInit {
         }
         if (control.controls && control.invalid) {
           for (const controlInner of control.controls) {
-            const element = this.element.nativeElement.querySelector(controlInner.key);
-            if (element && controlInner.invalid) {
-              this.renderer.invokeElementMethod(element, 'focus', []);
+            const elemento = this.element.nativeElement.querySelector(controlInner.key);
+            if (elemento && controlInner.invalid) {
+              this.renderer.invokeElementMethod(elemento, 'focus', []);
               valid = false;
               if (controlInner.errors.exception)
                 this.error(controlInner.errors.exception);

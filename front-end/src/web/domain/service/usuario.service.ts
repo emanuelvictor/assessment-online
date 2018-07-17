@@ -173,7 +173,7 @@ export class UsuarioService {
   public save(usuario: Usuario): Promise<any> {
 
     // return this.usuarioRepository.save(usuario);
-console.log(usuario);
+    console.log(usuario);
 
     const arquivoFile = usuario.arquivoFile;
     const urlFile = usuario.urlFile;
@@ -196,6 +196,9 @@ console.log(usuario);
             this.fileRepository.save('usuario' + String(result.id), arquivoFile)
               .then(uploaded => {
                 toSave.urlFile = uploaded;
+              })
+              .catch(error => {
+                console.log(error)
               });
 
           } else {
