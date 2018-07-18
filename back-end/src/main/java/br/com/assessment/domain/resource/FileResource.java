@@ -28,18 +28,17 @@ public class FileResource {
      */
     @PostMapping(/*consumes = MediaType.MULTIPART_FORM_DATA_VALUE*/)
     Mono<byte[]> requestBodyFlux(@RequestPart("file") Mono<Part> file) {
-        LOGGER.info("Storing a new file. Recieved by Controller");
 //        this.storageService.store(file);
-        return Mono.create(monoSink -> {
-
-            file.subscribe(part -> {
-                part.content().subscribe(dataBuffer -> {
-                    monoSink.success( dataBuffer.asByteBuffer().array());
-                });
-            });
-
-//            monoSink.success();
-        });
+//        return Mono.create(monoSink -> {
+////TODO concatenar bytes
+//            file.subscribe(part -> {
+//                part.content().subscribe(dataBuffer -> {
+//                    monoSink.success( dataBuffer.asByteBuffer().array());
+//                });
+//            });
+//
+////            monoSink.success();
+//        });
 //        byte[] a = file.map(part ->  part.content().map(dataBuffer -> dataBuffer.asByteBuffer().array())).map( b -> {
 //         b
 //        });
@@ -50,6 +49,7 @@ public class FileResource {
 //        });
 //
 //        return partFluxDescription(file);
+        return null;
     }
 
 

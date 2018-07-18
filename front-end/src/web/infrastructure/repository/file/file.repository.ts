@@ -35,6 +35,13 @@ export class FileRepository {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
 
+
+    // this.httpClient
+    //   .post('usuarios/2/foto', formData)
+    //   .subscribe(result => {
+    //     console.log(result)
+    //   });
+
     return this.httpClient
       .post('usuarios/2/foto', formData)
       .toPromise();

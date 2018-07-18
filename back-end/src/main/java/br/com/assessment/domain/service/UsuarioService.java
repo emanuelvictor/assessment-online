@@ -128,30 +128,62 @@ public class UsuarioService {
      * @param file
      * @return
      */
-    public Flux<String> save(final long id, final Flux<Part> file) {
+    public Flux<byte[]> save(final long id, final Flux<Part> file) {
 
         return file
                 .filter(part -> part instanceof FilePart) // only retain file parts
-                .ofType(FilePart.class) // convert the flux to FilePart
-                .flatMap(this::saveFile); // save each file and flatmap it to a flux of results
+                .ofType(FilePart.class)
+                .flatMap(this::getBytes);
+
+    }
+
+    private Mono<byte[]> getBytes(FilePart filePart) {
+
+        final ByteBuffer byteBuffer = ByteBuffer.allocate(20000000);
+        return //Flux.create(monoSink -> {
+
+                filePart.content().doOnEach(dataBufferSignal -> {
+                    if (dataBufferSignal.hasValue()) {
 
 
-//        return Mono.create(monoSink -> {
+                        DataBuffer dataBuffer = dataBufferSignal.get();
+                        int count = dataBuffer.readableByteCount();
+                        byte[] bytes = new byte[count];
+                        dataBuffer.read(bytes);
+
+                        // create a file channel compatible byte buffer
+                        byteBuffer.put(bytes);
+                        byteBuffer.flip();
+//                monoSink.next(byteBuffer.array());
+                    }
+
+                }).doOnComplete(() -> {
+                    System.out.println("foi");
+//                        monoSink.complete();
+                }).last().map(dataBuffer ->
+                        dataBuffer.asByteBuffer().array()
+                );
+
+        //});
+
+//        final ByteBuffer byteBuffer = ByteBuffer.allocate(20000000);
+
+//        return filePart.content().doOnEach(dataBufferSignal -> {
+////            dataBufferSignal.get().asByteBuffer().put()
 //
-//            file.subscribe(part -> {
-//                part.content().subscribe(dataBuffer -> {
+//            DataBuffer dataBuffer = dataBufferSignal.get();
+//            int count = dataBuffer.readableByteCount();
+//            byte[] bytes = new byte[count];
+//            dataBuffer.read(bytes);
 //
-//                    final Usuario usuario = this.usuarioRepository.findById(id).get();
+//            // create a file channel compatible byte buffer
+//            byteBuffer.put(bytes);
+//            byteBuffer.flip();
 //
-//                    usuario.setFoto(dataBuffer.asByteBuffer().array());
-//
-//                    this.usuarioRepository.save(usuario);
-//
-//                    monoSink.success("usuario" + Long.toString(id));
-//                });
-//            });
-//
-//        });
+//        }).last().map(dataBuffer -> dataBuffer.asByteBuffer().array());
+//                .map()
+//        .doOnComplete(() -> byteBuffer.array());
+
     }
 
 
@@ -175,6 +207,7 @@ public class UsuarioService {
             return Mono.error(e); // if creating a new file fails return an error
         }
 
+
         try {
             // create an async file channel to store the file on disk
             final AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(file.toPath(), StandardOpenOption.WRITE);
@@ -189,6 +222,7 @@ public class UsuarioService {
             LOGGER.info("subscribing to file parts");
             // FilePart.content produces a flux of data buffers, each need to be written to the file
             return filePart.content().doOnEach(dataBufferSignal -> {
+//                dataBufferSignal.get().asByteBuffer().array()
                 if (dataBufferSignal.hasValue() && !errorFlag.get()) {
                     // read data from the incoming data buffer into a file array
                     DataBuffer dataBuffer = dataBufferSignal.get();
@@ -233,6 +267,7 @@ public class UsuarioService {
             }).doOnComplete(() -> {
                 // all done, close the file channel
                 LOGGER.info("done processing file parts");
+
                 if (closeCondition.canCloseOnComplete())
                     try {
                         LOGGER.info("closing after complete");
@@ -248,7 +283,10 @@ public class UsuarioService {
                 } catch (IOException ignored) {
                 }
                 // take last, map to a status string
-            }).last().map(dataBuffer -> filePart.filename() + " " + (errorFlag.get() ? "error" : "uploaded"));
+            }).last().map(dataBuffer -> {
+                LOGGER.warn(filePart.filename() + " " + (errorFlag.get() ? "error" : "uploaded"));
+                return filePart.filename() + " " + (errorFlag.get() ? "error" : "uploaded");
+            });
         } catch (IOException e) {
             // unable to open the file channel, return an error
             LOGGER.info("error opening the file channel");
@@ -266,6 +304,7 @@ public class UsuarioService {
 
         /**
          * notify all tasks have been subitted, determine of the file channel can be closed
+         *
          * @return true if the asynchronous file stream can be closed
          */
         public boolean canCloseOnComplete() {
@@ -282,6 +321,7 @@ public class UsuarioService {
 
         /**
          * notify a task has been completed
+         *
          * @return true if the asynchronous file stream can be closed
          */
         public boolean onTaskCompleted() {

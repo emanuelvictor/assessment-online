@@ -65,7 +65,7 @@ public class UsuarioResource {
     }
 
     @PostMapping(value = "{id}/foto", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Flux<String> save(@PathVariable final long id, @RequestPart("file") Flux<Part> file) {
+    public Flux<byte[]> save(@PathVariable final long id, @RequestPart("file") Flux<Part> file) {
         return this.usuarioService.save(id, file);
 
     }
