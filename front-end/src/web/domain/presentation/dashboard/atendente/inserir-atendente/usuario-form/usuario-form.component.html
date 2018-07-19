@@ -15,7 +15,7 @@
                 <!--<div flex>-->
                 <div layout='column' flex layout-align='center center'>
                   <div flex>
-                    <avatar [usuario]="{'key': usuario.key , 'foto': urlFile}"></avatar>
+                    <avatar [usuario]="{'key': usuario.key , 'foto': './usuarios/' + usuario.id + '/foto'}"></avatar>
                   </div>
                   <div flex *ngIf='urlFile'>
                     <button type='button' (click)='removeFile()' class='tc-grey-500' mat-button>

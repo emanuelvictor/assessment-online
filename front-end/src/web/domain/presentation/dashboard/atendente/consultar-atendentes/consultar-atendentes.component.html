@@ -42,7 +42,7 @@
               <!--foto-->
 
               <div mat-list-avatar layout="row" layout-align="center center">
-                <avatar class="image-cover" [size]="0.2" *ngIf="atendente?.id" [usuario]="{'id': atendente?.id , 'foto': atendente?.urlFile}"></avatar>
+                <avatar class="image-cover" [size]="0.2" *ngIf="atendente?.id" [usuario]="{'id': atendente?.id , 'foto': './usuarios/' + atendente?.id + '/foto'}"></avatar>
               </div>
             </div>
 
