@@ -133,56 +133,35 @@ public class UsuarioService {
         return file
                 .filter(part -> part instanceof FilePart) // only retain file parts
                 .ofType(FilePart.class)
-                .flatMap(this::getBytes);
+                .flatMap(this::getBytes)
+                .map((byte[] bytes) -> {
+                    final Usuario usuario = this.usuarioRepository.findById(id).get();
+                    usuario.setFoto(bytes);
+                    return this.usuarioRepository.save(usuario).getFoto();
+                });
 
     }
 
     private Mono<byte[]> getBytes(FilePart filePart) {
 
-        final ByteBuffer byteBuffer = ByteBuffer.allocate(20000000);
-        return //Flux.create(monoSink -> {
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.out.println(outputStream.size());
+        return filePart.content().doOnEach(dataBufferSignal -> {
 
-                filePart.content().doOnEach(dataBufferSignal -> {
-                    if (dataBufferSignal.hasValue()) {
+            if (dataBufferSignal.hasValue()) {
 
+                final DataBuffer dataBuffer = dataBufferSignal.get();
+                final int count = dataBuffer.readableByteCount();
+                final byte[] bytes = new byte[count];
+                dataBuffer.read(bytes);
 
-                        DataBuffer dataBuffer = dataBufferSignal.get();
-                        int count = dataBuffer.readableByteCount();
-                        byte[] bytes = new byte[count];
-                        dataBuffer.read(bytes);
+                outputStream.write(bytes, 0, bytes.length);
 
-                        // create a file channel compatible byte buffer
-                        byteBuffer.put(bytes);
-                        byteBuffer.flip();
-//                monoSink.next(byteBuffer.array());
-                    }
+            }
 
-                }).doOnComplete(() -> {
-                    System.out.println("foi");
-//                        monoSink.complete();
-                }).last().map(dataBuffer ->
-                        dataBuffer.asByteBuffer().array()
-                );
-
-        //});
-
-//        final ByteBuffer byteBuffer = ByteBuffer.allocate(20000000);
-
-//        return filePart.content().doOnEach(dataBufferSignal -> {
-////            dataBufferSignal.get().asByteBuffer().put()
-//
-//            DataBuffer dataBuffer = dataBufferSignal.get();
-//            int count = dataBuffer.readableByteCount();
-//            byte[] bytes = new byte[count];
-//            dataBuffer.read(bytes);
-//
-//            // create a file channel compatible byte buffer
-//            byteBuffer.put(bytes);
-//            byteBuffer.flip();
-//
-//        }).last().map(dataBuffer -> dataBuffer.asByteBuffer().array());
-//                .map()
-//        .doOnComplete(() -> byteBuffer.array());
+        }).doOnComplete(() -> System.out.println(outputStream.size())).last().map(dataBuffer ->
+                outputStream.toByteArray()
+        );
 
     }
 
@@ -344,7 +323,5 @@ public class UsuarioService {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
                         .body(this.usuarioRepository.findById(id).get().getFoto()));
-
-
     }
 }

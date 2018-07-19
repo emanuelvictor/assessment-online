@@ -59,7 +59,7 @@ public class UsuarioResource {
         return this.usuarioService.findAll();
     }
 
-    @GetMapping("{id}/foto")
+    @GetMapping(value = "{id}/foto", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Mono<ResponseEntity<byte[]>> findFoto(@PathVariable final long id) {
         return this.usuarioService.findFoto(id);
     }
