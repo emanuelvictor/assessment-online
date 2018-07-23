@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Data
@@ -51,7 +53,19 @@ public class Usuario extends Pessoa implements UserDetails {
      *
      */
     @Column
-    private byte[] miniFoto;
+    private String urlFoto;
+
+    /**
+     *
+     */
+    @Column
+    private byte[] avatarFoto;
+
+    /**
+     *
+     */
+    @Column
+    private String urlAvatarFoto;
 
     /**
      *
@@ -81,7 +95,7 @@ public class Usuario extends Pessoa implements UserDetails {
     /**
      * // TODO: 10/01/18 alterar para LocalDateTime
      */
-    private Calendar lastLogin;
+    private LocalDateTime lastLogin;
 
     /**
      *
@@ -131,6 +145,7 @@ public class Usuario extends Pessoa implements UserDetails {
     }
 
     /**
+     *
      */
     @Override
     public boolean isAccountNonExpired() {
@@ -174,6 +189,7 @@ public class Usuario extends Pessoa implements UserDetails {
     }
 
     /**
+     *
      */
     public boolean isOperador() {
         if (isAdministrador)
@@ -189,6 +205,7 @@ public class Usuario extends Pessoa implements UserDetails {
     }
 
     /**
+     *
      */
     public boolean isAtendente() {
         if (this.colaboradores != null)
@@ -217,4 +234,21 @@ public class Usuario extends Pessoa implements UserDetails {
 
     }
 
+    /**
+     * @return
+     */
+    public String getUrlFoto() {
+        if (this.foto != null)
+            return "./usuarios/" + id + "/foto";
+        return null;
+    }
+
+    /**
+     * @return
+     */
+    public String getUrlAvatarFoto() {
+        if (this.avatarFoto != null)
+            return "./usuarios/" + id + "/avatar";
+        return null;
+    }
 }

@@ -128,8 +128,7 @@ public class UsuarioService {
      * @param file
      * @return
      */
-    public Flux<byte[]> save(final long id, final Flux<Part> file) {
-
+    public Flux<String> save(final long id, final Flux<Part> file) {
         return file
                 .filter(part -> part instanceof FilePart) // only retain file parts
                 .ofType(FilePart.class)
@@ -137,12 +136,15 @@ public class UsuarioService {
                 .map((byte[] bytes) -> {
                     final Usuario usuario = this.usuarioRepository.findById(id).get();
                     usuario.setFoto(bytes);
-                    return this.usuarioRepository.save(usuario).getFoto();
+                    return this.usuarioRepository.save(usuario).getUrlFoto();
                 });
-
     }
 
-    private Mono<byte[]> getBytes(FilePart filePart) {
+    /**
+     * @param filePart
+     * @return
+     */
+    private Mono<byte[]> getBytes(final FilePart filePart) {
 
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.out.println(outputStream.size());
@@ -165,160 +167,20 @@ public class UsuarioService {
 
     }
 
-
-    /**
-     * tske a {@link FilePart}, transfer it to disk using {@link AsynchronousFileChannel}s and return a {@link Mono} representing the result
-     *
-     * @param filePart - the request part containing the file to be saved
-     * @return a {@link Mono} representing the result of the operation
-     */
-    private Mono<String> saveFile(FilePart filePart) {
-        LOGGER.info("handling file upload {}", filePart.filename());
-
-        // if a file with the same name already exists in a repository, delete and recreate it
-        final String filename = filePart.filename();
-        File file = new File(filename);
-        if (file.exists())
-            file.delete();
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            return Mono.error(e); // if creating a new file fails return an error
-        }
-
-
-        try {
-            // create an async file channel to store the file on disk
-            final AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(file.toPath(), StandardOpenOption.WRITE);
-
-            final CloseCondition closeCondition = new CloseCondition();
-
-            // pointer to the end of file offset
-            AtomicInteger fileWriteOffset = new AtomicInteger(0);
-            // error signal
-            AtomicBoolean errorFlag = new AtomicBoolean(false);
-
-            LOGGER.info("subscribing to file parts");
-            // FilePart.content produces a flux of data buffers, each need to be written to the file
-            return filePart.content().doOnEach(dataBufferSignal -> {
-//                dataBufferSignal.get().asByteBuffer().array()
-                if (dataBufferSignal.hasValue() && !errorFlag.get()) {
-                    // read data from the incoming data buffer into a file array
-                    DataBuffer dataBuffer = dataBufferSignal.get();
-                    int count = dataBuffer.readableByteCount();
-                    byte[] bytes = new byte[count];
-                    dataBuffer.read(bytes);
-
-                    // create a file channel compatible byte buffer
-                    final ByteBuffer byteBuffer = ByteBuffer.allocate(count);
-                    byteBuffer.put(bytes);
-                    byteBuffer.flip();
-
-                    // get the current write offset and increment by the buffer size
-                    final int filePartOffset = fileWriteOffset.getAndAdd(count);
-                    LOGGER.info("processing file part at offset {}", filePartOffset);
-                    // write the buffer to disk
-                    closeCondition.onTaskSubmitted();
-                    fileChannel.write(byteBuffer, filePartOffset, null, new CompletionHandler<Integer, ByteBuffer>() {
-                        @Override
-                        public void completed(Integer result, ByteBuffer attachment) {
-                            // file part successfuly written to disk, clean up
-                            LOGGER.info("done saving file part {}", filePartOffset);
-                            byteBuffer.clear();
-
-                            if (closeCondition.onTaskCompleted())
-                                try {
-                                    LOGGER.info("closing after last part");
-                                    fileChannel.close();
-                                } catch (IOException ignored) {
-                                    ignored.printStackTrace();
-                                }
-                        }
-
-                        @Override
-                        public void failed(Throwable exc, ByteBuffer attachment) {
-                            // there as an error while writing to disk, set an error flag
-                            errorFlag.set(true);
-                            LOGGER.info("error saving file part {}", filePartOffset);
-                        }
-                    });
-                }
-            }).doOnComplete(() -> {
-                // all done, close the file channel
-                LOGGER.info("done processing file parts");
-
-                if (closeCondition.canCloseOnComplete())
-                    try {
-                        LOGGER.info("closing after complete");
-                        fileChannel.close();
-                    } catch (IOException ignored) {
-                    }
-
-            }).doOnError(t -> {
-                // ooops there was an error
-                LOGGER.info("error processing file parts");
-                try {
-                    fileChannel.close();
-                } catch (IOException ignored) {
-                }
-                // take last, map to a status string
-            }).last().map(dataBuffer -> {
-                LOGGER.warn(filePart.filename() + " " + (errorFlag.get() ? "error" : "uploaded"));
-                return filePart.filename() + " " + (errorFlag.get() ? "error" : "uploaded");
-            });
-        } catch (IOException e) {
-            // unable to open the file channel, return an error
-            LOGGER.info("error opening the file channel");
-            return Mono.error(e);
-        }
-    }
-
-
-    class CloseCondition {
-        Logger LOGGER = LoggerFactory.getLogger(CloseCondition.class);
-
-        AtomicInteger tasksSubmitted = new AtomicInteger(0);
-        AtomicInteger tasksCompleted = new AtomicInteger(0);
-        AtomicBoolean allTaskssubmitted = new AtomicBoolean(false);
-
-        /**
-         * notify all tasks have been subitted, determine of the file channel can be closed
-         *
-         * @return true if the asynchronous file stream can be closed
-         */
-        public boolean canCloseOnComplete() {
-            allTaskssubmitted.set(true);
-            return tasksCompleted.get() == tasksSubmitted.get();
-        }
-
-        /**
-         * notify a task has been submitted
-         */
-        public void onTaskSubmitted() {
-            tasksSubmitted.incrementAndGet();
-        }
-
-        /**
-         * notify a task has been completed
-         *
-         * @return true if the asynchronous file stream can be closed
-         */
-        public boolean onTaskCompleted() {
-            boolean allSubmittedClosed = tasksSubmitted.get() == tasksCompleted.incrementAndGet();
-            return allSubmittedClosed && allTaskssubmitted.get();
-        }
-    }
-
     /**
      * @param id
      * @param file
      * @return
      */
-    public Mono<byte[]> update(long id, Flux<Part> file) {
-        System.out.println(id);
-        return null;
+    public Flux<String> update(final long id, final Flux<Part> file) {
+        return this.save(id, file);
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Mono<ResponseEntity<byte[]>> findFoto(final long id) {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))

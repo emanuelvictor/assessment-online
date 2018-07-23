@@ -13,6 +13,7 @@ import org.springframework.security.web.server.authentication.ServerAuthenticati
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.logging.Logger;
 
@@ -56,7 +57,7 @@ public class AuthenticationSuccessHandler implements ServerAuthenticationSuccess
             usuario = (Usuario) Usuario.getMasterUser();
         } else {
             usuario = this.usuarioRepository.findById(((Usuario) authentication.getPrincipal()).getId()).get();
-            usuario.setLastLogin(Calendar.getInstance());
+            usuario.setLastLogin(LocalDateTime.now());
             this.usuarioRepository.save(usuario);
         }
 

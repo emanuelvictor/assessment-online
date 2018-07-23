@@ -18,11 +18,11 @@ export class FileRepository {
 
   /**
    *
-   * @param {string} key
+   * @param {string} path
    * @returns {Observable<any>}
    */
-  findOne(key: string): Observable<any> {
-    return this.storage.ref(key).getDownloadURL();
+  findOne(path: string): Observable<any> {
+    return this.httpClient.get(path);
   }
 
   /**
@@ -35,30 +35,19 @@ export class FileRepository {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
 
-
-    // this.httpClient
-    //   .post('usuarios/2/foto', formData)
-    //   .subscribe(result => {
-    //     console.log(result)
-    //   });
-
     return this.httpClient
-      .post('usuarios/2/foto', formData)
+      .post(path, formData, {responseType: 'text'})
       .toPromise();
 
   }
 
   /**
    *
-   * @param {string} key
-   * @returns {AngularFireUploadTask}
+   * @param {string} path
    */
-  remove(key: string): Promise<void> {
-    /**
-     * Captura a exceção de not-found
-     */
-    return this.storage.ref(key).delete().toPromise().catch(exception => {
-      console.log(exception)
-    });
+  remove(path: string): Promise<any> {
+    return this.httpClient
+      .delete(path)
+      .toPromise();
   }
 }

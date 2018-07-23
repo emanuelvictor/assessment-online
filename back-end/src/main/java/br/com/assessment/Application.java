@@ -37,7 +37,6 @@ import java.util.Locale;
 
 @EnableAsync
 @SpringBootApplication
-//@EnableAutoConfiguration(exclude={MultipartAutoConfiguration.class})
 public class Application extends SpringBootServletInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
@@ -116,31 +115,23 @@ public class Application extends SpringBootServletInitializer {
         return objectMapper;
     }
 
-//    @Bean
-//    public CommonsMultipartResolver multipartResolver() {
-//        CommonsMultipartResolver multipart = new CommonsMultipartResolver();
-//        multipart.setMaxUploadSize(3 * 1024 * 1024);
-//        return multipart;
-//    }
-//
-//    @Bean
-//    @Order(0)
-//    public MultipartFilter multipartFilter() {
-//        MultipartFilter multipartFilter = new MultipartFilter();
-//        multipartFilter.setMultipartResolverBeanName("multipartResolver");
-//        return multipartFilter;
-//    }
-
-
+    /**
+     *
+     * @return
+     */
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         return new MultipartConfigElement("");
     }
 
+    /**
+     *
+     * @return
+     */
     @Bean
     public MultipartResolver multipartResolver() {
-        org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(1000000);
+        final CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(3 * 1024 * 1024);
         return multipartResolver;
     }
     /**

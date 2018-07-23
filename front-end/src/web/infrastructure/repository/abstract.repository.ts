@@ -84,7 +84,7 @@ export abstract class AbstractRepository {
        *
        */
       if (item.email)
-        this._accountRepository.handlerUser(item.uid, item.email, item.password, item.urlFile, item.nome)
+        this._accountRepository.handlerUser(item.uid, item.email, item.password, item.urlFoto, item.nome)
           .then(account => {
 
             /**

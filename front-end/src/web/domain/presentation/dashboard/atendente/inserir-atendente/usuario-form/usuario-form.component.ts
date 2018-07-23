@@ -1,9 +1,9 @@
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
-import {FormBuilder, Validators} from "@angular/forms";
-import {textMasks} from "../../../../controls/text-masks/text-masks";
-import {UnidadeService} from "../../../../../service/unidade.service";
+import {FormBuilder, Validators} from '@angular/forms';
+import {textMasks} from '../../../../controls/text-masks/text-masks';
+import {UnidadeService} from '../../../../../service/unidade.service';
 import {Usuario} from '../../../../../entity/usuario/Usuario.model';
 import {UsuarioService} from '../../../../../service/usuario.service';
 
@@ -27,7 +27,7 @@ export class AtendenteFormComponent implements OnInit {
    *
    * @type {any}
    */
-  urlFile = null;
+  urlFoto = null;
 
   /**
    *
@@ -64,13 +64,14 @@ export class AtendenteFormComponent implements OnInit {
 
   /**
    *
+   * @param {Renderer} renderer
+   * @param {UsuarioService} usuarioService
    * @param {MatSnackBar} snackBar
    * @param {FormBuilder} fb
    * @param {ElementRef} element
-   * @param {Renderer} renderer
-   * @param {UsuarioService} usuarioService
    */
-  constructor(private snackBar: MatSnackBar, private fb: FormBuilder, @Inject(ElementRef) private element: ElementRef, private renderer: Renderer, private usuarioService: UsuarioService) {
+  constructor(private renderer: Renderer, private usuarioService: UsuarioService,
+              private snackBar: MatSnackBar, private fb: FormBuilder, @Inject(ElementRef) private element: ElementRef) {
     this.usuarioService.getUsuarioAutenticado().subscribe(result => {
       this.usuarioLogado = result;
     });
@@ -87,7 +88,7 @@ export class AtendenteFormComponent implements OnInit {
       nome: ['nome', [Validators.required]],
       email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
     });
-    this.urlFile = this.usuario.urlFile;
+    this.urlFoto = this.usuario.urlFoto;
     this.arquivoFile = this.usuario.arquivoFile;
   }
 
@@ -143,7 +144,7 @@ export class AtendenteFormComponent implements OnInit {
 
     if (valid) {
       this.usuario.arquivoFile = this.arquivoFile;
-      this.usuario.urlFile = this.urlFile;
+      this.usuario.urlFoto = this.urlFoto;
       this.save.emit(this.usuario);
     }
   }
@@ -177,7 +178,7 @@ export class AtendenteFormComponent implements OnInit {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (arquivo: any) => {
-        this.urlFile = arquivo.target.result;
+        this.urlFoto = arquivo.target.result;
       };
     }
   }
@@ -186,7 +187,7 @@ export class AtendenteFormComponent implements OnInit {
    *
    */
   public removeFile() {
-    this.urlFile = null;
+    this.urlFoto = null;
     this.arquivoFile = null;
   }
 }

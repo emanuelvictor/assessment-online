@@ -176,13 +176,13 @@ export class UsuarioService {
     console.log(usuario);
 
     const arquivoFile = usuario.arquivoFile;
-    const urlFile = usuario.urlFile;
+    const urlFoto = usuario.urlFoto;
 
     const toSave = usuario;
     delete toSave.arquivoFile;
-    delete  toSave.urlFile;
+    delete  toSave.urlFoto;
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (arquivoFile)
         this.snackBar.openFromComponent(FotoLoadingComponent, {
           duration: 60000,
@@ -193,21 +193,26 @@ export class UsuarioService {
 
           if (arquivoFile) {
 
-            this.fileRepository.save('usuario' + String(result.id), arquivoFile)
+            this.fileRepository.save('usuarios/' + String(result.id) + '/foto', arquivoFile)
               .then(uploaded => {
-                console.log(uploaded);
-                toSave.urlFile = uploaded;
+                toSave.urlFoto = uploaded;
+                resolve(toSave);
               })
               .catch(error => {
-                console.log(error)
+                console.log(error);
+                reject(error);
               });
 
           } else {
 
-            if (!urlFile) {
-              this.fileRepository.remove('usuario' + String(result.id))
+            if (!urlFoto) {
+              this.fileRepository.remove('usuarios/' + String(result.id) + '/foto')
                 .then(() => {
-                  usuario.urlFile = null;
+                  usuario.urlFoto = null;
+                })
+                .catch(error => {
+                  console.log(error);
+                  reject(error);
                 });
             }
 
@@ -215,6 +220,10 @@ export class UsuarioService {
 
           }
 
+        })
+        .catch(error => {
+          console.log(error);
+          reject(error);
         });
 
     });
