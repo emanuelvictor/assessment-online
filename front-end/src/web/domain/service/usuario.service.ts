@@ -209,6 +209,7 @@ export class UsuarioService {
               this.fileRepository.remove('usuarios/' + String(result.id) + '/foto')
                 .then(() => {
                   usuario.urlFoto = null;
+                  resolve(usuario);
                 })
                 .catch(error => {
                   console.log(error);

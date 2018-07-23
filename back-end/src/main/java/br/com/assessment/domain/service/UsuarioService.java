@@ -177,7 +177,6 @@ public class UsuarioService {
     }
 
     /**
-     *
      * @param id
      * @return
      */
@@ -185,5 +184,16 @@ public class UsuarioService {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
                         .body(this.usuarioRepository.findById(id).get().getFoto()));
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    public Flux<Boolean> deleteFoto(long id) {
+        final Usuario usuario = this.usuarioRepository.findById(id).get();
+        usuario.setFoto(null);
+        this.usuarioRepository.save(usuario);
+        return Flux.just(usuario.getUrlFoto() == null);
     }
 }

@@ -45,9 +45,9 @@ export class FileRepository {
    *
    * @param {string} path
    */
-  remove(path: string): Promise<any> {
+  remove(path: string): Promise<boolean> {
     return this.httpClient
-      .delete(path)
+      .delete<boolean>(path)
       .toPromise();
   }
 }

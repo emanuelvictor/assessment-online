@@ -76,7 +76,8 @@ public class UsuarioResource {
     }
 
     @DeleteMapping("{id}/foto")
-    public void deleteFoto(@PathVariable final long id) {
+    public Flux<Boolean> deleteFoto(@PathVariable final long id) {
+        return this.usuarioService.deleteFoto(id);
     }
 
 //    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
