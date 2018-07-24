@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -53,19 +52,31 @@ public class Usuario extends Pessoa implements UserDetails {
      *
      */
     @Column
-    private String urlFoto;
+    private String fotoPath;
 
     /**
      *
      */
     @Column
-    private byte[] avatarFoto;
+    private byte[] avatar;
 
     /**
      *
      */
     @Column
-    private String urlAvatarFoto;
+    private String avatarPath;
+
+    /**
+     *
+     */
+    @Column
+    private byte[] thumbnail;
+
+    /**
+     *
+     */
+    @Column
+    private String thumbnailPath;
 
     /**
      *
@@ -93,7 +104,7 @@ public class Usuario extends Pessoa implements UserDetails {
     private List<Colaborador> colaboradores;
 
     /**
-     * // TODO: 10/01/18 alterar para LocalDateTime
+     *
      */
     private LocalDateTime lastLogin;
 
@@ -235,20 +246,60 @@ public class Usuario extends Pessoa implements UserDetails {
     }
 
     /**
-     * @return
+     *
+     * @param fotoPath
      */
-    public String getUrlFoto() {
+    public void setFotoPath(String fotoPath) {
+        if (fotoPath != null)
+            fotoPath = "./usuarios/" + id + "/foto";
+        this.fotoPath = fotoPath;
+    }
+
+    /**
+     *
+     * @param avatarPath
+     */
+    public void setAvatarPath(String avatarPath) {
+        if (avatarPath != null)
+            avatarPath = "./usuarios/" + id + "/avatar";
+        this.avatarPath = avatarPath;
+    }
+
+    /**
+     *
+     * @param thumbnailPath
+     */
+    public void setThumbnailPath(String thumbnailPath) {
+        if (thumbnailPath != null)
+            thumbnailPath = "./usuarios/" + id + "/thumbnail";
+        this.thumbnailPath = thumbnailPath;
+    }
+
+    /**
+     * @return {}
+     */
+    public String getFotoPath() {
         if (this.foto != null)
             return "./usuarios/" + id + "/foto";
         return null;
     }
 
     /**
-     * @return
+     * @return {}
      */
-    public String getUrlAvatarFoto() {
-        if (this.avatarFoto != null)
+    public String getAvatarPath() {
+        if (this.avatar != null)
             return "./usuarios/" + id + "/avatar";
+        return null;
+    }
+
+    /**
+     *
+     * @return {}
+     */
+    public String getThumbnailPath() {
+        if (this.thumbnail != null)
+            return "./usuarios/" + id + "/thumbnail";
         return null;
     }
 }

@@ -27,7 +27,7 @@ export class AtendenteFormComponent implements OnInit {
    *
    * @type {any}
    */
-  urlFoto = null;
+  fotoPath = null;
 
   /**
    *
@@ -88,7 +88,7 @@ export class AtendenteFormComponent implements OnInit {
       nome: ['nome', [Validators.required]],
       email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
     });
-    this.urlFoto = this.usuario.urlFoto;
+    this.fotoPath = this.usuario.fotoPath;
     this.arquivoFile = this.usuario.arquivoFile;
   }
 
@@ -144,7 +144,7 @@ export class AtendenteFormComponent implements OnInit {
 
     if (valid) {
       this.usuario.arquivoFile = this.arquivoFile;
-      this.usuario.urlFoto = this.urlFoto;
+      this.usuario.fotoPath = this.fotoPath;
       this.save.emit(this.usuario);
     }
   }
@@ -177,7 +177,7 @@ export class AtendenteFormComponent implements OnInit {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (arquivo: any) => {
-        this.urlFoto = arquivo.target.result;
+        this.fotoPath = arquivo.target.result;
       };
     }
   }
@@ -186,7 +186,7 @@ export class AtendenteFormComponent implements OnInit {
    *
    */
   public removeFile() {
-    this.urlFoto = null;
+    this.fotoPath = null;
     this.arquivoFile = null;
   }
 }

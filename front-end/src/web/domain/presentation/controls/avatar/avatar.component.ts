@@ -39,7 +39,7 @@ export class AvatarComponent implements OnInit {
    *
    */
   public ngOnInit() {
-    this.identifier = Math.floor(Math.random() * 2000).toString();
+    this.identifier = /*this.usuario.id;*/Math.floor(Math.random() * 2000).toString();
     if (!this.size)
       this.size = 1;
   }

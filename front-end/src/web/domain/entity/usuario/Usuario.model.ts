@@ -3,9 +3,11 @@ import {Rankeavel} from '../abstract/Rankeavel.model';
 
 export class Usuario extends Rankeavel {
 
-  public urlAvatarFoto: string;
+  public avatarPath: string;
 
-  public urlFoto: string;
+  public fotoPath: string;
+
+  public thumbnailPath: string;
 
   public arquivoFile: any;
 

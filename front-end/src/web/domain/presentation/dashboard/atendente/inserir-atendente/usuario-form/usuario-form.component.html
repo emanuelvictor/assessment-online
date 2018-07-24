@@ -15,14 +15,14 @@
                 <!--<div flex>-->
                 <div layout='column' flex layout-align='center center'>
                   <div flex>
-                    <avatar [usuario]="{'id': usuario.id , 'foto': urlFoto}"></avatar>
+                    <avatar [usuario]="{'id': usuario.id , 'foto': fotoPath}"></avatar>
                   </div>
-                  <div flex *ngIf='urlFoto'>
+                  <div flex *ngIf='fotoPath'>
                     <button type='button' (click)='removeFile()' class='tc-grey-500' mat-button>
                       REMOVER FOTO
                     </button>
                   </div>
-                  <div flex *ngIf='!urlFoto'>
+                  <div flex *ngIf='!fotoPath'>
                     <td-file-upload #singleFileUpload
                                     defaultColor='primary'
                                     (change)='fileChange($event)'

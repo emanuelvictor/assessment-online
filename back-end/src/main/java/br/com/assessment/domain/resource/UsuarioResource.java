@@ -60,6 +60,11 @@ public class UsuarioResource {
     }
 
 
+    @GetMapping(value = "{id}/thumbnail", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    public Mono<ResponseEntity<byte[]>> findThumbnail(@PathVariable final long id) {
+        return this.usuarioService.findThumbnail(id);
+    }
+
     @GetMapping(value = "{id}/avatar", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Mono<ResponseEntity<byte[]>> findAvatar(@PathVariable final long id) {
         return this.usuarioService.findAvatar(id);

@@ -172,15 +172,12 @@ export class UsuarioService {
    */
   public save(usuario: Usuario): Promise<any> {
 
-    // return this.usuarioRepository.save(usuario);
-    console.log(usuario);
-
     const arquivoFile = usuario.arquivoFile;
-    const urlFoto = usuario.urlFoto;
+    const fotoPath = usuario.fotoPath;
 
     const toSave = usuario;
     delete toSave.arquivoFile;
-    delete  toSave.urlFoto;
+    delete toSave.fotoPath;
 
     return new Promise((resolve, reject) => {
       if (arquivoFile)
@@ -195,7 +192,7 @@ export class UsuarioService {
 
             this.fileRepository.save('usuarios/' + String(result.id) + '/foto', arquivoFile)
               .then(uploaded => {
-                toSave.urlFoto = uploaded;
+                toSave.fotoPath = uploaded;
                 resolve(toSave);
               })
               .catch(error => {
@@ -205,10 +202,10 @@ export class UsuarioService {
 
           } else {
 
-            if (!urlFoto) {
+            if (!fotoPath) {
               this.fileRepository.remove('usuarios/' + String(result.id) + '/foto')
                 .then(() => {
-                  usuario.urlFoto = null;
+                  usuario.fotoPath = null;
                   resolve(usuario);
                 })
                 .catch(error => {
