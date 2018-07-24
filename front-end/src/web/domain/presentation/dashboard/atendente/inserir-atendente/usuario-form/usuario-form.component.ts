@@ -148,7 +148,6 @@ export class AtendenteFormComponent implements OnInit {
       this.save.emit(this.usuario);
     }
   }
-
   /**
    *
    * @param message

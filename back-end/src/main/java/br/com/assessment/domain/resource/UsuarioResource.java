@@ -59,6 +59,12 @@ public class UsuarioResource {
         return this.usuarioService.findAll();
     }
 
+
+    @GetMapping(value = "{id}/avatar", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    public Mono<ResponseEntity<byte[]>> findAvatar(@PathVariable final long id) {
+        return this.usuarioService.findAvatar(id);
+    }
+
     @GetMapping(value = "{id}/foto", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Mono<ResponseEntity<byte[]>> findFoto(@PathVariable final long id) {
         return this.usuarioService.findFoto(id);
@@ -80,15 +86,4 @@ public class UsuarioResource {
         return this.usuarioService.deleteFoto(id);
     }
 
-//    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    Mono<String> requestBodyFlux(@RequestPart("file") Flux<Part> file) {
-//        LOGGER.info("Storing a new file. Recieved by Controller");
-////        this.storageService.store(file);
-//
-//        file.subscribe(multipart -> {
-//            System.out.println(multipart.name());
-//        });
-//
-//        return partFluxDescription(file);
-//    }
 }
