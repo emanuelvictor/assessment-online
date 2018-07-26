@@ -62,6 +62,7 @@ public class Usuario extends Pessoa implements UserDetails {
 
     /**
      *
+     *
      */
     @Column
     private String avatarPath;
