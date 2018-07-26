@@ -40,6 +40,8 @@ export class AvatarComponent implements OnInit {
    */
   public ngOnInit() {
     this.identifier = /*this.usuario.id;*/Math.floor(Math.random() * 2000).toString();
+    if (this.usuario.foto)
+      this.usuario.foto = this.usuario.foto + '?nocache=' + this.identifier;
     if (!this.size)
       this.size = 1;
   }

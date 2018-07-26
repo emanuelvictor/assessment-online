@@ -28,7 +28,6 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
 
     this.authenticatedUserChanged = new EventEmitter();
 
-
     this.httpClient.get('principal').subscribe(result => {
       this.setAuthenticatedUser(result);
     });
@@ -103,6 +102,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     let body = new HttpParams();
     body = body.set('logout', 'logout');
     return this.httpClient.post('logout', body).toPromise()
-      .catch(() => {});
+      .catch(() => {
+      });
   }
 }

@@ -5,7 +5,6 @@ import org.springframework.http.codec.multipart.FilePart;
 import reactor.core.publisher.Mono;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,33 +13,9 @@ import java.io.InputStream;
 
 public class ImageUtils {
 
-    public static byte[] scale(byte[] fileData, int width, int height) {
-        ByteArrayInputStream in = new ByteArrayInputStream(fileData);
-        try {
-            BufferedImage img = ImageIO.read(in);
-            if (height == 0) {
-                height = (width * img.getHeight()) / img.getWidth();
-            }
-            if (width == 0) {
-                width = (height * img.getWidth()) / img.getHeight();
-            }
-            Image scaledImage = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-            BufferedImage imageBuff = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            imageBuff.getGraphics().drawImage(scaledImage, 0, 0, new Color(0, 0, 0), null);
-
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-            ImageIO.write(imageBuff, "png", buffer);
-
-            return buffer.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException("IOException in scale");
-        }
-    }
-
     /**
-     * @param filePart
-     * @return
+     * @param filePart {}
+     * @return {}
      */
     public static Mono<byte[]> getBytes(final FilePart filePart) {
 
@@ -66,14 +41,36 @@ public class ImageUtils {
 
     /**
      * Extrai o buffer image do bytearray
-     * @param picture
-     * @return
-     * @throws IOException
      */
     public static BufferedImage getBufferedImageFromByteArray(final byte[] picture) throws IOException {
-
         final InputStream in = new ByteArrayInputStream(picture);
-
         return ImageIO.read(in);
     }
+
+
+    /**
+     * Redimensiona a imagem.
+     *
+     * @return array de bytes com imagem redimensionada
+     */
+    public static byte[] resizeImage(final byte[] imageByte, final int width, final int height) throws IOException {
+        try (final InputStream inputImage = new ByteArrayInputStream(imageByte)) {
+            final BufferedImage image = ImageIO.read(inputImage);
+            final BufferedImage imgResized = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            imgResized.getGraphics().drawImage(image, 0, 0, width, height, null);
+            return imageToByte(imgResized);
+        }
+    }
+
+    /**
+     * Converte BufferedImage para array de bytes no formato JPG.
+     */
+    private static byte[] imageToByte(BufferedImage img) throws IOException {
+        try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            ImageIO.write(img, "jpg", baos);
+            baos.flush();
+            return baos.toByteArray();
+        }
+    }
+
 }

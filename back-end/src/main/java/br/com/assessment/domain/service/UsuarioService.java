@@ -102,6 +102,8 @@ public class UsuarioService {
 
 
     /**
+     * Salva a foto, também é utilizado pra atualizar foto
+     *
      * @param id
      * @param file
      * @return
@@ -121,12 +123,12 @@ public class UsuarioService {
                         final int thumbnailWidth = width - (int) Math.round((width * 0.75));
                         final int thumbnailHeight = height - (int) Math.round((height * 0.75));
 
-                        usuario.setThumbnail(ImageUtils.scale(bytes, thumbnailWidth, thumbnailHeight));
+                        usuario.setThumbnail(ImageUtils.resizeImage(bytes, thumbnailWidth, thumbnailHeight));
 
                         final int avatarWidth = width - (int) Math.round((width * 0.25));
                         final int avatarHeight = height - (int) Math.round((height * 0.25));
 
-                        usuario.setAvatar(ImageUtils.scale(bytes, avatarWidth, avatarHeight));
+                        usuario.setAvatar(ImageUtils.resizeImage(bytes, avatarWidth, avatarHeight));
 
                         usuario.setFoto(bytes);
                     } catch (IOException e) {
@@ -147,6 +149,7 @@ public class UsuarioService {
     }
 
     /**
+     * TODO jogar pra cima
      * @param id
      * @return
      */
