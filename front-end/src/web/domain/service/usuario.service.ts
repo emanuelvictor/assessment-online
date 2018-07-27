@@ -175,7 +175,7 @@ export class UsuarioService {
     const arquivoFile = usuario.arquivoFile;
     const fotoPath = usuario.fotoPath;
 
-    const toSave = usuario;
+    let toSave = usuario;
     delete toSave.arquivoFile;
     delete toSave.fotoPath;
 
@@ -187,7 +187,7 @@ export class UsuarioService {
 
       this.usuarioRepository.save(toSave)
         .then(result => {
-
+          toSave = result;
           if (arquivoFile) {
 
             this.fileRepository.save('usuarios/' + String(result.id) + '/foto', arquivoFile)
@@ -205,8 +205,8 @@ export class UsuarioService {
             if (!fotoPath) {
               this.fileRepository.remove('usuarios/' + String(result.id) + '/foto')
                 .then(() => {
-                  usuario.fotoPath = null;
-                  resolve(usuario);
+                  toSave.fotoPath = null;
+                  resolve(toSave);
                 })
                 .catch(error => {
                   console.log(error);

@@ -2,6 +2,9 @@ package br.com.assessment.domain.entity.usuario;
 
 import br.com.assessment.domain.entity.colaborador.Colaborador;
 import br.com.assessment.domain.entity.colaborador.Vinculo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 import org.springframework.security.core.GrantedAuthority;
@@ -98,10 +101,10 @@ public class Usuario extends Pessoa implements UserDetails {
     private boolean isAdministrador;
 
     /**
-     *
+     * Remover o transient
      */
-    @Transient
-    @OneToMany(mappedBy = "usuario")
+    @JsonProperty
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Colaborador> colaboradores;
 
     /**
@@ -247,7 +250,6 @@ public class Usuario extends Pessoa implements UserDetails {
     }
 
     /**
-     *
      * @param fotoPath
      */
     public void setFotoPath(String fotoPath) {
@@ -257,7 +259,6 @@ public class Usuario extends Pessoa implements UserDetails {
     }
 
     /**
-     *
      * @param avatarPath
      */
     public void setAvatarPath(String avatarPath) {
@@ -267,7 +268,6 @@ public class Usuario extends Pessoa implements UserDetails {
     }
 
     /**
-     *
      * @param thumbnailPath
      */
     public void setThumbnailPath(String thumbnailPath) {
@@ -295,7 +295,6 @@ public class Usuario extends Pessoa implements UserDetails {
     }
 
     /**
-     *
      * @return {}
      */
     public String getThumbnailPath() {

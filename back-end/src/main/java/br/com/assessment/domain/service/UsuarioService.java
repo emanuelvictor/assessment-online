@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class UsuarioService {
 
 
-    Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
 
     private final UsuarioRepository usuarioRepository;
 
@@ -84,9 +84,14 @@ public class UsuarioService {
         return Mono.just(this.usuarioRepository.save(usuario));
     }
 
+    /**
+     *
+     * @param usuarioId
+     */
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public void delete(final long usuarioId) {
+    public Mono<Boolean> delete(final long usuarioId) {
         this.usuarioRepository.deleteById(usuarioId);
+        return Mono.just(true);
     }
 
     /**

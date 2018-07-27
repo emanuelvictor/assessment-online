@@ -29,8 +29,8 @@ public class UnidadeResource {
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable final long id) {
-        this.unidadeService.delete(id);
+    public Mono<Boolean> delete(@PathVariable final long id) {
+        return this.unidadeService.delete(id);
     }
 
     @GetMapping("{id}")

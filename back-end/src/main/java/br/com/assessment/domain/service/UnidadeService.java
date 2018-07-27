@@ -44,8 +44,9 @@ public class UnidadeService {
      * @param id
      */
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public void delete(final long id) {
+    public Mono<Boolean> delete(final long id) {
         this.unidadeRepository.deleteById(id);
+        return Mono.just(true);
     }
 
     /**

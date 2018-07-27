@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Audited
-@JsonIgnoreProperties({"authorities"})
+@JsonIgnoreProperties({"authorities", "colaboradores"})
 @lombok.EqualsAndHashCode(callSuper = true)
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa extends AbstractEntity implements Serializable {

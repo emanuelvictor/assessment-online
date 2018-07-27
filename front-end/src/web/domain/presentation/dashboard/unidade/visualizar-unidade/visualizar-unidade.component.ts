@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {Unidade} from '../../../../entity/unidade/Unidade.model';
 import {UnidadeService} from '../../../../service/unidade.service';
+import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'visualizar-unidade',
@@ -48,27 +49,27 @@ export class VisualizarUnidadeComponent implements OnInit {
    * @param {string} unidadeKey
    */
   public remove(unidadeKey: string) {
-    // let dialogRef = this.dialog.open(ConfirmDialogComponent,
-    //   {
-    //     data: {
-    //       text: 'Deseja realmente excluir a unidade?',
-    //       confirm: 'Sim',
-    //       cancel: 'Não'
-    //     }
-    //   }
-    // );
-    //
-    // dialogRef.afterClosed().subscribe(remover => {
-    //   if (remover) {
-    //     this.unidadeService.delete(this.unidade.id)
-    //       .then(() => {
-    //         this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-    //         this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {
-    //           duration: 3000
-    //         });
-    //       })
-    //   }
-    // });
+    let dialogRef = this.dialog.open(ConfirmDialogComponent,
+      {
+        data: {
+          text: 'Deseja realmente excluir a unidade?',
+          confirm: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(remover => {
+      if (remover) {
+        this.unidadeService.delete(this.unidade.id)
+          .then(() => {
+            this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+            this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {
+              duration: 3000
+            });
+          })
+      }
+    });
   }
 
   /**

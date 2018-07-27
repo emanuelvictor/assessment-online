@@ -120,7 +120,7 @@ export class UnidadeService {
    *
    * @param {number} unidadeId
    */
-  public delete(unidadeId: number): void {
-    this.unidadeRepository.delete(unidadeId);
+  public delete(unidadeId: number): Promise<void> {
+    return this.unidadeRepository.delete(unidadeId);
   }
 }

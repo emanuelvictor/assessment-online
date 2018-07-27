@@ -39,9 +39,8 @@ public class UsuarioResource {
     }
 
     @DeleteMapping("{id}")
-    public boolean delete(@PathVariable final long id) {
-        this.usuarioService.delete(id);
-        return true;
+    public Mono<Boolean> delete(@PathVariable final long id) {
+        return this.usuarioService.delete(id);
     }
 
     @GetMapping("{id}")
