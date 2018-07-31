@@ -1,6 +1,8 @@
 package br.com.assessment.application.security;
 
 
+import br.com.assessment.application.multitenancy.TenantContext;
+import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.UsuarioRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,6 +17,8 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 
@@ -42,9 +46,15 @@ public class AuthenticationSuccessHandler implements ServerAuthenticationSuccess
     /**
      *
      */
-    public AuthenticationSuccessHandler(final UsuarioRepository usuarioRepository, final ObjectMapper objMapper) {
+    private final TenantIdentifierResolver tenantIdentifierResolver;
+
+    /**
+     *
+     */
+    public AuthenticationSuccessHandler(final UsuarioRepository usuarioRepository, final ObjectMapper objMapper, final TenantIdentifierResolver tenantIdentifierResolver) {
         this.usuarioRepository = usuarioRepository;
         this.objMapper = objMapper;
+        this.tenantIdentifierResolver = tenantIdentifierResolver;
     }
 
     /**
