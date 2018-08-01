@@ -92,6 +92,12 @@ public class Usuario extends Pessoa implements UserDetails {
     /**
      *
      */
+    @Column(nullable = false)
+    private String tenant;
+
+    /**
+     *
+     */
     private String password;
 
     /**
@@ -301,5 +307,19 @@ public class Usuario extends Pessoa implements UserDetails {
         if (this.thumbnail != null)
             return "./usuarios/" + id + "/thumbnail";
         return null;
+    }
+
+    public String getTenant() {
+        if (tenant == null)
+            if (nome != null)
+                tenant = this.nome.replaceAll(" ", "").trim();
+        return tenant;
+    }
+
+    public void setTenant(String tenant) {
+        if (tenant == null)
+            if (nome != null)
+                tenant = this.nome.replaceAll(" ", "").trim();
+        this.tenant = tenant;
     }
 }

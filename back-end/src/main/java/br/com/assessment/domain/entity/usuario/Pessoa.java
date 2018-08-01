@@ -25,11 +25,11 @@ public class Pessoa extends AbstractEntity implements Serializable {
      *
      */
     @NotEmpty
-    private String nome;
+    protected String nome;
 
     /**
      *
      */
-    private String documento;
+    protected String documento;
 
 }
