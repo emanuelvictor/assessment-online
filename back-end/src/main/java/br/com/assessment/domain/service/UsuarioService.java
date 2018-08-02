@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.codec.multipart.Part;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -32,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
-public class UsuarioService {
+public class UsuarioService implements ReactiveUserDetailsService {
 
 
     private final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
@@ -97,7 +98,7 @@ public class UsuarioService {
     /**
      * @return
      */
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+//    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Flux<Usuario> findAll() {
 
         final List<Usuario> list = this.usuarioRepository.findAll();
