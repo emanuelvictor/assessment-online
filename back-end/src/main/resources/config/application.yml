@@ -15,7 +15,8 @@ spring:
 
 #JPA
   jpa:
-    hibernate.ddl-auto: update
+    hibernate:
+      ddl-auto: update
     show-sql: true
     open-in-view: false
     properties:
@@ -23,6 +24,9 @@ spring:
       hibernate.id.new_generator_mappings: true
       hibernate.cache.use_second_level_cache: true
       hibernate.default_schema: public
+#      hibernate.multiTenancy: SCHEMA
+#      hibernate.tenant_identifier_resolver: br.com.assessment.application.multitenancy.TenantIdentifierResolver
+#      hibernate.multi_tenant_connection_provider: br.com.assessment.application.multitenancy.MultiTenantConnectionProviderImpl
       org.hibernate.envers.audit_table_suffix: _audited
       org.hibernate.envers.revision_field_name: revision
       org.hibernate.envers.revision_type_field_name: revision_type

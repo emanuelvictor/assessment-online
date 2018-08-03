@@ -1,6 +1,8 @@
 package br.com.assessment.domain.service;
 
+import br.com.assessment.application.multitenancy.TenantContext;
 import br.com.assessment.infrastructure.file.ImageUtils;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -33,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class UsuarioService implements ReactiveUserDetailsService {
 
 
@@ -41,11 +44,6 @@ public class UsuarioService implements ReactiveUserDetailsService {
     private final UsuarioRepository usuarioRepository;
 
     private final PasswordEncoder passwordEncoder;
-
-    public UsuarioService(final UsuarioRepository usuarioRepository, final PasswordEncoder passwordEncoder) {
-        this.usuarioRepository = usuarioRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     /**
      *
@@ -82,6 +80,7 @@ public class UsuarioService implements ReactiveUserDetailsService {
         if (usuario.getPassword() != null)
             usuario.setPassword(this.passwordEncoder.encode(usuario.getPassword()));
 
+        usuario.setTenant(TenantContext.getCurrentTenant());
         return Mono.just(this.usuarioRepository.save(usuario));
     }
 
