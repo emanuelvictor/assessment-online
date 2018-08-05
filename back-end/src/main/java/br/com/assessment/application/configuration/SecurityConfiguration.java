@@ -3,6 +3,7 @@ package br.com.assessment.application.configuration;
 import br.com.assessment.application.multitenancy.TenantContext;
 import br.com.assessment.application.security.AuthenticationFailureHandler;
 import br.com.assessment.application.security.AuthenticationSuccessHandler;
+import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.service.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -49,7 +50,7 @@ public class SecurityConfiguration {
 
         return httpSecurity
                 .authenticationManager(authentication -> {
-                    TenantContext.setCurrentTenant(authentication.getName());
+                    TenantContext.setCurrentTenant(((Usuario) authentication).getId());
                     return userDetailsRepositoryReactiveAuthenticationManager().authenticate(authentication);
                 })
                 .authorizeExchange()
@@ -57,27 +58,16 @@ public class SecurityConfiguration {
                 .and()
                 .csrf().disable()
                 .formLogin()
-                .requiresAuthenticationMatcher(exchange -> {
-                    final Map map = new HashMap<>();
-//                    map.put("login", "login");
-//                    map.put("principal", "principal");
-                    return ServerWebExchangeMatcher.MatchResult.match();
-                })
+                .requiresAuthenticationMatcher(exchange -> ServerWebExchangeMatcher.MatchResult.match())
                 .authenticationSuccessHandler(authenticationSuccessHandler)
                 .authenticationFailureHandler(authenticationFailureHandler)
-//                todo IMPLEMENTAR logout, remover o tenant .and().logout().logoutHandler(new ServerLogoutHandler() {
-//                    @Override
-//                    public Mono<Void> logout(WebFilterExchange webFilterExchange, Authentication authentication) {
-//                        return null;
-//                    }
-//                })
                 .and()
                 .build();
 
     }
 
     @Bean
-    UserDetailsRepositoryReactiveAuthenticationManager userDetailsRepositoryReactiveAuthenticationManager(){
+    UserDetailsRepositoryReactiveAuthenticationManager userDetailsRepositoryReactiveAuthenticationManager() {
         final UserDetailsRepositoryReactiveAuthenticationManager userDetailsRepositoryReactiveAuthenticationManager = new UserDetailsRepositoryReactiveAuthenticationManager(this.reactiveUserDetailsService());
         userDetailsRepositoryReactiveAuthenticationManager.setPasswordEncoder(this.passwordEncoder());
         return userDetailsRepositoryReactiveAuthenticationManager;

@@ -1,7 +1,7 @@
 package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.endereco.Cidade;
-import br.com.assessment.domain.repository.IEnderecoRepository;
+import br.com.assessment.domain.repository.EnderecoRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -10,9 +10,9 @@ import java.util.Optional;
 @Service
 public class EnderecoService {
 
-    private final IEnderecoRepository enderecoRepository;
+    private final EnderecoRepository enderecoRepository;
 
-    public EnderecoService(final IEnderecoRepository enderecoRepository) {
+    public EnderecoService(final EnderecoRepository enderecoRepository) {
         this.enderecoRepository = enderecoRepository;
     }
 

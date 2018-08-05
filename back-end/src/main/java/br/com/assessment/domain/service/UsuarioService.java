@@ -1,33 +1,28 @@
 package br.com.assessment.domain.service;
 
-import br.com.assessment.application.multitenancy.TenantContext;
+import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
+import br.com.assessment.domain.entity.usuario.Tenant;
+import br.com.assessment.domain.entity.usuario.Usuario;
+import br.com.assessment.domain.repository.TenantRepository;
+import br.com.assessment.domain.repository.UsuarioRepository;
 import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.http.codec.multipart.Part;
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-
-
-import br.com.assessment.domain.entity.usuario.Usuario;
-import br.com.assessment.domain.repository.UsuarioRepository;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.http.codec.multipart.Part;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -38,12 +33,15 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class UsuarioService implements ReactiveUserDetailsService {
 
-
     private final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
 
     private final UsuarioRepository usuarioRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final TenantIdentifierResolver tenantIdentifierResolver;
+
+    private final TenantRepository tenantRepository;
 
     /**
      *
@@ -71,6 +69,18 @@ public class UsuarioService implements ReactiveUserDetailsService {
         return Mono.just(this.usuarioRepository.findById(usuarioId));
     }
 
+    public Mono<Usuario> createAccount(final Usuario usuario) {
+        if (usuario.getPassword() != null)
+            usuario.setPassword(this.passwordEncoder.encode(usuario.getPassword()));
+
+        final Tenant tenant = new Tenant(usuario.getEmail());
+        this.tenantRepository.save(tenant);
+
+        usuario.setTenant(tenant);
+
+        return  Mono.just(this.usuarioRepository.save(usuario));
+    }
+
     /**
      *
      */
@@ -80,8 +90,12 @@ public class UsuarioService implements ReactiveUserDetailsService {
         if (usuario.getPassword() != null)
             usuario.setPassword(this.passwordEncoder.encode(usuario.getPassword()));
 
-        usuario.setTenant(TenantContext.getCurrentTenant());
-        return Mono.just(this.usuarioRepository.save(usuario));
+        final Tenant tenant = new Tenant(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+        this.tenantRepository.save(tenant);
+
+        usuario.setTenant(tenant);
+
+        return  Mono.just(this.usuarioRepository.save(usuario));
     }
 
     /**

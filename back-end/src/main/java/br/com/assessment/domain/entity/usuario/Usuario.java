@@ -2,8 +2,6 @@ package br.com.assessment.domain.entity.usuario;
 
 import br.com.assessment.domain.entity.colaborador.Colaborador;
 import br.com.assessment.domain.entity.colaborador.Vinculo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.envers.Audited;
@@ -15,7 +13,10 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -92,12 +93,6 @@ public class Usuario extends Pessoa implements UserDetails {
     /**
      *
      */
-    @Column(nullable = false)
-    private String tenant;
-
-    /**
-     *
-     */
     private String password;
 
     /**
@@ -108,6 +103,7 @@ public class Usuario extends Pessoa implements UserDetails {
 
     /**
      * Remover o transient
+     * PORQUE ESTÁ EAGER
      */
     @JsonProperty
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -116,7 +112,14 @@ public class Usuario extends Pessoa implements UserDetails {
     /**
      *
      */
+    @ManyToOne
+    private Tenant tenant;
+
+    /**
+     *
+     */
     private LocalDateTime lastLogin;
+
 
     /**
      *
