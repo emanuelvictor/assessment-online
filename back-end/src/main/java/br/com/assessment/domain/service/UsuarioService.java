@@ -1,9 +1,9 @@
 package br.com.assessment.domain.service;
 
 import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
-import br.com.assessment.domain.entity.usuario.Tenant;
+import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
-import br.com.assessment.domain.repository.TenantRepository;
+import br.com.assessment.domain.repository.ContaRepository;
 import br.com.assessment.domain.repository.UsuarioRepository;
 import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.AllArgsConstructor;
@@ -14,9 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.codec.multipart.Part;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +25,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import static br.com.assessment.application.multitenancy.TenantIdentifierResolver.DEFAULT_TENANT_ID;
+
 @Service
 @Transactional
 @AllArgsConstructor
-public class UsuarioService implements ReactiveUserDetailsService {
+public class UsuarioService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
 
@@ -41,25 +40,7 @@ public class UsuarioService implements ReactiveUserDetailsService {
 
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
-    private final TenantRepository tenantRepository;
-
-    /**
-     *
-     */
-    public Mono<UserDetails> findByUsername(final String email) {
-        return this.findUsuarioByEmail(email);
-    }
-
-    /**
-     * @param email
-     * @return
-     */
-    public Mono<UserDetails> findUsuarioByEmail(final String email) {
-        if (email.equals(Usuario.MASTER_USER_EMAIL)) {
-            return Mono.just(Usuario.getMasterUser());
-        }
-        return Mono.just(usuarioRepository.findByEmail(email));
-    }
+    private final ContaRepository contaRepository;
 
     /**
      * @param usuarioId
@@ -69,14 +50,21 @@ public class UsuarioService implements ReactiveUserDetailsService {
         return Mono.just(this.usuarioRepository.findById(usuarioId));
     }
 
+    /**
+     *
+     * @param usuario
+     * @return
+     */
     public Mono<Usuario> createAccount(final Usuario usuario) {
-        if (usuario.getPassword() != null)
-            usuario.setPassword(this.passwordEncoder.encode(usuario.getPassword()));
 
-        final Tenant tenant = new Tenant(usuario.getEmail());
-        this.tenantRepository.save(tenant);
+        // Encoda o password
+        if (usuario.getConta().getPassword() != null)
+            usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
 
-        usuario.setTenant(tenant);
+        final Conta conta = new Conta(DEFAULT_TENANT_ID);
+        this.contaRepository.save(conta);
+
+        usuario.setConta(conta);
 
         return  Mono.just(this.usuarioRepository.save(usuario));
     }
@@ -87,13 +75,14 @@ public class UsuarioService implements ReactiveUserDetailsService {
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Usuario> save(final Usuario usuario) {
 
-        if (usuario.getPassword() != null)
-            usuario.setPassword(this.passwordEncoder.encode(usuario.getPassword()));
+        // Encoda o password
+        if (usuario.getConta().getPassword() != null)
+            usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
 
-        final Tenant tenant = new Tenant(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());
-        this.tenantRepository.save(tenant);
+        final Conta conta = new Conta(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+        this.contaRepository.save(conta);
 
-        usuario.setTenant(tenant);
+        usuario.setConta(conta);
 
         return  Mono.just(this.usuarioRepository.save(usuario));
     }
@@ -111,7 +100,7 @@ public class UsuarioService implements ReactiveUserDetailsService {
     /**
      * @return
      */
-//    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Flux<Usuario> findAll() {
 
         final List<Usuario> list = this.usuarioRepository.findAll();

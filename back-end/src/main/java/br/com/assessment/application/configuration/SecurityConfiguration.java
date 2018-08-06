@@ -3,8 +3,7 @@ package br.com.assessment.application.configuration;
 import br.com.assessment.application.multitenancy.TenantContext;
 import br.com.assessment.application.security.AuthenticationFailureHandler;
 import br.com.assessment.application.security.AuthenticationSuccessHandler;
-import br.com.assessment.domain.entity.usuario.Usuario;
-import br.com.assessment.domain.service.UsuarioService;
+import br.com.assessment.domain.service.ContaService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -41,16 +37,20 @@ public class SecurityConfiguration {
     /**
      *
      */
-    private final UsuarioService usuarioService;
+    private final ContaService contaService;
 
     /**
+     *
+     * @param httpSecurity {ServerHttpSecurity}
+     * @return {SecurityWebFilterChain}
+     * @throws Exception {}
      */
     @Bean
     SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity httpSecurity) throws Exception {
 
         return httpSecurity
                 .authenticationManager(authentication -> {
-                    TenantContext.setCurrentTenant(((Usuario) authentication).getId());
+                    TenantContext.setCurrentTenant((String) authentication.getPrincipal());
                     return userDetailsRepositoryReactiveAuthenticationManager().authenticate(authentication);
                 })
                 .authorizeExchange()
@@ -77,7 +77,7 @@ public class SecurityConfiguration {
      */
     @Bean
     ReactiveUserDetailsService reactiveUserDetailsService() {
-        return usuarioService::findByUsername;
+        return contaService;
     }
 
     @Bean

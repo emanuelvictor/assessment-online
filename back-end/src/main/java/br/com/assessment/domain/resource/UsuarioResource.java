@@ -3,6 +3,7 @@ package br.com.assessment.domain.resource;
 import br.com.assessment.domain.service.UsuarioService;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import javassist.bytecode.ByteArray;
+import lombok.AllArgsConstructor;
 import org.reactivestreams.Publisher;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.dao.DuplicateKeyException;
@@ -19,14 +20,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
+@AllArgsConstructor
 public class UsuarioResource {
 
     private final UsuarioService usuarioService;
-
-    //Note Spring Boot 4.3+ autowires single constructors now
-    public UsuarioResource(final UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
-    }
 
     @PostMapping
     public Mono<Usuario> save(@RequestBody final Usuario usuario) {
@@ -46,11 +43,6 @@ public class UsuarioResource {
     @GetMapping("{id}")
     public Mono<Optional<Usuario>> findUsuarioById(@PathVariable final long id) {
         return this.usuarioService.findUsuarioById(id);
-    }
-
-    @GetMapping(params = "email")
-    public Mono<UserDetails> findUsuarioByEmail(@RequestParam final String email) {
-        return this.usuarioService.findUsuarioByEmail(email);
     }
 
     @GetMapping

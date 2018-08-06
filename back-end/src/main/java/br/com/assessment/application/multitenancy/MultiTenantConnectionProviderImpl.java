@@ -44,7 +44,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
     @Override
     public Connection getConnection(final String tenantIdentifier) throws SQLException {
-        System.out.println("Tenant " + tenantIdentifier);
+        System.out.println("Conta " + tenantIdentifier);
         final Connection connection = getAnyConnection();
         try {
             if (tenantIdentifier != null) {

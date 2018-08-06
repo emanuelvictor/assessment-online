@@ -1,5 +1,6 @@
 package br.com.assessment.domain.resource;
 
+import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
@@ -13,8 +14,12 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/principal")
 public class AuthenticationResource {
 
+    /**
+     *
+     * @return Mono<Conta>
+     */
     @GetMapping
-    public Mono<Usuario> principal() {
-        return ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication).switchIfEmpty(Mono.empty()).map(authentication -> (Usuario) authentication.getPrincipal());
+    public Mono<Conta> principal() {
+        return ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication).switchIfEmpty(Mono.empty()).map(authentication -> (Conta) authentication.getPrincipal());
     }
 }

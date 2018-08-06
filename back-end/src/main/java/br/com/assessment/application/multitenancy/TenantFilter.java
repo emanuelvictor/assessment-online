@@ -1,5 +1,6 @@
 package br.com.assessment.application.multitenancy;
 
+import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
@@ -26,8 +27,8 @@ public class TenantFilter implements WebFilter {
                 )
                 .map(securityContext -> {
                     if (securityContext.getAuthentication() != null) {
-                        final Usuario usuario = ((Usuario) securityContext.getAuthentication().getPrincipal());
-                        TenantContext.setCurrentTenant(usuario.getTenant().getEsquema());
+                        final Conta conta = ((Conta) securityContext.getAuthentication().getPrincipal());
+                        TenantContext.setCurrentTenant(conta.getEsquema());
                     }
                     return webFilterChain.filter(serverWebExchange);
                 })

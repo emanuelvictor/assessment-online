@@ -1,12 +1,12 @@
 package br.com.assessment.application.security;
 
 
-import br.com.assessment.application.multitenancy.TenantContext;
-import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
+import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
-import br.com.assessment.domain.repository.UsuarioRepository;
+import br.com.assessment.domain.repository.ContaRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -16,9 +16,6 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 
@@ -26,6 +23,7 @@ import java.util.logging.Logger;
  *
  */
 @Component
+@AllArgsConstructor
 public class AuthenticationSuccessHandler implements ServerAuthenticationSuccessHandler {
 
     /**
@@ -36,7 +34,7 @@ public class AuthenticationSuccessHandler implements ServerAuthenticationSuccess
     /**
      *
      */
-    private final UsuarioRepository usuarioRepository;
+    private final ContaRepository contaRepository;
 
     /**
      *
@@ -44,35 +42,26 @@ public class AuthenticationSuccessHandler implements ServerAuthenticationSuccess
     private final ObjectMapper objMapper;
 
     /**
-     *
-     */
-    private final TenantIdentifierResolver tenantIdentifierResolver;
-
-    /**
-     *
-     */
-    public AuthenticationSuccessHandler(final UsuarioRepository usuarioRepository, final ObjectMapper objMapper, final TenantIdentifierResolver tenantIdentifierResolver) {
-        this.usuarioRepository = usuarioRepository;
-        this.objMapper = objMapper;
-        this.tenantIdentifierResolver = tenantIdentifierResolver;
-    }
-
-    /**
-     *
+     * @param webFilterExchange {WebFilterExchange}
+     * @param authentication    {Authentication}
+     * @return Mono<Void>
      */
     @Override
-    public Mono<Void> onAuthenticationSuccess(final WebFilterExchange webFilterExchange, final  Authentication authentication) {
-        final Usuario usuario;
-        if (((Usuario) authentication.getPrincipal()).getUsername().equals(Usuario.MASTER_USER_EMAIL)) {
-            usuario = (Usuario) Usuario.getMasterUser();
+    public Mono<Void> onAuthenticationSuccess(final WebFilterExchange webFilterExchange, final Authentication authentication) {
+
+        final Conta conta;
+
+        if (((Conta) authentication.getPrincipal()).getUsername().equals(Conta.MASTER_USER_EMAIL)) {
+            conta = (Conta) Conta.getMasterAccount();
         } else {
-            usuario = this.usuarioRepository.findById(((Usuario) authentication.getPrincipal()).getId()).get();
-            usuario.setLastLogin(LocalDateTime.now());
-            this.usuarioRepository.save(usuario);
+            conta = this.contaRepository.findById(((Usuario) authentication.getPrincipal()).getId()).orElse(null);
+            assert conta != null;
+            conta.setLastLogin(LocalDateTime.now());
+            this.contaRepository.save(conta);
         }
 
         try {
-            final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes(usuario));
+            final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes(conta));
             webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);
             return webFilterExchange.getExchange().getResponse().writeWith(Mono.just(buf));
         } catch (final JsonProcessingException e) {
