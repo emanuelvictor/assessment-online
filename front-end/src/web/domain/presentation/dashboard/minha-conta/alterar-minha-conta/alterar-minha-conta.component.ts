@@ -5,6 +5,7 @@ import {textMasks} from '../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {UsuarioService} from '../../../../service/usuario.service';
+import {ContaService} from '../../../../service/conta.service';
 
 @Component({
   selector: 'alterar-minha-conta',
@@ -31,8 +32,10 @@ export class AlterarMinhaContaComponent implements OnInit {
    * @param {AuthenticationService} authenticationService
    * @param {UsuarioService} usuarioService
    * @param {ActivatedRoute} activatedRoute
+   * @param {ContaService} contaService
    */
-  constructor(public router: Router, public snackBar: MatSnackBar, public authenticationService: AuthenticationService, public usuarioService: UsuarioService, public activatedRoute: ActivatedRoute) {
+  constructor(public router: Router, public snackBar: MatSnackBar, public authenticationService: AuthenticationService,
+              public usuarioService: UsuarioService, public activatedRoute: ActivatedRoute, public contaService: ContaService) {
   }
 
   /**
@@ -47,7 +50,7 @@ export class AlterarMinhaContaComponent implements OnInit {
    */
   public getAuthenticatedUser() {
     const email = this.authenticationService.getAuthenticatedUser().email;
-    this.usuarioService.findUsuarioByEmail(email)
+    this.contaService.findUsuarioByEmail(email)
       .subscribe(usuario => this.usuario = usuario)
   }
 

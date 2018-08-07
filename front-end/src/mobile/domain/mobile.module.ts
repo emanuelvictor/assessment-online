@@ -19,25 +19,25 @@ import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AccountRepository} from '../../web/infrastructure/repository/account/account.repository';
 import {UnidadeService} from '../../web/domain/service/unidade.service';
-import {AngularFireDatabase} from 'angularfire2/database';
 import {AvaliarComponent} from './presentation/avaliacao/avaliar/avaliar.component';
 import {AvaliacaoComponent} from './presentation/avaliacao/avaliacao.component';
 import {ConclusaoComponent} from './presentation/avaliacao/conclusao/conclusao.component';
 import {SelecionarUnidadeComponent} from './presentation/avaliacao/selecionar-unidade/selecionar-unidade.component';
-import {MobileService} from './service/mobile.service';
 import {SelecionarAtendentesComponent} from './presentation/avaliacao/selecionar-atendentes/selecionar-atendentes.component';
 import {ColaboradorService} from '../../web/domain/service/colaborador.service';
 import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
 import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {MatGridListModule} from '@angular/material/grid-list';
-import { EllipsisModule } from 'ngx-ellipsis';
+import {EllipsisModule} from 'ngx-ellipsis';
 import {AvaliacaoRepository} from '../../web/domain/repositories/avaliacao.repository';
 import {UsuarioRepository} from '../../web/domain/repositories/usuario.repository';
 import {AvaliacaoColaboradorRepository} from '../../web/domain/repositories/avaliacao-colaborador.repository';
 import {ColaboradorRepository} from '../../web/domain/repositories/colaborador.repository';
 import {EnderecoRepository} from '../../web/domain/repositories/endereco.repository';
 import {UnidadeRepository} from '../../web/domain/repositories/unidade.repository';
+import {ContaRepository} from '../../web/domain/repositories/conta.repository';
+import {ContaService} from '../../web/domain/service/conta.service';
 
 /**
  *
@@ -69,22 +69,24 @@ import {UnidadeRepository} from '../../web/domain/repositories/unidade.repositor
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     Describer,
-    FileRepository,
+    AvaliacaoColaboradorRepository,
     ColaboradorRepository,
+    AvaliacaoRepository,
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
     AccountRepository,
-    AvaliacaoRepository,
+    FileRepository,
+    ContaRepository,
+
+    AuthenticationService,
     ColaboradorService,
-    AvaliacaoColaboradorRepository,
+    AvaliacaoService,
     EnderecoService,
     UsuarioService,
     UnidadeService,
-    AuthenticationService,
-    AngularFireDatabase,
-    MobileService,
-    AvaliacaoService,
+    ContaService,
+
 
     {provide: LOCALE_ID, useValue: 'pt-BR'},
 

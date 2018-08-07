@@ -5,9 +5,9 @@ import {AlterarMinhaSenhaComponent} from './alterar-minha-senha/alterar-minha-se
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {Subscription} from 'rxjs/Subscription';
-import {UsuarioService} from '../../../../service/usuario.service';
 import {ActivatedRoute} from '@angular/router';
 import {FileRepository} from '../../../../../infrastructure/repository/file/file.repository';
+import {ContaService} from '../../../../service/conta.service';
 
 @Component({
   selector: 'visualizar-minha-conta',
@@ -34,25 +34,25 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
 
   /**
    *
-   */
-  public userSubscription: Subscription;
-
-  /**
-   *
    * @param {MatDialog} dialog
    * @param {MatSnackBar} snackBar
+   * @param {ContaService} contaService
    * @param {ActivatedRoute} activatedRoute
-   * @param {UsuarioService} usuarioService
    * @param {FileRepository} fileRepository
    * @param {AuthenticationService} authenticationService
    */
   constructor(public dialog: MatDialog,
               public snackBar: MatSnackBar,
+              public contaService: ContaService,
               public activatedRoute: ActivatedRoute,
-              public usuarioService: UsuarioService,
               public fileRepository: FileRepository,
               public authenticationService: AuthenticationService) {
   }
+
+  /**
+   *
+   */
+  public userSubscription: Subscription;
 
   /**
    *
@@ -65,7 +65,7 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
    *
    */
   ngOnInit(): void {
-    this.usuarioService.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email)
+    this.contaService.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email)
       .subscribe(result =>
         this.usuario = result
       );

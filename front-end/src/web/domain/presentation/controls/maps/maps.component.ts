@@ -1,11 +1,11 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
 
-import {Endereco} from '../../../entity/endereco/Endereco.model';
+import {Endereco} from '../../../entity/endereco/endereco.model';
 import {textMasks} from '../text-masks/text-masks';
 import {AuthenticationService} from '../../../service/authentication.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {EnderecoService} from '../../../service/endereco.service';
-import {Cidade} from '../../../entity/endereco/Cidade.model';
+import {Cidade} from '../../../entity/endereco/cidade.model';
 
 
 @Component({

@@ -9,6 +9,7 @@ import {UnidadeService} from '../../../../service/unidade.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {Colaborador} from '../../../../entity/colaborador/colaborador.model';
 import {ColaboradorService} from '../../../../service/colaborador.service';
+import {AuthenticationService} from '../../../../service/authentication.service';
 
 @Component({
   selector: 'visualizar-atendente',
@@ -45,18 +46,18 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {ColaboradorService} colaboradorService
    * @param {ActivatedRoute} activatedRoute
    * @param {MatDialog} dialog
-   * @param {UsuarioService} usuarioService
+   * @param {AuthenticationService} authenticationService
    * @param {UnidadeService} unidadeService
    */
-  constructor(private router: Router,
-              private snackBar: MatSnackBar,
+  constructor(private snackBar: MatSnackBar,
               private colaboradorService: ColaboradorService,
+              private router: Router, private usuarioService: UsuarioService,
               public activatedRoute: ActivatedRoute, private dialog: MatDialog,
-              private usuarioService: UsuarioService, private unidadeService: UnidadeService) {
+              private authenticationService: AuthenticationService, private unidadeService: UnidadeService) {
     /**
      * Pega o usuário logado
      */
-    this.usuarioService.getUsuarioAutenticado().subscribe(result => {
+    this.authenticationService.getContaAutenticada().subscribe(result => {
       this.authenticatedUser = result;
     });
 
@@ -104,9 +105,8 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param {string} atendenteId
    */
-  public remove(atendenteId: number) {
+  public remove() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
         data: {

@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {AvaliacaoService} from '../../../../../service/avaliacao.service';
-import {Avaliacao} from '../../../../../entity/avaliacao/Avaliacao.model';
+import {Avaliacao} from '../../../../../entity/avaliacao/avaliacao.model';
 import {TdDigitsPipe} from '@covalent/core';
 import {Title} from '@angular/platform-browser';
 import * as moment from 'moment';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {UsuarioService} from '../../../../../service/usuario.service';
+import {AuthenticationService} from '../../../../../service/authentication.service';
 
 @Component({
   selector: 'minhas-estatisticas',
@@ -101,12 +102,12 @@ export class MinhasEstatisticasComponent implements OnInit {
   /**
    *
    * @param {Title} title
-   * @param {UsuarioService} usuarioService
    * @param {AvaliacaoService} avaliacaoService
+   * @param {AuthenticationService} authenticationService
    */
   constructor(private title: Title,
-              private usuarioService: UsuarioService,
-              private avaliacaoService: AvaliacaoService) {
+              private avaliacaoService: AvaliacaoService,
+              private authenticationService: AuthenticationService) {
   }
 
   /**
@@ -114,7 +115,7 @@ export class MinhasEstatisticasComponent implements OnInit {
    */
   ngOnInit() {
 
-    this.usuarioService.getUsuarioAutenticado()
+    this.authenticationService.getContaAutenticada()
       .subscribe((rankeavel: any) => {
         this.rankeavel = rankeavel;
         this.title.setTitle('Estatisticas de ' + this.rankeavel.nome);

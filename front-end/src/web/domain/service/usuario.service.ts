@@ -40,7 +40,7 @@ export class UsuarioService {
 
     // return Observable.save(observer => {
     //
-    //   this.getUsuarioAutenticado()
+    //   this.getContaAutenticada()
     //     .subscribe(usuarioAutenticado => {
     //
     //       if (usuarioAutenticado.isAdministrador) {
@@ -156,14 +156,6 @@ export class UsuarioService {
     return this.usuarioRepository.findById(id);
   }
 
-  /**
-   *
-   * @param {string} email
-   * @returns {Observable<any>}
-   */
-  public findUsuarioByEmail(email: string): Observable<any> {
-    return this.usuarioRepository.findUsuarioByEmail(email);
-  }
 
   /**
    *
@@ -255,31 +247,4 @@ export class UsuarioService {
     return this.usuarioRepository.delete(usuario.id);
   }
 
-  /**
-   *
-   * @param {Usuario} usuario
-   * @param {string} newPassword
-   * @returns {Promise<any>}
-   */
-  changePassword(usuario: Usuario, newPassword: string): Promise<any> {
-    return this.usuarioRepository.changePassword(usuario, newPassword);
-  }
-
-  /**
-   *
-   * @param {Usuario} usuario
-   * @param {string} currentPassword
-   * @param {string} newPassword
-   * @returns {Promise<any>}
-   */
-  changeMyPassword(usuario: Usuario, currentPassword: string, newPassword: string): Promise<any> {
-    return this.usuarioRepository.changeMyPassword(usuario, currentPassword, newPassword);
-  }
-
-  /**
-   *
-   */
-  public getUsuarioAutenticado(): Observable<any> {
-    return this.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email);
-  }
 }

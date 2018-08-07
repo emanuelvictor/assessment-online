@@ -1,4 +1,4 @@
-import {Abstract} from '../abstract/Abstract.model';
+import {Abstract} from '../abstract/abstract.model';
 import {AvaliacaoColaborador} from "./avaliacao-colaborador.model";
 
 export class Avaliacao extends Abstract {

@@ -1,8 +1,8 @@
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {TdMediaService} from '@covalent/core';
 import {Subscription} from 'rxjs/Subscription';
-import {UsuarioService} from '../../service/usuario.service';
 import {ColaboradorService} from '../../service/colaborador.service';
+import {AuthenticationService} from '../../service/authentication.service';
 
 
 @Component({
@@ -35,13 +35,16 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
 
   /**
    *
+   * @param {ColaboradorService} colaboradorService
    * @param {TdMediaService} media
    * @param {NgZone} ngZone
-   * @param {UsuarioService} usuarioService
-   * @param {ColaboradorService} colaboradorService
+   * @param {AuthenticationService} authenticationService
    */
-  constructor(public media: TdMediaService, public ngZone: NgZone, private usuarioService: UsuarioService, private colaboradorService: ColaboradorService) {
-    this.usuarioService.getUsuarioAutenticado().subscribe(result => {
+  constructor(private colaboradorService: ColaboradorService,
+              public media: TdMediaService, public ngZone: NgZone,
+              private authenticationService: AuthenticationService) {
+
+    this.authenticationService.getContaAutenticada().subscribe(result => {
       this.conta = result;
       this.colaboradorService.listOperadoresByUsuarioKey(this.conta.usuario.id)
         .subscribe(operadores => {

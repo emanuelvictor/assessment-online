@@ -34,8 +34,8 @@ export class HeaderComponent implements OnDestroy {
    * @param {UsuarioService} usuarioService
    * @param {ColaboradorService} colaboradorService
    */
-  constructor(private authenticationService: AuthenticationService, private router: Router, private usuarioService: UsuarioService, private colaboradorService: ColaboradorService) {
-    this.usuarioService.getUsuarioAutenticado().subscribe(result => {
+  constructor(private authenticationService: AuthenticationService, private router: Router, private colaboradorService: ColaboradorService) {
+    this.authenticationService.getContaAutenticada().subscribe(result => {
       this.usuario = result;
       this.colaboradorService.listOperadoresByUsuarioKey(this.usuario.key).subscribe(operadores => {
         this.usuario.isOperador = operadores.length > 0;

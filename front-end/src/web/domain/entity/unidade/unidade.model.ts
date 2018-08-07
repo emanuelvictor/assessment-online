@@ -1,6 +1,6 @@
-import {Endereco} from '../endereco/Endereco.model';
-import {Cidade} from '../endereco/Cidade.model';
-import {Rankeavel} from '../abstract/Rankeavel.model';
+import {Endereco} from '../endereco/endereco.model';
+import {Cidade} from '../endereco/cidade.model';
+import {Rankeavel} from '../abstract/rankeavel.model';
 
 export class Unidade extends Rankeavel {
 

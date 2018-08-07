@@ -5,6 +5,7 @@ import {isNullOrUndefined} from 'util';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {ContaService} from './conta.service';
 
 @Injectable()
 export class AuthenticationService implements CanActivate, CanActivateChild {
@@ -23,8 +24,9 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    *
    * @param {Router} router
    * @param {HttpClient} httpClient
+   * @param {ContaService} contaService
    */
-  constructor(private router: Router, private httpClient: HttpClient) {
+  constructor(private router: Router, private httpClient: HttpClient, private contaService: ContaService) {
 
     this.authenticatedUserChanged = new EventEmitter();
 
@@ -104,5 +106,12 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     return this.httpClient.post('logout', body).toPromise()
       .catch(() => {
       });
+  }
+
+  /**
+   *
+   */
+  public getContaAutenticada(): Observable<any> {
+    return this.contaService.findUsuarioByEmail(this.getAuthenticatedUser().email);
   }
 }

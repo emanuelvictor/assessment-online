@@ -4,6 +4,7 @@ import {UnidadeService} from '../../../../service/unidade.service';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {Unidade} from '../../../../entity/unidade/unidade.model';
+import {AuthenticationService} from '../../../../service/authentication.service';
 
 @Component({
   selector: 'consultar-unidades',
@@ -32,16 +33,16 @@ export class ConsultarUnidadesComponent implements OnInit {
    *
    * @param {MatSnackBar} snackBar
    * @param {UnidadeService} unidadeService
-   * @param {UsuarioService} usuarioService
+   * @param {AuthenticationService} authenticationService
    */
-  constructor(private snackBar: MatSnackBar, private unidadeService: UnidadeService, private usuarioService: UsuarioService) {
+  constructor(private snackBar: MatSnackBar, private unidadeService: UnidadeService, private authenticationService: AuthenticationService) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    this.usuarioService.getUsuarioAutenticado()
+    this.authenticationService.getContaAutenticada()
       .subscribe(usuarioAutenticado => this.usuarioAutenticado = usuarioAutenticado);
     this.listUnidadesByFilters();
   }

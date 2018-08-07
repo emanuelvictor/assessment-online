@@ -31,7 +31,7 @@ export class LoggedMenuComponent implements OnDestroy {
    */
   constructor(private authenticationService: AuthenticationService, private usuarioService: UsuarioService, private changeDetectionRef: ChangeDetectorRef, private colaboradorService: ColaboradorService) {
 
-    this.usuarioService.getUsuarioAutenticado().subscribe(result => {
+    this.authenticationService.getContaAutenticada().subscribe(result => {
       this.authenticatedUser = result;
       this.colaboradorService.listOperadoresByUsuarioKey(this.authenticatedUser.key).subscribe(operadores => {
         if (operadores.length > 0)

@@ -2,7 +2,7 @@
  * Created by emanuel on 13/06/17.
  */
 import {Injectable} from '@angular/core';
-import {Avaliacao} from '../../../web/domain/entity/avaliacao/Avaliacao.model';
+import {Avaliacao} from '../../../web/domain/entity/avaliacao/avaliacao.model';
 import {Unidade} from '../../../web/domain/entity/unidade/unidade.model';
 import {Colaborador} from '../../../web/domain/entity/colaborador/colaborador.model';
 import {MatSnackBarConfig} from '@angular/material';

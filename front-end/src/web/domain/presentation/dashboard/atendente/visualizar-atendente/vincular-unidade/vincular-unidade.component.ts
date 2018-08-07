@@ -6,6 +6,7 @@ import {ColaboradorService} from '../../../../../service/colaborador.service';
 import {Colaborador} from '../../../../../entity/colaborador/colaborador.model';
 import {UsuarioService} from "../../../../../service/usuario.service";
 import {Vinculo} from "../../../../../entity/colaborador/vinculo.enum";
+import {AuthenticationService} from '../../../../../service/authentication.service';
 
 @Component({
   selector: 'vincular-unidade',
@@ -41,20 +42,20 @@ export class VincularUnidadeComponent implements OnInit {
    *
    * @param {ActivatedRoute} activatedRoute
    * @param {UnidadeService} unidadeService
-   * @param {UsuarioService} usuarioService
    * @param {ColaboradorService} colaboradorService
+   * @param {AuthenticationService} authenticationService
    */
   constructor(public activatedRoute: ActivatedRoute,
               public unidadeService: UnidadeService,
-              public usuarioService: UsuarioService,
-              public colaboradorService: ColaboradorService) {
+              public colaboradorService: ColaboradorService,
+              public authenticationService: AuthenticationService) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    this.usuarioService.getUsuarioAutenticado().subscribe(loggedUser => {
+    this.authenticationService.getContaAutenticada().subscribe(loggedUser => {
       if (loggedUser.isAdministrador) {
         this.unidadeService.find()
           .subscribe(unidades => {

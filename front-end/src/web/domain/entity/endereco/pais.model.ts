@@ -1,4 +1,4 @@
-import {Abstract} from '../abstract/Abstract.model';
+import {Abstract} from '../abstract/abstract.model';
 
 export class Pais extends Abstract {
 

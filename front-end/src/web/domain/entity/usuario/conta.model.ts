@@ -1,5 +1,5 @@
 import {Usuario} from './usuario.model';
-import {Abstract} from '../abstract/Abstract.model';
+import {Abstract} from '../abstract/abstract.model';
 
 export class Conta extends Abstract{
 

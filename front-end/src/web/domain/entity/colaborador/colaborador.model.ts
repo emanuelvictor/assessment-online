@@ -1,4 +1,4 @@
-import {Abstract} from '../abstract/Abstract.model';
+import {Abstract} from '../abstract/abstract.model';
 import {Vinculo} from './vinculo.enum';
 import {Unidade} from '../unidade/unidade.model';
 import {Usuario} from '../usuario/usuario.model';

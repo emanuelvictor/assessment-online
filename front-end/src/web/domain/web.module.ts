@@ -88,6 +88,8 @@ import {EnderecoRepository} from './repositories/endereco.repository';
 import {AvaliacaoRepository} from './repositories/avaliacao.repository';
 import {ColaboradorRepository} from './repositories/colaborador.repository';
 import {AvaliacaoColaboradorRepository} from './repositories/avaliacao-colaborador.repository';
+import {ContaRepository} from './repositories/conta.repository';
+import {ContaService} from './service/conta.service';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -195,12 +197,15 @@ registerLocaleData(localePt, 'pt-BR');
     UsuarioRepository,
     AccountRepository,
     FileRepository,
+    ContaRepository,
+
     AuthenticationService,
     ColaboradorService,
     AvaliacaoService,
     EnderecoService,
     UsuarioService,
     UnidadeService,
+    ContaService,
 
     AngularFireDatabase,
 

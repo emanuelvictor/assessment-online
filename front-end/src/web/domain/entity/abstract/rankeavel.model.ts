@@ -1,4 +1,4 @@
-import {Abstract} from './Abstract.model';
+import {Abstract} from './abstract.model';
 
 export abstract class Rankeavel extends Abstract {
 

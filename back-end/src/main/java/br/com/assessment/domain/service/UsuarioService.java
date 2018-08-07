@@ -74,7 +74,6 @@ public class UsuarioService {
      */
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Usuario> save(final Usuario usuario) {
-
         // Encoda o password
         if (usuario.getConta().getPassword() != null)
             usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));

@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
 import {UsuarioService} from "../../../../../service/usuario.service";
+import {ContaService} from '../../../../../service/conta.service';
 
 @Component({
   selector: 'alterar-minha-senha',
@@ -31,12 +32,13 @@ export class AlterarMinhaSenhaComponent implements OnInit {
 
   /**
    *
+   * @param {MatSnackBar} snackBar
+   * @param {ContaService} contaService
    * @param data
    * @param {MatDialogRef<AlterarMinhaSenhaComponent>} dialogRef
-   * @param {MatSnackBar} snackBar
-   * @param {UsuarioService} usuarioService
    */
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AlterarMinhaSenhaComponent>, public snackBar: MatSnackBar, public usuarioService: UsuarioService) {
+  constructor(private snackBar: MatSnackBar, private contaService: ContaService,
+              @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AlterarMinhaSenhaComponent>) {
     this.usuario = data;
   }
 
@@ -52,7 +54,7 @@ export class AlterarMinhaSenhaComponent implements OnInit {
    */
   public alterarMinhaSenha(event: Event): void {
     event.preventDefault();
-    this.usuarioService.changeMyPassword(this.usuario, this.currentPassword, this.newPassword)
+    this.contaService.changeMyPassword(this.usuario, this.currentPassword, this.newPassword)
       .then(result => {
         this.dialogRef.close();
         this.openSnackBar('Senha alterada com sucesso');

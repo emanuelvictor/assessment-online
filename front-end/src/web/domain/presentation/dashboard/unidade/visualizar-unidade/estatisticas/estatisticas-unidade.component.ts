@@ -6,7 +6,7 @@ import {AvaliacaoService} from '../../../../../service/avaliacao.service';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import * as moment from 'moment';
 import {UnidadeService} from '../../../../../service/unidade.service';
-import {Avaliacao} from '../../../../../entity/avaliacao/Avaliacao.model';
+import {Avaliacao} from '../../../../../entity/avaliacao/avaliacao.model';
 
 @Component({
   selector: 'estatisticas-unidade',

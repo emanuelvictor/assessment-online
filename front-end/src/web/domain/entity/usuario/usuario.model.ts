@@ -1,5 +1,5 @@
-import {Endereco} from '../endereco/Endereco.model';
-import {Rankeavel} from '../abstract/Rankeavel.model';
+import {Endereco} from '../endereco/endereco.model';
+import {Rankeavel} from '../abstract/rankeavel.model';
 import {Conta} from './conta.model';
 
 export class Usuario extends Rankeavel {

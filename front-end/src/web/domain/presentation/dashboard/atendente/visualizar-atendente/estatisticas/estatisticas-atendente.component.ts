@@ -6,7 +6,7 @@ import {textMasks} from '../../../../controls/text-masks/text-masks';
 import * as moment from 'moment';
 import {TdDigitsPipe, TdFadeInOutAnimation} from '@covalent/core';
 import {UsuarioService} from '../../../../../service/usuario.service';
-import {Avaliacao} from '../../../../../entity/avaliacao/Avaliacao.model';
+import {Avaliacao} from '../../../../../entity/avaliacao/avaliacao.model';
 
 @Component({
   selector: 'estatisticas-atendente',

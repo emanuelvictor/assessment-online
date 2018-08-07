@@ -5,6 +5,8 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {UsuarioService} from '../../../../../service/usuario.service';
+import {ContaService} from '../../../../../service/conta.service';
+import {AuthenticationService} from '../../../../../service/authentication.service';
 
 /**
  *
@@ -64,14 +66,14 @@ export class AtendenteFormComponent implements OnInit {
   /**
    *
    * @param {Renderer} renderer
-   * @param {UsuarioService} usuarioService
+   * @param {AuthenticationService} authenticationService
    * @param {MatSnackBar} snackBar
    * @param {FormBuilder} fb
    * @param {ElementRef} element
    */
-  constructor(private renderer: Renderer, private usuarioService: UsuarioService,
+  constructor(private renderer: Renderer, private authenticationService: AuthenticationService,
               private snackBar: MatSnackBar, private fb: FormBuilder, @Inject(ElementRef) private element: ElementRef) {
-    this.usuarioService.getUsuarioAutenticado().subscribe(result => {
+    this.authenticationService.getContaAutenticada().subscribe(result => {
       this.usuarioLogado = result;
     });
   }
@@ -147,6 +149,7 @@ export class AtendenteFormComponent implements OnInit {
       this.save.emit(this.usuario);
     }
   }
+
   /**
    *
    * @param message

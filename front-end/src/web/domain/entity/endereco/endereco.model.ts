@@ -1,5 +1,5 @@
-import {Cidade} from './Cidade.model';
-import {Abstract} from '../abstract/Abstract.model';
+import {Cidade} from './cidade.model';
+import {Abstract} from '../abstract/abstract.model';
 
 export class Endereco extends Abstract {
 
