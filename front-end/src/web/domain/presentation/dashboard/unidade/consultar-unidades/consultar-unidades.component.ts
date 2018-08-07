@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {UsuarioService} from '../../../../service/usuario.service';
-import {Usuario} from '../../../../entity/usuario/Usuario.model';
-import {Unidade} from '../../../../entity/unidade/Unidade.model';
+import {Usuario} from '../../../../entity/usuario/usuario.model';
+import {Unidade} from '../../../../entity/unidade/unidade.model';
 
 @Component({
   selector: 'consultar-unidades',

@@ -17,10 +17,12 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
    * @type {boolean}
    */
   isSmallScreen = true;
+
   /**
    *
    */
-  usuario: any;
+  conta: any;
+
   /**
    *
    */
@@ -40,10 +42,11 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
    */
   constructor(public media: TdMediaService, public ngZone: NgZone, private usuarioService: UsuarioService, private colaboradorService: ColaboradorService) {
     this.usuarioService.getUsuarioAutenticado().subscribe(result => {
-      this.usuario = result;
-      this.colaboradorService.listOperadoresByUsuarioKey(this.usuario.key).subscribe(operadores => {
-        this.usuario.isOperador = operadores.length > 0;
-      });
+      this.conta = result;
+      this.colaboradorService.listOperadoresByUsuarioKey(this.conta.usuario.id)
+        .subscribe(operadores => {
+          this.conta.usuario.isOperador = operadores.length > 0;
+        });
     });
   }
 

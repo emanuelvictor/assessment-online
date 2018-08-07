@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
-import {Usuario} from '../../../../entity/usuario/Usuario.model';
-import {Colaborador} from "../../../../entity/colaborador/Colaborador.model";
-import {ColaboradorService} from "../../../../service/colaborador.service";
+import {Usuario} from '../../../../entity/usuario/usuario.model';
+import {Colaborador} from '../../../../entity/colaborador/colaborador.model';
+import {ColaboradorService} from '../../../../service/colaborador.service';
 import {TdLoadingService} from '@covalent/core';
 
 @Component({

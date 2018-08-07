@@ -3,7 +3,7 @@ import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {textMasks} from "../../../../controls/text-masks/text-masks";
-import {Unidade} from "../../../../../entity/unidade/Unidade.model";
+import {Unidade} from "../../../../../entity/unidade/unidade.model";
 import {cnpjValidator} from "../../../../controls/validators/validators";
 
 /**

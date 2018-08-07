@@ -2,7 +2,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Component, Input, OnInit} from '@angular/core';
 import {AuthenticationService} from "../../../../../service/authentication.service";
 import {textMasks} from '../../../../controls/text-masks/text-masks';
-import {Usuario} from '../../../../../entity/usuario/Usuario.model';
+import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {FileRepository} from '../../../../../../infrastructure/repository/file/file.repository';
 
 @Component({

@@ -3,7 +3,7 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {Component, Input, OnInit} from '@angular/core';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {ColaboradorService} from '../../../../../service/colaborador.service';
-import {Usuario} from "../../../../../entity/usuario/Usuario.model";
+import {Usuario} from "../../../../../entity/usuario/usuario.model";
 
 @Component({
   selector: 'unidade-item',

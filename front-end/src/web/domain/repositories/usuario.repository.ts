@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Usuario} from '../entity/usuario/Usuario.model';
+import {Usuario} from '../entity/usuario/usuario.model';
 import {HttpClient} from '@angular/common/http';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
 
@@ -22,7 +22,7 @@ export class UsuarioRepository extends BaseRepository<Usuario> {
    * @returns {Observable<Usuario>}
    */
   public findUsuarioByEmail(email: string): Observable<Usuario> {
-    return this.httpClient.get<Usuario>('usuarios?email=' + email)
+    return this.httpClient.get<Usuario>('contas?email=' + email)
   }
 
   /**
@@ -32,7 +32,7 @@ export class UsuarioRepository extends BaseRepository<Usuario> {
    * @returns {Observable<any>}
    */
   public changePassword(usuario: Usuario, newPassword: string): Promise<any> {
-    usuario.password = newPassword;
+    usuario.conta.password = newPassword;
     return new Promise((resolve) => {
       // this.saveWithAccount(usuario)
       //   .then(result => resolve(result));
@@ -49,8 +49,8 @@ export class UsuarioRepository extends BaseRepository<Usuario> {
   public changeMyPassword(usuario: Usuario, currentPassword: string, newPassword: string): Promise<any> {
     return new Promise((resolve, reject) => {
 
-      if (currentPassword === usuario.password) {
-        usuario.password = newPassword;
+      if (currentPassword === usuario.conta.password) {
+        usuario.conta.password = newPassword;
         // this.saveWithAccount(usuario)
         //   .then(resolved => {
         //     resolve(resolved)

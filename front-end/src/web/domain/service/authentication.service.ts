@@ -1,6 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
-import {Usuario} from '../entity/usuario/Usuario.model';
+import {Usuario} from '../entity/usuario/usuario.model';
 import {isNullOrUndefined} from 'util';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
@@ -84,7 +84,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {Promise<any>}
    */
   public login(usuario: Usuario): Promise<any> {
-    const credentials = 'username=' + usuario.email + '&password=' + usuario.password;
+    const credentials = 'username=' + usuario.conta.email + '&password=' + usuario.conta.password;
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'

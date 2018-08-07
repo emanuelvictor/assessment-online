@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {Usuario} from '../../../../../entity/usuario/Usuario.model';
+import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {UsuarioService} from '../../../../../service/usuario.service';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {ColaboradorService} from '../../../../../service/colaborador.service';
-import {Unidade} from '../../../../../entity/unidade/Unidade.model';
+import {Unidade} from '../../../../../entity/unidade/unidade.model';
 
 @Component({
   selector: 'atendente-ranking',

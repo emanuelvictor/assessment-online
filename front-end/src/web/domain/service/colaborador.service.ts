@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Colaborador} from '../entity/colaborador/Colaborador.model';
+import {Colaborador} from '../entity/colaborador/colaborador.model';
 import {ColaboradorRepository} from '../repositories/colaborador.repository';
 
 @Injectable()

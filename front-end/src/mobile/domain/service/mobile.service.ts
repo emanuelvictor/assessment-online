@@ -3,11 +3,11 @@
  */
 import {Injectable} from '@angular/core';
 import {Avaliacao} from '../../../web/domain/entity/avaliacao/Avaliacao.model';
-import {Unidade} from '../../../web/domain/entity/unidade/Unidade.model';
-import {Colaborador} from '../../../web/domain/entity/colaborador/Colaborador.model';
+import {Unidade} from '../../../web/domain/entity/unidade/unidade.model';
+import {Colaborador} from '../../../web/domain/entity/colaborador/colaborador.model';
 import {MatSnackBarConfig} from '@angular/material';
 import {AvaliacaoService} from '../../../web/domain/service/avaliacao.service';
-import {AvaliacaoColaborador} from '../../../web/domain/entity/avaliacao/AvaliacaoColaborador.model';
+import {AvaliacaoColaborador} from '../../../web/domain/entity/avaliacao/avaliacao-colaborador.model';
 import {UnidadeService} from '../../../web/domain/service/unidade.service';
 
 /**

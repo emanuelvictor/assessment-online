@@ -3,8 +3,7 @@ import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {FormBuilder, Validators} from '@angular/forms';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
-import {UnidadeService} from '../../../../../service/unidade.service';
-import {Usuario} from '../../../../../entity/usuario/Usuario.model';
+import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {UsuarioService} from '../../../../../service/usuario.service';
 
 /**
@@ -81,7 +80,7 @@ export class AtendenteFormComponent implements OnInit {
    *
    */
   ngOnInit() {
-    if (!this.usuario.email || !this.usuario.email.length)
+    if (!this.usuario.conta.email || !this.usuario.conta.email.length)
       this.showPassword = true;
 
     this.form = this.fb.group({

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Unidade} from '../entity/unidade/Unidade.model';
+import {Unidade} from '../entity/unidade/unidade.model';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
 import {HttpClient} from '@angular/common/http';
 

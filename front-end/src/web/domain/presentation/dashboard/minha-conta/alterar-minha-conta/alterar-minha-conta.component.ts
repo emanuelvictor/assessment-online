@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
-import {textMasks} from "../../../controls/text-masks/text-masks";
-import {AuthenticationService} from "../../../../service/authentication.service";
-import {UsuarioService} from "../../../../service/usuario.service";
-import {Usuario} from '../../../../entity/usuario/Usuario.model';
+import {textMasks} from '../../../controls/text-masks/text-masks';
+import {Usuario} from '../../../../entity/usuario/usuario.model';
+import {AuthenticationService} from '../../../../service/authentication.service';
+import {UsuarioService} from '../../../../service/usuario.service';
 
 @Component({
   selector: 'alterar-minha-conta',
@@ -76,7 +76,7 @@ export class AlterarMinhaContaComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
   }

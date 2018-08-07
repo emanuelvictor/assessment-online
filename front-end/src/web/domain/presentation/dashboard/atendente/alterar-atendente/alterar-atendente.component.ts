@@ -5,7 +5,7 @@ import {textMasks} from '../../../controls/text-masks/text-masks';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {UsuarioService} from '../../../../service/usuario.service';
-import {Usuario} from '../../../../entity/usuario/Usuario.model';
+import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {TdLoadingService} from '@covalent/core';
 
 /**

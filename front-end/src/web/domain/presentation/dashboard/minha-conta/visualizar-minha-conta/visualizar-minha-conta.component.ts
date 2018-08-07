@@ -3,7 +3,7 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {AlterarMinhaSenhaComponent} from './alterar-minha-senha/alterar-minha-senha.component';
 import {AuthenticationService} from '../../../../service/authentication.service';
-import {Usuario} from '../../../../entity/usuario/Usuario.model';
+import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {Subscription} from 'rxjs/Subscription';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {ActivatedRoute} from '@angular/router';

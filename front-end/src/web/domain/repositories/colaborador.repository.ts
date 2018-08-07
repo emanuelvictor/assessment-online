@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
 import {HttpClient} from '@angular/common/http';
-import {Colaborador} from '../entity/colaborador/Colaborador.model';
-import {Vinculo} from '../entity/colaborador/Vinculo.enum';
+import {Colaborador} from '../entity/colaborador/colaborador.model';
+import {Vinculo} from '../entity/colaborador/vinculo.enum';
 
 @Injectable()
 export class ColaboradorRepository extends BaseRepository<Colaborador> {

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {Unidade} from '../../../../entity/unidade/Unidade.model';
+import {Unidade} from '../../../../entity/unidade/unidade.model';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
 

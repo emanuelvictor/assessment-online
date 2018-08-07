@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {UnidadeService} from '../../../../../service/unidade.service';
-import {Unidade} from '../../../../../entity/unidade/Unidade.model';
+import {Unidade} from '../../../../../entity/unidade/unidade.model';
 
 @Component({
   selector: 'unidade-ranking',

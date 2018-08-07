@@ -4,7 +4,7 @@ import {MatSnackBar} from "@angular/material";
 // import 'rxjs/add/operator/toPromise';
 import {textMasks} from "../../../controls/text-masks/text-masks";
 import {Router} from "@angular/router";
-import {Unidade} from "../../../../entity/unidade/Unidade.model";
+import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {UnidadeService} from "../../../../service/unidade.service";
 
 

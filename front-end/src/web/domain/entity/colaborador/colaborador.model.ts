@@ -1,7 +1,7 @@
 import {Abstract} from '../abstract/Abstract.model';
-import {Vinculo} from './Vinculo.enum';
-import {Unidade} from '../unidade/Unidade.model';
-import {Usuario} from '../usuario/Usuario.model';
+import {Vinculo} from './vinculo.enum';
+import {Unidade} from '../unidade/unidade.model';
+import {Usuario} from '../usuario/usuario.model';
 
 export class Colaborador extends Abstract {
 

@@ -6,8 +6,8 @@ import {AlterarSenhaComponent} from './alterar-senha/alterar-senha.component';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {UnidadeService} from '../../../../service/unidade.service';
-import {Usuario} from '../../../../entity/usuario/Usuario.model';
-import {Colaborador} from '../../../../entity/colaborador/Colaborador.model';
+import {Usuario} from '../../../../entity/usuario/usuario.model';
+import {Colaborador} from '../../../../entity/colaborador/colaborador.model';
 import {ColaboradorService} from '../../../../service/colaborador.service';
 
 @Component({

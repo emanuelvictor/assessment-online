@@ -32,12 +32,12 @@ import {FileRepository} from '../../web/infrastructure/repository/file/file.repo
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { EllipsisModule } from 'ngx-ellipsis';
-import {AvaliacaoRepository} from "../../web/domain/repositories/avaliacao.repository";
-import {UsuarioRepository} from "../../web/domain/repositories/usuario.repository";
-import {UnidadeRepository} from "../../web/domain/repositories/unidade.repository";
-import {EnderecoRepository} from "../../web/domain/repositories/endereco.repository";
-import {ColaboradorRepository} from "../../web/domain/repositories/colaborador.repository";
-import {AvaliacaoColaboradorRepository} from "../../web/domain/repositories/avaliacao-colaborador.repository";
+import {AvaliacaoRepository} from '../../web/domain/repositories/avaliacao.repository';
+import {UsuarioRepository} from '../../web/domain/repositories/usuario.repository';
+import {AvaliacaoColaboradorRepository} from '../../web/domain/repositories/avaliacao-colaborador.repository';
+import {ColaboradorRepository} from '../../web/domain/repositories/colaborador.repository';
+import {EnderecoRepository} from '../../web/domain/repositories/endereco.repository';
+import {UnidadeRepository} from '../../web/domain/repositories/unidade.repository';
 
 /**
  *

@@ -1,11 +1,11 @@
 import {ActivatedRoute} from '@angular/router';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Usuario} from '../../../../../entity/usuario/Usuario.model';
+import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {ColaboradorService} from '../../../../../service/colaborador.service';
-import {Colaborador} from '../../../../../entity/colaborador/Colaborador.model';
+import {Colaborador} from '../../../../../entity/colaborador/colaborador.model';
 import {UsuarioService} from "../../../../../service/usuario.service";
-import {Vinculo} from "../../../../../entity/colaborador/Vinculo.enum";
+import {Vinculo} from "../../../../../entity/colaborador/vinculo.enum";
 
 @Component({
   selector: 'vincular-unidade',
