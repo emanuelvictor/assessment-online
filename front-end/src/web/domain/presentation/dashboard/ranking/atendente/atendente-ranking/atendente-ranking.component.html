@@ -29,7 +29,7 @@
       <span *ngIf="atendentes?.length"> Total: {{ atendentes?.length}}</span>
     </div>
 
-    <ranking [rankeavel]='atendente' style='margin-top: -30px'
+    <ranking [rankeavel]="cliente" style='margin-top: -30px'
              *ngFor="let atendente of atendentes | filter:filter :'case-insensitive' | orderBy:'posicao'">
 
 

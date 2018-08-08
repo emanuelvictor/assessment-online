@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {ContaService} from './conta.service';
+import {Conta} from '../entity/usuario/conta.model';
 
 @Injectable()
 export class AuthenticationService implements CanActivate, CanActivateChild {
@@ -43,7 +44,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {boolean}
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.httpClient.get('principal')
+    return this.getContaAutenticada()
       .map(auth => {
         if (isNullOrUndefined(auth)) {
           this.router.navigate(['authentication']);
@@ -82,11 +83,11 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
 
   /**
    *
-   * @param {Usuario} usuario
+   * @param {Conta} conta
    * @returns {Promise<any>}
    */
-  public login(usuario: Usuario): Promise<any> {
-    const credentials = 'username=' + usuario.conta.email + '&password=' + usuario.conta.password;
+  public login(conta: Conta): Promise<any> {
+    const credentials = 'username=' + conta.email + '&password=' + conta.password;
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -112,6 +113,6 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    *
    */
   public getContaAutenticada(): Observable<any> {
-    return this.contaService.findUsuarioByEmail(this.getAuthenticatedUser().email);
+    return this.httpClient.get('principal');
   }
 }

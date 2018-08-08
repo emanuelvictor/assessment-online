@@ -58,6 +58,7 @@ export class AtendenteFormComponent implements OnInit {
    */
   @Input()
   usuario: Usuario;
+
   /**
    *
    */
@@ -65,24 +66,27 @@ export class AtendenteFormComponent implements OnInit {
 
   /**
    *
-   * @param {Renderer} renderer
    * @param {AuthenticationService} authenticationService
+   * @param {Renderer} renderer
    * @param {MatSnackBar} snackBar
    * @param {FormBuilder} fb
    * @param {ElementRef} element
    */
-  constructor(private renderer: Renderer, private authenticationService: AuthenticationService,
-              private snackBar: MatSnackBar, private fb: FormBuilder, @Inject(ElementRef) private element: ElementRef) {
+  constructor(private authenticationService: AuthenticationService,
+              private renderer: Renderer, private snackBar: MatSnackBar,
+              private fb: FormBuilder, @Inject(ElementRef) private element: ElementRef) {
+
     this.authenticationService.getContaAutenticada().subscribe(result => {
       this.usuarioLogado = result;
     });
+
   }
 
   /**
    *
    */
   ngOnInit() {
-    if (!this.usuario.conta.email || !this.usuario.conta.email.length)
+    if (!this.usuario.conta || !this.usuario.conta.email || !this.usuario.conta.email.length)
       this.showPassword = true;
 
     this.form = this.fb.group({

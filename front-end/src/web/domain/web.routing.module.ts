@@ -22,13 +22,15 @@ import {UnidadeRankingComponent} from './presentation/dashboard/ranking/unidade/
 import {UnidadeRankingViewComponent} from './presentation/dashboard/ranking/unidade/unidade-ranking-view.component';
 import {AtendenteRankingViewComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking-view.component';
 import {AtendenteRankingComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking/atendente-ranking.component';
-import {SelecionarUnidadeComponent} from './presentation/dashboard/ranking/atendente/selecionar-unidade/selecionar-unidade.component';
 import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component';
 
 
 const routes: Routes = [
   {
     path: '', redirectTo: 'dashboard/minha-conta', pathMatch: 'full'
+  },
+  {
+    path: 'cadastre-se', component: InserirAtendenteComponent,
   },
   {
     path: 'authentication', component: LoginComponent,

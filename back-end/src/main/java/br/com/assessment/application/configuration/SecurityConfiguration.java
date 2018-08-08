@@ -3,6 +3,7 @@ package br.com.assessment.application.configuration;
 import br.com.assessment.application.multitenancy.TenantContext;
 import br.com.assessment.application.security.AuthenticationFailureHandler;
 import br.com.assessment.application.security.AuthenticationSuccessHandler;
+import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.service.ContaService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +41,6 @@ public class SecurityConfiguration {
     private final ContaService contaService;
 
     /**
-     *
      * @param httpSecurity {ServerHttpSecurity}
      * @return {SecurityWebFilterChain}
      * @throws Exception {}
@@ -50,7 +50,13 @@ public class SecurityConfiguration {
 
         return httpSecurity
                 .authenticationManager(authentication -> {
-                    TenantContext.setCurrentTenant((String) authentication.getPrincipal());
+
+                    final String tenant = (String) authentication.getPrincipal();
+
+                    // Se o usuaário for o master
+                    if (!tenant.equals(Conta.MASTER_USER_EMAIL)) // Seta o esquema 'public' como tenant
+                        TenantContext.setCurrentTenant((String) authentication.getPrincipal());
+
                     return userDetailsRepositoryReactiveAuthenticationManager().authenticate(authentication);
                 })
                 .authorizeExchange()

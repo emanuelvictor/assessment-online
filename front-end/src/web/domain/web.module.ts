@@ -90,6 +90,7 @@ import {ColaboradorRepository} from './repositories/colaborador.repository';
 import {AvaliacaoColaboradorRepository} from './repositories/avaliacao-colaborador.repository';
 import {ContaRepository} from './repositories/conta.repository';
 import {ContaService} from './service/conta.service';
+import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -147,6 +148,7 @@ registerLocaleData(localePt, 'pt-BR');
     VisualizarVinculoUnidadeComponent,
     EstatisticasAtendenteComponent,
     MinhasEstatisticasComponent,
+    InserirClienteComponent,
 
     // Password
     AlterarMinhaSenhaComponent,

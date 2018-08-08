@@ -3,7 +3,7 @@ import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
-import {Usuario} from '../../entity/usuario/usuario.model';
+import {Conta} from '../../entity/usuario/conta.model';
 
 /**
  *
@@ -18,7 +18,7 @@ export class LoginComponent {
   /**
    *
    */
-  public usuario: Usuario = new Usuario();
+  public conta: Conta = new Conta();
 
   /**
    *
@@ -35,8 +35,8 @@ export class LoginComponent {
      * Remove os espaços do usuário
      * @type {string}
      */
-    this.usuario.conta.email = this.usuario.conta.email.trim();
-    this.authenticationService.login(this.usuario)
+    this.conta.email = this.conta.email.trim();
+    this.authenticationService.login(this.conta)
       .then(result => {
         this.authenticationService.setAuthenticatedUser(result);
         this.router.navigate(['/']);
