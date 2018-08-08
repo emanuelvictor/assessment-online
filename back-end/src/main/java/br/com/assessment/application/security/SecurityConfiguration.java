@@ -1,29 +1,25 @@
-package br.com.assessment.application.configuration;
+package br.com.assessment.application.security;
 
-import br.com.assessment.application.handlers.AuthenticationFailureHandler;
-import br.com.assessment.application.handlers.AuthenticationSuccessHandler;
 import br.com.assessment.domain.entity.usuario.Conta;
-import br.com.assessment.domain.service.ContaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
-import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
+import org.springframework.security.web.server.authentication.ServerAuthenticationFailureHandler;
+import org.springframework.security.web.server.authentication.ServerAuthenticationSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.LogoutWebFilter;
-import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
@@ -31,59 +27,58 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.function.Function;
 
 @Configuration
+@AllArgsConstructor
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
-@AllArgsConstructor
 public class SecurityConfiguration {
 
-
-
-    private final ContaService userDetailsService;
-
-    private final ObjectMapper mapper;
+    /**
+     *
+     */
+    private final ReactiveAuthenticationManager reactiveAuthenticationManager;
 
     /**
      *
      */
-    private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final ServerAuthenticationSuccessHandler serverAuthenticationSuccessHandler;
 
     /**
      *
      */
-    private final AuthenticationFailureHandler authenticationFailureHandler;
+    private final ServerAuthenticationFailureHandler serverAuthenticationFailureHandler;
 
+    /**
+     *
+     */
+    private final ServerLogoutSuccessHandler serverLogoutSuccessHandler;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(31);
-    }
+    /**
+     *
+     */
+    private final ObjectMapper objectMapper;
 
+    /**
+     * @return ServerSecurityContextRepository
+     */
     @Bean
     public ServerSecurityContextRepository securityContextRepository() {
-        WebSessionServerSecurityContextRepository securityContextRepository =
-                new WebSessionServerSecurityContextRepository();
 
-        securityContextRepository.setSpringSecurityContextAttrName("langdope-security-context");
+        final WebSessionServerSecurityContextRepository securityContextRepository = new WebSessionServerSecurityContextRepository();
+
+        securityContextRepository.setSpringSecurityContextAttrName("spring-security-context");
 
         return securityContextRepository;
     }
 
+    /**
+     * @param httpSecurity ServerHttpSecurity
+     * @return SecurityWebFilterChain
+     */
     @Bean
-    public ReactiveAuthenticationManager authenticationManager() {
-        UserDetailsRepositoryReactiveAuthenticationManager authenticationManager =
-                new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService);
-
-        authenticationManager.setPasswordEncoder(passwordEncoder());
-
-        return authenticationManager;
-    }
-
-    @Bean
-    public SecurityWebFilterChain securityWebFiltersOrder(ServerHttpSecurity httpSecurity) {
+    public SecurityWebFilterChain securityWebFiltersOrder(final ServerHttpSecurity httpSecurity) {
         return httpSecurity
                 .csrf().disable()
                 .httpBasic().disable()
@@ -91,20 +86,23 @@ public class SecurityConfiguration {
                 .logout().disable()
                 .securityContextRepository(securityContextRepository())
                 .authorizeExchange()
-                .anyExchange().permitAll() // Currently
+                .anyExchange().permitAll()
                 .and()
                 .addFilterAt(authenticationWebFilter(), SecurityWebFiltersOrder.AUTHENTICATION)
                 .addFilterAt(logoutWebFilter(), SecurityWebFiltersOrder.LOGOUT)
                 .build();
     }
 
+    /**
+     * @return {AuthenticationWebFilter}
+     */
     private AuthenticationWebFilter authenticationWebFilter() {
-        AuthenticationWebFilter filter = new AuthenticationWebFilter(authenticationManager());
+        final AuthenticationWebFilter filter = new AuthenticationWebFilter(reactiveAuthenticationManager);
 
         filter.setSecurityContextRepository(securityContextRepository());
-        filter.setAuthenticationConverter(jsonBodyAuthenticationConverter());
-        filter.setAuthenticationSuccessHandler(this.authenticationSuccessHandler);
-        filter.setAuthenticationFailureHandler(authenticationFailureHandler);
+        filter.setAuthenticationConverter(jsonBodyAuthenticationConverter(this.objectMapper));
+        filter.setAuthenticationSuccessHandler(this.serverAuthenticationSuccessHandler);
+        filter.setAuthenticationFailureHandler(this.serverAuthenticationFailureHandler);
         filter.setRequiresAuthenticationMatcher(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, "/login")
         );
@@ -112,17 +110,17 @@ public class SecurityConfiguration {
         return filter;
     }
 
+    /**
+     * @return {LogoutWebFilter}
+     */
     private LogoutWebFilter logoutWebFilter() {
-        LogoutWebFilter logoutWebFilter = new LogoutWebFilter();
+        final LogoutWebFilter logoutWebFilter = new LogoutWebFilter();
 
-        SecurityContextServerLogoutHandler logoutHandler = new SecurityContextServerLogoutHandler();
+        final SecurityContextServerLogoutHandler logoutHandler = new SecurityContextServerLogoutHandler();
         logoutHandler.setSecurityContextRepository(securityContextRepository());
 
-        RedirectServerLogoutSuccessHandler logoutSuccessHandler = new RedirectServerLogoutSuccessHandler();
-        logoutSuccessHandler.setLogoutSuccessUrl(URI.create("/"));
-
         logoutWebFilter.setLogoutHandler(logoutHandler);
-        logoutWebFilter.setLogoutSuccessHandler(logoutSuccessHandler);
+        logoutWebFilter.setLogoutSuccessHandler(serverLogoutSuccessHandler);
         logoutWebFilter.setRequiresLogoutMatcher(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET, "/logout")
         );
@@ -130,20 +128,23 @@ public class SecurityConfiguration {
         return logoutWebFilter;
     }
 
-    private Function<ServerWebExchange, Mono<Authentication>> jsonBodyAuthenticationConverter() {
+    /**
+     * @param mapper {ObjectMapper}
+     * @return {Function<ServerWebExchange, Mono<Authentication>>}
+     */
+    private static Function<ServerWebExchange, Mono<Authentication>> jsonBodyAuthenticationConverter(final ObjectMapper mapper) {
         return exchange -> exchange
                 .getRequest()
                 .getBody()
                 .next()
                 .flatMap(body -> {
                     try {
-                        final Conta signInForm =
-                                mapper.readValue(body.asInputStream(), Conta.class);
+                        final Conta conta = mapper.readValue(body.asInputStream(), Conta.class);
 
                         return Mono.just(
                                 new UsernamePasswordAuthenticationToken(
-                                        signInForm.getUsername(),
-                                        signInForm.getPassword()
+                                        conta.getUsername(),
+                                        conta.getPassword()
                                 )
                         );
                     } catch (IOException e) {

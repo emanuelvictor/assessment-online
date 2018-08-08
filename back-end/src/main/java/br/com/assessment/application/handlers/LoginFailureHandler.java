@@ -19,12 +19,12 @@ import java.util.logging.Logger;
  */
 @Component
 @AllArgsConstructor
-public class AuthenticationFailureHandler implements ServerAuthenticationFailureHandler {
+public class LoginFailureHandler implements ServerAuthenticationFailureHandler {
 
     /**
      *
      */
-    private static final Logger LOG = Logger.getLogger(AuthenticationFailureHandler.class.getName());
+    private static final Logger LOG = Logger.getLogger(LoginFailureHandler.class.getName());
 
     /**
      *

@@ -7,7 +7,10 @@ import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
+
+import java.util.function.Supplier;
 
 @Service
 @Transactional
@@ -37,7 +40,13 @@ public class ContaService implements ReactiveUserDetailsService {
         if (email.equals(Conta.MASTER_USER_EMAIL)) {
             return Mono.just(Conta.getMasterAccount());
         }
-        return Mono.just(contaRepository.findByEmail(email));
+
+        final Conta conta = contaRepository.findByEmail(email);
+
+        Assert.notNull(conta, "Conta não encontrada");
+
+        return Mono.just(conta);
+
     }
 
 }

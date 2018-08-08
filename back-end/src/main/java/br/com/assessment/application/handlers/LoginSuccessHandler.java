@@ -24,12 +24,12 @@ import java.util.logging.Logger;
  */
 @Component
 @AllArgsConstructor
-public class AuthenticationSuccessHandler implements ServerAuthenticationSuccessHandler {
+public class LoginSuccessHandler implements ServerAuthenticationSuccessHandler {
 
     /**
      *
      */
-    private static final Logger LOG = Logger.getLogger(AuthenticationSuccessHandler.class.getName());
+    private static final Logger LOG = Logger.getLogger(LoginSuccessHandler.class.getName());
 
     /**
      *
