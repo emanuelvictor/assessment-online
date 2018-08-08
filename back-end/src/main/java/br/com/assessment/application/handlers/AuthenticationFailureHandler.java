@@ -1,7 +1,8 @@
-package br.com.assessment.application.security;
+package br.com.assessment.application.handlers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.*;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
  *
  */
 @Component
+@AllArgsConstructor
 public class AuthenticationFailureHandler implements ServerAuthenticationFailureHandler {
 
     /**
@@ -32,16 +34,8 @@ public class AuthenticationFailureHandler implements ServerAuthenticationFailure
     /**
      *
      */
-    public AuthenticationFailureHandler(final ObjectMapper objMapper) {
-        this.objMapper = objMapper;
-    }
-
-    /**
-     *
-     */
     @Override
     public Mono<Void> onAuthenticationFailure(WebFilterExchange webFilterExchange, AuthenticationException exception) {
-
 
         try {
             final DataBuffer buf;

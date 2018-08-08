@@ -1,4 +1,4 @@
-package br.com.assessment.application.security;
+package br.com.assessment.application.handlers;
 
 
 import br.com.assessment.domain.entity.usuario.Conta;

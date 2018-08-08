@@ -71,16 +71,6 @@ public class Application extends SpringBootServletInitializer {
         };
     }
 
-    /**
-     * Bean de criptografia
-     *
-     * @return
-     */
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
 
     /**
      * @param application
