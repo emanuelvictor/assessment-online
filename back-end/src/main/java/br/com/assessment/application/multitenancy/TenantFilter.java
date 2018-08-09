@@ -17,6 +17,9 @@ public class TenantFilter implements WebFilter {
 
     /**
      *
+     * @param serverWebExchange ServerWebExchange
+     * @param webFilterChain WebFilterChain
+     * @return Mono<Void>
      */
     @Override
     public Mono<Void> filter(ServerWebExchange serverWebExchange,

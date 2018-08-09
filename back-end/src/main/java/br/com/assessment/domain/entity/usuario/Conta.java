@@ -1,5 +1,6 @@
 package br.com.assessment.domain.entity.usuario;
 
+import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
 import br.com.assessment.domain.entity.generic.AbstractEntity;
 import lombok.Data;
 import org.hibernate.envers.Audited;
@@ -166,6 +167,7 @@ public class Conta extends AbstractEntity implements UserDetails {
         usuario.setId(1L);
 
         final Conta conta = new Conta(DEFAULT_TENANT_ID);
+//        final Conta conta = new Conta(MASTER_USER_EMAIL);
         conta.setId(1L);
         conta.setEmail(MASTER_USER_EMAIL);
         conta.setPassword(new BCryptPasswordEncoder().encode(MASTER_USER_PASSWORD));
@@ -175,19 +177,18 @@ public class Conta extends AbstractEntity implements UserDetails {
 
     }
 
-//    /**
-//     * @return
-//     */
-//    public String getEsquema() {
-//        // Se o esquema é nulo e o usuário não é, seta como esquema o id do usuário
-//        if (esquema == null && (this.usuario != null && this.usuario.getId() != null))
-//            this.esquema = this.usuario.getId().toString();
-//
-//        // Se o esquema é nulo e o usuário também é, seta como esquema o esquema padrão "public"
-//        if (esquema == null && (this.usuario == null || this.usuario.getId() == null))
-//            this.esquema = TenantIdentifierResolver.DEFAULT_TENANT_ID;
-//
-//        return esquema;
-//    }
+    /**
+     * @return String
+     */
+    public String getEsquema() {
+
+        if (esquema == null && (this.email != null))
+            return this.email;
+
+        if (esquema == null)
+            return TenantIdentifierResolver.DEFAULT_TENANT_ID;
+
+        return esquema;
+    }
 
 }

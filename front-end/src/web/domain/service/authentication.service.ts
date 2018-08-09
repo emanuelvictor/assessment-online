@@ -87,26 +87,14 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {Promise<any>}
    */
   public login(conta: Conta): Promise<any> {
-    const credentials = 'username=' + conta.email + '&password=' + conta.password;
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
-
-    return this.httpClient.post('login', credentials.toString(), {
-      headers: headers
-    }).toPromise();
+    return this.httpClient.post('login', conta).toPromise();
   }
 
   /**
    *
    */
   public logout(): Promise<any> {
-    let body = new HttpParams();
-    body = body.set('logout', 'logout');
-    return this.httpClient.post('logout', body).toPromise()
-      .catch(() => {
-      });
+    return this.httpClient.get('logout').toPromise()
   }
 
   /**

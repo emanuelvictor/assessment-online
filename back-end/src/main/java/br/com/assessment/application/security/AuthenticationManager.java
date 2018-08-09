@@ -33,13 +33,7 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
                 .publishOn(Schedulers.parallel())
                 .filter(u -> this.passwordEncoder().matches((String) authentication.getCredentials(), u.getPassword()))
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new BadCredentialsException("Invalid Credentials"))))
-                .map(u -> {
-
-//                    if (!u.getUsername().equals(Conta.MASTER_USER_EMAIL)) // Seta o esquema 'public' como tenant TODO ACOPLAMENTO
-                        TenantContext.setCurrentTenant(u.getUsername());
-
-                    return new UsernamePasswordAuthenticationToken(u, u.getPassword(), u.getAuthorities());
-                });
+                .map(u -> new UsernamePasswordAuthenticationToken(u, u.getPassword(), u.getAuthorities()));
     }
 
     /**

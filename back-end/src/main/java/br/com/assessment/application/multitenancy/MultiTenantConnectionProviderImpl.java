@@ -4,7 +4,8 @@ package br.com.assessment.application.multitenancy;
 import lombok.AllArgsConstructor;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -16,25 +17,13 @@ import static br.com.assessment.application.multitenancy.TenantIdentifierResolve
 @Component
 @AllArgsConstructor
 public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionProvider {
-
-//    @ConfigurationProperties
-//    public DataSourceProperties dataSourceProperties() {
-//        return new DataSourceProperties();
-//    }
-//
-//    public HikariDataSource dataSource() {
-//
-//        return this.dataSourceProperties().initializeDataSourceBuilder().type(HikariDataSource.class)
-//                .build();
-//    }
+    private static Logger LOGGER = LoggerFactory.getLogger(MultiTenantConnectionProvider.class.getName());
 
     private final DataSource dataSource;
 
     @Override
     public Connection getAnyConnection() throws SQLException {
-//        if (this.dataSource != null)
             return this.dataSource.getConnection();
-//        return dataSource().getConnection();
     }
 
     @Override
@@ -44,7 +33,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
     @Override
     public Connection getConnection(final String tenantIdentifier) throws SQLException {
-        System.out.println("Conta " + tenantIdentifier);
+        LOGGER.info("Conta " + tenantIdentifier);
         final Connection connection = getAnyConnection();
         try {
             if (tenantIdentifier != null) {
