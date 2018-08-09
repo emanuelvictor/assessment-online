@@ -1,8 +1,6 @@
 package br.com.assessment.application.security;
 
 
-import br.com.assessment.application.multitenancy.TenantContext;
-import br.com.assessment.domain.entity.usuario.Conta;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.BadCredentialsException;
