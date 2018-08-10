@@ -38,12 +38,8 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
         try {
             if (tenantIdentifier != null) {
                 connection.setSchema(tenantIdentifier);
-//                connection.setSchema(tenantIdentifier);
-//                connection.createStatement().execute( "USE " + tenantIdentifier );
             } else {
                 connection.setSchema(DEFAULT_TENANT_ID);
-//                connection.createStatement().execute( "USE " + DEFAULT_TENANT_ID );
-//                connection.setSchema(DEFAULT_TENANT_ID);
             }
         } catch (SQLException e) {
             throw new HibernateException(
