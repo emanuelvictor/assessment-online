@@ -6,11 +6,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
-import javax.validation.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+
+import static br.com.assessment.application.multitenancy.TenantIdentifierResolver.DEFAULT_TENANT_ID;
 
 /**
  * Created by Emanuel Victor on 15/03/2017.
@@ -18,7 +20,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Audited
-@Table(uniqueConstraints = {
+@Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
         @UniqueConstraint(columnNames = {"nome", "pais_id"})
 })
 @EqualsAndHashCode(callSuper = true)

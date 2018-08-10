@@ -45,6 +45,18 @@ public class Conta extends AbstractEntity implements UserDetails {
      *
      */
     @NotNull
+    private boolean administrador;
+
+    /**
+     *
+     */
+    @NotNull
+    private boolean root;
+
+    /**
+     *
+     */
+    @NotNull
     @Column(nullable = false)
     private String esquema;
 
@@ -68,7 +80,7 @@ public class Conta extends AbstractEntity implements UserDetails {
     /**
      *
      */
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     private Usuario usuario;
 
     /**
@@ -106,6 +118,7 @@ public class Conta extends AbstractEntity implements UserDetails {
         return this.email;
     }
 
+
     /**
      *
      */
@@ -117,10 +130,10 @@ public class Conta extends AbstractEntity implements UserDetails {
 
         authorities.add((GrantedAuthority) () -> "ROLE_ATENDENTE");
 
-        if (this.usuario.isOperador())
+        if (this.usuario != null && this.usuario.isOperador())
             authorities.add((GrantedAuthority) () -> "ROLE_OPERADOR");
 
-        if (this.usuario.getIsAdministrador())
+        if (this.usuario != null && this.getIsAdministrador())
             authorities.add((GrantedAuthority) () -> "ROLE_ADMINISTRADOR");
 
         return authorities;
@@ -157,38 +170,32 @@ public class Conta extends AbstractEntity implements UserDetails {
     }
 
     /**
+     *
+     * @return
+     */
+    public boolean getIsAdministrador() {
+        return administrador;
+    }
+
+    /**
      * Retorna a instância de um usuário master
      */
     public static UserDetails getMasterAccount() {
 
         final Usuario usuario = new Usuario();
         usuario.setNome(MASTER_USER_NAME);
-        usuario.setAdministrador(true);
         usuario.setId(1L);
 
         final Conta conta = new Conta(DEFAULT_TENANT_ID);
 //        final Conta conta = new Conta(MASTER_USER_EMAIL);
         conta.setId(1L);
+        conta.setAdministrador(true);
         conta.setEmail(MASTER_USER_EMAIL);
         conta.setPassword(new BCryptPasswordEncoder().encode(MASTER_USER_PASSWORD));
         conta.setUsuario(usuario);
 
         return conta;
 
-    }
-
-    /**
-     * @return String
-     */
-    public String getEsquema() {
-
-        if (esquema == null && (this.email != null))
-            return this.email;
-
-        if (esquema == null)
-            return TenantIdentifierResolver.DEFAULT_TENANT_ID;
-
-        return esquema;
     }
 
 }

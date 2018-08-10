@@ -11,13 +11,15 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+import static br.com.assessment.application.multitenancy.TenantIdentifierResolver.DEFAULT_TENANT_ID;
+
 /**
  * Created by Emanuel Victor on 15/03/2017.
  */
 @Data
 @Entity
 @Audited
-@Table(uniqueConstraints = {
+@Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
         @UniqueConstraint(columnNames = {"nome", "estado_id"})
 })
 @EqualsAndHashCode(callSuper = true)

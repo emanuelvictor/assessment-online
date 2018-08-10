@@ -2,7 +2,6 @@ package br.com.assessment.application.handlers;
 
 
 import br.com.assessment.domain.entity.usuario.Conta;
-import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.ContaRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,7 +53,7 @@ public class LoginSuccessHandler implements ServerAuthenticationSuccessHandler {
         if (((Conta) authentication.getPrincipal()).getUsername().equals(Conta.MASTER_USER_EMAIL)) {
             conta = (Conta) Conta.getMasterAccount();
         } else {
-            conta = this.contaRepository.findById(((Usuario) authentication.getPrincipal()).getId()).orElse(null);
+            conta = this.contaRepository.findById(((Conta) authentication.getPrincipal()).getId()).orElse(null);
             assert conta != null;
             conta.setLastLogin(LocalDateTime.now());
             this.contaRepository.save(conta);

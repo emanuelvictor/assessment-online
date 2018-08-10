@@ -20,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.sql.DataSource;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -31,8 +33,6 @@ import static br.com.assessment.application.multitenancy.TenantIdentifierResolve
 @Transactional
 @AllArgsConstructor
 public class UsuarioService {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
 
     private final UsuarioRepository usuarioRepository;
 
@@ -50,40 +50,44 @@ public class UsuarioService {
         return Mono.just(this.usuarioRepository.findById(usuarioId));
     }
 
+
     /**
      *
-     * @param usuario
-     * @return
      */
-    public Mono<Usuario> createAccount(final Usuario usuario) {
-
+//    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public Mono<Usuario> save(final Usuario usuario) {
         // Encoda o password
-        if (usuario.getConta().getPassword() != null)
+        if (usuario.getConta() != null){
             usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
+            final Conta conta = new Conta(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+            this.contaRepository.save(conta);
 
-        final Conta conta = new Conta(DEFAULT_TENANT_ID);
-        this.contaRepository.save(conta);
-
-        usuario.setConta(conta);
-
+            usuario.setConta(conta);
+        }
         return  Mono.just(this.usuarioRepository.save(usuario));
     }
 
     /**
+     * Método público que cria a conta do usuário como administrador
      *
+     * @param usuario Usuario
+     * @return Mono<Usuario>
      */
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public Mono<Usuario> save(final Usuario usuario) {
-        // Encoda o password
-        if (usuario.getConta().getPassword() != null)
-            usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
+    public Mono<Usuario> createAccount(final Usuario usuario) {
 
-        final Conta conta = new Conta(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());
-        this.contaRepository.save(conta);
+        // Encoda a senha do usuário
+        usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
 
-        usuario.setConta(conta);
+        // Seta o esquema
+        usuario.getConta().setEsquema(usuario.getConta().getEmail());
 
-        return  Mono.just(this.usuarioRepository.save(usuario));
+        // Seta a conta do usuário como administrador
+        usuario.getConta().setAdministrador(true);
+
+        // Seta a conta do usuário como "não root", só  pode gerenciara empresa dele
+        usuario.getConta().setRoot(false);
+
+        return Mono.just(this.usuarioRepository.save(usuario));
     }
 
     /**

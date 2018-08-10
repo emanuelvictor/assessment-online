@@ -61,12 +61,6 @@ public class Usuario extends Pessoa {
     private String thumbnailPath;
 
     /**
-     *
-     */
-    @NotNull
-    private boolean isAdministrador;
-
-    /**
      * Remover o transient
      * PORQUE ESTÁ EAGER
      */
@@ -77,7 +71,7 @@ public class Usuario extends Pessoa {
     /**
      *
      */
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Conta conta;
 
     /**
@@ -86,27 +80,10 @@ public class Usuario extends Pessoa {
     public Usuario() {
     }
 
-
-    /**
-     * @return
-     */
-    public boolean getIsAdministrador() {
-        return this.isAdministrador;
-    }
-
-    /**
-     * @return
-     */
-    public boolean getIsOperador() {
-        return this.isOperador();
-    }
-
     /**
      *
      */
     public boolean isOperador() {
-        if (isAdministrador)
-            return true;
 
         if (this.colaboradores != null)
             for (final Colaborador colaborador : this.colaboradores) {
@@ -115,6 +92,13 @@ public class Usuario extends Pessoa {
             }
 
         return false;
+    }
+
+    /**
+     * @return
+     */
+    public boolean getIsOperador() {
+        return this.isOperador();
     }
 
     /**

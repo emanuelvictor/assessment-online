@@ -8,8 +8,11 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+
+import static br.com.assessment.application.multitenancy.TenantIdentifierResolver.DEFAULT_TENANT_ID;
 
 /**
  * Created by Emanuel Victor on 15/03/2017.
@@ -17,6 +20,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Audited
+@Table(schema = DEFAULT_TENANT_ID)
 @EqualsAndHashCode(callSuper = true)
 public class Pais extends AbstractEntity implements Serializable {
 

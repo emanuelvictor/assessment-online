@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -29,17 +30,21 @@ public class HibernateConfig {
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
     @Bean
+    JpaVendorAdapter jpaVendorAdapter() {
+        return new HibernateJpaVendorAdapter();
+    }
+
+    @Bean
     @Primary
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
         em.setPackagesToScan("br.com.assessment.domain.entity");
 
-        final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
+        em.setJpaVendorAdapter(jpaVendorAdapter());
 
         final HashMap<String, Object> properties = new HashMap<>();
-        properties.put(Environment.DEFAULT_SCHEMA, env.getProperty("spring.jpa.properties.hibernate.default_schema"));
+//        properties.put(Environment.DEFAULT_SCHEMA, env.getProperty("spring.jpa.properties.hibernate.default_schema"));
         properties.put(Environment.USE_SECOND_LEVEL_CACHE, env.getProperty("spring.jpa.properties.hibernate.cache.use_second_level_cache"));
         properties.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, env.getProperty("spring.jpa.properties.hibernate.id.new_generator_mappings"));
         properties.put(Environment.SHOW_SQL, env.getProperty("spring.jpa.show-sql"));
@@ -49,6 +54,14 @@ public class HibernateConfig {
         properties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
         properties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProviderImpl);
         properties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
+
+        // Envers
+        properties.put("org.hibernate.envers.audit_table_suffix", env.getProperty("spring.jpa.properties.org.hibernate.envers.audit_table_suffix"));
+        properties.put("org.hibernate.envers.revision_field_name", env.getProperty("spring.jpa.properties.org.hibernate.envers.revision_field_name"));
+        properties.put("org.hibernate.envers.revision_type_field_name", env.getProperty("spring.jpa.properties.org.hibernate.envers.revision_type_field_name"));
+        properties.put("org.hibernate.envers.default_schema", env.getProperty("spring.jpa.properties.org.hibernate.envers.default_schema"));
+
+
         em.setJpaPropertyMap(properties);
 
         return em;

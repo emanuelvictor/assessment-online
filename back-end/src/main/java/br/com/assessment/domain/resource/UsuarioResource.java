@@ -1,5 +1,6 @@
 package br.com.assessment.domain.resource;
 
+import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.service.UsuarioService;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import javassist.bytecode.ByteArray;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.Part;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -81,5 +83,12 @@ public class UsuarioResource {
     public Flux<Boolean> deleteFoto(@PathVariable final long id) {
         return this.usuarioService.deleteFoto(id);
     }
+
+
+    @PostMapping(value = "create-account") //TODO verificar nomenclatura de create-account
+    public Mono<Usuario> createAccount(@RequestBody Usuario usuario){
+        return this.usuarioService.createAccount(usuario);
+    }
+
 
 }

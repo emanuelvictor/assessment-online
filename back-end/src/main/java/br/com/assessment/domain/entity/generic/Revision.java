@@ -1,6 +1,5 @@
 package br.com.assessment.domain.entity.generic;
 
-import br.com.assessment.Application;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
 
@@ -13,7 +12,6 @@ import java.io.Serializable;
  * @param <ID>
  */
 @Entity
-@Table(schema = Application.AUDIT_SCHEMA)//Acoplamento
 @org.hibernate.envers.RevisionEntity(EntityTrackingRevisionListener.class)
 public class Revision<T extends IEntity<ID>, ID extends Serializable> implements Serializable
 {

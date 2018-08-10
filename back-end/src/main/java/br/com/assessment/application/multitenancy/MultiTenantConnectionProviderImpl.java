@@ -17,13 +17,13 @@ import static br.com.assessment.application.multitenancy.TenantIdentifierResolve
 @Component
 @AllArgsConstructor
 public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionProvider {
-    private static Logger LOGGER = LoggerFactory.getLogger(MultiTenantConnectionProvider.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(MultiTenantConnectionProvider.class.getName());
 
     private final DataSource dataSource;
 
     @Override
     public Connection getAnyConnection() throws SQLException {
-            return this.dataSource.getConnection();
+        return this.dataSource.getConnection();
     }
 
     @Override
@@ -33,46 +33,45 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
     @Override
     public Connection getConnection(final String tenantIdentifier) throws SQLException {
-        LOGGER.info("Conta " + tenantIdentifier);
+        logger.info("Get connection for tenant {}", tenantIdentifier);
         final Connection connection = getAnyConnection();
         try {
             if (tenantIdentifier != null) {
-                connection.createStatement().execute("SET SCHEMA '" + tenantIdentifier+ "'");
+                getAnyConnection().setSchema(tenantIdentifier);
+//                connection.setSchema(tenantIdentifier);
+//                connection.createStatement().execute( "USE " + tenantIdentifier );
             } else {
-                connection.createStatement().execute("SET SCHEMA '" + DEFAULT_TENANT_ID + "'");
+                getAnyConnection().setSchema(DEFAULT_TENANT_ID);
+//                connection.createStatement().execute( "USE " + DEFAULT_TENANT_ID );
+//                connection.setSchema(DEFAULT_TENANT_ID);
             }
-        }
-        catch ( SQLException e ) {
+        } catch (SQLException e) {
             throw new HibernateException(
                     "Problem setting schema to " + tenantIdentifier,
                     e
             );
         }
-        return connection;
+        return getAnyConnection();
     }
 
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
-        try {
-            connection.createStatement().execute( "SET SCHEMA '" + DEFAULT_TENANT_ID + "'");
-        }
-        catch ( SQLException e ) {
-            throw new HibernateException(
-                    "Problem setting schema to " + tenantIdentifier,
-                    e
-            );
-        }
-        connection.close();
+//        logger.info("Release connection for tenant {}", tenantIdentifier);
+//        connection.setSchema(DEFAULT_TENANT_ID);
+        releaseAnyConnection(connection);
     }
+
     @SuppressWarnings("rawtypes")
     @Override
     public boolean isUnwrappableAs(Class unwrapType) {
         return false;
     }
+
     @Override
     public <T> T unwrap(Class<T> unwrapType) {
         return null;
     }
+
     @Override
     public boolean supportsAggressiveRelease() {
         return true;
