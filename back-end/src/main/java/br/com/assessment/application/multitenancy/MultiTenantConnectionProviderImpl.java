@@ -37,11 +37,11 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
         final Connection connection = getAnyConnection();
         try {
             if (tenantIdentifier != null) {
-                getAnyConnection().setSchema(tenantIdentifier);
+                connection.setSchema(tenantIdentifier);
 //                connection.setSchema(tenantIdentifier);
 //                connection.createStatement().execute( "USE " + tenantIdentifier );
             } else {
-                getAnyConnection().setSchema(DEFAULT_TENANT_ID);
+                connection.setSchema(DEFAULT_TENANT_ID);
 //                connection.createStatement().execute( "USE " + DEFAULT_TENANT_ID );
 //                connection.setSchema(DEFAULT_TENANT_ID);
             }
@@ -51,13 +51,13 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
                     e
             );
         }
-        return getAnyConnection();
+        return connection;
     }
 
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
-//        logger.info("Release connection for tenant {}", tenantIdentifier);
-//        connection.setSchema(DEFAULT_TENANT_ID);
+        logger.info("Release connection for tenant {}", tenantIdentifier);
+        connection.setSchema(DEFAULT_TENANT_ID);
         releaseAnyConnection(connection);
     }
 

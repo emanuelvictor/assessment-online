@@ -42,6 +42,7 @@ public class UsuarioService {
 
     private final ContaRepository contaRepository;
 
+    private final DataSource dataSource;
     /**
      * @param usuarioId
      * @return

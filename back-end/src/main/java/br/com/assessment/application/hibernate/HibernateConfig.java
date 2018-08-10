@@ -14,6 +14,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.HashMap;
 
@@ -21,13 +22,14 @@ import java.util.HashMap;
 @AllArgsConstructor
 public class HibernateConfig {
 
-    private final DataSource dataSource;
 
     private final org.springframework.core.env.Environment env;
 
-    private final MultiTenantConnectionProviderImpl multiTenantConnectionProviderImpl;
-
-    private final TenantIdentifierResolver tenantIdentifierResolver;
+//    private final DataSource dataSource;
+//
+//    private final MultiTenantConnectionProviderImpl multiTenantConnectionProviderImpl;
+//
+//    private final TenantIdentifierResolver tenantIdentifierResolver;
 
     @Bean
     JpaVendorAdapter jpaVendorAdapter() {
@@ -36,7 +38,7 @@ public class HibernateConfig {
 
     @Bean
     @Primary
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, MultiTenantConnectionProviderImpl multiTenantConnectionProviderImpl, TenantIdentifierResolver tenantIdentifierResolver) {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
         em.setPackagesToScan("br.com.assessment.domain.entity");
@@ -59,7 +61,7 @@ public class HibernateConfig {
         properties.put("org.hibernate.envers.audit_table_suffix", env.getProperty("spring.jpa.properties.org.hibernate.envers.audit_table_suffix"));
         properties.put("org.hibernate.envers.revision_field_name", env.getProperty("spring.jpa.properties.org.hibernate.envers.revision_field_name"));
         properties.put("org.hibernate.envers.revision_type_field_name", env.getProperty("spring.jpa.properties.org.hibernate.envers.revision_type_field_name"));
-        properties.put("org.hibernate.envers.default_schema", env.getProperty("spring.jpa.properties.org.hibernate.envers.default_schema"));
+//        properties.put("org.hibernate.envers.default_schema", env.getProperty("spring.jpa.properties.org.hibernate.envers.default_schema"));
 
 
         em.setJpaPropertyMap(properties);
@@ -67,11 +69,19 @@ public class HibernateConfig {
         return em;
     }
 
-    @Primary
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        final JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-        return transactionManager;
+    @Configuration
+    @AllArgsConstructor
+    public static class TransactionManager {
+
+        private final LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean;
+
+        @Primary
+        @Bean
+        public PlatformTransactionManager transactionManager() {
+            final JpaTransactionManager transactionManager = new JpaTransactionManager();
+            transactionManager.setEntityManagerFactory(localContainerEntityManagerFactoryBean.getObject());
+            return transactionManager;
+        }
+
     }
 }
