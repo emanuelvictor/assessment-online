@@ -22,14 +22,13 @@ import java.util.HashMap;
 @AllArgsConstructor
 public class HibernateConfig {
 
-
     private final org.springframework.core.env.Environment env;
 
-//    private final DataSource dataSource;
-//
-//    private final MultiTenantConnectionProviderImpl multiTenantConnectionProviderImpl;
-//
-//    private final TenantIdentifierResolver tenantIdentifierResolver;
+    private final DataSource dataSource;
+
+    private final MultiTenantConnectionProviderImpl multiTenantConnectionProviderImpl;
+
+    private final TenantIdentifierResolver tenantIdentifierResolver;
 
     @Bean
     JpaVendorAdapter jpaVendorAdapter() {
@@ -38,7 +37,8 @@ public class HibernateConfig {
 
     @Bean
     @Primary
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, MultiTenantConnectionProviderImpl multiTenantConnectionProviderImpl, TenantIdentifierResolver tenantIdentifierResolver) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
         em.setPackagesToScan("br.com.assessment.domain.entity");
@@ -46,7 +46,6 @@ public class HibernateConfig {
         em.setJpaVendorAdapter(jpaVendorAdapter());
 
         final HashMap<String, Object> properties = new HashMap<>();
-//        properties.put(Environment.DEFAULT_SCHEMA, env.getProperty("spring.jpa.properties.hibernate.default_schema"));
         properties.put(Environment.USE_SECOND_LEVEL_CACHE, env.getProperty("spring.jpa.properties.hibernate.cache.use_second_level_cache"));
         properties.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, env.getProperty("spring.jpa.properties.hibernate.id.new_generator_mappings"));
         properties.put(Environment.SHOW_SQL, env.getProperty("spring.jpa.show-sql"));
@@ -61,8 +60,6 @@ public class HibernateConfig {
         properties.put("org.hibernate.envers.audit_table_suffix", env.getProperty("spring.jpa.properties.org.hibernate.envers.audit_table_suffix"));
         properties.put("org.hibernate.envers.revision_field_name", env.getProperty("spring.jpa.properties.org.hibernate.envers.revision_field_name"));
         properties.put("org.hibernate.envers.revision_type_field_name", env.getProperty("spring.jpa.properties.org.hibernate.envers.revision_type_field_name"));
-//        properties.put("org.hibernate.envers.default_schema", env.getProperty("spring.jpa.properties.org.hibernate.envers.default_schema"));
-
 
         em.setJpaPropertyMap(properties);
 
