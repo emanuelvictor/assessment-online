@@ -48,16 +48,10 @@ public class LoginSuccessHandler implements ServerAuthenticationSuccessHandler {
     @Override
     public Mono<Void> onAuthenticationSuccess(final WebFilterExchange webFilterExchange, final Authentication authentication) {
 
-        final Conta conta;
-
-        if (((Conta) authentication.getPrincipal()).getUsername().equals(Conta.MASTER_USER_EMAIL)) {
-            conta = (Conta) Conta.getMasterAccount();
-        } else {
-            conta = this.contaRepository.findById(((Conta) authentication.getPrincipal()).getId()).orElse(null);
-            assert conta != null;
-            conta.setLastLogin(LocalDateTime.now());
-            this.contaRepository.save(conta);
-        }
+        final Conta conta = this.contaRepository.findById(((Conta) authentication.getPrincipal()).getId()).orElse(null);
+        assert conta != null;
+        conta.setLastLogin(LocalDateTime.now());
+        this.contaRepository.save(conta);
 
         try {
             final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes(conta));

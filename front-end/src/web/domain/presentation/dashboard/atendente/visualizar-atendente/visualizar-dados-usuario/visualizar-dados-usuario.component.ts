@@ -43,7 +43,6 @@ export class VisualizarDadosUsuarioComponent implements OnInit {
   constructor(public activatedRoute: ActivatedRoute,
               public fileRepository: FileRepository,
               public authenticationService: AuthenticationService) {
-    console.log(this.usuario);
   }
 
   /**

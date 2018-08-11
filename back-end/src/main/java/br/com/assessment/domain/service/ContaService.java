@@ -38,10 +38,6 @@ public class ContaService implements ReactiveUserDetailsService {
      */
     public Mono<UserDetails> findUsuarioByEmail(final String email) {
 
-        if (email.equals(Conta.MASTER_USER_EMAIL)) {
-            return Mono.just(Conta.getMasterAccount());
-        }
-
         final Conta conta = contaRepository.findByEmail(email);
 
         Assert.notNull(conta, "Conta não encontrada");

@@ -127,6 +127,12 @@
             <artifactId>hibernate-java8</artifactId>
         </dependency>
 
+        <!--Jackson datatype hibernate4-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hibernate5</artifactId>
+        </dependency>
+
         <!-- DataSource -->
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -140,7 +146,6 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
-
 
         <!--security-->
         <dependency>

@@ -1,17 +1,14 @@
 package br.com.assessment.domain.entity.usuario;
 
-import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
 import br.com.assessment.domain.entity.generic.AbstractEntity;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -25,21 +22,6 @@ import static br.com.assessment.application.multitenancy.TenantIdentifierResolve
 @lombok.EqualsAndHashCode(callSuper = true)
 @Table(schema = DEFAULT_TENANT_ID)
 public class Conta extends AbstractEntity implements UserDetails {
-
-    /**
-     * Senha do usuário master
-     */
-    public static final String MASTER_USER_PASSWORD = "bm129000";
-
-    /**
-     * Usuário master
-     */
-    public static final String MASTER_USER_EMAIL = "admin@admin.com";
-
-    /**
-     * Nome do usuário master
-     */
-    public static final String MASTER_USER_NAME = "Administrador";
 
     /**
      *
@@ -80,7 +62,7 @@ public class Conta extends AbstractEntity implements UserDetails {
     /**
      *
      */
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(mappedBy = "conta", fetch = FetchType.EAGER, optional = false)
     private Usuario usuario;
 
     /**
@@ -171,31 +153,10 @@ public class Conta extends AbstractEntity implements UserDetails {
 
     /**
      *
-     * @return
+     * @return boolean
      */
     public boolean getIsAdministrador() {
         return administrador;
-    }
-
-    /**
-     * Retorna a instância de um usuário master
-     */
-    public static UserDetails getMasterAccount() {
-
-        final Usuario usuario = new Usuario();
-        usuario.setNome(MASTER_USER_NAME);
-        usuario.setId(1L);
-
-        final Conta conta = new Conta(DEFAULT_TENANT_ID);
-//        final Conta conta = new Conta(MASTER_USER_EMAIL);
-        conta.setId(1L);
-        conta.setAdministrador(true);
-        conta.setEmail(MASTER_USER_EMAIL);
-        conta.setPassword(new BCryptPasswordEncoder().encode(MASTER_USER_PASSWORD));
-        conta.setUsuario(usuario);
-
-        return conta;
-
     }
 
 }
