@@ -1,7 +1,7 @@
 <header-component>
   <mat-sidenav-container>
 
-    <mat-sidenav mode="side" *ngIf="conta?.usuario?.isOperador || conta?.usuario?.isAdministrador" [opened]="isSmallScreen" class="mat-elevation-z5">
+    <mat-sidenav mode="side" *ngIf="conta?.isOperador || conta?.isAdministrador" [opened]="isSmallScreen" class="mat-elevation-z5">
       <logged-menu></logged-menu>
     </mat-sidenav>
     <router-outlet></router-outlet>

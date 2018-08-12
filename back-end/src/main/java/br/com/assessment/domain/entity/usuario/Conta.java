@@ -115,8 +115,10 @@ public class Conta extends AbstractEntity implements UserDetails {
         if (this.usuario != null && this.usuario.isOperador())
             authorities.add((GrantedAuthority) () -> "ROLE_OPERADOR");
 
-        if (this.usuario != null && this.getIsAdministrador())
+        if (this.usuario != null && this.getIsAdministrador()){
             authorities.add((GrantedAuthority) () -> "ROLE_ADMINISTRADOR");
+            authorities.add((GrantedAuthority) () -> "ROLE_OPERADOR");
+        }
 
         return authorities;
     }

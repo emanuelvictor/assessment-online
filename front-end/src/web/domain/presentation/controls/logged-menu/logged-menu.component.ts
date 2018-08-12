@@ -33,6 +33,7 @@ export class LoggedMenuComponent implements OnDestroy {
 
     this.authenticationService.getContaAutenticada().subscribe(result => {
       this.authenticatedUser = result;
+      console.log(this.authenticatedUser);
       this.colaboradorService.listOperadoresByUsuarioKey(this.authenticatedUser.key).subscribe(operadores => {
         if (operadores.length > 0)
           this.authenticatedUser.isOperator = true;
