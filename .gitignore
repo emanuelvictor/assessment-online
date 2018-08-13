@@ -41,3 +41,4 @@ yarn.lock
 functions
 node_modules
 front-end/front-end.iml
+dist/
