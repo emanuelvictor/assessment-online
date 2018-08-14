@@ -73,5 +73,11 @@ export class ContaService {
     return this.contaRepository.changeMyPassword(usuario, currentPassword, newPassword);
   }
 
-
+  /**
+   *
+   * @param {Usuario} cliente
+   */
+  public createAccount(cliente: Usuario): Promise<Usuario> {
+    return this.contaRepository.createAccount(cliente);
+  }
 }

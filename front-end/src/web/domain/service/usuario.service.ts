@@ -247,4 +247,5 @@ export class UsuarioService {
     return this.usuarioRepository.delete(usuario.id);
   }
 
+
 }

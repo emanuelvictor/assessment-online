@@ -28,6 +28,15 @@ export class ContaRepository extends BaseRepository<Conta> {
 
   /**
    *
+   * @param {Usuario} cliente
+   * @returns {Promise<Usuario>}
+   */
+  public createAccount(cliente: Usuario): Promise<Usuario> {
+    return this.httpClient.post<Usuario>('usuarios/contas', cliente).toPromise();
+  }
+
+  /**
+   *
    * @param {Usuario} usuario
    * @param {string} newPassword
    * @returns {Observable<any>}

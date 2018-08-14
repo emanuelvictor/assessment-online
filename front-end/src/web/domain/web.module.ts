@@ -91,6 +91,7 @@ import {AvaliacaoColaboradorRepository} from './repositories/avaliacao-colaborad
 import {ContaRepository} from './repositories/conta.repository';
 import {ContaService} from './service/conta.service';
 import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente.component';
+import {ClienteFormComponent} from './presentation/dashboard/cliente/cliente-form/cliente-form.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -149,6 +150,10 @@ registerLocaleData(localePt, 'pt-BR');
     EstatisticasAtendenteComponent,
     MinhasEstatisticasComponent,
     InserirClienteComponent,
+
+    // Cliente
+    InserirClienteComponent,
+    ClienteFormComponent,
 
     // Password
     AlterarMinhaSenhaComponent,

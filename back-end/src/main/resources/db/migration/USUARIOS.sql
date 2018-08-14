@@ -1,5 +1,5 @@
 INSERT INTO pessoa (id, created, nome)
- VALUES (1, NOW(), 'Administrador')
+ VALUES (1, NOW(), 'Administrador');
 
 INSERT INTO usuario (id)
   VALUES (1);

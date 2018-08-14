@@ -1,4 +1,4 @@
-<usuario-form [usuario]="cliente" (save)="save()">
+<cliente-form [cliente]="cliente" (save)="save()">
 
   <!--cabeçalho div-->
   <div layout='column' layout-margin header>
@@ -18,8 +18,6 @@
 
   <mat-divider style='margin-left: -25px; margin-right: -25px; margin-bottom: 40px; margin-top: 40px;' divider>
   </mat-divider>
-
-  <vincular-unidade [usuario]='cliente' (save)="saveColaborador($event)" unidades></vincular-unidade>
 
   <!--actions div-->
   <div flex layout-margin actions>
@@ -42,4 +40,4 @@
 
     </div>
   </div>
-</usuario-form>
+</cliente-form>

@@ -85,7 +85,7 @@ public class UsuarioResource {
     }
 
 
-    @PostMapping(value = "create-account") //TODO verificar nomenclatura de create-account
+    @PostMapping(value = "/contas") //TODO verificar nomenclatura de create-account
     public Mono<Usuario> createAccount(@RequestBody Usuario usuario){
         return this.usuarioService.createAccount(usuario);
     }

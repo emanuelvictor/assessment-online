@@ -23,6 +23,7 @@ import {UnidadeRankingViewComponent} from './presentation/dashboard/ranking/unid
 import {AtendenteRankingViewComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking-view.component';
 import {AtendenteRankingComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking/atendente-ranking.component';
 import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component';
+import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente.component';
 
 
 const routes: Routes = [
@@ -30,7 +31,7 @@ const routes: Routes = [
     path: '', redirectTo: 'dashboard/minha-conta', pathMatch: 'full'
   },
   {
-    path: 'cadastre-se', component: InserirAtendenteComponent,
+    path: 'cadastre-se', component: InserirClienteComponent,
   },
   {
     path: 'authentication', component: LoginComponent,

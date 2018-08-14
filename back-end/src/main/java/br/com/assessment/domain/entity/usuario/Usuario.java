@@ -114,6 +114,21 @@ public class Usuario extends Pessoa {
     }
 
     /**
+     *
+     */
+    public boolean getIsAtendente() {
+        return this.isAtendente();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean getIsAdministrador() {
+        return this.conta != null && this.conta.isAdministrador();
+    }
+
+    /**
      * @param fotoPath
      */
     public void setFotoPath(String fotoPath) {
