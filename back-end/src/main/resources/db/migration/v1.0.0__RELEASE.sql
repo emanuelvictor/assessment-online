@@ -445,26 +445,27 @@ ALTER SEQUENCE pessoa_id_seq OWNED BY pessoa.id;
 
 
 --
--- TOC entry 202 (class 1259 OID 273764)
--- Name: unidade; Type: TABLE;
+-- TOC entry 199 (class 1259 OID 292489)
+-- Name: unidade; Type: TABLE; Schema:  Owner: -
 --
 
-CREATE TABLE IF NOT EXISTS unidade (
-    endereco bytea NOT NULL,
-    id bigint NOT NULL
+CREATE TABLE unidade (
+    id bigint NOT NULL,
+    endereco_id bigint NOT NULL
 );
 
 
 --
--- TOC entry 203 (class 1259 OID 273772)
--- Name: unidade_aud; Type: TABLE;
+-- TOC entry 200 (class 1259 OID 292494)
+-- Name: unidade_aud; Type: TABLE; Schema:  Owner: -
 --
 
-CREATE TABLE IF NOT EXISTS unidade_aud (
+CREATE TABLE unidade_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
-    endereco bytea
+    endereco_id bigint
 );
+
 
 
 --
@@ -712,6 +713,14 @@ ALTER TABLE ONLY pessoa_aud
 ALTER TABLE ONLY pessoa
     ADD CONSTRAINT pessoa_pkey PRIMARY KEY (id);
 
+--
+-- TOC entry 2075 (class 2606 OID 292516)
+-- Name: uk_cdi0kphlfel3k3jo7xbq2sjyj; Type: CONSTRAINT; Schema:  Owner: -
+--
+
+ALTER TABLE ONLY unidade
+    ADD CONSTRAINT uk_cdi0kphlfel3k3jo7xbq2sjyj UNIQUE (endereco_id);
+
 
 --
 -- TOC entry 2064 (class 2606 OID 273799)
@@ -894,6 +903,13 @@ ALTER TABLE ONLY colaborador_aud
 ALTER TABLE ONLY usuario_aud
     ADD CONSTRAINT fklmj1jljihqyvg9iyqj42aq4q4 FOREIGN KEY (id, rev) REFERENCES pessoa_aud(id, rev);
 
+--
+-- TOC entry 2097 (class 2606 OID 292582)
+-- Name: fkch7malo902uvvg5pea4htv3ot; Type: FK CONSTRAINT; Schema:  Owner: -
+--
+
+ALTER TABLE ONLY unidade
+    ADD CONSTRAINT fkch7malo902uvvg5pea4htv3ot FOREIGN KEY (endereco_id) REFERENCES endereco(id);
 
 --
 -- TOC entry 2102 (class 2606 OID 273847)

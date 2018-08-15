@@ -5,7 +5,9 @@ import br.com.assessment.domain.entity.usuario.Pessoa;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -14,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @lombok.EqualsAndHashCode(callSuper = true)
 public class Unidade extends Pessoa {
 
-    @NotNull
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     private Endereco endereco;
 
 }
