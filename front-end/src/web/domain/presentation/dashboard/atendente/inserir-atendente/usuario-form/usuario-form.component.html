@@ -53,7 +53,7 @@
                   </div>
                   <div layout='row' layout-margin>
                     <mat-form-field flex>
-                      <input [(ngModel)]='usuario.email'
+                      <input [(ngModel)]='usuario.conta.email'
                              matInput name='email' id='email'
                              type='email' formControlName='email'
                              placeholder='E-mail' maxlength='144'
@@ -68,7 +68,7 @@
                       </mat-checkbox>
                     </div>
                   </div>
-                  <password-form [usuario]='usuario' [form]='form' *ngIf='showPassword'></password-form>
+                  <password-form [conta]='usuario?.conta' [form]='form' *ngIf='showPassword'></password-form>
                 </div>
               </div>
 

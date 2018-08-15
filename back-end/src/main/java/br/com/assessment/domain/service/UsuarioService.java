@@ -1,14 +1,11 @@
 package br.com.assessment.domain.service;
 
 import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
-import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.ContaRepository;
 import br.com.assessment.domain.repository.UsuarioRepository;
 import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
@@ -22,12 +19,10 @@ import reactor.core.publisher.Mono;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static br.com.assessment.application.multitenancy.TenantIdentifierResolver.DEFAULT_TENANT_ID;
 
 @Service
 @Transactional
@@ -43,6 +38,7 @@ public class UsuarioService {
     private final ContaRepository contaRepository;
 
     private final DataSource dataSource;
+
     /**
      * @param usuarioId
      * @return
@@ -58,14 +54,12 @@ public class UsuarioService {
 //    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Usuario> save(final Usuario usuario) {
         // Encoda o password
-        if (usuario.getConta() != null){
+        if (usuario.getConta() != null) {
             usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
-            final Conta conta = new Conta(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());
-            this.contaRepository.save(conta);
-
-            usuario.setConta(conta);
+            usuario.getConta().setEsquema(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+            usuario.getConta().setUsuario(usuario);
         }
-        return  Mono.just(this.usuarioRepository.save(usuario));
+        return Mono.just(this.usuarioRepository.save(usuario));
     }
 
     /**
@@ -76,7 +70,7 @@ public class UsuarioService {
      */
     public Mono<Usuario> createAccount(final Usuario usuario) {
 
-        // Encoda a senha do usuário
+        // Encoda a senha da conta
         usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
 
         // Seta o esquema
@@ -92,7 +86,6 @@ public class UsuarioService {
     }
 
     /**
-     *
      * @param usuarioId
      */
     @PreAuthorize("hasRole('ADMINISTRADOR')")
@@ -162,6 +155,7 @@ public class UsuarioService {
 
     /**
      * TODO jogar pra cima
+     *
      * @param id
      * @return
      */

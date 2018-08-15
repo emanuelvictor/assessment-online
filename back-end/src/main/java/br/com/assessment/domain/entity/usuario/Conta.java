@@ -14,7 +14,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import static br.com.assessment.application.multitenancy.TenantIdentifierResolver.DEFAULT_TENANT_ID;
+import static br.com.assessment.application.multitenancy.Context.DEFAULT_TENANT_ID;
+
 
 @Data
 @Entity

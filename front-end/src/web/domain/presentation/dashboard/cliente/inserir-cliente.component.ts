@@ -5,6 +5,7 @@ import {Usuario} from '../../../entity/usuario/usuario.model';
 import {ContaService} from '../../../service/conta.service';
 import {TdLoadingService} from '@covalent/core';
 import {Conta} from '../../../entity/usuario/conta.model';
+import {AuthenticationService} from '../../../service/authentication.service';
 
 @Component({
   selector: 'inserir-cliente',
@@ -30,7 +31,7 @@ export class InserirClienteComponent implements OnInit {
    * @param _loadingService
    */
   constructor(private contaService: ContaService,
-              private snackBar: MatSnackBar, private router: Router,
+              private snackBar: MatSnackBar, private router: Router, private authenticationService: AuthenticationService,
               private activatedRoute: ActivatedRoute, private _loadingService: TdLoadingService) {
   }
 
@@ -50,9 +51,13 @@ export class InserirClienteComponent implements OnInit {
 
     this.contaService.createAccount(this.cliente)
       .then(result => {
-        this.cliente = result;
-        this._loadingService.resolve('overlayStarSyntax');
-        this.success('Cadastro com sucesso');
+        this.authenticationService.login(this.cliente.conta)
+          .then(result => {
+            this._loadingService.resolve('overlayStarSyntax');
+            this.authenticationService.setAuthenticatedUser(result);
+            this.router.navigate(['/']);
+          })
+
       }).catch(() => this._loadingService.resolve('overlayStarSyntax'));
   }
 

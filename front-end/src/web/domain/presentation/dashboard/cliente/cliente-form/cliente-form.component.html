@@ -71,7 +71,7 @@
                       <input matInput name="password" id="password"
                              [(ngModel)]="cliente.conta.password"
                              type="password" formControlName="password"
-                             placeholder="Senha do usuário" required>
+                             placeholder="Senha da conta" required>
                       <mat-error *ngIf="form?.controls['password'].hasError('exception')">
                         {{form?.controls['password']?.errors.exception}}
                       </mat-error>
@@ -84,8 +84,8 @@
                       <input matInput name="confirmacaoPassword" id="confirmacaoPassword"
                              [(ngModel)]="confirmacaoPassword" required
                              type="password" formControlName="confirmacaoPassword"
-                             matTooltip="Confirmação de senha do usuário"
-                             placeholder="Confirmação de senha do usuário">
+                             matTooltip="Confirmação de senha da conta"
+                             placeholder="Confirmação de senha da conta">
                       <mat-error *ngIf="form?.controls['confirmacaoPassword'].hasError('exception')">
                         {{form?.controls['confirmacaoPassword']?.errors.exception}}
                       </mat-error>

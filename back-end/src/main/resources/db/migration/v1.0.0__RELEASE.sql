@@ -12,17 +12,18 @@ ALTER TABLE revision_id_seq
 
 -- DROP TABLE revision;
 
-CREATE TABLE revision
+CREATE TABLE IF NOT EXISTS public.revision
 (
   id bigint NOT NULL DEFAULT nextval('revision_id_seq'::regclass),
   "timestamp" bigint NOT NULL,
-  userid bigint,
+  username character varying(200),
+  schema character varying(200),
   CONSTRAINT revision_pkey PRIMARY KEY (id)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE revision
+ALTER TABLE public.revision
   OWNER TO assessment;
 
 
@@ -829,7 +830,7 @@ ALTER TABLE ONLY usuario
 --
 
 ALTER TABLE ONLY usuario
-    ADD CONSTRAINT fkb4d3hepeh0mtjtrvqs4m93slm FOREIGN KEY (conta_id) REFERENCES conta(id);
+    ADD CONSTRAINT fkb4d3hepeh0mtjtrvqs4m93slm FOREIGN KEY (conta_id) REFERENCES public.conta(id);
 
 
 --
@@ -847,7 +848,7 @@ ALTER TABLE ONLY colaborador
 --
 
 ALTER TABLE ONLY cidade_aud
-    ADD CONSTRAINT fkefwyjn6arj763whxfdrto1s4e FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fkefwyjn6arj763whxfdrto1s4e FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -856,7 +857,7 @@ ALTER TABLE ONLY cidade_aud
 --
 
 ALTER TABLE ONLY configuracao_aud
-    ADD CONSTRAINT fkeljinv8k5ln2wigpup838i4ml FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fkeljinv8k5ln2wigpup838i4ml FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -865,7 +866,7 @@ ALTER TABLE ONLY configuracao_aud
 --
 
 ALTER TABLE ONLY estado_aud
-    ADD CONSTRAINT fkh85yyhbouaqnu4pi1jqx6cghm FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fkh85yyhbouaqnu4pi1jqx6cghm FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -883,7 +884,7 @@ ALTER TABLE ONLY conta
 --
 
 ALTER TABLE ONLY pessoa_aud
-    ADD CONSTRAINT fkjutrachlrb2rljju7emg3rasl FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fkjutrachlrb2rljju7emg3rasl FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -892,7 +893,7 @@ ALTER TABLE ONLY pessoa_aud
 --
 
 ALTER TABLE ONLY colaborador_aud
-    ADD CONSTRAINT fkkvbk7kvfhho91rrt51ltsm5he FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fkkvbk7kvfhho91rrt51ltsm5he FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -917,7 +918,7 @@ ALTER TABLE ONLY unidade
 --
 
 ALTER TABLE ONLY endereco_aud
-    ADD CONSTRAINT fkmnfywh0cf5m1x2kspb99laqim FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fkmnfywh0cf5m1x2kspb99laqim FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -926,7 +927,7 @@ ALTER TABLE ONLY endereco_aud
 --
 
 ALTER TABLE ONLY pais_aud
-    ADD CONSTRAINT fkmskwo6sjcn9897p2pfho4eyfd FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fkmskwo6sjcn9897p2pfho4eyfd FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -944,7 +945,7 @@ ALTER TABLE ONLY unidade
 --
 
 ALTER TABLE ONLY conta_aud
-    ADD CONSTRAINT fkqjvekwd6r9mpfnnqsmtpcx1qh FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT chave_estrangeira_para_revisao_deconta FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -962,7 +963,7 @@ ALTER TABLE ONLY cidade
 --
 
 ALTER TABLE ONLY endereco
-    ADD CONSTRAINT fksq6fa88clryv3uqsbgvva4fne FOREIGN KEY (cidade_id) REFERENCES cidade(id);
+    ADD CONSTRAINT fksq6fa88clryv3uqsbgvva4fne FOREIGN KEY (cidade_id) REFERENCES public.cidade(id);
 
 -- Table: flyway_schema_history
 

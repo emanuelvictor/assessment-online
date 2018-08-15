@@ -6,6 +6,7 @@ import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {Colaborador} from '../../../../entity/colaborador/colaborador.model';
 import {ColaboradorService} from '../../../../service/colaborador.service';
 import {TdLoadingService} from '@covalent/core';
+import {Conta} from '../../../../entity/usuario/conta.model';
 
 @Component({
   selector: 'inserir-atendente',
@@ -35,8 +36,9 @@ export class InserirAtendenteComponent implements OnInit {
    * @param {ActivatedRoute} activatedRoute
    * @param {TdLoadingService} _loadingService
    */
-  constructor(private usuarioService: UsuarioService, private router: Router,
-              private colaboradorService: ColaboradorService, private snackBar: MatSnackBar,
+  constructor(private usuarioService: UsuarioService,
+              private colaboradorService: ColaboradorService,
+              private router: Router, private snackBar: MatSnackBar,
               private activatedRoute: ActivatedRoute, private _loadingService: TdLoadingService) {
   }
 
@@ -44,6 +46,7 @@ export class InserirAtendenteComponent implements OnInit {
    *
    */
   ngOnInit(): void {
+    this.atendente.conta = new Conta();
   }
 
   /**
@@ -59,6 +62,7 @@ export class InserirAtendenteComponent implements OnInit {
       this.usuarioService.save(this.atendente)
         .then(result => {
           this.atendente = result;
+          // TODO passar raciocínio para o back-end
           this.colaboradores.forEach(colaborador => {
             colaborador.usuario = this.atendente;
             this.colaboradorService.save(colaborador)

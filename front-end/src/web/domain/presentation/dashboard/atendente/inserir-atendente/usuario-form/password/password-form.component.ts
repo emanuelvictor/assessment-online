@@ -4,6 +4,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {confirmPassword, password} from "../../../../../controls/validators/validators";
 import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {Usuario} from '../../../../../../entity/usuario/usuario.model';
+import {Conta} from '../../../../../../entity/usuario/conta.model';
 
 @Component({
   selector: 'password-form',
@@ -20,7 +21,7 @@ export class PasswordFormComponent implements OnInit, OnDestroy {
   /**
    *
    */
-  @Input() usuario: Usuario;
+  @Input() conta: Conta;
 
   /**
    *

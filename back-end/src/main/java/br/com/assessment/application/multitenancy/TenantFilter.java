@@ -1,7 +1,6 @@
 package br.com.assessment.application.multitenancy;
 
 import br.com.assessment.domain.entity.usuario.Conta;
-import br.com.assessment.domain.entity.usuario.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -31,7 +30,8 @@ public class TenantFilter implements WebFilter {
                 .map(securityContext -> {
                     if (securityContext.getAuthentication() != null) {
                         final Conta conta = ((Conta) securityContext.getAuthentication().getPrincipal());
-                        TenantContext.setCurrentTenant(conta.getEsquema());
+                        Context.setCurrentSchema(conta.getEsquema());
+                        Context.setCurrentUsername(conta.getUsername());
                     }
                     return webFilterChain.filter(serverWebExchange);
                 })

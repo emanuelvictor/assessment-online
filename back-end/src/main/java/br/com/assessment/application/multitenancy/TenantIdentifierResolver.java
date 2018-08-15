@@ -7,16 +7,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver {
 
-    public static final String DEFAULT_TENANT_ID = "public";
 
     @Override
     public String resolveCurrentTenantIdentifier() {
-        final String tenantId = TenantContext.getCurrentTenant();
-        if (tenantId != null) {
-            return tenantId;
-        }
-        return DEFAULT_TENANT_ID;
+        return Context.getCurrentSchema();
     }
+
     @Override
     public boolean validateExistingCurrentSessions() {
         return true;

@@ -1,17 +1,25 @@
 package br.com.assessment.domain.entity.generic;
 
+import br.com.assessment.application.multitenancy.Context;
+import lombok.Data;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+import static br.com.assessment.application.multitenancy.Context.DEFAULT_TENANT_ID;
+
+
 /**
  *
  * @param <T>
  * @param <ID>
  */
+@Data
 @Entity
+@lombok.EqualsAndHashCode
+@Table(schema = DEFAULT_TENANT_ID)
 @org.hibernate.envers.RevisionEntity(EntityTrackingRevisionListener.class)
 public class Revision<T extends IEntity<ID>, ID extends Serializable> implements Serializable
 {
@@ -35,9 +43,14 @@ public class Revision<T extends IEntity<ID>, ID extends Serializable> implements
 	private long timestamp;
 
 	/**
-	 * id do usuário da {@link Revision}
+	 * esquema da revisão
 	 */
-	private Long userId;
+	private String schema;
+
+	/**
+	 * Username do usuário logado {@link Revision}
+	 */
+	private String username;
 
 	//---Metadata
 	/**
@@ -55,8 +68,6 @@ public class Revision<T extends IEntity<ID>, ID extends Serializable> implements
 	 */
 	public Revision()
 	{
-
-		this.entity = null;
 	}
 
 	/**
@@ -64,151 +75,7 @@ public class Revision<T extends IEntity<ID>, ID extends Serializable> implements
 	 */
 	public Revision( T entity )
 	{
-
-		this.entity = entity;
+		this.setEntity(entity);
 	}
 
-	/*-------------------------------------------------------------------
-	 *				 		     BEHAVIORS
-	 *-------------------------------------------------------------------*/
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((entity == null) ? 0 : entity.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + (int) (timestamp ^ (timestamp >>> 32));
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		return result;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	@SuppressWarnings("rawtypes")
-	public boolean equals( Object obj )
-	{
-		if ( this == obj )
-		{
-			return true;
-		}
-		if ( obj == null )
-		{
-			return false;
-		}
-		if ( getClass() != obj.getClass() )
-		{
-			return false;
-		}
-		Revision other = (Revision) obj;
-		if ( entity == null )
-		{
-			if ( other.entity != null )
-			{
-				return false;
-			}
-		}
-		else if ( !entity.equals( other.entity ) )
-		{
-			return false;
-		}
-		if ( id != other.id )
-		{
-			return false;
-		}
-		if ( timestamp != other.timestamp )
-		{
-			return false;
-		}
-		if ( userId == null )
-		{
-			if ( other.userId != null )
-			{
-				return false;
-			}
-		}
-		else if ( !userId.equals( other.userId ) )
-		{
-			return false;
-		}
-		return true;
-	}
-
-	/*-------------------------------------------------------------------
-	 *						GETTERS AND SETTERS
-	 *-------------------------------------------------------------------*/
-
-	/**
-	 * @return the id
-	 */
-	public long getId()
-	{
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId( long id )
-	{
-		this.id = id;
-	}
-
-	/**
-	 * @return the timestamp
-	 */
-	public long getTimestamp()
-	{
-		return timestamp;
-	}
-
-	/**
-	 * @param timestamp the timestamp to set
-	 */
-	public void setTimestamp( long timestamp )
-	{
-		this.timestamp = timestamp;
-	}
-
-	/**
-	 * @return the userId
-	 */
-	public long getUserId()
-	{
-		return userId;
-	}
-
-	/**
-	 * @param userId the userId to set
-	 */
-	public void setUserId( long userId )
-	{
-		this.userId = userId;
-	}
-
-	//---Metadata
-
-	/**
-	 * @return the entity
-	 */
-	public T getEntity()
-	{
-		return entity;
-	}
-
-	/**
-	 * @param entity the entity to set
-	 */
-	public void setEntity( T entity )
-	{
-		this.entity = entity;
-	}
 }

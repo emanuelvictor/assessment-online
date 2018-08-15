@@ -1,7 +1,7 @@
 package br.com.assessment.application.handlers;
 
 
-import br.com.assessment.application.multitenancy.TenantContext;
+import br.com.assessment.application.multitenancy.Context;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -42,7 +42,8 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
     public Mono<Void> onLogoutSuccess(final WebFilterExchange webFilterExchange, final Authentication authentication) {
 
         // Limpa o tenant
-        TenantContext.clear();
+        Context.clearCurrentSchema();
+        Context.clearCurrentUsername();
 
         try {
             final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Logout efetuado com sucesso"));
