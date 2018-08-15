@@ -1,23 +1,18 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {Usuario} from '../../../entity/usuario/usuario.model';
-import {Colaborador} from '../../../entity/colaborador/colaborador.model';
 import {ContaService} from '../../../service/conta.service';
 import {TdLoadingService} from '@covalent/core';
+import {Conta} from '../../../entity/usuario/conta.model';
 
 @Component({
   selector: 'inserir-cliente',
   templateUrl: './inserir-cliente.component.html',
   styleUrls: ['./inserir-cliente.component.css']
 })
-export class InserirClienteComponent {
+export class InserirClienteComponent implements OnInit {
 
-  /**
-   *
-   * @type {Array}
-   */
-  colaboradores: Colaborador[] = [];
 
   /**
    *
@@ -36,8 +31,15 @@ export class InserirClienteComponent {
    */
   constructor(private contaService: ContaService,
               private snackBar: MatSnackBar, private router: Router,
-              private activatedRoute: ActivatedRoute, private _loadingService: TdLoadingService
-  ) {
+              private activatedRoute: ActivatedRoute, private _loadingService: TdLoadingService) {
+  }
+
+  /**
+   *
+   */
+  ngOnInit(){
+    this.cliente = new Usuario();
+    this.cliente.conta = new Conta();
   }
 
   /**
@@ -49,10 +51,6 @@ export class InserirClienteComponent {
     this.contaService.createAccount(this.cliente)
       .then(result => {
         this.cliente = result;
-        this.colaboradores.forEach(colaborador => {
-          colaborador.usuario = this.cliente;
-        });
-
         this._loadingService.resolve('overlayStarSyntax');
         this.success('Cadastro com sucesso');
       }).catch(() => this._loadingService.resolve('overlayStarSyntax'));

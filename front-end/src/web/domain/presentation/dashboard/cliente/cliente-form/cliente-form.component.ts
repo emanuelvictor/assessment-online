@@ -4,9 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import {FormBuilder, Validators} from '@angular/forms';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
-import {AuthenticationService} from '../../../../service/authentication.service';
 import {confirmPassword, password} from '../../../controls/validators/validators';
-import {Conta} from '../../../../entity/usuario/conta.model';
 
 /**
  *
@@ -64,16 +62,12 @@ export class ClienteFormComponent implements OnInit {
               private renderer: Renderer,
               private snackBar: MatSnackBar,
               @Inject(ElementRef) private element: ElementRef) {
-
-
   }
 
   /**
    *
    */
   ngOnInit(){
-    this.cliente = new Usuario();
-    this.cliente.conta = new Conta();
 
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],

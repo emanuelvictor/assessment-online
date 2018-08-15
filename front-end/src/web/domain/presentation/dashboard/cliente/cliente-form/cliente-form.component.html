@@ -53,7 +53,7 @@
                   </div>
                   <div layout='row' layout-margin>
                     <mat-form-field flex>
-                      <input [(ngModel)]='cliente.email'
+                      <input [(ngModel)]='cliente.conta.email'
                              matInput name='email' id='email'
                              type='email' formControlName='email'
                              placeholder='E-mail' maxlength='144' required
@@ -97,12 +97,6 @@
 
                 </div>
               </div>
-
-              <!--divider-->
-              <ng-content select="[divider]"></ng-content>
-
-              <!--unidade-->
-              <ng-content select="[unidades]"></ng-content>
 
               <!-- actions -->
               <ng-content select="[actions]"></ng-content>
