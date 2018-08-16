@@ -1,14 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {AuthenticationService} from './authentication.service';
 import {Usuario} from '../entity/usuario/usuario.model';
 import {FileRepository} from '../../infrastructure/repository/file/file.repository';
-import {MatSnackBar} from '@angular/material';
-import {ColaboradorService} from './colaborador.service';
-import {UsuarioRepository} from '../repositories/usuario.repository';
-import {ColaboradorRepository} from '../repositories/colaborador.repository';
-import {AvaliacaoColaboradorRepository} from '../repositories/avaliacao-colaborador.repository';
-import {FotoLoadingComponent} from '../presentation/controls/foto-loading/foto-loading.component';
 import {ContaRepository} from '../repositories/conta.repository';
 import {Conta} from '../entity/usuario/conta.model';
 
@@ -20,9 +13,10 @@ export class ContaService {
 
   /**
    *
-   * @param {UsuarioRepository} contaRepository
+   * @param {ContaRepository} contaRepository
+   * @param {FileRepository} fileRepository
    */
-  constructor(private contaRepository: ContaRepository) {
+  constructor(private contaRepository: ContaRepository, private fileRepository: FileRepository,) {
   }
 
   /**
@@ -78,6 +72,41 @@ export class ContaService {
    * @param {Usuario} cliente
    */
   public createAccount(cliente: Usuario): Promise<Usuario> {
-    return this.contaRepository.createAccount(cliente);
+
+    const arquivoFile = cliente.arquivoFile;
+
+    let toSave = cliente;
+    delete toSave.arquivoFile;
+    delete toSave.fotoPath;
+
+    return new Promise((resolve, reject) => {
+
+      this.contaRepository.createAccount(toSave)
+        .then(result => {
+          toSave = result;
+
+          if (arquivoFile)
+            this.fileRepository.save('usuarios/' + String(result.id) + '/foto', arquivoFile)
+              .then(uploaded => {
+                toSave.fotoPath = uploaded;
+                resolve(toSave);
+              })
+              .catch(error => {
+                console.error(error);
+                reject(error);
+              });
+
+
+          else
+            resolve(toSave);
+
+        })
+        .catch(error => {
+          console.error(error);
+          reject(error);
+        });
+
+    });
+
   }
 }

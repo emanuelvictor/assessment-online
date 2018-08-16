@@ -27,18 +27,20 @@ export class InserirClienteComponent implements OnInit {
    * @param {ContaService} contaService
    * @param {MatSnackBar} snackBar
    * @param {Router} router
+   * @param {AuthenticationService} authenticationService
    * @param {ActivatedRoute} activatedRoute
-   * @param _loadingService
+   * @param {TdLoadingService} _loadingService
    */
   constructor(private contaService: ContaService,
-              private snackBar: MatSnackBar, private router: Router, private authenticationService: AuthenticationService,
+              private authenticationService: AuthenticationService,
+              private snackBar: MatSnackBar, private router: Router,
               private activatedRoute: ActivatedRoute, private _loadingService: TdLoadingService) {
   }
 
   /**
    *
    */
-  ngOnInit(){
+  ngOnInit() {
     this.cliente = new Usuario();
     this.cliente.conta = new Conta();
   }
@@ -51,13 +53,9 @@ export class InserirClienteComponent implements OnInit {
 
     this.contaService.createAccount(this.cliente)
       .then(result => {
-        this.authenticationService.login(this.cliente.conta)
-          .then(result => {
-            this._loadingService.resolve('overlayStarSyntax');
-            this.authenticationService.setAuthenticatedUser(result);
-            this.router.navigate(['/']);
-          })
-
+        this._loadingService.resolve('overlayStarSyntax');
+        this.authenticationService.setAuthenticatedUser(result);
+        this.router.navigate(['/']);
       }).catch(() => this._loadingService.resolve('overlayStarSyntax'));
   }
 

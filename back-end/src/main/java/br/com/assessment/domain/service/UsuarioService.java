@@ -18,57 +18,49 @@ import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 
 @Service
-@Transactional
 @AllArgsConstructor
 public class UsuarioService {
 
-    private final UsuarioRepository usuarioRepository;
+    private final Flyway flyway;
 
     private final PasswordEncoder passwordEncoder;
 
+    private final UsuarioRepository usuarioRepository;
+
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
-    private final ContaRepository contaRepository;
+    private final ServerSecurityContextRepository serverSecurityContextRepository;
 
-    private final DataSource dataSource;
 
-    private final ReactiveAuthenticationManager reactiveAuthenticationManager;
-
-    private final Flyway flyway;
-
-    /**
-     * @param usuarioId
-     * @return
-     */
     public Mono<Optional<Usuario>> findUsuarioById(final long usuarioId) {
         return Mono.just(this.usuarioRepository.findById(usuarioId));
     }
 
 
-    /**
-     *
-     */
-//    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    //    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Usuario> save(final Usuario usuario) {
         // Encoda o password
         if (usuario.getConta() != null) {
             usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
-            usuario.getConta().setEsquema(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+            usuario.getConta().setEsquema(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());// TODO verificar se não da pra usar o context
             usuario.getConta().setUsuario(usuario);
         }
         return Mono.just(this.usuarioRepository.save(usuario));
@@ -80,7 +72,7 @@ public class UsuarioService {
      * @param usuario Usuario
      * @return Mono<Usuario>
      */
-    public Mono<Authentication> createAccount(final Usuario usuario) {
+    public Mono<Usuario> createAccount(ServerWebExchange exchange, final Usuario usuario) {
 
         // Encoda a senha da conta
         usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
@@ -98,42 +90,29 @@ public class UsuarioService {
         flyway.setSchemas(usuario.getConta().getEsquema());
         flyway.migrate();
 
-        // Salva o usuário (usuário no novo esquema, e conta no esquema publico, pois o esquema padrão setado é o novo esquema)
-        this.usuarioRepository.save(usuario);
-
         // Cria a autenticação
-        final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(usuario.getConta(), usuario.getConta().getPassword(), usuario.getConta().getAuthorities());
+        final Authentication authentication = new UsernamePasswordAuthenticationToken(usuario.getConta(), usuario.getConta().getPassword(), usuario.getConta().getAuthorities());
 
+        // Cria o contexto de segurança
+        final SecurityContextImpl securityContext = new SecurityContextImpl(authentication);
 
-//        return Mono.zip(ReactiveSecurityContextHolder.getContext(), reactiveAuthenticationManager.authenticate(usernamePasswordAuthenticationToken)).map(objects -> {
-//            objects.getT1().setAuthentication(usernamePasswordAuthenticationToken);
-//            return objects.getT2();
-//        });
+        // Insere o contexto no repositório de contexto e retorna o usuário inserido
+        serverSecurityContextRepository.save(exchange, securityContext).block();
 
+        // Seto o squema default, isso fará o sistema setar o esquema da conta a se criar.
+        // E o usuário será salvo automáticamente no esquema públic
+        Context.setCurrentSchema(usuario.getConta().getEsquema());
 
-        return ReactiveSecurityContextHolder.getContext()
-                .map(securityContext -> {
-                    securityContext.setAuthentication(usernamePasswordAuthenticationToken);
-                    return usernamePasswordAuthenticationToken;
-                })
-                .map(authentication -> authentication)
-                .flatMap(usernamePasswordAuthenticationToken1 ->
-                        Mono.just(usernamePasswordAuthenticationToken)
-                );
+        return Mono.just(this.usuarioRepository.save(usuario));
+
     }
 
-    /**
-     * @param usuarioId
-     */
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Boolean> delete(final long usuarioId) {
         this.usuarioRepository.deleteById(usuarioId);
         return Mono.just(true);
     }
 
-    /**
-     * @return
-     */
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Flux<Usuario> findAll() {
 
@@ -146,9 +125,9 @@ public class UsuarioService {
     /**
      * Salva a foto, também é utilizado pra atualizar foto
      *
-     * @param id
-     * @param file
-     * @return
+     * @param id   long
+     * @param file Flux<Part>
+     * @return Flux<String>
      */
     public Flux<String> save(final long id, final Flux<Part> file) {
         return file
@@ -181,11 +160,6 @@ public class UsuarioService {
                 });
     }
 
-    /**
-     * @param id
-     * @param file
-     * @return
-     */
     public Flux<String> update(final long id, final Flux<Part> file) {
         return this.save(id, file);
     }
@@ -193,8 +167,8 @@ public class UsuarioService {
     /**
      * TODO jogar pra cima
      *
-     * @param id
-     * @return
+     * @param id long
+     * @return Mono<ResponseEntity<byte[]>>
      */
     public Mono<ResponseEntity<byte[]>> findThumbnail(final long id) {
         return Mono.just(
@@ -202,10 +176,6 @@ public class UsuarioService {
                         .body(this.usuarioRepository.findById(id).get().getThumbnail()));
     }
 
-    /**
-     * @param id
-     * @return
-     */
     public Mono<ResponseEntity<byte[]>> findAvatar(final long id) {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
@@ -213,10 +183,6 @@ public class UsuarioService {
     }
 
 
-    /**
-     * @param id
-     * @return
-     */
     public Mono<ResponseEntity<byte[]>> findFoto(final long id) {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))

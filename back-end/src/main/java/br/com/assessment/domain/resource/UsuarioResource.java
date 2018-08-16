@@ -1,30 +1,22 @@
 package br.com.assessment.domain.resource;
 
-import br.com.assessment.application.multitenancy.Context;
 import br.com.assessment.domain.entity.usuario.Conta;
-import br.com.assessment.domain.service.UsuarioService;
 import br.com.assessment.domain.entity.usuario.Usuario;
-import javassist.bytecode.ByteArray;
+import br.com.assessment.domain.service.UsuarioService;
 import lombok.AllArgsConstructor;
-import org.reactivestreams.Publisher;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.Part;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.print.attribute.standard.Media;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/usuarios")
 @AllArgsConstructor
+@RequestMapping("/usuarios")
 public class UsuarioResource {
 
     private final UsuarioService usuarioService;
@@ -73,7 +65,6 @@ public class UsuarioResource {
     @PostMapping(value = "{id}/foto", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Flux<String> save(@PathVariable final long id, @RequestPart("file") Flux<Part> file) {
         return this.usuarioService.save(id, file);
-
     }
 
     @PutMapping("{id}/foto")
@@ -87,12 +78,9 @@ public class UsuarioResource {
     }
 
 
-    @PostMapping(value = "/contas") //TODO verificar nomenclatura de create-account
-    public Mono<Authentication> createAccount(@RequestBody Usuario usuario){
-        // Seta o atual esquema como o novo TODO colocar em outro lugar
-        Context.setCurrentSchema(usuario.getConta().getEmail());
-        return this.usuarioService.createAccount(usuario);
+    @PostMapping(value = "/contas")
+    public Mono<Usuario> createAccount(@RequestBody final Usuario usuario, final ServerWebExchange exchange){
+        return this.usuarioService.createAccount(exchange, usuario);
     }
-
 
 }
