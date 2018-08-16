@@ -100,9 +100,9 @@ public class UsuarioService {
         serverSecurityContextRepository.save(exchange, securityContext).block();
 
         // Seto o squema default, isso fará o sistema setar o esquema da conta a se criar.
-        // E o usuário será salvo automáticamente no esquema públic
         Context.setCurrentSchema(usuario.getConta().getEsquema());
 
+        // E o usuário será salvo automáticamente no esquema públic
         return Mono.just(this.usuarioRepository.save(usuario));
 
     }
