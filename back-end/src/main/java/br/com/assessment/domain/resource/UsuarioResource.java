@@ -1,5 +1,6 @@
 package br.com.assessment.domain.resource;
 
+import br.com.assessment.application.multitenancy.Context;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.service.UsuarioService;
 import br.com.assessment.domain.entity.usuario.Usuario;
@@ -11,6 +12,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.Part;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -86,7 +88,9 @@ public class UsuarioResource {
 
 
     @PostMapping(value = "/contas") //TODO verificar nomenclatura de create-account
-    public Mono<Usuario> createAccount(@RequestBody Usuario usuario){
+    public Mono<Authentication> createAccount(@RequestBody Usuario usuario){
+        // Seta o atual esquema como o novo TODO colocar em outro lugar
+        Context.setCurrentSchema(usuario.getConta().getEmail());
         return this.usuarioService.createAccount(usuario);
     }
 

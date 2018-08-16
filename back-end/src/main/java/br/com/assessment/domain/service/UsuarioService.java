@@ -1,16 +1,23 @@
 package br.com.assessment.domain.service;
 
+import br.com.assessment.application.multitenancy.Context;
 import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
+import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.ContaRepository;
 import br.com.assessment.domain.repository.UsuarioRepository;
 import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.AllArgsConstructor;
+import org.flywaydb.core.Flyway;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.codec.multipart.Part;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.ReactiveAuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +26,7 @@ import reactor.core.publisher.Mono;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -38,6 +46,10 @@ public class UsuarioService {
     private final ContaRepository contaRepository;
 
     private final DataSource dataSource;
+
+    private final ReactiveAuthenticationManager reactiveAuthenticationManager;
+
+    private final Flyway flyway;
 
     /**
      * @param usuarioId
@@ -68,13 +80,10 @@ public class UsuarioService {
      * @param usuario Usuario
      * @return Mono<Usuario>
      */
-    public Mono<Usuario> createAccount(final Usuario usuario) {
+    public Mono<Authentication> createAccount(final Usuario usuario) {
 
         // Encoda a senha da conta
         usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
-
-        // Seta o esquema
-        usuario.getConta().setEsquema(usuario.getConta().getEmail());
 
         // Seta a conta do usuário como administrador
         usuario.getConta().setAdministrador(true);
@@ -82,7 +91,35 @@ public class UsuarioService {
         // Seta a conta do usuário como "não root", só  pode gerenciara empresa dele
         usuario.getConta().setRoot(false);
 
-        return Mono.just(this.usuarioRepository.save(usuario));
+        // Seta o esquema
+        usuario.getConta().setEsquema(usuario.getConta().getEmail());
+
+        // Cria o novo esquema
+        flyway.setSchemas(usuario.getConta().getEsquema());
+        flyway.migrate();
+
+        // Salva o usuário (usuário no novo esquema, e conta no esquema publico, pois o esquema padrão setado é o novo esquema)
+        this.usuarioRepository.save(usuario);
+
+        // Cria a autenticação
+        final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(usuario.getConta(), usuario.getConta().getPassword(), usuario.getConta().getAuthorities());
+
+
+//        return Mono.zip(ReactiveSecurityContextHolder.getContext(), reactiveAuthenticationManager.authenticate(usernamePasswordAuthenticationToken)).map(objects -> {
+//            objects.getT1().setAuthentication(usernamePasswordAuthenticationToken);
+//            return objects.getT2();
+//        });
+
+
+        return ReactiveSecurityContextHolder.getContext()
+                .map(securityContext -> {
+                    securityContext.setAuthentication(usernamePasswordAuthenticationToken);
+                    return usernamePasswordAuthenticationToken;
+                })
+                .map(authentication -> authentication)
+                .flatMap(usernamePasswordAuthenticationToken1 ->
+                        Mono.just(usernamePasswordAuthenticationToken)
+                );
     }
 
     /**

@@ -35,20 +35,13 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
 
         return this.userDetailsService.findByUsername(username)
                 .publishOn(Schedulers.parallel())
-                .filter(u -> this.passwordEncoder.matches((String) authentication.getCredentials(), u.getPassword()))
+                .filter(u -> {
+//                    return this.passwordEncoder.matches((String) authentication.getCredentials(), u.getPassword());
+                    return ((String) authentication.getCredentials()).equals(u.getPassword());
+                })
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new BadCredentialsException("Invalid Credentials"))))
-                .map(u -> {
-                    final Conta conta = (Conta) u;
-
-                    final String schema = conta.getEsquema();
-//        final Flyway flyway = new Flyway();
-//        flyway.setLocations("db/migration");
-//        flyway.setDataSource(dataSource);
-                    flyway.setSchemas(schema);
-//        flyway.setPlaceholderPrefix("v");
-                    flyway.migrate();
-
-                    return new UsernamePasswordAuthenticationToken(u, u.getPassword(), u.getAuthorities());
+                .map(userDetails -> {
+                    return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
                 });
     }
 
