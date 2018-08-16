@@ -96,7 +96,7 @@ public class UsuarioService {
         // Cria o contexto de segurança
         final SecurityContextImpl securityContext = new SecurityContextImpl(authentication);
 
-        // Insere o contexto no repositório de contexto e retorna o usuário inserido
+        // Insere o contexto no repositório de contexto e retorna o usuário inserido //TODO teve que ser feito o block
         serverSecurityContextRepository.save(exchange, securityContext).block();
 
         // Seto o squema default, isso fará o sistema setar o esquema da conta a se criar.
