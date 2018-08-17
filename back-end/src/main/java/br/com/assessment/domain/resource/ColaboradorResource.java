@@ -17,12 +17,12 @@ public class ColaboradorResource {
     private final ColaboradorService colaboradorService;
 
     @PostMapping
-    public Mono<Colaborador> save(@RequestBody Mono<Colaborador> colaborador) {
+    public Mono<Colaborador> save(@RequestBody final Colaborador colaborador) {
         return this.colaboradorService.save(colaborador);
     }
 
     @PutMapping
-    public Mono<Colaborador> update(@RequestBody Mono<Colaborador> colaborador) {
+    public Mono<Colaborador> update(@RequestBody final Colaborador colaborador) {
         return this.colaboradorService.save(colaborador);
     }
 

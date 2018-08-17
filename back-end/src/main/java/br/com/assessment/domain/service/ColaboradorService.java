@@ -32,14 +32,8 @@ public class ColaboradorService {
      *
      */
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public Mono<Colaborador> save(final Mono<Colaborador> colaborador) {
-        return Mono.create(monoSink ->
-                colaborador.subscribe(colaboradorToSave -> {
-                            final Colaborador colaboradorSalvo = this.colaboradorRepository.save(colaboradorToSave);
-                            monoSink.success(colaboradorSalvo);
-                        }
-                )
-        );
+    public Mono<Colaborador> save(final Colaborador colaborador) {
+        return Mono.just(this.colaboradorRepository.save(colaborador));
     }
 
     @PreAuthorize("hasRole('ADMINISTRADOR')")

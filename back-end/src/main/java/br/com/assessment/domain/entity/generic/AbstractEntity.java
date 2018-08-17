@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @MappedSuperclass
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
 public abstract class AbstractEntity implements IEntity<Long> {
 
     private static final long serialVersionUID = -3875941859616104733L;
