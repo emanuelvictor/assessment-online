@@ -161,4 +161,17 @@ public class Conta extends AbstractEntity implements UserDetails {
         return administrador;
     }
 
+    /**
+     * @return
+     */
+    public String getEmail() {
+        return email != null ? email.toLowerCase() : null;
+    }
+
+    /**
+     * @param email
+     */
+    public void setEmail(String email) {
+        this.email = email != null ? email.toLowerCase() : null;
+    }
 }

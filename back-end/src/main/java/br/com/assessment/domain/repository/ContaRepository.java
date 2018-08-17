@@ -12,6 +12,6 @@ public interface ContaRepository extends JpaRepository<Conta, Long> {
      * @param email String
      * @return Conta
      */
-    Conta findByEmail(final String email);
+    Conta findByEmailIgnoreCase(final String email);
 
 }
