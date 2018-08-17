@@ -79,7 +79,7 @@ public class UsuarioResource {
 
 
     @PostMapping(value = "/contas")
-    public Mono<Usuario> createAccount(@RequestBody final Usuario usuario, final ServerWebExchange exchange){
+    public Mono<Usuario> createAccount(final ServerWebExchange exchange, @RequestBody final Usuario usuario){
         return this.usuarioService.createAccount(exchange, usuario);
     }
 
