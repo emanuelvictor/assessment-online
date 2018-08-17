@@ -1,60 +1,65 @@
-  <div layout="column" layout-align="center center" class="login">
-    <div layout="column" layout-align="center center">
+<div layout="column" layout-align="center center" class="login">
+  <div layout="column" layout-align="center center">
 
 
-      <mat-card style="width: 600px">
+    <mat-card style="width: 600px">
 
-        <mat-card-content>
-          <form #signinForm="ngForm" (ngSubmit)="login()">
-            <div layout="column" layout-margin>
+      <mat-card-content>
+        <form #signinForm="ngForm" (ngSubmit)="login()">
+          <div layout="column" layout-margin>
 
-              <div layout="column" layout-margin layout-align="center center">
-                <div layout="row" flex layout-margin>
-                  <img class="logo"> <!-- TODO diminuir resolução-->
-                </div>
-
-                <div layout="row" flex layout-margin>
-                  <h1 class="mat-title tc-grey-600" flex>
-                    <b>Sistema para Avaliação de Atendimentos</b>
-                  </h1>
-                </div>
-              </div>
-
-
-              <div layout="row" flex layout-margin style="margin-top: 34px;">
-                <mat-input-container flex>
-                  <input matInput required name="email" noWhiteSpace
-                         placeholder="Acesse com seu email"
-                         [(ngModel)]="conta.email"/>
-                </mat-input-container>
-              </div>
-
-              <div layout="column" flex layout-margin>
-                <div layout="row" flex="">
-                  <mat-input-container flex>
-                    <input type="password" matInput
-                           placeholder="Sua senha"
-                           [(ngModel)]="conta.password"
-                           required name="password"/>
-                  </mat-input-container>
-                </div>
-                <div layout="row" layout-align="end start" flex="">
-                  <!--<span class="tc-grey-600" style="margin-top:-12px;cursor: pointer">Esqueceu sua senha?</span>-->
-                </div>
+            <div layout="column" layout-margin layout-align="center center">
+              <div layout="row" flex layout-margin>
+                <img class="logo"> <!-- TODO diminuir resolução-->
               </div>
 
               <div layout="row" flex layout-margin>
-                <button [disabled]="!signinForm.form.valid"
-                        style="height: 55px" mat-raised-button color="accent" flex>
-                  <b>Entrar</b>
-                </button>
+                <h1 class="mat-title tc-grey-600" flex>
+                  <b>Sistema para Avaliação de Atendimentos</b>
+                </h1>
               </div>
-
             </div>
-          </form>
-        </mat-card-content>
 
 
-      </mat-card>
-    </div>
+            <div layout="row" flex layout-margin style="margin-top: 34px;">
+              <mat-input-container flex>
+                <input matInput required name="email" noWhiteSpace
+                       placeholder="Acesse com seu email"
+                       [(ngModel)]="conta.email"/>
+              </mat-input-container>
+            </div>
+
+            <div layout="column" flex layout-margin>
+              <div layout="row" flex="">
+                <mat-input-container flex>
+                  <input type="password" matInput
+                         placeholder="Sua senha"
+                         [(ngModel)]="conta.password"
+                         required name="password"/>
+                </mat-input-container>
+              </div>
+            </div>
+
+            <div layout="row" flex layout-margin>
+              <button [disabled]="!signinForm.form.valid"
+                      style="height: 55px" mat-raised-button color="accent" flex>
+                <b>Entrar</b>
+              </button>
+            </div>
+
+            <div layout="row" layout-align="end start" flex>
+                <span [routerLink]="['/cadastre-se']"
+                      class="tc-grey-600" layout-margin
+                      style="margin-top:-12px;cursor: pointer">
+                  Não possui conta? Clique aqui
+                </span>
+            </div>
+
+          </div>
+        </form>
+      </mat-card-content>
+
+
+    </mat-card>
   </div>
+</div>
