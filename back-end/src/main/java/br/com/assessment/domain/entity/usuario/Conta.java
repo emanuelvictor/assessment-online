@@ -1,6 +1,8 @@
 package br.com.assessment.domain.entity.usuario;
 
 import br.com.assessment.domain.entity.generic.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,8 +22,8 @@ import static br.com.assessment.application.multitenancy.Context.DEFAULT_TENANT_
 @Data
 @Entity
 @Audited
-@lombok.EqualsAndHashCode(callSuper = true)
 @Table(schema = DEFAULT_TENANT_ID)
+@lombok.EqualsAndHashCode(callSuper = true)
 public class Conta extends AbstractEntity implements UserDetails {
 
     /**
@@ -79,17 +81,6 @@ public class Conta extends AbstractEntity implements UserDetails {
         this.setEsquema(schema);
     }
 
-
-    /**
-     * (non-Javadoc)
-     *
-     * @see org.springframework.security.core.userdetails.UserDetails#getPassword()
-     */
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
     /**
      * (non-Javadoc)
      *
@@ -125,29 +116,6 @@ public class Conta extends AbstractEntity implements UserDetails {
     }
 
     /**
-     *
-     */
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    /**
-     * Tratamento para quando a conta estiver bloqueada, a data de hoje deve estar entra a data de desbloqueio e a data de bloqueio
-     */
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    /**
-     */
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    /**
      */
     @Override
     public boolean isEnabled() {
@@ -173,5 +141,36 @@ public class Conta extends AbstractEntity implements UserDetails {
      */
     public void setEmail(String email) {
         this.email = email != null ? email.toLowerCase() : null;
+    }
+
+
+    /**
+     * (non-Javadoc)
+     *
+     * @see org.springframework.security.core.userdetails.UserDetails#getPassword()
+     */
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonProperty
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 }

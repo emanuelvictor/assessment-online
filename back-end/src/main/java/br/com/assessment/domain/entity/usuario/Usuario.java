@@ -2,6 +2,7 @@ package br.com.assessment.domain.entity.usuario;
 
 import br.com.assessment.domain.entity.colaborador.Colaborador;
 import br.com.assessment.domain.entity.colaborador.Vinculo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.envers.Audited;
@@ -26,6 +27,7 @@ public class Usuario extends Pessoa {
      *
      */
     @Column
+    @JsonIgnore
     private byte[] foto;
 
     /**
@@ -38,6 +40,7 @@ public class Usuario extends Pessoa {
      *
      */
     @Column
+    @JsonIgnore
     private byte[] avatar;
 
     /**
@@ -51,6 +54,7 @@ public class Usuario extends Pessoa {
      *
      */
     @Column
+    @JsonIgnore
     private byte[] thumbnail;
 
     /**
