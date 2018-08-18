@@ -5,6 +5,10 @@ export class Conta extends Abstract{
 
   public esquema: string;
 
+  public administrador: boolean;
+
+  public root: boolean;
+
   public email: string;
 
   public password: string;

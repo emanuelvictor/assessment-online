@@ -53,7 +53,7 @@ export class InserirAtendenteComponent implements OnInit {
    *
    */
   public save(): void {
-    if (!this.colaboradores.length && !this.atendente.isAdministrador)
+    if (!this.colaboradores.length && !this.atendente.conta.administrador)
       this.snackBar.open('Selecione ao menos uma unidade', 'Fechar');
 
     else {
@@ -63,6 +63,7 @@ export class InserirAtendenteComponent implements OnInit {
         .then(result => {
           this.atendente = result;
           // TODO passar raciocínio para o back-end
+          console.log(this.colaboradores);
           this.colaboradores.forEach(colaborador => {
             colaborador.usuario = this.atendente;
             this.colaboradorService.save(colaborador)

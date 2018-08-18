@@ -10,10 +10,7 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
 
   private collectionName: string;
 
-  // private httpCliente: HttpClient;
-
   constructor(public httpClient: HttpClient, public collection: string) {
-    // this.httpCliente = httpClient;
     if (collection) {
       this.collectionName = collection;
     } else

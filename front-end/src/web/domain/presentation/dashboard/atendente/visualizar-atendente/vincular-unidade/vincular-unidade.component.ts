@@ -4,7 +4,6 @@ import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {ColaboradorService} from '../../../../../service/colaborador.service';
 import {Colaborador} from '../../../../../entity/colaborador/colaborador.model';
-import {UsuarioService} from '../../../../../service/usuario.service';
 import {Vinculo} from '../../../../../entity/colaborador/vinculo.enum';
 import {AuthenticationService} from '../../../../../service/authentication.service';
 
@@ -56,7 +55,7 @@ export class VincularUnidadeComponent implements OnInit {
    */
   ngOnInit() {
     this.authenticationService.getContaAutenticada().subscribe(loggedUser => {
-      if (loggedUser && loggedUser.isAdministrador) {
+      if (loggedUser && loggedUser.administrador) {
         this.unidadeService.find()
           .subscribe(unidades => {
 

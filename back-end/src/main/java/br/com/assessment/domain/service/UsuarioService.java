@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -49,20 +50,22 @@ public class UsuarioService {
 
     private final ServerSecurityContextRepository serverSecurityContextRepository;
 
-
     public Mono<Optional<Usuario>> findUsuarioById(final long usuarioId) {
         return Mono.just(this.usuarioRepository.findById(usuarioId));
     }
 
-
-    //    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Usuario> save(final Usuario usuario) {
+
         // Encoda o password
-        if (usuario.getConta() != null) {
+        if (usuario.getConta().getEmail() != null && usuario.getConta().getEmail().length() > 0) {
+            Assert.notNull(usuario.getConta().getPassword(), "Informe a senha");
             usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
-            usuario.getConta().setEsquema(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());// TODO verificar se não da pra usar o context
-            usuario.getConta().setUsuario(usuario);
         }
+
+        usuario.getConta().setEsquema(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());// TODO verificar se não da pra usar o context
+        usuario.getConta().setUsuario(usuario);
+
         return Mono.just(this.usuarioRepository.save(usuario));
     }
 

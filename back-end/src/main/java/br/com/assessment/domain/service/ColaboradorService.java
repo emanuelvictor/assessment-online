@@ -2,6 +2,8 @@ package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.colaborador.Colaborador;
 import br.com.assessment.domain.repository.ColaboradorRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,25 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+@AllArgsConstructor
 public class ColaboradorService {
 
     private final ColaboradorRepository colaboradorRepository;
 
-    public ColaboradorService(final ColaboradorRepository colaboradorRepository) {
-        this.colaboradorRepository = colaboradorRepository;
-    }
-
-    /**
-     *
-     */
     public Mono<Optional<Colaborador>> findById(final long id) {
         return Mono.just(this.colaboradorRepository.findById(id));
     }
 
-    /**
-     *
-     */
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Colaborador> save(final Colaborador colaborador) {
         return Mono.just(this.colaboradorRepository.save(colaborador));

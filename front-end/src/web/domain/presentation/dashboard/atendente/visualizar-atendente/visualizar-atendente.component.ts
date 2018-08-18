@@ -41,9 +41,10 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {ColaboradorService} colaboradorService
+   * @param {Router} router
+   * @param {UsuarioService} usuarioService
    * @param {ActivatedRoute} activatedRoute
    * @param {MatDialog} dialog
    * @param {AuthenticationService} authenticationService
@@ -153,7 +154,6 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {Colaborador} colaborador
    */
   public saveColaborador(colaborador: Colaborador = new Colaborador()): void {
-    console.log(colaborador);
     this.colaboradorService.save(colaborador)
       .then(result => {
         if (colaborador.vinculo)

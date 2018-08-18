@@ -63,7 +63,7 @@
                       </mat-error>
                     </mat-form-field>
                     <div layout="column" layout-align="center center" *ngIf="usuarioLogado?.isAdministrador">
-                      <mat-checkbox [(ngModel)]='usuario.isAdministrador' [ngModelOptions]="{standalone: true}">
+                      <mat-checkbox [(ngModel)]='usuario.conta.administrador' [ngModelOptions]="{standalone: true}">
                         Administrador
                       </mat-checkbox>
                     </div>
