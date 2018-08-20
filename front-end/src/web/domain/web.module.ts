@@ -14,7 +14,6 @@ import {SomenteAlfanumericos} from './presentation/controls/patterns/somente-alf
 import {SomenteNumeros} from './presentation/controls/patterns/somente-numeros';
 import {EnderecoService} from './service/endereco.service';
 import {UsuarioService} from './service/usuario.service';
-import {Describer} from '../infrastructure/describer/describer';
 import {VisualizarAtendenteComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-atendente.component';
 import {AlterarMinhaSenhaComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/alterar-minha-senha/alterar-minha-senha.component';
 import {AlterarSenhaComponent} from './presentation/dashboard/atendente/visualizar-atendente/alterar-senha/alterar-senha.component';
@@ -92,6 +91,7 @@ import {ContaRepository} from './repositories/conta.repository';
 import {ContaService} from './service/conta.service';
 import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente.component';
 import {ClienteFormComponent} from './presentation/dashboard/cliente/cliente-form/cliente-form.component';
+import {PageSerialize} from '../infrastructure/page-serialize/page-serialize';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -195,7 +195,7 @@ registerLocaleData(localePt, 'pt-BR');
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent],
   providers: [
-    Describer,
+    PageSerialize,
     AvaliacaoColaboradorRepository,
     ColaboradorRepository,
     AvaliacaoRepository,

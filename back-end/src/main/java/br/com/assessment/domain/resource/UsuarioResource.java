@@ -1,9 +1,10 @@
 package br.com.assessment.domain.resource;
 
-import br.com.assessment.domain.entity.usuario.Conta;
+import br.com.assessment.application.multitenancy.Context;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.service.UsuarioService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.Part;
@@ -15,8 +16,8 @@ import reactor.core.publisher.Mono;
 import java.util.Optional;
 
 @RestController
-@AllArgsConstructor
-@RequestMapping("/usuarios")
+@RequiredArgsConstructor
+@RequestMapping("api/usuarios")
 public class UsuarioResource {
 
     private final UsuarioService usuarioService;
@@ -42,10 +43,14 @@ public class UsuarioResource {
     }
 
     @GetMapping
-    public Flux<Usuario> findAll() {
-        return this.usuarioService.findAll();
+    Mono<Page<Usuario>> find(final String filters,
+                             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                             @RequestParam(name = "size", required = false, defaultValue = "999999999") int size,
+                             @RequestParam(name = "sort", required = false) String sort
+    ) {
+        System.out.println(Context.getSize());
+        return usuarioService.listByFilters(filters, org.springframework.data.domain.PageRequest.of(page, size));
     }
-
 
     @GetMapping(value = "{id}/thumbnail", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Mono<ResponseEntity<byte[]>> findThumbnail(@PathVariable final long id) {

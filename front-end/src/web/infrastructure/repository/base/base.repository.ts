@@ -1,9 +1,8 @@
 import {IWrite} from '../interfaces/IWrite';
 import {IRead} from '../interfaces/IRead';
 import {Observable} from 'rxjs/Observable';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Describer} from '../../../infrastructure/describer/describer';
-import {Type} from "@angular/compiler/src/core";
+import {HttpClient} from '@angular/common/http';
+import {PageSerialize} from '../../page-serialize/page-serialize';
 
 
 export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
@@ -35,8 +34,7 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
 
   listByFilters(pageable: any): Observable<T[]> {
 
-    let params = new HttpParams();
-    params = Describer.getHttpParamsFromPageable(params, pageable);
+    const params = PageSerialize.getHttpParamsFromPageable(pageable);
 
     return this.httpClient.get<T[]>(this.collectionName, {
       params: params

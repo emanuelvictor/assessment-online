@@ -11,7 +11,6 @@ import {DateAdapter, MatRippleModule} from '@angular/material';
 import {SharedModule} from '../../shared/shared.module';
 import {AuthenticationService} from '../../web/domain/service/authentication.service';
 import {EnderecoService} from '../../web/domain/service/endereco.service';
-import {Describer} from '../../web/infrastructure/describer/describer';
 import {UsuarioService} from '../../web/domain/service/usuario.service';
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../../environments/environment';
@@ -38,6 +37,7 @@ import {EnderecoRepository} from '../../web/domain/repositories/endereco.reposit
 import {UnidadeRepository} from '../../web/domain/repositories/unidade.repository';
 import {ContaRepository} from '../../web/domain/repositories/conta.repository';
 import {ContaService} from '../../web/domain/service/conta.service';
+import {PageSerialize} from '../../web/infrastructure/page-serialize/page-serialize';
 
 /**
  *
@@ -68,7 +68,7 @@ import {ContaService} from '../../web/domain/service/conta.service';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
-    Describer,
+    PageSerialize,
     AvaliacaoColaboradorRepository,
     ColaboradorRepository,
     AvaliacaoRepository,

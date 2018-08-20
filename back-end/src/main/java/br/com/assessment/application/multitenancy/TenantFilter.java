@@ -1,7 +1,7 @@
 package br.com.assessment.application.multitenancy;
 
 import br.com.assessment.domain.entity.usuario.Conta;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -11,8 +11,9 @@ import reactor.core.publisher.Mono;
 
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TenantFilter implements WebFilter {
+
 
     /**
      *
@@ -23,6 +24,13 @@ public class TenantFilter implements WebFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange serverWebExchange,
                              WebFilterChain webFilterChain) {
+
+//        paginationComponent.setSize(20/*serverWebExchange.getRequest().getQueryParams().get("size")*/);
+
+        System.out.println(Context.getSize());
+        Context.setSize(20);
+
+
         return ReactiveSecurityContextHolder.getContext()
                 .switchIfEmpty(
                         webFilterChain.filter(serverWebExchange).flatMap(aVoid -> Mono.empty())

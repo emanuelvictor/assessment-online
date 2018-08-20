@@ -8,6 +8,8 @@ public class Context {
 
     private static ThreadLocal<String> currentUsername = new ThreadLocal<>();
 
+    private static ThreadLocal<Integer> size = new ThreadLocal<>();
+
     public static void setCurrentSchema(final String tenant) {
         currentSchema.set(tenant);
     }
@@ -32,5 +34,15 @@ public class Context {
 
     public static void clearCurrentUsername() {
         currentUsername.set(null);
+    }
+
+    public static int getSize() {
+        if (size.get() != null)
+            return size.get();
+        return 999999999;
+    }
+
+    public static void setSize(int size) {
+        Context.size.set(size);
     }
 }

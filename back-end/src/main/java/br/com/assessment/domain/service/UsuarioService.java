@@ -2,34 +2,29 @@ package br.com.assessment.domain.service;
 
 import br.com.assessment.application.multitenancy.Context;
 import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
-import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
-import br.com.assessment.domain.repository.ContaRepository;
 import br.com.assessment.domain.repository.UsuarioRepository;
 import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.AllArgsConstructor;
 import org.flywaydb.core.Flyway;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.codec.multipart.Part;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -122,6 +117,18 @@ public class UsuarioService {
         final List<Usuario> list = this.usuarioRepository.findAll();
 
         return Flux.just(list.toArray(new Usuario[list.size()]));
+    }
+
+//    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public Mono<Page<Usuario>> listByFilters(final String filters, final Pageable pageable) {
+
+        final Page<Usuario> page = this.usuarioRepository.listByFilters(filters, pageable);
+
+        return Mono.just(page);
+
+
+
+//        return Flux.just(list.toArray(new Usuario[list.size()]));
     }
 
 
