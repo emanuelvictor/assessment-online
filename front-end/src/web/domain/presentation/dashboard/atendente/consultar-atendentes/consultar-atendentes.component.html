@@ -1,67 +1,108 @@
 <search-bar>
 
-  <mat-form-field flex style="margin-left:0">
-    <input id="filter" name="filter" autofocus
-           placeholder="Filtre por nome" matInput
-           [(ngModel)]="filter.nome" maxlength="200">
-  </mat-form-field>
+  <td-chips style="margin-left:0; margin-top: 9px;"
+            placeholder="Pesquisar por nome ou e-mail"
+            flex-md="40" flex-gt-md="45" flex-gt-lg="50"
+            [(ngModel)]="filtro.nome" (add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>
 
-  <mat-form-field flex>
-    <input id="unidadeFilter" name="unidadeFilter"
-           placeholder="Selecione a unidade" matInput
-           [(ngModel)]="filter.unidades" maxlength="200">
-  </mat-form-field>
+  <td-chips flex="30" style="margin-top: 0px;"
+            placeholder="Pesquisar por unidades"
+            [(ngModel)]="filtro.enderecoFilter" (add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>
 
   <div flex-gt-md></div>
 
+  <!--<button mat-raised-button class="bgc-blue-grey-50 push-right" (click)="toggleShowPesquisaAvancada()">-->
+    <!--Pesquisa avançada-->
+  <!--</button>-->
+
   <add-button routerLink="inserir"
-              matTooltip="Inserir novo atendente"
-              [matTooltipPosition]="'below'">
+              [matTooltipPosition]="'below'"
+              matTooltip="Inserir novo atendente">
   </add-button>
 
 </search-bar>
 
+<!--Pesquisa avançada-->
+<mat-card class="push-none bgc-grey-50 filters-card-avanced" *ngIf="showPesquisaAvancada">
+  <div layout="row" layout-align="center center">
+    <div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>
+
+      <mat-form-field flex style="padding-top: 10px;margin-bottom: -5px;">
+        <mat-select placeholder="Pessoa física ou jurídica"
+                    [(ngModel)]="filtro.souEmpresa"
+                    (change)="onChangeFilters()">
+          <mat-option [value]="false">Pessoa física</mat-option>
+          <mat-option [value]="true">Pessoa Jurídica</mat-option>
+          <mat-option>Ambos</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div hide-sm hide-xs flex='12'></div>
+
+      <close-button (click)="hidePesquisaAvancada()" hide-sm hide-xs></close-button>
+    </div>
+
+  </div>
+</mat-card>
+
 <!--Listagem-->
 <div layout="row" layout-align="center start">
-
   <div layout="column" flex="90">
 
     <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center">
       <span> Resultado da pesquisa </span>
       <div flex></div>
-      <span> {{ atendentes?.length}} resultados </span>
+      <span> {{ page?.totalElements}} resultados </span>
     </div>
 
-    <mat-card class="push-none bgc-grey-50">
-      <mat-nav-list>
-        <div *ngFor="let atendente of atendentes | filter:filter | orderBy: 'nome':false:'case-insensitive'" routerLink="{{atendente?.id}}">
-          <mat-list-item>
+    <div class="mat-elevation-z4">
 
-            <!--avatar-->
-            <div mat-list-avatar>
-              <!--foto-->
+      <mat-table [dataSource]="dataSource" style="border-radius: 2px;"
+                 matSortActive="nome"
+                 #table matSort class="bgc-grey-50"
+                 matSortDisableClear
+                 matSortDirection="asc">
 
-              <div mat-list-avatar layout="row" layout-align="center center">
-                <avatar class="image-cover" [size]="0.2" *ngIf="atendente?.id" [usuario]="{'id': atendente?.id , 'foto': atendente?.thumbnailPath}"></avatar>
-              </div>
-            </div>
+        <ng-container matColumnDef="avatar">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Foto</mat-header-cell>
+          <mat-cell *matCellDef='let usuario'>
+            <!--foto-->
+            <avatar class="image-cover" [size]="0.2" *ngIf="usuario?.id"
+                    [usuario]="{'id': usuario?.id , 'foto': usuario?.thumbnailPath}"></avatar>
+          </mat-cell>
+        </ng-container>
 
-            <h3 mat-line> {{atendente?.nome}} </h3>
-            <h4 mat-line> {{atendente?.conta?.email}} </h4>
-            <p mat-line>
-              <unidade-item [usuario]="atendente" *ngIf="atendente?.id"></unidade-item>
-            </p>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-        </div>
-      </mat-nav-list>
-    </mat-card>
 
-    <!--<div layout="row" class="push-top push-bottom">-->
-      <!--<button mat-raised-button class="tc-grey-500" (click)="showMore()" flex *ngIf="!page?.last">-->
-        <!--VER MAIS-->
-      <!--</button>-->
-    <!--</div>-->
+        <ng-container matColumnDef="nome">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+          <mat-cell *matCellDef='let usuario'>
+            {{usuario.nome}}
+          </mat-cell>
+        </ng-container>
 
+        <!-- email Column -->
+        <ng-container matColumnDef="conta.email">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>E-mail</mat-header-cell>
+          <mat-cell *matCellDef='let usuario'>{{ usuario.conta.email }}</mat-cell>
+        </ng-container>
+
+        <!-- documento Column -->
+        <ng-container matColumnDef="documento">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>CPF/CNPJ</mat-header-cell>
+          <mat-cell *matCellDef="let usuario">{{ usuario.documento | documento}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns">
+        </mat-header-row>
+
+        <mat-row *matRowDef="let usuario; columns: displayedColumns"
+                 routerLink="{{usuario.id}}" style="cursor: pointer">
+        </mat-row>
+      </mat-table>
+      <mat-paginator [length]="page.totalElements" style="border-radius: 2px"
+                     [pageSizeOptions]="[10, 20, 50, 100]"
+                     (page)="listUsuarios()" class="bgc-grey-50">
+      </mat-paginator>
+    </div>
   </div>
 </div>

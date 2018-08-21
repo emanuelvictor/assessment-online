@@ -32,7 +32,7 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
     return this.httpClient.get<T>(this.collectionName + '/' + id);
   }
 
-  listByFilters(pageable: any): Observable<T[]> {
+  listByFilters(pageable: any): Observable<any> {
 
     const params = PageSerialize.getHttpParamsFromPageable(pageable);
 

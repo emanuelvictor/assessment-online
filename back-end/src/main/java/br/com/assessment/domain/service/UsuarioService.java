@@ -126,11 +126,7 @@ public class UsuarioService {
 
         return Mono.just(page);
 
-
-
-//        return Flux.just(list.toArray(new Usuario[list.size()]));
     }
-
 
     /**
      * Salva a foto, também é utilizado pra atualizar foto

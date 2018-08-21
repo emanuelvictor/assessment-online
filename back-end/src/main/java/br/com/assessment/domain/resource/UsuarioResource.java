@@ -1,11 +1,9 @@
 package br.com.assessment.domain.resource;
 
-import br.com.assessment.application.context.Context;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import br.com.assessment.infrastructure.org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.Part;
@@ -16,9 +14,11 @@ import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
+import static br.com.assessment.application.context.Context.getPageable;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/usuarios")
+@RequestMapping("usuarios")
 public class UsuarioResource {
 
     private final UsuarioService usuarioService;
@@ -44,12 +44,8 @@ public class UsuarioResource {
     }
 
     @GetMapping
-    Mono<Page<Usuario>> find(final String filters,
-                             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-                             @RequestParam(name = "size", required = false, defaultValue = "999999999") int size,
-                             @RequestParam(name = "sort", required = false) String sort
-    ) {
-        return usuarioService.listByFilters(filters, Context.getPageable());
+    Mono<Page<Usuario>> find(final String filters) {
+        return usuarioService.listByFilters(filters, getPageable());
     }
 
     @GetMapping(value = "{id}/thumbnail", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})

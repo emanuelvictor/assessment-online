@@ -1,8 +1,7 @@
-import {MatSnackBar} from '@angular/material';
-import {Component, OnInit} from '@angular/core';
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
-import {UnidadeService} from '../../../../service/unidade.service';
 
 @Component({
   selector: 'consultar-atendentes',
@@ -14,45 +13,149 @@ export class ConsultarAtendentesComponent implements OnInit {
   /**
    *
    */
-   public atendentes: any[];
+  public showPesquisaAvancada = false;
 
   /**
-   *
-   * @type {Usuario}
+   * Filtros da consulta
    */
-   filter: Usuario = new Usuario();
+  public filtro: any = {};
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   */
+  public pageable = {//PageRequest
+    size: 20,
+    page: 0,
+    sort: null
+  };
+
+  /**
+   * Serve para armazenar o total de elementos
+   */
+  public page: any = {};
+
+  /**
+   * Serve para armazenar as colunas que serão exibidas na tabela
+   * @type {[string , string , string ]}
+   */
+  public displayedColumns: string[] = ['avatar', 'nome', 'conta.email', 'documento'];
+
+  /**
+   *
+   * dataSource com os usuários
+   * @type {MatTableDataSource<Usuario>}
+   */
+  dataSource = new MatTableDataSource<Usuario>();
+
+  /**
+   * Bind com o objeto paginator
+   */
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  /**
+   * Bind com objeto sort
+   */
+  @ViewChild(MatSort) sort: MatSort;
+
+
+  /**
+   *
    * @param {UsuarioService} usuarioService
-   * @param {UnidadeService} unidadeService
    */
-   constructor(private snackBar: MatSnackBar, private usuarioService: UsuarioService, private unidadeService: UnidadeService) {}
+  constructor(private usuarioService: UsuarioService) {
+  }
 
   /**
    *
    */
-   ngOnInit() {
-     this.listUsuariosByFilters();
-   }
+  ngOnInit() {
+    /**
+     * Seta o size do pageable no size do paginator
+     * @type {number}
+     */
+    this.paginator.pageSize = this.pageable.size;
+
+    /**
+     * Listagem inicial
+     */
+    this.listUsuariosByFilters(this.pageable);
+
+    /**
+     * Sobrescreve o sortChange do sort bindado
+     */
+    this.sort.sortChange.subscribe(() => {
+      this.pageable.sort = {
+        'properties': this.sort.active,
+        'direction': this.sort.direction
+      };
+      this.listUsuariosByFilters(this.pageable);
+    });
+  }
 
   /**
+   * Chamado ao alterar algum filtro
    *
    */
-   public listUsuariosByFilters() {
-     this.usuarioService.find().subscribe(atendentes => {
-       this.atendentes = atendentes;
-     })
-   }
+  public onChangeFilters() {
+    this.pageable.page = 0;
+
+    this.usuarioService.listByFilters(this.pageable)
+      .subscribe((result) => {
+        this.dataSource = new MatTableDataSource<Usuario>(result.content);
+
+        this.page = result;
+      })
+  }
 
   /**
+   * Consulta de usuarios com filtros do model
    *
-   * @param message
    */
-   public openSnackBar(message: string) {
-     this.snackBar.open(message, 'Fechar', {
-       duration: 5000
-     });
-   }
- }
+  public listUsuarios() {
+    this.listUsuariosByFilters(this.pageable);
+  }
+
+
+  /**
+   * Consulta de usuarios
+   *
+   */
+  public listUsuariosByFilters(pageable: any) {
+
+    pageable.size = this.paginator.pageSize;
+    pageable.page = this.paginator.pageIndex;
+
+    this.usuarioService.listByFilters(this.pageable)
+      .subscribe((result) => {
+        this.dataSource = new MatTableDataSource<Usuario>(result.content);
+
+        this.page = result;
+      })
+  }
+
+  /**
+   * Fechamento da pesquisa
+   */
+  public hidePesquisaAvancada() {
+    this.showPesquisaAvancada = false;
+
+    //Filtros
+    this.filtro.areasAtuacao = [];
+    this.filtro.souEmpresa = null;
+    this.filtro.perfil = null;
+
+    this.onChangeFilters();
+  }
+
+  /**
+   * Abertura da pesquisa
+   */
+  public toggleShowPesquisaAvancada() {
+    if (this.showPesquisaAvancada) {
+      this.hidePesquisaAvancada();
+    }
+    else {
+      this.showPesquisaAvancada = true;
+    }
+  }
+}

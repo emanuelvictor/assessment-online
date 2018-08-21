@@ -147,6 +147,10 @@ export class UsuarioService {
     //   })
   }
 
+  public listByFilters(pageable: any): Observable<any> {
+    return this.usuarioRepository.listByFilters(pageable);
+  }
+
   /**
    *
    * @param {number} id
@@ -225,27 +229,7 @@ export class UsuarioService {
    * @returns {Promise<any>}
    */
   public remove(usuario: Usuario): Promise<any> {
-
-    /**
-     * Remove os vínculos do usuário com as unidades
-     */
-    // this.colaboradorReposisotry.listColaboradoresByUsuarioKey(usuario.id).subscribe(colaboradores => {
-    //   for (let k = 0; k < colaboradores.length; k++) {
-    //     /**
-    //      * Remove as avaliações do usuário
-    //      */
-    //     this.avaliacaoColaboradorRepository.listAvaliacoesColaboradoresByColaboradorKey(colaboradores[k].key)
-    //       .subscribe(avaliacoes => {
-    //         for (let i = 0; i < avaliacoes.length; i++) {
-    //           this.avaliacaoColaboradorRepository.remove(avaliacoes[i]);
-    //         }
-    //       });
-    //     this.colaboradorReposisotry.remove(colaboradores[k]);
-    //   }
-    // });
-
     return this.usuarioRepository.delete(usuario.id);
   }
-
 
 }
