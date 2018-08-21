@@ -1,4 +1,6 @@
-package br.com.assessment.application.multitenancy;
+package br.com.assessment.application.context;
+
+import org.springframework.data.domain.Pageable;
 
 public class Context {
 
@@ -8,7 +10,7 @@ public class Context {
 
     private static ThreadLocal<String> currentUsername = new ThreadLocal<>();
 
-    private static ThreadLocal<Integer> size = new ThreadLocal<>();
+    private static ThreadLocal<Pageable> pageable = new ThreadLocal<>();
 
     public static void setCurrentSchema(final String tenant) {
         currentSchema.set(tenant);
@@ -36,13 +38,11 @@ public class Context {
         currentUsername.set(null);
     }
 
-    public static int getSize() {
-        if (size.get() != null)
-            return size.get();
-        return 999999999;
+    public static Pageable getPageable() {
+        return pageable.get();
     }
 
-    public static void setSize(int size) {
-        Context.size.set(size);
+    public static void setPageable(Pageable pageable) {
+        Context.pageable.set(pageable);
     }
 }

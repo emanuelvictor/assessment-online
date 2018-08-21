@@ -12,7 +12,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
-import static br.com.assessment.application.multitenancy.Context.DEFAULT_TENANT_ID;
+import static br.com.assessment.application.context.Context.DEFAULT_TENANT_ID;
+
 
 /**
  * Created by Emanuel Victor on 15/03/2017.

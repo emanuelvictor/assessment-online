@@ -1,6 +1,7 @@
 package br.com.assessment.application.multitenancy;
 
 
+import br.com.assessment.application.context.Context;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.stereotype.Component;
 

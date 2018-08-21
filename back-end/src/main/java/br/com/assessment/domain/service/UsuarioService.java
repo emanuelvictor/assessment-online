@@ -1,6 +1,6 @@
 package br.com.assessment.domain.service;
 
-import br.com.assessment.application.multitenancy.Context;
+import br.com.assessment.application.context.Context;
 import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.UsuarioRepository;

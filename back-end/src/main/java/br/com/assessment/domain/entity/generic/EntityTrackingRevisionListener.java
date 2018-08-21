@@ -1,9 +1,7 @@
 package br.com.assessment.domain.entity.generic;
 
-import br.com.assessment.application.multitenancy.Context;
-import org.flywaydb.core.api.android.ContextHolder;
+import br.com.assessment.application.context.Context;
 import org.hibernate.envers.RevisionType;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 
 import java.io.Serializable;
 

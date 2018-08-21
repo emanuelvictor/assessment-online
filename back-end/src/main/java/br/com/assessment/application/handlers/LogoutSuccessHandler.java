@@ -1,7 +1,7 @@
 package br.com.assessment.application.handlers;
 
 
-import br.com.assessment.application.multitenancy.Context;
+import br.com.assessment.application.context.Context;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;

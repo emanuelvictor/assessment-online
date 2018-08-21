@@ -1,10 +1,11 @@
 package br.com.assessment.domain.resource;
 
-import br.com.assessment.application.multitenancy.Context;
+import br.com.assessment.application.context.Context;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import br.com.assessment.infrastructure.org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.Part;
@@ -48,8 +49,7 @@ public class UsuarioResource {
                              @RequestParam(name = "size", required = false, defaultValue = "999999999") int size,
                              @RequestParam(name = "sort", required = false) String sort
     ) {
-        System.out.println(Context.getSize());
-        return usuarioService.listByFilters(filters, org.springframework.data.domain.PageRequest.of(page, size));
+        return usuarioService.listByFilters(filters, Context.getPageable());
     }
 
     @GetMapping(value = "{id}/thumbnail", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})

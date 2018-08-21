@@ -1,6 +1,5 @@
 package br.com.assessment.domain.entity.generic;
 
-import br.com.assessment.application.multitenancy.Context;
 import lombok.Data;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
@@ -8,7 +7,7 @@ import org.hibernate.envers.RevisionTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 
-import static br.com.assessment.application.multitenancy.Context.DEFAULT_TENANT_ID;
+import static br.com.assessment.application.context.Context.DEFAULT_TENANT_ID;
 
 
 /**
