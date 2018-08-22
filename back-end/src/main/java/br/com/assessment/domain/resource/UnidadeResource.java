@@ -1,16 +1,21 @@
 package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.unidade.Unidade;
+import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.service.UnidadeService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
+import static br.com.assessment.application.context.Context.getPageable;
+
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/unidades")
 public class UnidadeResource {
 
@@ -37,7 +42,7 @@ public class UnidadeResource {
     }
 
     @GetMapping
-    public Flux<Unidade> findAll() {
-        return this.unidadeService.findAll();
+    Mono<Page<Unidade>> listByFilters(final String filters) {
+        return this.unidadeService.listByFilters(filters, getPageable());
     }
 }

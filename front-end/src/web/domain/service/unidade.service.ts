@@ -100,6 +100,15 @@ export class UnidadeService {
 
   /**
    *
+   * @param pageable
+   * @returns {Observable<any>}
+   */
+  public listByFilters(pageable: any): Observable<any> {
+    return this.unidadeRepository.listByFilters(pageable);
+  }
+
+  /**
+   *
    * @param {number} unidadeId
    * @returns {Promise<Unidade>}
    */

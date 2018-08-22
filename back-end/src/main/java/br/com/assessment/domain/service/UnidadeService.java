@@ -2,6 +2,9 @@ package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.repository.UnidadeRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,14 +17,10 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UnidadeService {
 
     private final UnidadeRepository unidadeRepository;
-
-
-    public UnidadeService(final UnidadeRepository unidadeRepository) {
-        this.unidadeRepository = unidadeRepository;
-    }
 
     /**
      *
@@ -66,5 +65,12 @@ public class UnidadeService {
         final List<Unidade> list = this.unidadeRepository.findAll();
 
         return Flux.just(list.toArray(new Unidade[list.size()]));
+    }
+
+    public Mono<Page<Unidade>> listByFilters(final String filters, final Pageable pageable) {
+
+        final Page<Unidade> page = this.unidadeRepository.listByFilters(filters, pageable);
+
+        return Mono.just(page);
     }
 }

@@ -1,27 +1,98 @@
 <search-bar>
 
-  <mat-form-field flex style="margin-left:0">
-    <input id="filter" name="filter" autofocus
-           placeholder="Filtre por nome" matInput
-           [(ngModel)]="filter.nome" maxlength="200">
-  </mat-form-field>
+  <td-chips style="margin-left:0; margin-top: 9px;"
+            placeholder="Pesquisar por nome ou e-mail"
+            flex-md="40" flex-gt-md="45" flex-gt-lg="50"
+            [(ngModel)]="filtro.nome" (add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>
+
+  <td-chips flex="30" style="margin-top: 0px;"
+            placeholder="Pesquisar por unidades"
+            [(ngModel)]="filtro.enderecoFilter" (add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>
 
   <div flex-gt-md></div>
 
+  <!--<button mat-raised-button class="bgc-blue-grey-50 push-right" (click)="toggleShowPesquisaAvancada()">-->
+  <!--Pesquisa avançada-->
+  <!--</button>-->
+
   <add-button routerLink="inserir"
               [matTooltipPosition]="'below'"
-              matTooltip="Inserir uma nova unidade"
-              *ngIf="usuarioAutenticado?.isAdministrador">
+              matTooltip="Inserir novo atendente">
   </add-button>
 
 </search-bar>
 
+<!--Pesquisa avançada-->
+<mat-card class="push-none bgc-grey-50 filters-card-avanced" *ngIf="showPesquisaAvancada">
+  <div layout="row" layout-align="center center">
+    <div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>
 
-<lista-unidades [(filter)]="filter">
-  <div class="tc-grey-500 size-height-50"
-       layout="row" layout-align="start center">
-    <span> Resultado da pesquisa </span>
-    <div flex></div>
-    <span> {{ unidades?.length}} resultados </span>
+      <mat-form-field flex style="padding-top: 10px;margin-bottom: -5px;">
+        <mat-select placeholder="Pessoa física ou jurídica"
+                    [(ngModel)]="filtro.souEmpresa"
+                    (change)="onChangeFilters()">
+          <mat-option [value]="false">Pessoa física</mat-option>
+          <mat-option [value]="true">Pessoa Jurídica</mat-option>
+          <mat-option>Ambos</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div hide-sm hide-xs flex='12'></div>
+
+      <close-button (click)="hidePesquisaAvancada()" hide-sm hide-xs></close-button>
+    </div>
+
   </div>
-</lista-unidades>
+</mat-card>
+
+<!--Listagem-->
+<div layout="row" layout-align="center start">
+  <div layout="column" flex="90">
+
+    <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center">
+      <span> Resultado da pesquisa </span>
+      <div flex></div>
+      <span> {{ page?.totalElements}} resultados </span>
+    </div>
+
+    <div class="mat-elevation-z4">
+
+      <mat-table [dataSource]="dataSource" style="border-radius: 2px;"
+                 matSortActive="nome"
+                 #table matSort class="bgc-grey-50"
+                 matSortDisableClear
+                 matSortDirection="asc">
+
+        <ng-container matColumnDef="nome">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+          <mat-cell *matCellDef='let unidade'>
+            {{unidade?.nome}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endereco.logradouro">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Endereço</mat-header-cell>
+          <mat-cell *matCellDef='let unidade'>
+            <span *ngIf='!unidade?.endereco?.numero'>
+             {{unidade?.endereco?.logradouro}}
+            </span>
+            <span *ngIf='unidade?.endereco?.numero'>
+             {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.numero}}
+            </span>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns">
+        </mat-header-row>
+
+        <mat-row *matRowDef="let unidade; columns: displayedColumns"
+                 routerLink="{{unidade.id}}" style="cursor: pointer">
+        </mat-row>
+      </mat-table>
+      <mat-paginator [length]="page.totalElements" style="border-radius: 2px"
+                     [pageSizeOptions]="[10, 20, 50, 100]"
+                     (page)="listUsuarios()" class="bgc-grey-50">
+      </mat-paginator>
+    </div>
+  </div>
+</div>
