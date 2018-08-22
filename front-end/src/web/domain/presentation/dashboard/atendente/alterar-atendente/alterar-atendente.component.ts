@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
-import 'rxjs/add/operator/toPromise';
+
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../../service/authentication.service';

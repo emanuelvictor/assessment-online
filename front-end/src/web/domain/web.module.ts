@@ -37,11 +37,6 @@ import {SharedModule} from '../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {CommonModule, registerLocaleData} from '@angular/common';
-import {AngularFireModule} from 'angularfire2';
-import {AngularFirestoreModule} from 'angularfire2/firestore';
-import {AngularFireAuthModule} from 'angularfire2/auth';
-import {environment} from '../../environments/environment';
-import {AngularFireDatabase} from 'angularfire2/database';
 import {ConsultarAtendentesComponent} from './presentation/dashboard/atendente/consultar-atendentes/consultar-atendentes.component';
 import {InserirAtendenteComponent} from './presentation/dashboard/atendente/inserir-atendente/inserir-atendente.component';
 import {AlterarAtendenteComponent} from './presentation/dashboard/atendente/alterar-atendente/alterar-atendente.component';
@@ -60,7 +55,6 @@ import {VincularUnidadeComponent} from './presentation/dashboard/atendente/visua
 import {VisualizarVinculoUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-vinculo-unidade/visualizar-vinculo-unidade.component';
 import {ColaboradorService} from './service/colaborador.service';
 import {FileRepository} from '../infrastructure/repository/file/file.repository';
-import {AngularFireStorageModule} from 'angularfire2/storage';
 import {FotoLoadingComponent} from './presentation/controls/foto-loading/foto-loading.component';
 import {EstatisticasAtendenteComponent} from './presentation/dashboard/atendente/visualizar-atendente/estatisticas/estatisticas-atendente.component';
 import {AvaliacaoService} from './service/avaliacao.service';
@@ -186,11 +180,7 @@ registerLocaleData(localePt, 'pt-BR');
     BrowserAnimationsModule,
     NgxChartsModule,
     WebRoutingModule,
-    MatExpansionModule,
-    AngularFireModule.initializeApp(environment.firebase, 'assessment-online'), // imports firebase/app needed for everything
-    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
-    AngularFireStorageModule
+    MatExpansionModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent],
@@ -213,8 +203,6 @@ registerLocaleData(localePt, 'pt-BR');
     UsuarioService,
     UnidadeService,
     ContaService,
-
-    AngularFireDatabase,
 
     {provide: LOCALE_ID, useValue: 'pt-BR'},
 

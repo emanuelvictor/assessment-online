@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
-import 'rxjs/add/operator/switchMap';
+
 import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {AuthenticationService} from '../../../service/authentication.service';
 import {ColaboradorService} from '../../../service/colaborador.service';
 import {UsuarioService} from '../../../service/usuario.service';

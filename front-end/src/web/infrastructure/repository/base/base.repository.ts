@@ -1,6 +1,6 @@
 import {IWrite} from '../interfaces/IWrite';
 import {IRead} from '../interfaces/IRead';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {PageSerialize} from '../../page-serialize/page-serialize';
 

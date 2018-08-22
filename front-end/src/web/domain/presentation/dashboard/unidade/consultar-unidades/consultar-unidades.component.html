@@ -1,13 +1,13 @@
 <search-bar>
 
   <td-chips style="margin-left:0; margin-top: 9px;"
-            placeholder="Pesquisar por nome ou e-mail"
+            placeholder="Pesquisar por nome"
             flex-md="40" flex-gt-md="45" flex-gt-lg="50"
-            [(ngModel)]="filtro.nome" (add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>
+            [(ngModel)]="pageable.nomeFilter" (add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>
 
   <td-chips flex="30" style="margin-top: 0px;"
-            placeholder="Pesquisar por unidades"
-            [(ngModel)]="filtro.enderecoFilter" (add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>
+            placeholder="Pesquisar por endereço"
+            [(ngModel)]="pageable.enderecoFilter" (add)="onChangeFilters()" (remove)="onChangeFilters()"></td-chips>
 
   <div flex-gt-md></div>
 
@@ -27,15 +27,6 @@
   <div layout="row" layout-align="center center">
     <div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>
 
-      <mat-form-field flex style="padding-top: 10px;margin-bottom: -5px;">
-        <mat-select placeholder="Pessoa física ou jurídica"
-                    [(ngModel)]="filtro.souEmpresa"
-                    (change)="onChangeFilters()">
-          <mat-option [value]="false">Pessoa física</mat-option>
-          <mat-option [value]="true">Pessoa Jurídica</mat-option>
-          <mat-option>Ambos</mat-option>
-        </mat-select>
-      </mat-form-field>
 
       <div hide-sm hide-xs flex='12'></div>
 
@@ -71,7 +62,7 @@
         </ng-container>
 
         <ng-container matColumnDef="endereco.logradouro">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Endereço</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Logradouro</mat-header-cell>
           <mat-cell *matCellDef='let unidade'>
             <span *ngIf='!unidade?.endereco?.numero'>
              {{unidade?.endereco?.logradouro}}

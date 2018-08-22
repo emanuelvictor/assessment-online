@@ -1,6 +1,6 @@
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {TdMediaService} from '@covalent/core';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {ColaboradorService} from '../../service/colaborador.service';
 import {AuthenticationService} from '../../service/authentication.service';
 

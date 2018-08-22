@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Usuario} from '../entity/usuario/usuario.model';
 import {FileRepository} from '../../infrastructure/repository/file/file.repository';
 import {ContaRepository} from '../repositories/conta.repository';

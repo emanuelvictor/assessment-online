@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
 import {HttpClient} from '@angular/common/http';
 import {Colaborador} from '../entity/colaborador/colaborador.model';

@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
 import {isUndefined} from 'util';
 import {AngularFireStorage} from 'angularfire2/storage';

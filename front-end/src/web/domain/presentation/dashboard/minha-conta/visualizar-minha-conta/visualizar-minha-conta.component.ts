@@ -4,7 +4,7 @@ import {textMasks} from '../../../controls/text-masks/text-masks';
 import {AlterarMinhaSenhaComponent} from './alterar-minha-senha/alterar-minha-senha.component';
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {FileRepository} from '../../../../../infrastructure/repository/file/file.repository';
 import {ContaService} from '../../../../service/conta.service';

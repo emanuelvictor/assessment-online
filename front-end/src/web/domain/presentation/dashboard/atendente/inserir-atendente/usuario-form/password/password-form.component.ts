@@ -1,5 +1,5 @@
 import {MatSnackBar} from '@angular/material';
-import 'rxjs/add/operator/toPromise';
+
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {confirmPassword, password} from "../../../../../controls/validators/validators";
 import {Component, Input, OnDestroy, OnInit} from "@angular/core";

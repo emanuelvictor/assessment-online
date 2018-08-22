@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Avaliacao} from '../entity/avaliacao/avaliacao.model';
 import 'rxjs/Rx';
 import {calcularMedia} from '../entity/abstract/rankeavel.model';

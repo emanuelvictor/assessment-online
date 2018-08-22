@@ -16,23 +16,21 @@ export class ConsultarUnidadesComponent implements OnInit {
   public showPesquisaAvancada = false;
 
   /**
-   * Filtros da consulta
-   */
-  public filtro: any = {};
-
-  /**
    *
    */
   public pageable = { // PageRequest
     size: 20,
     page: 0,
-    sort: null
+    sort: null,
+    nomeFilter: null,
+    enderecoFilter: null
   };
 
   /**
    * Serve para armazenar o total de elementos
    */
   public page: any = {};
+
 
   /**
    * Serve para armazenar as colunas que serão exibidas na tabela
@@ -138,10 +136,13 @@ export class ConsultarUnidadesComponent implements OnInit {
   public hidePesquisaAvancada() {
     this.showPesquisaAvancada = false;
 
-    // Filtros
-    this.filtro.areasAtuacao = [];
-    this.filtro.souEmpresa = null;
-    this.filtro.perfil = null;
+    this.pageable = { // PageRequest
+      size: 20,
+      page: 0,
+      sort: null,
+      nomeFilter: null,
+      enderecoFilter: null
+    };
 
     this.onChangeFilters();
   }

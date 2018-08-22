@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
-import 'rxjs/add/operator/toPromise';
+
 import {FormBuilder, Validators} from '@angular/forms';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
