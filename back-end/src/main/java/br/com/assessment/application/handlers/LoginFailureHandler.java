@@ -39,21 +39,26 @@ public class LoginFailureHandler implements ServerAuthenticationFailureHandler {
 
         try {
             final DataBuffer buf;
-
+            final br.com.assessment.application.aspect.Error error = new br.com.assessment.application.aspect.Error();
             if (exception instanceof BadCredentialsException) {
-                buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Nome de usuário ou senha não conferem"));
+                error.setMessage("Nome de usuário ou senha não conferem");
+                buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes(error));
                 webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             } else if (exception instanceof LockedException || exception instanceof DisabledException) {
-                buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Nome de usuário ou senha não conferem"));
+                error.setMessage("Nome de usuário ou senha não conferem");
+                buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes(error));
                 webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.FORBIDDEN);
             } else if (exception instanceof CredentialsExpiredException) {
-                buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Senha de usuário está expirada"));
+                error.setMessage("Senha de usuário está expirada");
+                buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes(error));
                 webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.NOT_ACCEPTABLE);
             } else if (exception instanceof InternalAuthenticationServiceException) {
-                buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Login não encontrado"));
+                error.setMessage("Login não encontrado");
+                buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes(error));
                 webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             } else {
-                buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Ocorreu um erro interno"));
+                error.setMessage("Ocorreu um erro interno");
+                buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes(error));
                 webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
             }
 

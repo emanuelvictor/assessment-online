@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
-
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Unidade} from '../../../../entity/unidade/unidade.model';
 import {UnidadeService} from '../../../../service/unidade.service';
-import {SnapshotAction} from 'angularfire2/database';
 import {Endereco} from '../../../../entity/endereco/endereco.model';
 import {Cidade} from '../../../../entity/endereco/cidade.model';
 

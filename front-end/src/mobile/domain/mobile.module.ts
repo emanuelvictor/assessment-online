@@ -12,11 +12,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {AuthenticationService} from '../../web/domain/service/authentication.service';
 import {EnderecoService} from '../../web/domain/service/endereco.service';
 import {UsuarioService} from '../../web/domain/service/usuario.service';
-import {AngularFireModule} from 'angularfire2';
 import {environment} from '../../environments/environment';
-import {AngularFirestoreModule} from 'angularfire2/firestore';
-import {AngularFireAuthModule} from 'angularfire2/auth';
-import {AccountRepository} from '../../web/infrastructure/repository/account/account.repository';
 import {UnidadeService} from '../../web/domain/service/unidade.service';
 import {AvaliarComponent} from './presentation/avaliacao/avaliar/avaliar.component';
 import {AvaliacaoComponent} from './presentation/avaliacao/avaliacao.component';
@@ -26,7 +22,6 @@ import {SelecionarAtendentesComponent} from './presentation/avaliacao/selecionar
 import {ColaboradorService} from '../../web/domain/service/colaborador.service';
 import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
 import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
-import {AngularFireStorageModule} from 'angularfire2/storage';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {EllipsisModule} from 'ngx-ellipsis';
 import {AvaliacaoRepository} from '../../web/domain/repositories/avaliacao.repository';
@@ -61,10 +56,6 @@ import {PageSerialize} from '../../web/infrastructure/page-serialize/page-serial
     BrowserAnimationsModule,
     MobileRoutingModule,
 
-    AngularFireModule.initializeApp(environment.firebase, 'assessment-online'), // imports firebase/app needed for everything
-    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
-    AngularFireStorageModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
@@ -75,7 +66,6 @@ import {PageSerialize} from '../../web/infrastructure/page-serialize/page-serial
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
-    AccountRepository,
     FileRepository,
     ContaRepository,
 

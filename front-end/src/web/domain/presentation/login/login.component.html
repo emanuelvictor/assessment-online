@@ -22,21 +22,21 @@
 
 
             <div layout="row" flex layout-margin style="margin-top: 34px;">
-              <mat-input-container flex>
+              <mat-form-field flex>
                 <input matInput required name="email" noWhiteSpace
                        placeholder="Acesse com seu email"
                        [(ngModel)]="conta.email"/>
-              </mat-input-container>
+              </mat-form-field>
             </div>
 
             <div layout="column" flex layout-margin>
               <div layout="row" flex="">
-                <mat-input-container flex>
+                <mat-form-field flex>
                   <input type="password" matInput
                          placeholder="Sua senha"
                          [(ngModel)]="conta.password"
                          required name="password"/>
-                </mat-input-container>
+                </mat-form-field>
               </div>
             </div>
 

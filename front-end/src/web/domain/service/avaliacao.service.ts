@@ -31,7 +31,7 @@ export class AvaliacaoService {
    * @returns {Observable<any[]>}
    */
   public find(): Observable<any[]> {
-    return this.avaliacaoRepository.find();
+    return this.avaliacaoRepository.findAll();
   }
 
   /**
@@ -107,11 +107,11 @@ export class AvaliacaoService {
 
   /**
    *
-   * @param {string} key
+   * @param {number} id
    * @returns {Observable<any>}
    */
-  public findOne(key: string): Observable<any> {
-    return this.avaliacaoRepository.findOne(key);
+  public findById(id: number): Observable<Avaliacao> {
+    return this.avaliacaoRepository.findById(id);
   }
 
 
@@ -148,10 +148,11 @@ export class AvaliacaoService {
   }
 
   /**
-   * @param avaliacao
+   *
+   * @param {number} id
    * @returns {Promise<any>}
    */
-  public remove(avaliacao: any): Promise<any> {
-    return this.avaliacaoRepository.remove(avaliacao);
+  public delete(id: number): Promise<any> {
+    return this.avaliacaoRepository.delete(id);
   }
 }

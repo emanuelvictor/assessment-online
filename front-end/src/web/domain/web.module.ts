@@ -49,7 +49,6 @@ import {UnidadeFormComponent} from './presentation/dashboard/unidade/inserir-uni
 import {UnidadeService} from './service/unidade.service';
 import {AtendenteFormComponent} from './presentation/dashboard/atendente/inserir-atendente/usuario-form/usuario-form.component';
 import {UnidadeItemComponent} from './presentation/dashboard/atendente/consultar-atendentes/unidade-item/unidade-item.component';
-import {AccountRepository} from '../infrastructure/repository/account/account.repository';
 import {VisualizarDadosUsuarioComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-dados-usuario/visualizar-dados-usuario.component';
 import {VincularUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/vincular-unidade/vincular-unidade.component';
 import {VisualizarVinculoUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-vinculo-unidade/visualizar-vinculo-unidade.component';
@@ -192,7 +191,6 @@ registerLocaleData(localePt, 'pt-BR');
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
-    AccountRepository,
     FileRepository,
     ContaRepository,
 

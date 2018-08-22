@@ -1,10 +1,9 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
-import {Usuario} from '../entity/usuario/usuario.model';
 import {isNullOrUndefined} from 'util';
 
 import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {ContaService} from './conta.service';
 import {Conta} from '../entity/usuario/conta.model';
 

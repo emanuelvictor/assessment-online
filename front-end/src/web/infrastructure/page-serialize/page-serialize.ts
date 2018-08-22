@@ -27,7 +27,11 @@ export class PageSerialize {
           if (typeof object[key] === 'object') {
             if (key === 'sort') {
               params = params.set(key, object[key]['properties'] + ',' + object[key]['direction']);
-            } else
+            }
+            // if (object[key].length || object[key] > 0){ TODO xabu quando é array
+            //   params = params.set(key, object[key]['properties'] + ',' + object[key]['direction']);
+            // }
+            else
               params = PageSerialize.getHttpParamsFromPageable(object[key])
           } else {
             params = params.set(key, object[key] ? object[key] : '');

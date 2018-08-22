@@ -1,19 +1,13 @@
 import {Injectable} from '@angular/core';
-import {AbstractRepository} from '../../infrastructure/repository/abstract.repository';
-import {AngularFireDatabase} from 'angularfire2/database';
-import {Observable} from 'rxjs';
-import {AngularFireStorage} from 'angularfire2/storage';
-import {AccountRepository} from '../../infrastructure/repository/account/account.repository';
+import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
+import {AvaliacaoColaborador} from '../entity/avaliacao/avaliacao-colaborador.model';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
-export class AvaliacaoColaboradorRepository extends AbstractRepository {
+export class AvaliacaoColaboradorRepository extends BaseRepository<AvaliacaoColaborador> {
 
-  constructor(private af: AngularFireDatabase, storage: AngularFireStorage, accountRepository: AccountRepository) {
-    super();
-    this.init('avaliacoes-colaboradores', af, storage, accountRepository)
+  constructor(httpClient: HttpClient) {
+    super(httpClient, null);
   }
 
-  public listAvaliacoesColaboradoresByColaboradorKey(key: string): Observable<any> {
-    return this.find().map(items => items.filter(item => item.colaborador.key === key));
-  }
 }

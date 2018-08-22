@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {AngularFireStorage, AngularFireUploadTask} from 'angularfire2/storage';
 import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 
 /**
  *
@@ -11,9 +10,9 @@ export class FileRepository {
 
   /**
    *
-   * @param {AngularFireStorage} storage
+   * @param {HttpClient} httpClient
    */
-  constructor(private httpClient: HttpClient, private storage: AngularFireStorage) {
+  constructor(private httpClient: HttpClient) {
   }
 
   /**
