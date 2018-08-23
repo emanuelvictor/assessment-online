@@ -2,6 +2,8 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
+import {DomSanitizer} from "@angular/platform-browser";
+import {MatIconRegistry} from "@angular/material";
 
 @Component({
   selector: 'consultar-atendentes',
@@ -23,7 +25,7 @@ export class ConsultarAtendentesComponent implements OnInit {
   /**
    *
    */
-  public pageable = {//PageRequest
+  public pageable = { // PageRequest
     size: 20,
     page: 0,
     sort: null
@@ -36,9 +38,18 @@ export class ConsultarAtendentesComponent implements OnInit {
 
   /**
    * Serve para armazenar as colunas que serão exibidas na tabela
-   * @type {[string , string , string ]}
+   * @type {[string , string , string , string , string , string , string , string , string , string]}
    */
-  public displayedColumns: string[] = ['avatar', 'nome', 'conta.email', 'documento'];
+  public displayedColumns: string[] =
+    [
+      'nome',
+      'avaliacoes1',
+      'avaliacoes2',
+      'avaliacoes3',
+      'avaliacoes4',
+      'avaliacoes5',
+      'media'
+    ];
 
   /**
    *
@@ -61,8 +72,16 @@ export class ConsultarAtendentesComponent implements OnInit {
   /**
    *
    * @param {UsuarioService} usuarioService
+   * @param {MatIconRegistry} iconRegistry
+   * @param {DomSanitizer} domSanitizer
    */
-  constructor(private usuarioService: UsuarioService) {
+  constructor(private usuarioService: UsuarioService, private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+    this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'media', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/baseline-bar_chart-24px.svg'));
   }
 
   /**

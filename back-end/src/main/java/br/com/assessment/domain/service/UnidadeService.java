@@ -67,10 +67,14 @@ public class UnidadeService {
         return Flux.just(list.toArray(new Unidade[list.size()]));
     }
 
-    public Mono<Page<Unidade>> listByFilters(final String filters, final Pageable pageable) {
-
-        final Page<Unidade> page = this.unidadeRepository.listByFilters(filters, pageable);
-
-        return Mono.just(page);
+    /**
+     *
+     * @param defaultFilter String
+     * @param enderecoFilter String
+     * @param pageable Pageable
+     * @return Page<Unidade>
+     */
+    public Page<Unidade> listByFilters(final String defaultFilter, final String enderecoFilter, final Pageable pageable) {
+        return this.unidadeRepository.listByFilters(defaultFilter, enderecoFilter, pageable);
     }
 }

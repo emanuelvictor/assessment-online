@@ -28,7 +28,7 @@ public class Pessoa extends AbstractEntity implements Serializable {
     protected String nome;
 
     /**
-     *
+     * TODO fazer unique
      */
     protected String documento;
 

@@ -33,10 +33,9 @@ export class InserirUnidadeComponent implements OnInit {
    *
    * @param {UnidadeService} unidadeService
    * @param {Router} router
-   * @param {Http} http
    * @param {MatSnackBar} snackBar
    */
-  constructor(public unidadeService: UnidadeService, public router: Router, public http: Http, public snackBar: MatSnackBar) {
+  constructor(private  unidadeService: UnidadeService, private  router: Router, private  snackBar: MatSnackBar) {
   }
 
   /**

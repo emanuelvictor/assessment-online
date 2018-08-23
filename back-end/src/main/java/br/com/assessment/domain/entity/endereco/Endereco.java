@@ -1,6 +1,8 @@
 package br.com.assessment.domain.entity.endereco;
 
 import br.com.assessment.domain.entity.generic.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
@@ -17,9 +19,9 @@ import java.io.Serializable;
  * Created by Emanuel Victor on 15/03/2017.
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Entity
 @Audited
+@EqualsAndHashCode(callSuper = false)
 public class Endereco extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -1234564552908065252L;

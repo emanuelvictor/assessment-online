@@ -18,7 +18,6 @@ $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
 @include covalent-theme($theme);
 
-
 .mat-hint-error {
   color: #1976d2;
 }
@@ -218,17 +217,10 @@ Alterar a cor do paginator
 }
 
 /**
-Insere o pointer sobre a linha da tabela
-altera o tamanho da fonte
+Altera o tamanho da linha da tabela
  */
 mat-row {
-
-  .mat-cell {
-    font-size: 16px;
-    font-weight: 400;
-  }
-  height: 89px;
-  cursor: pointer;
+  height: 56px;
 }
 
 /**

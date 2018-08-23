@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Avaliacao} from '../entity/avaliacao/avaliacao.model';
 import 'rxjs/Rx';
-import {calcularMedia} from '../entity/abstract/rankeavel.model';
+import {calcularMedia} from '../entity/abstract/pessoa.model';
 import {ColaboradorService} from './colaborador.service';
 import {AvaliacaoRepository} from '../repositories/avaliacao.repository';
 import {AvaliacaoColaboradorRepository} from '../repositories/avaliacao-colaborador.repository';

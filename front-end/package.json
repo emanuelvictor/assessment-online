@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "web": "ng serve --proxy-config proxy.conf.json -a web --open",
-    "debug-web": "node $NODE_DEBUG_OPTION node_modules/.bin/ng serve --proxy-config proxy.conf.json -a web --open",
-    "debug-mobile": "node $NODE_DEBUG_OPTION node_modules/.bin/ng serve --proxy-config proxy.conf.json -a mobile --port 9000 --open",
-    "mobile": "ng serve --proxy-config proxy.conf.json -a mobile --port 9000 --open",
-    "build": "ng build -a web --prod && ng build -a mobile --prod",
+    "web": "ng serve --proxy-config proxy.conf.json web --open",
+    "debug-web": "node $NODE_DEBUG_OPTION node_modules/.bin/ng serve --proxy-config proxy.conf.json web --open",
+    "debug-mobile": "node $NODE_DEBUG_OPTION node_modules/.bin/ng serve --proxy-config proxy.conf.json mobile --port 9000 --open",
+    "mobile": "ng serve --proxy-config proxy.conf.json mobile --port 9000 --open",
+    "build": "ng build web --prod && ng build mobile --prod",
     "deploy": "npm run build",
     "ng-high-mem": "node --max_old_space_size=8192 node_modules/.bin/ng"
   },

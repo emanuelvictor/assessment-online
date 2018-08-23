@@ -6,6 +6,7 @@ import br.com.assessment.domain.service.UnidadeService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -42,7 +43,8 @@ public class UnidadeResource {
     }
 
     @GetMapping
-    Mono<Page<Unidade>> listByFilters(final String filters) {
-        return this.unidadeService.listByFilters(filters, getPageable());
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    Mono<Page<Unidade>> listByFilters(final String defaultFilter, final String enderecoFilter) {
+        return Mono.just(this.unidadeService.listByFilters(defaultFilter, enderecoFilter, getPageable()));
     }
 }

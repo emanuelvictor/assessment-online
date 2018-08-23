@@ -1,8 +1,10 @@
 import {Abstract} from './abstract.model';
 
-export abstract class Rankeavel extends Abstract {
+export abstract class Pessoa extends Abstract {
 
   public nome: string;
+
+  public documento: string;
 
   public posicao: number;
 

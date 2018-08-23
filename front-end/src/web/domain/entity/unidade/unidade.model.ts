@@ -1,10 +1,8 @@
 import {Endereco} from '../endereco/endereco.model';
 import {Cidade} from '../endereco/cidade.model';
-import {Rankeavel} from '../abstract/rankeavel.model';
+import {Pessoa} from '../abstract/pessoa.model';
 
-export class Unidade extends Rankeavel {
-
-  public cnpj: string;
+export class Unidade extends Pessoa {
 
   public endereco: Endereco;
 

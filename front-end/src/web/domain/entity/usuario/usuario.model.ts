@@ -1,8 +1,8 @@
 import {Endereco} from '../endereco/endereco.model';
-import {Rankeavel} from '../abstract/rankeavel.model';
+import {Pessoa} from '../abstract/pessoa.model';
 import {Conta} from './conta.model';
 
-export class Usuario extends Rankeavel {
+export class Usuario extends Pessoa {
 
   public avatarPath: string;
 

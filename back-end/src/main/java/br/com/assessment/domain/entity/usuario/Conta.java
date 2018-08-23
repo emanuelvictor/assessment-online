@@ -65,7 +65,7 @@ public class Conta extends AbstractEntity implements UserDetails {
     /**
      *
      */
-    @OneToOne(mappedBy = "conta", fetch = FetchType.EAGER, optional = false)
+    @OneToOne(mappedBy = "conta", optional = false)
     private Usuario usuario;
 
     /**

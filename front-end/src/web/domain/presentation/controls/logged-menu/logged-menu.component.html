@@ -46,21 +46,32 @@
                    [ngClass]="{'menu-active': rlaMelhorAtendente.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
-        <mat-icon matListAvatar flex>card_giftcard</mat-icon>
-        <h3 matLine style="color: white" flex="85"> Meus melhores atendentes </h3>
+        <mat-icon matListAvatar flex>ballot</mat-icon>
+        <h3 matLine style="color: white" flex="85"> Avaliações </h3>
       </div>
     </mat-list-item>
 
-    <mat-list-item class="push-bottom"
-                   routerLink="/dashboard/minhas-melhores-unidades"
-                   routerLinkActive #rlaMelhoresUnidades="routerLinkActive"
-                   [ngClass]="{'menu-active': rlaMelhoresUnidades.isActive}">
-      <div layout="row" flex class="pad-left">
-        <span flex="10"></span>
-        <mat-icon matListAvatar flex>assessment</mat-icon>
-        <h3 matLine style="color: white" flex="85"> Minhas melhores unidades </h3>
-      </div>
-    </mat-list-item>
+    <!--<mat-list-item class="push-bottom"-->
+                   <!--routerLink="/dashboard/meus-melhores-atendentes"-->
+                   <!--routerLinkActive #rlaMelhorAtendente="routerLinkActive"-->
+                   <!--[ngClass]="{'menu-active': rlaMelhorAtendente.isActive}">-->
+      <!--<div layout="row" flex class="pad-left">-->
+        <!--<span flex="10"></span>-->
+        <!--<mat-icon matListAvatar flex>card_giftcard</mat-icon>-->
+        <!--<h3 matLine style="color: white" flex="85"> Meus melhores atendentes </h3>-->
+      <!--</div>-->
+    <!--</mat-list-item>-->
+
+    <!--<mat-list-item class="push-bottom"-->
+                   <!--routerLink="/dashboard/minhas-melhores-unidades"-->
+                   <!--routerLinkActive #rlaMelhoresUnidades="routerLinkActive"-->
+                   <!--[ngClass]="{'menu-active': rlaMelhoresUnidades.isActive}">-->
+      <!--<div layout="row" flex class="pad-left">-->
+        <!--<span flex="10"></span>-->
+        <!--<mat-icon matListAvatar flex>assessment</mat-icon>-->
+        <!--<h3 matLine style="color: white" flex="85"> Minhas melhores unidades </h3>-->
+      <!--</div>-->
+    <!--</mat-list-item>-->
 
   </mat-list>
 </mat-nav-list>

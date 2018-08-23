@@ -1,4 +1,4 @@
-import {HttpParams} from "@angular/common/http";
+import {HttpParams} from '@angular/common/http';
 
 export class PageSerialize {
 
@@ -14,23 +14,15 @@ export class PageSerialize {
       Object.keys(object).map(function (key) {
 
         if (object[key]) {
-          // if (pageable[key].constructor === Array) {
-          //
-          //   for (var i = 0; i < pageable[key].length; i++) {
-          //     if (typeof pageable[key][i] === 'object') {
-          //       params = Describer.getParamsFromPageable(params, pageable[key][i])
-          //     } else {
-          //       params = params.set(key, pageable[key][i] ? pageable[key][i] : '');
-          //     }
-          //   }
-          // } else
-          if (typeof object[key] === 'object') {
-            if (key === 'sort') {
+          // Se for um array e a chave tiver o valor 'filter' (defaultFilter, nomeFilter, etc ..), ou seja, se for um filtro
+          if (object[key].constructor === Array && key.indexOf('filter') > -1) {
+            params = params.set(key, object[key] ? object[key].join() : '');
+          // Se não for um array mas for um objeto
+          } else if (typeof object[key] === 'object') {
+            // Se for um objeto de ordenação
+            if (key === 'sort')
               params = params.set(key, object[key]['properties'] + ',' + object[key]['direction']);
-            }
-            // if (object[key].length || object[key] > 0){ TODO xabu quando é array
-            //   params = params.set(key, object[key]['properties'] + ',' + object[key]['direction']);
-            // }
+            // Restante
             else
               params = PageSerialize.getHttpParamsFromPageable(object[key])
           } else {
