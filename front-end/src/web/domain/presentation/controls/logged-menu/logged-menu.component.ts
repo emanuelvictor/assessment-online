@@ -31,17 +31,17 @@ export class LoggedMenuComponent implements OnDestroy {
    */
   constructor(private authenticationService: AuthenticationService, private usuarioService: UsuarioService, private changeDetectionRef: ChangeDetectorRef, private colaboradorService: ColaboradorService) {
 
-    this.authenticationService.getContaAutenticada().subscribe(result => {
+    this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.authenticatedUser = result;
-      this.colaboradorService.listOperadoresByUsuarioKey(this.authenticatedUser.key).subscribe(operadores => {
-        if (operadores.length > 0)
-          this.authenticatedUser.isOperator = true;
-        else
-          this.authenticatedUser.isOperator = false;
-      });
+      // this.colaboradorService.listOperadoresByUsuarioKey(this.contaAutenticada.key).subscribe(operadores => {
+      //   if (operadores.length > 0) TODO o is operador já tem que vir
+      //     this.contaAutenticada.isOperator = true;
+      //   else
+      //     this.contaAutenticada.isOperator = false;
+      // });
     });
 
-    this.userSubscription = authenticationService.authenticatedUserChanged.subscribe((user) => {
+    this.userSubscription = authenticationService.contaAutenticadaChanged.subscribe((user) => {
       this.authenticatedUser = user;
       this.changeDetectionRef.detectChanges();
     });

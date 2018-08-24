@@ -58,7 +58,7 @@ export class VisualizarAtendenteComponent implements OnInit {
     /**
      * Pega o usuário logado
      */
-    this.authenticationService.getContaAutenticada().subscribe(result => {
+    this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.authenticatedUser = result;
     });
 

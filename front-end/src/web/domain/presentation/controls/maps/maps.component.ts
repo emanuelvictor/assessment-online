@@ -83,7 +83,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
    * @param {FormBuilder} fb
    */
   constructor(public enderecoService: EnderecoService, public authenticationService: AuthenticationService, /*public _loader: MapsAPILoader,*/ public _zone: NgZone, public changeDetectionRef: ChangeDetectorRef, public fb: FormBuilder) {
-    this.userSubscription = authenticationService.authenticatedUserChanged.subscribe((user) => {
+    this.userSubscription = authenticationService.contaAutenticadaChanged.subscribe((user) => {
       this.authenticatedUser = user;
     });
   }

@@ -44,12 +44,12 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
               public media: TdMediaService, public ngZone: NgZone,
               private authenticationService: AuthenticationService) {
 
-    this.authenticationService.getContaAutenticada().subscribe(result => {
+    this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.conta = result;
-      this.colaboradorService.listOperadoresByUsuarioKey(this.conta.usuario.id)
-        .subscribe(operadores => {
-          this.conta.usuario.isOperador = operadores.length > 0;
-        });
+      // this.colaboradorService.listOperadoresByUsuarioKey(this.conta.usuario.id)
+      //   .subscribe(operadores => { TODO o is operador já tem que vir
+      //     this.conta.usuario.isOperador = operadores.length > 0;
+      //   });
     });
   }
 

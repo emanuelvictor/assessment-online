@@ -35,16 +35,16 @@ export class HeaderComponent implements OnDestroy {
    * @param {ColaboradorService} colaboradorService
    */
   constructor(private authenticationService: AuthenticationService, private router: Router, private colaboradorService: ColaboradorService) {
-    this.authenticationService.getContaAutenticada().subscribe(result => {
+    this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.usuario = result;
-      this.colaboradorService.listOperadoresByUsuarioKey(this.usuario.key).subscribe(operadores => {
-        this.usuario.isOperador = operadores.length > 0;
-        if (!this.usuario.isOperador && !this.usuario.isAdministrador)
-          this.router.navigate(['/dashboard/minha-conta'])
-      });
+      // this.colaboradorService.listOperadoresByUsuarioKey(this.usuario.key).subscribe(operadores => {
+      //   this.usuario.isOperador = operadores.length > 0; TODO o isOperador já tem que vir
+      //   if (!this.usuario.isOperador && !this.usuario.isAdministrador)
+      //     this.router.navigate(['/dashboard/minha-conta'])
+      // });
     });
 
-    this.userSubscription = authenticationService.authenticatedUserChanged.subscribe((user) => {
+    this.userSubscription = authenticationService.contaAutenticadaChanged.subscribe((user) => {
       this.usuario = user;
     });
   }

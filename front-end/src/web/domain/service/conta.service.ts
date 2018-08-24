@@ -39,15 +39,6 @@ export class ContaService {
 
   /**
    *
-   * @param {string} email
-   * @returns {Observable<any>}
-   */
-  public findUsuarioByEmail(email: string): Observable<any> {
-    return this.contaRepository.findUsuarioByEmail(email);
-  }
-
-  /**
-   *
    * @param {Usuario} usuario
    * @param {string} newPassword
    * @returns {Promise<any>}

@@ -8,7 +8,7 @@ import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {FileRepository} from '../../../../../infrastructure/repository/file/file.repository';
 import {ContaService} from '../../../../service/conta.service';
-import {UsuarioService} from "../../../../service/usuario.service";
+import {UsuarioService} from '../../../../service/usuario.service';
 
 @Component({
   selector: 'visualizar-minha-conta',
@@ -35,12 +35,16 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
 
   /**
    *
+   */
+  public userSubscription: Subscription;
+
+  /**
+   *
    * @param {MatDialog} dialog
    * @param {MatSnackBar} snackBar
    * @param {ContaService} contaService
    * @param {ActivatedRoute} activatedRoute
    * @param {FileRepository} fileRepository
-   * @param {UsuarioService} usuarioService
    * @param {AuthenticationService} authenticationService
    */
   constructor(public dialog: MatDialog,
@@ -48,26 +52,17 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
               public contaService: ContaService,
               public activatedRoute: ActivatedRoute,
               public fileRepository: FileRepository,
-              private usuarioService: UsuarioService,
               public authenticationService: AuthenticationService) {
   }
 
   /**
    *
    */
-  public userSubscription: Subscription;
-
-  /**
-   *
-   */
   ngOnInit(): void {
-    this.contaService.findUsuarioByEmail(this.authenticationService.getAuthenticatedUser().email)
-      .subscribe(result => {
-        this.usuarioService.findById(result.usuario.id)
-          .subscribe((usuario: Usuario) => {
-            this.usuario = usuario;
-          })
-      });
+    this.authenticationService.requestContaAutenticada().subscribe(conta => {
+      conta.usuario.conta = conta;
+      this.usuario = conta.usuario;
+    })
   }
 
   /**

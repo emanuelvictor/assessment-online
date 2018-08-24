@@ -1,8 +1,10 @@
 package br.com.assessment.domain.entity.usuario;
 
 import br.com.assessment.domain.entity.generic.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +26,7 @@ import static br.com.assessment.application.context.Context.DEFAULT_TENANT_ID;
 @Audited
 @Table(schema = DEFAULT_TENANT_ID)
 @lombok.EqualsAndHashCode(callSuper = true)
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
 public class Conta extends AbstractEntity implements UserDetails {
 
     /**
@@ -65,21 +68,8 @@ public class Conta extends AbstractEntity implements UserDetails {
     /**
      *
      */
-    @OneToOne(mappedBy = "conta", optional = false)
+    @OneToOne(mappedBy = "conta", optional = false, fetch = FetchType.EAGER)
     private Usuario usuario;
-
-    /**
-     *
-     */
-    public Conta() {
-    }
-
-    /**
-     *
-     */
-    public Conta(final String schema) {
-        this.setEsquema(schema);
-    }
 
     /**
      * (non-Javadoc)

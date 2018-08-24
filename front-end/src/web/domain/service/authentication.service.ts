@@ -4,7 +4,6 @@ import {isNullOrUndefined} from 'util';
 
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {ContaService} from './conta.service';
 import {Conta} from '../entity/usuario/conta.model';
 
 @Injectable()
@@ -13,25 +12,24 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  public authenticatedUser: any = null;
+  private _contaAutenticada: any = null;
 
   /**
    *
    */
-  public authenticatedUserChanged: EventEmitter<any>;
+  public contaAutenticadaChanged: EventEmitter<any>;
 
   /**
    *
    * @param {Router} router
    * @param {HttpClient} httpClient
-   * @param {ContaService} contaService
    */
-  constructor(private router: Router, private httpClient: HttpClient, private contaService: ContaService) {
+  constructor(private router: Router, private httpClient: HttpClient) {
 
-    this.authenticatedUserChanged = new EventEmitter();
+    this.contaAutenticadaChanged = new EventEmitter();
 
     this.httpClient.get('principal').subscribe(result => {
-      this.setAuthenticatedUser(result);
+      this.contaAutenticada = result;
     });
 
   }
@@ -43,7 +41,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {boolean}
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.getContaAutenticada()
+    return this.requestContaAutenticada()
       .map(auth => {
         if (isNullOrUndefined(auth)) {
           this.router.navigate(['authentication']);
@@ -64,28 +62,22 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     return this.canActivate(route, state);
   }
 
-  /**
-   *
-   */
-  public getAuthenticatedUser(): any {
-    return this.authenticatedUser;
+
+  get contaAutenticada(): Conta {
+    return this._contaAutenticada;
   }
 
-  /**
-   *
-   * @param authenticatedUser
-   */
-  public setAuthenticatedUser(authenticatedUser: any) {
-    this.authenticatedUser = authenticatedUser;
-    this.authenticatedUserChanged.emit(this.getAuthenticatedUser());
+  set contaAutenticada(contaAutenticada: Conta) {
+    this._contaAutenticada = contaAutenticada;
+    this.contaAutenticadaChanged.emit(this.requestContaAutenticada());
   }
 
   /**
    *
    * @param {Conta} conta
-   * @returns {Promise<any>}
+   * @returns {Promise<Conta>}
    */
-  public login(conta: Conta): Promise<any> {
+  public login(conta: Conta): Promise<Conta> {
     return this.httpClient.post('login', conta).toPromise();
   }
 
@@ -99,7 +91,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  public getContaAutenticada(): Observable<any> {
+  public requestContaAutenticada(): Observable<Conta> {
     return this.httpClient.get('principal');
   }
 }

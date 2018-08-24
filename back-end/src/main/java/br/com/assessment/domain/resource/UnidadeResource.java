@@ -23,27 +23,31 @@ public class UnidadeResource {
     private final UnidadeService unidadeService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Unidade> save(@RequestBody final Unidade unidade) {
         return this.unidadeService.save(unidade);
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Unidade> save(@PathVariable final long id, @RequestBody final Unidade unidade) {
         return this.unidadeService.save(id, unidade);
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Boolean> delete(@PathVariable final long id) {
         return this.unidadeService.delete(id);
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasRole('OPERADOR')")
     public Mono<Optional<Unidade>> findById(@PathVariable final long id) {
         return this.unidadeService.findById(id);
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('OPERADOR')")
     Mono<Page<Unidade>> listByFilters(final String defaultFilter, final String enderecoFilter) {
         return Mono.just(this.unidadeService.listByFilters(defaultFilter, enderecoFilter, getPageable()));
     }

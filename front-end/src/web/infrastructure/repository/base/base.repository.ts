@@ -10,15 +10,16 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
   private collectionName: string;
 
   constructor(public httpClient: HttpClient, public collection: string) {
-    if (collection) {
+    if (collection)
       this.collectionName = collection;
-    } else
+    else
       this.collectionName = this.constructor.name.replace('Repository', '').toLowerCase() + 's';
   }
 
   async save(item: T): Promise<T> {
-    if (item.id)
-      return this.update(item.id, item);
+    const aux: any = item;
+    if (aux.id)
+      return this.update(aux.id, item);
     return this.httpClient.post<T>(this.collectionName, item).toPromise();
   }
 

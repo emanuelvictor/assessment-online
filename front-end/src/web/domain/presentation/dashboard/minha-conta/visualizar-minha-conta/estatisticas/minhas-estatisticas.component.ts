@@ -115,7 +115,7 @@ export class MinhasEstatisticasComponent implements OnInit {
    */
   ngOnInit() {
 
-    this.authenticationService.getContaAutenticada()
+    this.authenticationService.requestContaAutenticada()
       .subscribe((rankeavel: any) => {
         this.rankeavel = rankeavel;
         this.title.setTitle('Estatisticas de ' + this.rankeavel.nome);

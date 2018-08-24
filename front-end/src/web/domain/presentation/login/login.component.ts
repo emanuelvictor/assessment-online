@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
 
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
@@ -23,7 +22,7 @@ export class LoginComponent {
   /**
    *
    */
-  constructor(public snackBar: MatSnackBar, private router: Router, private authenticationService: AuthenticationService) {
+  constructor(private router: Router, private authenticationService: AuthenticationService) {
   }
 
   /**
@@ -37,8 +36,7 @@ export class LoginComponent {
      */
     this.conta.email = this.conta.email.trim();
     this.authenticationService.login(this.conta)
-      .then(result => {
-        this.authenticationService.setAuthenticatedUser(result);
+      .then(() => {
         this.router.navigate(['/']);
       })
   }

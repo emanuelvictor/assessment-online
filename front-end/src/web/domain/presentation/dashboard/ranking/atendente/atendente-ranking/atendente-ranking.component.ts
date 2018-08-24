@@ -51,7 +51,7 @@ export class AtendenteRankingComponent implements OnInit {
    *
    */
   ngOnInit() {
-    // this.contaService.getContaAutenticada()
+    // this.contaService.requestContaAutenticada()
     //   .subscribe(usuarioAutenticado => {
     //
     //     if (usuarioAutenticado.isAdministrador) {

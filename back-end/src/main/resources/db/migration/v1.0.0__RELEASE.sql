@@ -785,9 +785,6 @@ ALTER TABLE ONLY usuario_aud
 ALTER TABLE ONLY usuario
     ADD CONSTRAINT usuario_pkey PRIMARY KEY (id);
 
-
-
-
 --
 -- TOC entry 2095 (class 2606 OID 273812)
 -- Name: fk4xfunk5u653sywlp8vsnvq4k1; Type: FK CONSTRAINT;
@@ -795,6 +792,14 @@ ALTER TABLE ONLY usuario
 
 ALTER TABLE ONLY colaborador
     ADD CONSTRAINT fk4xfunk5u653sywlp8vsnvq4k1 FOREIGN KEY (unidade_id) REFERENCES unidade(id);
+
+--
+--
+--
+--
+
+ALTER TABLE ONLY colaborador
+    ADD CONSTRAINT constraint_colaborador_unidade_usuario UNIQUE (usuario_id, unidade_id);
 
 
 --

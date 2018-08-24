@@ -19,6 +19,21 @@ export class VincularUnidadeComponent implements OnInit {
    */
   public unidades: any;
 
+
+  /**
+   *
+   * @type {{size: number; page: number; sort: any; defaultFilter: any; enderecoFilter: any}}
+   */
+  public pagerequest = { // PageRequest
+    size: 20,
+    page: 0,
+    sort: null,
+    usuarioId: null,
+    defaultFilter: [],
+    enderecoFilter: []
+  };
+
+
   /**
    *
    * @type {Array}
@@ -54,88 +69,38 @@ export class VincularUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.authenticationService.getContaAutenticada().subscribe(loggedUser => {
-      if (loggedUser && loggedUser.administrador) {
-        this.unidadeService.find()
-          .subscribe(unidades => {
+    this.unidadeService.listByFilters(null)
+      .subscribe(page => {
+        const unidades = page.content;
 
-            this.atendentes = [];
-            for (let i = 0; i < unidades.length; i++) {
-              this.atendentes.push({
-                vinculo: 'Nenhum',
-                unidade: unidades[i],
-                usuario: this.usuario
-              });
+        this.atendentes = [];
+        for (let i = 0; i < unidades.length; i++) {
+          this.atendentes.push({
+            vinculo: 'Nenhum',
+            unidade: unidades[i],
+            usuario: this.usuario
+          });
+        }
+
+        this.pagerequest.usuarioId = this.usuario.id;
+
+        this.colaboradorService.listByFilters(this.pagerequest).subscribe(page => {
+          const result = page.content;
+          if (result.length) {
+
+            for (let i = 0; i < this.atendentes.length; i++) {
+              for (let k = 0; k < result.length; k++) {
+                if (result[k].unidade.id === this.atendentes[i].unidade.id) {
+                  const unidadeTemp = this.atendentes[i].unidade;
+                  this.atendentes[i] = result[k];
+                  this.atendentes[i].unidade = unidadeTemp;
+                }
+              }
             }
 
-            this.colaboradorService.listColaboradoresByUsuarioKey(this.usuario.id).subscribe(result => {
-              if (result.length) {
-
-                for (let i = 0; i < this.atendentes.length; i++) {
-                  for (let k = 0; k < result.length; k++) {
-                    if (result[k].unidade.id === this.atendentes[i].unidade.id) {
-                      const unidadeTemp = this.atendentes[i].unidade;
-                      this.atendentes[i] = result[k];
-                      this.atendentes[i].unidade = unidadeTemp;
-                    }
-                  }
-                }
-
-              }
-            });
-          });
-      }
-
-      else {
-        if (loggedUser)
-          this.unidadeService.find()
-            .subscribe(unidades => {
-              this.colaboradorService.listOperadoresByUsuarioKey(loggedUser.id).subscribe(colaboradores => {
-                const novasUnidades = [];
-                colaboradores.forEach(colaborador => {
-                  for (let i = 0; i < unidades.length; i++) {
-                    if (unidades[i].id === colaborador.unidade.id &&
-                      (colaborador.vinculo === Vinculo.Operador || colaborador.vinculo === Vinculo.OperadorAtendente)) {
-                      let founded = false;
-                      for (let j = 0; j < novasUnidades.length; j++) {
-                        if (novasUnidades[j].id === unidades[i].id) {
-                          founded = true;
-                        }
-                      }
-                      if (!founded) novasUnidades.push(unidades[i]);
-                    }
-                  }
-                });
-
-                this.atendentes = [];
-                for (let i = 0; i < novasUnidades.length; i++) {
-                  this.atendentes.push({
-                    vinculo: 'Nenhum',
-                    unidade: novasUnidades[i],
-                    usuario: this.usuario
-                  });
-                }
-
-                this.colaboradorService.listColaboradoresByUsuarioKey(this.usuario.id).subscribe(result => {
-                  if (result.length) {
-
-                    for (let i = 0; i < this.atendentes.length; i++) {
-                      for (let k = 0; k < result.length; k++) {
-                        if (result[k].unidade.id === this.atendentes[i].unidade.id) {
-                          const unidadeTemp = this.atendentes[i].unidade;
-                          this.atendentes[i] = result[k];
-                          this.atendentes[i].unidade = unidadeTemp;
-                        }
-                      }
-                    }
-
-                  }
-                });
-              })
-
-            });
-      }
-    });
+          }
+        });
+      });
   }
 
   /**

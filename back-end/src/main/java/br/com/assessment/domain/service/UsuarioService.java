@@ -5,7 +5,6 @@ import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.UsuarioRepository;
 import br.com.assessment.infrastructure.file.ImageUtils;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;
 import org.springframework.data.domain.Page;
@@ -14,7 +13,6 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.codec.multipart.Part;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
@@ -27,7 +25,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -50,9 +47,13 @@ public class UsuarioService {
         return Mono.just(this.usuarioRepository.findById(usuarioId));
     }
 
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Usuario> save(final long id, final Usuario usuario) {
+
         Assert.isTrue(usuario.getId() != null && usuario.getId().equals(id), "Você não tem acesso á esse usuário");
+
+        //Seta novamente o password anterior
+        usuario.getConta().setPassword(this.usuarioRepository.findById(usuario.getId()).get().getConta().getPassword());
+
         return Mono.just(this.usuarioRepository.save(usuario));
     }
 
@@ -111,21 +112,11 @@ public class UsuarioService {
 
     }
 
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Boolean> delete(final long usuarioId) {
         this.usuarioRepository.deleteById(usuarioId);
         return Mono.just(true);
     }
 
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public Flux<Usuario> findAll() {
-
-        final List<Usuario> list = this.usuarioRepository.findAll();
-
-        return Flux.just(list.toArray(new Usuario[list.size()]));
-    }
-
-//    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Mono<Page<Usuario>> listByFilters(final String filters, final Pageable pageable) {
 
         final Page<Usuario> page = this.usuarioRepository.listByFilters(filters, pageable);

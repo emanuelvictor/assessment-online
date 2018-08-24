@@ -31,6 +31,15 @@ export class ColaboradorService {
   }
 
   /**
+   *
+   * @param pagerequest
+   * @returns {Observable<any>}
+   */
+  public listByFilters(pagerequest: any): Observable<any> {
+    return this.colaboradorRepository.listByFilters(pagerequest);
+  }
+
+  /**
    * Retorna todos os colaboradores pela key do usuaŕio
    * @param {number} id
    * @returns {Observable<any>}

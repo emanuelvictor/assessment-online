@@ -4,17 +4,21 @@ import br.com.assessment.domain.entity.generic.AbstractEntity;
 import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+
+import static br.com.assessment.application.context.Context.DEFAULT_TENANT_ID;
 
 @Data
 @Entity
 @Audited
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"unidade_id", "usuario_id"})
+})
 @lombok.EqualsAndHashCode(callSuper = true)
 public class Colaborador extends AbstractEntity implements Serializable {
 

@@ -1,5 +1,6 @@
 package br.com.assessment.domain.service;
 
+import br.com.assessment.application.context.Context;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.ContaRepository;
@@ -15,7 +16,6 @@ import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
 
 @Service
-@Transactional
 @AllArgsConstructor
 public class ContaService implements ReactiveUserDetailsService {
 
@@ -42,7 +42,9 @@ public class ContaService implements ReactiveUserDetailsService {
 
         Assert.notNull(conta, "Conta não encontrada");
 
-        return Mono.just(conta);
+        Context.setCurrentSchema(conta.getEsquema());
+
+        return Mono.just(contaRepository.findByEmailIgnoreCase(email.toLowerCase()));
 
     }
 

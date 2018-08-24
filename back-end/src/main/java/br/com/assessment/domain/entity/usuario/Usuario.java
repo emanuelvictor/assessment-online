@@ -16,7 +16,6 @@ import java.util.List;
 @Entity
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
 public class Usuario extends Pessoa {
 
     /**

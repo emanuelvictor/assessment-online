@@ -1,6 +1,5 @@
 package br.com.assessment.domain.resource;
 
-import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.Part;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
@@ -25,17 +25,19 @@ public class UsuarioResource {
     private final UsuarioService usuarioService;
 
     @PostMapping
+    @PreAuthorize("hasRole('OPERADOR')")
     public Mono<Usuario> save(@RequestBody final Usuario usuario) {
         return this.usuarioService.save(usuario);
     }
 
-
     @PutMapping("{id}")
+    @PreAuthorize("hasRole('OPERADOR')")
     public Mono<Usuario> update(@PathVariable final long id, @RequestBody final Usuario usuario) {
         return this.usuarioService.save(id, usuario);
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('OPERADOR')")
     public Mono<Boolean> delete(@PathVariable final long id) {
         return this.usuarioService.delete(id);
     }
@@ -46,7 +48,7 @@ public class UsuarioResource {
     }
 
     @GetMapping
-    Mono<Page<Usuario>> find(final String filters) {
+    Mono<Page<Usuario>> listByFilters(final String filters) {
         return usuarioService.listByFilters(filters, getPageable());
     }
 

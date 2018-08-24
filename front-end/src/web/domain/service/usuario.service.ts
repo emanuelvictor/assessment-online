@@ -40,7 +40,7 @@ export class UsuarioService {
 
     // return Observable.save(observer => {
     //
-    //   this.getContaAutenticada()
+    //   this.requestContaAutenticada()
     //     .subscribe(usuarioAutenticado => {
     //
     //       if (usuarioAutenticado.isAdministrador) {

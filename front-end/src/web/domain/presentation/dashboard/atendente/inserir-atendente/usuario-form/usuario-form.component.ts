@@ -76,7 +76,7 @@ export class AtendenteFormComponent implements OnInit {
               private renderer: Renderer, private snackBar: MatSnackBar,
               private fb: FormBuilder, @Inject(ElementRef) private element: ElementRef) {
 
-    this.authenticationService.getContaAutenticada().subscribe(result => {
+    this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.usuarioLogado = result;
     });
 
