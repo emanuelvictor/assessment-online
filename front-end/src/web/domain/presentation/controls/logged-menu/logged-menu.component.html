@@ -42,11 +42,11 @@
 
     <mat-list-item class="push-bottom"
                    routerLink="/dashboard/meus-melhores-atendentes"
-                   routerLinkActive #rlaMelhorAtendente="routerLinkActive"
-                   [ngClass]="{'menu-active': rlaMelhorAtendente.isActive}">
+                   routerLinkActive #rlaAvaliacoes="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaAvaliacoes.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
-        <mat-icon matListAvatar flex>ballot</mat-icon>
+        <mat-icon matListAvatar flex>assessment</mat-icon>
         <h3 matLine style="color: white" flex="85"> Avaliações </h3>
       </div>
     </mat-list-item>
