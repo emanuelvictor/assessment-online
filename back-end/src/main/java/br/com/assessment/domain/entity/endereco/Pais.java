@@ -23,7 +23,7 @@ import static br.com.assessment.application.context.Context.DEFAULT_TENANT_ID;
 @Audited
 @Table(schema = DEFAULT_TENANT_ID)
 @EqualsAndHashCode(callSuper = true)
-public class Pais extends AbstractEntity implements Serializable {
+class Pais extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -7513339061739700255L;
 
@@ -32,10 +32,4 @@ public class Pais extends AbstractEntity implements Serializable {
     @Column(nullable = false, length = 200)
     private String nome;
 
-    public Pais() {
-    }
-
-    public Pais(Long id) {
-        this.id = id;
-    }
 }

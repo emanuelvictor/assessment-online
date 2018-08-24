@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * 
- * @since 22/11/2012
  * @version 1.0
  */
 public interface IEntity<ID extends Serializable> extends Serializable
@@ -14,13 +13,13 @@ public interface IEntity<ID extends Serializable> extends Serializable
 	 *-------------------------------------------------------------------*/
     /**
      *
-     * @return
+     * @return ID
      */
-    public ID getId();
+    ID getId();
 
     /**
      *
-     * @param id
+     * @param id ID
      */
-    public void setId(ID id);
+    void setId(ID id);
 }

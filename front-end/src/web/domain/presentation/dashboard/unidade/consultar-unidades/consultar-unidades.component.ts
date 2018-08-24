@@ -19,23 +19,14 @@ export class ConsultarUnidadesComponent implements OnInit {
 
   /**
    *
-   * @type {{defaultFilter: Array; enderecoFilter: Array}}
-   */
-  public filter = {
-    defaultFilter: [],
-    enderecoFilter: []
-  };
-
-  /**
-   *
    * @type {{size: number; page: number; sort: any; defaultFilter: any; enderecoFilter: any}}
    */
   public pagerequest = { // PageRequest
     size: 20,
     page: 0,
     sort: null,
-    defaultFilter: null,
-    enderecoFilter: null
+    defaultFilter: [],
+    enderecoFilter: []
   };
 
   /**
@@ -125,10 +116,6 @@ export class ConsultarUnidadesComponent implements OnInit {
    */
   public onChangeFilters() {
 
-    this.pagerequest.defaultFilter = this.filter.defaultFilter.join(); //TODO passar para o factoryselector
-
-    this.pagerequest.enderecoFilter = this.filter.enderecoFilter.join(); //TODO passar para o factoryselector
-
     this.pagerequest.page = 0;
 
     this.unidadeService.listByFilters(this.pagerequest)
@@ -153,10 +140,6 @@ export class ConsultarUnidadesComponent implements OnInit {
    *
    */
   public listUnidadesByFilters(pageRequest: any) {
-
-    pageRequest.defaultFilter = this.filter.defaultFilter.join(); //TODO passar para o factoryselector
-
-    pageRequest.enderecoFilter = this.filter.enderecoFilter.join(); //TODO passar para o factoryselector
 
     pageRequest.size = this.paginator.pageSize;
     pageRequest.page = this.paginator.pageIndex;

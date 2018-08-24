@@ -1,5 +1,6 @@
 package br.com.assessment.domain.resource;
 
+import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +29,10 @@ public class UsuarioResource {
         return this.usuarioService.save(usuario);
     }
 
-    @PutMapping
-    public Mono<Usuario> update(@RequestBody final Usuario usuario) {
-        return this.usuarioService.save(usuario);
+
+    @PutMapping("{id}")
+    public Mono<Usuario> update(@PathVariable final long id, @RequestBody final Usuario usuario) {
+        return this.usuarioService.save(id, usuario);
     }
 
     @DeleteMapping("{id}")

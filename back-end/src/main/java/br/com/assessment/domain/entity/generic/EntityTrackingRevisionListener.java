@@ -7,18 +7,8 @@ import java.io.Serializable;
 
 /**
  * @version 1.0
- * @category Entity
- * @since 06/12/2012
  */
 public class EntityTrackingRevisionListener implements org.hibernate.envers.EntityTrackingRevisionListener {
-    /*-------------------------------------------------------------------
-     *				 		     ATTRIBUTES
-     *-------------------------------------------------------------------*/
-
-    /*-------------------------------------------------------------------
-     *				 		     BEHAVIORS
-	 *-------------------------------------------------------------------*/
-
     /**
      *
      */

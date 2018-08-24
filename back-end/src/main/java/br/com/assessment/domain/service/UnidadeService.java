@@ -57,17 +57,6 @@ public class UnidadeService {
     }
 
     /**
-     * @return
-     */
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public Flux<Unidade> findAll() {
-
-        final List<Unidade> list = this.unidadeRepository.findAll();
-
-        return Flux.just(list.toArray(new Unidade[list.size()]));
-    }
-
-    /**
      *
      * @param defaultFilter String
      * @param enderecoFilter String

@@ -12,12 +12,11 @@ export class PageSerialize {
     if (object) {
 
       Object.keys(object).map(function (key) {
-
         if (object[key]) {
           // Se for um array e a chave tiver o valor 'filter' (defaultFilter, nomeFilter, etc ..), ou seja, se for um filtro
-          if (object[key].constructor === Array && key.indexOf('filter') > -1) {
+          if (object[key].constructor === Array && key.toLowerCase().indexOf('filter') > -1) {
             params = params.set(key, object[key] ? object[key].join() : '');
-          // Se não for um array mas for um objeto
+            // Se não for um array mas for um objeto
           } else if (typeof object[key] === 'object') {
             // Se for um objeto de ordenação
             if (key === 'sort')

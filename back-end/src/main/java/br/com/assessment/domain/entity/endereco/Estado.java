@@ -25,7 +25,7 @@ import static br.com.assessment.application.context.Context.DEFAULT_TENANT_ID;
         @UniqueConstraint(columnNames = {"nome", "pais_id"})
 })
 @EqualsAndHashCode(callSuper = true)
-public class Estado extends AbstractEntity implements Serializable {
+class Estado extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 8414044637595122330L;
 
@@ -43,10 +43,4 @@ public class Estado extends AbstractEntity implements Serializable {
     @ManyToOne(optional = false)
     private Pais pais;
 
-    public Estado(Long id) {
-        this.id = id;
-    }
-
-    public Estado() {
-    }
 }

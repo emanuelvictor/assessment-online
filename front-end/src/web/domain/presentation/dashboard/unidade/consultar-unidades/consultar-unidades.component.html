@@ -3,14 +3,14 @@
 
   <td-chips style="margin-left:0; margin-top: 9px;"
             placeholder="Pesquisar por nome"
-            [(ngModel)]="filter.defaultFilter"
+            [(ngModel)]="pagerequest.defaultFilter"
             flex-md="40" flex-gt-md="45" flex-gt-lg="50"
             (add)="onChangeFilters()" (remove)="onChangeFilters()">
   </td-chips>
 
   <td-chips flex="30" style="margin-top: 0px;"
             placeholder="Pesquisar por endereço"
-            [(ngModel)]="filter.enderecoFilter"
+            [(ngModel)]="pagerequest.enderecoFilter"
             (add)="onChangeFilters()"
             (remove)="onChangeFilters()">
   </td-chips>

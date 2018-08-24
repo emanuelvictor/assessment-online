@@ -1,8 +1,6 @@
 package br.com.assessment.domain.entity.endereco;
 
 import br.com.assessment.domain.entity.generic.AbstractEntity;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
@@ -57,10 +55,4 @@ public class Endereco extends AbstractEntity implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Cidade cidade;
 
-    public Endereco(Long id) {
-        super(id);
-    }
-
-    public Endereco() {
-    }
 }

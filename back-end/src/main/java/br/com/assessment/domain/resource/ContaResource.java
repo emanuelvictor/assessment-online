@@ -2,6 +2,7 @@ package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.service.ContaService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class ContaResource {
      * @return Mono<UserDetails>
      */
     @GetMapping(params = "email")
+    @PreAuthorize("hasRole('ATENDENTE')")
     public Mono<UserDetails> findUsuarioByEmail(@RequestParam final String email) {
         return this.contaService.findUsuarioByEmail(email);
     }

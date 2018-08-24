@@ -17,6 +17,8 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
   }
 
   async save(item: T): Promise<T> {
+    if (item.id)
+      return this.update(item.id, item);
     return this.httpClient.post<T>(this.collectionName, item).toPromise();
   }
 

@@ -6,6 +6,7 @@ import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.UsuarioRepository;
 import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UsuarioService {
 
     private final Flyway flyway;
@@ -50,6 +51,11 @@ public class UsuarioService {
     }
 
     @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public Mono<Usuario> save(final long id, final Usuario usuario) {
+        Assert.isTrue(usuario.getId() != null && usuario.getId().equals(id), "Você não tem acesso á esse usuário");
+        return Mono.just(this.usuarioRepository.save(usuario));
+    }
+
     public Mono<Usuario> save(final Usuario usuario) {
 
         // Encoda o password
@@ -59,7 +65,7 @@ public class UsuarioService {
         }
 
         usuario.getConta().setEsquema(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());// TODO verificar se não da pra usar o context
-        usuario.getConta().setUsuario(usuario);
+//        usuario.getConta().setUsuario(usuario);
 
         return Mono.just(this.usuarioRepository.save(usuario));
     }
