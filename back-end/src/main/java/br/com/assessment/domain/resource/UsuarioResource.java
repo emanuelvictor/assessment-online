@@ -2,6 +2,7 @@ package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.service.UsuarioService;
+import com.sun.deploy.util.ArrayUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -10,6 +11,7 @@ import org.springframework.http.codec.multipart.Part;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerWebExchange;
+import org.thymeleaf.util.ArrayUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -17,6 +19,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static br.com.assessment.application.context.Context.getPageable;
+import static br.com.assessment.infrastructure.util.ArrayUtil.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,10 +55,7 @@ public class UsuarioResource {
     @GetMapping
     @PreAuthorize("hasRole('OPERADOR')")
     Mono<Page<Usuario>> listByFilters(final String defaultFilter, final Long[] unidadesFilter) {
-        if (unidadesFilter.length == 0)
-            return Mono.just(usuarioService.listByFilters(defaultFilter, null, getPageable()));
-        else
-            return Mono.just(usuarioService.listByFilters(defaultFilter, Arrays.asList(unidadesFilter), getPageable()));
+        return Mono.just(usuarioService.listByFilters(defaultFilter, getListFromArray(unidadesFilter), getPageable()));
     }
 
     @GetMapping(value = "{id}/thumbnail", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
