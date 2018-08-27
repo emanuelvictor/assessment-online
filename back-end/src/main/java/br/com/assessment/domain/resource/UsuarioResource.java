@@ -13,6 +13,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static br.com.assessment.application.context.Context.getPageable;
@@ -43,13 +44,18 @@ public class UsuarioResource {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasRole('ATENDENTE')")
     public Mono<Optional<Usuario>> findUsuarioById(@PathVariable final long id) {
         return this.usuarioService.findUsuarioById(id);
     }
 
     @GetMapping
-    Mono<Page<Usuario>> listByFilters(final String filters) {
-        return usuarioService.listByFilters(filters, getPageable());
+    @PreAuthorize("hasRole('OPERADOR')")
+    Mono<Page<Usuario>> listByFilters(final String defaultFilter, final Long[] unidadesFilter) {
+        if (unidadesFilter.length == 0)
+            return Mono.just(usuarioService.listByFilters(defaultFilter, null, getPageable()));
+        else
+            return Mono.just(usuarioService.listByFilters(defaultFilter, Arrays.asList(unidadesFilter), getPageable()));
     }
 
     @GetMapping(value = "{id}/thumbnail", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
@@ -84,7 +90,7 @@ public class UsuarioResource {
 
 
     @PostMapping(value = "/contas")
-    public Mono<Usuario> createAccount(final ServerWebExchange exchange, @RequestBody final Usuario usuario){
+    public Mono<Usuario> createAccount(final ServerWebExchange exchange, @RequestBody final Usuario usuario) {
         return this.usuarioService.createAccount(exchange, usuario);
     }
 

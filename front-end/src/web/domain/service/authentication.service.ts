@@ -28,7 +28,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
 
     this.contaAutenticadaChanged = new EventEmitter();
 
-    this.httpClient.get('principal').subscribe(result => {
+    this.requestContaAutenticada().subscribe(result => {
       this.contaAutenticada = result;
     });
 
@@ -78,7 +78,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {Promise<Conta>}
    */
   public login(conta: Conta): Promise<Conta> {
-    return this.httpClient.post('login', conta).toPromise();
+    return this.httpClient.post<Conta>('login', conta).toPromise();
   }
 
   /**
@@ -92,6 +92,6 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    *
    */
   public requestContaAutenticada(): Observable<Conta> {
-    return this.httpClient.get('principal');
+    return this.httpClient.get<Conta>('principal');
   }
 }

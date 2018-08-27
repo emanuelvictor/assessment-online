@@ -25,6 +25,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -117,12 +118,8 @@ public class UsuarioService {
         return Mono.just(true);
     }
 
-    public Mono<Page<Usuario>> listByFilters(final String filters, final Pageable pageable) {
-
-        final Page<Usuario> page = this.usuarioRepository.listByFilters(filters, pageable);
-
-        return Mono.just(page);
-
+    public Page<Usuario> listByFilters(final String defaultFilter, final List<Long> unidadesFilter , final Pageable pageable) {
+        return this.usuarioRepository.listByFilters(defaultFilter, unidadesFilter, pageable);
     }
 
     /**

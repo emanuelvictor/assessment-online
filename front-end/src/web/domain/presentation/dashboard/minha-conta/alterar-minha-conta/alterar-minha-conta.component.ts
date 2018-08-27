@@ -6,7 +6,6 @@ import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {ContaService} from '../../../../service/conta.service';
-import {Conta} from '../../../../entity/usuario/conta.model';
 
 @Component({
   selector: 'alterar-minha-conta',
@@ -43,10 +42,12 @@ export class AlterarMinhaContaComponent implements OnInit {
    *
    */
   ngOnInit() {
-    const conta: Conta = this.authenticationService.requestContaAutenticada();
-    this.usuario = conta.usuario;
-    delete conta.usuario.conta;
-    this.usuario.conta = conta;
+    this.authenticationService.requestContaAutenticada().subscribe(result => {
+      const conta = result;
+      this.usuario = conta.usuario;
+      delete conta.usuario.conta;
+      this.usuario.conta = conta;
+    });
   }
 
   /**

@@ -4,6 +4,7 @@ import {UsuarioService} from '../../../../service/usuario.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry} from "@angular/material";
+import {UnidadeService} from "../../../../service/unidade.service";
 
 @Component({
   selector: 'consultar-atendentes',
@@ -18,17 +19,14 @@ export class ConsultarAtendentesComponent implements OnInit {
   public showPesquisaAvancada = false;
 
   /**
-   * Filtros da consulta
-   */
-  public filtro: any = {};
-
-  /**
    *
    */
   public pageable = { // PageRequest
     size: 20,
     page: 0,
-    sort: null
+    sort: null,
+    defaultFilter: [],
+    unidadesFilter: []
   };
 
   /**
@@ -72,10 +70,11 @@ export class ConsultarAtendentesComponent implements OnInit {
   /**
    *
    * @param {UsuarioService} usuarioService
+   * @param {UnidadeService} unidadeService
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    */
-  constructor(private usuarioService: UsuarioService, private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+  constructor(private usuarioService: UsuarioService, private unidadeService: UnidadeService, private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
@@ -118,6 +117,7 @@ export class ConsultarAtendentesComponent implements OnInit {
   public onChangeFilters() {
     this.pageable.page = 0;
 
+    this.pageable.unidadesFilter = this.asyncModel.map( result => result.id );
     this.usuarioService.listByFilters(this.pageable)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
@@ -140,11 +140,8 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters(pageable: any) {
-
-    pageable.size = this.paginator.pageSize;
-    pageable.page = this.paginator.pageIndex;
-
-    this.usuarioService.listByFilters(this.pageable)
+    pageable.unidadesFilter.concat(this.asyncModel.map( result => result.id ));
+    this.usuarioService.listByFilters(pageable)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
 
@@ -158,10 +155,13 @@ export class ConsultarAtendentesComponent implements OnInit {
   public hidePesquisaAvancada() {
     this.showPesquisaAvancada = false;
 
-    //Filtros
-    this.filtro.areasAtuacao = [];
-    this.filtro.souEmpresa = null;
-    this.filtro.perfil = null;
+    this.pageable = { // PageRequest
+      size: 20,
+      page: 0,
+      sort: null,
+      defaultFilter: [],
+      unidadesFilter: []
+    };
 
     this.onChangeFilters();
   }
@@ -175,6 +175,29 @@ export class ConsultarAtendentesComponent implements OnInit {
     }
     else {
       this.showPesquisaAvancada = true;
+    }
+  }
+
+  filteredAsync: string[];
+
+  asyncModel: string[] = [];
+
+  filterAsync(value: string): void {
+    this.filteredAsync = undefined;
+    if (value) {
+
+      const pageable = { // PageRequest
+        size: 20,
+        page: 0,
+        sort: null,
+        defaultFilter: [] = [value]
+      };
+
+      this.unidadeService.listByFilters(pageable)
+        .subscribe((result) => {
+          this.filteredAsync = result.content;
+        });
+
     }
   }
 }

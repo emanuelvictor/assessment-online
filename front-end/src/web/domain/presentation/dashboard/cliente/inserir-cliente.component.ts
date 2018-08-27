@@ -53,7 +53,7 @@ export class InserirClienteComponent implements OnInit {
 
     this.contaService.createAccount(this.cliente)
       .then(result => {
-        this.authenticationService.setAuthenticatedUser(result.conta);
+        this.authenticationService.contaAutenticada = result.conta;
         this.router.navigate(['/']);
         this._loadingService.resolve('overlayStarSyntax');
       }).catch(() => this._loadingService.resolve('overlayStarSyntax'));

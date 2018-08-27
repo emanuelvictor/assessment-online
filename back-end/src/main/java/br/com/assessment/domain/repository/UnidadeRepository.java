@@ -14,7 +14,18 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             (
                     " SELECT unidade FROM Unidade unidade WHERE " +
                             "(" +
-                            "   FILTER(unidade.nome, :defaultFilter) = TRUE" +
+                            "   (" +
+                            "       FILTER(unidade.nome, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.logradouro, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.complemento, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.bairro, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cep, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.numero, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cidade.nome, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cidade.estado.nome, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cidade.estado.uf, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cidade.estado.pais.nome, :defaultFilter) = TRUE" +
+                            "   )" +
                             "   AND " +
                             "   (" +
                             "       FILTER(unidade.endereco.logradouro, :enderecoFilter) = TRUE" +
@@ -46,7 +57,18 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
                             "       )" +
                             "   ) " +
                             "   AND " +
-                            "   FILTER(unidade.nome, :defaultFilter) = TRUE" +
+                            "   (" +
+                            "       FILTER(unidade.nome, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.logradouro, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.complemento, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.bairro, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cep, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.numero, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cidade.nome, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cidade.estado.nome, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cidade.estado.uf, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cidade.estado.pais.nome, :defaultFilter) = TRUE" +
+                            "   )" +
                             "   AND " +
                             "   (" +
                             "       FILTER(unidade.endereco.logradouro, :enderecoFilter) = TRUE" +
@@ -79,7 +101,18 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
                             "       )" +
                             "   )" +
                             "   AND " +
-                            "   FILTER(unidade.nome, :defaultFilter) = TRUE" +
+                            "   (" +
+                            "       FILTER(unidade.nome, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.logradouro, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.complemento, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.bairro, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cep, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.numero, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cidade.nome, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cidade.estado.nome, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cidade.estado.uf, :defaultFilter) = TRUE" +
+                            "       OR FILTER(unidade.endereco.cidade.estado.pais.nome, :defaultFilter) = TRUE" +
+                            "   )" +
                             "   AND " +
                             "   (" +
                             "       FILTER(unidade.endereco.logradouro, :enderecoFilter) = TRUE" +
