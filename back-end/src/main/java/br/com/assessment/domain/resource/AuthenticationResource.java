@@ -4,6 +4,7 @@ import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.ContaRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
@@ -15,7 +16,7 @@ import reactor.core.publisher.Mono;
 import java.util.Optional;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/principal")
 public class AuthenticationResource {
 
@@ -25,7 +26,7 @@ public class AuthenticationResource {
     private final ContaRepository contaRepository;
 
     /**
-     *
+     * TODO verificar se não da pra colocar em outro lugar também
      * @return Mono<Conta>
      */
     @GetMapping

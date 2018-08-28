@@ -25,51 +25,24 @@ public class UnidadeService {
 
     private final ContaRepository contaRepository;
 
-    /**
-     *
-     * @param id
-     * @param unidade
-     * @return
-     */
-    public Mono<Unidade> save(final long id, final Unidade unidade) {
-        Assert.isTrue(unidade.getId() != null && unidade.getId().equals(id), "Você não tem acesso a essa unidade");
+    public Unidade save(final long id, final Unidade unidade) {
+        Assert.isTrue(unidade.getId() != null && unidade.getId().equals(id), "Você não tem acesso a essa unidade"); //TODO colocar validator em uma service, e colocar na camada de cima
         return this.save(unidade);
     }
 
-    /**
-     *
-     * @param unidade
-     * @return
-     */
-    public Mono<Unidade> save(final Unidade unidade) {
-        return Mono.just(this.unidadeRepository.save(unidade));
+    public Unidade save(final Unidade unidade) {
+        return this.unidadeRepository.save(unidade);
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     */
-    public Mono<Boolean> delete(final long id) {
+    public void delete(final long id) {
         this.unidadeRepository.deleteById(id);
-        return Mono.just(true);
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     */
-    public Mono<Optional<Unidade>> findById(final long id) {
-        return Mono.just(this.unidadeRepository.findById(id));
+    public Optional<Unidade> findById(final long id) {
+        return this.unidadeRepository.findById(id);
     }
 
-    /**
-     * @param defaultFilter  String
-     * @param enderecoFilter String
-     * @param pageable       Pageable
-     * @return Page<Unidade>
-     */
+    // TODO passar prâmetros de perfil e id do usuário pra dentro da query
     public Page<Unidade> listByFilters(final String defaultFilter, final String enderecoFilter, final Pageable pageable) {
 
         final Usuario usuario = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();

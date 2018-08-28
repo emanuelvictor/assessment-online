@@ -2,6 +2,7 @@ package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.colaborador.Colaborador;
 import br.com.assessment.domain.entity.unidade.Unidade;
+import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.service.ColaboradorService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,30 +23,32 @@ public class ColaboradorResource {
     private final ColaboradorService colaboradorService;
 
     @PostMapping
-    @PreAuthorize("hasRole('OPERADOR')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Colaborador> save(@RequestBody final Colaborador colaborador) {
-        return this.colaboradorService.save(colaborador);
+        return Mono.just(this.colaboradorService.save(colaborador));
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('OPERADOR')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Colaborador> update(@PathVariable final long id, @RequestBody final Colaborador colaborador) {
-        return this.colaboradorService.save(id, colaborador);
+        return Mono.just(this.colaboradorService.save(id, colaborador));
     }
 
     @DeleteMapping
-    @PreAuthorize("hasRole('OPERADOR')")
-    public void delete(@RequestParam long colaboradorId) {
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    public Mono<Boolean> delete(@RequestParam long colaboradorId) {
         this.colaboradorService.delete(colaboradorId);
+        return Mono.just(true);
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     public Mono<Optional<Colaborador>> findColaboradorById(@PathVariable final long id) {
-        return this.colaboradorService.findById(id);
+        return Mono.just(this.colaboradorService.findById(id));
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ATENDENTE')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     Mono<Page<Colaborador>> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId) {
         return Mono.just(this.colaboradorService.listByFilters(defaultFilter, enderecoFilter, usuarioId, getPageable()));
     }

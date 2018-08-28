@@ -90,16 +90,16 @@ public class Conta extends AbstractEntity implements UserDetails {
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        final Set<GrantedAuthority> authorities = new HashSet<>();
+        final Set<Perfil> authorities = new HashSet<>();
 
-        authorities.add((GrantedAuthority) () -> "ROLE_ATENDENTE");
+        authorities.add(Perfil.ATENDENTE);
 
         if (this.usuario != null && this.usuario.isOperador())
-            authorities.add((GrantedAuthority) () -> "ROLE_OPERADOR");
+            authorities.add(Perfil.OPERADOR);
 
         if (this.getIsAdministrador()) {
-            authorities.add((GrantedAuthority) () -> "ROLE_ADMINISTRADOR");
-            authorities.add((GrantedAuthority) () -> "ROLE_OPERADOR");
+            authorities.add(Perfil.ADMINISTRADOR);
+            authorities.add(Perfil.OPERADOR);
         }
 
         return authorities;
@@ -120,14 +120,14 @@ public class Conta extends AbstractEntity implements UserDetails {
     }
 
     /**
-     * @return
+     * @return String
      */
     public String getEmail() {
         return email != null ? email.toLowerCase() : null;
     }
 
     /**
-     * @param email
+     * @param email String
      */
     public void setEmail(String email) {
         this.email = email != null ? email.toLowerCase() : null;

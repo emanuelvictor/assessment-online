@@ -68,7 +68,7 @@ export class Interceptor implements HttpInterceptor {
 
       if (res.status === 401 || res.status === 403) {
         this.error(res.error.message);
-        this.router.navigate(['authentication']);
+        // this.router.navigate(['authentication']);
       }
 
       return observableThrowError(res);

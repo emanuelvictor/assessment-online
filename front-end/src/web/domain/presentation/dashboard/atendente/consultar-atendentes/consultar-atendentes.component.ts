@@ -117,7 +117,7 @@ export class ConsultarAtendentesComponent implements OnInit {
   public onChangeFilters() {
     this.pageable.page = 0;
 
-    this.pageable.unidadesFilter = this.asyncModel.map( result => result.id );
+    this.pageable.unidadesFilter = this.asyncModel.map( (result:any) => result.id );
     this.usuarioService.listByFilters(this.pageable)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
@@ -140,7 +140,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters(pageable: any) {
-    pageable.unidadesFilter.concat(this.asyncModel.map( result => result.id ));
+    pageable.unidadesFilter.concat(this.asyncModel.map( (result:any) => result.id ));
     this.usuarioService.listByFilters(pageable)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);

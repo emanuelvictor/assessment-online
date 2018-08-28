@@ -5,6 +5,7 @@ import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.ColaboradorRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,22 +19,22 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ColaboradorService {
 
     private final ColaboradorRepository colaboradorRepository;
 
-    public Mono<Optional<Colaborador>> findById(final long id) {
-        return Mono.just(this.colaboradorRepository.findById(id));
+    public Optional<Colaborador> findById(final long id) {
+        return this.colaboradorRepository.findById(id);
     }
 
-    public Mono<Colaborador> save(final Colaborador colaborador) {
-        return Mono.just(this.colaboradorRepository.save(colaborador));
+    public Colaborador save(final Colaborador colaborador) {
+        return this.colaboradorRepository.save(colaborador);
     }
 
-    public Mono<Colaborador> save(final long id, final Colaborador colaborador) {
-        Assert.isTrue(id > 0, "ID do colaborador incorreto");
-        return Mono.just(this.colaboradorRepository.save(colaborador));
+    public Colaborador save(final long id, final Colaborador colaborador) {
+        Assert.isTrue(id > 0, "ID do colaborador incorreto"); //TODO fazer o validador exclusivo
+        return this.colaboradorRepository.save(colaborador);
     }
 
     public void delete(final long id) {

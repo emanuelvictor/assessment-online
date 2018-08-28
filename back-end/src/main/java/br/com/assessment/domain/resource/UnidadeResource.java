@@ -1,14 +1,12 @@
 package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.unidade.Unidade;
-import br.com.assessment.domain.entity.usuario.Usuario;
+import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.service.UnidadeService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -23,31 +21,32 @@ public class UnidadeResource {
     private final UnidadeService unidadeService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Unidade> save(@RequestBody final Unidade unidade) {
-        return this.unidadeService.save(unidade);
+        return Mono.just(this.unidadeService.save(unidade));
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Unidade> save(@PathVariable final long id, @RequestBody final Unidade unidade) {
-        return this.unidadeService.save(id, unidade);
+        return Mono.just(this.unidadeService.save(id, unidade));
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Boolean> delete(@PathVariable final long id) {
-        return this.unidadeService.delete(id);
+        this.unidadeService.delete(id);
+        return Mono.just(true);
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasRole('OPERADOR')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Optional<Unidade>> findById(@PathVariable final long id) {
-        return this.unidadeService.findById(id);
+        return Mono.just(this.unidadeService.findById(id));
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('OPERADOR')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<Page<Unidade>> listByFilters(final String defaultFilter, final String enderecoFilter) {
         return Mono.just(this.unidadeService.listByFilters(defaultFilter, enderecoFilter, getPageable()));
     }

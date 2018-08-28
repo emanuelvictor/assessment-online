@@ -44,21 +44,21 @@ public class UsuarioService {
 
     private final ServerSecurityContextRepository serverSecurityContextRepository;
 
-    public Mono<Optional<Usuario>> findUsuarioById(final long usuarioId) {
-        return Mono.just(this.usuarioRepository.findById(usuarioId));
+    public Optional<Usuario> findUsuarioById(final long usuarioId) {
+        return this.usuarioRepository.findById(usuarioId);
     }
 
-    public Mono<Usuario> save(final long id, final Usuario usuario) {
+    public Usuario save(final long id, final Usuario usuario) {
 
         Assert.isTrue(usuario.getId() != null && usuario.getId().equals(id), "Você não tem acesso á esse usuário");
 
         //Seta novamente o password anterior
         usuario.getConta().setPassword(this.usuarioRepository.findById(usuario.getId()).get().getConta().getPassword());
 
-        return Mono.just(this.usuarioRepository.save(usuario));
+        return this.usuarioRepository.save(usuario);
     }
 
-    public Mono<Usuario> save(final Usuario usuario) {
+    public Usuario save(final Usuario usuario) {
 
         // Encoda o password
         if (usuario.getConta().getEmail() != null && usuario.getConta().getEmail().length() > 0) {
@@ -69,7 +69,7 @@ public class UsuarioService {
         usuario.getConta().setEsquema(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());// TODO verificar se não da pra usar o context
 //        usuario.getConta().setUsuario(usuario);
 
-        return Mono.just(this.usuarioRepository.save(usuario));
+        return this.usuarioRepository.save(usuario);
     }
 
     /**
@@ -78,7 +78,7 @@ public class UsuarioService {
      * @param usuario Usuario
      * @return Mono<Usuario>
      */
-    public Mono<Usuario> createAccount(ServerWebExchange exchange, final Usuario usuario) {
+    public Usuario createAccount(ServerWebExchange exchange, final Usuario usuario) {
 
         // Encoda a senha da conta
         usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
@@ -109,99 +109,69 @@ public class UsuarioService {
         Context.setCurrentSchema(usuario.getConta().getEsquema());
 
         // E o usuário será salvo automáticamente no esquema públic
-        return Mono.just(this.usuarioRepository.save(usuario));
+        return this.usuarioRepository.save(usuario);
 
     }
 
-    public Mono<Boolean> delete(final long usuarioId) {
+    public void delete(final long usuarioId) {
         this.usuarioRepository.deleteById(usuarioId);
-        return Mono.just(true);
     }
 
     public Page<Usuario> listByFilters(final String defaultFilter, final List<Long> unidadesFilter , final Pageable pageable) {
         return this.usuarioRepository.listByFilters(defaultFilter, unidadesFilter, pageable);
     }
 
-    /**
-     * Salva a foto, também é utilizado pra atualizar foto
-     *
-     * @param id   long
-     * @param file Flux<Part>
-     * @return Flux<String>
-     */
-    public Flux<String> save(final long id, final Flux<Part> file) {
-        return file
-                .filter(part -> part instanceof FilePart) // only retain file parts
-                .ofType(FilePart.class)
-                .flatMap(ImageUtils::getBytes)
-                .map((byte[] bytes) -> {
-                    final Usuario usuario = this.usuarioRepository.findById(id).get();
+    public String save(final long id, final byte[] fileInBytes) {
+        final Usuario usuario = this.usuarioRepository.findById(id).orElseGet(null);
 
-                    try {
-                        final int width = ImageUtils.getBufferedImageFromByteArray(bytes).getWidth();
-                        final int height = ImageUtils.getBufferedImageFromByteArray(bytes).getHeight();
+        try {
+            final int width = ImageUtils.getBufferedImageFromByteArray(fileInBytes).getWidth();
+            final int height = ImageUtils.getBufferedImageFromByteArray(fileInBytes).getHeight();
 
-                        final int thumbnailWidth = width - (int) Math.round((width * 0.75));
-                        final int thumbnailHeight = height - (int) Math.round((height * 0.75));
+            final int thumbnailWidth = width - (int) Math.round((width * 0.75));
+            final int thumbnailHeight = height - (int) Math.round((height * 0.75));
 
-                        usuario.setThumbnail(ImageUtils.resizeImage(bytes, thumbnailWidth, thumbnailHeight));
+            usuario.setThumbnail(ImageUtils.resizeImage(fileInBytes, thumbnailWidth, thumbnailHeight));
 
-                        final int avatarWidth = width - (int) Math.round((width * 0.25));
-                        final int avatarHeight = height - (int) Math.round((height * 0.25));
+            final int avatarWidth = width - (int) Math.round((width * 0.25));
+            final int avatarHeight = height - (int) Math.round((height * 0.25));
 
-                        usuario.setAvatar(ImageUtils.resizeImage(bytes, avatarWidth, avatarHeight));
+            usuario.setAvatar(ImageUtils.resizeImage(fileInBytes, avatarWidth, avatarHeight));
 
-                        usuario.setFoto(bytes);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    return this.usuarioRepository.save(usuario).getFotoPath();
-                });
+            usuario.setFoto(fileInBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return this.usuarioRepository.save(usuario).getFotoPath();
     }
 
-    public Flux<String> update(final long id, final Flux<Part> file) {
-        return this.save(id, file);
+    public String update(final long id, final byte[] fileInBytes) {
+        return this.save(id, fileInBytes);
     }
 
-    /**
-     * TODO jogar pra cima
-     *
-     * @param id long
-     * @return Mono<ResponseEntity<byte[]>>
-     */
-    public Mono<ResponseEntity<byte[]>> findThumbnail(final long id) {
-        return Mono.just(
-                ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.usuarioRepository.findById(id).get().getThumbnail()));
+    public byte[] findThumbnail(final long id) {
+        return this.usuarioRepository.findById(id).orElseGet(null).getThumbnail();
     }
 
-    public Mono<ResponseEntity<byte[]>> findAvatar(final long id) {
-        return Mono.just(
-                ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.usuarioRepository.findById(id).get().getAvatar()));
+    public byte[] findAvatar(final long id) {
+        return this.usuarioRepository.findById(id).orElseGet(null).getAvatar();
     }
 
-
-    public Mono<ResponseEntity<byte[]>> findFoto(final long id) {
-        return Mono.just(
-                ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.usuarioRepository.findById(id).get().getFoto()));
+    public byte[] findFoto(final long id) {
+        return this.usuarioRepository.findById(id).orElseGet(null).getFoto();
     }
 
     /**
      * Deleta a foto do usuaŕio
      *
      * @param id {long}
-     * @return {Flux<Boolean>}
      */
-    public Flux<Boolean> deleteFoto(long id) {
-        final Usuario usuario = this.usuarioRepository.findById(id).get();
+    public void deleteFoto(long id) {
+        final Usuario usuario = this.usuarioRepository.findById(id).orElseGet(null);
         usuario.setFoto(null);
         usuario.setAvatar(null);
         usuario.setThumbnail(null);
         this.usuarioRepository.save(usuario);
-        return Flux.just(usuario.getFotoPath() == null);
     }
 
 }
