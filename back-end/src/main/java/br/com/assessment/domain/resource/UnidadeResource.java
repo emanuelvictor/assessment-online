@@ -46,7 +46,7 @@ public class UnidadeResource {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     Mono<Page<Unidade>> listByFilters(final String defaultFilter, final String enderecoFilter) {
         return Mono.just(this.unidadeService.listByFilters(defaultFilter, enderecoFilter, getPageable()));
     }

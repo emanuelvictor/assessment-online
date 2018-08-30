@@ -1,4 +1,4 @@
-package br.com.assessment.application.multitenancy;
+package br.com.assessment.application.filter;
 
 import br.com.assessment.application.context.Context;
 import br.com.assessment.domain.entity.usuario.Conta;
@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 
 @Component
 @RequiredArgsConstructor
-public class TenantFilter implements WebFilter {
+public class DefaultFilter implements WebFilter {
 
 
     /**

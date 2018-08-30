@@ -2,6 +2,7 @@ package br.com.assessment.domain.service;
 
 import br.com.assessment.application.context.Context;
 import br.com.assessment.domain.entity.unidade.Unidade;
+import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.ContaRepository;
 import br.com.assessment.domain.repository.UnidadeRepository;
@@ -47,13 +48,7 @@ public class UnidadeService {
 
         final Usuario usuario = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
 
-        if (usuario.getIsAdministrador())
-            return this.unidadeRepository.listByFilters(defaultFilter, enderecoFilter, pageable);
+        return this.unidadeRepository.listByFilters(usuario.getId(), usuario.getConta().getPerfil().name(), defaultFilter, enderecoFilter, pageable);
 
-        else if (usuario.getIsOperador())
-            return this.unidadeRepository.listByFiltersAndOperadorId(usuario.getId(), defaultFilter, enderecoFilter, pageable);
-
-        else
-            return this.unidadeRepository.listByFiltersAndAtendenteId(usuario.getId(), defaultFilter, enderecoFilter, pageable);
     }
 }

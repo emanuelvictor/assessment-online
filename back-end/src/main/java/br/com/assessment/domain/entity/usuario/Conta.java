@@ -94,7 +94,7 @@ public class Conta extends AbstractEntity implements UserDetails {
 
         authorities.add(Perfil.ATENDENTE);
 
-        if (this.usuario != null && this.usuario.isOperador())
+        if (getIsOperador())
             authorities.add(Perfil.OPERADOR);
 
         if (this.getIsAdministrador()) {
@@ -103,6 +103,23 @@ public class Conta extends AbstractEntity implements UserDetails {
         }
 
         return authorities;
+    }
+
+    /**
+     *
+     * @return Perfil
+     */
+    public Perfil getPerfil() {
+
+        if (this.isAdministrador())
+            return Perfil.ADMINISTRADOR;
+
+        else if (this.getIsOperador())
+            return Perfil.OPERADOR;
+
+        else
+            return Perfil.ATENDENTE;
+
     }
 
     /**
@@ -117,6 +134,13 @@ public class Conta extends AbstractEntity implements UserDetails {
      */
     public boolean getIsAdministrador() {
         return administrador;
+    }
+
+    /**
+     * @return boolean
+     */
+    public boolean getIsOperador() {
+        return this.usuario != null && this.usuario.isOperador();
     }
 
     /**

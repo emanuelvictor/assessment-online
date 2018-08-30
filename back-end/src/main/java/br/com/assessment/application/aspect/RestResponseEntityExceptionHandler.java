@@ -1,9 +1,9 @@
 package br.com.assessment.application.aspect;
 
 import br.com.assessment.application.aspect.handler.ResponseEntityExceptionHandler;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.postgresql.util.PSQLException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,6 +18,7 @@ import javax.validation.ConstraintViolation;
 import java.util.logging.Logger;
 
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
@@ -31,18 +32,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     private final MessageSource messageSource;
 
     /**
-     *
-     * @param messageSource
-     */
-    public RestResponseEntityExceptionHandler(final MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
-
-    /**
      * Trata exceções de Constraint geradas pelo PostgreSQL
-     *
-     * @param exception
-     * @return
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleException(final org.springframework.dao.DataIntegrityViolationException exception) {
@@ -85,9 +75,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     /**
      * Trata exceções geradas pelo Hibernate antes de enviar para o banco
-     *
-     * @param exception
-     * @return
      */
     @ExceptionHandler(javax.validation.ConstraintViolationException.class)
     public ResponseEntity<Object> handleException(final javax.validation.ConstraintViolationException exception) {
@@ -97,18 +84,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
             //Verifica o tipo da exceção
             if (annotationType.equals("javax.validation.constraints.NotNull") || annotationType.equals("org.hibernate.validator.constraints.NotEmpty")) {
-                message.append("\nO campo " + constraint.getPropertyPath() + " deve ser setado.");
-            } else {
-                message.append("\n" + constraint.getMessage());
-            }
+                message.append("\nO campo ").append(constraint.getPropertyPath()).append(" deve ser setado.");
+            } else message.append("\n").append(constraint.getMessage());
         }
 
         return handleExceptionInternal(new Exception(message.toString()), new Error(message.toString()), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
-     * @param exception
-     * @return
      */
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<Object> handleException(final DuplicateKeyException exception) {
@@ -117,8 +100,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     }
 
     /**
-     * @param exception
-     * @return
      */
     @ExceptionHandler(org.springframework.dao.EmptyResultDataAccessException.class)
     public ResponseEntity<Object> handleException(final org.springframework.dao.EmptyResultDataAccessException exception) {
@@ -128,8 +109,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     /**
      * Trata exceções de acesso negado
-     *
-     * @param exception
      */
     @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
     public ResponseEntity<Object> handleException(final org.springframework.security.access.AccessDeniedException exception) {

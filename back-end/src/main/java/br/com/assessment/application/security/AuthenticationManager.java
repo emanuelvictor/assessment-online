@@ -1,7 +1,7 @@
 package br.com.assessment.application.security;
 
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +16,7 @@ import reactor.core.scheduler.Schedulers;
  * @author Emanuel Victor
  */
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthenticationManager implements ReactiveAuthenticationManager {
 
     private final ReactiveUserDetailsService userDetailsService;
