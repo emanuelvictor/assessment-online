@@ -3,6 +3,7 @@ package br.com.assessment.domain.service;
 import br.com.assessment.application.context.Context;
 import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
 import br.com.assessment.domain.entity.usuario.Usuario;
+import br.com.assessment.domain.repository.ContaRepository;
 import br.com.assessment.domain.repository.UsuarioRepository;
 import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,8 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
 
     private final UsuarioRepository usuarioRepository;
+
+    private final ContaRepository contaRepository;
 
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
@@ -118,7 +121,10 @@ public class UsuarioService {
     }
 
     public Page<Usuario> listByFilters(final String defaultFilter, final List<Long> unidadesFilter , final Pageable pageable) {
-        return this.usuarioRepository.listByFilters(defaultFilter, unidadesFilter, pageable);
+
+        final Usuario usuario = this.contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
+
+        return this.usuarioRepository.listByFilters(usuario.getId(), usuario.getConta().getPerfil().name(), defaultFilter, unidadesFilter, pageable);
     }
 
     public String save(final long id, final byte[] fileInBytes) {

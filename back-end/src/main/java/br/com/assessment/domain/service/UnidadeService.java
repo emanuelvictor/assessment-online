@@ -43,7 +43,6 @@ public class UnidadeService {
         return this.unidadeRepository.findById(id);
     }
 
-    // TODO passar prâmetros de perfil e id do usuário pra dentro da query
     public Page<Unidade> listByFilters(final String defaultFilter, final String enderecoFilter, final Pageable pageable) {
 
         final Usuario usuario = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();

@@ -1,5 +1,6 @@
 package br.com.assessment.domain.repository;
 
+import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,19 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query(
             "SELECT usuario FROM Usuario usuario WHERE " +
+                    "(   " +
+                    "   (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND usuario.id IN " +
+                    "   (" +
+                    "       SELECT colaborador.usuario.id FROM Colaborador colaborador WHERE " +
+                    "       (" +
+                    "           colaborador.usuario.id = :usuarioId" +
+                    "           AND " +
+                    "           (" +
+                    "              :perfil = '" + Perfil.OPERADOR_VALUE + "' AND (colaborador.vinculo IS NOT NULL)" +
+                    "           )" +
+                    "       )" +
+                    "   ) OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "')" +
+                    "   AND " +
                     "   (" +
                     "       FILTER(usuario.nome, :defaultFilter) = TRUE" +
                     "       OR FILTER(usuario.conta.email, :defaultFilter) = TRUE" +
@@ -28,9 +42,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                     "           )" +
                     "       )" +
                     "       OR :unidadesFilter IS NULL" +
-                    "   )"
+                    "   )" +
+                    ")"
     )
-    Page<Usuario> listByFilters(@Param("defaultFilter") final String defaultFilter,
+    Page<Usuario> listByFilters(@Param("usuarioId") final Long usuarioId,
+                                @Param("perfil") final String perfil,
+                                @Param("defaultFilter") final String defaultFilter,
                                 @Param("unidadesFilter") final List<Long> unidadesFilter,
                                 final Pageable pageable);
 }
