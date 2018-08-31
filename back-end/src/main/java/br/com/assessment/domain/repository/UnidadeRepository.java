@@ -15,7 +15,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             (
                     " SELECT unidade FROM Unidade unidade WHERE " +
                             "(" +
-                            "   (:perfil != '" + Perfil.ATENDENTE_VALUE + "' AND unidade.id IN " +
+                            "   (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND unidade.id IN " +
                             "   (" +
                             "       SELECT colaborador.unidade.id FROM Colaborador colaborador WHERE " +
                             "       (" +
@@ -31,7 +31,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
                             "               )" +
                             "           )" +
                             "       )" +
-                            "   ) OR :perfil = 'ADMINISTRADOR')" +
+                            "   ) OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "')" +
                             "   AND " +
                             "   (" +
                             "       FILTER(unidade.nome, :defaultFilter) = TRUE" +

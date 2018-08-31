@@ -20,13 +20,21 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                     "   (" +
                     "       SELECT colaborador.usuario.id FROM Colaborador colaborador WHERE " +
                     "       (" +
-                    "           colaborador.usuario.id = :usuarioId" +
-                    "           AND " +
+                    "           colaborador.vinculo < 3 AND colaborador.unidade.id IN " +
                     "           (" +
-                    "              :perfil = '" + Perfil.OPERADOR_VALUE + "' AND (colaborador.vinculo IS NOT NULL)" +
+                    "               SELECT operador.unidade.id FROM Colaborador operador WHERE " +
+                    "               (" +
+                    "                   operador.usuario.id = :usuarioId" +
+                    "                   AND " +
+                    "                   (" +
+                    "                       (operador.vinculo = 1 OR operador.vinculo = 2)" +
+                    "                   )" +
+                    "               )" +
                     "           )" +
                     "       )" +
-                    "   ) OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "')" +
+                    "   ) " +
+                    "   OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "'" +
+                    "   )" +
                     "   AND " +
                     "   (" +
                     "       FILTER(usuario.nome, :defaultFilter) = TRUE" +
