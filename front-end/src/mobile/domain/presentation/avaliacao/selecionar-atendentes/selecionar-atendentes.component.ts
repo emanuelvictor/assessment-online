@@ -25,6 +25,13 @@ export class SelecionarAtendentesComponent implements OnInit {
 
   /**
    *
+   */
+  public pageable = { // PageRequest
+    unidadesFilter: []
+  };
+
+  /**
+   *
    * @param {Router} router
    * @param {MobileService} mobileService
    * @param {ColaboradorService} colaboradorService
@@ -47,28 +54,37 @@ export class SelecionarAtendentesComponent implements OnInit {
       this.router.navigate(['/avaliar']);
     }, 180000);
 
-    // this.colaboradorService.listColaboradoresByUnidadeKey(this.mobileService.getUnidade()).subscribe(colaboradores => {
-    //   this.atendentes = [];
-    //   colaboradores.forEach(colaborador => {
-    //     this.usuarioService.findOne(colaborador.usuario.key).subscribe(usuario => {
-    //       if (colaborador.vinculo && colaborador.vinculo !== 'Operador') {
-    //
-    //         let founded = false;
-    //
-    //         for (let i = 0; i < this.atendentes.length; i++)
-    //           if (this.atendentes[i].usuario.key === usuario.key) {
-    //             this.atendentes[i].usuario = usuario;
-    //             founded = true;
-    //           }
-    //
-    //         if (!founded) {
-    //           colaborador.usuario = usuario;
-    //           this.atendentes.push(colaborador);
-    //         }
-    //       }
-    //     })
-    //   });
-    // });
+
+    this.pageable.unidadesFilter = [1];
+
+    this.usuarioService.listByFilters({unidadesFilter: [this.mobileService.getUnidade()]})
+      .subscribe(page => {
+        page.content.forEach(usuario => {
+          this.atendentes.push({usuario:usuario})
+        })
+      });
+//     this.colaboradorService.listColaboradoresByUnidadeKey(this.mobileService.getUnidade()).subscribe(colaboradores => {
+//       this.atendentes = [];
+//       colaboradores.forEach(colaborador => {
+//         this.usuarioService.findOne(colaborador.usuario.key).subscribe(usuario => {
+//           if (colaborador.vinculo && colaborador.vinculo !== 'Operador') {
+//
+//             let founded = false;
+//
+//             for (let i = 0; i < this.atendentes.length; i++)
+//               if (this.atendentes[i].usuario.key === usuario.key) {
+//                 this.atendentes[i].usuario = usuario;
+//                 founded = true;
+//               }
+//
+//             if (!founded) {
+//               colaborador.usuario = usuario;
+//               this.atendentes.push(colaborador);
+//             }
+//           }
+//         })
+//       });
+//     });
   }
 
   /**

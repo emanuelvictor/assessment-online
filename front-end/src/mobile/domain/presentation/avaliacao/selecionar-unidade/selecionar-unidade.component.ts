@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MobileService} from '../../../service/mobile.service';
 import {UnidadeService} from '../../../../../web/domain/service/unidade.service';
+import {Unidade} from "../../../../../web/domain/entity/unidade/unidade.model";
 
 @Component({
   selector: 'selecionar-unidade',
@@ -26,7 +27,9 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param {MobileService} mobileService
    * @param {UnidadeService} unidadeService
    */
-  constructor(private router: Router, private mobileService: MobileService, private unidadeService: UnidadeService) {
+  constructor(private router: Router,
+              private mobileService: MobileService,
+              private unidadeService: UnidadeService) {
   }
 
   /**
@@ -34,8 +37,8 @@ export class SelecionarUnidadeComponent implements OnInit {
    */
   ngOnInit() {
     this.unidadeService.find()
-      .subscribe(unidades => {
-        this.unidades = unidades;
+      .subscribe(page => {
+        this.unidades = page.content;
       });
   }
 
@@ -44,8 +47,8 @@ export class SelecionarUnidadeComponent implements OnInit {
    *
    * @param unidade
    */
-  selecionar(unidade) {
-    this.mobileService.setUnidade(unidade.key);
+  selecionar(unidade: Unidade) {
+    this.mobileService.setUnidade(unidade.id);
     this.router.navigate(['avaliar']);
   }
 }

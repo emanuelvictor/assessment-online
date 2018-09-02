@@ -19,7 +19,6 @@ export class ConsultarUnidadesComponent implements OnInit {
 
   /**
    *
-   * @type {{size: number; page: number; sort: any; defaultFilter: any; enderecoFilter: any}}
    */
   public pagerequest = { // PageRequest
     size: 20,

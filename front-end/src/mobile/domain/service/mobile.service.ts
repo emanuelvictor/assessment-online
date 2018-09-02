@@ -65,6 +65,9 @@ export class MobileService {
     this.mdSnackBarConfig.duration = 5000;
   }
 
+  /**
+   *
+   */
   public reset() {
     this.avaliacao = new Avaliacao();
     this.colaboradores = [];
@@ -94,7 +97,9 @@ export class MobileService {
      * Configura restante da avaliacao
      * @type {number}
      */
-    this.avaliacao.data = Date.now();
+    this.avaliacao.data = new Date();
+
+    console.log(this.avaliacao.data);
 
     /**
      * Instancia o array de tabela associativa

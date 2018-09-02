@@ -46,6 +46,8 @@ public class HibernateConfig {
         em.setJpaVendorAdapter(jpaVendorAdapter());
 
         final HashMap<String, Object> properties = new HashMap<>();
+        properties.put(Environment.IMPLICIT_NAMING_STRATEGY, env.getProperty("spring.jpa.hibernate.naming.implicit-strategy"));
+        properties.put(Environment.PHYSICAL_NAMING_STRATEGY, env.getProperty("spring.jpa.hibernate.naming.physical-strategy"));
         properties.put(Environment.USE_SECOND_LEVEL_CACHE, env.getProperty("spring.jpa.properties.hibernate.cache.use_second_level_cache"));
         properties.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, env.getProperty("spring.jpa.properties.hibernate.id.new_generator_mappings"));
         properties.put(Environment.SHOW_SQL, env.getProperty("spring.jpa.show-sql"));

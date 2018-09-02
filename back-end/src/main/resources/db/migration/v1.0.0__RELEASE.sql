@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS conta (
     updated timestamp without time zone,
     email character varying(255),
     esquema character varying(255) NOT NULL,
-    lastlogin timestamp without time zone,
+    last_login timestamp without time zone,
     administrador boolean NOT NULL,
     root boolean NOT NULL,
     password character varying(255),
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS conta_aud (
     revtype smallint,
     email character varying(255),
     esquema character varying(255),
-    lastlogin timestamp without time zone,
+    last_login timestamp without time zone,
     administrador boolean,
     root boolean,
     password character varying(255),
@@ -476,11 +476,11 @@ CREATE TABLE unidade_aud (
 
 CREATE TABLE IF NOT EXISTS usuario (
     avatar bytea,
-    avatarpath character varying(255),
+    avatar_path character varying(255),
     foto bytea,
-    fotopath character varying(255),
+    foto_path character varying(255),
     thumbnail bytea,
-    thumbnailpath character varying(255),
+    thumbnail_path character varying(255),
     id bigint NOT NULL,
     conta_id bigint
 );
@@ -495,12 +495,12 @@ CREATE TABLE IF NOT EXISTS usuario_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     avatar bytea,
-    avatarpath character varying(255),
+    avatar_path character varying(255),
     foto bytea,
-    fotopath character varying(255),
+    foto_path character varying(255),
     isadministrador boolean,
     thumbnail bytea,
-    thumbnailpath character varying(255),
+    thumbnail_path character varying(255),
     conta_id bigint
 );
 

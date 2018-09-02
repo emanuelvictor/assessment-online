@@ -12,7 +12,6 @@ import {SharedModule} from '../../shared/shared.module';
 import {AuthenticationService} from '../../web/domain/service/authentication.service';
 import {EnderecoService} from '../../web/domain/service/endereco.service';
 import {UsuarioService} from '../../web/domain/service/usuario.service';
-import {environment} from '../../environments/environment';
 import {UnidadeService} from '../../web/domain/service/unidade.service';
 import {AvaliarComponent} from './presentation/avaliacao/avaliar/avaliar.component';
 import {AvaliacaoComponent} from './presentation/avaliacao/avaliacao.component';
@@ -33,6 +32,7 @@ import {UnidadeRepository} from '../../web/domain/repositories/unidade.repositor
 import {ContaRepository} from '../../web/domain/repositories/conta.repository';
 import {ContaService} from '../../web/domain/service/conta.service';
 import {PageSerialize} from '../../web/infrastructure/page-serialize/page-serialize';
+import {MobileService} from "./service/mobile.service";
 
 /**
  *
@@ -75,6 +75,7 @@ import {PageSerialize} from '../../web/infrastructure/page-serialize/page-serial
     EnderecoService,
     UsuarioService,
     UnidadeService,
+    MobileService,
     ContaService,
 
 

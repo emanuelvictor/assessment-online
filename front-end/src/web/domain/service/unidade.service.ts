@@ -19,8 +19,8 @@ export class UnidadeService {
    *
    * @returns {Observable<any[]>}
    */
-  public find(): Observable<Unidade[]> {
-    return this.unidadeRepository.findAll();
+  public find(): Observable<any> {
+    return this.listByFilters(null);
   }
 
   /**

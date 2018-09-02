@@ -7,7 +7,7 @@ import {HttpClient} from '@angular/common/http';
 export class AvaliacaoRepository extends BaseRepository<Avaliacao> {
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, null);
+    super(httpClient, 'avaliacoes');
   }
 
 }

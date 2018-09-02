@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Avaliacao} from '../entity/avaliacao/avaliacao.model';
 import 'rxjs/Rx';
-import {calcularMedia} from '../entity/abstract/pessoa.model';
 import {ColaboradorService} from './colaborador.service';
 import {AvaliacaoRepository} from '../repositories/avaliacao.repository';
 import {AvaliacaoColaboradorRepository} from '../repositories/avaliacao-colaborador.repository';
@@ -121,30 +120,30 @@ export class AvaliacaoService {
    * @returns {PromiseLike<any>}
    */
   public save(avaliacao: Avaliacao): PromiseLike<any> {
-    const avaliacoesColaboradores = avaliacao.avaliacoesColaboradores;
-
-    delete avaliacao.avaliacoesColaboradores;
+    // const avaliacoesColaboradores = avaliacao.avaliacoesColaboradores;
+    //
+    // delete avaliacao.avaliacoesColaboradores;
 
     return this.avaliacaoRepository.save(avaliacao)
-      .then(result => {
-
-        /**
-         * Calcula e salva média da unidade.
-         * @type {number}
-         */
-        avaliacoesColaboradores[0].colaborador.unidade.media = calcularMedia(avaliacoesColaboradores[0].colaborador.unidade);
-        this.unidadeRepository.save(avaliacoesColaboradores[0].colaborador.unidade);
-
-        avaliacoesColaboradores.forEach(avaliacaoColaborador => {
-
-          avaliacaoColaborador.avaliacao = result;
-
-          avaliacaoColaborador.colaborador.usuario.media = calcularMedia(avaliacaoColaborador.colaborador.usuario);
-          this.usuarioRepository.save(avaliacaoColaborador.colaborador.usuario);
-
-          this.avaliacaoColaboradorRepository.save(avaliacaoColaborador);
-        })
-      });
+      // .then(result => {
+      //
+      //   /**
+      //    * Calcula e salva média da unidade.
+      //    * @type {number}
+      //    */
+      //   avaliacoesColaboradores[0].colaborador.unidade.media = calcularMedia(avaliacoesColaboradores[0].colaborador.unidade);
+      //   this.unidadeRepository.save(avaliacoesColaboradores[0].colaborador.unidade);
+      //
+      //   avaliacoesColaboradores.forEach(avaliacaoColaborador => {
+      //
+      //     avaliacaoColaborador.avaliacao = result;
+      //
+      //     avaliacaoColaborador.colaborador.usuario.media = calcularMedia(avaliacaoColaborador.colaborador.usuario);
+      //     this.usuarioRepository.save(avaliacaoColaborador.colaborador.usuario);
+      //
+      //     this.avaliacaoColaboradorRepository.save(avaliacaoColaborador);
+      //   })
+      // });
   }
 
   /**
