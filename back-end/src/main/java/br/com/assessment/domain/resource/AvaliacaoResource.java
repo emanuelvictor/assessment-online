@@ -1,6 +1,7 @@
 package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.avaliacao.Avaliacao;
+import br.com.assessment.domain.entity.avaliacao.AvaliacaoColaborador;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.service.AvaliacaoService;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,11 @@ public class AvaliacaoResource {
     @PostMapping
     public Mono<Avaliacao> save(@RequestBody final Avaliacao avaliacao) {
         return Mono.just(this.avaliacaoService.save(avaliacao));
+    }
+
+    @PostMapping("colaboradores")
+    public Mono<AvaliacaoColaborador> save(@RequestBody final AvaliacaoColaborador avaliacaoColaborador) {
+        return Mono.just(this.avaliacaoService.save(avaliacaoColaborador));
     }
 
     @PutMapping("{id}")

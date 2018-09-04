@@ -4,7 +4,6 @@ import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {ColaboradorService} from '../../../../../service/colaborador.service';
 import {Colaborador} from '../../../../../entity/colaborador/colaborador.model';
-import {Vinculo} from '../../../../../entity/colaborador/vinculo.enum';
 import {AuthenticationService} from '../../../../../service/authentication.service';
 
 @Component({
@@ -18,21 +17,6 @@ export class VincularUnidadeComponent implements OnInit {
    *
    */
   public unidades: any;
-
-
-  /**
-   *
-   * @type {{size: number; page: number; sort: any; defaultFilter: any; enderecoFilter: any}}
-   */
-  public pagerequest = { // PageRequest
-    size: 20,
-    page: 0,
-    sort: null,
-    usuarioId: null,
-    defaultFilter: [],
-    enderecoFilter: []
-  };
-
 
   /**
    *
@@ -82,9 +66,7 @@ export class VincularUnidadeComponent implements OnInit {
           });
         }
 
-        this.pagerequest.usuarioId = this.usuario.id;
-
-        this.colaboradorService.listByFilters(this.pagerequest).subscribe(page => {
+        this.colaboradorService.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
           const result = page.content;
           if (result.length) {
 

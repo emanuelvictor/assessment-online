@@ -14,10 +14,15 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> 
             (
                     " SELECT colaborador FROM Colaborador colaborador WHERE " +
                             "(" +
-                            "    colaborador.usuario.id = :usuarioId" +
-                            "    AND " +
-                            "    FILTER(colaborador.unidade.nome, :defaultFilter) = TRUE" +
-                            "    AND " +
+                            "   (" +
+                            "       (:unidadeId IS NULL AND (:usuarioId IS NOT NULL AND colaborador.usuario.id = :usuarioId)) " +
+                            "       OR " +
+                            "       (:usuarioId IS NULL AND (:unidadeId IS NOT NULL AND colaborador.unidade.id = :unidadeId))" +
+                            "       OR :usuarioId IS NULL AND :unidadeId IS NULL " +
+                            "   )" +
+                            "   AND " +
+                            "   FILTER(colaborador.unidade.nome, :defaultFilter) = TRUE" +
+                            "   AND " +
                             "   (" +
                             "       FILTER(colaborador.unidade.endereco.logradouro, :enderecoFilter) = TRUE" +
                             "       OR FILTER(colaborador.unidade.endereco.complemento, :enderecoFilter) = TRUE" +
@@ -34,6 +39,7 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> 
     Page<Colaborador> listByFilters(@Param("defaultFilter") final String defaultFilter,
                                     @Param("enderecoFilter") final String enderecoFilter,
                                     @Param("usuarioId") final Long usuarioId,
+                                    @Param("unidadeId") final Long unidadeId,
                                     final Pageable pageable);
 
 }

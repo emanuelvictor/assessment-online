@@ -99,8 +99,6 @@ export class MobileService {
      */
     this.avaliacao.data = new Date();
 
-    console.log(this.avaliacao.data);
-
     /**
      * Instancia o array de tabela associativa
      * @type {Array}

@@ -22,14 +22,14 @@ public class AvaliacaoColaborador extends AbstractEntity {
     /**
      *
      */
-    @NotNull
+//    @NotNull
     @ManyToOne(optional = false)
     private Colaborador colaborador;
 
     /**
      *
      */
-    @NotNull
+//    @NotNull
     @ManyToOne(optional = false)
     private Avaliacao avaliacao;
 }

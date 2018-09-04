@@ -41,8 +41,8 @@ public class ColaboradorService {
         this.colaboradorRepository.deleteById(id);
     }
 
-    public Page<Colaborador> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId, final Pageable pageable) {
-        return this.colaboradorRepository.listByFilters(defaultFilter, enderecoFilter, usuarioId, pageable);
+    public Page<Colaborador> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId, final Long unidadeId, final Pageable pageable) {
+        return this.colaboradorRepository.listByFilters(defaultFilter, enderecoFilter, usuarioId, unidadeId, pageable);
     }
     
 }

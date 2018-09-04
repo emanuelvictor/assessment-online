@@ -49,7 +49,7 @@ public class ColaboradorResource {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<Page<Colaborador>> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId) {
-        return Mono.just(this.colaboradorService.listByFilters(defaultFilter, enderecoFilter, usuarioId, getPageable()));
+    Mono<Page<Colaborador>> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId, final Long unidadeId) {
+        return Mono.just(this.colaboradorService.listByFilters(defaultFilter, enderecoFilter, usuarioId, unidadeId, getPageable()));
     }
 }
