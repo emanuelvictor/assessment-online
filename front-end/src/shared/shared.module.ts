@@ -60,6 +60,7 @@ import {NoWhiteSpace} from '../web/domain/presentation/controls/patterns/no-whit
     VirgulaPipe,
     NoWhiteSpace,
     AvatarComponent,
+
     // Authentication
     LoginComponent,
   ],

@@ -33,9 +33,9 @@ public class Avaliacao extends AbstractEntity {
 //    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime data;
 
-//    @PrePersist
-//    public void prePersist() {
-//        this.data = LocalDateTime.now();
-//    }
+    @PrePersist
+    public void prePersist() {
+        this.data = LocalDateTime.now();
+    }
 
 }

@@ -93,11 +93,6 @@ export class MobileService {
    * Envia avaliacao
    */
   public enviarAvaliacao() {
-    /**
-     * Configura restante da avaliacao
-     * @type {number}
-     */
-    this.avaliacao.data = new Date();
 
     /**
      * Instancia o array de tabela associativa
@@ -141,7 +136,6 @@ export class MobileService {
        * @type {Avaliacao}
        */
       const avaliacaoAux: Avaliacao = new Avaliacao();
-      avaliacaoAux.data = this.avaliacao.data;
       avaliacaoAux.nota = this.avaliacao.nota;
       avaliacaoAux.id = this.avaliacao.id;
       avaliacaoColaborador.avaliacao = avaliacaoAux;

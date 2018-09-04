@@ -85,6 +85,7 @@ import {ContaService} from './service/conta.service';
 import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente.component';
 import {ClienteFormComponent} from './presentation/dashboard/cliente/cliente-form/cliente-form.component';
 import {PageSerialize} from '../infrastructure/page-serialize/page-serialize';
+import {WebLoginComponent} from './presentation/login/web-login/web-login.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -112,6 +113,9 @@ registerLocaleData(localePt, 'pt-BR');
     SomenteLetras,
     SomenteNumeros,
     SomenteNumerosPositivos,
+
+    // Authentication
+    WebLoginComponent,
 
     // Controls
     CloseButtonComponent,

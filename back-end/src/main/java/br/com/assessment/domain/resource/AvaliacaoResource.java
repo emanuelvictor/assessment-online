@@ -5,6 +5,7 @@ import br.com.assessment.domain.entity.avaliacao.AvaliacaoColaborador;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.service.AvaliacaoService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,23 +16,26 @@ import java.util.Optional;
 import static br.com.assessment.application.context.Context.getPageable;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/avaliacoes")
 public class AvaliacaoResource {
 
     private final AvaliacaoService avaliacaoService;
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Avaliacao> save(@RequestBody final Avaliacao avaliacao) {
         return Mono.just(this.avaliacaoService.save(avaliacao));
     }
 
     @PostMapping("colaboradores")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<AvaliacaoColaborador> save(@RequestBody final AvaliacaoColaborador avaliacaoColaborador) {
         return Mono.just(this.avaliacaoService.save(avaliacaoColaborador));
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Avaliacao> update(@PathVariable final long id, @RequestBody final Avaliacao avaliacao) {
         return Mono.just(this.avaliacaoService.save(id, avaliacao));
     }

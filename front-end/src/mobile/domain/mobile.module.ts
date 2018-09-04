@@ -33,6 +33,7 @@ import {ContaRepository} from '../../web/domain/repositories/conta.repository';
 import {ContaService} from '../../web/domain/service/conta.service';
 import {PageSerialize} from '../../web/infrastructure/page-serialize/page-serialize';
 import {MobileService} from "./service/mobile.service";
+import {MobileLoginComponent} from './presentation/login/web-login/mobile-login.component';
 
 /**
  *
@@ -44,7 +45,10 @@ import {MobileService} from "./service/mobile.service";
     SelecionarAtendentesComponent,
     ConclusaoComponent,
     AvaliacaoComponent,
-    AvaliarComponent
+    AvaliarComponent,
+
+    // Authentication
+    MobileLoginComponent
   ],
   imports: [
     EllipsisModule,

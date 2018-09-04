@@ -24,6 +24,7 @@ import {AtendenteRankingViewComponent} from './presentation/dashboard/ranking/at
 import {AtendenteRankingComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking/atendente-ranking.component';
 import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component';
 import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente.component';
+import {WebLoginComponent} from './presentation/login/web-login/web-login.component';
 
 
 const routes: Routes = [
@@ -34,7 +35,7 @@ const routes: Routes = [
     path: 'cadastre-se', component: InserirClienteComponent,
   },
   {
-    path: 'authentication', component: LoginComponent,
+    path: 'authentication', component: WebLoginComponent,
   },
   {
     path: 'dashboard', component: DashboardViewComponent, canActivate: [AuthenticationService],
