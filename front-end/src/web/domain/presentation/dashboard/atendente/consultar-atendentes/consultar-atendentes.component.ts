@@ -5,6 +5,7 @@ import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry} from "@angular/material";
 import {UnidadeService} from "../../../../service/unidade.service";
+import {textMasks} from '../../../controls/text-masks/text-masks';
 
 @Component({
   selector: 'consultar-atendentes',
@@ -16,17 +17,24 @@ export class ConsultarAtendentesComponent implements OnInit {
   /**
    *
    */
+  masks = textMasks;
+
+  /**
+   *
+   */
   public showPesquisaAvancada = false;
 
   /**
    *
    */
-  public pageable = { // PageRequest
+  public pageRequest = { // PageRequest
     size: 20,
     page: 0,
     sort: null,
     defaultFilter: [],
-    unidadesFilter: []
+    unidadesFilter: [],
+    dataInicioFilter: null,
+    dataTerminoFilter : null
   };
 
   /**
@@ -88,25 +96,25 @@ export class ConsultarAtendentesComponent implements OnInit {
    */
   ngOnInit() {
     /**
-     * Seta o size do pageable no size do paginator
+     * Seta o size do pageRequest no size do paginator
      * @type {number}
      */
-    this.paginator.pageSize = this.pageable.size;
+    this.paginator.pageSize = this.pageRequest.size;
 
     /**
      * Listagem inicial
      */
-    this.listUsuariosByFilters(this.pageable);
+    this.listUsuariosByFilters(this.pageRequest);
 
     /**
      * Sobrescreve o sortChange do sort bindado
      */
     this.sort.sortChange.subscribe(() => {
-      this.pageable.sort = {
+      this.pageRequest.sort = {
         'properties': this.sort.active,
         'direction': this.sort.direction
       };
-      this.listUsuariosByFilters(this.pageable);
+      this.listUsuariosByFilters(this.pageRequest);
     });
   }
 
@@ -115,10 +123,10 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public onChangeFilters() {
-    this.pageable.page = 0;
+    this.pageRequest.page = 0;
 
-    this.pageable.unidadesFilter = this.asyncModel.map( (result:any) => result.id );
-    this.usuarioService.listByFilters(this.pageable)
+    this.pageRequest.unidadesFilter = this.asyncModel.map( (result:any) => result.id );
+    this.usuarioService.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
 
@@ -131,7 +139,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuarios() {
-    this.listUsuariosByFilters(this.pageable);
+    this.listUsuariosByFilters(this.pageRequest);
   }
 
 
@@ -139,9 +147,9 @@ export class ConsultarAtendentesComponent implements OnInit {
    * Consulta de usuarios
    *
    */
-  public listUsuariosByFilters(pageable: any) {
-    pageable.unidadesFilter.concat(this.asyncModel.map( (result:any) => result.id ));
-    this.usuarioService.listByFilters(pageable)
+  public listUsuariosByFilters(pageRequest: any) {
+    pageRequest.unidadesFilter.concat(this.asyncModel.map( (result:any) => result.id ));
+    this.usuarioService.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
 
@@ -155,12 +163,14 @@ export class ConsultarAtendentesComponent implements OnInit {
   public hidePesquisaAvancada() {
     this.showPesquisaAvancada = false;
 
-    this.pageable = { // PageRequest
+    this.pageRequest = { // PageRequest
       size: 20,
       page: 0,
       sort: null,
       defaultFilter: [],
-      unidadesFilter: []
+      unidadesFilter: [],
+      dataInicioFilter: null,
+      dataTerminoFilter : null
     };
 
     this.onChangeFilters();
@@ -186,14 +196,14 @@ export class ConsultarAtendentesComponent implements OnInit {
     this.filteredAsync = undefined;
     if (value) {
 
-      const pageable = { // PageRequest
+      const pageRequest = { // PageRequest
         size: 20,
         page: 0,
         sort: null,
         defaultFilter: [] = [value]
       };
 
-      this.unidadeService.listByFilters(pageable)
+      this.unidadeService.listByFilters(pageRequest)
         .subscribe((result) => {
           this.filteredAsync = result.content;
         });

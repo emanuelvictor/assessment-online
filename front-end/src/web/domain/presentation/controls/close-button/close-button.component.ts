@@ -5,6 +5,5 @@ import {Component} from '@angular/core';
   templateUrl: './close-button.component.html',
   styleUrls: ['./close-button.component.css']
 })
-export class CloseButtonComponent
-{
+export class CloseButtonComponent {
 }
