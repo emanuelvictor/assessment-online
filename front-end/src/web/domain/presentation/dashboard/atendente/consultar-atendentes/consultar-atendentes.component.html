@@ -41,17 +41,21 @@
 </search-bar>
 
 <!--Pesquisa avançada-->
-<mat-card *ngIf="showPesquisaAvancada"
-          class="push-none bgc-grey-50 filters-card-avanced">
-  <div layout="row" layout-align="center center">
+<mat-card style='height: 95px'
+          *ngIf='showPesquisaAvancada'
+          class='push-none bgc-grey-50 filters-card-avanced'>
+  <div layout='row'
+       layout-align='center center'>
     <div layout-align-gt-sm='start center'
          layout-gt-sm='row' layout-sm='column' flex='90'>
 
-      <div layout='row' layout-margin>
-        <ev-datepicker layout='row' flex
+      <div layout='row' layout-margin style='margin-top: 15px'>
+        <ev-datepicker layout='row' flex style='margin-left: -2px'
+                       (dataInputChange)='listUsuarios()'
                        [(dataInput)]='pageRequest.dataInicioFilter'>
           <mat-form-field>
-            <input placeholder='Data da avaliação - Início'
+            <input (ngModelChange)='listUsuarios()'
+                   placeholder='Data da avaliação - Início'
                    [(ngModel)]='pageRequest.dataInicioFilter'
                    matInput name='dataInicio' id='dataInicio'
                    [textMask]='{mask: masks.date, guide: false}'>
@@ -60,9 +64,11 @@
 
 
         <ev-datepicker layout='row' flex
-                       [(dataInput)]='pageRequest.dataTerminoFilterr'>
+                       (dataInputChange)='listUsuarios()'
+                       [(dataInput)]='pageRequest.dataTerminoFilter'>
           <mat-form-field>
             <input style='width: 225px'
+                   (ngModelChange)='listUsuarios()'
                    placeholder='Data da avaliação - Término'
                    [(ngModel)]='pageRequest.dataTerminoFilter'
                    matInput name='dataTermino' id='dataTermino'
@@ -73,30 +79,32 @@
 
       <div hide-sm hide-xs flex='12'></div>
 
-      <close-button (click)="hidePesquisaAvancada()" hide-sm hide-xs></close-button>
+      <close-button (click)='hidePesquisaAvancada()' hide-sm hide-xs></close-button>
     </div>
   </div>
 </mat-card>
 
 <!--Listagem-->
-<div layout="row" layout-align="center start">
-  <div layout="column" flex="90">
+<div layout='row'
+     layout-align='center start'>
+  <div layout='column' flex='90'>
 
-    <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center">
+    <div class='tc-grey-500 size-height-50'
+         layout='row' layout-align='start center'>
       <span> Resultado da pesquisa </span>
       <div flex></div>
       <span> {{ page?.totalElements}} resultados </span>
     </div>
 
-    <div class="mat-elevation-z4">
+    <div class='mat-elevation-z4'>
 
       <mat-table matSortDisableClear
-                 matSortActive="nome"
-                 matSortDirection="asc"
-                 [dataSource]="dataSource"
-                 #table matSort class="bgc-grey-50">
+                 matSortActive='nome'
+                 matSortDirection='asc'
+                 [dataSource]='dataSource'
+                 #table matSort class='bgc-grey-50'>
 
-        <ng-container matColumnDef="nome">
+        <ng-container matColumnDef='nome'>
           <mat-header-cell *matHeaderCellDef
                            [matTooltipPosition]='"left"'
                            matTooltip='Ordernar pelo nome' mat-sort-header
@@ -106,23 +114,23 @@
           <mat-cell *matCellDef='let usuario'
                     flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='35'>
             <avatar style='margin-left: 0;margin-bottom: 3px;'
-                    layout-margin class="image-cover" [size]="0.2"
+                    layout-margin class='image-cover' [size]='0.2'
                     [usuario]="{'id': usuario?.id , 'foto': usuario?.thumbnailPath}">
             </avatar>
-            <div layout-margin layout="column">
+            <div layout-margin layout='column'>
               <span>{{usuario?.nome}}</span>
               <span *ngIf='documento'
-                    style="color: #607d8b">CPF: {{usuario?.documento | documento}}</span>
-              <span style="color: gray">{{usuario?.conta?.email}}</span>
+                    style='color: #607d8b'>CPF: {{usuario?.documento | documento}}</span>
+              <span style='color: gray'>{{usuario?.conta?.email}}</span>
             </div>
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="avaliacoes1">
+        <ng-container matColumnDef='avaliacoes1'>
           <mat-header-cell layout-align='center center'
                            *matHeaderCellDef mat-sort-header>
-            <div layout="column" layout-align="center center">
-              <mat-icon style="fill: #c21c1f" svgIcon="assets:pessimo"></mat-icon>
+            <div layout='column' layout-align='center center'>
+              <mat-icon style='fill: #c21c1f' svgIcon='assets:pessimo'></mat-icon>
               <span>Péssimo</span>
             </div>
           </mat-header-cell>
@@ -132,11 +140,11 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="avaliacoes2">
+        <ng-container matColumnDef='avaliacoes2'>
           <mat-header-cell layout-align='center center'
                            *matHeaderCellDef mat-sort-header>
-            <div layout="column" layout-align="center center">
-              <mat-icon style="fill: #e96d01" svgIcon="assets:ruim"></mat-icon>
+            <div layout='column' layout-align='center center'>
+              <mat-icon style='fill: #e96d01' svgIcon='assets:ruim'></mat-icon>
               <span>Ruim</span>
             </div>
           </mat-header-cell>
@@ -146,11 +154,11 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="avaliacoes3">
+        <ng-container matColumnDef='avaliacoes3'>
           <mat-header-cell layout-align='center center'
                            *matHeaderCellDef mat-sort-header>
-            <div layout="column" layout-align="center center">
-              <mat-icon style="fill: #d4c40d" svgIcon="assets:regular"></mat-icon>
+            <div layout='column' layout-align='center center'>
+              <mat-icon style='fill: #d4c40d' svgIcon='assets:regular'></mat-icon>
               <span>Regular</span>
             </div>
           </mat-header-cell>
@@ -160,11 +168,11 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="avaliacoes4">
+        <ng-container matColumnDef='avaliacoes4'>
           <mat-header-cell layout-align='center center'
                            *matHeaderCellDef mat-sort-header>
-            <div layout="column" layout-align="center center">
-              <mat-icon style="fill: #8fc82c" svgIcon="assets:bom"></mat-icon>
+            <div layout='column' layout-align='center center'>
+              <mat-icon style='fill: #8fc82c' svgIcon='assets:bom'></mat-icon>
               <span>Bom</span>
             </div>
           </mat-header-cell>
@@ -174,7 +182,7 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="avaliacoes5">
+        <ng-container matColumnDef='avaliacoes5'>
           <mat-header-cell layout-align='center center'
                            *matHeaderCellDef mat-sort-header>
             <div layout="column" layout-align="center center">
