@@ -97,7 +97,6 @@ public class Usuario extends Pessoa {
     }
 
 
-
     /**
      *
      */
@@ -146,59 +145,18 @@ public class Usuario extends Pessoa {
         return this.conta != null && this.conta.isAdministrador();
     }
 
-    /**
-     * @param fotoPath
-     */
-    public void setFotoPath(String fotoPath) {
-        if (fotoPath != null)
-            fotoPath = "./usuarios/" + id + "/foto";
-        this.fotoPath = fotoPath;
+
+    @PrePersist
+    @PreUpdate
+    public void handlePathFoto() {
+        if (this.foto != null) {
+            this.fotoPath = "./usuarios/" + id + "/foto";
+            this.avatarPath = "./usuarios/" + id + "/avatar";
+            this.thumbnailPath = "./usuarios/" + id + "/thumbnail";
+        } else {
+            this.fotoPath = null;
+            this.avatarPath = null;
+            this.thumbnailPath = null;
+        }
     }
-
-    /**
-     * @param avatarPath
-     */
-    public void setAvatarPath(String avatarPath) {
-        if (avatarPath != null)
-            avatarPath = "./usuarios/" + id + "/avatar";
-        this.avatarPath = avatarPath;
-    }
-
-    /**
-     * @param thumbnailPath
-     */
-    public void setThumbnailPath(String thumbnailPath) {
-        if (thumbnailPath != null)
-            thumbnailPath = "./usuarios/" + id + "/thumbnail";
-        this.thumbnailPath = thumbnailPath;
-    }
-
-    /**
-     * @return {}
-     */
-    public String getFotoPath() {
-        if (this.foto != null)
-            return "./usuarios/" + id + "/foto";
-        return null;
-    }
-
-    /**
-     * @return {}
-     */
-    public String getAvatarPath() {
-        if (this.avatar != null)
-            return "./usuarios/" + id + "/avatar";
-        return null;
-    }
-
-    /**
-     * @return {}
-     */
-    public String getThumbnailPath() {
-        if (this.thumbnail != null)
-            return "./usuarios/" + id + "/thumbnail";
-        return null;
-    }
-
-
 }
