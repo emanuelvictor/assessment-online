@@ -14,7 +14,7 @@ import java.util.List;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query(
-            "SELECT usuario FROM Usuario usuario WHERE " +
+            "SELECT new Usuario( usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath,  usuario.avatarPath, usuario.fotoPath ) FROM Usuario usuario WHERE " +
                     "(   " +
                     "   (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND usuario.id IN " +
                     "   (" +
@@ -28,21 +28,21 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                     "                   AND (operador.vinculo = 1 OR operador.vinculo = 2)" +
                     "               )" +
                     "           )" +
-                    "           AND " +
-                    "           (" +
-                    "               :dataInicio IS NOT NULL" +
-                    "               AND" +
-                    "               (" +
-                    "                   colaborador.usuario.id IN " +
-                    "                   AND " +
-                    "                   (" +
-                    "                       SELECT avaliacaoColaborador.usuario.id FROM AvaliacaoColaborador avaliacaoColaborador.id WHERE" +
-                    "                       (" +
-                    "                           avaliacaoColaborador.avaliacao.data > :dataInicio" +
-                    "                       )" +
-                    "                   )" +
-                    "               )" +
-                    "           )" +
+//                    "           AND " +
+//                    "           (" +
+//                    "               :dataInicio IS NOT NULL" +
+//                    "               AND" +
+//                    "               (" +
+//                    "                   colaborador.usuario.id IN " +
+//                    "                   AND " +
+//                    "                   (" +
+//                    "                       SELECT avaliacaoColaborador.usuario.id FROM AvaliacaoColaborador avaliacaoColaborador.id WHERE" +
+//                    "                       (" +
+//                    "                           avaliacaoColaborador.avaliacao.data > :dataInicio" +
+//                    "                       )" +
+//                    "                   )" +
+//                    "               )" +
+//                    "           )" +
                     "       )" +
                     "   ) " +
                     "   OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "'" +

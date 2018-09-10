@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -80,10 +81,22 @@ public class Usuario extends Pessoa {
     private Conta conta;
 
     /**
-     *
+     * @param id
+     * @param nome
+     * @param email
+     * @param thumbnailPath
+     * @param avatarPath
+     * @param fotoPath
      */
-    public Usuario() {
+    public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath) {
+        this.id = id;
+        this.nome = nome;
+        this.thumbnailPath = thumbnailPath;
+        this.avatarPath = avatarPath;
+        this.fotoPath = fotoPath;
     }
+
+
 
     /**
      *
@@ -127,7 +140,6 @@ public class Usuario extends Pessoa {
     }
 
     /**
-     *
      * @return
      */
     public boolean getIsAdministrador() {
