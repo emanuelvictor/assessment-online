@@ -2,10 +2,14 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
-import {DomSanitizer} from "@angular/platform-browser";
-import {MatIconRegistry} from "@angular/material";
-import {UnidadeService} from "../../../../service/unidade.service";
+import {DomSanitizer} from '@angular/platform-browser';
+import {MatIconRegistry} from '@angular/material';
+import {UnidadeService} from '../../../../service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
+import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
+
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
 
 @Component({
   selector: 'consultar-atendentes',
@@ -34,7 +38,7 @@ export class ConsultarAtendentesComponent implements OnInit {
     defaultFilter: [],
     unidadesFilter: [],
     dataInicioFilter: null,
-    dataTerminoFilter : null
+    dataTerminoFilter: null
   };
 
   /**
@@ -73,6 +77,9 @@ export class ConsultarAtendentesComponent implements OnInit {
    * Bind com objeto sort
    */
   @ViewChild(MatSort) sort: MatSort;
+
+  @ViewChild(EvDatepicker) dataInicio: EvDatepicker;
+
 
 
   /**
@@ -125,7 +132,7 @@ export class ConsultarAtendentesComponent implements OnInit {
   public onChangeFilters() {
     this.pageRequest.page = 0;
 
-    this.pageRequest.unidadesFilter = this.asyncModel.map( (result:any) => result.id );
+    this.pageRequest.unidadesFilter = this.asyncModel.map((result: any) => result.id);
     this.usuarioService.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
@@ -138,7 +145,8 @@ export class ConsultarAtendentesComponent implements OnInit {
    * Consulta de usuarios com filtros do model
    *
    */
-  public listUsuarios() {
+  public listUsuariosByDates() {
+    this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, "DD/MM/YYYY").locale('pt-BR').format("DD/MM/YYYY");
     this.listUsuariosByFilters(this.pageRequest);
   }
 
@@ -148,8 +156,9 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters(pageRequest: any) {
-    pageRequest.unidadesFilter.concat(this.asyncModel.map( (result:any) => result.id ));
-    this.usuarioService.listByFilters(pageRequest)
+    pageRequest.unidadesFilter.concat(this.asyncModel.map((result: any) => result.id));
+
+    this.usuarioService.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
 
@@ -170,7 +179,7 @@ export class ConsultarAtendentesComponent implements OnInit {
       defaultFilter: [],
       unidadesFilter: [],
       dataInicioFilter: null,
-      dataTerminoFilter : null
+      dataTerminoFilter: null
     };
 
     this.onChangeFilters();

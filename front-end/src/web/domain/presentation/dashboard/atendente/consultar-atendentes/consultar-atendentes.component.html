@@ -50,25 +50,26 @@
          layout-gt-sm='row' layout-sm='column' flex='90'>
 
       <div layout='row' layout-margin style='margin-top: 15px'>
-        <ev-datepicker layout='row' flex style='margin-left: -2px'
-                       (dataInputChange)='listUsuarios()'
+        <ev-datepicker #dataInicio layout='row' flex style='margin-left: -2px'
+                       (dataInputChange)='listUsuariosByDates()'
                        [(dataInput)]='pageRequest.dataInicioFilter'>
           <mat-form-field>
-            <input (ngModelChange)='listUsuarios()'
-                   placeholder='Data da avaliação - Início'
-                   [(ngModel)]='pageRequest.dataInicioFilter'
-                   matInput name='dataInicio' id='dataInicio'
-                   [textMask]='{mask: masks.date, guide: false}'>
+            <input
+
+                placeholder='Data da avaliação - Início'
+                [(ngModel)]='pageRequest.dataInicioFilter'
+                matInput name='dataInicio' id='dataInicio'
+                [textMask]='{mask: masks.date, guide: false}'>
           </mat-form-field>
         </ev-datepicker>
 
 
         <ev-datepicker layout='row' flex
-                       (dataInputChange)='listUsuarios()'
+                       (dataInputChange)='listUsuariosByDates(pageRequest.dataTerminoFilter)'
                        [(dataInput)]='pageRequest.dataTerminoFilter'>
           <mat-form-field>
             <input style='width: 225px'
-                   (ngModelChange)='listUsuarios()'
+                   (ngModelChange)='listUsuariosByFilters(pageRequest)'
                    placeholder='Data da avaliação - Término'
                    [(ngModel)]='pageRequest.dataTerminoFilter'
                    matInput name='dataTermino' id='dataTermino'

@@ -4,7 +4,7 @@
          matInput
          style='display: none'
          name='datePicker' id='datePicker'
-         [(ngModel)]='data' (ngModelChange)='changeData()'>
+         [(ngModel)]='data' (ngModelChange)='changeData(data)'>
 
   <mat-datepicker-toggle matSuffix [for]='datePicker'></mat-datepicker-toggle>
   <mat-datepicker #datePicker></mat-datepicker>

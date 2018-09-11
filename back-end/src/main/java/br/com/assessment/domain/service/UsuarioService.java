@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
@@ -26,6 +27,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -120,13 +123,32 @@ public class UsuarioService {
         this.usuarioRepository.deleteById(usuarioId);
     }
 
-    public Page<Usuario> listByFilters(final String defaultFilter, final List<Long> unidadesFilter , final Pageable pageable) {
+    /**
+     * @param defaultFilter  String
+     * @param unidadesFilter List<Long>
+     * @param pageable       Pageable
+     * @return Page<Usuario>
+     */
+    public Page<Usuario> listByFilters(final String defaultFilter, final List<Long> unidadesFilter,
+                                       final LocalDateTime dataInicioFilter, final LocalDateTime dataTerminoFilter, final Pageable pageable) {
 
-        final Usuario usuario = this.contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
+//        final Usuario usuario = this.contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
 
-        return this.usuarioRepository.listByFilters(usuario.getId(), usuario.getConta().getPerfil().name(), defaultFilter, unidadesFilter, pageable);
+        return this.usuarioRepository.listByFilters(
+//                usuario.getId(),
+//                usuario.getConta().getPerfil().name(),
+//                defaultFilter,
+//                unidadesFilter,
+                dataInicioFilter,
+                dataTerminoFilter,
+                pageable);
     }
 
+    /**
+     * @param id          long
+     * @param fileInBytes byte[]
+     * @return String
+     */
     public String save(final long id, final byte[] fileInBytes) {
         final Usuario usuario = this.usuarioRepository.findById(id).orElseGet(null);
 

@@ -81,12 +81,6 @@ public class Usuario extends Pessoa {
     private Conta conta;
 
     /**
-     * @param id
-     * @param nome
-     * @param email
-     * @param thumbnailPath
-     * @param avatarPath
-     * @param fotoPath
      */
     public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath) {
         this.id = id;
@@ -112,13 +106,6 @@ public class Usuario extends Pessoa {
     }
 
     /**
-     * @return
-     */
-    public boolean getIsOperador() {
-        return this.isOperador();
-    }
-
-    /**
      *
      */
     public boolean isAtendente() {
@@ -132,6 +119,12 @@ public class Usuario extends Pessoa {
     }
 
     /**
+     */
+    public boolean getIsOperador() {
+        return this.isOperador();
+    }
+
+    /**
      *
      */
     public boolean getIsAtendente() {
@@ -139,7 +132,6 @@ public class Usuario extends Pessoa {
     }
 
     /**
-     * @return
      */
     public boolean getIsAdministrador() {
         return this.conta != null && this.conta.isAdministrador();

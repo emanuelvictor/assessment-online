@@ -29,8 +29,9 @@ export class EvDatepicker implements OnChanges, OnInit {
   /**
    *
    */
-  changeData() {
-    this.dataInputChange.emit(moment(this.data, "DD/MM/YYYY").locale('pt-BR').format("DD/MM/YYYY"));
+  changeData(data) {
+    console.log('changeData');
+    this.dataInputChange.emit(moment(data, "DD/MM/YYYY").locale('pt-BR').format("DD/MM/YYYY"));
   }
 
   /**
@@ -46,8 +47,10 @@ export class EvDatepicker implements OnChanges, OnInit {
    * @param {SimpleChanges} changes
    */
   ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
     if (!changes.dataInput.firstChange) {
       this.data = moment(changes.dataInput.currentValue, "DD/MM/YYYY").locale('pt-BR').toDate();
+      this.dataInputChange.emit(moment(this.data, "DD/MM/YYYY").locale('pt-BR').format("DD/MM/YYYY"));
     }
   }
 }

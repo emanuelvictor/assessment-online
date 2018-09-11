@@ -2,10 +2,12 @@ package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.entity.usuario.Usuario;
+import br.com.assessment.domain.repository.UsuarioRepository;
 import br.com.assessment.domain.service.UsuarioService;
 import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +33,8 @@ import static br.com.assessment.infrastructure.util.ArrayUtil.getListFromArray;
 public class UsuarioResource {
 
     private final UsuarioService usuarioService;
+
+    private final UsuarioRepository usuarioRepository;
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
@@ -56,9 +62,11 @@ public class UsuarioResource {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    Mono<Page<Usuario>> listByFilters(final String defaultFilter, final Long[] unidadesFilter) {
-        return Mono.just(usuarioService.listByFilters(defaultFilter, getListFromArray(unidadesFilter), getPageable()));
+//    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    Mono<Page<Usuario>> listByFilters(final String defaultFilter, final Long[] unidadesFilter,
+                                      @RequestParam(required = false) final LocalDateTime dataInicioFilter,
+                                      @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
+        return Mono.just(usuarioService.listByFilters(defaultFilter, getListFromArray(unidadesFilter), dataInicioFilter, dataTerminoFilter, getPageable()));
     }
 
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
