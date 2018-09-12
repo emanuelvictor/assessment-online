@@ -21,7 +21,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                     "   (" +
 //                    "   :perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' " +
 //                    "   AND " +
-                    "   usuario.id IN " +
+                    "   ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
+                    "   AND usuario.id IN " +
                     "   (" +
                     "       SELECT colaborador.usuario.id FROM Colaborador colaborador " +
                     "       WHERE " +
@@ -44,7 +45,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                     "                       (" +
                     "                           SELECT avaliacaoColaborador.colaborador.id FROM AvaliacaoColaborador avaliacaoColaborador " +
                     "                           WHERE(" +
-                    "                               (" +
+                    "                               (((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) AND ((" +
                     "                                   (cast(:dataInicioFilter AS date)) IS NOT NULL AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
                     "                                   AND " +
                     "                                       :dataInicioFilter <= avaliacaoColaborador.avaliacao.data " +
@@ -59,8 +60,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                     "                               (" +
                     "                                   (cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
                     "                                   AND avaliacaoColaborador.avaliacao.data <= :dataTerminoFilter " +
-                    "                               )" +
-                    "                               OR (cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NULL" +
+                    "                               )))" +
+                    "                               OR ((cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NULL)" +
                     "                           )" +
                     "                       ) " +
                     "                   )" +
@@ -83,7 +84,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 //                    "               ) " +
 //                    "           )" +
 //                    "       )" +
-                    "   ) " +
+                    "   ))" +
+                    "   OR ((cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NULL) " +
 //                    "   OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "'" +
                     "   )" +
 //                    "   AND " +
