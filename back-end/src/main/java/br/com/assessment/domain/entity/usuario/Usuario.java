@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -80,14 +81,24 @@ public class Usuario extends Pessoa {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Conta conta;
 
+    @Transient
+    private BigDecimal media;
+
     /**
      */
-    public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath) {
+    public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath, final BigDecimal media) {
         this.id = id;
+
+        final Conta conta = new Conta();
+        conta.setId(id);
+        conta.setEmail(email);
+        this.conta = conta;
+
         this.nome = nome;
         this.thumbnailPath = thumbnailPath;
         this.avatarPath = avatarPath;
         this.fotoPath = fotoPath;
+        this.media = media;
     }
 
 

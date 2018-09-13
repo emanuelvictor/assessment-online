@@ -16,8 +16,11 @@ import java.util.List;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query(
-            "SELECT new Usuario( usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath,  usuario.avatarPath, usuario.fotoPath ) FROM Usuario usuario WHERE " +
-                    "(   " +
+            "SELECT new Usuario( usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath,  usuario.avatarPath, usuario.fotoPath, SUM(avaliacao.nota) ) FROM Usuario usuario " +
+                    "   LEFT OUTER JOIN Colaborador colaborador ON colaborador.usuario.id = usuario.id " +
+                    "   LEFT OUTER JOIN AvaliacaoColaborador avaliacaoColaborador ON avaliacaoColaborador.colaborador.id = colaborador.id " +
+                    "   LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoColaborador.avaliacao.id " +
+                    "WHERE (   " +
                     "   (" +
 //                    "   :perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' " +
 //                    "   AND " +
@@ -102,7 +105,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 //                    "       )" +
 //                    "       OR :unidadesFilter IS NULL" +
 //                    "   )" +
-                    ")"
+                    ") group by usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
     )
     Page<Usuario> listByFilters(
 //            @Param("usuarioId") final Long usuarioId,
