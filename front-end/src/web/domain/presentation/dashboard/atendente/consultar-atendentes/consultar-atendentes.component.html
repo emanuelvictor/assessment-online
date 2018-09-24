@@ -137,7 +137,7 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes1}}
+            {{usuario?.avaliacoes1 > 0 ? usuario?.avaliacoes1 : ''}}
           </mat-cell>
         </ng-container>
 
@@ -151,7 +151,7 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes2}}
+            {{usuario?.avaliacoes2 > 0 ? usuario?.avaliacoes2 : ''}}
           </mat-cell>
         </ng-container>
 
@@ -165,7 +165,7 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes3}}
+            {{usuario?.avaliacoes3 > 0 ? usuario?.avaliacoes3 : ''}}
           </mat-cell>
         </ng-container>
 
@@ -179,7 +179,7 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes4}}
+            {{usuario?.avaliacoes4 > 0 ? usuario?.avaliacoes4 : ''}}
           </mat-cell>
         </ng-container>
 
@@ -193,11 +193,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes5}}
+            {{usuario?.avaliacoes5 > 0 ? usuario?.avaliacoes5 : ''}}
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="media">
+        <ng-container matColumnDef="soma">
           <mat-header-cell layout-align='center center'
                            *matHeaderCellDef mat-sort-header>
             <div layout="column" layout-align="center center">
@@ -207,7 +207,7 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.media}}
+            {{usuario?.soma}}
           </mat-cell>
         </ng-container>
 

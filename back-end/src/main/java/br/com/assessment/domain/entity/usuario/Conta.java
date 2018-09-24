@@ -88,6 +88,7 @@ public class Conta extends AbstractEntity implements UserDetails {
      */
     @Override
     @Transient
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         final Set<Perfil> authorities = new HashSet<>();

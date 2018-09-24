@@ -2,12 +2,9 @@ package br.com.assessment.domain.entity.usuario;
 
 import br.com.assessment.domain.entity.colaborador.Colaborador;
 import br.com.assessment.domain.entity.colaborador.Vinculo;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -81,24 +78,45 @@ public class Usuario extends Pessoa {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Conta conta;
 
+    private BigDecimal soma;
+
     @Transient
-    private BigDecimal media;
+    private long avaliacoes1;
+
+    @Transient
+    private long avaliacoes2;
+
+    @Transient
+    private long avaliacoes3;
+
+    @Transient
+    private long avaliacoes4;
+
+    @Transient
+    private long avaliacoes5;
 
     /**
      */
-    public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath, final BigDecimal media) {
-        this.id = id;
+    public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath,
+                   final Double soma, final long avaliacoes1, final long avaliacoes2, final long avaliacoes3, final long avaliacoes4, final long avaliacoes5) {
 
         final Conta conta = new Conta();
         conta.setId(id);
         conta.setEmail(email);
         this.conta = conta;
 
+        this.id = id;
         this.nome = nome;
         this.thumbnailPath = thumbnailPath;
         this.avatarPath = avatarPath;
         this.fotoPath = fotoPath;
-        this.media = media;
+
+        this.soma = BigDecimal.valueOf(soma);
+        this.avaliacoes1 = avaliacoes1;
+        this.avaliacoes2 = avaliacoes2;
+        this.avaliacoes3 = avaliacoes3;
+        this.avaliacoes4 = avaliacoes4;
+        this.avaliacoes5 = avaliacoes5;
     }
 
 

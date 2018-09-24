@@ -58,7 +58,7 @@ export class ConsultarAtendentesComponent implements OnInit {
       'avaliacoes3',
       'avaliacoes4',
       'avaliacoes5',
-      'media'
+      'soma'
     ];
 
   /**

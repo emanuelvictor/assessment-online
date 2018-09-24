@@ -3,6 +3,9 @@ package br.com.assessment.application.hibernate;
 import br.com.assessment.application.multitenancy.MultiTenantConnectionProviderImpl;
 import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.flywaydb.core.Flyway;
+import org.flywaydb.core.internal.configuration.ConfigUtils;
 import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.Environment;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +22,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class HibernateConfig {
 
     private final org.springframework.core.env.Environment env;

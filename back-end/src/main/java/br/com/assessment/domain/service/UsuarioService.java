@@ -139,8 +139,8 @@ public class UsuarioService {
 //                usuario.getConta().getPerfil().name(),
 //                defaultFilter,
 //                unidadesFilter,
-                dataInicioFilter,
-                dataTerminoFilter,
+//                dataInicioFilter,
+//                dataTerminoFilter,
                 pageable);
     }
 
