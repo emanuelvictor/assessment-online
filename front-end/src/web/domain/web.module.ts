@@ -218,6 +218,7 @@ registerLocaleData(localePt, 'pt-BR');
 })
 export class WebModule {
   constructor(public dateAdapter: DateAdapter<Date>) {
+    registerLocaleData( localePt );
     dateAdapter.setLocale('pt-BR');
   }
 }

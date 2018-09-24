@@ -197,7 +197,7 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="soma">
+        <ng-container matColumnDef="media">
           <mat-header-cell layout-align='center center'
                            *matHeaderCellDef mat-sort-header>
             <div layout="column" layout-align="center center">
@@ -207,7 +207,8 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.soma}}
+            <!--todo FALCATRUA PARA SUMIR A VÍRGULA-->
+            {{usuario?.media > 0 ? (usuario?.media | number:'1.0-2' :'pt-BR').replace(',','.') : ''}}
           </mat-cell>
         </ng-container>
 

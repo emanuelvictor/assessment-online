@@ -126,7 +126,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   usuario.thumbnailPath,  " +
             "   usuario.avatarPath, " +
             "   usuario.fotoPath, " +
-            "   AVG(avaliacoes.nota) AS soma," +
+            "   AVG(avaliacao.nota) AS media," +
             "   COUNT(av1) AS avaliacoes1," +
             "   COUNT(av2) AS avaliacoes2," +
             "   COUNT(av3) AS avaliacoes3," +
@@ -134,14 +134,14 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   COUNT(av5) AS avaliacoes5" +
             ")  " +
             "   FROM AvaliacaoColaborador avaliacaoColaborador" +
-            "       RIGHT OUTER JOIN avaliacaoColaborador.colaborador colabordor" +
-            "       RIGHT OUTER JOIN avaliacaoColaborador.colaborador.usuario usuario" +
-            "       RIGHT OUTER JOIN avaliacaoColaborador.avaliacao avaliacoes " +
+            "       LEFT OUTER JOIN avaliacaoColaborador.colaborador colabordor" +
+            "       LEFT OUTER JOIN avaliacaoColaborador.colaborador.usuario usuario" +
+            "       LEFT OUTER JOIN avaliacaoColaborador.avaliacao avaliacao " +
             "       LEFT OUTER JOIN avaliacaoColaborador.avaliacao av1 ON av1.nota = 1" +
             "       LEFT OUTER JOIN avaliacaoColaborador.avaliacao av2 ON av2.nota = 2" +
             "       LEFT OUTER JOIN avaliacaoColaborador.avaliacao av3 ON av3.nota = 3" +
             "       LEFT OUTER JOIN avaliacaoColaborador.avaliacao av4 ON av4.nota = 4" +
             "       LEFT OUTER JOIN avaliacaoColaborador.avaliacao av5 ON av5.nota = 5" +
-            "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath, soma")
+            "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath")
     Page<Usuario> listByFilters(final Pageable pageable);
 }

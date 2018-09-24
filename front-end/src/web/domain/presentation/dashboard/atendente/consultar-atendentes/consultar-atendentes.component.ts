@@ -1,9 +1,8 @@
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry} from '@angular/material';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
@@ -58,7 +57,7 @@ export class ConsultarAtendentesComponent implements OnInit {
       'avaliacoes3',
       'avaliacoes4',
       'avaliacoes5',
-      'soma'
+      'media'
     ];
 
   /**
@@ -78,6 +77,10 @@ export class ConsultarAtendentesComponent implements OnInit {
    */
   @ViewChild(MatSort) sort: MatSort;
 
+
+  /**
+   * TODO
+   */
   @ViewChild(EvDatepicker) dataInicio: EvDatepicker;
 
 
@@ -102,6 +105,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   ngOnInit() {
+
     /**
      * Seta o size do pageRequest no size do paginator
      * @type {number}
