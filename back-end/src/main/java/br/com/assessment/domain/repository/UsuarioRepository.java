@@ -37,93 +37,58 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoColaborador.avaliacao.id AND av3.nota = 3) " +
             "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoColaborador.avaliacao.id AND av4.nota = 4) " +
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoColaborador.avaliacao.id AND av5.nota = 5) " +
-//                    "WHERE (   " +
-//                    "   (" +
-////                    "   :perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' " +
-////                    "   AND " +
-//                    "   ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
-//                    "   AND usuario.id IN " +
-//                    "   (" +
-//                    "       SELECT colaborador.usuario.id FROM Colaborador colaborador " +
-//                    "       WHERE " +
-////                    "       (" +
-////                    "           colaborador.vinculo < 3 AND colaborador.unidade.id IN " +
-////                    "           (" +
-////                    "               SELECT operador.unidade.id FROM Colaborador operador WHERE " +
-////                    "               (" +
-////                    "                   operador.usuario.id = :usuarioId" +
-////                    "                   AND (operador.vinculo = 1 OR operador.vinculo = 2)" +
-////                    "               )" +
-////                    "           )" +
-////                    "           AND " +
-////                    "           (" +
+            "WHERE (   " +
+            "                               (((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) AND ((" +
+            "                                   (cast(:dataInicioFilter AS date)) IS NOT NULL AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
+            "                                   AND " +
+            "                                       :dataInicioFilter <= avaliacao.data " +
+            "                                   AND avaliacao.data <= :dataTerminoFilter" +
+            "                               )" +
+            "                               OR" +
+            "                               (" +
+            "                                   (cast(:dataInicioFilter AS date)) IS NOT NULL AND (cast(:dataTerminoFilter AS date)) IS NULL " +
+            "                                   AND :dataInicioFilter <= avaliacao.data " +
+            "                               )" +
+            "                               OR" +
+            "                               (" +
+            "                                   (cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
+            "                                   AND avaliacao.data <= :dataTerminoFilter " +
+            "                               )))" +
+            "                               OR ((cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NULL)" +
+            "                           )" +
+//                    "               AND" +
 //                    "               (" +
-////                    "                   ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
-////                    "                   AND" +
+//                    "                   (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
+//                    "                   AND " +
 //                    "                   (" +
-//                    "                       colaborador.id IN " +
+//                    "                       colaborador.usuario.id IN " +
 //                    "                       (" +
-//                    "                           SELECT avaliacaoColaborador.colaborador.id FROM AvaliacaoColaborador avaliacaoColaborador " +
-//                    "                           WHERE(" +
-//                    "                               (((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) AND ((" +
-//                    "                                   (cast(:dataInicioFilter AS date)) IS NOT NULL AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
-//                    "                                   AND " +
-//                    "                                       :dataInicioFilter <= avaliacaoColaborador.avaliacao.data " +
-//                    "                                   AND avaliacaoColaborador.avaliacao.data <= :dataTerminoFilter" +
-//                    "                               )" +
-//                    "                               OR" +
-//                    "                               (" +
-//                    "                                   (cast(:dataInicioFilter AS date)) IS NOT NULL AND (cast(:dataTerminoFilter AS date)) IS NULL " +
-//                    "                                   AND :dataInicioFilter <= avaliacaoColaborador.avaliacao.data " +
-//                    "                               )" +
-//                    "                               OR" +
-//                    "                               (" +
-//                    "                                   (cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
-//                    "                                   AND avaliacaoColaborador.avaliacao.data <= :dataTerminoFilter " +
-//                    "                               )))" +
-//                    "                               OR ((cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NULL)" +
+//                    "                           SELECT avaliacaoColaborador.colaborador.usuario.id FROM AvaliacaoColaborador avaliacaoColaborador " +
+//                    "                           WHERE (" +
+//                    "                               avaliacaoColaborador.avaliacao.data < :dataTerminoFilter" +
 //                    "                           )" +
-//                    "                       ) " +
+//                    "                       )" +
 //                    "                   )" +
-////                    ")" +
-//                    "               )" +
-////                    "               AND" +
-////                    "               (" +
-////                    "                   (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
-////                    "                   AND " +
-////                    "                   (" +
-////                    "                       colaborador.usuario.id IN " +
-////                    "                       (" +
-////                    "                           SELECT avaliacaoColaborador.colaborador.usuario.id FROM AvaliacaoColaborador avaliacaoColaborador " +
-////                    "                           WHERE (" +
-////                    "                               avaliacaoColaborador.avaliacao.data < :dataTerminoFilter" +
-////                    "                           )" +
-////                    "                       )" +
-////                    "                   )" +
-////                    "                   OR (cast(:dataTerminoFilter AS date)) IS NULL " +
-////                    "               ) " +
-////                    "           )" +
-////                    "       )" +
-//                    "   ))" +
-//                    "   OR ((cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NULL) " +
-////                    "   OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "'" +
+//                    "                   OR (cast(:dataTerminoFilter AS date)) IS NULL " +
+//                    "               ) " +
+//                    "           )" +
+//                    "       )" +
+//                    "   OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "'" +
+//                    "   AND " +
+//                    "   (" +
+//                    "       FILTER(usuario.nome, :defaultFilter) = TRUE" +
+//                    "       OR FILTER(usuario.conta.email, :defaultFilter) = TRUE" +
 //                    "   )" +
-////                    "   AND " +
-////                    "   (" +
-////                    "       FILTER(usuario.nome, :defaultFilter) = TRUE" +
-////                    "       OR FILTER(usuario.conta.email, :defaultFilter) = TRUE" +
-////                    "   )" +
-////                    "   AND " +
-////                    "   (" +
-////                    "       usuario.id IN " +
-////                    "       (" +
-////                    "           SELECT colaborador.usuario.id FROM Colaborador colaborador WHERE " +
-////                    "           (" +
-////                    "                   colaborador.unidade.id IN :unidadesFilter " +
-////                    "           )" +
-////                    "       )" +
-////                    "       OR :unidadesFilter IS NULL" +
-////                    "   )" +
+//                    "   AND " +
+//                    "   (" +
+//                    "       usuario.id IN " +
+//                    "       (" +
+//                    "           SELECT colaborador.usuario.id FROM Colaborador colaborador WHERE " +
+//                    "           (" +
+//                    "                   colaborador.unidade.id IN :unidadesFilter " +
+//                    "           )" +
+//                    "       )" +
+//                    "       OR :unidadesFilter IS NULL" +
             "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
     )
     Page<Usuario> listByFilters(
@@ -131,8 +96,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 //                                  @Param("perfil") final String perfil,
 //                                  @Param("defaultFilter") final String defaultFilter,
 //                                  @Param("unidadesFilter") final List<Long> unidadesFilter,
-//                                  @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
-//                                  @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
+                                  @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
+                                  @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
             final Pageable pageable);
 
 
