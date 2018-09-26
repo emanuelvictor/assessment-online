@@ -37,25 +37,33 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoColaborador.avaliacao.id AND av3.nota = 3) " +
             "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoColaborador.avaliacao.id AND av4.nota = 4) " +
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoColaborador.avaliacao.id AND av5.nota = 5) " +
-            "WHERE (   " +
-            "                               (((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) AND ((" +
-            "                                   (cast(:dataInicioFilter AS date)) IS NOT NULL AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
-            "                                   AND " +
-            "                                       :dataInicioFilter <= avaliacao.data " +
-            "                                   AND avaliacao.data <= :dataTerminoFilter" +
-            "                               )" +
-            "                               OR" +
-            "                               (" +
-            "                                   (cast(:dataInicioFilter AS date)) IS NOT NULL AND (cast(:dataTerminoFilter AS date)) IS NULL " +
-            "                                   AND :dataInicioFilter <= avaliacao.data " +
-            "                               )" +
-            "                               OR" +
-            "                               (" +
-            "                                   (cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
-            "                                   AND avaliacao.data <= :dataTerminoFilter " +
-            "                               )))" +
-            "                               OR ((cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NULL)" +
-            "                           )" +
+            "   WHERE " +
+            "   (   " +
+            "       (" +
+            "           ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
+            "           AND " +
+            "           (" +
+            "               (" +
+            "                   (cast(:dataInicioFilter AS date)) IS NOT NULL " +
+            "                   AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
+            "                   AND :dataInicioFilter <= avaliacao.data AND avaliacao.data <= :dataTerminoFilter" +
+            "               )" +
+            "               OR" +
+            "               (" +
+            "                   (cast(:dataInicioFilter AS date)) IS NOT NULL " +
+            "                   AND (cast(:dataTerminoFilter AS date)) IS NULL " +
+            "                   AND :dataInicioFilter <= avaliacao.data " +
+            "               )" +
+            "               OR" +
+            "               (" +
+            "                   (cast(:dataInicioFilter AS date)) IS NULL " +
+            "                   AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
+            "                   AND avaliacao.data <= :dataTerminoFilter " +
+            "               )" +
+            "           )" +
+            "       )" +
+            "       OR ((cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NULL)" +
+            "   )" +
 //                    "               AND" +
 //                    "               (" +
 //                    "                   (cast(:dataTerminoFilter AS date)) IS NOT NULL " +

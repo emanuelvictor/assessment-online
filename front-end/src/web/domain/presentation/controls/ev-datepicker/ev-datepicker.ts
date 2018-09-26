@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from "@angular/core";
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
 
@@ -22,16 +22,18 @@ export class EvDatepicker implements OnChanges, OnInit {
 
   /**
    *
-   * @type {EventEmitter<any>}
+   * @type {EventEmitter}
    */
   @Output() dataInputChange = new EventEmitter();
 
   /**
    *
    */
-  changeData(data) {
-    console.log('changeData');
-    this.dataInputChange.emit(moment(data, "DD/MM/YYYY").locale('pt-BR').format("DD/MM/YYYY"));
+  changeData(date) {
+    if (EvDatepicker.validateDate(date))
+      this.dataInputChange.emit(moment(date, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY'));
+    if (!date || date.length == 0)
+      this.dataInputChange.emit(null);
   }
 
   /**
@@ -39,7 +41,7 @@ export class EvDatepicker implements OnChanges, OnInit {
    */
   ngOnInit(): void {
     if (this.dataInput)
-      this.data = moment(this.dataInput, "DD/MM/YYYY").locale('pt-BR').toDate();
+      this.data = moment(this.dataInput, 'DD/MM/YYYY').locale('pt-BR').toDate();
   }
 
   /**
@@ -47,10 +49,24 @@ export class EvDatepicker implements OnChanges, OnInit {
    * @param {SimpleChanges} changes
    */
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     if (!changes.dataInput.firstChange) {
-      this.data = moment(changes.dataInput.currentValue, "DD/MM/YYYY").locale('pt-BR').toDate();
-      this.dataInputChange.emit(moment(this.data, "DD/MM/YYYY").locale('pt-BR').format("DD/MM/YYYY"));
+      if (EvDatepicker.validateDate(changes.dataInput.currentValue))
+        this.dataInputChange.emit(moment(moment(changes.dataInput.currentValue, 'DD/MM/YYYY').locale('pt-BR').toDate(), 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY'));
+      if (!changes.dataInput.currentValue || changes.dataInput.currentValue.length == 0)
+        this.dataInputChange.emit(null);
     }
   }
+
+  /**
+   *
+   * @returns {boolean}
+   */
+  private static validateDate(date): boolean {
+    if (date != null && moment(date, 'DD/MM/YYYY').isValid())
+      if (typeof date === "string")
+        return date.replace('/', '').replace('/', '').length >= 8;
+      else
+        return true;
+  }
+
 }

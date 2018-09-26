@@ -77,13 +77,15 @@ export class ConsultarAtendentesComponent implements OnInit {
    */
   @ViewChild(MatSort) sort: MatSort;
 
-
   /**
    * TODO
    */
-  @ViewChild(EvDatepicker) dataInicio: EvDatepicker;
+  @ViewChild('dataInicio') dataInicio: EvDatepicker;
 
-
+  /**
+   *
+   */
+  @ViewChild('dataTermino') dataTermino: EvDatepicker;
 
   /**
    *
@@ -134,15 +136,18 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public onChangeFilters() {
+
     this.pageRequest.page = 0;
 
     this.pageRequest.unidadesFilter = this.asyncModel.map((result: any) => result.id);
+
     this.usuarioService.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
 
         this.page = result;
       })
+
   }
 
   /**
@@ -150,8 +155,15 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByDates() {
-    this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, "DD/MM/YYYY").locale('pt-BR').format("DD/MM/YYYY");
+
+    if (this.dataInicio.data)
+      this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+
+    if (this.dataTermino.data)
+      this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+
     this.listUsuariosByFilters(this.pageRequest);
+
   }
 
 
@@ -160,6 +172,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters(pageRequest: any) {
+
     pageRequest.unidadesFilter.concat(this.asyncModel.map((result: any) => result.id));
 
     this.usuarioService.listByFilters(this.pageRequest)
@@ -195,8 +208,7 @@ export class ConsultarAtendentesComponent implements OnInit {
   public toggleShowPesquisaAvancada() {
     if (this.showPesquisaAvancada) {
       this.hidePesquisaAvancada();
-    }
-    else {
+    } else {
       this.showPesquisaAvancada = true;
     }
   }

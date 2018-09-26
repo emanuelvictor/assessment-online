@@ -22,11 +22,15 @@ export class PageSerialize {
             if (key === 'sort')
               params = params.set(key, object[key]['properties'] + ',' + object[key]['direction']);
             // Restante
-            else{
+            else {
               params = PageSerialize.getHttpParamsFromPageable(object[key])
             }
           } else {
-            params = params.set(key, object[key] ? object[key] : '');
+            if (key.indexOf('data') > -1) {
+              params = params.set(key, object[key] ? object[key] : '');
+            }
+            else
+              params = params.set(key, object[key] ? object[key] : '');
           }
         }
       });
