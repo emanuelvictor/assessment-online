@@ -137,8 +137,8 @@ public class UsuarioService {
         return this.usuarioRepository.listByFilters(
 //                usuario.getId(),
 //                usuario.getConta().getPerfil().name(),
-//                defaultFilter,
-//                unidadesFilter,
+                defaultFilter,
+                unidadesFilter,
                 dataInicioFilter,
                 dataTerminoFilter,
                 pageable);

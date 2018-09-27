@@ -40,29 +40,49 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   WHERE " +
             "   (   " +
             "       (" +
-            "           ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
-            "           AND " +
             "           (" +
+            "               ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
+            "               AND " +
             "               (" +
-            "                   (cast(:dataInicioFilter AS date)) IS NOT NULL " +
-            "                   AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
-            "                   AND :dataInicioFilter <= avaliacao.data AND avaliacao.data <= :dataTerminoFilter" +
-            "               )" +
-            "               OR" +
-            "               (" +
-            "                   (cast(:dataInicioFilter AS date)) IS NOT NULL " +
-            "                   AND (cast(:dataTerminoFilter AS date)) IS NULL " +
-            "                   AND :dataInicioFilter <= avaliacao.data " +
-            "               )" +
-            "               OR" +
-            "               (" +
-            "                   (cast(:dataInicioFilter AS date)) IS NULL " +
-            "                   AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
-            "                   AND avaliacao.data <= :dataTerminoFilter " +
+            "                   (" +
+            "                           (cast(:dataInicioFilter AS date)) IS NOT NULL " +
+            "                       AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
+            "                       AND :dataInicioFilter <= avaliacao.data AND avaliacao.data <= :dataTerminoFilter" +
+            "                   )" +
+            "                   OR" +
+            "                   (" +
+            "                           (cast(:dataInicioFilter AS date)) IS NOT NULL " +
+            "                       AND (cast(:dataTerminoFilter AS date)) IS NULL " +
+            "                       AND :dataInicioFilter <= avaliacao.data " +
+            "                   )" +
+            "                   OR" +
+            "                   (" +
+            "                           (cast(:dataInicioFilter AS date)) IS NULL " +
+            "                       AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
+            "                       AND avaliacao.data <= :dataTerminoFilter " +
+            "                   )" +
             "               )" +
             "           )" +
+            "           OR ((cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NULL)" +
             "       )" +
-            "       OR ((cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NULL)" +
+            "       AND " +
+            "       (" +
+            "               FILTER(usuario.nome, :defaultFilter) = TRUE" +
+            "           OR FILTER(usuario.conta.email, :defaultFilter) = TRUE" +
+            "       )" +
+            "       AND " +
+            "       (" +
+            "           (" +
+            "               usuario.id IN " +
+            "               (" +
+            "                   SELECT colaborador.usuario.id FROM Colaborador colaborador WHERE " +
+            "                   (" +
+            "                       colaborador.unidade.id  IN :unidadesFilter " +
+            "                   )" +
+            "               )" +
+            "           )" +
+            "           OR :unidadesFilter IS NULL" +
+            "       )" +
             "   )" +
 //                    "               AND" +
 //                    "               (" +
@@ -102,8 +122,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Page<Usuario> listByFilters(
 //                                  @Param("usuarioId") final Long usuarioId,
 //                                  @Param("perfil") final String perfil,
-//                                  @Param("defaultFilter") final String defaultFilter,
-//                                  @Param("unidadesFilter") final List<Long> unidadesFilter,
+                                  @Param("defaultFilter") final String defaultFilter,
+                                  @Param("unidadesFilter") final List<Long> unidadesFilter,
                                   @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
                                   @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
             final Pageable pageable);
