@@ -25,7 +25,7 @@ public class Avaliacao extends AbstractEntity {
 
     @NotNull
     @Column(nullable = false)
-    private BigDecimal nota;
+    private int nota;
 
     @NotNull
     @Column(nullable = false)

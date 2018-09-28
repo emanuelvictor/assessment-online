@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -43,11 +44,22 @@ public class UnidadeService {
         return this.unidadeRepository.findById(id);
     }
 
-    public Page<Unidade> listByFilters(final String defaultFilter, final String enderecoFilter, final Pageable pageable) {
+    public Page<Unidade> listByFilters(final String defaultFilter,
+                                       final String enderecoFilter,
+                                       final LocalDateTime dataInicioFilter,
+                                       final LocalDateTime dataTerminoFilter,
+                                       final Pageable pageable) {
 
         final Usuario usuario = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
 
-        return this.unidadeRepository.listByFilters(usuario.getId(), usuario.getConta().getPerfil().name(), defaultFilter, enderecoFilter, pageable);
+        return this.unidadeRepository.listByFilters(
+                usuario.getId(),
+                usuario.getConta().getPerfil().name(),
+                defaultFilter,
+                enderecoFilter,
+                dataInicioFilter,
+                dataTerminoFilter,
+                pageable);
 
     }
 }

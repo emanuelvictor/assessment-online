@@ -50,6 +50,7 @@
          layout-gt-sm='row' layout-sm='column' flex='90'>
 
       <div layout='row' layout-margin style='margin-top: 15px'>
+
         <ev-datepicker #dataInicio layout='row' flex style='margin-left: -2px'
                        (dataInputChange)='listUsuariosByDates()'
                        [(dataInput)]='pageRequest.dataInicioFilter'>
@@ -63,19 +64,19 @@
           </mat-form-field>
         </ev-datepicker>
 
-
-        <ev-datepicker layout='row' flex
-                       (dataInputChange)='listUsuariosByDates(pageRequest.dataTerminoFilter)'
+        <ev-datepicker #dataTermino layout='row' flex
+                       (dataInputChange)='listUsuariosByDates()'
                        [(dataInput)]='pageRequest.dataTerminoFilter'>
           <mat-form-field>
             <input style='width: 225px'
-                   (ngModelChange)='listUsuariosByFilters(pageRequest)'
+
                    placeholder='Data da avaliação - Término'
                    [(ngModel)]='pageRequest.dataTerminoFilter'
                    matInput name='dataTermino' id='dataTermino'
                    [textMask]='{mask: masks.date, guide: false}'>
           </mat-form-field>
         </ev-datepicker>
+
       </div>
 
       <div hide-sm hide-xs flex='12'></div>
@@ -137,7 +138,7 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes1}}
+            {{usuario?.avaliacoes1 }}
           </mat-cell>
         </ng-container>
 
@@ -151,7 +152,7 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes2}}
+            {{usuario?.avaliacoes2 }}
           </mat-cell>
         </ng-container>
 
@@ -165,7 +166,7 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes3}}
+            {{usuario?.avaliacoes3 }}
           </mat-cell>
         </ng-container>
 
@@ -179,7 +180,7 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes4}}
+            {{usuario?.avaliacoes4 }}
           </mat-cell>
         </ng-container>
 
@@ -193,7 +194,20 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes5}}
+            {{usuario?.avaliacoes5 }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='quantidadeAvaliacoes'>
+          <mat-header-cell layout-align='center center'
+                           *matHeaderCellDef mat-sort-header>
+            <div layout="column" layout-align="center center">
+              <span>Quantidade de avaliações</span>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef='let usuario'
+                    layout-align='center center'>
+            {{usuario?.quantidadeAvaliacoes}}
           </mat-cell>
         </ng-container>
 
@@ -207,7 +221,8 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.media}}
+            <!--todo FALCATRUA PARA SUMIR A VÍRGULA-->
+            {{usuario?.media > 0 ? (usuario?.media | number:'1.0-2' :'pt-BR').replace(',','.') : 0}}
           </mat-cell>
         </ng-container>
 
@@ -220,7 +235,7 @@
         </mat-row>
       </mat-table>
       <mat-paginator [length]="page.totalElements" style="border-radius: 2px"
-                     [pageSizeOptions]="[10, 20, 50, 100]"
+                     [pageSizeOptions]="[5, 20, 50, 100]"
                      (page)="listUsuarios()" class="bgc-grey-50">
       </mat-paginator>
     </div>

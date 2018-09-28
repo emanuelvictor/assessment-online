@@ -1,9 +1,8 @@
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry} from '@angular/material';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
@@ -58,6 +57,7 @@ export class ConsultarAtendentesComponent implements OnInit {
       'avaliacoes3',
       'avaliacoes4',
       'avaliacoes5',
+      'quantidadeAvaliacoes',
       'media'
     ];
 
@@ -78,9 +78,15 @@ export class ConsultarAtendentesComponent implements OnInit {
    */
   @ViewChild(MatSort) sort: MatSort;
 
-  @ViewChild(EvDatepicker) dataInicio: EvDatepicker;
+  /**
+   * TODO
+   */
+  @ViewChild('dataInicio') dataInicio: EvDatepicker;
 
-
+  /**
+   *
+   */
+  @ViewChild('dataTermino') dataTermino: EvDatepicker;
 
   /**
    *
@@ -102,6 +108,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   ngOnInit() {
+
     /**
      * Seta o size do pageRequest no size do paginator
      * @type {number}
@@ -130,15 +137,18 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public onChangeFilters() {
+
     this.pageRequest.page = 0;
 
     this.pageRequest.unidadesFilter = this.asyncModel.map((result: any) => result.id);
+
     this.usuarioService.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
 
         this.page = result;
       })
+
   }
 
   /**
@@ -146,8 +156,15 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByDates() {
-    this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, "DD/MM/YYYY").locale('pt-BR').format("DD/MM/YYYY");
+
+    if (this.dataInicio.data)
+      this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+
+    if (this.dataTermino.data)
+      this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+
     this.listUsuariosByFilters(this.pageRequest);
+
   }
 
 
@@ -156,6 +173,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters(pageRequest: any) {
+
     pageRequest.unidadesFilter.concat(this.asyncModel.map((result: any) => result.id));
 
     this.usuarioService.listByFilters(this.pageRequest)
@@ -191,8 +209,7 @@ export class ConsultarAtendentesComponent implements OnInit {
   public toggleShowPesquisaAvancada() {
     if (this.showPesquisaAvancada) {
       this.hidePesquisaAvancada();
-    }
-    else {
+    } else {
       this.showPesquisaAvancada = true;
     }
   }

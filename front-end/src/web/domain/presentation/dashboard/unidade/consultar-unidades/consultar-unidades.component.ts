@@ -4,6 +4,11 @@ import {UnidadeService} from '../../../../service/unidade.service';
 import {Unidade} from '../../../../entity/unidade/unidade.model';
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry} from "@angular/material";
+import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
+import {textMasks} from '../../../controls/text-masks/text-masks';
+
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
 
 @Component({
   selector: 'consultar-unidades',
@@ -15,17 +20,24 @@ export class ConsultarUnidadesComponent implements OnInit {
   /**
    *
    */
+  masks = textMasks;
+
+  /**
+   *
+   */
   public showPesquisaAvancada = false;
 
   /**
    *
    */
-  public pagerequest = { // PageRequest
+  public pageRequest = { // PageRequest
     size: 20,
     page: 0,
     sort: null,
     defaultFilter: [],
-    enderecoFilter: []
+    enderecoFilter: [],
+    dataInicioFilter: null,
+    dataTerminoFilter: null
   };
 
   /**
@@ -47,6 +59,7 @@ export class ConsultarUnidadesComponent implements OnInit {
       'avaliacoes3',
       'avaliacoes4',
       'avaliacoes5',
+      'quantidadeAvaliacoes',
       'media'
     ];
 
@@ -67,6 +80,15 @@ export class ConsultarUnidadesComponent implements OnInit {
    */
   @ViewChild(MatSort) sort: MatSort;
 
+  /**
+   * TODO
+   */
+  @ViewChild('dataInicio') dataInicio: EvDatepicker;
+
+  /**
+   *
+   */
+  @ViewChild('dataTermino') dataTermino: EvDatepicker;
 
   /**
    *
@@ -88,25 +110,25 @@ export class ConsultarUnidadesComponent implements OnInit {
    */
   ngOnInit() {
     /**
-     * Seta o size do pagerequest no size do paginator
+     * Seta o size do pageRequest no size do paginator
      * @type {number}
      */
-    this.paginator.pageSize = this.pagerequest.size;
+    this.paginator.pageSize = this.pageRequest.size;
 
     /**
      * Listagem inicial
      */
-    this.listUnidadesByFilters(this.pagerequest);
+    this.listUnidadesByFilters(this.pageRequest);
 
     /**
      * Sobrescreve o sortChange do sort bindado
      */
     this.sort.sortChange.subscribe(() => {
-      this.pagerequest.sort = {
+      this.pageRequest.sort = {
         'properties': this.sort.active,
         'direction': this.sort.direction
       };
-      this.listUnidadesByFilters(this.pagerequest);
+      this.listUnidadesByFilters(this.pageRequest);
     });
   }
 
@@ -115,9 +137,9 @@ export class ConsultarUnidadesComponent implements OnInit {
    */
   public onChangeFilters() {
 
-    this.pagerequest.page = 0;
+    this.pageRequest.page = 0;
 
-    this.unidadeService.listByFilters(this.pagerequest)
+    this.unidadeService.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Unidade>(result.content);
 
@@ -126,11 +148,19 @@ export class ConsultarUnidadesComponent implements OnInit {
   }
 
   /**
-   * Consulta de unidades com filtros do model
+   * Consulta de usuarios com filtros do model
    *
    */
-  public listUnidades() {
-    this.listUnidadesByFilters(this.pagerequest);
+  public listUnidadesByDates() {
+
+    if (this.dataInicio.data)
+      this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+
+    if (this.dataTermino.data)
+      this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+
+    this.listUnidadesByFilters(this.pageRequest);
+
   }
 
 
@@ -143,7 +173,7 @@ export class ConsultarUnidadesComponent implements OnInit {
     pageRequest.size = this.paginator.pageSize;
     pageRequest.page = this.paginator.pageIndex;
 
-    this.unidadeService.listByFilters(this.pagerequest)
+    this.unidadeService.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Unidade>(result.content);
 
@@ -155,17 +185,21 @@ export class ConsultarUnidadesComponent implements OnInit {
    * Fechamento da pesquisa
    */
   public hidePesquisaAvancada() {
+
     this.showPesquisaAvancada = false;
 
-    this.pagerequest = { // PageRequest
+    this.pageRequest = { // PageRequest
       size: 20,
       page: 0,
       sort: null,
       defaultFilter: null,
-      enderecoFilter: null
+      enderecoFilter: null,
+      dataInicioFilter: null,
+      dataTerminoFilter: null
     };
 
     this.onChangeFilters();
+
   }
 
   /**

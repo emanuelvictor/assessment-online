@@ -10,11 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.CacheControl;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.http.codec.multipart.Part;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
@@ -23,15 +18,11 @@ import org.springframework.security.web.server.context.ServerSecurityContextRepo
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 
 @Service
@@ -129,16 +120,19 @@ public class UsuarioService {
      * @param pageable       Pageable
      * @return Page<Usuario>
      */
-    public Page<Usuario> listByFilters(final String defaultFilter, final List<Long> unidadesFilter,
-                                       final LocalDateTime dataInicioFilter, final LocalDateTime dataTerminoFilter, final Pageable pageable) {
+    public Page<Usuario> listByFilters(final String defaultFilter,
+                                       final List<Long> unidadesFilter,
+                                       final LocalDateTime dataInicioFilter,
+                                       final LocalDateTime dataTerminoFilter,
+                                       final Pageable pageable) {
 
-//        final Usuario usuario = this.contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
+        final Usuario usuario = this.contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
 
         return this.usuarioRepository.listByFilters(
-//                usuario.getId(),
-//                usuario.getConta().getPerfil().name(),
-//                defaultFilter,
-//                unidadesFilter,
+                usuario.getId(),
+                usuario.getConta().getPerfil().name(),
+                defaultFilter,
+                unidadesFilter,
                 dataInicioFilter,
                 dataTerminoFilter,
                 pageable);
