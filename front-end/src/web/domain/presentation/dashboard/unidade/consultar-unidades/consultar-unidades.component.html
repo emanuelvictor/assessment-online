@@ -3,14 +3,14 @@
 
   <td-chips style="margin-left:0; margin-top: 9px;"
             placeholder="Pesquisar por nome"
-            [(ngModel)]="pagerequest.defaultFilter"
+            [(ngModel)]="pageRequest.defaultFilter"
             flex-md="40" flex-gt-md="45" flex-gt-lg="50"
             (add)="onChangeFilters()" (remove)="onChangeFilters()">
   </td-chips>
 
   <td-chips flex="30" style="margin-top: 0px;"
             placeholder="Pesquisar por endereço"
-            [(ngModel)]="pagerequest.enderecoFilter"
+            [(ngModel)]="pageRequest.enderecoFilter"
             (add)="onChangeFilters()" (remove)="onChangeFilters()">
   </td-chips>
 
@@ -28,16 +28,48 @@
 </search-bar>
 
 <!--Pesquisa avançada-->
-<mat-card class="push-none bgc-grey-50 filters-card-avanced" *ngIf="showPesquisaAvancada">
-  <div layout="row" layout-align="center center">
-    <div layout-gt-sm='row' layout-sm='column' flex='90' layout-align-gt-sm='start center' layout-margin>
+<mat-card style='height: 95px'
+          *ngIf='showPesquisaAvancada'
+          class='push-none bgc-grey-50 filters-card-avanced'>
+  <div layout='row'
+       layout-align='center center'>
+    <div layout-align-gt-sm='start center'
+         layout-gt-sm='row' layout-sm='column' flex='90'>
 
+      <div layout='row' layout-margin style='margin-top: 15px'>
+
+        <ev-datepicker #dataInicio layout='row' flex style='margin-left: -2px'
+                       (dataInputChange)='listUnidadesByDates()'
+                       [(dataInput)]='pageRequest.dataInicioFilter'>
+          <mat-form-field>
+            <input
+
+                placeholder='Data da avaliação - Início'
+                [(ngModel)]='pageRequest.dataInicioFilter'
+                matInput name='dataInicio' id='dataInicio'
+                [textMask]='{mask: masks.date, guide: false}'>
+          </mat-form-field>
+        </ev-datepicker>
+
+        <ev-datepicker #dataTermino layout='row' flex
+                       (dataInputChange)='listUnidadesByDates()'
+                       [(dataInput)]='pageRequest.dataTerminoFilter'>
+          <mat-form-field>
+            <input style='width: 225px'
+
+                   placeholder='Data da avaliação - Término'
+                   [(ngModel)]='pageRequest.dataTerminoFilter'
+                   matInput name='dataTermino' id='dataTermino'
+                   [textMask]='{mask: masks.date, guide: false}'>
+          </mat-form-field>
+        </ev-datepicker>
+
+      </div>
 
       <div hide-sm hide-xs flex='12'></div>
 
-      <close-button (click)="hidePesquisaAvancada()" hide-sm hide-xs></close-button>
+      <close-button (click)='hidePesquisaAvancada()' hide-sm hide-xs></close-button>
     </div>
-
   </div>
 </mat-card>
 
