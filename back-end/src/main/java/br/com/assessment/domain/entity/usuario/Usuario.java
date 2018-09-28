@@ -82,6 +82,9 @@ public class Usuario extends Pessoa {
     private Double media;
 
     @Transient
+    private long quantidadeAvaliacoes;
+
+    @Transient
     private long avaliacoes1;
 
     @Transient
@@ -100,7 +103,7 @@ public class Usuario extends Pessoa {
      *
      */
     public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath,
-                   final Double media, final long avaliacoes1, final long avaliacoes2, final long avaliacoes3, final long avaliacoes4, final long avaliacoes5) {
+                   final Double media, final long quantidadeAvaliacoes, final long avaliacoes1, final long avaliacoes2, final long avaliacoes3, final long avaliacoes4, final long avaliacoes5) {
 
         final Conta conta = new Conta();
         conta.setId(id);
@@ -114,6 +117,7 @@ public class Usuario extends Pessoa {
         this.fotoPath = fotoPath;
 
         this.media = media;
+        this.quantidadeAvaliacoes = quantidadeAvaliacoes;
         this.avaliacoes1 = avaliacoes1;
         this.avaliacoes2 = avaliacoes2;
         this.avaliacoes3 = avaliacoes3;

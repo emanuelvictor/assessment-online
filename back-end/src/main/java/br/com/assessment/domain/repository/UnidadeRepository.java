@@ -15,68 +15,14 @@ import java.util.List;
 
 public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
 
-    @Query
-            (
-                    " SELECT unidade FROM Unidade unidade WHERE " +
-                            "(" +
-                            "   (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND unidade.id IN " +
-                            "   (" +
-                            "       SELECT colaborador.unidade.id FROM Colaborador colaborador WHERE " +
-                            "       (" +
-                            "           colaborador.usuario.id = :usuarioId" +
-                            "           AND " +
-                            "           (" +
-                            "               (" +
-                            "                   :perfil = '" + Perfil.ATENDENTE_VALUE + "' AND (colaborador.vinculo = 0) " +
-                            "               )" +
-                            "               OR " +
-                            "               (" +
-                            "                   :perfil = '" + Perfil.OPERADOR_VALUE + "' AND (colaborador.vinculo = 1 OR colaborador.vinculo = 2)" +
-                            "               )" +
-                            "           )" +
-                            "       )" +
-                            "   ) OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "')" +
-                            "   AND " +
-                            "   (" +
-                            "       FILTER(unidade.nome, :defaultFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.logradouro, :defaultFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.complemento, :defaultFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.bairro, :defaultFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.cep, :defaultFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.numero, :defaultFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.cidade.nome, :defaultFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.cidade.estado.nome, :defaultFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.cidade.estado.uf, :defaultFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.cidade.estado.pais.nome, :defaultFilter) = TRUE" +
-                            "   )" +
-                            "   AND " +
-                            "   (" +
-                            "       FILTER(unidade.endereco.logradouro, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.complemento, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.bairro, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.cep, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.numero, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.cidade.nome, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.cidade.estado.nome, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.cidade.estado.uf, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(unidade.endereco.cidade.estado.pais.nome, :enderecoFilter) = TRUE" +
-                            "   )" +
-                            ")"
-            )
-    Page<Unidade> listByFilters(@Param("usuarioId") final Long usuarioId,
-                                @Param("perfil") final String perfil,
-                                @Param("defaultFilter") final String defaultFilter,
-                                @Param("enderecoFilter") final String enderecoFilter,
-                                final Pageable pageable);
-
-
 
     @Query("SELECT new Unidade( " +
             "   unidade.id, " +
             "   unidade.nome, " +
             "   unidade.documento, " +
             "   unidade.endereco," +
-            "   AVG(avaliacao.nota) AS media," +
+            "   AVG(CASE WHEN avaliacao.nota IS NULL THEN 0 ELSE avaliacao.nota END) AS media," +
+            "   COUNT(avaliacao) AS quantidadeAvaliacoes," +
             "   COUNT(av1) AS avaliacoes1," +
             "   COUNT(av2) AS avaliacoes2," +
             "   COUNT(av3) AS avaliacoes3," +

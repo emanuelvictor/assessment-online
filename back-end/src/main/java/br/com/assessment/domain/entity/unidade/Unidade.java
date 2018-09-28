@@ -26,6 +26,9 @@ public class Unidade extends Pessoa {
     private Double media;
 
     @Transient
+    private long quantidadeAvaliacoes;
+
+    @Transient
     private long avaliacoes1;
 
     @Transient
@@ -44,7 +47,7 @@ public class Unidade extends Pessoa {
      *
      */
     public Unidade(final long id, final String nome, final String documento, final Endereco endereco,
-                   final Double media, final long avaliacoes1, final long avaliacoes2, final long avaliacoes3, final long avaliacoes4, final long avaliacoes5) {
+                   final Double media, final long quantidadeAvaliacoes, final long avaliacoes1, final long avaliacoes2, final long avaliacoes3, final long avaliacoes4, final long avaliacoes5) {
 
         this.id = id;
         this.nome = nome;
@@ -53,6 +56,7 @@ public class Unidade extends Pessoa {
         this.endereco = endereco;
 
         this.media = media;
+        this.quantidadeAvaliacoes = quantidadeAvaliacoes;
         this.avaliacoes1 = avaliacoes1;
         this.avaliacoes2 = avaliacoes2;
         this.avaliacoes3 = avaliacoes3;
