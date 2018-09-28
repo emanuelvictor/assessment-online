@@ -97,6 +97,7 @@ public class Usuario extends Pessoa {
     private long avaliacoes5;
 
     /**
+     *
      */
     public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath,
                    final Double media, final long avaliacoes1, final long avaliacoes2, final long avaliacoes3, final long avaliacoes4, final long avaliacoes5) {
@@ -119,7 +120,6 @@ public class Usuario extends Pessoa {
         this.avaliacoes4 = avaliacoes4;
         this.avaliacoes5 = avaliacoes5;
     }
-
 
     /**
      *

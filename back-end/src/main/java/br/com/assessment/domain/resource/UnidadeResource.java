@@ -2,6 +2,7 @@ package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Perfil;
+import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.service.UnidadeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -9,9 +10,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static br.com.assessment.application.context.Context.getPageable;
+import static br.com.assessment.infrastructure.util.ArrayUtil.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,7 +50,9 @@ public class UnidadeResource {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<Page<Unidade>> listByFilters(final String defaultFilter, final String enderecoFilter) {
-        return Mono.just(this.unidadeService.listByFilters(defaultFilter, enderecoFilter, getPageable()));
+    Mono<Page<Unidade>> listByFilters(final String defaultFilter, final String enderecoFilter,
+                                      @RequestParam(required = false) final LocalDateTime dataInicioFilter,
+                                      @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
+        return Mono.just(this.unidadeService.listByFilters(defaultFilter, enderecoFilter, dataInicioFilter, dataTerminoFilter, getPageable()));
     }
 }
