@@ -25,6 +25,7 @@ import {AtendenteRankingComponent} from './presentation/dashboard/ranking/atende
 import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component';
 import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente.component';
 import {WebLoginComponent} from './presentation/login/web-login/web-login.component';
+import {ConfiguracaoComponent} from "./presentation/dashboard/configuracao/configuracao.component";
 
 
 const routes: Routes = [
@@ -90,6 +91,10 @@ const routes: Routes = [
               path: ':id', component: EstatisticasUnidadeComponent
             }
           ]
+        }
+        ,
+        {
+          path: 'configuracoes', component: ConfiguracaoComponent,
         }
       ]
   }

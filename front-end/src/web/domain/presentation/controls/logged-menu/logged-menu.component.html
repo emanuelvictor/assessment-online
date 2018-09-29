@@ -51,6 +51,19 @@
       </div>
     </mat-list-item>
 
+    <mat-divider class="bgc-blue-grey-300 push-top push-bottom pad-left"></mat-divider>
+
+    <mat-list-item class="push-bottom"
+                   routerLink="/dashboard/configuracoes"
+                   routerLinkActive #rlaSettings="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaSettings.isActive}">
+      <div layout="row" flex class="pad-left">
+        <span flex="10"></span>
+        <mat-icon matListAvatar flex>settings</mat-icon>
+        <h3 matLine style="color: white" flex="85"> Configurações </h3>
+      </div>
+    </mat-list-item>
+
     <!--<mat-list-item class="push-bottom"-->
                    <!--routerLink="/dashboard/meus-melhores-atendentes"-->
                    <!--routerLinkActive #rlaMelhorAtendente="routerLinkActive"-->
