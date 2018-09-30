@@ -9,6 +9,8 @@ import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
 
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
+import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
+import {ConfiguracaoService} from "../../../../service/configuracao.service";
 
 @Component({
   selector: 'consultar-atendentes',
@@ -16,6 +18,12 @@ import 'moment/locale/pt-br';
   styleUrls: ['./consultar-atendentes.component.css']
 })
 export class ConsultarAtendentesComponent implements OnInit {
+
+  /**
+   *
+   * @type {Configuracao}
+   */
+  configuracao: Configuracao;
 
   /**
    *
@@ -91,11 +99,15 @@ export class ConsultarAtendentesComponent implements OnInit {
   /**
    *
    * @param {UsuarioService} usuarioService
-   * @param {UnidadeService} unidadeService
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
+   * @param {UnidadeService} unidadeService
+   * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private usuarioService: UsuarioService, private unidadeService: UnidadeService, private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+  constructor(private usuarioService: UsuarioService,
+              private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
+              private unidadeService: UnidadeService, private configuracaoService: ConfiguracaoService) {
+
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
@@ -108,6 +120,14 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   ngOnInit() {
+
+    /**
+     * Carrega configurações
+     */
+    this.configuracaoService.findAll()
+      .subscribe(result => {
+        this.configuracao = result[0];
+      });
 
     /**
      * Seta o size do pageRequest no size do paginator

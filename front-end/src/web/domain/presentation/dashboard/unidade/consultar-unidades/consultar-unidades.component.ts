@@ -1,14 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {Unidade} from '../../../../entity/unidade/unidade.model';
 import {DomSanitizer} from "@angular/platform-browser";
-import {MatIconRegistry} from "@angular/material";
 import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
+import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
+import {ConfiguracaoService} from "../../../../service/configuracao.service";
 
 @Component({
   selector: 'consultar-unidades',
@@ -16,6 +17,12 @@ import 'moment/locale/pt-br';
   styleUrls: ['./consultar-unidades.component.css']
 })
 export class ConsultarUnidadesComponent implements OnInit {
+
+  /**
+   *
+   * @type {Configuracao}
+   */
+  configuracao: Configuracao;
 
   /**
    *
@@ -92,11 +99,14 @@ export class ConsultarUnidadesComponent implements OnInit {
 
   /**
    *
-   * @param {UnidadeService} unidadeService
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
+   * @param {UnidadeService} unidadeService
+   * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private unidadeService: UnidadeService, private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+  constructor(private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
+              private unidadeService: UnidadeService, private configuracaoService: ConfiguracaoService) {
+
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
@@ -109,6 +119,15 @@ export class ConsultarUnidadesComponent implements OnInit {
    *
    */
   ngOnInit() {
+
+    /**
+     * Carrega configurações
+     */
+    this.configuracaoService.findAll()
+      .subscribe(result => {
+        this.configuracao = result[0];
+      });
+
     /**
      * Seta o size do pageRequest no size do paginator
      * @type {number}

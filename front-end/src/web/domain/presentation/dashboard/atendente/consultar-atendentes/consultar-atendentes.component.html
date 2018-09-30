@@ -133,7 +133,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout='column' layout-align='center center'>
               <mat-icon style='fill: #c21c1f' svgIcon='assets:pessimo'></mat-icon>
-              <span>Péssimo</span>
+              <span>{{configuracao?.um}}</span>
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
@@ -147,7 +147,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout='column' layout-align='center center'>
               <mat-icon style='fill: #e96d01' svgIcon='assets:ruim'></mat-icon>
-              <span>Ruim</span>
+              <span>{{configuracao?.dois}}</span>
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
@@ -161,7 +161,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout='column' layout-align='center center'>
               <mat-icon style='fill: #d4c40d' svgIcon='assets:regular'></mat-icon>
-              <span>Regular</span>
+              <span>{{configuracao?.tres}}</span>
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
@@ -175,7 +175,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout='column' layout-align='center center'>
               <mat-icon style='fill: #8fc82c' svgIcon='assets:bom'></mat-icon>
-              <span>Bom</span>
+              <span>{{configuracao?.quatro}}</span>
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
@@ -189,7 +189,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout="column" layout-align="center center">
               <mat-icon style="fill: #5ee924" svgIcon="assets:otimo"></mat-icon>
-              <span>Ótimo</span>
+              <span>{{configuracao?.cinco}}</span>
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
