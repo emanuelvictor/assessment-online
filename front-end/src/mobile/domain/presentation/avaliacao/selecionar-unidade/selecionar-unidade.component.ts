@@ -34,8 +34,8 @@ export class SelecionarUnidadeComponent implements OnInit {
    */
   ngOnInit() {
     this.unidadeService.find()
-      .subscribe(unidades => {
-        this.unidades = unidades;
+      .subscribe(result => {
+        this.unidades = result.content;
       });
   }
 
@@ -44,7 +44,7 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param unidade
    */
   selecionar(unidade) {
-    this.mobileService.setUnidade(unidade.key);
+    this.mobileService.setUnidade(unidade.id);
     this.router.navigate(['avaliar']);
   }
 }
