@@ -68,7 +68,8 @@ export class ConfiguracaoComponent implements OnInit {
 
     this.configuracaoService.findAll()
       .subscribe(result => {
-        this.configuracao = result[0];
+        if (result.length)
+          this.configuracao = result[0];
       })
   }
 

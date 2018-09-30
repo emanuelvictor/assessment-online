@@ -42,10 +42,10 @@ export class Configuracao extends Abstract {
    */
   constructor() {
     super();
-    this.um = 'Terrível';
+    this.um = 'Péssimo';
     this.dois = 'Ruim';
-    this.tres = 'Meia boca';
-    this.quatro = 'Bacana';
-    this.cinco = 'Top da balada';
+    this.tres = 'Regular';
+    this.quatro = 'Bom';
+    this.cinco = 'Ótimo';
   }
 }

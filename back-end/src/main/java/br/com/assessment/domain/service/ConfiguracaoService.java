@@ -1,65 +1,42 @@
 package br.com.assessment.domain.service;
 
 import br.com.assessment.application.context.Context;
-import br.com.assessment.domain.entity.unidade.Unidade;
-import br.com.assessment.domain.entity.usuario.Perfil;
+import br.com.assessment.domain.entity.configuracao.Configuracao;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.ContaRepository;
-import br.com.assessment.domain.repository.UnidadeRepository;
+import br.com.assessment.domain.repository.ConfiguracaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UnidadeService {
+public class ConfiguracaoService {
 
-    private final UnidadeRepository unidadeRepository;
+    private final ConfiguracaoRepository configuracaoRepository;
 
-    private final ContaRepository contaRepository;
-
-    public Unidade save(final long id, final Unidade unidade) {
-        Assert.isTrue(unidade.getId() != null && unidade.getId().equals(id), "Você não tem acesso a essa unidade"); //TODO colocar validator em uma service, e colocar na camada de cima
-        return this.save(unidade);
+    public Configuracao save(final long id, final Configuracao configuracao) {
+        return this.save(configuracao);
     }
 
-    public Unidade save(final Unidade unidade) {
-        return this.unidadeRepository.save(unidade);
+    public Configuracao save(final Configuracao configuracao) {
+        return this.configuracaoRepository.save(configuracao);
     }
 
     public void delete(final long id) {
-        this.unidadeRepository.deleteById(id);
+        this.configuracaoRepository.deleteById(id);
     }
 
-    public Optional<Unidade> findById(final long id) {
-        return this.unidadeRepository.findById(id);
+    public List<Configuracao> findAll() {
+        return this.configuracaoRepository.findAll();
     }
 
-    public Page<Unidade> listByFilters(final String defaultFilter,
-                                       final String enderecoFilter,
-                                       final LocalDateTime dataInicioFilter,
-                                       final LocalDateTime dataTerminoFilter,
-                                       final Pageable pageable) {
-
-        final Usuario usuario = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
-
-        return this.unidadeRepository.listByFilters(
-                usuario.getId(),
-                usuario.getConta().getPerfil().name(),
-                defaultFilter,
-                enderecoFilter,
-                dataInicioFilter,
-                dataTerminoFilter,
-                pageable);
-
-    }
 }
