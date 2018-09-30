@@ -34,6 +34,8 @@ import {ContaService} from '../../web/domain/service/conta.service';
 import {PageSerialize} from '../../web/infrastructure/page-serialize/page-serialize';
 import {MobileService} from "./service/mobile.service";
 import {MobileLoginComponent} from './presentation/login/web-login/mobile-login.component';
+import {ConfiguracaoRepository} from "../../web/domain/repositories/configuracao.repository";
+import {ConfiguracaoService} from "../../web/domain/service/configuracao.service";
 
 /**
  *
@@ -64,6 +66,7 @@ import {MobileLoginComponent} from './presentation/login/web-login/mobile-login.
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     PageSerialize,
+    ConfiguracaoRepository,
     AvaliacaoColaboradorRepository,
     ColaboradorRepository,
     AvaliacaoRepository,
@@ -74,6 +77,7 @@ import {MobileLoginComponent} from './presentation/login/web-login/mobile-login.
     ContaRepository,
 
     AuthenticationService,
+    ConfiguracaoService,
     ColaboradorService,
     AvaliacaoService,
     EnderecoService,

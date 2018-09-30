@@ -42,9 +42,12 @@ export class ConfiguracaoComponent implements OnInit {
    * @param {DomSanitizer} domSanitizer
    * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private snackBar: MatSnackBar, private _loadingService: TdLoadingService,
-              @Inject(ElementRef) private element: ElementRef, private renderer: Renderer, private fb: FormBuilder,
-              private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private configuracaoService: ConfiguracaoService) {
+  constructor(private snackBar: MatSnackBar,
+              private _loadingService: TdLoadingService,
+              @Inject(ElementRef) private element: ElementRef,
+              private configuracaoService: ConfiguracaoService,
+              private renderer: Renderer, private fb: FormBuilder,
+              private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
   }
 
   /**
@@ -60,7 +63,7 @@ export class ConfiguracaoComponent implements OnInit {
       cinco: ['cinco', [Validators.required]],
     });
 
-    this.iconRegistry.addSvgIconInNamespace('assets', 'terrivel', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'meia-boca', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'bacana', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
@@ -131,7 +134,7 @@ export class ConfiguracaoComponent implements OnInit {
         .then(result => {
           this.configuracao = result;
           this._loadingService.resolve('overlayStarSyntax');
-          this.success('Atendente inserido com sucesso');
+          this.success('Configuração atualizada com sucesso');
         });
     }
   }
