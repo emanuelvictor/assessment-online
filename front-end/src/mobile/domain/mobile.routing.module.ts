@@ -7,6 +7,7 @@ import {SelecionarUnidadeComponent} from "./presentation/avaliacao/selecionar-un
 import {AvaliacaoComponent} from "./presentation/avaliacao/avaliacao.component";
 import {AuthenticationService} from "../../web/domain/service/authentication.service";
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/selecionar-atendentes/selecionar-atendentes.component";
+import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component";
 
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
       {path: 'avaliar', component: AvaliarComponent},
       {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
       {path: 'conclusao', component: ConclusaoComponent},
+      {path: 'logout', component: LogoutComponent},
     ]
   }
 ];

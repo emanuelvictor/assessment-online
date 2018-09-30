@@ -78,27 +78,6 @@ public class Usuario extends Pessoa {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Conta conta;
 
-    @Transient
-    private Double media;
-
-    @Transient
-    private long quantidadeAvaliacoes;
-
-    @Transient
-    private long avaliacoes1;
-
-    @Transient
-    private long avaliacoes2;
-
-    @Transient
-    private long avaliacoes3;
-
-    @Transient
-    private long avaliacoes4;
-
-    @Transient
-    private long avaliacoes5;
-
     /**
      *
      */

@@ -18,30 +18,11 @@ import javax.validation.constraints.NotNull;
 @lombok.EqualsAndHashCode(callSuper = true)
 public class Unidade extends Pessoa {
 
+    /**
+     *
+     */
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     private Endereco endereco;
-
-
-    @Transient
-    private Double media;
-
-    @Transient
-    private long quantidadeAvaliacoes;
-
-    @Transient
-    private long avaliacoes1;
-
-    @Transient
-    private long avaliacoes2;
-
-    @Transient
-    private long avaliacoes3;
-
-    @Transient
-    private long avaliacoes4;
-
-    @Transient
-    private long avaliacoes5;
 
     /**
      *

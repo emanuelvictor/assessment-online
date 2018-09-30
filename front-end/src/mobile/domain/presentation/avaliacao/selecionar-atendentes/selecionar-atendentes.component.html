@@ -6,7 +6,7 @@
 </mat-card-title>
 <mat-card-content class="no-margin">
 
-  <mat-grid-list cols="3" rowHeight="100px">
+  <mat-grid-list cols="{{atendentes.length > 6 ? 4 : 3}}" rowHeight="100px" *ngIf="atendentes.length">
     <mat-grid-tile
         mat-ripple
         [colspan]="1"

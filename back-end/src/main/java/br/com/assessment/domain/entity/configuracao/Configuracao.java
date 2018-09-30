@@ -1,10 +1,12 @@
 package br.com.assessment.domain.entity.configuracao;
 
 import br.com.assessment.domain.entity.generic.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
@@ -25,26 +27,54 @@ public class Configuracao extends AbstractEntity {
     /**
      *
      */
-    public String um;
+    private String um;
 
     /**
      *
      */
-    public String dois;
+    private String dois;
 
     /**
      *
      */
-    public String tres;
+    private String tres;
 
     /**
      *
      */
-    public String quatro;
+    private String quatro;
 
     /**
      *
      */
-    public String cinco;
+    private String cinco;
+
+    /**
+     *
+     */
+    @JsonIgnore
+    private byte[] logo;
+
+    /**
+     *
+     *
+     */
+    private String logoPath;
+
+    /**
+     *
+     */
+    @JsonIgnore
+    private byte[] backgroundImage;
+
+    /**
+     *
+     */
+    private String backgroundImagePath;
+
+    /**
+     *
+     */
+    private String agradecimento;
 
 }

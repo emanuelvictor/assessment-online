@@ -8,6 +8,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
@@ -19,7 +20,7 @@ import java.io.Serializable;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa extends AbstractEntity implements Serializable {
 
-    private static final long serialVersionUID = -3782123951557287123L;
+    protected static final long serialVersionUID = -3782123951557287123L;
 
     /**
      *
@@ -31,5 +32,26 @@ public class Pessoa extends AbstractEntity implements Serializable {
      * TODO fazer unique
      */
     protected String documento;
+
+    @Transient
+    protected Double media;
+
+    @Transient
+    protected long quantidadeAvaliacoes;
+
+    @Transient
+    protected long avaliacoes1;
+
+    @Transient
+    protected long avaliacoes2;
+
+    @Transient
+    protected long avaliacoes3;
+
+    @Transient
+    protected long avaliacoes4;
+
+    @Transient
+    protected long avaliacoes5;
 
 }
