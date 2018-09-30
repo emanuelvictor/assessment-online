@@ -16,4 +16,35 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 public class Configuracao extends AbstractEntity {
 
+    /*
+     * --------------------------------------------------------------
+     *            Configurações de nomes das avaliações
+     * --------------------------------------------------------------
+     */
+
+    /**
+     *
+     */
+    public String um;
+
+    /**
+     *
+     */
+    public String dois;
+
+    /**
+     *
+     */
+    public String tres;
+
+    /**
+     *
+     */
+    public String quatro;
+
+    /**
+     *
+     */
+    public String cinco;
+
 }

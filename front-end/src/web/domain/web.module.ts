@@ -86,6 +86,9 @@ import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-
 import {ClienteFormComponent} from './presentation/dashboard/cliente/cliente-form/cliente-form.component';
 import {PageSerialize} from '../infrastructure/page-serialize/page-serialize';
 import {WebLoginComponent} from './presentation/login/web-login/web-login.component';
+import {ConfiguracaoRepository} from "./repositories/configuracao.repository";
+import {ConfiguracaoService} from "./service/configuracao.service";
+import {ConfiguracaoComponent} from "./presentation/dashboard/configuracao/configuracao.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -116,6 +119,9 @@ registerLocaleData(localePt, 'pt-BR');
 
     // Authentication
     WebLoginComponent,
+
+    // Settings
+    ConfiguracaoComponent,
 
     // Controls
     CloseButtonComponent,
@@ -190,6 +196,7 @@ registerLocaleData(localePt, 'pt-BR');
   providers: [
     PageSerialize,
     AvaliacaoColaboradorRepository,
+    ConfiguracaoRepository,
     ColaboradorRepository,
     AvaliacaoRepository,
     EnderecoRepository,
@@ -199,6 +206,7 @@ registerLocaleData(localePt, 'pt-BR');
     ContaRepository,
 
     AuthenticationService,
+    ConfiguracaoService,
     ColaboradorService,
     AvaliacaoService,
     EnderecoService,
