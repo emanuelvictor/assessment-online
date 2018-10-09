@@ -22,6 +22,18 @@ export class ConfiguracaoComponent implements OnInit {
 
   /**
    *
+   * @type {any}
+   */
+  fotoPath = null;
+
+  /**
+   *
+   * @type {any}
+   */
+  arquivoFile = null;
+
+  /**
+   *
    * @type {Configuracao}
    */
   public configuracao: Configuracao = new Configuracao();
@@ -163,6 +175,22 @@ export class ConfiguracaoComponent implements OnInit {
     this.snackBar.open(message, "Fechar", {
       duration: 5000
     });
+  }
+
+  /**
+   *
+   * @param event
+   */
+  fileChange(event) {
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      this.arquivoFile = fileList[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (arquivo: any) => {
+        this.fotoPath = arquivo.target.result;
+      };
+    }
   }
 
 }

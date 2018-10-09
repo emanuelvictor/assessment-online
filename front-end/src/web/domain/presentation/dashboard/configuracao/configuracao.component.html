@@ -105,11 +105,40 @@
 
             <div layout='column' layout-margin header>
               <div layout='row' layout-align='start center'>
-                <div layout="column" layout-margin>
-                  <h2 flex [matTooltipPosition]="'below'"
-                      class="mat-subheading-2 tc-grey-500"
-                      matTooltip='Logomarca e mensagem de agradecimento exibido ao término da avaliação'>Logomarca e mensagem de agradecimento</h2>
+
+                <div layout='column'>
+                  <div layout='column' layout-margin>
+                    <h2 flex [matTooltipPosition]="'below'"
+                        class="mat-subheading-2 tc-grey-500"
+                        matTooltip='Logomarca e mensagem de agradecimento exibido ao término da avaliação'>
+                      Logomarca e mensagem de agradecimento
+                    </h2>
+                  </div>
+                  <div layout='column' flex layout-align='center center'>
+                    <div flex>
+                      <avatar [usuario]="{'id': configuracao.id , 'foto': fotoPath}"></avatar>
+                    </div>
+                    <div flex *ngIf='fotoPath'>
+                      <button type='button' (click)='removeFile()' class='tc-grey-500' mat-button>
+                        REMOVER FOTO
+                      </button>
+                    </div>
+                    <div flex *ngIf='!fotoPath'>
+                      <td-file-upload #singleFileUpload
+                                      defaultColor='primary'
+                                      (change)='fileChange($event)'
+                                      name="file"
+                                      accept='.png, .gif, .jpg, .jpeg'>
+                        <span>{{ singleFileUpload?.files?.name }}</span>
+                        <ng-template td-file-input-label>
+                          <mat-icon>attach_file</mat-icon>
+                          <span>Adicionar foto</span>
+                        </ng-template>
+                      </td-file-upload>
+                    </div>
+                  </div>
                 </div>
+
               </div>
             </div>
 
