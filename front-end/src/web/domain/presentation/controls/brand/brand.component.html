@@ -1,0 +1,69 @@
+<svg *ngIf="size > 0.7" height="210" width="200" transform="scale(1)">
+  <defs>
+    <pattern height="1" id="brand" patternUnits="objectBoundingBox" width="1" x="0" y="0">
+      <image xlink:href="./assets/baseline-branding_watermark-24px.svg" height="140" width="140" x="0" y="0"></image>
+    </pattern>
+    <pattern id="{{identifier}}" x="0" y="0" height="200" width="200" patternUnits="userSpaceOnUse">
+      <image width="200" height="200" preserveAspectRatio="xMidYMid slice" [attr.xlink:href]="configuracao.logoPath"></image>
+    </pattern>
+  </defs>
+  <!--todo cor hardcoded-->
+  <circle *ngIf="!configuracao.logoPath" fill="rgb(223, 229, 231)" cx="100" cy="100" r="99"></circle>
+
+  <circle *ngIf="configuracao.logoPath" [style.fill]="'url(#'+identifier+')'" cx="100" cy="100" r="100"></circle>
+
+  <circle *ngIf="!configuracao.logoPath" fill="url(#brand)" cx="100" cy="100" r="70"></circle>
+</svg>
+
+<!--<svg *ngIf="size > 0.5 && size <= 0.7" height="120" width="120">-->
+
+  <!--<defs>-->
+    <!--<pattern height="1" id="brand" patternUnits="objectBoundingBox" width="1" x="0" y="0">-->
+      <!--<image xlink:href="./assets/baseline-branding_watermark-24px.svg" height="140" width="140" x="0" y="0"></image>-->
+    <!--</pattern>-->
+    <!--<pattern id="{{identifier}}" x="0" y="0" height="200" width="200" patternUnits="userSpaceOnUse">-->
+      <!--<image width="200" height="200" preserveAspectRatio="xMidYMid slice" [attr.xlink:href]="configuracao.logoPath"></image>-->
+    <!--</pattern>-->
+  <!--</defs>-->
+
+  <!--<circle *ngIf="!configuracao.logoPath" transform="scale(0.60)" fill="rgb(223, 229, 231)" cx="100" cy="100" r="100"></circle>-->
+
+  <!--<circle *ngIf="configuracao.logoPath" transform="scale(0.60)" [style.fill]="'url(#'+identifier+')'" cx="100" cy="100" r="100"></circle>-->
+
+  <!--<circle *ngIf="!configuracao.logoPath" transform="scale(0.60)" fill="url(#brand)" cx="100" cy="100" r="70"></circle>-->
+<!--</svg>-->
+
+<!--<svg *ngIf="size > 0.3 && size <= 0.5" height="71" width="71">-->
+  <!--<defs>-->
+    <!--<pattern height="1" id="brand" patternUnits="objectBoundingBox" width="1" x="0" y="0">-->
+      <!--<image xlink:href="./assets/baseline-branding_watermark-24px.svg" height="140" width="140" x="0" y="0"></image>-->
+    <!--</pattern>-->
+    <!--<pattern id="{{identifier}}" x="0" y="0" height="200" width="200" patternUnits="userSpaceOnUse">-->
+      <!--<image width="200" height="200" preserveAspectRatio="xMidYMid slice" [attr.xlink:href]="configuracao.logoPath"></image>-->
+    <!--</pattern>-->
+  <!--</defs>-->
+
+  <!--<circle *ngIf="!configuracao.logoPath" transform="scale(0.35)" fill="rgb(223, 229, 231)" cx="100" cy="100" r="100"></circle>-->
+
+  <!--<circle *ngIf="configuracao.logoPath" transform="scale(0.35)" [style.fill]="'url(#'+identifier+')'" cx="100" cy="100" r="100"></circle>-->
+
+  <!--<circle *ngIf="!configuracao.logoPath" fill="url(#brand)" transform="scale(0.35)" cx="100" cy="100" r="70"></circle>-->
+<!--</svg>-->
+
+<!--<svg *ngIf="size <= 0.3" height="44" width="43">-->
+  <!--<defs>-->
+    <!--<pattern height="1" id="brand" patternUnits="objectBoundingBox" width="1" x="0" y="0">-->
+      <!--<image xlink:href="./assets/baseline-branding_watermark-24px.svg" height="140" width="140" x="0" y="0"></image>-->
+    <!--</pattern>-->
+    <!--<pattern id="{{identifier}}" x="0" y="0" height="200" width="200" patternUnits="userSpaceOnUse">-->
+      <!--<image width="200" height="200" preserveAspectRatio="xMidYMid slice" [attr.xlink:href]="configuracao.logoPath"></image>-->
+    <!--</pattern>-->
+  <!--</defs>-->
+
+  <!--<circle *ngIf="!configuracao.logoPath" transform="scale(0.21)" fill="rgb(223, 229, 231)" cx="100" cy="100" r="100"></circle>-->
+
+  <!--<circle *ngIf="configuracao.logoPath" transform="scale(0.21)" [style.fill]="'url(#'+identifier+')'" cx="100" cy="100"-->
+          <!--r="100"></circle>-->
+
+  <!--<circle *ngIf="!configuracao.logoPath" fill="url(#brand)" transform="scale(0.21)" cx="100" cy="100" r="70"></circle>-->
+<!--</svg>-->

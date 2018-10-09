@@ -116,7 +116,7 @@
                   </div>
                   <div layout='column' flex layout-align='center center'>
                     <div flex>
-                      <avatar [usuario]="{'id': configuracao.id , 'foto': fotoPath}"></avatar>
+                      <brand [configuracao]="{'id': configuracao.id , 'logoPath': configuracao.logoPath}"></brand>
                     </div>
                     <div flex *ngIf='fotoPath'>
                       <button type='button' (click)='removeFile()' class='tc-grey-500' mat-button>
@@ -132,7 +132,7 @@
                         <span>{{ singleFileUpload?.files?.name }}</span>
                         <ng-template td-file-input-label>
                           <mat-icon>attach_file</mat-icon>
-                          <span>Adicionar foto</span>
+                          <span>Adicionar logomarca</span>
                         </ng-template>
                       </td-file-upload>
                     </div>

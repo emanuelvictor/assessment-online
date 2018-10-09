@@ -39,6 +39,22 @@ export class Configuracao extends Abstract {
 
   /**
    *
+   *
+   */
+  public logoPath;
+
+  /**
+   *
+   */
+  public backgroundImagePath;
+
+  /**
+   *
+   */
+  public agradecimento;
+
+  /**
+   *
    */
   constructor() {
     super();

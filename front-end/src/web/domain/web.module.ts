@@ -89,6 +89,7 @@ import {WebLoginComponent} from './presentation/login/web-login/web-login.compon
 import {ConfiguracaoRepository} from "./repositories/configuracao.repository";
 import {ConfiguracaoService} from "./service/configuracao.service";
 import {ConfiguracaoComponent} from "./presentation/dashboard/configuracao/configuracao.component";
+import {BrandComponent} from './presentation/controls/brand/brand.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -133,6 +134,7 @@ registerLocaleData(localePt, 'pt-BR');
     FotoLoadingComponent,
     EvDatepicker,
     SearchBarComponent,
+    BrandComponent,
 
     // atendente
     AtendenteViewComponent,
