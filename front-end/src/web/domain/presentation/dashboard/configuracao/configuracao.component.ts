@@ -24,7 +24,7 @@ export class ConfiguracaoComponent implements OnInit {
    *
    * @type {any}
    */
-  fotoPath = null;
+  logoPath = null;
 
   /**
    *
@@ -73,6 +73,7 @@ export class ConfiguracaoComponent implements OnInit {
       tres: ['tres', [Validators.required]],
       quatro: ['quatro', [Validators.required]],
       cinco: ['cinco', [Validators.required]],
+      agradecimento:  ['agradecimento', [Validators.required]],
     });
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
@@ -188,9 +189,18 @@ export class ConfiguracaoComponent implements OnInit {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (arquivo: any) => {
-        this.fotoPath = arquivo.target.result;
+        this.logoPath = arquivo.target.result;
       };
     }
+  }
+
+
+  /**
+   *
+   */
+  public removeFile() {
+    this.logoPath = null;
+    this.arquivoFile = null;
   }
 
 }
