@@ -34,7 +34,7 @@ public class ConfiguracaoService {
     }
 
     public Configuracao getConfiguracao() {
-        return (this.configuracaoRepository.findAll().size() > 0) ? new Configuracao() : this.configuracaoRepository.findAll().get(0);
+        return (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
     }
 
     public String saveBackground(final long id, final byte[] fileInBytes) {

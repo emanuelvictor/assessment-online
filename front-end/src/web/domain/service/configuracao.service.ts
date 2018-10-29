@@ -54,7 +54,7 @@ export class ConfiguracaoService {
 
           toSave = result;
 
-          if (backgroundImageFile && logoFile) {
+          if (logoFile && backgroundImageFile) {
             this.fileRepository.save('configuracoes/' + String(result.id) + '/logomarca', logoFile)
               .then(uploaded => {
                 toSave.logoPath = uploaded;
@@ -74,7 +74,7 @@ export class ConfiguracaoService {
                 reject(error);
               });
           } else if (logoFile) {
-            this.fileRepository.save('configuracoes/' + String(result.id) + '/logomarca', backgroundImageFile)
+            this.fileRepository.save('configuracoes/' + String(result.id) + '/logomarca', logoFile)
               .then(uploaded => {
                 toSave.logoPath = uploaded;
                 resolve(toSave);
