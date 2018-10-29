@@ -85,7 +85,7 @@ export class ConfiguracaoComponent implements OnInit {
       tres: ['tres', [Validators.required]],
       quatro: ['quatro', [Validators.required]],
       cinco: ['cinco', [Validators.required]],
-      agradecimento:  ['agradecimento', [Validators.required]],
+      agradecimento: ['agradecimento', [Validators.required]],
     });
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
@@ -94,10 +94,17 @@ export class ConfiguracaoComponent implements OnInit {
     this.iconRegistry.addSvgIconInNamespace('assets', 'bacana', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'top-da-balada', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
 
-    this.configuracaoService.findAll()
+    this.configuracaoService.configuracao
       .subscribe(result => {
-        if (result.length)
-          this.configuracao = result[0];
+
+        this.configuracao = result;
+
+        this.logoPath = this.configuracao.logoPath;
+        this.arquivoFile = this.configuracao.logoFile;
+
+        this.backgroundPath = this.configuracao.backgroundImagePath;
+        this.backgroundArquivoFile = this.configuracao.backgroundImageFile;
+
       })
   }
 
@@ -154,6 +161,13 @@ export class ConfiguracaoComponent implements OnInit {
     }
 
     if (valid) {
+
+      this.configuracao.backgroundImageFile = this.backgroundArquivoFile;
+      this.configuracao.backgroundImagePath = this.backgroundPath;
+
+      this.configuracao.logoFile = this.arquivoFile;
+      this.configuracao.logoPath = this.logoPath;
+
       this._loadingService.register('overlayStarSyntax');
       this.configuracaoService.save(this.configuracao)
         .then(result => {

@@ -123,10 +123,7 @@ export class ConsultarUnidadesComponent implements OnInit {
     /**
      * Carrega configurações
      */
-    this.configuracaoService.findAll()
-      .subscribe(result => {
-        this.configuracao = result[0];
-      });
+    this.configuracaoService.configuracao.subscribe(result => this.configuracao = result);
 
     /**
      * Seta o size do pageRequest no size do paginator

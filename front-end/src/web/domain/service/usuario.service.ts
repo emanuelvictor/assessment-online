@@ -1,13 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {AuthenticationService} from './authentication.service';
 import {Usuario} from '../entity/usuario/usuario.model';
 import {FileRepository} from '../../infrastructure/repository/file/file.repository';
 import {MatSnackBar} from '@angular/material';
-import {ColaboradorService} from './colaborador.service';
 import {UsuarioRepository} from '../repositories/usuario.repository';
-import {ColaboradorRepository} from '../repositories/colaborador.repository';
-import {AvaliacaoColaboradorRepository} from '../repositories/avaliacao-colaborador.repository';
 import {FotoLoadingComponent} from '../presentation/controls/foto-loading/foto-loading.component';
 
 /**
@@ -18,17 +14,13 @@ export class UsuarioService {
 
   /**
    *
-   * @param {UsuarioRepository} usuarioRepository
    * @param {MatSnackBar} snackBar
-   * @param {AuthenticationService} authenticationService
    * @param {FileRepository} fileRepository
-   * @param {ColaboradorService} colaboradorService
-   * @param {ColaboradorRepository} colaboradorReposisotry
-   * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
+   * @param {UsuarioRepository} usuarioRepository
    */
-  constructor(private authenticationService: AuthenticationService, private fileRepository: FileRepository,
-              private usuarioRepository: UsuarioRepository, private snackBar: MatSnackBar, private colaboradorService: ColaboradorService,
-              private colaboradorReposisotry: ColaboradorRepository, private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository) {
+  constructor(private snackBar: MatSnackBar,
+              private fileRepository: FileRepository,
+              private usuarioRepository: UsuarioRepository) {
   }
 
   /**
@@ -37,116 +29,13 @@ export class UsuarioService {
    */
   public find(): Observable<Usuario[]> {
     return this.usuarioRepository.findAll();
-
-    // return Observable.save(observer => {
-    //
-    //   this.requestContaAutenticada()
-    //     .subscribe(usuarioAutenticado => {
-    //
-    //       if (usuarioAutenticado.isAdministrador) {
-    //
-    //         this.usuarioRepository.findById()
-    //           .subscribe(atendentes => {
-    //             observer.next(atendentes);
-    //           })
-    //
-    //       } else {
-    //
-    //         this.listColaboradoresByOperadorKey(usuarioAutenticado.key)
-    //           .subscribe(atendentes => {
-    //             observer.next(atendentes);
-    //           })
-    //
-    //       }
-    //
-    //     })
-    //
-    // })
   }
 
   /**
-   * Lista todos os colaboradores do cooeprador
-   * @param {string} key
+   *
+   * @param pageable
    * @returns {Observable<any>}
    */
-  public listColaboradoresByOperadorKey(key: string): Observable<any> {
-
-    return null;
-    // let atendentesReturn = [];
-    //
-    // return this.colaboradorService.listOperadoresByUsuarioKey(key)
-    //   .flatMap(colaboradores => {
-    //     atendentesReturn = [];
-    //     return colaboradores;
-    //   })
-    //   .flatMap((colaborador: Colaborador) => {
-    //     atendentesReturn = [];
-    //     return this.colaboradorService.listColaboradoresByUnidadeKey(colaborador.unidade.key)
-    //   })
-    //   .flatMap(colaboradores => {
-    //     return colaboradores;
-    //   })
-    //   .flatMap((colaborador: Colaborador) => {
-    //     return this.findOne(colaborador.usuario.key)
-    //   })
-    //   .map(atendente => {
-    //
-    //     let founded = false;
-    //
-    //     for (let i = 0; i < atendentesReturn.length; i++) {
-    //       founded = atendentesReturn[i].key === atendente.key;
-    //       if (founded) break
-    //     }
-    //
-    //     if (!founded)
-    //       atendentesReturn.push(atendente);
-    //
-    //     return atendentesReturn;
-    //   })
-  }
-
-  /**
-   * Lista todos os usuarios atendnetes do cooperador
-   * @param {string} key
-   * @returns {Observable<any>}
-   */
-  public listAtendentesByOperadorKey(key: string): Observable<any> {
-
-    return null;
-
-    // let atendentesReturn = [];
-    //
-    // return this.colaboradorService.listOperadoresByUsuarioKey(key)
-    //   .flatMap(colaboradores => {
-    //     atendentesReturn = [];
-    //     return colaboradores;
-    //   })
-    //   .flatMap((colaborador: Colaborador) => {
-    //     atendentesReturn = [];
-    //     return this.colaboradorService.listAtendentesByUnidadeKey(colaborador.unidade.key)
-    //   })
-    //   .flatMap(colaboradores => {
-    //     return colaboradores;
-    //   })
-    //   .flatMap((colaborador: Colaborador) => {
-    //     return this.findOne(colaborador.usuario.key)
-    //   })
-    //   .map(atendente => {
-    //
-    //     let founded = false;
-    //
-    //     for (let i = 0; i < atendentesReturn.length; i++) {
-    //       founded = atendentesReturn[i].key === atendente.key;
-    //       if (founded) break
-    //     }
-    //
-    //     if (!founded)
-    //       atendentesReturn.push(atendente);
-    //
-    //     return atendentesReturn;
-    //   })
-  }
-
   public listByFilters(pageable: any): Observable<any> {
     return this.usuarioRepository.listByFilters(pageable);
   }
@@ -166,7 +55,7 @@ export class UsuarioService {
    * @param {Usuario} usuario
    * @returns {PromiseLike<any>}
    */
-  public save(usuario: Usuario): Promise<any> {
+  public save(usuario: Usuario): Promise<Usuario> {
 
     const arquivoFile = usuario.arquivoFile;
     const fotoPath = usuario.fotoPath;

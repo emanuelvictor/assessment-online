@@ -53,10 +53,7 @@ export class AvaliarComponent implements OnInit {
     if (!this.mobileService.getUnidade())
       this.router.navigate(['selecionar-unidade']);
 
-    this.configuracaoService.findAll()
-      .subscribe(result => {
-        this.configuracao = result[0];
-      })
+    this.configuracaoService.configuracao.subscribe(result => this.configuracao = result)
   }
 
   /**
