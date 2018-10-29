@@ -9,8 +9,7 @@ import 'rxjs/add/operator/toPromise';
   styleUrls: ['./brand.component.scss']
 })
 export class BrandComponent
-  implements OnInit
-{
+  implements OnInit {
 
   /**
    *
@@ -33,11 +32,26 @@ export class BrandComponent
       logoPath: null
     };
 
+  /**
+   *
+   * @type {}
+   */
+  public pathFile: string = './assets/baseline-branding_watermark-24px.svg';
+
+  /**
+   *
+   * @type {boolean}
+   */
+  @Input()
+  public  background;
 
   /**
    *
    */
   public ngOnInit() {
+    if (this.background)
+      this.pathFile = './assets/baseline-landscape-24px.svg';
+
     this.identifier = Math.floor(Math.random() * 2000).toString();
     this.identifier = this.identifier + this.identifier;
     if (this.configuracao.logoPath)

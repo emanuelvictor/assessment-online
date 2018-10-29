@@ -22,15 +22,27 @@ export class ConfiguracaoComponent implements OnInit {
 
   /**
    *
-   * @type {any}
+   * @type {}
    */
   logoPath = null;
 
   /**
    *
-   * @type {any}
+   * @type {}
    */
   arquivoFile = null;
+
+  /**
+   *
+   * @type {}
+   */
+  backgroundPath = null;
+
+  /**
+   *
+   * @type {}
+   */
+  backgroundArquivoFile = null;
 
   /**
    *
@@ -194,13 +206,37 @@ export class ConfiguracaoComponent implements OnInit {
     }
   }
 
-
   /**
    *
    */
   public removeFile() {
     this.logoPath = null;
     this.arquivoFile = null;
+  }
+
+  /**
+   *
+   * @param event
+   */
+  backgroundChange(event) {
+    console.log(event);
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      this.backgroundArquivoFile = fileList[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (arquivo: any) => {
+        this.backgroundPath = arquivo.target.result;
+      };
+    }
+  }
+
+  /**
+   *
+   */
+  public removeBackgroundFile() {
+    this.backgroundPath = null;
+    this.backgroundArquivoFile = null;
   }
 
 }

@@ -114,16 +114,8 @@
                       Logomarca e mensagem de agradecimento
                     </h2>
                   </div>
-                  <div layout='row' layout-align='center center'>
-                    <mat-form-field flex="50" flex layout-margin>
-                      <input formControlName='agradecimento'
-                             [(ngModel)]='configuracao.agradecimento'
-                             matInput name='agradecimento' id='agradecimento'
-                             placeholder='Mensagem de agradecimento' maxlength='144'>
-                      <mat-error>
-                        Campo obrigatório
-                      </mat-error>
-                    </mat-form-field>
+                  <div layout='row' layout-align='center center' class='push-left'>
+
                     <div layout='column' flex="50" layout-align='center center'>
                       <div flex>
                         <brand [configuracao]="{'id': configuracao.id , 'logoPath': logoPath}"></brand>
@@ -147,6 +139,18 @@
                         </td-file-upload>
                       </div>
                     </div>
+
+                    <div layout='column' flex="50">
+                      <mat-form-field layout-margin>
+                        <input formControlName='agradecimento'
+                               [(ngModel)]='configuracao.agradecimento'
+                               matInput name='agradecimento' id='agradecimento'
+                               placeholder='Mensagem de agradecimento' maxlength='144'>
+                        <mat-error>
+                          Campo obrigatório
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
                   </div>
                 </div>
 
@@ -154,22 +158,43 @@
             </div>
 
 
-            <div layout-align="center center" layout-gt-xs="row" layout-xs="column" layout-margin>
-            </div>
-
-
-            <div layout='column' layout-margin header>
+            <div layout='column' layout-margin>
               <div layout='row' layout-align='start center'>
                 <div layout="column" layout-margin>
                   <h2 flex [matTooltipPosition]="'below'"
                       class="mat-subheading-2 tc-grey-500"
-                      matTooltip='Plano de fundo da tela de login e do aplicativo móvel'>Plano de fundo do sistema</h2>
+                      matTooltip='Plano de fundo da tela de login e do aplicativo móvel'>
+                    Plano de fundo do sistema
+                  </h2>
                 </div>
               </div>
-            </div>
-
-
-            <div layout-align="center center" layout-gt-xs="row" layout-xs="column" layout-margin>
+              <div layout='row' layout-align='center center' class='push-left'>
+                <div layout='column' flex="50" layout-align='center start' style='margin-left: 30px'>
+                  <div flex>
+                    <brand [background]='true'
+                           [configuracao]="{'id': configuracao.id , 'logoPath': backgroundPath}">
+                    </brand>
+                  </div>
+                  <div flex *ngIf='backgroundPath'>
+                    <button type='button' (click)='removeBackgroundFile()' class='tc-grey-500' mat-button>
+                      REMOVER FOTO
+                    </button>
+                  </div>
+                  <div flex *ngIf='!backgroundPath'>
+                    <td-file-upload #backgroundFileUpload
+                                    accept='.png, .gif, .jpg, .jpeg'
+                                    (change)='backgroundChange($event)'
+                                    defaultColor='primary' name="file">
+                      <span>{{ backgroundFileUpload?.files?.name }}</span>
+                      <ng-template td-file-input-label>
+                        <mat-icon>attach_file</mat-icon>
+                        <span>Adicionar background</span>
+                      </ng-template>
+                    </td-file-upload>
+                  </div>
+                </div>
+                <span flex='20'></span>
+              </div>
             </div>
 
 
