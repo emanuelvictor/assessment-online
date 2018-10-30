@@ -41,64 +41,61 @@ export class ConfiguracaoService {
     const logoFile = configuracao.logoFile;
     const logoPath = configuracao.logoPath;
 
-    let toSave: Configuracao = configuracao;
-    delete toSave.backgroundImageFile;
-    delete toSave.backgroundImagePath;
-    delete toSave.logoFile;
-    delete toSave.logoPath;
+    const toSave: Configuracao = configuracao;
+    toSave.backgroundImageFile = null;
+    toSave.backgroundImagePath = null;
+    toSave.logoFile = null;
+    toSave.logoPath = null;
 
     return new Promise((resolve, reject) => {
 
       this.configuracaoRepository.save(toSave)
         .then(result => {
-
+console.log(result);
           toSave = result;
 
           if (logoFile && backgroundImageFile) {
-            this.fileRepository.save('configuracoes/' + String(result.id) + '/logomarca', logoFile)
+            this.fileRepository.save('configuracoes/logomarca', logoFile)
               .then(uploaded => {
                 toSave.logoPath = uploaded;
-                this.fileRepository.save('configuracoes/' + String(result.id) + '/background', backgroundImageFile)
+                this.fileRepository.save('configuracoes/background', backgroundImageFile)
                   .then(uploaded => {
                     toSave.backgroundImagePath = uploaded;
                     resolve(toSave);
                   })
               })
           } else if (backgroundImageFile) {
-            this.fileRepository.save('configuracoes/' + String(result.id) + '/background', backgroundImageFile)
+            this.fileRepository.save('configuracoes/background', backgroundImageFile)
               .then(uploaded => {
                 toSave.backgroundImagePath = uploaded;
                 resolve(toSave);
               })
-              .catch(error => {
-                reject(error);
-              });
           } else if (logoFile) {
-            this.fileRepository.save('configuracoes/' + String(result.id) + '/logomarca', logoFile)
+            this.fileRepository.save('configuracoes/logomarca', logoFile)
               .then(uploaded => {
                 toSave.logoPath = uploaded;
                 resolve(toSave);
               })
-          }
+          } else
 
           if (!backgroundImagePath && !logoPath) {
-            this.fileRepository.remove('configuracoes/' + String(result.id) + '/logomarca')
+            this.fileRepository.remove('configuracoes/logomarca')
               .then(() => {
                 toSave.logoPath = null;
-                this.fileRepository.remove('configuracoes/' + String(result.id) + '/background')
+                this.fileRepository.remove('configuracoes/background')
                   .then(() => {
                     toSave.backgroundImagePath = null;
                     resolve(toSave);
                   })
               })
           } else if (!backgroundImagePath) {
-            this.fileRepository.remove('configuracoes/' + String(result.id) + '/background')
+            this.fileRepository.remove('configuracoes/background')
               .then(() => {
                 toSave.backgroundImageFile = null;
                 resolve(toSave);
               })
           } else if (!logoPath) {
-            this.fileRepository.remove('configuracoes/' + String(result.id) + '/logomarca')
+            this.fileRepository.remove('configuracoes/logomarca')
               .then(() => {
                 toSave.logoPath = null;
                 resolve(toSave);

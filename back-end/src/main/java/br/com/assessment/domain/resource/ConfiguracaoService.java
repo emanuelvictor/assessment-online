@@ -19,6 +19,11 @@ public class ConfiguracaoService {
     }
 
     public Configuracao save(final Configuracao configuracao) {
+        final Configuracao configuracaoDb = getConfiguracao();
+        if (configuracaoDb != null) {
+            configuracao.setBackgroundImage(configuracaoDb.getBackgroundImage());
+            configuracao.setLogo(configuracaoDb.getLogo());
+        }
         return this.configuracaoRepository.save(configuracao);
     }
 

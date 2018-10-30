@@ -39,7 +39,7 @@ public class ConfiguracaoResource {
      * @param id
      * @return
      */
-    @GetMapping(value = "/logomarca", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    @GetMapping(value = "logomarca", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Mono<ResponseEntity<byte[]>> findLogomarca() {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
@@ -54,15 +54,13 @@ public class ConfiguracaoResource {
      * @return
      */
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    @PostMapping(value = "/logomarca", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "logomarca", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Flux<String> saveLogomarca(@RequestPart("file") Flux<Part> file) {
-
         return file
                 .filter(part -> part instanceof FilePart) // only retain file parts
                 .ofType(FilePart.class)
                 .flatMap(ImageUtils::getBytes)
                 .map((byte[] bytes) -> this.configuracaoService.saveLogomarca( bytes));
-
     }
 
 

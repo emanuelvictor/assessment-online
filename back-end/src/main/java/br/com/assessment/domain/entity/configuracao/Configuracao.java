@@ -80,4 +80,41 @@ public class Configuracao extends AbstractEntity {
      */
     private String agradecimento;
 
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
+    public byte[] getLogoFile() {
+        return this.logo;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
+    public byte[] getBackgroundImageFile() {
+        return this.backgroundImage;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getLogoPath() {
+        if (this.logo != null)
+            return "./configuracoes/logomarca";
+        return null;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getBackgroundImagePath() {
+        if (this.backgroundImage != null)
+            return "./configuracoes/background";
+        return null;
+    }
 }

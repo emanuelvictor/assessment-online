@@ -17,4 +17,9 @@ export class ConfiguracaoRepository extends BaseRepository<Configuracao> {
   public get configuracao(): Observable<Configuracao> {
     return this.httpClient.get<Configuracao>(ConfiguracaoRepository.collection)
   }
+
+  async save(configuracao: Configuracao): Promise<Configuracao> {
+    return this.httpClient.post<Configuracao>(ConfiguracaoRepository.collection, configuracao).toPromise();
+  }
+
 }
