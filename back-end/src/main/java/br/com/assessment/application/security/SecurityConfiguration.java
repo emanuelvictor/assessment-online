@@ -104,7 +104,7 @@ public class SecurityConfiguration {
         filter.setAuthenticationSuccessHandler(this.serverAuthenticationSuccessHandler);
         filter.setAuthenticationFailureHandler(this.serverAuthenticationFailureHandler);
         filter.setRequiresAuthenticationMatcher(
-                ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, "/login")
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, "/login", "/sistema/login", "/sistema/mobile/login")
         );
 
         return filter;
@@ -122,7 +122,7 @@ public class SecurityConfiguration {
         logoutWebFilter.setLogoutHandler(logoutHandler);
         logoutWebFilter.setLogoutSuccessHandler(serverLogoutSuccessHandler);
         logoutWebFilter.setRequiresLogoutMatcher(
-                ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET, "/logout")
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET, "/logout", "/sistema/logout", "/sistema/mobile/logout")
         );
 
         return logoutWebFilter;

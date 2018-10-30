@@ -1,4 +1,4 @@
-package br.com.assessment.domain.resource;
+package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.configuracao.Configuracao;
 import br.com.assessment.domain.repository.ConfiguracaoRepository;

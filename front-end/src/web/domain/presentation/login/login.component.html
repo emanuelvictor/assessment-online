@@ -8,8 +8,7 @@
 
             <div layout="column" layout-margin layout-align="center center">
               <div layout="row" flex layout-margin>
-                <!--<img class="logo"> -->
-                <!-- TODO diminuir resolução-->
+                <img class="logo" *ngIf='configuracao?.logoPath' src="{{configuracao?.logoPath}}" >
               </div>
 
               <div layout="row" flex layout-margin>

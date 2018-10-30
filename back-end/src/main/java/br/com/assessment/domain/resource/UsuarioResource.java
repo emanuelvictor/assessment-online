@@ -26,7 +26,7 @@ import static br.com.assessment.infrastructure.util.ArrayUtil.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("usuarios")
+@RequestMapping({"**usuarios", "**sistema/usuarios", "**sistema/mobile/usuarios"})
 public class UsuarioResource {
 
     private final UsuarioService usuarioService;

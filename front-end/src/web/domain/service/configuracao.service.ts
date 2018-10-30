@@ -41,7 +41,7 @@ export class ConfiguracaoService {
     const logoFile = configuracao.logoFile;
     const logoPath = configuracao.logoPath;
 
-    const toSave: Configuracao = configuracao;
+    let toSave: Configuracao = configuracao;
     toSave.backgroundImageFile = null;
     toSave.backgroundImagePath = null;
     toSave.logoFile = null;
@@ -51,7 +51,7 @@ export class ConfiguracaoService {
 
       this.configuracaoRepository.save(toSave)
         .then(result => {
-console.log(result);
+
           toSave = result;
 
           if (logoFile && backgroundImageFile) {

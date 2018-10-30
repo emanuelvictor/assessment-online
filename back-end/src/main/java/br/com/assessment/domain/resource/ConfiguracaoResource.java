@@ -2,6 +2,7 @@ package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.configuracao.Configuracao;
 import br.com.assessment.domain.entity.usuario.Perfil;
+import br.com.assessment.domain.service.ConfiguracaoService;
 import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.CacheControl;
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("configuracoes")
+@RequestMapping({"**configuracoes", "**sistema/configuracoes", "**sistema/mobile/configuracoes"})
 public class ConfiguracaoResource {
 
     private final ConfiguracaoService configuracaoService;

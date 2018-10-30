@@ -17,7 +17,7 @@ import static br.com.assessment.application.context.Context.getPageable;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/avaliacoes")
+@RequestMapping({"**avaliacoes", "**sistema/avaliacoes", "**sistema/mobile/avaliacoes"})
 public class AvaliacaoResource {
 
     private final AvaliacaoService avaliacaoService;

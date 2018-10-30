@@ -3,8 +3,8 @@ import {Component, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {AuthenticationService} from '../../../service/authentication.service';
-import {ColaboradorService} from '../../../service/colaborador.service';
-import {UsuarioService} from '../../../service/usuario.service';
+import {ConfiguracaoRepository} from "../../../repositories/configuracao.repository";
+import {Configuracao} from "../../../entity/configuracao/configuracao.model";
 
 @Component({
   selector: 'header-component',
@@ -29,19 +29,20 @@ export class HeaderComponent implements OnDestroy {
 
   /**
    *
+   */
+  public configuracao: Configuracao;
+
+  /**
+   *
    * @param {AuthenticationService} authenticationService
    * @param {Router} router
-   * @param {UsuarioService} usuarioService
-   * @param {ColaboradorService} colaboradorService
+   * @param {ConfiguracaoRepository} configuracaoRepository
    */
-  constructor(private authenticationService: AuthenticationService, private router: Router, private colaboradorService: ColaboradorService) {
+  constructor(private authenticationService: AuthenticationService,
+              private router: Router, private configuracaoRepository: ConfiguracaoRepository) {
+    this.configuracaoRepository.configuracao.subscribe( result => this.configuracao = result);
     this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.usuario = result;
-      // this.colaboradorService.listOperadoresByUsuarioKey(this.usuario.key).subscribe(operadores => {
-      //   this.usuario.isOperador = operadores.length > 0; TODO o isOperador já tem que vir
-      //   if (!this.usuario.isOperador && !this.usuario.isAdministrador)
-      //     this.router.navigate(['/dashboard/minha-conta'])
-      // });
     });
 
     this.userSubscription = authenticationService.contaAutenticadaChanged.subscribe((user) => {

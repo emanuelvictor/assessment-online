@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/principal")
+@RequestMapping({"**principal", "**sistema/principal", "**sistema/mobile/principal"})
 public class AuthenticationResource {
 
     /**

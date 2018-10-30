@@ -3,6 +3,8 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
 import {Conta} from '../../entity/usuario/conta.model';
+import {ConfiguracaoRepository} from "../../repositories/configuracao.repository";
+import {Configuracao} from "../../entity/configuracao/configuracao.model";
 
 /**
  *
@@ -22,7 +24,16 @@ export class LoginComponent {
   /**
    *
    */
-  constructor(private router: Router, private authenticationService: AuthenticationService) {
+  public configuracao: Configuracao;
+
+  /**
+   *
+   * @param {Router} router
+   * @param {AuthenticationService} authenticationService
+   * @param {ConfiguracaoRepository} configuracaoRepository
+   */
+  constructor(private router: Router, private authenticationService: AuthenticationService, private configuracaoRepository: ConfiguracaoRepository) {
+    this.configuracaoRepository.configuracao.subscribe( result => this.configuracao = result);
   }
 
   /**

@@ -17,7 +17,7 @@ import static br.com.assessment.application.context.Context.getPageable;
 import static br.com.assessment.application.context.Context.getPageable;
 @RestController
 @AllArgsConstructor
-@RequestMapping("/colaboradores")
+@RequestMapping({"**colaboradores", "**sistema/colaboradores", "**sistema/mobile/colaboradores"})
 public class ColaboradorResource {
 
     private final ColaboradorService colaboradorService;

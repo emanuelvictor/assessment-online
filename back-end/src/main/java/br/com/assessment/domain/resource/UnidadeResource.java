@@ -18,7 +18,7 @@ import static br.com.assessment.infrastructure.util.ArrayUtil.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/unidades")
+@RequestMapping({"**unidades", "**sistema/unidades", "**sistema/mobile/unidades"})
 public class UnidadeResource {
 
     private final UnidadeService unidadeService;
@@ -49,7 +49,7 @@ public class UnidadeResource {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+//    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     Mono<Page<Unidade>> listByFilters(final String defaultFilter, final String enderecoFilter,
                                       @RequestParam(required = false) final LocalDateTime dataInicioFilter,
                                       @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {

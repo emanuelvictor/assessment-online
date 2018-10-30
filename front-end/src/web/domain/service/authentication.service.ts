@@ -62,11 +62,18 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     return this.canActivate(route, state);
   }
 
-
+  /**
+   *
+    * @returns {Conta}
+   */
   get contaAutenticada(): Conta {
     return this._contaAutenticada;
   }
 
+  /**
+   *
+   * @param {Conta} contaAutenticada
+   */
   set contaAutenticada(contaAutenticada: Conta) {
     this._contaAutenticada = contaAutenticada;
     this.contaAutenticadaChanged.emit(this.requestContaAutenticada());

@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/cidades")
+@RequestMapping({"**cidades", "**sistema/cidades", "**sistema/mobile/cidades"})
 public class EnderecoResource {
 
     private final EnderecoService enderecoService;

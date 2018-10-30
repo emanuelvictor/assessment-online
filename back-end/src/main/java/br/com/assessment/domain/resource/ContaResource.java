@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/contas")
 @AllArgsConstructor
+@RequestMapping({"**contas", "**sistema/contas", "**sistema/mobile/contas"})
 public class ContaResource {
 
     private final ContaService contaService;
