@@ -1,21 +1,10 @@
 package br.com.assessment.domain.resource;
 
-import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
 import br.com.assessment.domain.entity.configuracao.Configuracao;
 import br.com.assessment.domain.repository.ConfiguracaoRepository;
-import br.com.assessment.domain.repository.ContaRepository;
-import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.RequiredArgsConstructor;
-import org.flywaydb.core.Flyway;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import reactor.core.publisher.Mono;
-
-import java.io.IOException;
-import java.util.Optional;
 
 
 @Service
@@ -37,38 +26,36 @@ public class ConfiguracaoService {
         return (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
     }
 
-    public String saveBackground(final long id, final byte[] fileInBytes) {
-        final Configuracao configuracao = this.configuracaoRepository.findById(id).orElseGet(null);
+    public String saveBackground(final byte[] fileInBytes) {
+        final Configuracao configuracao = this.getConfiguracao();
 
         configuracao.setBackgroundImage(fileInBytes);
 
         return this.configuracaoRepository.save(configuracao).getBackgroundImagePath();
     }
 
-    public byte[] findBackground(final long id) {
-        return this.configuracaoRepository.findById(id).orElseGet(null).getBackgroundImage();
+    public byte[] findBackground() {
+        return getConfiguracao().getBackgroundImage();
     }
 
-    public void deleteBackground(long id) {
-        final Configuracao configuracao = this.configuracaoRepository.findById(id).orElseGet(null);
+    public void deleteBackground() {
+        final Configuracao configuracao = this.getConfiguracao();
         configuracao.setBackgroundImage(null);
         this.configuracaoRepository.save(configuracao);
     }
 
-    public String saveLogomarca(final long id, final byte[] fileInBytes) {
-        final Configuracao configuracao = this.configuracaoRepository.findById(id).orElseGet(null);
-
+    public String saveLogomarca(final byte[] fileInBytes) {
+        final Configuracao configuracao = this.getConfiguracao();
         configuracao.setLogo(fileInBytes);
-
         return this.configuracaoRepository.save(configuracao).getLogoPath();
     }
 
-    public byte[] findLogomarca(final long id) {
-        return this.configuracaoRepository.findById(id).orElseGet(null).getLogo();
+    public byte[] findLogomarca() {
+        return this.getConfiguracao().getLogo();
     }
 
-    public void deleteLogomarca(long id) {
-        final Configuracao configuracao = this.configuracaoRepository.findById(id).orElseGet(null);
+    public void deleteLogomarca() {
+        final Configuracao configuracao = this.getConfiguracao();
         configuracao.setLogo(null);
         this.configuracaoRepository.save(configuracao);
     }

@@ -29,12 +29,6 @@ public class ConfiguracaoResource {
         return Mono.just(this.configuracaoService.save(configuracao));
     }
 
-    @PutMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    public Mono<Configuracao> update(@PathVariable final long id, @RequestBody final Configuracao configuracao) {
-        return Mono.just(this.configuracaoService.save(id, configuracao));
-    }
-
     @GetMapping()
     public Mono<Configuracao> getConfiguracao() {
         return Mono.just(this.configuracaoService.getConfiguracao());
@@ -45,11 +39,11 @@ public class ConfiguracaoResource {
      * @param id
      * @return
      */
-    @GetMapping(value = "{id}/logomarca", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-    public Mono<ResponseEntity<byte[]>> findLogomarca(@PathVariable final long id) {
+    @GetMapping(value = "/logomarca", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    public Mono<ResponseEntity<byte[]>> findLogomarca() {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.configuracaoService.findLogomarca(id))
+                        .body(this.configuracaoService.findLogomarca())
         );
     }
 
@@ -60,14 +54,14 @@ public class ConfiguracaoResource {
      * @return
      */
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    @PostMapping(value = "{id}/logomarca", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Flux<String> saveLogomarca(@PathVariable final long id, @RequestPart("file") Flux<Part> file) {
+    @PostMapping(value = "/logomarca", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Flux<String> saveLogomarca(@RequestPart("file") Flux<Part> file) {
 
         return file
                 .filter(part -> part instanceof FilePart) // only retain file parts
                 .ofType(FilePart.class)
                 .flatMap(ImageUtils::getBytes)
-                .map((byte[] bytes) -> this.configuracaoService.saveLogomarca(id, bytes));
+                .map((byte[] bytes) -> this.configuracaoService.saveLogomarca( bytes));
 
     }
 
@@ -78,9 +72,9 @@ public class ConfiguracaoResource {
      * @return
      */
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    @DeleteMapping("{id}/logomarca")
-    public Mono<Boolean> deleteLogomarca(@PathVariable final long id) {
-        this.configuracaoService.deleteLogomarca(id);
+    @DeleteMapping("logomarca")
+    public Mono<Boolean> deleteLogomarca() {
+        this.configuracaoService.deleteLogomarca();
         return Mono.just(true);
     }
 
@@ -89,11 +83,11 @@ public class ConfiguracaoResource {
      * @param id
      * @return
      */
-    @GetMapping(value = "{id}/background", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-    public Mono<ResponseEntity<byte[]>> findBackground(@PathVariable final long id) {
+    @GetMapping(value = "background", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    public Mono<ResponseEntity<byte[]>> findBackground() {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.configuracaoService.findBackground(id))
+                        .body(this.configuracaoService.findBackground())
         );
     }
 
@@ -104,14 +98,14 @@ public class ConfiguracaoResource {
      * @return
      */
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    @PostMapping(value = "{id}/background", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Flux<String> saveBackground(@PathVariable final long id, @RequestPart("file") Flux<Part> file) {
+    @PostMapping(value = "background", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Flux<String> saveBackground(@RequestPart("file") Flux<Part> file) {
 
         return file
                 .filter(part -> part instanceof FilePart) // only retain file parts
                 .ofType(FilePart.class)
                 .flatMap(ImageUtils::getBytes)
-                .map((byte[] bytes) -> this.configuracaoService.saveBackground(id, bytes));
+                .map((byte[] bytes) -> this.configuracaoService.saveBackground(bytes));
 
     }
 
@@ -121,9 +115,9 @@ public class ConfiguracaoResource {
      * @return
      */
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    @DeleteMapping("{id}/background")
-    public Mono<Boolean> deleteBackground(@PathVariable final long id) {
-        this.configuracaoService.deleteBackground(id);
+    @DeleteMapping("background")
+    public Mono<Boolean> deleteBackground() {
+        this.configuracaoService.deleteBackground();
         return Mono.just(true);
     }
 
