@@ -14,7 +14,7 @@ export class ContaRepository extends BaseRepository<Conta> {
    * @param {HttpClient} httpClient
    */
   constructor(httpClient: HttpClient) {
-    super(httpClient, null);
+    super(httpClient, 'contas');
   }
 
   /**

@@ -12,7 +12,7 @@ export class UsuarioRepository extends BaseRepository<Usuario> {
    * @param {HttpClient} httpClient
    */
   constructor(httpClient: HttpClient) {
-    super(httpClient, null);
+    super(httpClient, 'usuarios');
   }
 
 }

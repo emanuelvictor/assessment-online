@@ -7,6 +7,6 @@ import {HttpClient} from '@angular/common/http';
 export class UnidadeRepository extends BaseRepository<Unidade> {
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, null);
+    super(httpClient, 'unidades');
   }
 }
