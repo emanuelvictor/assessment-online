@@ -68,8 +68,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       )" +
             "       AND " +
             "       (" +
-            "               FILTER(usuario.nome, :defaultFilter) = TRUE" +
-            "           OR FILTER(usuario.conta.email, :defaultFilter) = TRUE" +
+            "               FILTER(:defaultFilter, usuario.nome, usuario.conta.email) = TRUE" +
             "       )" +
             "       AND " +
             "       (" +

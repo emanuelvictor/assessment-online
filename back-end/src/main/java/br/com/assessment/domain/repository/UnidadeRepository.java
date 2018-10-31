@@ -67,28 +67,11 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       )" +
             "       AND " +
             "       (" +
-            "               FILTER(unidade.nome, :defaultFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.logradouro, :defaultFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.complemento, :defaultFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.bairro, :defaultFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.cep, :defaultFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.numero, :defaultFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.cidade.nome, :defaultFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.cidade.estado.nome, :defaultFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.cidade.estado.uf, :defaultFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.cidade.estado.pais.nome, :defaultFilter) = TRUE" +
+            "               FILTER(:defaultFilter, unidade.nome, unidade.endereco.logradouro,unidade.endereco.complemento,unidade.endereco.bairro, unidade.endereco.cep,unidade.endereco.numero,unidade.endereco.cidade.nome,unidade.endereco.cidade.estado.nome,unidade.endereco.cidade.estado.uf,unidade.endereco.cidade.estado.pais.nome) = TRUE" +
             "       )" +
             "       AND " +
             "       (" +
-            "               FILTER(unidade.endereco.logradouro, :enderecoFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.complemento, :enderecoFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.bairro, :enderecoFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.cep, :enderecoFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.numero, :enderecoFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.cidade.nome, :enderecoFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.cidade.estado.nome, :enderecoFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.cidade.estado.uf, :enderecoFilter) = TRUE" +
-            "           OR FILTER(unidade.endereco.cidade.estado.pais.nome, :enderecoFilter) = TRUE" +
+            "               FILTER(:enderecoFilter, unidade.endereco.logradouro,unidade.endereco.complemento,unidade.endereco.bairro, unidade.endereco.cep,unidade.endereco.numero,unidade.endereco.cidade.nome,unidade.endereco.cidade.estado.nome,unidade.endereco.cidade.estado.uf,unidade.endereco.cidade.estado.pais.nome) = TRUE" +
             "       )" +
             "       AND" +
             "       (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND unidade.id IN " +
