@@ -1,39 +1,819 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset='utf-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <meta name='Description' content='Família Redenção'>
-  <title>Família Redenção</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
+  <title>Assessment - Atendimentos Online</title>
+
+  <!-- Stylesheet -->
+  <!--<link href="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/startup-materialize.min.css?2667407724680817860" rel="stylesheet">-->
+  <link href="assets/styles/startup-materilize.css" rel="stylesheet">
+
+  <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  <link rel='icon' type='image/x-icon'
-        href='https://firebasestorage.googleapis.com/v0/b/ad-redencao.appspot.com/o/favicon.ico?alt=media&token=9f7789f6-3c4f-4f5e-84b7-4386d2cb2331'>
+  <!--<meta id="shopify-digital-wallet" name="shopify-digital-wallet" content="/17758583/digital_wallets/dialog">-->
+  <meta name="shopify-checkout-api-token" content="6aacc581eb2b41d74f03c38d3c985dba">
+  <meta id="in-context-paypal-metadata" data-shop-id="17758583" data-environment="production" data-locale="en_"
+        data-paypal-v4="true" data-currency="USD">
+  <style media="all">
+    .additional-checkout-button {
+      border: 0 !important;
+      border-radius: 5px !important;
+      display: inline-block;
+      margin: 0 0 10px;
+      padding: 0 24px !important;
+      max-width: 100%;
+      min-width: 150px !important;
+      line-height: 44px !important;
+      text-align: center !important
+    }
 
-  <meta name='msapplication-TileImage'
-        content='https://firebasestorage.googleapis.com/v0/b/ad-redencao.appspot.com/o/favicon.ico?alt=media&token=9f7789f6-3c4f-4f5e-84b7-4386d2cb2331'>
+    .additional-checkout-button + .additional-checkout-button {
+      margin-left: 10px
+    }
 
-  <link rel='shortcut icon' type='image/x-icon'
-        href='https://firebasestorage.googleapis.com/v0/b/ad-redencao.appspot.com/o/favicon.ico?alt=media&token=9f7789f6-3c4f-4f5e-84b7-4386d2cb2331'/>
+    .additional-checkout-button:last-child {
+      margin-bottom: 0
+    }
+
+    .additional-checkout-button span {
+      font-size: 14px !important
+    }
+
+    .additional-checkout-button img {
+      display: inline-block !important;
+      height: 1.3em !important;
+      margin: 0 !important;
+      vertical-align: middle !important;
+      width: auto !important
+    }
+
+    @media (max-width: 500px) {
+      .additional-checkout-button {
+        display: block;
+        margin-left: 0 !important;
+        padding: 0 10px !important;
+        width: 100%
+      }
+    }
+
+    .additional-checkout-button--apple-pay {
+      background-color: #000 !important;
+      color: #fff !important;
+      display: none;
+      font-family: -apple-system, Helvetica Neue, sans-serif !important;
+      min-width: 150px !important;
+      white-space: nowrap !important
+    }
+
+    .additional-checkout-button--apple-pay:hover, .additional-checkout-button--apple-pay:active, .additional-checkout-button--apple-pay:visited {
+      color: #fff !important;
+      text-decoration: none !important
+    }
+
+    .additional-checkout-button--apple-pay .additional-checkout-button__logo {
+      background: -webkit-named-image(apple-pay-logo-white) center center no-repeat !important;
+      background-size: auto 100% !important;
+      display: inline-block !important;
+      vertical-align: middle !important;
+      width: 3em !important;
+      height: 1.3em !important
+    }
+
+    @media (max-width: 500px) {
+      .additional-checkout-button--apple-pay {
+        display: none
+      }
+    }
+
+    .additional-checkout-button--google-pay {
+      line-height: 0 !important;
+      padding: 0 !important;
+      border-radius: unset !important;
+      width: 80px !important
+    }
+
+    @media (max-width: 500px) {
+      .additional-checkout-button--google-pay {
+        width: 100% !important
+      }
+    }
+
+    .gpay-iframe {
+      height: 44px !important;
+      width: 100% !important;
+      cursor: pointer;
+      vertical-align: middle !important
+    }
+
+    .additional-checkout-button--paypal-express {
+      background-color: #ffc439 !important
+    }
+
+    .additional-checkout-button--paypal, .additional-checkout-button--venmo {
+      vertical-align: top;
+      line-height: 0 !important;
+      padding: 0 !important
+    }
+
+    .additional-checkout-button--amazon {
+      background-color: #fad676 !important;
+      position: relative !important
+    }
+
+    .additional-checkout-button--amazon .additional-checkout-button__logo {
+      -webkit-transform: translateY(4px) !important;
+      transform: translateY(4px) !important
+    }
+
+    .additional-checkout-button--amazon .alt-payment-list-amazon-button-image {
+      max-height: none !important;
+      opacity: 0 !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important
+    }
+
+    .additional-checkout-button-visually-hidden {
+      border: 0 !important;
+      clip: rect(0, 0, 0, 0) !important;
+      clip: rect(0 0 0 0) !important;
+      width: 1px !important;
+      height: 1px !important;
+      margin: -2px !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      position: absolute !important
+    }
+  </style>
+  <style>.shopify-payment-button__button--hidden {
+    visibility: hidden;
+  }
+
+  .shopify-payment-button__button {
+    border-radius: 4px;
+    border: none;
+    box-shadow: 0 0 0 0 transparent;
+    color: white;
+    cursor: pointer;
+    display: block;
+    font-size: 1em;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    width: 100%;
+    transition: background 0.2s ease-in-out;
+  }
+
+  .shopify-payment-button__button[disabled] {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  .shopify-payment-button__button--unbranded {
+    background-color: #1990c6;
+    padding: 1em 2em;
+  }
+
+  .shopify-payment-button__button--unbranded:hover:not([disabled]) {
+    background-color: #136f99;
+  }
+
+  .shopify-payment-button__more-options {
+    background: transparent;
+    border: 0 none;
+    cursor: pointer;
+    display: block;
+    font-size: 1em;
+    margin-top: 1em;
+    text-align: center;
+    width: 100%;
+  }
+
+  .shopify-payment-button__more-options:hover:not([disabled]) {
+    text-decoration: underline;
+  }
+
+  .shopify-payment-button__more-options[disabled] {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  .shopify-payment-button__button--branded {
+    display: flex;
+    flex-direction: column;
+    min-height: 44px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .shopify-payment-button__button--branded .shopify-cleanslate {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  </style>
+  <script id="apple-pay-shop-capabilities" type="application/json">{
+    "shopId": 17758583,
+    "countryCode": "US",
+    "currencyCode": "USD",
+    "merchantCapabilities": [
+      "supports3DS"
+    ],
+    "merchantId": "gid:\/\/shopify\/Shop\/17758583",
+    "merchantName": "Materialize Themes",
+    "requiredBillingContactFields": [
+      "postalAddress",
+      "email"
+    ],
+    "requiredShippingContactFields": [
+      "postalAddress",
+      "email"
+    ],
+    "shippingType": "shipping",
+    "supportedNetworks": [
+      "visa",
+      "masterCard",
+      "amex",
+      "discover"
+    ],
+    "total": {
+      "type": "pending",
+      "label": "Materialize Themes",
+      "amount": "1.00"
+    }
+  }</script>
+  <script id="shopify-features" type="application/json">{
+    "accessToken": "6aacc581eb2b41d74f03c38d3c985dba",
+    "betas": [],
+    "domain": "themes.materializecss.com",
+    "shopId": 17758583,
+    "smart_payment_buttons_url": "https:\/\/cdn.shopifycloud.com\/payment-sheet\/assets\/latest\/spb.js"
+  }</script>
+  <script>var Shopify = Shopify || {};
+  Shopify.shop = "materialize-themes.myshopify.com";
+  Shopify.currency = {"active": "USD"};
+  Shopify.theme = {"name": "debut", "id": 133945025, "theme_store_id": 796, "role": "main"};
+  Shopify.theme.handle = "null";
+  Shopify.theme.style = {"id": null, "handle": null};</script>
+  <script>window.ShopifyPay = window.ShopifyPay || {};
+  window.ShopifyPay.apiHost = "pay.shopify.com";
+  window.ShopifyPay.crossStoreEnabled = true;</script>
+  <script id="__st">var __st = {
+    "a": 17758583,
+    "offset": -25200,
+    "reqid": "8963256f-a21f-40eb-b9cd-52ecec493512",
+    "pageurl": "themes.materializecss.com\/pages\/startup-horizontal-half.html",
+    "s": "pages-203794817",
+    "u": "2ce773519057",
+    "p": "page",
+    "rtyp": "page",
+    "rid": 203794817
+  };</script>
+  <script>window.ShopifyPaypalV4VisibilityTracking = true;</script>
+  <script>window.Shopify = window.Shopify || {};
+  window.Shopify.Checkout = window.Shopify.Checkout || {};
+  window.Shopify.Checkout.apiHost = "materialize-themes.myshopify.com";</script>
+  <script>window.ShopifyAnalytics = window.ShopifyAnalytics || {};
+  window.ShopifyAnalytics.meta = window.ShopifyAnalytics.meta || {};
+  window.ShopifyAnalytics.meta.currency = 'USD';
+  var meta = {"page": {"pageType": "page", "resourceType": "page", "resourceId": 203794817}};
+  for (var attr in meta) {
+    window.ShopifyAnalytics.meta[attr] = meta[attr];
+  }</script>
+  <script>window.ShopifyAnalytics.merchantGoogleAnalytics = function () {
+
+  };
+  </script>
+  <script class="analytics">(window.gaDevIds = window.gaDevIds || []).push('BwiEti');
 
 
-  <base href='./'/>
+  (function () {
+    var customDocumentWrite = function (content) {
+      var jquery = null;
 
-<link rel="stylesheet" href="styles.d0f888a9f85ba5569993.css"></head>
+      if (window.jQuery) {
+        jquery = window.jQuery;
+      } else if (window.Checkout && window.Checkout.$) {
+        jquery = window.Checkout.$;
+      }
+
+      if (jquery) {
+        jquery('body').append(content);
+      }
+    };
+
+    var trekkie = window.ShopifyAnalytics.lib = window.trekkie = window.trekkie || [];
+    if (trekkie.integrations) {
+      return;
+    }
+    trekkie.methods = [
+      'identify',
+      'page',
+      'ready',
+      'track',
+      'trackForm',
+      'trackLink'
+    ];
+    trekkie.factory = function (method) {
+      return function () {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift(method);
+        trekkie.push(args);
+        return trekkie;
+      };
+    };
+    for (var i = 0; i < trekkie.methods.length; i++) {
+      var key = trekkie.methods[i];
+      trekkie[key] = trekkie.factory(key);
+    }
+    trekkie.load = function (config) {
+      trekkie.config = config;
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.onerror = function (e) {
+        (new Image()).src = '//v.shopify.com/internal_errors/track?error=trekkie_load';
+      };
+      script.async = true;
+      script.src = 'https://cdn.shopify.com/s/javascripts/tricorder/trekkie.storefront.min.js?v=2017.09.05.1';
+      var first = document.getElementsByTagName('script')[0];
+      first.parentNode.insertBefore(script, first);
+    };
+    trekkie.load(
+      {
+        "Trekkie": {
+          "appName": "storefront",
+          "development": false,
+          "defaultAttributes": {
+            "shopId": 17758583,
+            "isMerchantRequest": null,
+            "themeId": 133945025,
+            "themeCityHash": 11956486666485001981
+          }
+        },
+        "Performance": {
+          "navigationTimingApiMeasurementsEnabled": true,
+          "navigationTimingApiMeasurementsSampleRate": 1.0
+        },
+        "Google Analytics": {
+          "trackingId": "UA-56218128-1",
+          "domain": "auto",
+          "siteSpeedSampleRate": "10",
+          "enhancedEcommerce": true,
+          "doubleClick": true,
+          "includeSearch": true
+        },
+        "Session Attribution": {}
+      }
+    );
+
+    var loaded = false;
+    trekkie.ready(function () {
+      if (loaded) return;
+      loaded = true;
+
+      window.ShopifyAnalytics.lib = window.trekkie;
+
+      ga('require', 'linker');
+
+      function addListener(element, type, callback) {
+        if (element.addEventListener) {
+          element.addEventListener(type, callback);
+        }
+        else if (element.attachEvent) {
+          element.attachEvent('on' + type, callback);
+        }
+      }
+
+      function decorate(event) {
+        event = event || window.event;
+        var target = event.target || event.srcElement;
+        if (target && (target.getAttribute('action') || target.getAttribute('href'))) {
+          ga(function (tracker) {
+            var linkerParam = tracker.get('linkerParam');
+            document.cookie = '_shopify_ga=' + linkerParam + '; ' + 'path=/';
+          });
+        }
+      }
+
+      addListener(window, 'load', function () {
+        for (var i = 0; i < document.forms.length; i++) {
+          var action = document.forms[i].getAttribute('action');
+          if (action && action.indexOf('/cart') >= 0) {
+            addListener(document.forms[i], 'submit', decorate);
+          }
+        }
+        for (var i = 0; i < document.links.length; i++) {
+          var href = document.links[i].getAttribute('href');
+          if (href && href.indexOf('/checkout') >= 0) {
+            addListener(document.links[i], 'click', decorate);
+          }
+        }
+      });
+
+
+      var originalDocumentWrite = document.write;
+      document.write = customDocumentWrite;
+      try {
+        window.ShopifyAnalytics.merchantGoogleAnalytics.call(this);
+      } catch (error) {
+      };
+      document.write = originalDocumentWrite;
+
+
+      window.ShopifyAnalytics.lib.page(
+        null,
+        {"pageType": "page", "resourceType": "page", "resourceId": 203794817}
+      );
+
+
+    });
+
+
+    var eventsListenerScript = document.createElement('script');
+    eventsListenerScript.async = true;
+    eventsListenerScript.src = "//cdn.shopify.com/s/assets/shop_events_listener-76ce6d7f3e50d4b8c05874c34d2ea1340c45e5babba61276dadcaeed488ca16a.js";
+    document.getElementsByTagName('head')[0].appendChild(eventsListenerScript);
+
+  })();</script>
+  <script crossorigin="anonymous" defer="defer"
+          src="//cdn.shopify.com/s/assets/shopify_pay/storefront-fe31d6a6f8b299bf1d018618c066f4704f961ac0b1939d90d804f157451c6312.js?v=20181030"></script>
+  <script integrity="sha256-fjvu5bBrpuqsZ1DuvSxZnsZqIxy/QS+9gN768obN9JQ=" defer="defer"
+          src="//cdn.shopify.com/s/assets/storefront/express_buttons-7e3beee5b06ba6eaac6750eebd2c599ec66a231cbf412fbd80defaf286cdf494.js"
+          crossorigin="anonymous"></script>
+  <script integrity="sha256-NfqRkSQwKw0JfNupCky6Zxtoijw8YUA8km/3gYu7kY8=" defer="defer"
+          src="//cdn.shopify.com/s/assets/storefront/features-35fa919124302b0d097cdba90a4cba671b688a3c3c61403c926ff7818bbb918f.js"
+          crossorigin="anonymous"></script>
+  <script defer="defer"
+          src="//cdn.shopify.com/s/assets/themes_support/ga_urchin_forms-68ca1924c495cfc55dac65f4853e0c9a395387ffedc8fe58e0f2e677f95d7f23.js"></script>
+
+  <link rel="canonical" href="https://themes.materializecss.com/pages/startup-horizontal-half.html">
+</head>
 
 <body>
 
-<site-root>
-  <!--<div style='padding: 20%; text-align:center; background-color: #0D47A1; height: 100%'>-->
-  <!--<img alt='Carregando' width='100'-->
-  <!--src='https://firebasestorage.googleapis.com/v0/b/ad-redencao.appspot.com/o/redencao.png?alt=media&token=376b7bb6-36a1-4ada-9144-0158e2f7906c'>-->
-  <!--<div style='text-align:center; color: white'>-->
-  <!--Aguarde ...-->
-  <!--</div>-->
-  <!--</div>-->
-</site-root>
+<!-- Navbar -->
+<nav class="n bi fj">
+  <div class="nav-wrapper">
+    <a href="startup-horizontal-half.html" class="brand-logo"><i class="icon-diamond white-text"></i></a>
+    <ul id="nav-mobile" class="ag hide-on-med-and-down">
+      <li class="active"><a class="dropdown-button" href="#!" data-activates="pages" data-constrainWidth="false"
+                            data-belowOrigin="true">Pages<i class="material-icons ag">arrow_drop_down</i></a></li>
+      <li><a href="startup-blog.html">Blog</a></li>
+      <li><a href="startup-team.html">Team</a></li>
+      <li><a href="http://themes.materializecss.com/cart/34339663873:1">Buy Now!</a></li>
+    </ul>
 
-<script type="text/javascript" src="runtime.ec2944dd8b20ec099bf3.js"></script><script type="text/javascript" src="polyfills.beb2fc7764eae2488c9a.js"></script><script type="text/javascript" src="scripts.a8aa29b3ad84326f86bf.js"></script><script type="text/javascript" src="main.22d9baf4a1c4e8f57d3b.js"></script></body>
+    <ul id="pages" class="dropdown-content">
+      <li><a class="g" href="startup-horizontal-half.html">Horizontal Halves</a></li>
+      <li><a href="startup-zoom-out.html">Zoom Out</a></li>
+      <li><a href="startup-circle-reveal.html">Circle Reveal</a></li>
+      <li><a href="startup-phone-wall.html">Phone Wall</a></li>
+      <li><a href="startup-element-transitions.html">Element Transitions</a></li>
+      <li><a href="startup-basic-elements.html">Basic Elements</a></li>
+      <li><a href="startup-shuffle.html">Shuffle</a></li>
+      <li><a href="startup-postcard.html">Postcards</a></li>
+    </ul>
+
+    <a href="#" data-activates="slide-out" class="button-collapse ag"><i class="material-icons white-text">menu</i></a>
+  </div>
+</nav>
+<ul id="slide-out" class="side-nav">
+  <li class="no-padding">
+    <ul class="collapsible collapsible-accordion">
+      <li class="bold active">
+        <a class="collapsible-header waves-effect waves-teal active">Pages</a>
+        <div class="collapsible-body">
+          <ul>
+            <li><a class="g" href="startup-horizontal-half.html">Horizontal Halves</a></li>
+            <li><a href="startup-zoom-out.html">Zoom Out</a></li>
+            <li><a href="startup-circle-reveal.html">Circle Reveal</a></li>
+            <li><a href="startup-phone-wall.html">Phone Wall</a></li>
+            <li><a href="startup-element-transitions.html">Element Transitions</a></li>
+            <li><a href="startup-basic-elements.html">Basic Elements</a></li>
+            <li><a href="startup-shuffle.html">Shuffle</a></li>
+            <li><a href="startup-postcard.html">Postcards</a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li><a class="waves-effect waves-teal" href="startup-blog.html">Blog</a></li>
+  <li><a class="waves-effect waves-teal" href="startup-team.html">Team</a></li>
+  <li><a class="waves-effect waves-teal" href="#">Buy Now!</a></li>
+</ul>
+
+<div class="ai full-height fh">
+  <div class="bz">
+    <img src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/trees.jpg?2667407724680817860" alt="">
+  </div>
+  <div class="phone-preview-sizer">
+    <div class="phone-preview"></div>
+    <div class="image-container g"
+         style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly5.jpg?2667407724680817860)"></div>
+    <div class="image-container"
+         style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly3.jpg?2667407724680817860)"></div>
+    <div class="image-container"
+         style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly2.jpg?2667407724680817860)"></div>
+  </div>
+  <div class="horizontal-half-wrapper he g">
+    <div class="header-background l"></div>
+    <div class="header-wrapper c valign-wrapper">
+      <div class="d iv kw offset-m2 ci">
+        <h1>Primeiro!</h1>
+        <span class="dx">Cadastre suas unidades de atendimento, e seus atendentes no ambiente WEB.</span>
+        <button class="read-more"><i class="icon-caret-down"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="horizontal-half-wrapper">
+    <div class="header-background l"></div>
+    <div class="header-wrapper c valign-wrapper">
+      <div class="d iv kw offset-m2 ci">
+        <h1>Segundo!</h1>
+        <span class="dx">Vincule os atendentes á suas respectivas unidades de atendimento (ainda no ambiente WEB).</span>
+        <button class="read-more"><i class="icon-caret-down"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="horizontal-half-wrapper he">
+    <div class="header-background l"></div>
+    <div class="header-wrapper c valign-wrapper">
+      <div class="d iv kw offset-m2 ci">
+        <h1>Terceiro!</h1>
+        <span class="dx">Baixe o aplicativo, e ao efetuar login defina á qual unidade de atendimento essa instância do aplicativo pertence.</span>
+        <button class="read-more"><i class="icon-caret-down"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="horizontal-half-wrapper he">
+    <div class="header-background l"></div>
+    <div class="header-wrapper c valign-wrapper">
+      <div class="d iv kw offset-m2 ci">
+        <h1>Quarto!</h1>
+        <span class="dx">Usufrua do aplicativo, e monitore o atendimento de seus funcionários. Aproveite!</span>
+        <button class="read-more"><i class="icon-caret-down"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="v valign-wrapper">
+  <div class="c ci">
+    <div class="d iv jc offset-m1">
+      <div class="c">
+        <div class="d iv"><h2 class="section-title">Features</h2></div>
+        <div class="d iv jo kk">
+          <h4><i class="icon-light-bulb"></i></h4>
+          <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
+        </div>
+        <div class="d iv jo kk">
+          <h4><i class="icon-bolt"></i></h4>
+          <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
+        </div>
+        <div class="d iv jo kk">
+          <h4><i class="icon-rocket"></i></h4>
+          <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
+        </div>
+        <div class="d iv jo kk">
+          <h4><i class="icon-settings"></i></h4>
+          <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
+        </div>
+        <div class="d iv jo kk">
+          <h4><i class="icon-umbrella"></i></h4>
+          <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
+        </div>
+        <div class="d iv jo kk">
+          <h4><i class="icon-compass"></i></h4>
+          <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Pricing Tables -->
+<div class="v valign-wrapper">
+  <div class="c ci">
+    <div class="d iv jc offset-m1">
+      <div class="c">
+        <div class="d iv kr">
+          <div class="pricing-table">
+            <div class="pricing-header">
+              <i class="icon-paper-plane"></i>
+              <h4>Basic</h4>
+              <div class="gd">
+                <span class="hm">$</span>
+                <span class="dollars">9</span>
+                <span class="ic">99</span>
+              </div>
+            </div>
+            <ul class="pricing-features">
+              <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+              <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+              <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+              <li class="pricing-feature au"><i class="icon-close"></i>Pro and above.</li>
+              <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
+              <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
+              <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="d iv kr">
+          <div class="pricing-table fk">
+            <div class="pricing-header">
+              <i class="icon-plane"></i>
+              <h4>Pro</h4>
+              <div class="gd">
+                <span class="hm">$</span>
+                <span class="dollars">59</span>
+                <span class="ic">99</span>
+              </div>
+            </div>
+            <ul class="pricing-features">
+              <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+              <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+              <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+              <li class="pricing-feature"><i class="icon-accept"></i>Pro and above.</li>
+              <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
+              <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
+              <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="d iv kr">
+          <div class="pricing-table">
+            <div class="pricing-header">
+              <i class="icon-rocket"></i>
+              <h4>Enterprise</h4>
+              <div class="gd">
+                <span class="hm">$</span>
+                <span class="dollars">299</span>
+                <span class="ic">99</span>
+              </div>
+            </div>
+            <ul class="pricing-features">
+              <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+              <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+              <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+              <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+              <li class="pricing-feature"><i class="icon-accept"></i>Enterprise only.</li>
+              <li class="pricing-feature"><i class="icon-accept"></i>Enterprise only.</li>
+              <li class="pricing-feature"><i class="icon-accept"></i>Enterprise only.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="v r full-height">
+  <div class="c">
+    <div class="d iv jc offset-m1 ef">
+      <h1>blog</h1>
+      <div class="c masonry-grid">
+
+        <div class="d iv jo kk">
+          <div class="m">
+            <div class="card-image">
+              <a href="startup-blog.html"><img
+                  src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly1.jpg?2667407724680817860"></a>
+              <span class="card-title">Something Interesting</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d iv jo kk">
+          <div class="m">
+            <div class="card-image">
+              <a href="startup-blog.html"><img
+                  src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly2.jpg?2667407724680817860"></a>
+              <span class="card-title">Another Blog Post</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d iv jo kk">
+          <div class="m">
+            <div class="card-image">
+              <a href="startup-blog.html"><img
+                  src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly3.jpg?2667407724680817860"></a>
+              <span class="card-title">Click Bait Article</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d iv jo kk">
+          <div class="m">
+            <div class="card-image">
+              <a href="startup-blog.html"><img
+                  src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly4.jpg?2667407724680817860"></a>
+              <span class="card-title">Don't Read This!</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d iv jo kk">
+          <div class="m">
+            <div class="card-image">
+              <a href="startup-blog.html"><img
+                  src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly5.jpg?2667407724680817860"></a>
+              <span class="card-title">Why Are You Still Reading?</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d iv jo kk">
+          <div class="m">
+            <div class="card-image">
+              <a href="startup-blog.html"><img
+                  src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly6.jpg?2667407724680817860"></a>
+              <span class="card-title">Good Bye</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="v r valign-wrapper">
+  <div class="c ci">
+    <form class="d iv jc offset-m1">
+      <div class="c">
+        <div class="d iv"><h2 class="section-title">Contact Us</h2></div>
+        <div class="input-field d ka">
+          <input id="first_name" type="text">
+          <label for="first_name">First Name</label>
+        </div>
+        <div class="input-field d ka">
+          <input id="last_name" type="text">
+          <label for="last_name">Last Name</label>
+        </div>
+        <div class="input-field d iv">
+          <textarea id="message" class="materialize-textarea"></textarea>
+          <label for="message">Message</label>
+          <a class="waves-effect waves-light btn-large">Button</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="page-footer">
+  <div class="c">
+    <div class="d iv jc offset-m1">
+      <div class="c">
+        <div class="d ka ko">
+          <img class="materialize-logo"
+               src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/materialize-teal.png?2667407724680817860" alt="">
+          <p>Made with love by Materialize.</p>
+        </div>
+        <div class="d ka ko">
+          <h5>About</h5>
+          <ul>
+            <li><a href="#!">Blog</a></li>
+            <li><a href="#!">Pricing</a></li>
+            <li><a href="#!">Docs</a></li>
+          </ul>
+        </div>
+        <div class="d ka ko">
+          <h5>Connect</h5>
+          <ul>
+            <li><a href="#!">Community</a></li>
+            <li><a href="#!">Subscribe</a></li>
+            <li><a href="#!">Email</a></li>
+          </ul>
+        </div>
+        <div class="d ka ko">
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="#!">Twitter</a></li>
+            <li><a href="#!">Facebook</a></li>
+            <li><a href="#!">Github</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/materialize/0.98.2/js/materialize.min.js"></script>
+<script src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/startup-all-min.js?2667407724680817860"
+        crossorigin="anonymous"></script>
+
+</body>
 </html>
