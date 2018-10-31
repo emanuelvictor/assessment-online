@@ -37,8 +37,6 @@ public class ConfiguracaoResource {
 
     /**
      * Busca a logomarca
-     * @param id
-     * @return
      */
     @GetMapping(value = "logomarca", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Mono<ResponseEntity<byte[]>> findLogomarca() {
@@ -50,9 +48,6 @@ public class ConfiguracaoResource {
 
     /**
      * Salva a logomarca
-     * @param id
-     * @param file
-     * @return
      */
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     @PostMapping(value = "logomarca", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -61,14 +56,12 @@ public class ConfiguracaoResource {
                 .filter(part -> part instanceof FilePart) // only retain file parts
                 .ofType(FilePart.class)
                 .flatMap(ImageUtils::getBytes)
-                .map((byte[] bytes) -> this.configuracaoService.saveLogomarca( bytes));
+                .map(this.configuracaoService::saveLogomarca);
     }
 
 
     /**
      * Deleta a logomarca
-     * @param id
-     * @return
      */
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     @DeleteMapping("logomarca")
@@ -79,8 +72,6 @@ public class ConfiguracaoResource {
 
     /**
      * Busca o background
-     * @param id
-     * @return
      */
     @GetMapping(value = "background", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Mono<ResponseEntity<byte[]>> findBackground() {
@@ -92,9 +83,6 @@ public class ConfiguracaoResource {
 
     /**
      * Salva o background
-     * @param id
-     * @param file
-     * @return
      */
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     @PostMapping(value = "background", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -104,14 +92,12 @@ public class ConfiguracaoResource {
                 .filter(part -> part instanceof FilePart) // only retain file parts
                 .ofType(FilePart.class)
                 .flatMap(ImageUtils::getBytes)
-                .map((byte[] bytes) -> this.configuracaoService.saveBackground(bytes));
+                .map(this.configuracaoService::saveBackground);
 
     }
 
     /**
      * Deleta o background
-     * @param id
-     * @return
      */
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     @DeleteMapping("background")

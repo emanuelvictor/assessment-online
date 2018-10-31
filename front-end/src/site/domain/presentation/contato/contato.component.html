@@ -1,0 +1,65 @@
+<div style="background-color: #0D47A1; height: 63px">
+</div>
+
+<div class="container">
+  <div style="text-align:center">
+    <h2>Entre em contato conosco</h2>
+    <p>Dê-nos seu testemunho, ou deixe sua mensagem:</p>
+  </div>
+  <div class="row">
+    <div class="column">
+      <div id="map" style="width:100%;height:500px">
+        <div class="google-maps" id='localizacao'>
+          <iframe allowfullscreen frameborder="0"
+                  style="position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important; height: 100%"
+                  src="https://www.google.com/maps/embed/v1/place?q=place_id:EkhBdi4gU2lsdmlvIEFtw6lyaWNvIFNhc2RlbGxpLCAzNjY0IC0gVmlsYSBBLCBGb3ogZG8gSWd1YcOndSAtIFBSLCBCcmFzaWw&key=AIzaSyBHON2JAqk27vIE7rzrNUYM_Ht4du_cNl0"></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+
+      <mat-form-field>
+        <label for="fname">Nome</label>
+        <input id="fname" name="firstname"
+               placeholder="Seu nome.."
+               [ngModelOptions]="{standalone: true}" [(ngModel)]='mensagem.nome'>
+      </mat-form-field>
+
+      <label for="lname">E-mail</label>
+      <input type="email" id="lname" name="lastname"
+             placeholder="Seu e-mail.." [ngModelOptions]="{standalone: true}" [(ngModel)]='mensagem.email'>
+
+      <label for="subject">Mensagem</label>
+      <textarea [ngModelOptions]="{standalone: true}" [(ngModel)]='mensagem.mensagem' style="height:170px" matInput
+                id="subject" name="subject" placeholder="Escreva sua mensagem..">
+      </textarea>
+
+      <button (click)='send()'
+              class="btn-large waves-effect waves-light blue darken-2">
+        Enviar
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<!--&lt;!&ndash; Initialize Google Maps &ndash;&gt;-->
+<!--<script>-->
+<!--function myMap() {-->
+<!--var myCenter = new google.maps.LatLng(51.508742,-0.120850);-->
+<!--var mapCanvas = document.getElementById("map");-->
+<!--var mapOptions = {center: myCenter, zoom: 12};-->
+<!--var map = new google.maps.Map(mapCanvas, mapOptions);-->
+<!--var marker = new google.maps.Marker({position:myCenter});-->
+<!--marker.setMap(map);-->
+<!--}-->
+<!--</script>-->
+
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap"></script>-->
+<!--
+To use this code on your website, get a free API key from Google.
+Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
+-->
