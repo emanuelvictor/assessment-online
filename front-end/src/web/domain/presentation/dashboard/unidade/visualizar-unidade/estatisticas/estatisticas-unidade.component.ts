@@ -19,7 +19,9 @@ export class EstatisticasUnidadeComponent implements OnInit {
    */
   masks = textMasks;
 
-  // Chart
+  /**
+   *
+   */
   multi: any[] = [
     {
       series: [
@@ -46,20 +48,6 @@ export class EstatisticasUnidadeComponent implements OnInit {
       ]
     }
   ];
-
-  /**
-   *
-   * @type {{domain: [string , string , string , string , string]}}
-   */
-  colorScheme: any = {
-    domain: [
-      '#c21c1f',
-      '#e96d01',
-      '#d4c40d',
-      '#8fc82c',
-      '#5ee924'
-    ]
-  };
 
   /**
    * Armazena o nome do rankeavel
@@ -101,13 +89,11 @@ export class EstatisticasUnidadeComponent implements OnInit {
 
   /**
    *
-   * @param {Title} title
    * @param {UnidadeService} usuarioService
    * @param {ActivatedRoute} activatedRoute
    * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private title: Title,
-              private usuarioService: UnidadeService,
+  constructor(private usuarioService: UnidadeService,
               private activatedRoute: ActivatedRoute,
               private configuracaoService: ConfiguracaoService) {
   }
@@ -122,8 +108,6 @@ export class EstatisticasUnidadeComponent implements OnInit {
       this.configuracao = configuracao;
 
       this.usuarioService.findById(this.activatedRoute.snapshot.params['id']).subscribe((rankeavel: any) => {
-
-        this.title.setTitle('Estatisticas de ' + rankeavel.nome);
 
         this.pageRequest.defaultFilter = [rankeavel.nome];
 
@@ -157,6 +141,7 @@ export class EstatisticasUnidadeComponent implements OnInit {
       group.series[4] = {value: this.rankeavel.avaliacoes5, name: this.configuracao.cinco};
       return group;
     });
+
   }
 
 }

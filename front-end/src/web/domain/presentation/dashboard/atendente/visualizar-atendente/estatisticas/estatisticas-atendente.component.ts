@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {UsuarioService} from '../../../../../service/usuario.service';
@@ -19,7 +18,9 @@ export class EstatisticasAtendenteComponent implements OnInit {
    */
   masks = textMasks;
 
-  // Chart
+  /**
+   *
+   */
   multi: any[] = [
     {
       series: [
@@ -46,20 +47,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
       ]
     }
   ];
-
-  /**
-   *
-   * @type {{domain: [string , string , string , string , string]}}
-   */
-  colorScheme: any = {
-    domain: [
-      '#c21c1f',
-      '#e96d01',
-      '#d4c40d',
-      '#8fc82c',
-      '#5ee924'
-    ]
-  };
 
   /**
    * Armazena o nome do rankeavel
@@ -101,13 +88,11 @@ export class EstatisticasAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param {Title} title
    * @param {UsuarioService} usuarioService
    * @param {ActivatedRoute} activatedRoute
    * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private title: Title,
-              private usuarioService: UsuarioService,
+  constructor(private usuarioService: UsuarioService,
               private activatedRoute: ActivatedRoute,
               private configuracaoService: ConfiguracaoService) {
   }
@@ -122,8 +107,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
       this.configuracao = configuracao;
 
       this.usuarioService.findById(this.activatedRoute.snapshot.params['id']).subscribe((rankeavel: any) => {
-
-        this.title.setTitle('Estatisticas de ' + rankeavel.nome);
 
         this.pageRequest.defaultFilter = [rankeavel.nome];
 

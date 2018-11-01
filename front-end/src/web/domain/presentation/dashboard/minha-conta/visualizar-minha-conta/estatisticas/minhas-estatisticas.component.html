@@ -62,7 +62,7 @@
                   *ngIf="(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) != 0">
           <div style='height:500px;'>
             <ngx-charts-bar-vertical-2d
-                [scheme]='colorScheme'
+                [scheme]="{ domain: [ '#c21c1f', '#e96d01', '#d4c40d', '#8fc82c', '#5ee924' ]}"
                 [results]='multi'
                 [gradient]='false'
                 [xAxis]='true'
