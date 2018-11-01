@@ -184,7 +184,6 @@ export class ConsultarAtendentesComponent implements OnInit {
 
   }
 
-
   /**
    * Consulta de usuarios
    *
@@ -193,7 +192,7 @@ export class ConsultarAtendentesComponent implements OnInit {
 
     pageRequest.unidadesFilter.concat(this.asyncModel.map((result: any) => result.id));
 
-    this.usuarioService.listByFilters(this.pageRequest)
+    this.usuarioService.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
 

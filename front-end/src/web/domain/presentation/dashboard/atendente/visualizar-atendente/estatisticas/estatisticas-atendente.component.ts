@@ -1,10 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {UsuarioService} from '../../../../../service/usuario.service';
 import {Usuario} from "../../../../../entity/usuario/usuario.model";
 import {ConfiguracaoService} from "../../../../../service/configuracao.service";
 import {Configuracao} from "../../../../../entity/configuracao/configuracao.model";
+import {EvDatepicker} from "../../../../controls/ev-datepicker/ev-datepicker";
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
 
 @Component({
   selector: 'estatisticas-atendente',
@@ -88,6 +91,17 @@ export class EstatisticasAtendenteComponent implements OnInit {
 
   /**
    *
+   */
+  @ViewChild('dataInicio') dataInicio: EvDatepicker;
+
+  /**
+   *
+   */
+  @ViewChild('dataTermino') dataTermino: EvDatepicker;
+
+
+  /**
+   *
    * @param {UsuarioService} usuarioService
    * @param {ActivatedRoute} activatedRoute
    * @param {ConfiguracaoService} configuracaoService
@@ -101,22 +115,49 @@ export class EstatisticasAtendenteComponent implements OnInit {
    *
    */
   ngOnInit() {
-
     this.configuracaoService.configuracao.subscribe(configuracao => {
 
       this.configuracao = configuracao;
 
-      this.usuarioService.findById(this.activatedRoute.snapshot.params['id']).subscribe((rankeavel: any) => {
+      this.listUsuariosByFilters(this.pageRequest);
 
-        this.pageRequest.defaultFilter = [rankeavel.nome];
+    });
+  }
 
-        this.usuarioService.listByFilters(this.pageRequest).subscribe(result => {
+  /**
+   * Consulta de usuarios com filtros do model
+   *
+   */
+  public listByDates() {
 
-          this.rankeavel = result.content[0];
+    if (this.dataInicio.data)
+      this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
 
-          this.mapEstatisticas();
+    if (this.dataTermino.data)
+      this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
 
-        });
+    this.listUsuariosByFilters(this.pageRequest);
+
+  }
+
+
+  /**
+   * Consulta de usuarios
+   *
+   */
+  public listUsuariosByFilters(pageRequest: any) {
+
+    this.usuarioService.findById(this.activatedRoute.snapshot.params['id']).subscribe((rankeavel: any) => {
+
+      this.rankeavel = rankeavel;
+
+      pageRequest.defaultFilter = [this.rankeavel.nome];
+
+      this.usuarioService.listByFilters(pageRequest).subscribe(result => {
+
+        this.rankeavel = result.content[0];
+
+        this.mapEstatisticas();
 
       });
 
@@ -133,13 +174,21 @@ export class EstatisticasAtendenteComponent implements OnInit {
      * Falcatrua
      */
     this.multi = this.mapper.map((group: any) => {
-      group.series[0] = {value: this.rankeavel.avaliacoes1, name: this.configuracao.um};
-      group.series[1] = {value: this.rankeavel.avaliacoes2, name: this.configuracao.dois};
-      group.series[2] = {value: this.rankeavel.avaliacoes3, name: this.configuracao.tres};
-      group.series[3] = {value: this.rankeavel.avaliacoes4, name: this.configuracao.quatro};
-      group.series[4] = {value: this.rankeavel.avaliacoes5, name: this.configuracao.cinco};
+      group.series[0] = {value: this.rankeavel ? this.rankeavel.avaliacoes1 : 0, name: this.configuracao.um};
+      group.series[1] = {value: this.rankeavel ? this.rankeavel.avaliacoes2 : 0, name: this.configuracao.dois};
+      group.series[2] = {value: this.rankeavel ? this.rankeavel.avaliacoes3 : 0, name: this.configuracao.tres};
+      group.series[3] = {value: this.rankeavel ? this.rankeavel.avaliacoes4 : 0, name: this.configuracao.quatro};
+      group.series[4] = {value: this.rankeavel ? this.rankeavel.avaliacoes5 : 0, name: this.configuracao.cinco};
       return group;
     });
+  }
+
+  /**
+   *
+   */
+  public resetDates(){
+    this.dataInicio.data = null;
+    this.dataTermino.data = null;
   }
 
 }

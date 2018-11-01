@@ -1,5 +1,7 @@
 <search-bar>
-  <div layout='column' style='min-width: 17px' class='push-right'>
+  <div layout='column'
+       class='push-right'
+       style='min-width: 17px'>
     <button class='mat-headline tc-grey-500' type='button'
             routerLink='../' color='primary' mat-icon-button>
       <mat-icon>arrow_back</mat-icon>
@@ -11,41 +13,42 @@
     {{ rankeavel?.nome }}
   </div>
 
-  <div layout='row' layout-margin style='margin-left: 41px; margin-top: -6px'>
-    <ev-datepicker layout='row'
-                   [(dataInput)]='dataInicio'
-                   style='margin-bottom: -14px; padding-top: 0; margin-left: -8px' flex>
-      <mat-form-field style='width: 210px;'>
-        <input [(ngModel)]='dataInicio'
-               placeholder='Data da avaliação - Início'
+  <div layout='row' layout-margin
+       style='margin-left: 41px; margin-top: -6px'>
+
+    <ev-datepicker #dataInicio layout='row'
+                   flex style='margin-left: -2px'
+                   (dataInputChange)='listByDates()'
+                   [(dataInput)]='pageRequest.dataInicioFilter'>
+      <mat-form-field>
+        <input placeholder='Data da avaliação - Início'
+               [(ngModel)]='pageRequest.dataInicioFilter'
                matInput name='dataInicio' id='dataInicio'
                [textMask]='{mask: masks.date, guide: false}'>
       </mat-form-field>
     </ev-datepicker>
 
-    <ev-datepicker layout='row'
-                   [(dataInput)]='dataFim'
-                   style='margin-bottom: -14px;padding-top: 0' flex>
-      <mat-form-field style='width: 210px;'>
-        <input [(ngModel)]='dataFim'
-               placeholder='Data da avaliação - Fim'
-               matInput name='dataFim' id='dataFim'
+    <ev-datepicker #dataTermino layout='row' flex
+                   (dataInputChange)='listByDates()'
+                   [(dataInput)]='pageRequest.dataTerminoFilter'>
+      <mat-form-field>
+        <input style='width: 225px'
+               placeholder='Data da avaliação - Término'
+               [(ngModel)]='pageRequest.dataTerminoFilter'
+               matInput name='dataTermino' id='dataTermino'
                [textMask]='{mask: masks.date, guide: false}'>
       </mat-form-field>
     </ev-datepicker>
+
   </div>
 
   <div flex-gt-md></div>
 
   <button mat-raised-button class='push-right'
-          (click)='dataInicio = null; dataFim = null; listEstatisticasByDates(dataInicio, dataFim)'>
+          (click)='pageRequest.dataInicioFilter = null; pageRequest.dataTerminoFilter = null; resetDates(); listByDates()'>
     Limpar filtros
   </button>
 
-  <button color='accent' mat-raised-button
-          (click)='listEstatisticasByDates(dataInicio, dataFim)'>
-    Pesquisar
-  </button>
 </search-bar>
 
 <div layout-gt-xs='row'>
@@ -53,7 +56,8 @@
     <div layout='row' layout-align='center start'>
       <div layout='column' flex='90'>
 
-        <div class='tc-grey-500 size-height-50' layout='row' layout-align='start center'>
+        <div class='tc-grey-500 size-height-50'
+             layout='row' layout-align='start center'>
           <div flex></div>
           <span> {{(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) === 0 ? '' : (rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) + ' avaliações'}} </span>
         </div>
@@ -62,17 +66,17 @@
                   *ngIf="(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) != 0">
           <div style='height:500px;'>
             <ngx-charts-bar-vertical-2d
-                [scheme]="{ domain: [ '#c21c1f', '#e96d01', '#d4c40d', '#8fc82c', '#5ee924' ]}"
-                [results]='multi'
-                [gradient]='false'
                 [xAxis]='true'
                 [yAxis]='true'
                 [legend]='false'
+                [barPadding]='2'
+                [results]='multi'
+                [groupPadding]='8'
+                [gradient]='false'
                 [showXAxisLabel]='false'
                 [showYAxisLabel]='false'
                 [yAxisLabel]="'Avaliações'"
-                [barPadding]='2'
-                [groupPadding]='8'>
+                [scheme]="{ domain: [ '#c21c1f', '#e96d01', '#d4c40d', '#8fc82c', '#5ee924' ]}">
             </ngx-charts-bar-vertical-2d>
           </div>
         </mat-card>

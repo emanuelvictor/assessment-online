@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {Title} from '@angular/platform-browser';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {Configuracao} from "../../../../../entity/configuracao/configuracao.model";
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
 import {ConfiguracaoService} from "../../../../../service/configuracao.service";
+import {EvDatepicker} from "../../../../controls/ev-datepicker/ev-datepicker";
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
 
 @Component({
   selector: 'estatisticas-unidade',
@@ -89,11 +91,22 @@ export class EstatisticasUnidadeComponent implements OnInit {
 
   /**
    *
-   * @param {UnidadeService} usuarioService
+   */
+  @ViewChild('dataInicio') dataInicio: EvDatepicker;
+
+  /**
+   *
+   */
+  @ViewChild('dataTermino') dataTermino: EvDatepicker;
+
+
+  /**
+   *
+   * @param {UnidadeService} unidadeService
    * @param {ActivatedRoute} activatedRoute
    * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private usuarioService: UnidadeService,
+  constructor(private unidadeService: UnidadeService,
               private activatedRoute: ActivatedRoute,
               private configuracaoService: ConfiguracaoService) {
   }
@@ -102,22 +115,49 @@ export class EstatisticasUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-
     this.configuracaoService.configuracao.subscribe(configuracao => {
 
       this.configuracao = configuracao;
 
-      this.usuarioService.findById(this.activatedRoute.snapshot.params['id']).subscribe((rankeavel: any) => {
+      this.listUnidadesByFilters(this.pageRequest);
 
-        this.pageRequest.defaultFilter = [rankeavel.nome];
+    });
+  }
 
-        this.usuarioService.listByFilters(this.pageRequest).subscribe(result => {
+  /**
+   * Consulta de unidades com filtros do model
+   *
+   */
+  public listByDates() {
 
-          this.rankeavel = result.content[0];
+    if (this.dataInicio.data)
+      this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
 
-          this.mapEstatisticas();
+    if (this.dataTermino.data)
+      this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
 
-        });
+    this.listUnidadesByFilters(this.pageRequest);
+
+  }
+
+
+  /**
+   * Consulta de unidades
+   *
+   */
+  public listUnidadesByFilters(pageRequest: any) {
+
+    this.unidadeService.findById(this.activatedRoute.snapshot.params['id']).subscribe((rankeavel: any) => {
+
+      this.rankeavel = rankeavel;
+
+      pageRequest.defaultFilter = [this.rankeavel.nome];
+
+      this.unidadeService.listByFilters(pageRequest).subscribe(result => {
+
+        this.rankeavel = result.content[0];
+
+        this.mapEstatisticas();
 
       });
 
@@ -134,14 +174,21 @@ export class EstatisticasUnidadeComponent implements OnInit {
      * Falcatrua
      */
     this.multi = this.mapper.map((group: any) => {
-      group.series[0] = {value: this.rankeavel.avaliacoes1, name: this.configuracao.um};
-      group.series[1] = {value: this.rankeavel.avaliacoes2, name: this.configuracao.dois};
-      group.series[2] = {value: this.rankeavel.avaliacoes3, name: this.configuracao.tres};
-      group.series[3] = {value: this.rankeavel.avaliacoes4, name: this.configuracao.quatro};
-      group.series[4] = {value: this.rankeavel.avaliacoes5, name: this.configuracao.cinco};
+      group.series[0] = {value: this.rankeavel ? this.rankeavel.avaliacoes1 : 0, name: this.configuracao.um};
+      group.series[1] = {value: this.rankeavel ? this.rankeavel.avaliacoes2 : 0, name: this.configuracao.dois};
+      group.series[2] = {value: this.rankeavel ? this.rankeavel.avaliacoes3 : 0, name: this.configuracao.tres};
+      group.series[3] = {value: this.rankeavel ? this.rankeavel.avaliacoes4 : 0, name: this.configuracao.quatro};
+      group.series[4] = {value: this.rankeavel ? this.rankeavel.avaliacoes5 : 0, name: this.configuracao.cinco};
       return group;
     });
+  }
 
+  /**
+   *
+   */
+  public resetDates(){
+    this.dataInicio.data = null;
+    this.dataTermino.data = null;
   }
 
 }
