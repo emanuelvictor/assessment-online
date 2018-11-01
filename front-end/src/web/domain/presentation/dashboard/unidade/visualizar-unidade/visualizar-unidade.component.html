@@ -29,6 +29,23 @@
                     {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.numero}}, {{unidade?.endereco?.bairro}} -
                     {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.uf}}
                   </h2>
+                  <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
+                    {{(
+                    (unidade?.avaliacoes1 ? unidade?.avaliacoes1 : 0) +
+                    (unidade?.avaliacoes2 ? unidade?.avaliacoes2 : 0) +
+                    (unidade?.avaliacoes3 ? unidade?.avaliacoes3 : 0) +
+                    (unidade?.avaliacoes4 ? unidade?.avaliacoes4 : 0) +
+                    (unidade?.avaliacoes5 ? unidade?.avaliacoes5 : 0)
+                    )
+                    === 0 ? '' :
+                    (
+                    (unidade?.avaliacoes1 ? unidade?.avaliacoes1 : 0) +
+                    (unidade?.avaliacoes2 ? unidade?.avaliacoes2 : 0) +
+                    (unidade?.avaliacoes3 ? unidade?.avaliacoes3 : 0) +
+                    (unidade?.avaliacoes4 ? unidade?.avaliacoes4 : 0) +
+                    (unidade?.avaliacoes5 ? unidade?.avaliacoes5 : 0)
+                    ) + ' avaliações'}}
+                  </h2>
                 </div>
               </div>
             </div>
