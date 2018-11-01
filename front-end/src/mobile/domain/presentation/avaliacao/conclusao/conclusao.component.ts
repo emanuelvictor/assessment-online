@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {ConfiguracaoRepository} from "../../../../../web/domain/repositories/configuracao.repository";
+import {Configuracao} from "../../../../../web/domain/entity/configuracao/configuracao.model";
 
 @Component({
   selector: 'app-conclusao',
@@ -7,16 +9,28 @@ import {Router} from '@angular/router';
   styleUrls: ['./conclusao.component.scss']
 })
 export class ConclusaoComponent implements OnInit {
+
   /**
    *
    */
-  constructor(private router: Router) {
+  configuracao: Configuracao;
+
+  /**
+   * @param {Router} router
+   * @param {ConfiguracaoRepository} configuracaoRepository
+   */
+  constructor(private router: Router, private configuracaoRepository: ConfiguracaoRepository) {
   }
 
   /**
    *
    */
   ngOnInit() {
+    this.configuracaoRepository.configuracao.subscribe(configuracao =>  {
+      this.configuracao = configuracao;
+      console.log(configuracao)
+    });
+
     setTimeout(() => {
       this.router.navigate(['/avaliar']);
     }, 5000);

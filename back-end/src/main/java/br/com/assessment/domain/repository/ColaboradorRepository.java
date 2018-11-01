@@ -21,18 +21,10 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> 
                             "       OR :usuarioId IS NULL AND :unidadeId IS NULL " +
                             "   )" +
                             "   AND " +
-                            "   FILTER(colaborador.unidade.nome, :defaultFilter) = TRUE" +
+                            "   FILTER(:defaultFilter, colaborador.unidade.nome) = TRUE" +
                             "   AND " +
                             "   (" +
-                            "       FILTER(colaborador.unidade.endereco.logradouro, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(colaborador.unidade.endereco.complemento, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(colaborador.unidade.endereco.bairro, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(colaborador.unidade.endereco.cep, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(colaborador.unidade.endereco.numero, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(colaborador.unidade.endereco.cidade.nome, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(colaborador.unidade.endereco.cidade.estado.nome, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(colaborador.unidade.endereco.cidade.estado.uf, :enderecoFilter) = TRUE" +
-                            "       OR FILTER(colaborador.unidade.endereco.cidade.estado.pais.nome, :enderecoFilter) = TRUE" +
+                            "       FILTER(:enderecoFilter, colaborador.unidade.endereco.logradouro, colaborador.unidade.endereco.complemento, colaborador.unidade.endereco.bairro, colaborador.unidade.endereco.cep, colaborador.unidade.endereco.numero, colaborador.unidade.endereco.cidade.nome, colaborador.unidade.endereco.cidade.estado.uf, colaborador.unidade.endereco.cidade.estado.pais.nome) = TRUE" +
                             "   )" +
                             ")"
             )

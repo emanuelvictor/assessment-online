@@ -138,6 +138,27 @@ public class UsuarioService {
                 pageable);
     }
 
+
+//    public Page<Usuario> listByFiltersAndRankeaveisIds(final List<Long> rankeaveisIds,
+//                                       final String defaultFilter,
+//                                       final List<Long> unidadesFilter,
+//                                       final LocalDateTime dataInicioFilter,
+//                                       final LocalDateTime dataTerminoFilter,
+//                                       final Pageable pageable) {
+//
+//        final Usuario usuario = this.contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
+//
+//        return this.usuarioRepository.listByFiltersAndRankeaveisIds(rankeaveisIds,
+//                usuario.getId(),
+//                usuario.getConta().getPerfil().name(),
+//                defaultFilter,
+//                unidadesFilter,
+//                dataInicioFilter,
+//                dataTerminoFilter,
+//                pageable);
+//    }
+
+
     /**
      * @param id          long
      * @param fileInBytes byte[]

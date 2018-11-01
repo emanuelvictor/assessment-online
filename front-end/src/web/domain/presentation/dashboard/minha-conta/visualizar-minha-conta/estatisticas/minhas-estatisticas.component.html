@@ -55,10 +55,11 @@
 
         <div class='tc-grey-500 size-height-50' layout='row' layout-align='start center'>
           <div flex></div>
-          <span> {{(avaliacoes1+avaliacoes2+avaliacoes3+avaliacoes4+avaliacoes5) === 0 ? '' : (avaliacoes1+avaliacoes2+avaliacoes3+avaliacoes4+avaliacoes5) + ' avaliações'}} </span>
+          <span> {{(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) === 0 ? '' : (rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) + ' avaliações'}} </span>
         </div>
 
-        <mat-card class='push-none bgc-grey-50' *ngIf="avaliacoes?.length">
+        <mat-card class='push-none bgc-grey-50'
+                  *ngIf="(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) != 0">
           <div style='height:500px;'>
             <ngx-charts-bar-vertical-2d
                 [scheme]='colorScheme'
@@ -66,11 +67,10 @@
                 [gradient]='false'
                 [xAxis]='true'
                 [yAxis]='true'
-                [legend]='showLegend'
+                [legend]='false'
                 [showXAxisLabel]='false'
                 [showYAxisLabel]='false'
-                [yAxisLabel]='yAxisLabel'
-                [yAxisTickFormatting]='axisDigits'
+                [yAxisLabel]="'Avaliações'"
                 [barPadding]='2'
                 [groupPadding]='8'>
             </ngx-charts-bar-vertical-2d>
@@ -78,8 +78,8 @@
         </mat-card>
 
         <div class='tc-grey-500 size-height-50'
-             *ngIf='!avaliacoes?.length'
-             layout='row' layout-align='center center'>
+             layout='row' layout-align='center center'
+             *ngIf='(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) === 0'>
           <span> Sem estatísticas por aqui =( </span>
         </div>
 

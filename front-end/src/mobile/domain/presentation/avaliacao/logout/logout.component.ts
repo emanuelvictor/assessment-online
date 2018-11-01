@@ -37,7 +37,9 @@ export class LogoutComponent implements OnInit {
    * @param {ColaboradorService} colaboradorService
    * @param {AuthenticationService} authenticationService
    */
-  constructor(private router: Router, private snackBar: MatSnackBar, private usuarioService: UsuarioService, private mobileService: MobileService, private colaboradorService: ColaboradorService, private authenticationService: AuthenticationService) {
+  constructor(private router: Router, private snackBar: MatSnackBar,
+              private usuarioService: UsuarioService, private mobileService: MobileService,
+              private colaboradorService: ColaboradorService, private authenticationService: AuthenticationService) {
 
     this.timeout = setTimeout(() => {
       this.mobileService.reset();
@@ -100,8 +102,7 @@ export class LogoutComponent implements OnInit {
    * @param message
    */
   openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 5000
-    });
+    this.snackBar.open(message, 'Fechar', {duration: 5000});
   }
+
 }

@@ -64,6 +64,15 @@ public class UsuarioResource {
         return Mono.just(usuarioService.listByFilters(defaultFilter, getListFromArray(unidadesFilter), dataInicioFilter, dataTerminoFilter, getPageable()));
     }
 
+//    @GetMapping("rankeaveis")
+//    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+//    Mono<Page<Usuario>> listByFiltersAndRankeaveisIds(final Long[] rankeaveisIds,
+//                                                      final String defaultFilter, final Long[] unidadesFilter,
+//                                                      @RequestParam(required = false) final LocalDateTime dataInicioFilter,
+//                                                      @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
+//        return Mono.just(usuarioService.listByFiltersAndRankeaveisIds(getListFromArray(rankeaveisIds), defaultFilter, getListFromArray(unidadesFilter), dataInicioFilter, dataTerminoFilter, getPageable()));
+//    }
+
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     @GetMapping(value = "{id}/thumbnail", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Mono<ResponseEntity<byte[]>> findThumbnail(@PathVariable final long id) {

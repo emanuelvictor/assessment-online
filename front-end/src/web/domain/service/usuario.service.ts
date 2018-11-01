@@ -25,7 +25,7 @@ export class UsuarioService {
 
   /**
    *
-   * @returns {Observable<any[]>}
+   * @returns {Observable<Usuario[]>}
    */
   public find(): Observable<Usuario[]> {
     return this.usuarioRepository.findAll();
@@ -34,7 +34,7 @@ export class UsuarioService {
   /**
    *
    * @param pageable
-   * @returns {Observable<any>}
+   * @returns {Observable<{}>}
    */
   public listByFilters(pageable: any): Observable<any> {
     return this.usuarioRepository.listByFilters(pageable);
@@ -53,7 +53,7 @@ export class UsuarioService {
   /**
    *
    * @param {Usuario} usuario
-   * @returns {PromiseLike<any>}
+   * @returns {Promise<Usuario>}
    */
   public save(usuario: Usuario): Promise<Usuario> {
 
@@ -114,8 +114,8 @@ export class UsuarioService {
 
   /**
    *
-   * @param usuario
-   * @returns {Promise<any>}
+   * @param {Usuario} usuario
+   * @returns {Promise<{}>}
    */
   public remove(usuario: Usuario): Promise<any> {
     return this.usuarioRepository.delete(usuario.id);
