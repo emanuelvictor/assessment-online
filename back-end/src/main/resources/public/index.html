@@ -15,9 +15,9 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <!--<meta id="shopify-digital-wallet" name="shopify-digital-wallet" content="/17758583/digital_wallets/dialog">-->
-  <meta name="shopify-checkout-api-token" content="6aacc581eb2b41d74f03c38d3c985dba">
-  <meta id="in-context-paypal-metadata" data-shop-id="17758583" data-environment="production" data-locale="en_US"
-        data-paypal-v4="true" data-currency="USD">
+  <!--<meta name="shopify-checkout-api-token" content="6aacc581eb2b41d74f03c38d3c985dba">-->
+  <!--<meta id="in-context-paypal-metadata" data-shop-id="17758583" data-environment="production" data-locale="en_US"-->
+        <!--data-paypal-v4="true" data-currency="USD">-->
   <style media="all">.additional-checkout-button {
     border: 0 !important;
     border-radius: 5px !important;
@@ -289,168 +289,168 @@
 
   };
   </script>
-  <script class="analytics">(window.gaDevIds = window.gaDevIds || []).push('BwiEti');
+  <!--<script class="analytics">(window.gaDevIds = window.gaDevIds || []).push('BwiEti');-->
 
 
-  (function () {
-    var customDocumentWrite = function (content) {
-      var jquery = null;
+  <!--(function () {-->
+    <!--var customDocumentWrite = function (content) {-->
+      <!--var jquery = null;-->
 
-      if (window.jQuery) {
-        jquery = window.jQuery;
-      } else if (window.Checkout && window.Checkout.$) {
-        jquery = window.Checkout.$;
-      }
+      <!--if (window.jQuery) {-->
+        <!--jquery = window.jQuery;-->
+      <!--} else if (window.Checkout && window.Checkout.$) {-->
+        <!--jquery = window.Checkout.$;-->
+      <!--}-->
 
-      if (jquery) {
-        jquery('body').append(content);
-      }
-    };
+      <!--if (jquery) {-->
+        <!--jquery('body').append(content);-->
+      <!--}-->
+    <!--};-->
 
-    var trekkie = window.ShopifyAnalytics.lib = window.trekkie = window.trekkie || [];
-    if (trekkie.integrations) {
-      return;
-    }
-    trekkie.methods = [
-      'identify',
-      'page',
-      'ready',
-      'track',
-      'trackForm',
-      'trackLink'
-    ];
-    trekkie.factory = function (method) {
-      return function () {
-        var args = Array.prototype.slice.call(arguments);
-        args.unshift(method);
-        trekkie.push(args);
-        return trekkie;
-      };
-    };
-    for (var i = 0; i < trekkie.methods.length; i++) {
-      var key = trekkie.methods[i];
-      trekkie[key] = trekkie.factory(key);
-    }
-    trekkie.load = function (config) {
-      trekkie.config = config;
-      var script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.onerror = function (e) {
-        (new Image()).src = '//v.shopify.com/internal_errors/track?error=trekkie_load';
-      };
-      script.async = true;
-      script.src = 'https://cdn.shopify.com/s/javascripts/tricorder/trekkie.storefront.min.js?v=2017.09.05.1';
-      var first = document.getElementsByTagName('script')[0];
-      first.parentNode.insertBefore(script, first);
-    };
-    trekkie.load(
-      {
-        "Trekkie": {
-          "appName": "storefront",
-          "development": false,
-          "defaultAttributes": {
-            "shopId": 17758583,
-            "isMerchantRequest": null,
-            "themeId": 133945025,
-            "themeCityHash": 11956486666485001981
-          }
-        },
-        "Performance": {
-          "navigationTimingApiMeasurementsEnabled": true,
-          "navigationTimingApiMeasurementsSampleRate": 1.0
-        },
-        "Google Analytics": {
-          "trackingId": "UA-56218128-1",
-          "domain": "auto",
-          "siteSpeedSampleRate": "10",
-          "enhancedEcommerce": true,
-          "doubleClick": true,
-          "includeSearch": true
-        },
-        "Session Attribution": {}
-      }
-    );
+    <!--var trekkie = window.ShopifyAnalytics.lib = window.trekkie = window.trekkie || [];-->
+    <!--if (trekkie.integrations) {-->
+      <!--return;-->
+    <!--}-->
+    <!--trekkie.methods = [-->
+      <!--'identify',-->
+      <!--'page',-->
+      <!--'ready',-->
+      <!--'track',-->
+      <!--'trackForm',-->
+      <!--'trackLink'-->
+    <!--];-->
+    <!--trekkie.factory = function (method) {-->
+      <!--return function () {-->
+        <!--var args = Array.prototype.slice.call(arguments);-->
+        <!--args.unshift(method);-->
+        <!--trekkie.push(args);-->
+        <!--return trekkie;-->
+      <!--};-->
+    <!--};-->
+    <!--for (var i = 0; i < trekkie.methods.length; i++) {-->
+      <!--var key = trekkie.methods[i];-->
+      <!--trekkie[key] = trekkie.factory(key);-->
+    <!--}-->
+    <!--trekkie.load = function (config) {-->
+      <!--trekkie.config = config;-->
+      <!--var script = document.createElement('script');-->
+      <!--script.type = 'text/javascript';-->
+      <!--script.onerror = function (e) {-->
+        <!--(new Image()).src = '//v.shopify.com/internal_errors/track?error=trekkie_load';-->
+      <!--};-->
+      <!--script.async = true;-->
+      <!--script.src = 'https://cdn.shopify.com/s/javascripts/tricorder/trekkie.storefront.min.js?v=2017.09.05.1';-->
+      <!--var first = document.getElementsByTagName('script')[0];-->
+      <!--first.parentNode.insertBefore(script, first);-->
+    <!--};-->
+    <!--trekkie.load(-->
+      <!--{-->
+        <!--"Trekkie": {-->
+          <!--"appName": "storefront",-->
+          <!--"development": false,-->
+          <!--"defaultAttributes": {-->
+            <!--"shopId": 17758583,-->
+            <!--"isMerchantRequest": null,-->
+            <!--"themeId": 133945025,-->
+            <!--"themeCityHash": 11956486666485001981-->
+          <!--}-->
+        <!--},-->
+        <!--"Performance": {-->
+          <!--"navigationTimingApiMeasurementsEnabled": true,-->
+          <!--"navigationTimingApiMeasurementsSampleRate": 1.0-->
+        <!--},-->
+        <!--"Google Analytics": {-->
+          <!--"trackingId": "UA-56218128-1",-->
+          <!--"domain": "auto",-->
+          <!--"siteSpeedSampleRate": "10",-->
+          <!--"enhancedEcommerce": true,-->
+          <!--"doubleClick": true,-->
+          <!--"includeSearch": true-->
+        <!--},-->
+        <!--"Session Attribution": {}-->
+      <!--}-->
+    <!--);-->
 
-    var loaded = false;
-    trekkie.ready(function () {
-      if (loaded) return;
-      loaded = true;
+    <!--var loaded = false;-->
+    <!--trekkie.ready(function () {-->
+      <!--if (loaded) return;-->
+      <!--loaded = true;-->
 
-      window.ShopifyAnalytics.lib = window.trekkie;
+      <!--window.ShopifyAnalytics.lib = window.trekkie;-->
 
-      ga('require', 'linker');
+      <!--ga('require', 'linker');-->
 
-      function addListener(element, type, callback) {
-        if (element.addEventListener) {
-          element.addEventListener(type, callback);
-        }
-        else if (element.attachEvent) {
-          element.attachEvent('on' + type, callback);
-        }
-      }
+      <!--function addListener(element, type, callback) {-->
+        <!--if (element.addEventListener) {-->
+          <!--element.addEventListener(type, callback);-->
+        <!--}-->
+        <!--else if (element.attachEvent) {-->
+          <!--element.attachEvent('on' + type, callback);-->
+        <!--}-->
+      <!--}-->
 
-      function decorate(event) {
-        event = event || window.event;
-        var target = event.target || event.srcElement;
-        if (target && (target.getAttribute('action') || target.getAttribute('href'))) {
-          ga(function (tracker) {
-            var linkerParam = tracker.get('linkerParam');
-            document.cookie = '_shopify_ga=' + linkerParam + '; ' + 'path=/';
-          });
-        }
-      }
+      <!--function decorate(event) {-->
+        <!--event = event || window.event;-->
+        <!--var target = event.target || event.srcElement;-->
+        <!--if (target && (target.getAttribute('action') || target.getAttribute('href'))) {-->
+          <!--ga(function (tracker) {-->
+            <!--var linkerParam = tracker.get('linkerParam');-->
+            <!--document.cookie = '_shopify_ga=' + linkerParam + '; ' + 'path=/';-->
+          <!--});-->
+        <!--}-->
+      <!--}-->
 
-      addListener(window, 'load', function () {
-        for (var i = 0; i < document.forms.length; i++) {
-          var action = document.forms[i].getAttribute('action');
-          if (action && action.indexOf('/cart') >= 0) {
-            addListener(document.forms[i], 'submit', decorate);
-          }
-        }
-        for (var i = 0; i < document.links.length; i++) {
-          var href = document.links[i].getAttribute('href');
-          if (href && href.indexOf('/checkout') >= 0) {
-            addListener(document.links[i], 'click', decorate);
-          }
-        }
-      });
-
-
-      var originalDocumentWrite = document.write;
-      document.write = customDocumentWrite;
-      try {
-        window.ShopifyAnalytics.merchantGoogleAnalytics.call(this);
-      } catch (error) {
-      }
-      ;
-      document.write = originalDocumentWrite;
+      <!--addListener(window, 'load', function () {-->
+        <!--for (var i = 0; i < document.forms.length; i++) {-->
+          <!--var action = document.forms[i].getAttribute('action');-->
+          <!--if (action && action.indexOf('/cart') >= 0) {-->
+            <!--addListener(document.forms[i], 'submit', decorate);-->
+          <!--}-->
+        <!--}-->
+        <!--for (var i = 0; i < document.links.length; i++) {-->
+          <!--var href = document.links[i].getAttribute('href');-->
+          <!--if (href && href.indexOf('/checkout') >= 0) {-->
+            <!--addListener(document.links[i], 'click', decorate);-->
+          <!--}-->
+        <!--}-->
+      <!--});-->
 
 
-      window.ShopifyAnalytics.lib.page(
-        null,
-        {"pageType": "page", "resourceType": "page", "resourceId": 203897985}
-      );
+      <!--var originalDocumentWrite = document.write;-->
+      <!--document.write = customDocumentWrite;-->
+      <!--try {-->
+        <!--window.ShopifyAnalytics.merchantGoogleAnalytics.call(this);-->
+      <!--} catch (error) {-->
+      <!--}-->
+      <!--;-->
+      <!--document.write = originalDocumentWrite;-->
 
 
-    });
+      <!--window.ShopifyAnalytics.lib.page(-->
+        <!--null,-->
+        <!--{"pageType": "page", "resourceType": "page", "resourceId": 203897985}-->
+      <!--);-->
 
 
-    var eventsListenerScript = document.createElement('script');
-    eventsListenerScript.async = true;
-    eventsListenerScript.src = "//cdn.shopify.com/s/assets/shop_events_listener-76ce6d7f3e50d4b8c05874c34d2ea1340c45e5babba61276dadcaeed488ca16a.js";
-    document.getElementsByTagName('head')[0].appendChild(eventsListenerScript);
+    <!--});-->
 
-  })();</script>
-  <script crossorigin="anonymous" defer="defer"
-          src="//cdn.shopify.com/s/assets/shopify_pay/storefront-fe31d6a6f8b299bf1d018618c066f4704f961ac0b1939d90d804f157451c6312.js?v=20181030"></script>
-  <script integrity="sha256-fjvu5bBrpuqsZ1DuvSxZnsZqIxy/QS+9gN768obN9JQ=" defer="defer"
-          src="//cdn.shopify.com/s/assets/storefront/express_buttons-7e3beee5b06ba6eaac6750eebd2c599ec66a231cbf412fbd80defaf286cdf494.js"
-          crossorigin="anonymous"></script>
-  <script integrity="sha256-NfqRkSQwKw0JfNupCky6Zxtoijw8YUA8km/3gYu7kY8=" defer="defer"
-          src="//cdn.shopify.com/s/assets/storefront/features-35fa919124302b0d097cdba90a4cba671b688a3c3c61403c926ff7818bbb918f.js"
-          crossorigin="anonymous"></script>
-  <script defer="defer"
-          src="//cdn.shopify.com/s/assets/themes_support/ga_urchin_forms-68ca1924c495cfc55dac65f4853e0c9a395387ffedc8fe58e0f2e677f95d7f23.js"></script>
+
+    <!--var eventsListenerScript = document.createElement('script');-->
+    <!--eventsListenerScript.async = true;-->
+    <!--eventsListenerScript.src = "//cdn.shopify.com/s/assets/shop_events_listener-76ce6d7f3e50d4b8c05874c34d2ea1340c45e5babba61276dadcaeed488ca16a.js";-->
+    <!--document.getElementsByTagName('head')[0].appendChild(eventsListenerScript);-->
+
+  <!--})();</script>-->
+  <!--<script crossorigin="anonymous" defer="defer"-->
+          <!--src="//cdn.shopify.com/s/assets/shopify_pay/storefront-fe31d6a6f8b299bf1d018618c066f4704f961ac0b1939d90d804f157451c6312.js?v=20181030"></script>-->
+  <!--<script integrity="sha256-fjvu5bBrpuqsZ1DuvSxZnsZqIxy/QS+9gN768obN9JQ=" defer="defer"-->
+          <!--src="//cdn.shopify.com/s/assets/storefront/express_buttons-7e3beee5b06ba6eaac6750eebd2c599ec66a231cbf412fbd80defaf286cdf494.js"-->
+          <!--crossorigin="anonymous"></script>-->
+  <!--<script integrity="sha256-NfqRkSQwKw0JfNupCky6Zxtoijw8YUA8km/3gYu7kY8=" defer="defer"-->
+          <!--src="//cdn.shopify.com/s/assets/storefront/features-35fa919124302b0d097cdba90a4cba671b688a3c3c61403c926ff7818bbb918f.js"-->
+          <!--crossorigin="anonymous"></script>-->
+  <!--<script defer="defer"-->
+          <!--src="//cdn.shopify.com/s/assets/themes_support/ga_urchin_forms-68ca1924c495cfc55dac65f4853e0c9a395387ffedc8fe58e0f2e677f95d7f23.js"></script>-->
 
   <link rel="canonical" href="https://assessment-online.com.br">
 </head>
@@ -723,12 +723,12 @@
       <div class="c">
         <div class="d iv"><h2 class="section-title">Entre em contato</h2></div>
         <div class="input-field d ka">
-          <input id="first_name" type="text">
-          <label for="first_name">Seu nome</label>
+          <input id='name' type="text">
+          <label for='name'>Seu nome</label>
         </div>
         <div class="input-field d ka">
-          <input id="last_name" type="email">
-          <label for="last_name">E-mail</label>
+          <input id='e-mail' type="email">
+          <label for='e-mail'>E-mail</label>
         </div>
         <div class="input-field d iv">
           <textarea id="message" class="materialize-textarea"></textarea>
@@ -747,10 +747,13 @@
       <div class="d ka ko">
         <img class="materialize-logo"
              src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/materialize-teal.png?2667407724680817860" alt="">
-        <p>Made with love by Materialize.</p>
+        <p>Auxiliando na manutenção de seu negócio.</p>
       </div>
       <div class="d ka ko">
         <h5 href="sobre-nos">Sobre nós</h5>
+        <ul>
+          <li><a href="#!">Quem somos</a></li>
+        </ul>
       </div>
       <div class="d ka ko">
         <h5>Contact</h5>
@@ -765,9 +768,9 @@
 </footer>
 
 <!-- Scripts -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/materialize/0.98.2/js/materialize.min.js"></script>
-<script src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/startup-all-min.js?2667407724680817860"
+<script src="./assets/scripts/jquery.min.js"></script>
+<script src="./assets/scripts/materialize.min.js"></script>
+<script src="./assets/scripts/startup-all-min.js?2667407724680817860"
         crossorigin="anonymous"></script>
 
 </body>
