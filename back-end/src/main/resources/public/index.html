@@ -9,15 +9,14 @@
   <title>Assessment - Atendimentos Online</title>
 
   <!-- Stylesheet -->
-  <link href="./assets/styles/style-materialize.css" rel="stylesheet">
+  <link href="./assets/styles/startup-materilize.css" rel="stylesheet">
 
-  <!-- Material Icons -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--&lt;!&ndash; Material Icons &ndash;&gt;-->
+  <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
 
   <!--<meta id="shopify-digital-wallet" name="shopify-digital-wallet" content="/17758583/digital_wallets/dialog">-->
   <!--<meta name="shopify-checkout-api-token" content="6aacc581eb2b41d74f03c38d3c985dba">-->
-  <!--<meta id="in-context-paypal-metadata" data-shop-id="17758583" data-environment="production" data-locale="en_US"-->
-        <!--data-paypal-v4="true" data-currency="USD">-->
+  <!--<meta id="in-context-paypal-metadata" data-shop-id="17758583" data-environment="production" data-locale="en_US" data-paypal-v4="true" data-currency="USD">-->
   <style media="all">.additional-checkout-button {
     border: 0 !important;
     border-radius: 5px !important;
@@ -216,241 +215,32 @@
     display: flex !important;
     flex-direction: column !important;
   }
+
+  /* fallback */
+  @font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(./assets/fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+  }
+
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
+
   </style>
-  <script id="apple-pay-shop-capabilities" type="application/json">{
-    "shopId": 17758583,
-    "countryCode": "US",
-    "currencyCode": "USD",
-    "merchantCapabilities": [
-      "supports3DS"
-    ],
-    "merchantId": "gid:\/\/shopify\/Shop\/17758583",
-    "merchantName": "Materialize Themes",
-    "requiredBillingContactFields": [
-      "postalAddress",
-      "email"
-    ],
-    "requiredShippingContactFields": [
-      "postalAddress",
-      "email"
-    ],
-    "shippingType": "shipping",
-    "supportedNetworks": [
-      "visa",
-      "masterCard",
-      "amex",
-      "discover"
-    ],
-    "total": {
-      "type": "pending",
-      "label": "Materialize Themes",
-      "amount": "1.00"
-    }
-  }</script>
-  <script id="shopify-features" type="application/json">{
-    "accessToken": "6aacc581eb2b41d74f03c38d3c985dba",
-    "betas": [],
-    "domain": "themes.materializecss.com",
-    "shopId": 17758583,
-    "smart_payment_buttons_url": "https:\/\/cdn.shopifycloud.com\/payment-sheet\/assets\/latest\/spb.js"
-  }</script>
-  <script>var Shopify = Shopify || {};
-  Shopify.shop = "materialize-themes.myshopify.com";
-  Shopify.currency = {"active": "USD"};
-  Shopify.theme = {"name": "debut", "id": 133945025, "theme_store_id": 796, "role": "main"};
-  Shopify.theme.handle = "null";
-  Shopify.theme.style = {"id": null, "handle": null};</script>
-  <script>window.ShopifyPay = window.ShopifyPay || {};
-  window.ShopifyPay.apiHost = "pay.shopify.com";
-  window.ShopifyPay.crossStoreEnabled = true;</script>
-  <script id="__st">var __st = {
-    "a": 17758583,
-    "offset": -25200,
-    "reqid": "ff9e1382-ab1c-4211-970e-212f5006e300",
-    "pageurl": "themes.materializecss.com\/pages\/startup-postcard.html",
-    "s": "pages-203897985",
-    "u": "33120bdec4d3",
-    "p": "page",
-    "rtyp": "page",
-    "rid": 203897985
-  };</script>
-  <script>window.ShopifyPaypalV4VisibilityTracking = true;</script>
-  <script>window.Shopify = window.Shopify || {};
-  window.Shopify.Checkout = window.Shopify.Checkout || {};
-  window.Shopify.Checkout.apiHost = "materialize-themes.myshopify.com";</script>
-  <script>window.ShopifyAnalytics = window.ShopifyAnalytics || {};
-  window.ShopifyAnalytics.meta = window.ShopifyAnalytics.meta || {};
-  window.ShopifyAnalytics.meta.currency = 'USD';
-  var meta = {"page": {"pageType": "page", "resourceType": "page", "resourceId": 203897985}};
-  for (var attr in meta) {
-    window.ShopifyAnalytics.meta[attr] = meta[attr];
-  }</script>
-  <script>window.ShopifyAnalytics.merchantGoogleAnalytics = function () {
-
-  };
-  </script>
-  <!--<script class="analytics">(window.gaDevIds = window.gaDevIds || []).push('BwiEti');-->
-
-
-  <!--(function () {-->
-    <!--var customDocumentWrite = function (content) {-->
-      <!--var jquery = null;-->
-
-      <!--if (window.jQuery) {-->
-        <!--jquery = window.jQuery;-->
-      <!--} else if (window.Checkout && window.Checkout.$) {-->
-        <!--jquery = window.Checkout.$;-->
-      <!--}-->
-
-      <!--if (jquery) {-->
-        <!--jquery('body').append(content);-->
-      <!--}-->
-    <!--};-->
-
-    <!--var trekkie = window.ShopifyAnalytics.lib = window.trekkie = window.trekkie || [];-->
-    <!--if (trekkie.integrations) {-->
-      <!--return;-->
-    <!--}-->
-    <!--trekkie.methods = [-->
-      <!--'identify',-->
-      <!--'page',-->
-      <!--'ready',-->
-      <!--'track',-->
-      <!--'trackForm',-->
-      <!--'trackLink'-->
-    <!--];-->
-    <!--trekkie.factory = function (method) {-->
-      <!--return function () {-->
-        <!--var args = Array.prototype.slice.call(arguments);-->
-        <!--args.unshift(method);-->
-        <!--trekkie.push(args);-->
-        <!--return trekkie;-->
-      <!--};-->
-    <!--};-->
-    <!--for (var i = 0; i < trekkie.methods.length; i++) {-->
-      <!--var key = trekkie.methods[i];-->
-      <!--trekkie[key] = trekkie.factory(key);-->
-    <!--}-->
-    <!--trekkie.load = function (config) {-->
-      <!--trekkie.config = config;-->
-      <!--var script = document.createElement('script');-->
-      <!--script.type = 'text/javascript';-->
-      <!--script.onerror = function (e) {-->
-        <!--(new Image()).src = '//v.shopify.com/internal_errors/track?error=trekkie_load';-->
-      <!--};-->
-      <!--script.async = true;-->
-      <!--script.src = 'https://cdn.shopify.com/s/javascripts/tricorder/trekkie.storefront.min.js?v=2017.09.05.1';-->
-      <!--var first = document.getElementsByTagName('script')[0];-->
-      <!--first.parentNode.insertBefore(script, first);-->
-    <!--};-->
-    <!--trekkie.load(-->
-      <!--{-->
-        <!--"Trekkie": {-->
-          <!--"appName": "storefront",-->
-          <!--"development": false,-->
-          <!--"defaultAttributes": {-->
-            <!--"shopId": 17758583,-->
-            <!--"isMerchantRequest": null,-->
-            <!--"themeId": 133945025,-->
-            <!--"themeCityHash": 11956486666485001981-->
-          <!--}-->
-        <!--},-->
-        <!--"Performance": {-->
-          <!--"navigationTimingApiMeasurementsEnabled": true,-->
-          <!--"navigationTimingApiMeasurementsSampleRate": 1.0-->
-        <!--},-->
-        <!--"Google Analytics": {-->
-          <!--"trackingId": "UA-56218128-1",-->
-          <!--"domain": "auto",-->
-          <!--"siteSpeedSampleRate": "10",-->
-          <!--"enhancedEcommerce": true,-->
-          <!--"doubleClick": true,-->
-          <!--"includeSearch": true-->
-        <!--},-->
-        <!--"Session Attribution": {}-->
-      <!--}-->
-    <!--);-->
-
-    <!--var loaded = false;-->
-    <!--trekkie.ready(function () {-->
-      <!--if (loaded) return;-->
-      <!--loaded = true;-->
-
-      <!--window.ShopifyAnalytics.lib = window.trekkie;-->
-
-      <!--ga('require', 'linker');-->
-
-      <!--function addListener(element, type, callback) {-->
-        <!--if (element.addEventListener) {-->
-          <!--element.addEventListener(type, callback);-->
-        <!--}-->
-        <!--else if (element.attachEvent) {-->
-          <!--element.attachEvent('on' + type, callback);-->
-        <!--}-->
-      <!--}-->
-
-      <!--function decorate(event) {-->
-        <!--event = event || window.event;-->
-        <!--var target = event.target || event.srcElement;-->
-        <!--if (target && (target.getAttribute('action') || target.getAttribute('href'))) {-->
-          <!--ga(function (tracker) {-->
-            <!--var linkerParam = tracker.get('linkerParam');-->
-            <!--document.cookie = '_shopify_ga=' + linkerParam + '; ' + 'path=/';-->
-          <!--});-->
-        <!--}-->
-      <!--}-->
-
-      <!--addListener(window, 'load', function () {-->
-        <!--for (var i = 0; i < document.forms.length; i++) {-->
-          <!--var action = document.forms[i].getAttribute('action');-->
-          <!--if (action && action.indexOf('/cart') >= 0) {-->
-            <!--addListener(document.forms[i], 'submit', decorate);-->
-          <!--}-->
-        <!--}-->
-        <!--for (var i = 0; i < document.links.length; i++) {-->
-          <!--var href = document.links[i].getAttribute('href');-->
-          <!--if (href && href.indexOf('/checkout') >= 0) {-->
-            <!--addListener(document.links[i], 'click', decorate);-->
-          <!--}-->
-        <!--}-->
-      <!--});-->
-
-
-      <!--var originalDocumentWrite = document.write;-->
-      <!--document.write = customDocumentWrite;-->
-      <!--try {-->
-        <!--window.ShopifyAnalytics.merchantGoogleAnalytics.call(this);-->
-      <!--} catch (error) {-->
-      <!--}-->
-      <!--;-->
-      <!--document.write = originalDocumentWrite;-->
-
-
-      <!--window.ShopifyAnalytics.lib.page(-->
-        <!--null,-->
-        <!--{"pageType": "page", "resourceType": "page", "resourceId": 203897985}-->
-      <!--);-->
-
-
-    <!--});-->
-
-
-    <!--var eventsListenerScript = document.createElement('script');-->
-    <!--eventsListenerScript.async = true;-->
-    <!--eventsListenerScript.src = "//cdn.shopify.com/s/assets/shop_events_listener-76ce6d7f3e50d4b8c05874c34d2ea1340c45e5babba61276dadcaeed488ca16a.js";-->
-    <!--document.getElementsByTagName('head')[0].appendChild(eventsListenerScript);-->
-
-  <!--})();</script>-->
-  <!--<script crossorigin="anonymous" defer="defer"-->
-          <!--src="//cdn.shopify.com/s/assets/shopify_pay/storefront-fe31d6a6f8b299bf1d018618c066f4704f961ac0b1939d90d804f157451c6312.js?v=20181030"></script>-->
-  <!--<script integrity="sha256-fjvu5bBrpuqsZ1DuvSxZnsZqIxy/QS+9gN768obN9JQ=" defer="defer"-->
-          <!--src="//cdn.shopify.com/s/assets/storefront/express_buttons-7e3beee5b06ba6eaac6750eebd2c599ec66a231cbf412fbd80defaf286cdf494.js"-->
-          <!--crossorigin="anonymous"></script>-->
-  <!--<script integrity="sha256-NfqRkSQwKw0JfNupCky6Zxtoijw8YUA8km/3gYu7kY8=" defer="defer"-->
-          <!--src="//cdn.shopify.com/s/assets/storefront/features-35fa919124302b0d097cdba90a4cba671b688a3c3c61403c926ff7818bbb918f.js"-->
-          <!--crossorigin="anonymous"></script>-->
-  <!--<script defer="defer"-->
-          <!--src="//cdn.shopify.com/s/assets/themes_support/ga_urchin_forms-68ca1924c495cfc55dac65f4853e0c9a395387ffedc8fe58e0f2e677f95d7f23.js"></script>-->
 
   <link rel="canonical" href="https://assessment-online.com.br">
 </head>
@@ -458,7 +248,7 @@
 <body>
 
 <!-- Navbar -->
-<nav class="n fj">
+<nav class="n fq">
   <div class="nav-wrapper">
     <a href="startup-horizontal-half.html" class="brand-logo"><i class="icon-diamond"></i></a>
     <ul id="nav-mobile" class="ag hide-on-med-and-down">
@@ -474,187 +264,64 @@
   <li><a class="waves-effect waves-teal" href="#">Cadastre-se agora!</a></li>
 </ul>
 
-<!-- Flip Out Intro -->
-<div class="gl ai full-height">
-  <div class="fixed-wrapper">
-    <div class="bz">
-      <img src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly5.jpg?2667407724680817860" alt="">
-    </div>
-    <div class="header-wrapper c valign-wrapper">
-      <div class="d iv jc offset-m1 ci">
-        <h1>Primeiro!</h1>
-        <span class="dx">Cadastre suas unidades de atendimento, e seus atendentes no ambiente WEB.</span>
-        <button class="read-more"><i class="icon-caret-down"></i></button>
-      </div>
+
+<div class="v ai">
+  <div class="bz">
+    <img src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/trees.jpg?2667407724680817860" alt="">
+  </div>
+  <div class="header-wrapper c valign-wrapper">
+    <div class="d iv">
+      <h1>Assessment Online!</h1>
+      <span class="dx">Feito pra fazer você crescer.</span>
+      <button class="read-more"><i class="icon-caret-down"></i></button>
     </div>
   </div>
 </div>
 
-<div class="gl ai full-height">
-  <div class="fixed-wrapper">
-    <div class="bz">
-      <img src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly3.jpg?2667407724680817860" alt="">
-    </div>
-    <div class="header-wrapper c valign-wrapper">
-      <div class="d iv jc offset-m1 ci">
-        <h1>Segundo!</h1>
-        <span
-            class="dx">Vincule os atendentes á suas respectivas unidades de atendimento (ainda no ambiente WEB).</span>
-        <button class="read-more"><i class="icon-caret-down"></i></button>
+<div class="v gw valign-wrapper">
+  <div class="c ci">
+    <div class="d iv jc offset-m1">
+      <div class="c">
+        <div class="d iv"><h2 class="section-title">Funcionalidades</h2></div>
       </div>
-    </div>
-  </div>
-</div>
-
-<div class="gl ai full-height">
-  <div class="fixed-wrapper">
-    <div class="bz">
-      <img src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly1.jpg?2667407724680817860" alt="">
-    </div>
-    <div class="header-wrapper c valign-wrapper">
-      <div class="d iv jc offset-m1 ci">
-        <h1>Terceiro!</h1>
-        <span class="dx">Baixe o aplicativo, e ao efetuar login defina á qual unidade de atendimento essa instância do aplicativo pertence.</span>
-        <button class="read-more"><i class="icon-caret-down"></i></button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="gl ai full-height">
-  <div class="fixed-wrapper">
-    <div class="bz">
-      <img src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly1.jpg?2667407724680817860" alt="">
-    </div>
-    <div class="header-wrapper c valign-wrapper">
-      <div class="d iv jc offset-m1 ci">
-        <h1>Quarto!</h1>
-        <span class="dx">Usufrua do aplicativo, e monitore o atendimento de seus funcionários. Aproveite!</span>
-        <button class="read-more"><i class="icon-caret-down"></i></button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Features -->
-<div class="v valign-wrapper">
-  <div class="dv">
-    <div class="c">
-      <div class="d iv"><h2 class="section-title">Funcionalidades</h2></div>
-      <div class="d iv jo kk">
-        <h4><i class="icon-light-bulb"></i></h4>
-        <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
-      </div>
-      <div class="d iv jo kk">
-        <h4><i class="icon-bolt"></i></h4>
-        <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
-      </div>
-      <div class="d iv jo kk">
-        <h4><i class="icon-rocket"></i></h4>
-        <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
-      </div>
-      <div class="d iv jo kk">
-        <h4><i class="icon-settings"></i></h4>
-        <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
-      </div>
-      <div class="d iv jo kk">
-        <h4><i class="icon-umbrella"></i></h4>
-        <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
-      </div>
-      <div class="d iv jo kk">
-        <h4><i class="icon-compass"></i></h4>
-        <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Pricing Tables -->
-<div class="v valign-wrapper">
-  <div class="dv">
-    <div class="c">
-      <div class="d iv kr">
-        <div class="pricing-table">
-          <div class="pricing-header">
-            <i class="icon-paper-plane"></i>
-            <h4>Basic</h4>
-            <div class="gd">
-              <span class="hm">$</span>
-              <span class="dollars">9</span>
-              <span class="ic">99</span>
-            </div>
-          </div>
-          <ul class="pricing-features">
-            <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
-            <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
-            <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
-            <li class="pricing-feature au"><i class="icon-close"></i>Pro and above.</li>
-            <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
-            <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
-            <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
-          </ul>
+      <div class="c fb" data-duration="0" data-staggereddelay=".9">
+        <div class="d iv jo kk fade-in-out">
+          <h4><i class="icon-light-bulb"></i></h4>
+          <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
+        </div>
+        <div class="d iv jo kk fade-in-out">
+          <h4><i class="icon-bolt"></i></h4>
+          <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
+        </div>
+        <div class="d iv jo kk fade-in-out">
+          <h4><i class="icon-rocket"></i></h4>
+          <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
+        </div>
+        <div class="d iv jo kk fade-in-out">
+          <h4><i class="icon-settings"></i></h4>
+          <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
+        </div>
+        <div class="d iv jo kk fade-in-out">
+          <h4><i class="icon-umbrella"></i></h4>
+          <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
+        </div>
+        <div class="d iv jo kk fade-in-out">
+          <h4><i class="icon-compass"></i></h4>
+          <p class="ek">This is a cool feature about your product! It really separates you from the crowd.</p>
         </div>
       </div>
-
-      <div class="d iv kr">
-        <div class="pricing-table fk">
-          <div class="pricing-header">
-            <i class="icon-plane"></i>
-            <h4>Pro</h4>
-            <div class="gd">
-              <span class="hm">$</span>
-              <span class="dollars">59</span>
-              <span class="ic">99</span>
-            </div>
-          </div>
-          <ul class="pricing-features">
-            <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
-            <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
-            <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
-            <li class="pricing-feature"><i class="icon-accept"></i>Pro and above.</li>
-            <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
-            <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
-            <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="d iv kr">
-        <div class="pricing-table">
-          <div class="pricing-header">
-            <i class="icon-rocket"></i>
-            <h4>Enterprise</h4>
-            <div class="gd">
-              <span class="hm">$</span>
-              <span class="dollars">299</span>
-              <span class="ic">99</span>
-            </div>
-          </div>
-          <ul class="pricing-features">
-            <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
-            <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
-            <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
-            <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
-            <li class="pricing-feature"><i class="icon-accept"></i>Enterprise only.</li>
-            <li class="pricing-feature"><i class="icon-accept"></i>Enterprise only.</li>
-            <li class="pricing-feature"><i class="icon-accept"></i>Enterprise only.</li>
-          </ul>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>
-
 
 <div class="v r full-height">
   <div class="c">
     <div class="d iv jc offset-m1 ef">
-      <h1>O que nossos clientes dizem</h1>
+      <h1>Depoimentos de nossos clientes</h1>
       <div class="c masonry-grid">
 
         <div class="d iv jo kk">
-          <div class="m">
+          <div class="m fade-in-out up-in-out" data-duration="0">
             <div class="card-image">
               <a href="startup-blog.html"><img
                   src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly1.jpg?2667407724680817860"></a>
@@ -664,7 +331,7 @@
         </div>
 
         <div class="d iv jo kk">
-          <div class="m">
+          <div class="m fade-in-out up-in-out" data-duration="0">
             <div class="card-image">
               <a href="startup-blog.html"><img
                   src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly2.jpg?2667407724680817860"></a>
@@ -674,7 +341,7 @@
         </div>
 
         <div class="d iv jo kk">
-          <div class="m">
+          <div class="m fade-in-out up-in-out" data-duration="0">
             <div class="card-image">
               <a href="startup-blog.html"><img
                   src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly3.jpg?2667407724680817860"></a>
@@ -684,7 +351,7 @@
         </div>
 
         <div class="d iv jo kk">
-          <div class="m">
+          <div class="m fade-in-out up-in-out" data-duration="0">
             <div class="card-image">
               <a href="startup-blog.html"><img
                   src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly4.jpg?2667407724680817860"></a>
@@ -694,7 +361,7 @@
         </div>
 
         <div class="d iv jo kk">
-          <div class="m">
+          <div class="m fade-in-out up-in-out" data-duration="0">
             <div class="card-image">
               <a href="startup-blog.html"><img
                   src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly5.jpg?2667407724680817860"></a>
@@ -704,7 +371,7 @@
         </div>
 
         <div class="d iv jo kk">
-          <div class="m">
+          <div class="m fade-in-out up-in-out" data-duration="0">
             <div class="card-image">
               <a href="startup-blog.html"><img
                   src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly6.jpg?2667407724680817860"></a>
@@ -717,22 +384,340 @@
   </div>
 </div>
 
-<div class="v r valign-wrapper">
+<!-- Pricing Tables -->
+<div class="v gw valign-wrapper">
   <div class="c ci">
-    <form class="d iv jc offset-m1">
+    <div class="d iv jc offset-m1">
+      <div class="c">
+        <div class="d iv kr">
+          <div class="transform-wrapper">
+            <div class="pricing-table scale-in-out fade-in-out left-transform-origin">
+              <div class="pricing-header">
+                <i class="icon-paper-plane"></i>
+                <h4>Basic</h4>
+                <div class="gd">
+                  <span class="hm">$</span>
+                  <span class="dollars">9</span>
+                  <span class="ic">99</span>
+                </div>
+              </div>
+              <ul class="pricing-features">
+                <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+                <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+                <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+                <li class="pricing-feature au"><i class="icon-close"></i>Pro and above.</li>
+                <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
+                <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
+                <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="d iv kr">
+          <div class="transform-wrapper">
+            <div class="pricing-table fk scale-in-out fade-in-out">
+              <div class="pricing-header">
+                <i class="icon-plane"></i>
+                <h4>Pro</h4>
+                <div class="gd">
+                  <span class="hm">$</span>
+                  <span class="dollars">59</span>
+                  <span class="ic">99</span>
+                </div>
+              </div>
+              <ul class="pricing-features">
+                <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+                <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+                <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+                <li class="pricing-feature"><i class="icon-accept"></i>Pro and above.</li>
+                <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
+                <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
+                <li class="pricing-feature au"><i class="icon-close"></i>Enterprise only.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="d iv kr">
+          <div class="transform-wrapper">
+            <div class="pricing-table scale-in-out fade-in-out right-transform-origin">
+              <div class="pricing-header">
+                <i class="icon-rocket"></i>
+                <h4>Enterprise</h4>
+                <div class="gd">
+                  <span class="hm">$</span>
+                  <span class="dollars">299</span>
+                  <span class="ic">99</span>
+                </div>
+              </div>
+              <ul class="pricing-features">
+                <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+                <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+                <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+                <li class="pricing-feature"><i class="icon-accept"></i>10 product uses.</li>
+                <li class="pricing-feature"><i class="icon-accept"></i>Enterprise only.</li>
+                <li class="pricing-feature"><i class="icon-accept"></i>Enterprise only.</li>
+                <li class="pricing-feature"><i class="icon-accept"></i>Enterprise only.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="v r full-height">
+  <div class="dv">
+    <div class="c">
+      <div class="d ko">
+        <div class="perspective-wrapper">
+          <div class="hr rotate-y-in-out fade-in-out left-transform-origin right-align">
+            <h3>Cool feature</h3>
+            <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies
+              bitters poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut
+              sapiente trust fund fashion axe officia selvage occaecat locavore accusamus. </p>
+          </div>
+        </div>
+        <div class="perspective-wrapper">
+          <div class="hr rotate-y-in-out fade-in-out left-transform-origin right-align">
+            <h3>Cool feature</h3>
+            <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies
+              bitters poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut
+              sapiente trust fund fashion axe officia selvage occaecat locavore accusamus. </p>
+          </div>
+        </div>
+      </div>
+      <div class="d jo">
+        <div class="phone-preview-halfway">
+          <div class="phone-preview-sizer">
+            <div class="phone-preview"></div>
+            <div class="image-container et"
+                 style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly1.jpg?2667407724680817860)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="d ko">
+        <div class="perspective-wrapper">
+          <div class="hr rotate-y-in-out fade-in-out right-transform-origin">
+            <h3>Cool feature</h3>
+            <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies
+              bitters poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut
+              sapiente trust fund fashion axe officia selvage occaecat locavore accusamus. </p>
+          </div>
+        </div>
+        <div class="perspective-wrapper">
+          <div class="hr rotate-y-in-out fade-in-out right-transform-origin">
+            <h3>Cool feature</h3>
+            <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies
+              bitters poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut
+              sapiente trust fund fashion axe officia selvage occaecat locavore accusamus. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="v full-height">
+  <div class="dv">
+    <div class="c valign-wrapper">
+      <div class="d ko">
+        <div class="phone-preview-sizer right-in-out fade-in-out">
+          <div class="phone-preview"></div>
+          <div class="image-container et"
+               style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly1.jpg?2667407724680817860)"></div>
+        </div>
+      </div>
+      <div class="d kw offset-m1">
+        <div class="fb">
+          <div class="hr left-in-out fade-in-out">
+            <h3>This is a cool feature</h3>
+            <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies
+              bitters poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut
+              sapiente trust fund fashion axe officia selvage occaecat locavore accusamus. </p>
+          </div>
+          <div class="hr left-in-out fade-in-out">
+            <h3>This is a cool feature</h3>
+            <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies
+              bitters poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut
+              sapiente trust fund fashion axe officia selvage occaecat locavore accusamus. </p>
+          </div>
+          <div class="hr left-in-out fade-in-out">
+            <h3>This is a cool feature</h3>
+            <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies
+              bitters poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut
+              sapiente trust fund fashion axe officia selvage occaecat locavore accusamus. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="v r full-height">
+  <div class="dv">
+    <div class="c valign-wrapper">
+      <div class="d iv kr">
+        <div class="fb">
+          <div class="hr fade-right-in-out">
+            <h3>This is a cool feature</h3>
+            <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies
+              bitters poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut
+              sapiente trust fund fashion axe officia selvage occaecat locavore accusamus. </p>
+          </div>
+          <div class="hr fade-right-in-out">
+            <h3>This is a cool feature</h3>
+            <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies
+              bitters poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut
+              sapiente trust fund fashion axe officia selvage occaecat locavore accusamus. </p>
+          </div>
+        </div>
+      </div>
+      <div class="d iv kw">
+        <div class="device-pair">
+          <div class="tablet-preview-sizer">
+            <div class="tablet-preview"></div>
+            <div class="image-container et"
+                 style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly1.jpg?2667407724680817860)"></div>
+          </div>
+          <div class="tablet-preview-sizer left-in-out">
+            <div class="tablet-preview"></div>
+            <div class="image-container et"
+                 style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly3.jpg?2667407724680817860)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="v gw full-height">
+  <div class="dv">
+    <div class="c valign-wrapper">
+      <div class="d iv kw">
+        <div class="device-pair he">
+          <div class="tablet-preview-sizer l">
+            <div class="tablet-preview"></div>
+            <div class="image-container et"
+                 style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly1.jpg?2667407724680817860)"></div>
+          </div>
+          <div class="tablet-preview-sizer l right-in-out">
+            <div class="tablet-preview"></div>
+            <div class="image-container et"
+                 style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly3.jpg?2667407724680817860)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="d iv kr">
+        <div class="fb">
+          <div class="hr fade-left-in-out">
+            <h3>This is a cool feature</h3>
+            <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies
+              bitters poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut
+              sapiente trust fund fashion axe officia selvage occaecat locavore accusamus. </p>
+          </div>
+          <div class="hr fade-left-in-out">
+            <h3>This is a cool feature</h3>
+            <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies
+              bitters poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut
+              sapiente trust fund fashion axe officia selvage occaecat locavore accusamus. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="v r full-height">
+  <div class="dv">
+    <div class="c">
+      <div class="d iv kw offset-m2">
+        <div class="hr">
+          <h3>This is a cool feature</h3>
+          <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies bitters
+            poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut sapiente trust
+            fund fashion axe officia selvage occaecat locavore accusamus. </p>
+        </div>
+        <div class="device-triplet">
+          <div class="tablet-preview-sizer">
+            <div class="tablet-preview"></div>
+            <div class="image-container et"
+                 style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly1.jpg?2667407724680817860)"></div>
+          </div>
+          <div class="tablet-preview-sizer left-in-out">
+            <div class="tablet-preview"></div>
+            <div class="image-container et"
+                 style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly3.jpg?2667407724680817860)"></div>
+          </div>
+          <div class="tablet-preview-sizer right-in-out">
+            <div class="tablet-preview"></div>
+            <div class="image-container et"
+                 style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly3.jpg?2667407724680817860)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="v gw full-height">
+  <div class="dv">
+    <div class="c">
+      <div class="d iv kw offset-m2">
+        <div class="hr">
+          <h3>This is a cool feature</h3>
+          <p>Locavore drinking vinegar quinoa seitan church-key, tilde aliqua. Hoodie mustache aliquip, selfies bitters
+            poutine adipisicing scenester man braid jean shorts. Aliqua mlkshk 90's distillery, truffaut sapiente trust
+            fund fashion axe officia selvage occaecat locavore accusamus. </p>
+        </div>
+        <div class="device-triplet">
+          <div class="phone-preview-sizer fc">
+            <div class="phone-preview"></div>
+            <div class="image-container et"
+                 style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly1.jpg?2667407724680817860)"></div>
+          </div>
+          <div class="phone-preview-sizer fc left-in-out">
+            <div class="phone-preview"></div>
+            <div class="image-container et"
+                 style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly3.jpg?2667407724680817860)"></div>
+          </div>
+          <div class="phone-preview-sizer fc right-in-out">
+            <div class="phone-preview"></div>
+            <div class="image-container et"
+                 style="background-image:url(//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/poly3.jpg?2667407724680817860)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Us -->
+<div class="v r valign-wrapper">
+  <div class="dv">
+    <form>
       <div class="c">
         <div class="d iv"><h2 class="section-title">Entre em contato</h2></div>
         <div class="input-field d ka">
-          <input id='name' type="text">
-          <label for='name'>Seu nome</label>
+          <input id="name" type="text">
+          <label for="name">Seu nome</label>
         </div>
         <div class="input-field d ka">
-          <input id='e-mail' type="email">
-          <label for='e-mail'>E-mail</label>
+          <input id="e-mail" type="email">
+          <label for="e-mail">E-mail</label>
         </div>
         <div class="input-field d iv">
           <textarea id="message" class="materialize-textarea"></textarea>
-          <label for="message">Messagem</label>
+          <label for="message">Mensagem</label>
           <a class="waves-effect waves-light btn-large">Enviar</a>
         </div>
       </div>
@@ -747,20 +732,22 @@
       <div class="d ka ko">
         <img class="materialize-logo"
              src="//cdn.shopify.com/s/files/1/1775/8583/t/1/assets/materialize-teal.png?2667407724680817860" alt="">
-        <p>Auxiliando na manutenção de seu negócio.</p>
+        <p>Feito pra fazer você crescer.</p>
       </div>
       <div class="d ka ko">
-        <h5 href="sobre-nos">Sobre nós</h5>
+        <h5>Sobre</h5>
         <ul>
-          <li><a href="#!">Quem somos</a></li>
+          <li><a href="#!">Blog</a></li>
+          <li><a href="#!">Preços</a></li>
+          <li><a href="#!">Documentação</a></li>
         </ul>
       </div>
       <div class="d ka ko">
-        <h5>Contact</h5>
+        <h5>Siga-nos</h5>
         <ul>
           <li><a href="#!">Twitter</a></li>
           <li><a href="#!">Facebook</a></li>
-          <li><a href="#!">Github</a></li>
+          <li><a href="#!">Instagram</a></li>
         </ul>
       </div>
     </div>
@@ -770,8 +757,7 @@
 <!-- Scripts -->
 <script src="./assets/scripts/jquery.min.js"></script>
 <script src="./assets/scripts/materialize.min.js"></script>
-<script src="./assets/scripts/startup-all-min.js?2667407724680817860"
-        crossorigin="anonymous"></script>
+<script src="./assets/scripts/startup-all-min.js?2667407724680817860" crossorigin="anonymous"></script>
 
 </body>
 </html>

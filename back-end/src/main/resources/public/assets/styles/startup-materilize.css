@@ -1015,11 +1015,11 @@
 }
 
 .bs.lighten-1 {
-  background-color: #26a69a !important
+  background-color: #1364b1 !important
 }
 
 .teal-text.text-lighten-1 {
-  color: #26a69a !important
+  color: #1364b1 !important
 }
 
 .bs.darken-1 {
@@ -2450,7 +2450,7 @@ nav,
 blockquote {
   margin: 20px 0;
   padding-left: 1.5rem;
-  border-left: 5px solid #1de9c3
+  border-left: 5px solid #1364b1
 }
 
 i {
@@ -2510,7 +2510,7 @@ video.responsive-video {
 }
 
 .by li.g {
-  background-color: #1de9c3
+  background-color: #1364b1
 }
 
 .by li.au a {
@@ -2691,7 +2691,7 @@ ul.staggered-list li {
 
 .page-footer {
   padding-top: 20px;
-  background-color: #1de9c3
+  background-color: #1364b1
 }
 
 .page-footer .footer-copyright {
@@ -2891,7 +2891,7 @@ th {
 }
 
 .p .collection-item.g {
-  background-color: #26a69a;
+  background-color: #1364b1;
   color: #eafaf9
 }
 
@@ -2902,7 +2902,7 @@ th {
 .p a.collection-item {
   display: block;
   transition: .25s;
-  color: #26a69a
+  color: #1364b1
 }
 
 .p a.collection-item:not(.active):hover {
@@ -2925,7 +2925,7 @@ th {
 
 .secondary-content {
   float: right;
-  color: #26a69a
+  color: #1364b1
 }
 
 .t .p {
@@ -2966,12 +2966,12 @@ th {
   top: 0;
   left: 0;
   bottom: 0;
-  background-color: #26a69a;
+  background-color: #1364b1;
   transition: width .3s linear
 }
 
 .eb .ee {
-  background-color: #26a69a
+  background-color: #1364b1
 }
 
 .eb .ee:before {
@@ -3102,7 +3102,7 @@ span.dy.hs {
   font-weight: 300;
   font-size: 0.8rem;
   color: #fff;
-  background-color: #26a69a;
+  background-color: #1364b1;
   border-radius: 2px
 }
 
@@ -3982,7 +3982,7 @@ nav ul a span.dy {
 
 nav {
   color: #fff;
-  background-color: #1de9c3;
+  background-color: #1364b1;
   width: 100%;
   height: 56px;
   line-height: 56px
@@ -4210,31 +4210,31 @@ nav .input-field label.g i {
 
 @font-face {
   font-family: "Roboto";
-  src: local(Roboto Thin), url("../assets/fonts/Roboto-Thin.woff") format("woff");
+  src: local(Roboto Thin), url("../fonts/Roboto-Thin.woff") format("woff");
   font-weight: 100
 }
 
 @font-face {
   font-family: "Roboto";
-  src: local(Roboto Light), url("../assets/fonts/Roboto-Light.woff") format("woff");
+  src: local(Roboto Light), url("../fonts/Roboto-Light.woff") format("woff");
   font-weight: 300
 }
 
 @font-face {
   font-family: "Roboto";
-  src: local(Roboto Regular), url("../assets/fonts/Roboto-Regular.woff") format("woff");
+  src: local(Roboto Regular), url("../fonts/Roboto-Regular.woff") format("woff");
   font-weight: 400
 }
 
 @font-face {
   font-family: "Roboto";
-  src: local(Roboto Medium), url("../assets/fonts/Roboto-Medium.woff") format("woff");
+  src: local(Roboto Medium), url("../fonts/Roboto-Medium.woff") format("woff");
   font-weight: 500
 }
 
 @font-face {
   font-family: "Roboto";
-  src: local(Roboto Bold), url("../assets/fonts/Roboto-Bold.woff") format("woff");
+  src: local(Roboto Bold), url("../fonts/Roboto-Bold.woff") format("woff");
   font-weight: 700
 }
 
@@ -4829,7 +4829,7 @@ small {
 }
 
 .bo .dn a {
-  color: rgba(29, 233, 195, 0.7);
+  color: rgba(22, 26, 233, 0.7);
   display: block;
   width: 100%;
   height: 100%;
@@ -4843,12 +4843,12 @@ small {
 .bo .dn a:hover,
 .bo .dn a.g {
   background-color: transparent;
-  color: #1de9c3
+  color: #2c21e9
 }
 
 .bo .dn.au a,
 .bo .dn.au a:hover {
-  color: rgba(29, 233, 195, 0.7);
+  color: rgba(18, 17, 233, 0.7);
   cursor: default
 }
 
@@ -4856,7 +4856,7 @@ small {
   position: absolute;
   bottom: 0;
   height: 2px;
-  background-color: #63f0d6;
+  background-color: #287cb1;
   will-change: left, right
 }
 
@@ -4983,14 +4983,14 @@ small {
 .f:focus,
 .btn-large:focus,
 .btn-floating:focus {
-  background-color: #1d7d74
+  background-color: #1364b1
 }
 
 .f,
 .btn-large {
   text-decoration: none;
   color: #fff;
-  background-color: #26a69a;
+  background-color: #1364b1;
   text-align: center;
   letter-spacing: .5px;
   transition: .2s ease-out;
@@ -4999,7 +4999,7 @@ small {
 
 .f:hover,
 .btn-large:hover {
-  background-color: #2bbbad
+  background-color: #1364b1
 }
 
 .btn-floating {
@@ -5012,7 +5012,7 @@ small {
   height: 40px;
   line-height: 40px;
   padding: 0;
-  background-color: #26a69a;
+  background-color: #1364b1;
   border-radius: 50%;
   transition: .3s;
   cursor: pointer;
@@ -5020,7 +5020,7 @@ small {
 }
 
 .btn-floating:hover {
-  background-color: #26a69a
+  background-color: #1364b1
 }
 
 .btn-floating:before {
@@ -5161,7 +5161,7 @@ button.btn-floating {
   z-index: -1;
   width: 40px;
   height: 40px;
-  background-color: #26a69a;
+  background-color: #1364b1;
   border-radius: 50%;
   transform: scale(0)
 }
@@ -5250,7 +5250,7 @@ button.btn-floating {
 .dropdown-content li>a,
 .dropdown-content li>span {
   font-size: 16px;
-  color: #26a69a;
+  color: #1364b1;
   display: block;
   line-height: 22px;
   padding: 14px 16px
@@ -5338,7 +5338,7 @@ button.btn-floating {
 }
 
 .waves-effect.waves-teal .waves-ripple {
-  background-color: rgba(0, 150, 136, 0.7)
+  background-color: rgba(28, 39, 150, 0.7)
 }
 
 .waves-effect input[type="button"],
@@ -5620,8 +5620,8 @@ button.btn-floating {
 }
 
 .dt.ib {
-  border-bottom: 1px solid #26a69a;
-  box-shadow: 0 1px 0 0 #26a69a
+  border-bottom: 1px solid #1364b1;
+  box-shadow: 0 1px 0 0 #1364b1
 }
 
 .dt:hover {
@@ -5629,7 +5629,7 @@ button.btn-floating {
 }
 
 .dt .fy.en {
-  background-color: #26a69a;
+  background-color: #1364b1;
   color: #fff
 }
 
@@ -5715,7 +5715,7 @@ select:focus {
 
 button:focus {
   outline: none;
-  background-color: #2ab7a9
+  background-color: #4090b7
 }
 
 label {
@@ -5839,8 +5839,8 @@ input[type=tel]:focus:not([readonly]),
 input[type=number]:focus:not([readonly]),
 input[type=search]:focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid #26a69a;
-  box-shadow: 0 1px 0 0 #26a69a
+  border-bottom: 1px solid #1364b1;
+  box-shadow: 0 1px 0 0 #1364b1
 }
 
 input:not([type]):focus:not([readonly])+label,
@@ -5856,7 +5856,7 @@ input[type=tel]:focus:not([readonly])+label,
 input[type=number]:focus:not([readonly])+label,
 input[type=search]:focus:not([readonly])+label,
 textarea.materialize-textarea:focus:not([readonly])+label {
-  color: #26a69a
+  color: #1364b1
 }
 
 input:not([type]).aj,
@@ -6068,7 +6068,7 @@ textarea.materialize-textarea+label:after {
 }
 
 .input-field .ck.g {
-  color: #26a69a
+  color: #1364b1
 }
 
 .input-field .ck ~ input,
@@ -6234,12 +6234,12 @@ textarea.materialize-textarea {
 [type="radio"]:checked+label:after,
 [type="radio"].with-gap:checked+label:before,
 [type="radio"].with-gap:checked+label:after {
-  border: 2px solid #26a69a
+  border: 2px solid #1364b1
 }
 
 [type="radio"]:checked+label:after,
 [type="radio"].with-gap:checked+label:after {
-  background-color: #26a69a
+  background-color: #1364b1
 }
 
 [type="radio"]:checked+label:after {
@@ -6352,8 +6352,8 @@ form p:last-child {
   height: 22px;
   border-top: 2px solid transparent;
   border-left: 2px solid transparent;
-  border-right: 2px solid #26a69a;
-  border-bottom: 2px solid #26a69a;
+  border-right: 2px solid #1364b1;
+  border-bottom: 2px solid #1364b1;
   transform: rotate(40deg);
   backface-visibility: hidden;
   transform-origin: 100% 100%
@@ -6371,7 +6371,7 @@ form p:last-child {
   height: 22px;
   border-top: none;
   border-left: none;
-  border-right: 2px solid #26a69a;
+  border-right: 2px solid #1364b1;
   border-bottom: none;
   transform: rotate(90deg);
   backface-visibility: hidden;
@@ -6436,8 +6436,8 @@ form p:last-child {
   top: 0;
   width: 20px;
   height: 20px;
-  border: 2px solid #26a69a;
-  background-color: #26a69a;
+  border: 2px solid #1364b1;
+  background-color: #1364b1;
   z-index: 0
 }
 
@@ -6449,8 +6449,8 @@ form p:last-child {
 
 [type="checkbox"].filled-in.ed:checked:focus+label:after {
   border-radius: 2px;
-  background-color: #26a69a;
-  border-color: #26a69a
+  background-color: #1364b1;
+  border-color: #1364b1
 }
 
 [type="checkbox"].filled-in:disabled:not(:checked)+label:before {
@@ -6491,11 +6491,11 @@ form p:last-child {
 }
 
 .cw label input[type=checkbox]:checked+.dd {
-  background-color: #84c7c1
+  background-color: #7796c7
 }
 
 .cw label input[type=checkbox]:checked+.dd:after {
-  background-color: #26a69a;
+  background-color: #1364b1;
   left: 24px
 }
 
@@ -6736,7 +6736,7 @@ input[type=range]+.eo {
   height: 0;
   width: 0;
   border-radius: 50%;
-  background-color: #26a69a;
+  background-color: #1364b1;
   margin-left: 7px;
   transform-origin: 50% 50%;
   transform: rotate(-45deg)
@@ -6746,7 +6746,7 @@ input[type=range]+.eo .ha {
   display: block;
   width: 30px;
   text-align: center;
-  color: #26a69a;
+  color: #1364b1;
   font-size: 0;
   transform: rotate(45deg)
 }
@@ -6778,7 +6778,7 @@ input[type=range]::-webkit-slider-thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background-color: #26a69a;
+  background-color: #1364b1;
   transform-origin: 50% 50%;
   margin: -5px 0 0 0;
   transition: .3s
@@ -6803,7 +6803,7 @@ input[type=range]::-moz-range-thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background: #26a69a;
+  background: #1364b1;
   margin-top: -5px
 }
 
@@ -6837,7 +6837,7 @@ input[type=range]::-ms-thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background: #26a69a
+  background: #1364b1
 }
 
 input[type=range]:focus::-ms-fill-lower {
@@ -6870,13 +6870,13 @@ input[type=range]:focus::-ms-fill-upper {
 .table-of-contents a:hover {
   color: #a8a8a8;
   padding-left: 19px;
-  border-left: 1px solid #1de9c3
+  border-left: 1px solid #1364b1
 }
 
 .table-of-contents a.g {
   font-weight: 500;
   padding-left: 18px;
-  border-left: 2px solid #1de9c3
+  border-left: 2px solid #53bce9
 }
 
 .side-nav {
@@ -6954,11 +6954,11 @@ input[type=range]:focus::-ms-fill-upper {
 .side-nav li>a.f:hover,
 .side-nav li>a.btn-large:hover,
 .side-nav li>a.btn-large:hover {
-  background-color: #2bbbad
+  background-color: #1364b1
 }
 
 .side-nav li>a.btn-floating:hover {
-  background-color: #26a69a
+  background-color: #1364b1
 }
 
 .side-nav li>a>i,
@@ -7082,7 +7082,7 @@ input[type=range]:focus::-ms-fill-upper {
 
 .side-nav .collapsible-body>ul:not(.collapsible)>li.g,
 .side-nav.ax .collapsible-body>ul:not(.collapsible)>li.g {
-  background-color: #1de9c3
+  background-color: #1364b1
 }
 
 .side-nav .collapsible-body>ul:not(.collapsible)>li.g a,
@@ -7144,7 +7144,7 @@ input[type=range]:focus::-ms-fill-upper {
   width: 100%;
   height: 100%;
   opacity: 0;
-  border-color: #26a69a
+  border-color: #0c3e6f
 }
 
 .spinner-blue,
@@ -8141,7 +8141,7 @@ input[type=range]:focus::-ms-fill-upper {
 
 .picker__date-display {
   text-align: center;
-  background-color: #26a69a;
+  background-color: #0c3e6f;
   color: #fff;
   padding-bottom: 15px;
   font-weight: 300
@@ -8151,11 +8151,11 @@ input[type=range]:focus::-ms-fill-upper {
 .picker__nav--next:hover {
   cursor: pointer;
   color: #000000;
-  background: #a1ded8
+  background: #92acde
 }
 
 .picker__weekday-display {
-  background-color: #1f897f;
+  background-color: #0c3e6f;
   padding: 10px;
   font-weight: 200;
   letter-spacing: .5;
@@ -8204,7 +8204,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .x.picker__day--today {
-  color: #26a69a
+  color: #0c3e6f
 }
 
 .x.picker__day--today.picker__day--selected {
@@ -8220,14 +8220,14 @@ input[type=range]:focus::-ms-fill-upper {
 .picker--focused .picker__day--selected {
   border-radius: 50%;
   transform: scale(0.9);
-  background-color: #26a69a;
+  background-color: #0c3e6f;
   color: #ffffff
 }
 
 .picker__day--selected.picker__day--outfocus,
 .picker__day--selected:hover.picker__day--outfocus,
 .picker--focused .picker__day--selected.picker__day--outfocus {
-  background-color: #a1ded8
+  background-color: #92acde
 }
 
 .ex {
@@ -8239,7 +8239,7 @@ input[type=range]:focus::-ms-fill-upper {
 .ff {
   font-size: 1.1rem;
   padding: 0 1rem;
-  color: #26a69a
+  color: #0c3e6f
 }
 
 .picker__nav--prev:before,
@@ -8732,11 +8732,11 @@ button.fe:focus {
 }
 
 .tablet-preview-sizer.l .tablet-preview {
-  background-image: url("tablet-white.png")
+  background-image: url("../images/tablet-white.png")
 }
 
 .tablet-preview-sizer .tablet-preview {
-  background-image: url("tablet.png")
+  background-image: url("../images/tablet.png")
 }
 
 .tablet-preview-sizer .image-container {
@@ -8895,7 +8895,7 @@ button.fe:focus {
 
 .pricing-table {
   margin-top: 50px;
-  border: 2px solid #1de9c3
+  border: 2px solid #1364b1
 }
 
 .pricing-table.fk {
@@ -8955,11 +8955,11 @@ button.fe:focus {
 
 .pricing-table .pricing-features .pricing-feature.au,
 .pricing-table .pricing-features .pricing-feature.au i {
-  color: rgba(19, 192, 160, 0.5)
+  color: rgba(255, 24, 35, 0.5)
 }
 
 .pricing-table .pricing-features .pricing-feature:hover {
-  background-color: rgba(29, 233, 195, 0.2)
+  background-color: rgba(66, 73, 255, 0.2)
 }
 
 .v.l .pricing-header i {
@@ -8968,14 +8968,14 @@ button.fe:focus {
 
 .v.r .pricing-header i,
 .page-footer .v.footer-copyright .pricing-header i {
-  background-color: #42c4ac
+  background-color: #4e4fc4
 }
 
 .v.r .pricing-features .pricing-feature.au,
 .page-footer .v.footer-copyright .pricing-features .pricing-feature.au,
 .v.r .pricing-features .pricing-feature.au i,
 .page-footer .v.footer-copyright .pricing-features .pricing-feature.au i {
-  color: rgba(12, 123, 102, 0.5)
+  color: rgba(129, 121, 255, 0.2)
 }
 
 @media only screen and (max-width: 600px) {
@@ -9769,7 +9769,7 @@ button.fe:focus {
 
 .blog-author .gr,
 .blog-author .ei {
-  color: #444;
+  color: #fff;
   font-size: 13px;
   font-weight: 500;
   line-height: 20px;
@@ -10777,15 +10777,15 @@ button:focus {
 }
 
 i {
-  color: #1de9c3
+  color: #1364b1
 }
 
 .primary-color {
-  background-color: #1de9c3 !important
+  background-color: #1364b1 !important
 }
 
 .primary-color-text {
-  color: #1de9c3 !important
+  color: #1364b1 !important
 }
 
 .eh {
@@ -10890,7 +10890,7 @@ nav.n ul.dropdown-content li>span::before,
 .dropdown-content li>a::before,
 .dropdown-content li>span::before,
 .side-nav li>a::before {
-  background-color: #26a69a;
+  background-color: #1364b1;
   left: -10px;
   width: 2px;
   height: 100%;
@@ -10916,7 +10916,7 @@ nav.n ul.dropdown-content li>a:hover,
 nav.n ul.dropdown-content li>span:hover,
 .dropdown-content li>a:hover,
 .dropdown-content li>span:hover {
-  color: #26a69a
+  color: #1364b1
 }
 
 nav.n ul.dropdown-content li>a:hover::before,
@@ -10984,12 +10984,12 @@ nav.n.fj {
 
 nav.n.bi a,
 nav.n.ao a {
-  color: #444
+  color: #fff
 }
 
 nav.n.bi .brand-logo i,
 nav.n.ao .brand-logo i {
-  color: #444
+  color: #fff
 }
 
 nav.n.bi ul.dropdown-content li>a::before,
@@ -11007,7 +11007,8 @@ nav.n.ao {
 
 nav.n.ao.bi,
 nav.n.ao {
-  background-color: #10a98d
+  background-color: #1364b1;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1)
 }
 
 nav.n.ao:not(.dropdown-content)>li>a {
@@ -11023,7 +11024,7 @@ nav.n.ao.bi ul.dropdown-content li>a::before,
 nav.n.ao ul.dropdown-content li>a::before,
 nav.n.ao.bi ul.dropdown-content li>span::before,
 nav.n.ao ul.dropdown-content li>span::before {
-  background-color: #10a98d
+  background-color: #1364b1
 }
 
 nav.n.ao.bi a::before,
@@ -11043,7 +11044,7 @@ nav.n .brand-logo i {
 }
 
 nav.n.cv .brand-logo i {
-  color: #1de9c3
+  color: #1364b1
 }
 
 nav.n ul>li.active>a::before,
@@ -11070,7 +11071,7 @@ nav.n ul a:hover {
 }
 
 .ai {
-  color: #1de9c3
+  color: #0089ec
 }
 
 .ai .header-wrapper {
@@ -11223,7 +11224,7 @@ nav.n ul a:hover {
 .v.r,
 .page-footer .v.footer-copyright {
   color: rgba(0, 0, 0, 0.6);
-  background-color: #42c4ac
+  background-color: #1d62ad
 }
 
 .v.r h1,
@@ -11240,7 +11241,7 @@ nav.n ul a:hover {
 }
 
 .v.gradient-1 {
-  background: #00af8e;
+  background: #1d62ad;
   background: -moz-linear-gradient(top, #c 0%, #a 100%);
   background: -webkit-linear-gradient(top, #c 0%, #a 100%);
   background: linear-gradient(to bottom, #c 0%, #a 100%);
@@ -11248,7 +11249,7 @@ nav.n ul a:hover {
 }
 
 .v.gradient-2 {
-  background: #61ccb6;
+  background: #2377d2;
   background: -moz-linear-gradient(top, #a 0%, #b 100%);
   background: -webkit-linear-gradient(top, #a 0%, #b 100%);
   background: linear-gradient(to bottom, #a 0%, #b 100%);
@@ -11544,7 +11545,7 @@ body.light-theme .n ul a {
 }
 
 body.light-theme .n .brand-logo i {
-  color: #1de9c3
+  color: #0770d4
 }
 
 body.light-theme .ai .dx {
