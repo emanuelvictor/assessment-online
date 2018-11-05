@@ -1,5 +1,14 @@
 package br.com.assessment;
 
+import br.com.assessment.application.flux.WebFluxConfig;
+import br.com.assessment.application.handlers.LoginFailureHandler;
+import br.com.assessment.application.handlers.LoginSuccessHandler;
+import br.com.assessment.application.handlers.LogoutSuccessHandler;
+import br.com.assessment.application.security.AuthenticationManager;
+import br.com.assessment.application.security.PasswordEncoderConfiguration;
+import br.com.assessment.application.security.SecurityConfiguration;
+import br.com.assessment.domain.repository.ContaRepository;
+import br.com.assessment.domain.service.ContaService;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -12,26 +21,50 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.server.reactive.HttpHandler;
+import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.reactive.support.AbstractAnnotationConfigDispatcherHandlerInitializer;
+import org.springframework.web.server.adapter.AbstractReactiveWebInitializer;
+import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
+import reactor.ipc.netty.NettyContext;
+import reactor.ipc.netty.http.server.HttpServer;
 
 import javax.servlet.MultipartConfigElement;
 import java.util.Arrays;
 
 @EnableAsync
 @SpringBootApplication
-public class Application extends SpringBootServletInitializer {
+public class Application extends AbstractReactiveWebInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+
+    @Override
+    protected Class<?>[] getConfigClasses() {
+        return new Class[]{
+
+                ContaService.class,
+                AuthenticationManager.class,
+                SecurityConfiguration.class,
+                WebFluxConfig.class,
+                LoginFailureHandler.class,
+                LogoutSuccessHandler.class,
+                LoginSuccessHandler.class,
+                PasswordEncoderConfiguration.class
+        };
+    }
 
     /**
      */
@@ -57,13 +90,23 @@ public class Application extends SpringBootServletInitializer {
         };
     }
 
+//    @Bean
+//    public NettyContext nettyContext(ApplicationContext context) {
+//        HttpHandler handler = WebHttpHandlerBuilder
+//                .applicationContext(context).build();
+//        ReactorHttpHandlerAdapter adapter
+//                = new ReactorHttpHandlerAdapter(handler);
+//        HttpServer httpServer = HttpServer.create("localhost", 8080);
+//        return httpServer.newHandler(adapter).block();
+//    }
 
-    /**
-     */
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Application.class);
-    }
+
+//    /**
+//     */
+//    @Override
+//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+//        return application.sources(Application.class);
+//    }
 
     @Bean
     public MessageSource messageSource() {
@@ -75,18 +118,7 @@ public class Application extends SpringBootServletInitializer {
         return messageSource;
     }
 
-    /**
-     * Habilita o Jackson para retornar a data formatada
-     *
-     */
-    @Bean
-    public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
-        ObjectMapper objectMapper = builder.createXmlMapper(false).build();
-//        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.registerModule(new Hibernate5Module());
-        return objectMapper;
-    }
+
 
     /**
      *

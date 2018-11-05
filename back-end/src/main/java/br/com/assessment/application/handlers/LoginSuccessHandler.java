@@ -30,10 +30,10 @@ public class LoginSuccessHandler implements ServerAuthenticationSuccessHandler {
      */
     private static final Logger LOG = Logger.getLogger(LoginSuccessHandler.class.getName());
 
-    /**
-     *
-     */
-    private final ContaRepository contaRepository;
+//    /**
+//     *
+//     */
+//    private final ContaRepository contaRepository;
 
     /**
      *
@@ -48,19 +48,20 @@ public class LoginSuccessHandler implements ServerAuthenticationSuccessHandler {
     @Override
     public Mono<Void> onAuthenticationSuccess(final WebFilterExchange webFilterExchange, final Authentication authentication) {
 
-        final Conta conta = this.contaRepository.findById(((Conta) authentication.getPrincipal()).getId()).orElse(null);
-        assert conta != null;
-        conta.setLastLogin(LocalDateTime.now());
-        this.contaRepository.save(conta);
-
-        try {
-            final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes(conta));
-            webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);
-            return webFilterExchange.getExchange().getResponse().writeWith(Mono.just(buf));
-        } catch (final JsonProcessingException e) {
-            LOG.severe(e.getMessage());
-            e.printStackTrace();
-            return Mono.error(e);
-        }
+//        final Conta conta = this.contaRepository.findById(((Conta) authentication.getPrincipal()).getId()).orElse(null);
+//        assert conta != null;
+//        conta.setLastLogin(LocalDateTime.now());
+//        this.contaRepository.save(conta);
+//
+//        try {
+//            final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes(conta));
+//            webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);
+//            return webFilterExchange.getExchange().getResponse().writeWith(Mono.just(buf));
+//        } catch (final JsonProcessingException e) {
+//            LOG.severe(e.getMessage());
+//            e.printStackTrace();
+//            return Mono.error(e);
+//        }
+        return null;
     }
 }

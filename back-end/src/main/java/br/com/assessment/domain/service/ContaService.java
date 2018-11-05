@@ -19,10 +19,10 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class ContaService implements ReactiveUserDetailsService {
 
-    /**
-     * TODO refazer tudo isso
-     */
-    private final ContaRepository contaRepository;
+//    /**
+//     * TODO refazer tudo isso
+//     */
+//    private final ContaRepository contaRepository;
 
     /**
      * @param email {String}
@@ -38,14 +38,15 @@ public class ContaService implements ReactiveUserDetailsService {
      */
     public Mono<UserDetails> findUsuarioByEmail(final String email) {
 
-        final Conta conta = contaRepository.findByEmailIgnoreCase(email.toLowerCase());
+//        final Conta conta = contaRepository.findByEmailIgnoreCase(email.toLowerCase());
+//
+//        Assert.notNull(conta, "Conta não encontrada");
+//
+//        Context.setCurrentSchema(conta.getEsquema());
+//
+//        return Mono.just(contaRepository.findByEmailIgnoreCase(email.toLowerCase()));
 
-        Assert.notNull(conta, "Conta não encontrada");
-
-        Context.setCurrentSchema(conta.getEsquema());
-
-        return Mono.just(contaRepository.findByEmailIgnoreCase(email.toLowerCase()));
-
+        return null;
     }
 
 }

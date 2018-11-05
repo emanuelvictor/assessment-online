@@ -2,6 +2,7 @@ package br.com.assessment.application.security;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,12 +17,13 @@ import reactor.core.scheduler.Schedulers;
  * @author Emanuel Victor
  */
 @Component
-@RequiredArgsConstructor
 public class AuthenticationManager implements ReactiveAuthenticationManager {
 
-    private final ReactiveUserDetailsService userDetailsService;
+    @Autowired
+    private ReactiveUserDetailsService userDetailsService;
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {
