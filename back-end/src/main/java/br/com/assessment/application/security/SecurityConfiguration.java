@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.util.function.Function;
 
 @Configuration
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 public class SecurityConfiguration {
@@ -42,26 +42,22 @@ public class SecurityConfiguration {
     /**
      *
      */
-    @Autowired
-    private ReactiveAuthenticationManager reactiveAuthenticationManager;
+    private final ReactiveAuthenticationManager reactiveAuthenticationManager;
 
     /**
      *
      */
-    @Autowired
-    private ServerAuthenticationSuccessHandler serverAuthenticationSuccessHandler;
+    private final ServerAuthenticationSuccessHandler serverAuthenticationSuccessHandler;
 
     /**
      *
      */
-    @Autowired
-    private ServerAuthenticationFailureHandler serverAuthenticationFailureHandler;
+    private final ServerAuthenticationFailureHandler serverAuthenticationFailureHandler;
 
     /**
      *
      */
-    @Autowired
-    private ServerLogoutSuccessHandler serverLogoutSuccessHandler;
+    private final ServerLogoutSuccessHandler serverLogoutSuccessHandler;
 
 //    /**
 //     *
@@ -75,7 +71,8 @@ public class SecurityConfiguration {
      *
      */
     @Bean
-    public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
+    public ObjectMapper objectMapper(/*Jackson2ObjectMapperBuilder builder*/) {
+    	Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
         ObjectMapper objectMapper = builder.createXmlMapper(false).build();
 //        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -123,7 +120,7 @@ public class SecurityConfiguration {
         final AuthenticationWebFilter filter = new AuthenticationWebFilter(reactiveAuthenticationManager);
 
         filter.setSecurityContextRepository(securityContextRepository());
-//        filter.setAuthenticationConverter(jsonBodyAuthenticationConverter(this.objectMapper));
+        filter.setAuthenticationConverter(jsonBodyAuthenticationConverter(this.objectMapper()));
         filter.setAuthenticationSuccessHandler(this.serverAuthenticationSuccessHandler);
         filter.setAuthenticationFailureHandler(this.serverAuthenticationFailureHandler);
         filter.setRequiresAuthenticationMatcher(

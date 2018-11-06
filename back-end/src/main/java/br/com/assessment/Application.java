@@ -41,7 +41,10 @@ import org.springframework.web.server.adapter.AbstractReactiveWebInitializer;
 import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 import reactor.ipc.netty.NettyContext;
 import reactor.ipc.netty.http.server.HttpServer;
-
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.util.Assert;
+import org.springframework.web.server.adapter.AbstractReactiveWebInitializer;
 import javax.servlet.MultipartConfigElement;
 import java.util.Arrays;
 
@@ -52,17 +55,24 @@ public class Application extends AbstractReactiveWebInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     @Override
+    protected ApplicationContext createApplicationContext() {
+        Class<?>[] configClasses = getConfigClasses();
+        Assert.notEmpty(configClasses, "No Spring configuration provided.");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(configClasses);
+        return context;
+    }
+    
+    @Override
     protected Class<?>[] getConfigClasses() {
         return new Class[]{
-
-                ContaService.class,
-                AuthenticationManager.class,
+        		LogoutSuccessHandler.class,
+        		LoginSuccessHandler.class,
+        		LoginFailureHandler.class,
+        		PasswordEncoderConfiguration.class,
+        		ContaService.class,
+        		AuthenticationManager.class,
                 SecurityConfiguration.class,
                 WebFluxConfig.class,
-                LoginFailureHandler.class,
-                LogoutSuccessHandler.class,
-                LoginSuccessHandler.class,
-                PasswordEncoderConfiguration.class
         };
     }
 

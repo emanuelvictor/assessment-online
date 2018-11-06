@@ -35,10 +35,10 @@ public class LoginSuccessHandler implements ServerAuthenticationSuccessHandler {
 //     */
 //    private final ContaRepository contaRepository;
 
-    /**
-     *
-     */
-    private final ObjectMapper objMapper;
+//    /**
+//     *
+//     */
+//    private final ObjectMapper objMapper;
 
     /**
      * @param webFilterExchange {WebFilterExchange}
