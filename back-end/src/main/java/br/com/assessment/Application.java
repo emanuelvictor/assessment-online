@@ -8,8 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafProperties;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -41,6 +43,7 @@ import br.com.assessment.domain.service.ContaService;
 
 @EnableAsync
 @SpringBootApplication
+@EnableConfigurationProperties(ThymeleafProperties.class)
 public class Application extends SpringBootServletInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
