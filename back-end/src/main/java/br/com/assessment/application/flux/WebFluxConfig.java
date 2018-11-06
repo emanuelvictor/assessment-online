@@ -1,16 +1,15 @@
 package br.com.assessment.application.flux;
 
-import br.com.assessment.application.converters.LocalDateConverter;
-import br.com.assessment.application.converters.LocalDateTimeConverter;
-import br.com.assessment.application.formatter.LocalDateFormatter;
-import br.com.assessment.application.formatter.LocalDateTimeFormatter;
+import static br.com.assessment.application.formatter.LocalDateFormatter.LOCAL_DATE_PATTERN;
+import static br.com.assessment.application.formatter.LocalDateTimeFormatter.LOCAL_DATE_TIME_PATTERN;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
-import static br.com.assessment.application.formatter.LocalDateFormatter.LOCAL_DATE_PATTERN;
-import static br.com.assessment.application.formatter.LocalDateTimeFormatter.LOCAL_DATE_TIME_PATTERN;
+import br.com.assessment.application.formatter.LocalDateFormatter;
+import br.com.assessment.application.formatter.LocalDateTimeFormatter;
 
 @Configuration
 @EnableWebFlux

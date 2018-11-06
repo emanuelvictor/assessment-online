@@ -1,15 +1,11 @@
 package br.com.assessment.application.security;
 
-import br.com.assessment.domain.entity.usuario.Conta;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.io.IOException;
+import java.util.function.Function;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
@@ -28,10 +24,12 @@ import org.springframework.security.web.server.context.ServerSecurityContextRepo
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.util.function.Function;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.com.assessment.domain.entity.usuario.Conta;
+import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Mono;
 
 @Configuration
 @RequiredArgsConstructor
@@ -59,26 +57,11 @@ public class SecurityConfiguration {
      */
     private final ServerLogoutSuccessHandler serverLogoutSuccessHandler;
 
-//    /**
-//     *
-//     */
-//    @Autowired
-//    private ObjectMapper objectMapper;
-
-
     /**
-     * Habilita o Jackson para retornar a data formatada
      *
      */
-    @Bean
-    public ObjectMapper objectMapper(/*Jackson2ObjectMapperBuilder builder*/) {
-    	Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-        ObjectMapper objectMapper = builder.createXmlMapper(false).build();
-//        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.registerModule(new Hibernate5Module());
-        return objectMapper;
-    }
+    private final ObjectMapper objectMapper;
+    
 
     /**
      * @return ServerSecurityContextRepository
@@ -120,7 +103,7 @@ public class SecurityConfiguration {
         final AuthenticationWebFilter filter = new AuthenticationWebFilter(reactiveAuthenticationManager);
 
         filter.setSecurityContextRepository(securityContextRepository());
-        filter.setAuthenticationConverter(jsonBodyAuthenticationConverter(this.objectMapper()));
+        filter.setAuthenticationConverter(jsonBodyAuthenticationConverter(this.objectMapper));
         filter.setAuthenticationSuccessHandler(this.serverAuthenticationSuccessHandler);
         filter.setAuthenticationFailureHandler(this.serverAuthenticationFailureHandler);
         filter.setRequiresAuthenticationMatcher(

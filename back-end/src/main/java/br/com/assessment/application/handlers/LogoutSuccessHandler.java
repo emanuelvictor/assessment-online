@@ -28,10 +28,10 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
      */
     private static final Logger LOG = Logger.getLogger(LogoutSuccessHandler.class.getName());
 
-//    /**
-//     *
-//     */
-//    private final ObjectMapper objMapper;
+    /**
+     *
+     */
+    private final ObjectMapper objMapper;
 
     /**
      * @param webFilterExchange {WebFilterExchange}
@@ -45,15 +45,14 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
         Context.clearCurrentSchema();
         Context.clearCurrentUsername();
 
-//        try {
-//            final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Logout efetuado com sucesso"));
-//            webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);
-//            return webFilterExchange.getExchange().getResponse().writeWith(Mono.just(buf));
-//        } catch (final JsonProcessingException e) {
-//            LOG.severe(e.getMessage());
-//            e.printStackTrace();
-//            return Mono.error(e);
-//        }
-        return null;
+        try {
+            final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Logout efetuado com sucesso"));
+            webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);
+            return webFilterExchange.getExchange().getResponse().writeWith(Mono.just(buf));
+        } catch (final JsonProcessingException e) {
+            LOG.severe(e.getMessage());
+            e.printStackTrace();
+            return Mono.error(e);
+        }
     }
 }
