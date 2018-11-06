@@ -74,5 +74,4 @@ server:
     session:
       persistent: true
   compression.enabled: true
-  port: 80
 
