@@ -33,19 +33,8 @@ spring:
       org.hibernate.envers.revision_type_field_name: revtype
       org.hibernate.envers.default_schema: public
 
-#THYMELEAF
-  thymeleaf:
-    mode: HTML
-    cache: false
-    prefix: classpath:/META-INF/resources/
-    suffix: .html
-
 #STATIC RESOURCES
-  resources.static-locations: classpath:/META-INF/resources/
-  resources.chain:
-    cache: false
-    strategy.content.enabled: true
-    strategy.content.paths: /**
+  resources.static-locations: classpath:/resources/
 
 #FLYWAY
   flyway:
@@ -70,7 +59,7 @@ logging.level:
 #WEB CONTAINER
 server:
   servlet:
-    context-path: /
+    context-path:
     session:
       persistent: true
   compression.enabled: true

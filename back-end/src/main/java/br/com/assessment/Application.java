@@ -54,7 +54,6 @@ public class Application extends SpringBootServletInitializer {
 
     /**
      * Exibe o perfil da aplicação quando a mesma inicia
-     *
      */
     @Bean
     public ApplicationListener<ApplicationReadyEvent> getApplicationReadyEvent() {
@@ -90,7 +89,6 @@ public class Application extends SpringBootServletInitializer {
 
     /**
      * Habilita o Jackson para retornar a data formatada
-     *
      */
     @Bean
     public ObjectMapper objectMapper(final Jackson2ObjectMapperBuilder builder) {
