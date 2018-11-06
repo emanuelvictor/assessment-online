@@ -70,7 +70,7 @@ logging.level:
 #WEB CONTAINER
 server:
   servlet:
-    context-path:
+    context-path: /
     session:
       persistent: true
   compression.enabled: true
