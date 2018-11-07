@@ -33,8 +33,19 @@ spring:
       org.hibernate.envers.revision_type_field_name: revtype
       org.hibernate.envers.default_schema: public
 
-#STATIC RESOURCES
-  resources.static-locations: classpath:/resources/
+##THYMELEAF
+#  thymeleaf:
+#    mode: HTML
+#    cache: false
+#    prefix: classpath:/resources/
+#    suffix: .html
+
+##STATIC RESOURCES
+#  resources.static-locations: classpath:/resources/
+#  resources.chain:
+#    cache: false
+#    strategy.content.enabled: true
+#    strategy.content.paths: /**
 
 #FLYWAY
   flyway:
@@ -44,8 +55,8 @@ spring:
     baseline-on-migrate: true
     sql-migration-prefix: v
 
-  webflux:
-    static-path-pattern: /resources/**
+#  webflux:
+#    static-path-pattern: /resources/**
 
 
 #LOGGING

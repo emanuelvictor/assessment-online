@@ -14,8 +14,7 @@
 
   <!--<link rel='shortcut icon' type='image/x-icon' href='https://firebasestorage.googleapis.com/v0/b/cinecataratas-online.appspot.com/o/favicon.ico?alt=media&token=4b7c37c1-e680-4cb7-869e-61036b01b219'/>-->
   <base href='./'/>
-  <link rel="stylesheet" href="styles.be133790440550d5a142.css">
-</head>
+<link rel="stylesheet" href="styles.be133790440550d5a142.css"></head>
 
 <body>
 
@@ -28,9 +27,5 @@
   </div>
 </web-root>
 
-<script type="text/javascript" src="./runtime.ec2944dd8b20ec099bf3.js"></script>
-<script type="text/javascript" src="./polyfills.595c1f0bc931699760fd.js"></script>
-<script type="text/javascript" src="./scripts.8170e5a3d538b5b0eaec.js"></script>
-<script type="text/javascript" src="./main.8987273acadc5b1d31f6.js"></script>
-</body>
+<script type="text/javascript" src="runtime.ec2944dd8b20ec099bf3.js"></script><script type="text/javascript" src="polyfills.595c1f0bc931699760fd.js"></script><script type="text/javascript" src="scripts.8170e5a3d538b5b0eaec.js"></script><script type="text/javascript" src="main.8987273acadc5b1d31f6.js"></script></body>
 </html>

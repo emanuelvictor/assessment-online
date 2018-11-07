@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -43,7 +44,7 @@ import br.com.assessment.domain.service.ContaService;
 
 @EnableAsync
 @SpringBootApplication
-@EnableConfigurationProperties(ThymeleafProperties.class)
+//@EnableConfigurationProperties(ThymeleafProperties.class)
 public class Application extends SpringBootServletInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
