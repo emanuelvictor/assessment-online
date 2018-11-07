@@ -18,34 +18,24 @@ import org.springframework.web.reactive.result.view.freemarker.FreeMarkerConfigu
 @EnableWebFlux
 public class WebFluxConfig implements WebFluxConfigurer {
 
-    /**
-     * @param registry FormatterRegistry
-     */
+    private static final String HTML_SUFFIX = ".html";
+
     @Override
     public void addFormatters(final FormatterRegistry registry) {
-//        registry.addConverter(new LocalDateConverter(LOCAL_DATE_PATTERN));
-//        registry.addConverter(new LocalDateTimeConverter(LOCAL_DATE_TIME_PATTERN));
-
         registry.addFormatter(new LocalDateFormatter(LOCAL_DATE_PATTERN));
         registry.addFormatter(new LocalDateTimeFormatter(LOCAL_DATE_TIME_PATTERN));
     }
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
-        registry.freeMarker();
-    }
+        registry.freeMarker().suffix(HTML_SUFFIX);
 
-    // Configure FreeMarker...
+    }
 
     @Bean
     public FreeMarkerConfigurer freeMarkerConfigurer() {
-
-
-
-        FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
+        final FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
         configurer.setTemplateLoaderPath("classpath:/public");
-
-
         return configurer;
     }
 }

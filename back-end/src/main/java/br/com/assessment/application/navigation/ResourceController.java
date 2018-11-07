@@ -29,42 +29,27 @@ public class ResourceController {
     }
 
     @RequestMapping("/sistema")
+    String sistemaWithBar() {
+        return "redirect:/sistema/";
+    }
+
+    @RequestMapping("/sistema/")
     String sistema() {
         return "sistema/index";
     }
 
-//    @GetMapping("/")
-//    Rendering index() {
-//        return Rendering.view("index").build();
-//    }
+    @RequestMapping("/sistema/mobile")
+    String mobileWithBar() {
+        return "redirect:/sistema/mobile/";
+    }
+
+    @RequestMapping("/sistema/mobile/")
+    String mobile() {
+        return "sistema/mobile/index";
+    }
 
     @Bean
     public RouterFunction<ServerResponse> routes() {
         return resources("/**", new ClassPathResource("public/"));
-//                .andRoute(GET("/"),
-//                        request -> ServerResponse.ok().body(BodyInserters.fromResource(new ClassPathResource("public/index.html"))))
-//                .andRoute(GET("/sistema/**"),
-//                        request -> ServerResponse.ok().body(BodyInserters.fromResource(new ClassPathResource("public/sistema/index.html"))))
-//                .andRoute(GET("/sistema"),
-//                        request -> ServerResponse.temporaryRedirect(URI.create("/sistema/")).build())
-//                .andRoute(GET("/sistema/mobile/"),
-//                        request -> ServerResponse.ok().body(BodyInserters.fromResource(new ClassPathResource("public/sistema/mobile/index.html"))))
-//                .andRoute(GET("/sistema/mobile"),
-//                        request -> ServerResponse.temporaryRedirect(URI.create("/sistema/mobile/")).build());
     }
-//
-//    @Bean
-//    public RouterFunction<ServerResponse> outro() {
-//        return resources("/sistema/**", new ClassPathResource("public/sistema/"))
-//                .andRoute(GET("/sistema/"),
-//                        request -> ServerResponse.ok().body(BodyInserters.fromResource(new ClassPathResource("public/sistema/index.html"))));
-////                .andRoute(GET("/sistema/"),
-////                        request -> ServerResponse.ok().body(BodyInserters.fromResource(new ClassPathResource("public/sistema/index.html"))))
-////                .andRoute(GET("/sistema"),
-////                        request -> ServerResponse.temporaryRedirect(URI.create("/sistema/")).build())
-////                .andRoute(GET("/sistema/mobile/"),
-////                        request -> ServerResponse.ok().body(BodyInserters.fromResource(new ClassPathResource("public/sistema/mobile/index.html"))))
-////                .andRoute(GET("/sistema/mobile"),
-////                        request -> ServerResponse.temporaryRedirect(URI.create("/sistema/mobile/")).build());
-//    }
 }
