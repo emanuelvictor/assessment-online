@@ -10,9 +10,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import static org.springframework.web.reactive.function.server.RouterFunctions.resources;
 
 @Controller
-//@PropertySource("classpath:messages.properties")
-
-public class ResourceController {
+public class NavigaionController {
 
     @RequestMapping("/")
     String index() {
@@ -42,5 +40,10 @@ public class ResourceController {
     @Bean
     public RouterFunction<ServerResponse> routes() {
         return resources("/**", new ClassPathResource("public/"));
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> ssl() {
+        return resources("/.well-known/acme-challenge/**", new ClassPathResource("ssl/"));
     }
 }
