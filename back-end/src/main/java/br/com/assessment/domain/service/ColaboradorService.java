@@ -1,21 +1,13 @@
 package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.colaborador.Colaborador;
-import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.ColaboradorRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

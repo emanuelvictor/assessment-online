@@ -4,8 +4,6 @@ import br.com.assessment.application.multitenancy.MultiTenantConnectionProviderI
 import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.flywaydb.core.Flyway;
-import org.flywaydb.core.internal.configuration.ConfigUtils;
 import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.Environment;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +15,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.HashMap;
 

@@ -6,11 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import static br.com.assessment.application.context.Context.DEFAULT_TENANT_ID;
 
 /**
  * Created by Emanuel Victor on 15/03/2017.

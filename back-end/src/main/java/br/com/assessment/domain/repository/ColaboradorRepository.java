@@ -1,7 +1,6 @@
 package br.com.assessment.domain.repository;
 
 import br.com.assessment.domain.entity.colaborador.Colaborador;
-import br.com.assessment.domain.entity.unidade.Unidade;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

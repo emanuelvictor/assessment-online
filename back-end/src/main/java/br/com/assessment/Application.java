@@ -1,46 +1,28 @@
 package br.com.assessment;
 
-import java.util.Arrays;
-
-import javax.servlet.MultipartConfigElement;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafProperties;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.util.Assert;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.server.adapter.AbstractReactiveWebInitializer;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-
-import br.com.assessment.application.flux.WebFluxConfig;
-import br.com.assessment.application.handlers.LoginFailureHandler;
-import br.com.assessment.application.handlers.LoginSuccessHandler;
-import br.com.assessment.application.handlers.LogoutSuccessHandler;
-import br.com.assessment.application.security.AuthenticationManager;
-import br.com.assessment.application.security.PasswordEncoderConfiguration;
-import br.com.assessment.application.security.SecurityConfiguration;
-import br.com.assessment.domain.service.ContaService;
+import javax.servlet.MultipartConfigElement;
+import java.util.Arrays;
 
 @EnableAsync
 @SpringBootApplication

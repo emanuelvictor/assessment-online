@@ -1,14 +1,13 @@
 package br.com.assessment.domain.service;
 
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 import br.com.assessment.application.context.Context;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.repository.ContaRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
 
 @Service

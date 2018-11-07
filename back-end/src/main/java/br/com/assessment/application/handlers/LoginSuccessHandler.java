@@ -1,23 +1,21 @@
 package br.com.assessment.application.handlers;
 
 
-import java.time.LocalDateTime;
-import java.util.logging.Logger;
-
+import br.com.assessment.domain.entity.usuario.Conta;
+import br.com.assessment.domain.repository.ContaRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.ServerAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import br.com.assessment.domain.entity.usuario.Conta;
-import br.com.assessment.domain.repository.ContaRepository;
-import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
+
+import java.time.LocalDateTime;
+import java.util.logging.Logger;
 
 
 /**

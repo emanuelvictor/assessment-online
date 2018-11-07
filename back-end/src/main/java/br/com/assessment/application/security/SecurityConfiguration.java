@@ -1,8 +1,8 @@
 package br.com.assessment.application.security;
 
-import java.io.IOException;
-import java.util.function.Function;
-
+import br.com.assessment.domain.entity.usuario.Conta;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,12 +24,10 @@ import org.springframework.security.web.server.context.ServerSecurityContextRepo
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.web.server.ServerWebExchange;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import br.com.assessment.domain.entity.usuario.Conta;
-import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
+
+import java.io.IOException;
+import java.util.function.Function;
 
 @Configuration
 @RequiredArgsConstructor

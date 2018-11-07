@@ -2,17 +2,14 @@ package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.avaliacao.Avaliacao;
 import br.com.assessment.domain.entity.avaliacao.AvaliacaoColaborador;
-import br.com.assessment.domain.entity.colaborador.Colaborador;
 import br.com.assessment.domain.repository.AvaliacaoColaboradorRepository;
 import br.com.assessment.domain.repository.AvaliacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

@@ -4,7 +4,6 @@ import br.com.assessment.domain.entity.avaliacao.Avaliacao;
 import br.com.assessment.domain.entity.avaliacao.AvaliacaoColaborador;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.service.AvaliacaoService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;

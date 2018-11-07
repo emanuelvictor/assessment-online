@@ -1,19 +1,16 @@
 package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.colaborador.Colaborador;
-import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.service.ColaboradorService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
-import static br.com.assessment.application.context.Context.getPageable;
 import static br.com.assessment.application.context.Context.getPageable;
 @RestController
 @AllArgsConstructor

@@ -1,7 +1,6 @@
 package br.com.assessment.application.formatter;
 
 import org.springframework.format.Formatter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
