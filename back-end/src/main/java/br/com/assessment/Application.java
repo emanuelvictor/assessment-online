@@ -41,18 +41,18 @@ public class Application extends SpringBootServletInitializer {
     }
 
 
-    @Bean
-    public ServletWebServerFactory servletContainer() {
-        final TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
-        tomcat.addAdditionalTomcatConnectors(createStandardConnector());
-        return tomcat;
-    }
-
-    private Connector createStandardConnector() {
-        final Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-        connector.setPort(0);
-        return connector;
-    }
+//    @Bean
+//    public ServletWebServerFactory servletContainer() {
+//        final TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
+//        tomcat.addAdditionalTomcatConnectors(createStandardConnector());
+//        return tomcat;
+//    }
+//
+//    private Connector createStandardConnector() {
+//        final Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+//        connector.setPort(0);
+//        return connector;
+//    }
 
 
     /**
