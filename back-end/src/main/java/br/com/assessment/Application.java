@@ -76,7 +76,7 @@ public class Application extends SpringBootServletInitializer {
      */
     @Bean
     public ObjectMapper objectMapper(final Jackson2ObjectMapperBuilder builder) {
-        ObjectMapper objectMapper = builder.createXmlMapper(false).build();
+        final ObjectMapper objectMapper = builder.createXmlMapper(false).build();
 //        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.registerModule(new Hibernate5Module());
