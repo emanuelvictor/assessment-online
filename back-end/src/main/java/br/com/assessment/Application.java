@@ -3,15 +3,12 @@ package br.com.assessment;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-import org.apache.catalina.connector.Connector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
@@ -39,21 +36,6 @@ public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
-
-//    @Bean
-//    public ServletWebServerFactory servletContainer() {
-//        final TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
-//        tomcat.addAdditionalTomcatConnectors(createStandardConnector());
-//        return tomcat;
-//    }
-//
-//    private Connector createStandardConnector() {
-//        final Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-//        connector.setPort(0);
-//        return connector;
-//    }
-
 
     /**
      * Exibe o perfil da aplicação quando a mesma inicia
