@@ -6,17 +6,19 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.stereotype.Component;
 
-@Component
-public class MyTomcatWebServerCustomizer implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
+//@Component
+public class MyTomcatWebServerCustomizer
+//        implements WebServerFactoryCustomizer<TomcatServletWebServerFactory>
+{
 
-    @Value("${server.http.port}") int httpPort;
-
-    @Override
-    public void customize(TomcatServletWebServerFactory factory) {
-        Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
-        connector.setPort(httpPort);
-        // customize the factory here
-        factory.addAdditionalTomcatConnectors(connector);
-    }
+//    @Value("${server.http.port}") int httpPort;
+//
+//    @Override
+//    public void customize(TomcatServletWebServerFactory factory) {
+//        Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
+//        connector.setPort(httpPort);
+//        // customize the factory here
+//        factory.addAdditionalTomcatConnectors(connector);
+//    }
 }
 
