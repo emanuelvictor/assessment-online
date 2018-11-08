@@ -26,7 +26,6 @@ import java.util.Arrays;
 
 @EnableAsync
 @SpringBootApplication
-//@EnableConfigurationProperties(ThymeleafProperties.class)
 public class Application extends SpringBootServletInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
