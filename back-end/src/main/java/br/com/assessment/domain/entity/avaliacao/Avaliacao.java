@@ -1,6 +1,7 @@
 package br.com.assessment.domain.entity.avaliacao;
 
 import br.com.assessment.domain.entity.generic.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 
@@ -29,8 +30,22 @@ public class Avaliacao extends AbstractEntity {
 //    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime data;
 
+    @Column
+    @JsonIgnore
+    private byte[] foto;
+
+    @Column
+    private String fotoPath;
+
+
     @PrePersist
     public void prePersist() {
+
+        if (this.foto != null)
+            this.fotoPath = "./avaliacoes/" + id + "/foto";
+        else
+            this.fotoPath = null;
+
         this.data = LocalDateTime.now();
     }
 

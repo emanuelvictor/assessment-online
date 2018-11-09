@@ -8,4 +8,6 @@ export class Avaliacao extends Abstract {
   public nota: number;
 
   public data: any;
+
+  public fotoPath: string;
 }
