@@ -13,29 +13,33 @@ public class Context {
     private static ThreadLocal<Pageable> pageable = new ThreadLocal<>();
 
     public static void setCurrentSchema(final String tenant) {
+        if (currentSchema == null)
+            currentSchema = new ThreadLocal<>();
         currentSchema.set(tenant);
     }
 
     public static String getCurrentSchema() {
-        if (currentSchema.get() != null)
+        if (currentSchema != null && currentSchema.get() != null)
             return currentSchema.get();
         return DEFAULT_TENANT_ID;
     }
 
     public static void clearCurrentSchema() {
-        currentSchema.set(null);
+        currentSchema = null;
     }
 
     public static void setCurrentUsername(final String username) {
+        if (currentUsername == null)
+            currentUsername = new ThreadLocal<>();
         currentUsername.set(username);
     }
 
     public static String getCurrentUsername() {
-        return currentUsername.get();
+        return currentUsername != null ? currentUsername.get() : null;
     }
 
     public static void clearCurrentUsername() {
-        currentUsername.set(null);
+        currentUsername = null;
     }
 
     public static Pageable getPageable() {

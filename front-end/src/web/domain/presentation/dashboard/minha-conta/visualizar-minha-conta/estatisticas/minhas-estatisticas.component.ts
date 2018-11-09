@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {AvaliacaoService} from '../../../../../service/avaliacao.service';
-import {Avaliacao} from '../../../../../entity/avaliacao/avaliacao.model';
-import {TdDigitsPipe} from '@covalent/core';
-import {Title} from '@angular/platform-browser';
-import * as moment from 'moment';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {UsuarioService} from '../../../../../service/usuario.service';
-import {AuthenticationService} from '../../../../../service/authentication.service';
+import {Usuario} from "../../../../../entity/usuario/usuario.model";
+import {ConfiguracaoService} from "../../../../../service/configuracao.service";
+import {Configuracao} from "../../../../../entity/configuracao/configuracao.model";
+import {EvDatepicker} from "../../../../controls/ev-datepicker/ev-datepicker";
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
+import {AuthenticationService} from "../../../../../service/authentication.service";
 
 @Component({
   selector: 'minhas-estatisticas',
@@ -20,7 +21,9 @@ export class MinhasEstatisticasComponent implements OnInit {
    */
   masks = textMasks;
 
-  // Chart
+  /**
+   *
+   */
   multi: any[] = [
     {
       series: [
@@ -48,26 +51,6 @@ export class MinhasEstatisticasComponent implements OnInit {
     }
   ];
 
-
-  // options
-  showLegend = false;
-  yAxisLabel = 'Avaliações';
-
-  colorScheme: any = {
-    domain: [
-      '#c21c1f',
-      '#e96d01',
-      '#d4c40d',
-      '#8fc82c',
-      '#5ee924'
-    ]
-  };
-
-  /**
-   *
-   */
-  avaliacoes: Avaliacao[];
-
   /**
    * Armazena o nome do rankeavel
    */
@@ -75,17 +58,7 @@ export class MinhasEstatisticasComponent implements OnInit {
 
   /**
    *
-   * @type {number}
    */
-  avaliacoes1 = 0;
-  avaliacoes2 = 0;
-  avaliacoes3 = 0;
-  avaliacoes4 = 0;
-  avaliacoes5 = 0;
-
-  public dataInicio;
-  public dataFim;
-
   mapper: any = [
     {
       'name': 'Avaliações',
@@ -94,135 +67,125 @@ export class MinhasEstatisticasComponent implements OnInit {
   ];
 
   /**
-   * Informa se há avaliações a serem exibidas
-   * @type {boolean}
+   *
    */
-  loading = true;
+  public pageRequest = { // PageRequest
+    size: 20,
+    page: 0,
+    sort: null,
+    defaultFilter: [],
+    unidadesFilter: [],
+    dataInicioFilter: null,
+    dataTerminoFilter: null
+  };
 
   /**
    *
-   * @param {Title} title
-   * @param {AvaliacaoService} avaliacaoService
+   */
+  usuarios: Usuario[];
+
+  /**
+   *
+   */
+  configuracao: Configuracao;
+
+  /**
+   *
+   */
+  @ViewChild('dataInicio') dataInicio: EvDatepicker;
+
+  /**
+   *
+   */
+  @ViewChild('dataTermino') dataTermino: EvDatepicker;
+
+
+  /**
+   *
+   * @param {UsuarioService} usuarioService
+   * @param {ConfiguracaoService} configuracaoService
    * @param {AuthenticationService} authenticationService
    */
-  constructor(private title: Title,
-              private avaliacaoService: AvaliacaoService,
-              private authenticationService: AuthenticationService) {
+  constructor(private usuarioService: UsuarioService,
+              private configuracaoService: ConfiguracaoService,
+              public authenticationService: AuthenticationService) {
   }
 
   /**
    *
    */
   ngOnInit() {
+    this.configuracaoService.configuracao.subscribe(configuracao => {
+      this.configuracao = configuracao;
+      this.listUsuariosByFilters(this.pageRequest);
+    });
+  }
 
-    this.authenticationService.requestContaAutenticada()
-      .subscribe((rankeavel: any) => {
-        this.rankeavel = rankeavel;
-        this.title.setTitle('Estatisticas de ' + this.rankeavel.nome);
+  /**
+   * Consulta de usuarios com filtros do model
+   *
+   */
+  public listByDates() {
+
+    if (this.dataInicio.data)
+      this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+
+    if (this.dataTermino.data)
+      this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+
+    this.listUsuariosByFilters(this.pageRequest);
+
+  }
+
+
+  /**
+   * Consulta de usuarios
+   *
+   */
+  public listUsuariosByFilters(pageRequest: any) {
+
+    this.authenticationService.requestContaAutenticada().subscribe(conta => {
+
+      this.rankeavel = conta.usuario;
+
+      pageRequest.defaultFilter = [this.rankeavel.nome];
+
+      this.usuarioService.listByFilters(pageRequest).subscribe(result => {
+
+        this.rankeavel = result.content[0];
+
+        this.mapEstatisticas();
+
       });
 
-    this.listAll();
-  }
-
-  /**
-   *
-   */
-  initAvaliacoes() {
-    this.avaliacoes1 = 0;
-    this.avaliacoes2 = 0;
-    this.avaliacoes3 = 0;
-    this.avaliacoes4 = 0;
-    this.avaliacoes5 = 0;
-  }
-
-  /**
-   *
-   */
-  public listAll() {
-
-    this.loading = true;
-
-    /**
-     * Filtra as avaliações
-     */
-    this.avaliacaoService.listAvaliacoesByAtendenteKey(this.rankeavel.key)
-      .subscribe(avaliacoes => {
-        this.avaliacoes = avaliacoes;
-        this.listEstatisticasByDates(this.dataInicio, this.dataFim);
-      })
-  }
-
-  /**
-   *
-   * @param dataInicio
-   * @param dataFim
-   */
-  public listEstatisticasByDates(dataInicio, dataFim) {
-
-    /**
-     * Zera as avaliações
-     */
-    this.initAvaliacoes();
-
-    /**
-     * Encerra loading inicial
-     */
-    this.loading = false;
-
-    /**
-     * Trada as datas, setando meia noite na data de início, e 23:59 na data de fim.
-     * @type {moment.Moment}
-     */
-    const dataInicioAux = dataInicio ? moment(dataInicio, 'DD/MM/YYYY').hour(0).minute(0) : null;
-    const dataFimAux = dataFim ? moment(dataFim, 'DD/MM/YYYY').hour(23).minute(59) : null;
-
-    this.avaliacoes.forEach(avaliacao => {
-
-      if (
-        (!dataFimAux || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isBefore(moment(dataFimAux, 'DD/MM/YYYY')))
-        && (!dataInicioAux || moment(new Date(avaliacao.data), 'DD/MM/YYYY').isAfter(moment(dataInicioAux, 'DD/MM/YYYY')))
-      ) {
-
-        if (avaliacao.nota === 1) {
-          this.avaliacoes1 = this.avaliacoes1 + 1;
-        }
-        if (avaliacao.nota === 2) {
-          this.avaliacoes2 = this.avaliacoes2 + 1;
-        }
-        if (avaliacao.nota === 3) {
-          this.avaliacoes3 = this.avaliacoes3 + 1;
-        }
-        if (avaliacao.nota === 4) {
-          this.avaliacoes4 = this.avaliacoes4 + 1;
-        }
-        if (avaliacao.nota === 5) {
-          this.avaliacoes5 = this.avaliacoes5 + 1;
-        }
-      }
     });
+
+  }
+
+  /**
+   *
+   */
+  public mapEstatisticas() {
 
     /**
      * Falcatrua
      */
     this.multi = this.mapper.map((group: any) => {
-      group.series[0] = {value: this.avaliacoes1, name: 'Terrível'};
-      group.series[1] = {value: this.avaliacoes2, name: 'Ruim'};
-      group.series[2] = {value: this.avaliacoes3, name: 'Meia boca'};
-      group.series[3] = {value: this.avaliacoes4, name: 'Bacana'};
-      group.series[4] = {value: this.avaliacoes5, name: 'Top da balada'};
+      group.series[0] = {value: this.rankeavel ? this.rankeavel.avaliacoes1 : 0, name: this.configuracao.um};
+      group.series[1] = {value: this.rankeavel ? this.rankeavel.avaliacoes2 : 0, name: this.configuracao.dois};
+      group.series[2] = {value: this.rankeavel ? this.rankeavel.avaliacoes3 : 0, name: this.configuracao.tres};
+      group.series[3] = {value: this.rankeavel ? this.rankeavel.avaliacoes4 : 0, name: this.configuracao.quatro};
+      group.series[4] = {value: this.rankeavel ? this.rankeavel.avaliacoes5 : 0, name: this.configuracao.cinco};
       return group;
     });
   }
 
-  // ngx transform using covalent digits pipe
-  axisDigits(val: any): any {
-    return new TdDigitsPipe().transform(val);
+  /**
+   *
+   */
+  public resetDates(){
+    this.dataInicio.data = null;
+    this.dataTermino.data = null;
   }
-}
 
-export let multi: any = [
-  {
-    'name': 'Avaliações',
-    'series': [],
-  },
-];
+}

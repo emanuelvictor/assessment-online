@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs';
 import {AuthenticationService} from '../../../service/authentication.service';
 import {ConfiguracaoRepository} from "../../../repositories/configuracao.repository";
 import {Configuracao} from "../../../entity/configuracao/configuracao.model";
+import {Conta} from "../../../entity/usuario/conta.model";
 
 @Component({
   selector: 'header-component',
@@ -15,7 +16,7 @@ export class HeaderComponent implements OnDestroy {
   /**
    *
    */
-  public usuario: any;
+  public conta: Conta;
 
   /**
    *
@@ -42,11 +43,11 @@ export class HeaderComponent implements OnDestroy {
               private router: Router, private configuracaoRepository: ConfiguracaoRepository) {
     this.configuracaoRepository.configuracao.subscribe( result => this.configuracao = result);
     this.authenticationService.requestContaAutenticada().subscribe(result => {
-      this.usuario = result;
+      this.conta = result;
     });
 
     this.userSubscription = authenticationService.contaAutenticadaChanged.subscribe((user) => {
-      this.usuario = user;
+      this.conta = user;
     });
   }
 

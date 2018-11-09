@@ -49,8 +49,15 @@ public class UsuarioService {
 
         Assert.isTrue(usuario.getId() != null && usuario.getId().equals(id), "Você não tem acesso á esse usuário");
 
-        //Seta novamente o password anterior
-        usuario.getConta().setPassword(this.usuarioRepository.findById(usuario.getId()).get().getConta().getPassword());
+        final Usuario usuarioDB = this.usuarioRepository.findById(usuario.getId()).orElseGet(null);
+
+        // Seta novamente o password anterior
+        usuario.getConta().setPassword(usuarioDB.getConta().getPassword());
+
+        // Reinsere a fotografia, as fotos devem ser atualizadas com seus respectivos services.
+        usuario.setFoto(usuarioDB.getFoto());
+        usuario.setThumbnail(usuarioDB.getThumbnail());
+        usuario.setAvatar(usuarioDB.getAvatar());
 
         return this.usuarioRepository.save(usuario);
     }
