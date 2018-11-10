@@ -192,6 +192,9 @@ export class ConsultarAtendentesComponent implements OnInit {
 
     pageRequest.unidadesFilter.concat(this.asyncModel.map((result: any) => result.id));
 
+    pageRequest.page = this.paginator.pageIndex;
+    pageRequest.size = this.paginator.pageSize;
+
     this.usuarioService.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);

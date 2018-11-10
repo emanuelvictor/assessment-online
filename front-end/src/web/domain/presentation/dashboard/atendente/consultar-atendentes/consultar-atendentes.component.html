@@ -234,8 +234,8 @@
                  routerLink="{{usuario.id}}" style="cursor: pointer">
         </mat-row>
       </mat-table>
-      <mat-paginator [length]="page.totalElements" style="border-radius: 2px"
-                     [pageSizeOptions]="[5, 20, 50, 100]"
+      <mat-paginator [pageSizeOptions]="[5, 20, 50, 100]"
+                     [length]="page.totalElements" style="border-radius: 2px"
                      (page)="listUsuariosByFilters(pageRequest)" class="bgc-grey-50">
       </mat-paginator>
     </div>
