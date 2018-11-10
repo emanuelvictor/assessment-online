@@ -9,6 +9,7 @@ import {TdLoadingService} from '@covalent/core';
 
 import {FormBuilder, Validators} from "@angular/forms";
 import {ConfiguracaoService} from "../../../service/configuracao.service";
+import {FileRepository} from "../../../../infrastructure/repository/file/file.repository";
 
 /**
  *
@@ -58,15 +59,17 @@ export class ConfiguracaoComponent implements OnInit {
   /**
    *
    * @param {MatSnackBar} snackBar
+   * @param {FileRepository} fileRepository
    * @param {TdLoadingService} _loadingService
    * @param {ElementRef} element
+   * @param {ConfiguracaoService} configuracaoService
    * @param {Renderer} renderer
    * @param {FormBuilder} fb
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
-   * @param {ConfiguracaoService} configuracaoService
    */
   constructor(private snackBar: MatSnackBar,
+              private fileRepository: FileRepository,
               private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
               private configuracaoService: ConfiguracaoService,
@@ -251,6 +254,49 @@ export class ConfiguracaoComponent implements OnInit {
   public removeBackgroundFile() {
     this.backgroundPath = null;
     this.backgroundArquivoFile = null;
+  }
+
+
+  /**
+   *
+   * @type {any}
+   */
+  importFilePath = null;
+
+  /**
+   *
+   * @type {any}
+   */
+  importFile = null;
+
+
+  /**
+   *
+   * @param event
+   */
+  importFileChange(event) {
+    console.log(event);
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      this.importFile = fileList[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (arquivo: any) => {
+        this.importFilePath = arquivo.target.result;
+      };
+    }
+  }
+
+  /**
+   *
+   */
+  public removeImportFile() {
+    this.importFilePath = null;
+    this.importFile = null;
+  }
+
+  public importt(){
+    this.fileRepository.importt(this.importFile);
   }
 
 }

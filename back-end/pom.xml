@@ -36,15 +36,15 @@
                 <spring.profiles.active>dev</spring.profiles.active>
             </properties>
             <dependencies>
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-jetty</artifactId>
-                </dependency>
                 <!--<dependency>-->
                     <!--<groupId>org.springframework.boot</groupId>-->
-                    <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
-                    <!--&lt;!&ndash;tomcat sem scope provided para funcionamento no jetbrains&ndash;&gt;-->
+                    <!--<artifactId>spring-boot-starter-jetty</artifactId>-->
                 <!--</dependency>-->
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <!--tomcat sem scope provided para funcionamento no jetbrains-->
+                </dependency>
             </dependencies>
         </profile>
 
@@ -94,10 +94,10 @@
             <artifactId>nio-multipart-parser</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
         <dependency>
