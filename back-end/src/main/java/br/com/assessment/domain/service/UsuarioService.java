@@ -204,4 +204,8 @@ public class UsuarioService {
         this.usuarioRepository.save(usuario);
     }
 
+    public List<Usuario> findByNome(final String nome){
+        return this.usuarioRepository.findByNome(nome);
+    }
+
 }
