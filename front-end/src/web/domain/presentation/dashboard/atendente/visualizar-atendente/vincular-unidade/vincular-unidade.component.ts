@@ -21,7 +21,7 @@ export class VincularUnidadeComponent implements OnInit {
    *
    * @type {Unidade}
    */
-  public filter = {
+  public filter : any = {
     unidade: {}
   };
 
