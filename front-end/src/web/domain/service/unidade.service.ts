@@ -15,93 +15,26 @@ export class UnidadeService {
   constructor(private unidadeRepository: UnidadeRepository) {
   }
 
+
   /**
    *
-   * @returns {Observable<any[]>}
+   * @returns {Observable<{}>}
+   */
+  public listLightByFilters(pageable: any): Observable<any> {
+    return this.unidadeRepository.listLightByFilters(pageable);
+  }
+
+  /**
+   *
+   * @returns {Observable<{}>}
    */
   public find(): Observable<any> {
     return this.listByFilters(null);
   }
-
-  /**
-   * Lista todas as unidades em que o usuário é operador
-   * @param {string} key
-   * @returns {Observable<any>}
-   */
-  public listUnidadesByOperadorKey(key: string): Observable<any> {
-    return null;
-    // let unidadesReturn = [];
-    //
-    // return this.colaboradorService.listOperadoresByUsuarioKey(key)
-    //   .flatMap(colaboradores => {
-    //     unidadesReturn = [];
-    //     return colaboradores;
-    //   })
-    //   .flatMap((colaborador: Colaborador) => {
-    //     unidadesReturn = [];
-    //     return this.colaboradorService.listOperadoresByUnidadeKey(colaborador.unidade.key)
-    //   })
-    //   .flatMap(colaboradores => {
-    //     return colaboradores;
-    //   })
-    //   .flatMap((colaborador: Colaborador) => {
-    //     return this.findOne(colaborador.unidade.key)
-    //   })
-    //   .map(unidade => {
-    //
-    //     let founded = false;
-    //
-    //     for (let i = 0; i < unidadesReturn.length; i++) {
-    //       founded = !unidade || unidadesReturn[i].key === unidade.key;
-    //       if (founded) break
-    //     }
-    //
-    //     if (!founded)
-    //       unidadesReturn.push(unidade);
-    //
-    //     return unidadesReturn;
-    //   })
-  }
-
-
-  /**
-   * Lista todas as unidades em que o usuário está vinculado, serviço utilizado pela consulta de atendentes
-   * @param {string} key
-   * @returns {Observable<any>}
-   */
-  public listUnidadesByColaboradorKey(key: string): Observable<any> {
-
-    return null;
-    // let unidadesReturn = [];
-    //
-    // return this.colaboradorService.listColaboradoresByUsuarioKey(key)
-    //   .flatMap(colaboradores => {
-    //     unidadesReturn = [];
-    //     return colaboradores;
-    //   })
-    //   .flatMap((colaborador: Colaborador) => {
-    //     return this.findOne(colaborador.unidade.key)
-    //   })
-    //   .map(unidade => {
-    //
-    //     let founded = false;
-    //
-    //     for (let i = 0; i < unidadesReturn.length; i++) {
-    //       founded = !unidade || unidadesReturn[i].key === unidade.key;
-    //       if (founded) break
-    //     }
-    //
-    //     if (!founded)
-    //       unidadesReturn.push(unidade);
-    //
-    //     return unidadesReturn;
-    //   })
-  }
-
   /**
    *
    * @param pageable
-   * @returns {Observable<any>}
+   * @returns {Observable<{}>}
    */
   public listByFilters(pageable: any): Observable<any> {
     return this.unidadeRepository.listByFilters(pageable);
@@ -119,7 +52,7 @@ export class UnidadeService {
   /**
    *
    * @param unidade
-   * @returns {Promise<any>}
+   * @returns {Promise<{}>}
    */
   public save(unidade: Unidade): Promise<Unidade> {
     return this.unidadeRepository.save(unidade);

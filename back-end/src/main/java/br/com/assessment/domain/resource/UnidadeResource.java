@@ -2,6 +2,7 @@ package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Perfil;
+import br.com.assessment.domain.repository.UnidadeRepository;
 import br.com.assessment.domain.service.UnidadeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -47,10 +48,16 @@ public class UnidadeResource {
     }
 
     @GetMapping
-//    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     Mono<Page<Unidade>> listByFilters(final String defaultFilter, final String enderecoFilter,
                                       @RequestParam(required = false) final LocalDateTime dataInicioFilter,
                                       @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
         return Mono.just(this.unidadeService.listByFilters(defaultFilter, enderecoFilter, dataInicioFilter, dataTerminoFilter, getPageable()));
+    }
+
+    @GetMapping("light")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<Page<Unidade>> listByFilters(final String defaultFilter) {
+        return Mono.just(this.unidadeService.listByFilters(defaultFilter,getPageable()));
     }
 }

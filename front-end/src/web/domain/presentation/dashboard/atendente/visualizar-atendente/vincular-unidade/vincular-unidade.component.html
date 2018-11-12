@@ -1,11 +1,25 @@
+<div layout-margin
+     layout='row' flex
+     layout-align='center center'>
+  <mat-form-field flex>
+    <input id="filter" name="filter"
+           [ngModelOptions]='{standalone: true}'
+           placeholder="Filtre por nome" matInput
+           [(ngModel)]="filter.unidade.nome" maxlength="200">
+  </mat-form-field>
+</div>
+
+<mat-divider style='margin-bottom: 15px'></mat-divider>
+
 <mat-nav-list>
-  <div *ngFor="let atendente of atendentes | orderBy:'unidade.nome':false:'case-insensitive'">
+  <div *ngFor="let atendente of atendentes | filter:filter | orderBy:'unidade.nome':false:'case-insensitive'">
     <mat-list-item layout='row'
                    layout-margin
                    (click)='select.open()'>
       <h3 matLine>{{atendente.unidade?.nome}} </h3>
       <p matLine *ngIf="atendente.unidade?.endereco?.cidade?.nome">
-        {{atendente.unidade?.endereco?.logradouro}}, {{atendente.unidade?.endereco?.numero}}, {{atendente.unidade?.endereco?.bairro}} -
+        {{atendente.unidade?.endereco?.logradouro}}, {{atendente.unidade?.endereco?.numero}},
+        {{atendente.unidade?.endereco?.bairro}} -
         {{atendente.unidade?.endereco?.cidade?.nome}} - {{atendente.unidade?.endereco?.cidade?.estado?.sigla}}
       </p>
 

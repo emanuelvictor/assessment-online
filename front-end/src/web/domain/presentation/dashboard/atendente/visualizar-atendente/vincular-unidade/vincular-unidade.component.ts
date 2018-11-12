@@ -1,10 +1,9 @@
-import {ActivatedRoute} from '@angular/router';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {UnidadeService} from '../../../../../service/unidade.service';
 import {ColaboradorService} from '../../../../../service/colaborador.service';
 import {Colaborador} from '../../../../../entity/colaborador/colaborador.model';
-import {AuthenticationService} from '../../../../../service/authentication.service';
+import {Unidade} from "../../../../../entity/unidade/unidade.model";
 
 @Component({
   selector: 'vincular-unidade',
@@ -17,6 +16,14 @@ export class VincularUnidadeComponent implements OnInit {
    *
    */
   public unidades: any;
+
+  /**
+   *
+   * @type {Unidade}
+   */
+  public filter = {
+    unidade: {}
+  };
 
   /**
    *
@@ -38,22 +45,18 @@ export class VincularUnidadeComponent implements OnInit {
 
   /**
    *
-   * @param {ActivatedRoute} activatedRoute
    * @param {UnidadeService} unidadeService
    * @param {ColaboradorService} colaboradorService
-   * @param {AuthenticationService} authenticationService
    */
-  constructor(public activatedRoute: ActivatedRoute,
-              public unidadeService: UnidadeService,
-              public colaboradorService: ColaboradorService,
-              public authenticationService: AuthenticationService) {
+  constructor(private unidadeService: UnidadeService,
+              private colaboradorService: ColaboradorService) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    this.unidadeService.listByFilters(null)
+    this.unidadeService.listLightByFilters(null)
       .subscribe(page => {
         const unidades = page.content;
 

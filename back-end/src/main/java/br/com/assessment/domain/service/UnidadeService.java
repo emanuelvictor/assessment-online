@@ -60,6 +60,19 @@ public class UnidadeService {
 
     }
 
+    public Page<Unidade> listByFilters(final String defaultFilter,
+                                       final Pageable pageable) {
+
+        final Usuario usuario = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
+
+        return this.unidadeRepository.listByFilters(
+                usuario.getId(),
+                usuario.getConta().getPerfil().name(),
+                defaultFilter,
+                pageable);
+
+    }
+
     public List<Unidade> findByNome(final String nome){
         return this.unidadeRepository.findByNome(nome);
     }

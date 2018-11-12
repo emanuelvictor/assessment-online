@@ -7,11 +7,10 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class FilterPipe implements PipeTransform {
 
   /**
-   * Perform the filtering.
    *
-   * @param {any} object The object to compare to the filter.
-   * @param {any} filter The filter to apply.
-   * @return {boolean} True if object satisfies filters, false if not.
+   * @param object
+   * @param filter
+   * @returns {boolean}
    */
   static applyFilter(object: any, filter: any): boolean {
     for (const field in filter) {
@@ -26,7 +25,8 @@ export class FilterPipe implements PipeTransform {
           if (object[field] !== filter[field]) {
             return false;
           }
-        }
+        } else if (typeof filter[field] === 'object')
+          return FilterPipe.applyFilter(object[field], filter[field])
       }
     }
     return true;

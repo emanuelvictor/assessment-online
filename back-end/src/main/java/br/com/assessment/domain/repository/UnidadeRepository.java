@@ -104,4 +104,36 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
 
     List<Unidade> findByNome(final String nome);
 
+    @Query("FROM Unidade unidade " +
+            "   WHERE " +
+            "   (   " +
+            "       (" +
+            "               FILTER(:defaultFilter, unidade.nome, unidade.endereco.logradouro,unidade.endereco.complemento, unidade.endereco.bairro, unidade.endereco.cep,unidade.endereco.numero,unidade.endereco.cidade.nome,unidade.endereco.cidade.estado.nome,unidade.endereco.cidade.estado.uf,unidade.endereco.cidade.estado.pais.nome) = TRUE" +
+            "       )" +
+            "       AND" +
+            "       (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND unidade.id IN " +
+            "       (" +
+            "           SELECT colaborador.unidade.id FROM Colaborador colaborador WHERE " +
+            "           (" +
+            "               colaborador.usuario.id = :usuarioId" +
+            "               AND " +
+            "               (" +
+            "                   (" +
+            "                       :perfil = '" + Perfil.ATENDENTE_VALUE + "' AND (colaborador.vinculo = 0) " +
+            "                   )" +
+            "                   OR " +
+            "                   (" +
+            "                       :perfil = '" + Perfil.OPERADOR_VALUE + "' AND (colaborador.vinculo = 1 OR colaborador.vinculo = 2)" +
+            "                   )" +
+            "               )" +
+            "           )" +
+            "       ) OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "')" +
+            "   )"
+    )
+    Page<Unidade> listByFilters(
+            @Param("usuarioId") final Long usuarioId,
+            @Param("perfil") final String perfil,
+            @Param("defaultFilter") final String defaultFilter,
+            final Pageable pageable);
+
 }

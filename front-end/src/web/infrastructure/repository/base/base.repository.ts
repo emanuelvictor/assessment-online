@@ -48,4 +48,11 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
     return this.httpClient.get<T[]>(this.collectionName);
   }
 
+  listLightByFilters(pageable){
+    const params = PageSerialize.getHttpParamsFromPageable(pageable);
+
+    return this.httpClient.get<T[]>(this.collectionName + '/light', {
+      params: params
+    })
+  }
 }
