@@ -236,7 +236,6 @@ export class ConfiguracaoComponent implements OnInit {
    * @param event
    */
   backgroundChange(event) {
-    console.log(event);
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
       this.backgroundArquivoFile = fileList[0];
@@ -275,7 +274,6 @@ export class ConfiguracaoComponent implements OnInit {
    * @param event
    */
   importFileChange(event) {
-    console.log(event);
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
       this.importFile = fileList[0];

@@ -1,6 +1,8 @@
 package br.com.assessment.domain.resource;
 
 import br.com.assessment.application.context.Context;
+import br.com.assessment.domain.entity.avaliacao.Avaliacao;
+import br.com.assessment.domain.entity.avaliacao.AvaliacaoColaborador;
 import br.com.assessment.domain.entity.colaborador.Colaborador;
 import br.com.assessment.domain.entity.colaborador.Vinculo;
 import br.com.assessment.domain.entity.endereco.Cidade;
@@ -9,10 +11,8 @@ import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.entity.usuario.Usuario;
-import br.com.assessment.domain.service.ColaboradorService;
-import br.com.assessment.domain.service.EnderecoService;
-import br.com.assessment.domain.service.UnidadeService;
-import br.com.assessment.domain.service.UsuarioService;
+import br.com.assessment.domain.repository.AvaliacaoColaboradorRepository;
+import br.com.assessment.domain.service.*;
 import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
@@ -29,10 +29,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import sun.security.x509.AVA;
 
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.TimeZone;
 
 @Transactional
 @RestController
@@ -45,6 +49,8 @@ public class ImportResource {
     private final UnidadeService unidadeService;
 
     private final EnderecoService enderecoService;
+
+    private final AvaliacaoService avaliacaoService;
 
     private final ColaboradorService colaboradorService;
 
@@ -126,13 +132,13 @@ public class ImportResource {
             });
 
             final JSONObject colaboradoresJSONArray = (JSONObject) ((JSONObject) obj).get("colaboradores");
-            colaboradoresJSONArray.forEach((key, colaboradorJSON) -> {
+            colaboradoresJSONArray.forEach((colaboradorKey, colaboradorJSON) -> {
 
                 final JSONObject usuariosJSON = (JSONObject) ((JSONObject) obj).get("usuarios");
                 final JSONObject unidadesJSON = (JSONObject) ((JSONObject) obj).get("unidades");
 
-                final String usuarioNome = (String) ( (JSONObject) usuariosJSON.get(((JSONObject) (((JSONObject) colaboradorJSON).get("usuario"))).get("key"))).get("nome");
-                final String unidadeNome = (String) ( (JSONObject) unidadesJSON.get(((JSONObject) (((JSONObject) colaboradorJSON).get("unidade"))).get("key"))).get("nome");
+                final String usuarioNome = (String) ((JSONObject) usuariosJSON.get(((JSONObject) (((JSONObject) colaboradorJSON).get("usuario"))).get("key"))).get("nome");
+                final String unidadeNome = (String) ((JSONObject) unidadesJSON.get(((JSONObject) (((JSONObject) colaboradorJSON).get("unidade"))).get("key"))).get("nome");
 
                 final Usuario usuario = usuarioService.findByNome(usuarioNome).get(0);
                 final Unidade unidade = unidadeService.findByNome(unidadeNome).get(0);
@@ -141,15 +147,89 @@ public class ImportResource {
                 colaborador.setUsuario(usuario);
                 colaborador.setUnidade(unidade);
 
-                if (((JSONObject) colaboradorJSON).get("vinculo") == "Operador"){
+                if (((JSONObject) colaboradorJSON).get("vinculo") == "Operador") {
                     colaborador.setVinculo(Vinculo.Operador);
-                } else if (((JSONObject) colaboradorJSON).get("vinculo") == "OperadorAtendente"){
+                } else if (((JSONObject) colaboradorJSON).get("vinculo") == "OperadorAtendente") {
                     colaborador.setVinculo(Vinculo.OperadorAtendente);
                 } else {
                     colaborador.setVinculo(Vinculo.Atendente);
                 }
 
                 colaboradorService.save(colaborador);
+
+                final JSONObject avaliacoesColaboradoresJSONArray = (JSONObject) ((JSONObject) obj).get("avaliacoes-colaboradores");
+                avaliacoesColaboradoresJSONArray.forEach((avaliacaoColaboradorKey, avaliacaoColaboradorJSON) -> {
+                    final String avaliacaoColaboradorColaboradorKey = (String) ((JSONObject) ((JSONObject) avaliacaoColaboradorJSON).get("colaborador")).get("key");
+
+                    // Se o colaborador é o colaborador do loop externo (ou seja, o recém salvo)
+                    if (avaliacaoColaboradorColaboradorKey.equals(colaboradorKey)) {
+
+                        final AvaliacaoColaborador avaliacaoColaborador = new AvaliacaoColaborador();
+
+                        // Seto o colaborador recém salvo
+                        avaliacaoColaborador.setColaborador(colaborador);
+
+                        /**
+                         * ... Parto para o salvamento das avaliações
+                         */
+
+                        // Percorro as avaliações
+                        final JSONObject avaliacoesJSONArray = (JSONObject) ((JSONObject) obj).get("avaliacoes");
+                        avaliacoesJSONArray.forEach((avaliacaoKey, avaliacaoJSON) -> {
+
+                            if (((JSONObject) avaliacaoJSON).get("nota") != null && ((JSONObject) avaliacaoJSON).get("data") != null) {
+
+                                // Se a avaliação do loop é igual a avialiação do avaliacaoColaborador, instancia e salva ela
+                                if (avaliacaoKey.equals(((JSONObject) ((JSONObject) avaliacaoColaboradorJSON).get("avaliacao")).get("key"))) {
+
+                                    final Avaliacao avaliacao = new Avaliacao();
+
+                                    // Verificação de variável de controle.
+                                    // Se o jsonObject tiver a variável id, é pq a avaliação já foi salva,
+                                    // então pega esse id e seta na avaliação que será vinculada á avaliacaoColaborador de fora
+                                    if (((JSONObject) avaliacaoJSON).get("id") != null) {
+
+                                        // Seta o id encontrado, que será o mesmo recém salvo no banco
+                                        avaliacao.setId((Long) ((JSONObject) avaliacaoJSON).get("id"));
+
+
+                                    // Se o jsonObject do avaliacaoColaborador não contiver a variável id,
+                                    // Então instancia uma avaliação, seta a nota e a data e salva,
+                                    // Depois pega o id e seta no jsonObject
+                                    } else {
+
+                                        // Extrai e seta a nota
+                                        avaliacao.setNota(Integer.valueOf(Long.toString((Long) ((JSONObject) avaliacaoJSON).get("nota"))));
+
+                                        // Extrai o timestamp da data da avaliação, em formato de long
+                                        final long timestamp = (Long) ((JSONObject) avaliacaoJSON).get("data");
+
+                                        // Converte o long para timestamp
+                                        avaliacao.setData(LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), TimeZone.getDefault().toZoneId()));
+
+                                        // Salvo a avaliação
+                                        this.avaliacaoService.save(avaliacao);
+
+                                        // Seto o id no jsonObject da avaliação
+                                        ((JSONObject) avaliacaoJSON).put("id", avaliacao.getId());
+
+                                    }
+
+                                    // Seto a avliação no colaborador
+                                    avaliacaoColaborador.setAvaliacao(avaliacao);
+
+                                    // Salvo o avaliaçãoColaborador
+                                    this.avaliacaoService.save(avaliacaoColaborador);
+
+                                }
+
+                            }
+
+                        });
+                    }
+
+                });
+
             });
 
             return "Migração Concluída";

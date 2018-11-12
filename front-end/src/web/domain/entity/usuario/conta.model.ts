@@ -16,4 +16,9 @@ export class Conta extends Abstract{
   public lastLogin: Date;
 
   public usuario: Usuario;
+
+  public isOperador: boolean;
+
+  public isAdministrador: boolean;
+
 }

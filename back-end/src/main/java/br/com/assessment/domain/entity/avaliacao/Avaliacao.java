@@ -46,7 +46,8 @@ public class Avaliacao extends AbstractEntity {
         else
             this.fotoPath = null;
 
-        this.data = LocalDateTime.now();
+        if (this.data == null)
+            this.data = LocalDateTime.now();
     }
 
 }
