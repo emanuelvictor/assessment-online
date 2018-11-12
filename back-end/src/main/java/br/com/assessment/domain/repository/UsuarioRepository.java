@@ -109,5 +109,36 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
             final Pageable pageable);
 
+    @Query("SELECT new Usuario( " +
+            "   usuario.id, " +
+            "   usuario.nome, " +
+            "   usuario.conta.email, " +
+            "   usuario.thumbnailPath,  " +
+            "   usuario.avatarPath, " +
+            "   usuario.fotoPath, " +
+            "   AVG(CASE WHEN avaliacao.nota IS NULL THEN 0 ELSE avaliacao.nota END) AS media," +
+            "   COUNT(avaliacao) AS quantidadeAvaliacoes," +
+            "   COUNT(av1) AS avaliacoes1," +
+            "   COUNT(av2) AS avaliacoes2," +
+            "   COUNT(av3) AS avaliacoes3," +
+            "   COUNT(av4) AS avaliacoes4," +
+            "   COUNT(av5) AS avaliacoes5" +
+            ") FROM Usuario usuario " +
+            "       LEFT OUTER JOIN Colaborador colaborador ON colaborador.usuario.id = usuario.id " +
+            "       LEFT OUTER JOIN AvaliacaoColaborador avaliacaoColaborador ON avaliacaoColaborador.colaborador.id = colaborador.id " +
+            "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoColaborador.avaliacao.id " +
+            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoColaborador.avaliacao.id AND av1.nota = 1) " +
+            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoColaborador.avaliacao.id AND av2.nota = 2) " +
+            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoColaborador.avaliacao.id AND av3.nota = 3) " +
+            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoColaborador.avaliacao.id AND av4.nota = 4) " +
+            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoColaborador.avaliacao.id AND av5.nota = 5) " +
+            "   WHERE " +
+            "   ( " +
+            "       usuario.id = :usuarioId" +
+            "   )" +
+            "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
+    )
+    Usuario findUsuarioByIdAndReturnAvaliacoes( @Param("usuarioId") final Long usuarioId);
+
     List<Usuario> findByNome(final String nome);
 }

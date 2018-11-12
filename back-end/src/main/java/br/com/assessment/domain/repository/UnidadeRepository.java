@@ -102,8 +102,6 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
             final Pageable pageable);
 
-    List<Unidade> findByNome(final String nome);
-
     @Query("FROM Unidade unidade " +
             "   WHERE " +
             "   (   " +
@@ -136,4 +134,34 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             @Param("defaultFilter") final String defaultFilter,
             final Pageable pageable);
 
+    @Query("SELECT new Unidade( " +
+            "   unidade.id, " +
+            "   unidade.nome, " +
+            "   unidade.documento, " +
+            "   unidade.endereco," +
+            "   AVG(CASE WHEN avaliacao.nota IS NULL THEN 0 ELSE avaliacao.nota END) AS media," +
+            "   COUNT(avaliacao) AS quantidadeAvaliacoes," +
+            "   COUNT(av1) AS avaliacoes1," +
+            "   COUNT(av2) AS avaliacoes2," +
+            "   COUNT(av3) AS avaliacoes3," +
+            "   COUNT(av4) AS avaliacoes4," +
+            "   COUNT(av5) AS avaliacoes5" +
+            ") FROM Unidade unidade " +
+            "       LEFT OUTER JOIN Colaborador colaborador ON colaborador.unidade.id = unidade.id " +
+            "       LEFT OUTER JOIN AvaliacaoColaborador avaliacaoColaborador ON avaliacaoColaborador.colaborador.id = colaborador.id " +
+            "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoColaborador.avaliacao.id " +
+            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoColaborador.avaliacao.id AND av1.nota = 1) " +
+            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoColaborador.avaliacao.id AND av2.nota = 2) " +
+            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoColaborador.avaliacao.id AND av3.nota = 3) " +
+            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoColaborador.avaliacao.id AND av4.nota = 4) " +
+            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoColaborador.avaliacao.id AND av5.nota = 5) " +
+            "   WHERE " +
+            "   ( " +
+            "       unidade.id = :unidadeId" +
+            "   )" +
+            "GROUP BY unidade.id, unidade.nome, unidade.documento"
+    )
+    Unidade findUnidadeByIdAndReturnAvaliacoes( @Param("unidadeId") final Long unidadeId);
+
+    List<Unidade> findByNome(final String nome);
 }

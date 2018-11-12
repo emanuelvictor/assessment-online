@@ -1,3 +1,4 @@
+import {TdDigitsPipe} from '@covalent/core';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
@@ -8,6 +9,7 @@ import {ConfiguracaoService} from "../../../../../service/configuracao.service";
 import {EvDatepicker} from "../../../../controls/ev-datepicker/ev-datepicker";
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
+import {single} from "../../../../controls/utils";
 
 @Component({
   selector: 'estatisticas-unidade',
@@ -22,49 +24,9 @@ export class EstatisticasUnidadeComponent implements OnInit {
   masks = textMasks;
 
   /**
-   *
-   */
-  multi: any[] = [
-    {
-      series: [
-        {
-          name: 'Terrivel',
-          value: 0
-        },
-        {
-          name: 'Ruim',
-          value: 0
-        },
-        {
-          name: 'Meia boca',
-          value: 0
-        },
-        {
-          name: 'Bacana',
-          value: 0
-        },
-        {
-          name: 'Top da balada',
-          value: 0
-        },
-      ]
-    }
-  ];
-
-  /**
    * Armazena o nome do rankeavel
    */
   rankeavel: any;
-
-  /**
-   *
-   */
-  mapper: any = [
-    {
-      'name': 'Avaliações',
-      'series': [],
-    },
-  ];
 
   /**
    *
@@ -87,7 +49,7 @@ export class EstatisticasUnidadeComponent implements OnInit {
   /**
    *
    */
-  configuracao: Configuracao;
+  configuracao: Configuracao = new Configuracao();
 
   /**
    *
@@ -99,6 +61,32 @@ export class EstatisticasUnidadeComponent implements OnInit {
    */
   @ViewChild('dataTermino') dataTermino: EvDatepicker;
 
+  /**
+   *
+   * @type {[{name: string; value: number} , {name: string; value: number} , {name: string; value: number} , {name: string; value: number} , {name: string; value: number}]}
+   */
+  single: any[] = [
+    {
+      "name": this.configuracao.um,
+      "value": 0,
+    },
+    {
+      "name": this.configuracao.dois,
+      "value": 0,
+    },
+    {
+      "name": this.configuracao.tres,
+      "value": 0,
+    },
+    {
+      "name": this.configuracao.quatro,
+      "value": 0,
+    },
+    {
+      "name": this.configuracao.cinco,
+      "value": 0,
+    }
+  ];
 
   /**
    *
@@ -109,6 +97,7 @@ export class EstatisticasUnidadeComponent implements OnInit {
   constructor(private unidadeService: UnidadeService,
               private activatedRoute: ActivatedRoute,
               private configuracaoService: ConfiguracaoService) {
+    Object.assign(this, { single })
   }
 
   /**
@@ -170,17 +159,28 @@ export class EstatisticasUnidadeComponent implements OnInit {
    */
   public mapEstatisticas() {
 
-    /**
-     * Falcatrua
-     */
-    this.multi = this.mapper.map((group: any) => {
-      group.series[0] = {value: this.rankeavel ? this.rankeavel.avaliacoes1 : 0, name: this.configuracao.um};
-      group.series[1] = {value: this.rankeavel ? this.rankeavel.avaliacoes2 : 0, name: this.configuracao.dois};
-      group.series[2] = {value: this.rankeavel ? this.rankeavel.avaliacoes3 : 0, name: this.configuracao.tres};
-      group.series[3] = {value: this.rankeavel ? this.rankeavel.avaliacoes4 : 0, name: this.configuracao.quatro};
-      group.series[4] = {value: this.rankeavel ? this.rankeavel.avaliacoes5 : 0, name: this.configuracao.cinco};
-      return group;
-    });
+    this.single = [
+      {
+        "name": this.configuracao.um,
+        "value": this.rankeavel ? this.rankeavel.avaliacoes1 : 0,
+      },
+      {
+        "name": this.configuracao.dois,
+        "value": this.rankeavel ? this.rankeavel.avaliacoes2 : 0,
+      },
+      {
+        "name": this.configuracao.tres,
+        "value": this.rankeavel ? this.rankeavel.avaliacoes3 : 0,
+      },
+      {
+        "name": this.configuracao.quatro,
+        "value": this.rankeavel ? this.rankeavel.avaliacoes4 : 0,
+      },
+      {
+        "name": this.configuracao.cinco,
+        "value": this.rankeavel ? this.rankeavel.avaliacoes5 : 0,
+      }
+    ];
   }
 
   /**
@@ -191,4 +191,12 @@ export class EstatisticasUnidadeComponent implements OnInit {
     this.dataTermino.data = null;
   }
 
+  // ngx transform using covalent digits pipe
+  axisDigits(val: any): any {
+    return new TdDigitsPipe().transform(val);
+  }
+
+  onSelect(event) {
+    console.log(event);
+  }
 }

@@ -53,7 +53,7 @@ public class UsuarioResource {
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     public Mono<Optional<Usuario>> findUsuarioById(@PathVariable final long id) {
-        return Mono.just(this.usuarioService.findUsuarioById(id));
+        return Mono.just(this.usuarioService.findById(id));
     }
 
     @GetMapping

@@ -21,14 +21,15 @@
             <div layout-gt-xs="row" layout-align="start center" flex-gt-xs="80">
               <div layout="row" layout-align="start center" layout-margin flex>
                 <div layout="column">
+                  <h1 flex *ngIf="unidade?.media" class="mat-headline no-margin">
+                    Média: <span class="tc-purple-500"> {{unidade?.media| number:'.1-3' : 'en-US'}}</span>
+                  </h1>
                   <h1 flex class="mat-headline tc-blue-grey-800 no-margin">{{unidade?.nome}}</h1>
-
                   <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin" *ngIf='unidade?.documento'>CNPJ: {{unidade?.documento | documento}}</h2>
-
-                  <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin" *ngIf="unidade?.endereco?.cidade?.nome">
+                  <h3 flex class="mat-subheading-2 tc-blue-grey-500 no-margin" *ngIf="unidade?.endereco?.cidade?.nome">
                     {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.numero}}, {{unidade?.endereco?.bairro}} -
                     {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.uf}}
-                  </h2>
+                  </h3>
                   <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
                     {{(
                     (unidade?.avaliacoes1 ? unidade?.avaliacoes1 : 0) +

@@ -38,7 +38,7 @@ public class UnidadeService {
     }
 
     public Optional<Unidade> findById(final long id) {
-        return this.unidadeRepository.findById(id);
+        return Optional.of(this.unidadeRepository.findUnidadeByIdAndReturnAvaliacoes(id));
     }
 
     public Page<Unidade> listByFilters(final String defaultFilter,

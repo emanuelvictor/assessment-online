@@ -41,8 +41,8 @@ public class UsuarioService {
 
     private final ServerSecurityContextRepository serverSecurityContextRepository;
 
-    public Optional<Usuario> findUsuarioById(final long usuarioId) {
-        return this.usuarioRepository.findById(usuarioId);
+    public Optional<Usuario> findById(final long usuarioId) {
+        return Optional.of(this.usuarioRepository.findUsuarioByIdAndReturnAvaliacoes(usuarioId));
     }
 
     public Usuario save(final long id, final Usuario usuario) {

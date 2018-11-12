@@ -45,7 +45,12 @@
 
   <div flex-gt-md></div>
 
-  <button mat-raised-button class='push-right'
+  <mat-slide-toggle [(ngModel)]='pizza' layout-margin
+                    *ngIf="(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) != 0">
+    <span class='tc-grey-600'>{{pizza ? 'Pizza' : 'Em barras' }}</span>
+  </mat-slide-toggle>
+
+  <button mat-raised-button class='tc-blue-grey-600'
           (click)='pageRequest.dataInicioFilter = null; pageRequest.dataTerminoFilter = null; resetDates(); listByDates()'>
     Limpar filtros
   </button>
@@ -63,22 +68,27 @@
           <span> {{(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) === 0 ? '' : (rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) + ' avaliações'}} </span>
         </div>
 
-        <mat-card class='push-none bgc-grey-50'
-                  *ngIf="(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) != 0">
-          <div style='height:500px;'>
-            <ngx-charts-bar-vertical-2d
-                [xAxis]='true'
-                [yAxis]='true'
-                [legend]='false'
-                [barPadding]='2'
-                [results]='multi'
-                [groupPadding]='8'
-                [gradient]='false'
-                [showXAxisLabel]='false'
-                [showYAxisLabel]='false'
-                [yAxisLabel]="'Avaliações'"
+        <mat-card>
+          <div
+              *ngIf="(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) != 0">
+
+            <div style='height:500px;' *ngIf='!pizza'>
+              <ngx-charts-bar-vertical
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [results]="single"
+                  [showXAxisLabel]="true"
+                  [showYAxisLabel]="true"
+                  [xAxisLabel]="'Avaliações'"
+                  (select)="onSelect($event)"
+                  [scheme]="{ domain: [ '#c21c1f', '#e96d01', '#d4c40d', '#8fc82c', '#5ee924' ]}">
+              </ngx-charts-bar-vertical>
+            </div>
+
+            <ngx-charts-advanced-pie-chart
+                [results]="single" *ngIf='pizza'
                 [scheme]="{ domain: [ '#c21c1f', '#e96d01', '#d4c40d', '#8fc82c', '#5ee924' ]}">
-            </ngx-charts-bar-vertical-2d>
+            </ngx-charts-advanced-pie-chart>
           </div>
         </mat-card>
 
