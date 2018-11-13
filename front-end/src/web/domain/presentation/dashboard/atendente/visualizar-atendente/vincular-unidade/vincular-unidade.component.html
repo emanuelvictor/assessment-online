@@ -1,16 +1,3 @@
-<div layout-margin
-     layout='row' flex
-     layout-align='center center'>
-  <mat-form-field flex style='margin-bottom: 0'>
-    <input id="filter" name="filter"
-           [ngModelOptions]='{standalone: true}'
-           placeholder="Filtre por nome" matInput
-           [(ngModel)]="filter.unidade.nome" maxlength="200">
-  </mat-form-field>
-</div>
-
-<mat-divider style='margin-bottom: 15px'></mat-divider>
-
 <mat-nav-list>
   <div *ngFor="let atendente of atendentes | filter:filter | orderBy:'unidade.nome':false:'case-insensitive'">
     <mat-list-item layout='row'

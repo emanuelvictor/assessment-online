@@ -18,7 +18,8 @@
             <visualizar-dados-usuario [usuario]='atendente' *ngIf='atendente?.id' flex>
 
               <!--options-->
-              <div layout='column' layout-align='start end' flex *ngIf="authenticatedUser?.isAdministrador || !atendente?.isAdministrador">
+              <div layout='column' layout-align='start end' flex
+                   *ngIf="authenticatedUser?.isAdministrador || !atendente?.isAdministrador">
                 <div layout='row'>
                   <button mat-button hide-sm hide-xs class='tc-blue-grey-900' routerLink='estatisticas'>
                     <mat-icon>show_chart</mat-icon>
@@ -52,11 +53,24 @@
         </mat-card-content>
       </mat-card>
 
+      <div layout='row' flex layout-align='center center'>
+        <mat-form-field flex
+                        style='margin-bottom: 0'>
+          <input placeholder="Filtre as unidades por nome"
+                 id="filter" name="filter" matInput
+                 [ngModelOptions]='{standalone: true}'
+                 [(ngModel)]="filter.unidade.nome" maxlength="200">
+        </mat-form-field>
+      </div>
+
       <mat-accordion>
         <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
 
-          <vincular-unidade [usuario]='atendente' *ngIf='atendente?.id'
-                            (save)="saveColaborador($event)"></vincular-unidade>
+          <vincular-unidade [filter]='filter'
+                            [usuario]='atendente'
+                            *ngIf='atendente?.id'
+                            (save)='saveColaborador($event)'>
+          </vincular-unidade>
 
         </mat-expansion-panel>
       </mat-accordion>

@@ -30,6 +30,14 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
+   * @type {{unidade: {}}}
+   */
+  public filter : any = {
+    unidade: {}
+  };
+
+  /**
+   *
    * @type {Usuario}
    */
   atendente: Usuario = new Usuario();

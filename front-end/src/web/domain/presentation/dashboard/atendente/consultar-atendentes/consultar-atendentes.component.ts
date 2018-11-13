@@ -250,7 +250,6 @@ export class ConsultarAtendentesComponent implements OnInit {
 
       this.unidadeService.listLightByFilters(pageRequest)
         .subscribe((result) => {
-        console.log(result);
           this.filteredAsync = result.content;
         });
 

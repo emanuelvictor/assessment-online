@@ -71,7 +71,9 @@ public class PageRequest extends AbstractPageRequest {
 
             final Integer page;
 
-            if (serverWebExchange.getRequest().getQueryParams().get("page") != null)
+            if (serverWebExchange.getRequest().getQueryParams().get("page") != null
+                    && serverWebExchange.getRequest().getQueryParams().get("page").size() > 0
+                    && serverWebExchange.getRequest().getQueryParams().get("page").get(0).length() > 0)
                 page = Integer.valueOf(serverWebExchange.getRequest().getQueryParams().get("page").get(0));
             else
                 page = 0;
@@ -80,12 +82,11 @@ public class PageRequest extends AbstractPageRequest {
 
             final Sort sort;
 
-            if (serverWebExchange.getRequest().getQueryParams().get("sort") != null){
+            if (serverWebExchange.getRequest().getQueryParams().get("sort") != null) {
                 final String sortString = serverWebExchange.getRequest().getQueryParams().get("sort").get(0);
                 sort = Sort.by(extractDirectionFromString(sortString), extractPropertiesFromString(sortString));
-            } else {
+            } else
                 sort = Sort.unsorted();
-            }
 
             if (page != null && size != null)
                 return of(page, size, sort);
@@ -95,11 +96,11 @@ public class PageRequest extends AbstractPageRequest {
         return null;
     }
 
-    private static String[] extractPropertiesFromString(final String sort){
-       return sort.replace("asc", "").replace("desc","").split(",");
+    private static String[] extractPropertiesFromString(final String sort) {
+        return sort.replace("asc", "").replace("desc", "").split(",");
     }
 
-    private static Direction extractDirectionFromString(final String sort){
+    private static Direction extractDirectionFromString(final String sort) {
         if (sort.contains("asc"))
             return Direction.ASC;
         else
