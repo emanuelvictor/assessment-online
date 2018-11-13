@@ -101,4 +101,14 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
   public requestContaAutenticada(): Observable<Conta> {
     return this.httpClient.get<Conta>('principal');
   }
+
+  /**
+   *
+   * @param unidadeId
+   * @param password
+   * @returns {Promise<{}>}
+   */
+  public authenticateByUnidade(unidadeId, password): Promise<any> {
+    return this.httpClient.get('unidades/authenticate/' + unidadeId + '?password=' + password).toPromise()
+  }
 }

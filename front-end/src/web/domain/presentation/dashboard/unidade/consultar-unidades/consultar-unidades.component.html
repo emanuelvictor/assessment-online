@@ -120,7 +120,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
                     layout-align='center center'>
-            {{unidade?.avaliacoes1}}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{unidade?.avaliacoes1}}
+            </div>
           </mat-cell>
         </ng-container>
 
@@ -134,7 +138,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
                     layout-align='center center'>
-            {{unidade?.avaliacoes2}}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{unidade?.avaliacoes2}}
+            </div>
           </mat-cell>
         </ng-container>
 
@@ -148,7 +156,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
                     layout-align='center center'>
-            {{unidade?.avaliacoes3}}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{unidade?.avaliacoes3}}
+            </div>
           </mat-cell>
         </ng-container>
 
@@ -162,7 +174,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
                     layout-align='center center'>
-            {{unidade?.avaliacoes4}}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{unidade?.avaliacoes4}}
+            </div>
           </mat-cell>
         </ng-container>
 
@@ -176,7 +192,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
                     layout-align='center center'>
-            {{unidade?.avaliacoes5}}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{unidade?.avaliacoes5}}
+            </div>
           </mat-cell>
         </ng-container>
 
@@ -189,7 +209,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
                     layout-align='center center'>
-            {{unidade?.quantidadeAvaliacoes }}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{unidade?.quantidadeAvaliacoes }}
+            </div>
           </mat-cell>
         </ng-container>
 
@@ -203,7 +227,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
                     layout-align='center center'>
-            {{unidade?.media > 0 ? (unidade?.media | number:'1.0-2' :'pt-BR').replace(',','.') : 0}}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{unidade?.media > 0 ? (unidade?.media | number:'1.0-2' :'pt-BR').replace(',','.') : 0}}
+            </div>
           </mat-cell>
         </ng-container>
 

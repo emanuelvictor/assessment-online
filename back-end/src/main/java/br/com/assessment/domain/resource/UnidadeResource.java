@@ -58,6 +58,12 @@ public class UnidadeResource {
     @GetMapping("light")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     Mono<Page<Unidade>> listByFilters(final String defaultFilter) {
-        return Mono.just(this.unidadeService.listByFilters(defaultFilter,getPageable()));
+        return Mono.just(this.unidadeService.listByFilters(defaultFilter, getPageable()));
+    }
+
+    @GetMapping("authenticate/{unidadeId}")
+//    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    Mono<Boolean> authenticateByUnidadeId(@PathVariable final long unidadeId, @RequestParam final String password) {
+        return Mono.just(this.unidadeService.authenticateByUnidadeId(unidadeId, password));
     }
 }

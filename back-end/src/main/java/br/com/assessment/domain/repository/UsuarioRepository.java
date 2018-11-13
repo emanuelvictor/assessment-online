@@ -138,7 +138,24 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   )" +
             "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
     )
-    Usuario findUsuarioByIdAndReturnAvaliacoes( @Param("usuarioId") final Long usuarioId);
+    Usuario findUsuarioByIdAndReturnAvaliacoes(@Param("usuarioId") final Long usuarioId);
 
     List<Usuario> findByNome(final String nome);
+
+    @Query("FROM Usuario usuario WHERE " +
+            "           usuario.id IN " +
+            "           (" +
+            "               SELECT colaborador.usuario.id FROM Colaborador colaborador WHERE " +
+            "               (" +
+            "                   colaborador.unidade.id = :unidadeId AND " +
+            "                   (" +
+            "                       (" +
+            "                           (colaborador.vinculo = 1 OR colaborador.vinculo = 2)" +
+            "                       )" +
+            "                       OR colaborador.usuario.conta.administrador = TRUE" +
+            "                   )" +
+            "               )" +
+            "           )"
+    )
+    List<Usuario> listUsuariosByUnidadeId(@Param("unidadeId") final Long unidadeId);
 }

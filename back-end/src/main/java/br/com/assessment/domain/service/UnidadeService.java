@@ -1,15 +1,18 @@
 package br.com.assessment.domain.service;
 
 import br.com.assessment.application.context.Context;
+import br.com.assessment.application.exceptions.PasswordNotFound;
 import br.com.assessment.domain.entity.unidade.Unidade;
+import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.ContaRepository;
 import br.com.assessment.domain.repository.UnidadeRepository;
+import br.com.assessment.domain.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
@@ -20,9 +23,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UnidadeService {
 
+    private final ContaRepository contaRepository;
+
+    private final UsuarioRepository usuarioRepository;
+
     private final UnidadeRepository unidadeRepository;
 
-    private final ContaRepository contaRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Unidade save(final long id, final Unidade unidade) {
         Assert.isTrue(unidade.getId() != null && unidade.getId().equals(id), "Você não tem acesso a essa unidade"); //TODO colocar validator em uma service, e colocar na camada de cima
@@ -73,7 +80,23 @@ public class UnidadeService {
 
     }
 
-    public List<Unidade> findByNome(final String nome){
+    public List<Unidade> findByNome(final String nome) {
         return this.unidadeRepository.findByNome(nome);
+    }
+
+    public boolean authenticateByUnidadeId(final long unidadeId, final String password) {
+
+        final Conta conta = this.contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername());
+        if (conta.isAdministrador() && this.passwordEncoder.matches(password, conta.getPassword()))
+            return true;
+
+        final List<Usuario> usuarios = this.usuarioRepository.listUsuariosByUnidadeId(unidadeId);
+
+        for (final Usuario usuario : usuarios)
+            if (this.passwordEncoder.matches(password, usuario.getConta().getPassword()))
+                return true;
+
+        throw new PasswordNotFound();
+
     }
 }

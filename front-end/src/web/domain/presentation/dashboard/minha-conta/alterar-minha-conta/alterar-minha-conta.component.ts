@@ -28,15 +28,14 @@ export class AlterarMinhaContaComponent implements OnInit {
   /**
    *
    * @param {AuthenticationService} authenticationService
-   * @param {UsuarioService} usuarioService
-   * @param {ActivatedRoute} activatedRoute
-   * @param {ContaService} contaService
    * @param {Router} router
    * @param {MatSnackBar} snackBar
+   * @param {UsuarioService} usuarioService
+   * @param {ActivatedRoute} activatedRoute
    */
-  constructor(public authenticationService: AuthenticationService,
-              public usuarioService: UsuarioService, public activatedRoute: ActivatedRoute,
-              public contaService: ContaService, public router: Router, public snackBar: MatSnackBar) {
+  constructor(private authenticationService: AuthenticationService,
+              private router: Router, private snackBar: MatSnackBar,
+              private usuarioService: UsuarioService, private activatedRoute: ActivatedRoute) {
   }
 
   /**
@@ -56,7 +55,6 @@ export class AlterarMinhaContaComponent implements OnInit {
    */
   public update(usuario): void {
     delete usuario.conta.usuario.conta.usuario;
-    console.log(usuario);
     this.usuarioService.save(usuario)
       .then((usuarioResult) => {
         usuario = usuarioResult;

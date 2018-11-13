@@ -60,7 +60,6 @@ export class EstatisticasUnidadeComponent implements OnInit {
    *
    */
   @ViewChild('dataTermino') dataTermino: EvDatepicker;
-
   /**
    *
    * @type {[{name: string; value: number} , {name: string; value: number} , {name: string; value: number} , {name: string; value: number} , {name: string; value: number}]}

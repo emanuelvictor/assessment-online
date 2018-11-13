@@ -1,8 +1,6 @@
-
-import {throwError as observableThrowError, Observable} from 'rxjs';
+import {Observable, throwError as observableThrowError} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 
 
 import {MatSnackBar} from "@angular/material";
@@ -36,14 +34,21 @@ export class Interceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     /**
-     * Inicia o progress
-     */
-    this.progress.start();
-
-    /**
      * Finaliza o progress
      */
-    return next.handle(req).do(this.progress.done()).catch(this.catchErrors());
+    return next.handle(req)
+      .do(evt => {
+
+        this.progress.start();
+
+        if (evt instanceof HttpResponse) {
+          this.progress.done();
+        }
+        else
+          this.progress.inc(0.4);
+
+      })
+      .catch(this.catchErrors());
   }
 
   /**

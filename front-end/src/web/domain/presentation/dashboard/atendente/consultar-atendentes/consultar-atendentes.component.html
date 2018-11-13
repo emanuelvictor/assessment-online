@@ -114,7 +114,7 @@
             Atendente
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
-                    flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='35'>
+                    flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='40'>
             <avatar style='margin-left: 0;margin-bottom: 3px;'
                     layout-margin class='image-cover' [size]='0.2'
                     [usuario]="{'id': usuario?.id , 'foto': usuario?.thumbnailPath}">
@@ -138,7 +138,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes1 }}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{usuario?.avaliacoes1}}
+            </div>
           </mat-cell>
         </ng-container>
 
@@ -152,7 +156,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes2 }}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{usuario?.avaliacoes2}}
+            </div>
           </mat-cell>
         </ng-container>
 
@@ -166,7 +174,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes3 }}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{usuario?.avaliacoes3}}
+            </div>
           </mat-cell>
         </ng-container>
 
@@ -180,7 +192,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes4 }}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{usuario?.avaliacoes4}}
+            </div>
           </mat-cell>
         </ng-container>
 
@@ -194,7 +210,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.avaliacoes5 }}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{usuario?.avaliacoes5}}
+            </div>
           </mat-cell>
         </ng-container>
 
@@ -207,7 +227,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            {{usuario?.quantidadeAvaliacoes}}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{usuario?.quantidadeAvaliacoes}}
+            </div>
           </mat-cell>
         </ng-container>
 
@@ -221,8 +245,11 @@
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            <!--todo FALCATRUA PARA SUMIR A VÍRGULA-->
-            {{usuario?.media > 0 ? (usuario?.media | number:'1.0-2' :'pt-BR').replace(',','.') : 0}}
+            <div layout='column'
+                 class='push-right'
+                 layout-align='center center'>
+              {{usuario?.media > 0 ? (usuario?.media | number:'1.0-2' :'pt-BR').replace(',','.') : 0}}
+            </div>
           </mat-cell>
         </ng-container>
 

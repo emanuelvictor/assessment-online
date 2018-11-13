@@ -1,6 +1,7 @@
 package br.com.assessment.application.aspect;
 
 import br.com.assessment.application.aspect.handler.ResponseEntityExceptionHandler;
+import br.com.assessment.application.exceptions.PasswordNotFound;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.postgresql.util.PSQLException;
@@ -115,5 +116,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(exception, new Error(this.messageSource.getMessage("security.accessDenied", null, LocaleContextHolder.getLocale())), new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(PasswordNotFound.class)
+    public ResponseEntity<Object> handleException(final PasswordNotFound exception) {
+        return handleExceptionInternal(exception, new Error(this.messageSource.getMessage("security.passwordNotFound", null, LocaleContextHolder.getLocale())), new HttpHeaders(), HttpStatus.FORBIDDEN);
+    }
 
 }
