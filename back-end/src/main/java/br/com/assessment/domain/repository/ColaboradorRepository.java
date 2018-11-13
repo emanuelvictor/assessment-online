@@ -1,6 +1,7 @@
 package br.com.assessment.domain.repository;
 
 import br.com.assessment.domain.entity.colaborador.Colaborador;
+import br.com.assessment.domain.entity.colaborador.Vinculo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,11 +20,18 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> 
                             "       (:usuarioId IS NULL AND (:unidadeId IS NOT NULL AND colaborador.unidade.id = :unidadeId))" +
                             "       OR :usuarioId IS NULL AND :unidadeId IS NULL " +
                             "   )" +
-                            "   AND " +
-                            "   FILTER(:defaultFilter, colaborador.unidade.nome) = TRUE" +
+                            "   AND FILTER(:defaultFilter, colaborador.unidade.nome) = TRUE" +
                             "   AND " +
                             "   (" +
                             "       FILTER(:enderecoFilter, colaborador.unidade.endereco.logradouro, colaborador.unidade.endereco.complemento, colaborador.unidade.endereco.bairro, colaborador.unidade.endereco.cep, colaborador.unidade.endereco.numero, colaborador.unidade.endereco.cidade.nome, colaborador.unidade.endereco.cidade.estado.uf, colaborador.unidade.endereco.cidade.estado.pais.nome) = TRUE" +
+                            "   )" +
+                            "   AND " +
+                            "   (" +
+                            "       (" +
+                            "           :vinculo IS NOT NULL AND " +
+                            "           colaborador.vinculo = :vinculo OR colaborador.vinculo = " + Vinculo.OPERADOR_ATENDENTE_VALUE +
+                            "       )" +
+                            "       OR :vinculo IS NULL" +
                             "   )" +
                             ")"
             )
@@ -31,6 +39,7 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> 
                                     @Param("enderecoFilter") final String enderecoFilter,
                                     @Param("usuarioId") final Long usuarioId,
                                     @Param("unidadeId") final Long unidadeId,
+                                    @Param("vinculo") final Vinculo vinculo,
                                     final Pageable pageable);
 
 }

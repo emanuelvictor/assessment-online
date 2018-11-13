@@ -1,6 +1,7 @@
 package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.colaborador.Colaborador;
+import br.com.assessment.domain.entity.colaborador.Vinculo;
 import br.com.assessment.domain.repository.ColaboradorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,8 +34,8 @@ public class ColaboradorService {
         this.colaboradorRepository.deleteById(id);
     }
 
-    public Page<Colaborador> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId, final Long unidadeId, final Pageable pageable) {
-        return this.colaboradorRepository.listByFilters(defaultFilter, enderecoFilter, usuarioId, unidadeId, pageable);
+    public Page<Colaborador> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId, final Long unidadeId, final Vinculo vinculo, final Pageable pageable) {
+        return this.colaboradorRepository.listByFilters(defaultFilter, enderecoFilter, usuarioId, unidadeId, vinculo, pageable);
     }
-    
+
 }

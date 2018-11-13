@@ -248,8 +248,9 @@ export class ConsultarAtendentesComponent implements OnInit {
         defaultFilter: [] = [value]
       };
 
-      this.unidadeService.listByFilters(pageRequest)
+      this.unidadeService.listLightByFilters(pageRequest)
         .subscribe((result) => {
+        console.log(result);
           this.filteredAsync = result.content;
         });
 

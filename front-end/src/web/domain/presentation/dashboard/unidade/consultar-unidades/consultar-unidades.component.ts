@@ -88,7 +88,6 @@ export class ConsultarUnidadesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   /**
-   * TODO
    */
   @ViewChild('dataInicio') dataInicio: EvDatepicker;
 

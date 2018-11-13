@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MobileService} from '../../../service/mobile.service';
 import {MatSnackBar} from '@angular/material';
-import {UsuarioService} from '../../../../../web/domain/service/usuario.service';
 import {ColaboradorService} from '../../../../../web/domain/service/colaborador.service';
+import {Vinculo} from "../../../../../web/domain/entity/colaborador/vinculo.enum";
 
 @Component({
   selector: 'selecionar-atendentes',
@@ -46,7 +46,7 @@ export class SelecionarAtendentesComponent implements OnInit {
       this.router.navigate(['/avaliar']);
     }, 180000);
 
-    this.colaboradorService.listByFilters({unidadeId: this.mobileService.getUnidade()})
+    this.colaboradorService.listByFilters({unidadeId: this.mobileService.getUnidade(), vinculo: Vinculo[0]})
       .subscribe(page => {
         this.atendentes = page.content;
       });

@@ -17,11 +17,6 @@ public enum Perfil implements GrantedAuthority {
     public static final String ATENDENTE_VALUE = "ATENDENTE";
     public static final String ANONYMOUS_VALUE = "ANONYMOUS";
 
-    public static final int ADMINISTRADOR_INT_VALUE = 0;
-    public static final int OPERADOR_INT_VALUE = 1;
-    public static final int ATENDENTE_INT_VALUE = 2;
-    public static final int ANONYMOUS_INT_VALUE = 3;
-
     /*
      * (non-Javadoc)
      *

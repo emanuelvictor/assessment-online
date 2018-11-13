@@ -10,9 +10,8 @@ export class PageSerialize {
   static getHttpParamsFromPageable(object: any): HttpParams {
     let params: HttpParams = new HttpParams();
     if (object) {
-
       Object.keys(object).map(function (key) {
-        if (object[key]) {
+        if (object[key] || (typeof object[key] === 'number' && object[key] === 0)) {
           // Se for um array e a chave tiver o valor 'filter' (defaultFilter, nomeFilter, etc ..), ou seja, se for um filtro
           if (object[key].constructor === Array && key.toLowerCase().indexOf('filter') > -1) {
             params = params.set(key, object[key] ? object[key].join() : '');

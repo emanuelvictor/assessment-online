@@ -1,6 +1,7 @@
 package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.colaborador.Colaborador;
+import br.com.assessment.domain.entity.colaborador.Vinculo;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.service.ColaboradorService;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,7 @@ public class ColaboradorResource {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<Page<Colaborador>> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId, final Long unidadeId) {
-        return Mono.just(this.colaboradorService.listByFilters(defaultFilter, enderecoFilter, usuarioId, unidadeId, getPageable()));
+    Mono<Page<Colaborador>> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId, final Vinculo vinculo, final Long unidadeId) {
+        return Mono.just(this.colaboradorService.listByFilters(defaultFilter, enderecoFilter, usuarioId, unidadeId, vinculo, getPageable()));
     }
 }
