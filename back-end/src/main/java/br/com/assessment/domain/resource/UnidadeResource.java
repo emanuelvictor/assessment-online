@@ -62,7 +62,7 @@ public class UnidadeResource {
     }
 
     @GetMapping("authenticate/{unidadeId}")
-//    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<Boolean> authenticateByUnidadeId(@PathVariable final long unidadeId, @RequestParam final String password) {
         return Mono.just(this.unidadeService.authenticateByUnidadeId(unidadeId, password));
     }
