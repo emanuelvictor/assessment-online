@@ -30,7 +30,12 @@ public class ConfiguracaoResource {
         return Mono.just(this.configuracaoService.save(configuracao));
     }
 
-    @GetMapping()
+    @GetMapping("{username}")
+    public Mono<Configuracao> getConfiguracao(final @PathVariable String username) {
+        return Mono.just(this.configuracaoService.getConfiguracao(username));
+    }
+
+    @GetMapping
     public Mono<Configuracao> getConfiguracao() {
         return Mono.just(this.configuracaoService.getConfiguracao());
     }

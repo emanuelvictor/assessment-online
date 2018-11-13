@@ -3,6 +3,7 @@ import {BaseRepository} from "../../infrastructure/repository/base/base.reposito
 import {HttpClient} from "@angular/common/http";
 import {Configuracao} from "../entity/configuracao/configuracao.model";
 import {Observable} from 'rxjs';
+
 /**
  */
 @Injectable()
@@ -16,6 +17,10 @@ export class ConfiguracaoRepository extends BaseRepository<Configuracao> {
 
   public get configuracao(): Observable<Configuracao> {
     return this.httpClient.get<Configuracao>(ConfiguracaoRepository.collection)
+  }
+
+  public getConfiguracaoByUsername(username: String): Observable<Configuracao> {
+    return this.httpClient.get<Configuracao>(ConfiguracaoRepository.collection + '/' + username)
   }
 
   async save(configuracao: Configuracao): Promise<Configuracao> {

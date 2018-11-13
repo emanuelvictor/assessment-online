@@ -7,8 +7,9 @@
           <div layout="column" layout-margin>
 
             <div layout="column" layout-margin layout-align="center center">
-              <div layout="row" flex layout-margin>
-                <!--<img class="logo" *ngIf='configuracao?.logoPath' src="{{configuracao?.logoPath}}" >-->
+              <div layout="row" flex layout-margin *ngIf='configuracao?.logoPath'>
+                <!--<img class="logo"-->
+                     <!--src="{{configuracao?.logoPath+'?nocache='+configuracao?.id}}">-->
               </div>
 
               <div layout="row" flex layout-margin>
@@ -21,19 +22,20 @@
 
             <div layout="row" flex layout-margin style="margin-top: 34px;">
               <mat-form-field flex>
-                <input matInput required name="email" noWhiteSpace
+                <input matInput required name="email"
+                       (ngModelChange)='changed($event)'
                        placeholder="Acesse com seu email"
-                       [(ngModel)]="conta.email"/>
+                       [(ngModel)]="conta.email" noWhiteSpace/>
               </mat-form-field>
             </div>
 
             <div layout="column" flex layout-margin>
               <div layout="row" flex="">
                 <mat-form-field flex>
-                  <input type="password" matInput
-                         placeholder="Sua senha"
-                         [(ngModel)]="conta.password"
-                         required name="password"/>
+                  <input placeholder="Sua senha"
+                         required name="password"
+                         type="password" matInput
+                         [(ngModel)]="conta.password"/>
                 </mat-form-field>
               </div>
             </div>

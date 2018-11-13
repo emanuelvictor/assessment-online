@@ -1,7 +1,10 @@
 package br.com.assessment.domain.service;
 
+import br.com.assessment.application.context.Context;
 import br.com.assessment.domain.entity.configuracao.Configuracao;
+import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.repository.ConfiguracaoRepository;
+import br.com.assessment.domain.repository.ContaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -10,6 +13,8 @@ import org.springframework.util.Assert;
 @Service
 @RequiredArgsConstructor
 public class ConfiguracaoService {
+
+    private final ContaRepository contaRepository;
 
     private final ConfiguracaoRepository configuracaoRepository;
 
@@ -25,6 +30,24 @@ public class ConfiguracaoService {
             configuracao.setLogo(configuracaoDb.getLogo());
         }
         return this.configuracaoRepository.save(configuracao);
+    }
+
+    public Configuracao getConfiguracao(final String username) {
+
+        if (username != null) {
+            final Conta conta = contaRepository.findByEmailIgnoreCase(username);
+
+            if (conta != null)
+                Context.setCurrentSchema(conta.getEsquema());
+            else
+                Context.clearCurrentSchema();
+
+        } else {
+            Context.clearCurrentSchema();
+        }
+
+
+        return this.getConfiguracao();
     }
 
     public Configuracao getConfiguracao() {

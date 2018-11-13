@@ -5,6 +5,8 @@ import {AuthenticationService} from '../../service/authentication.service';
 import {Conta} from '../../entity/usuario/conta.model';
 import {ConfiguracaoRepository} from "../../repositories/configuracao.repository";
 import {Configuracao} from "../../entity/configuracao/configuracao.model";
+import {Subject} from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
 
 /**
  *
@@ -33,7 +35,6 @@ export class LoginComponent {
    * @param {ConfiguracaoRepository} configuracaoRepository
    */
   constructor(private router: Router, private authenticationService: AuthenticationService, private configuracaoRepository: ConfiguracaoRepository) {
-    this.configuracaoRepository.configuracao.subscribe( result => this.configuracao = result);
   }
 
   /**
@@ -50,5 +51,14 @@ export class LoginComponent {
       .then(() => {
         this.router.navigate(['/']);
       })
+  }
+
+  /**
+   *
+   * @param {string} username
+   */
+  public changed(username: string) {
+    this.configuracaoRepository.getConfiguracaoByUsername(username)
+      .subscribe(result => this.configuracao = result);
   }
 }

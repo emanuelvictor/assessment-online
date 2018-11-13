@@ -43,6 +43,13 @@ public class UsuarioService {
 
     private final ServerSecurityContextRepository serverSecurityContextRepository;
 
+    /**
+     * Serviço de alteração de senha
+     * @param usuarioId Long
+     * @param password String
+     * @param newPassword String
+     * @return Usuario
+     */
     public Usuario changePassword(final long usuarioId, final String password, final String newPassword) {
 
         final Conta loggedAccount = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername());
