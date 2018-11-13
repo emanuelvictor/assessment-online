@@ -20,9 +20,8 @@ export class Interceptor implements HttpInterceptor {
   /**
    *
    * @param {MatSnackBar} snackBar
-   * @param {Router} router
    */
-  constructor(public snackBar: MatSnackBar, private router: Router) {
+  constructor(public snackBar: MatSnackBar/*, private router: Router*/) {
   }
 
   /**
@@ -56,12 +55,10 @@ export class Interceptor implements HttpInterceptor {
    * @returns {(res: any) => ErrorObservable}
    */
   private catchErrors() {
-    /**
-     * Encerra progress
-     */
-    this.progress.done();
 
     return (res: any) => {
+
+      this.progress.done();
 
       if (res.status === 500) {
         this.error(res.error.message)
@@ -97,4 +94,5 @@ export class Interceptor implements HttpInterceptor {
       duration: 5000
     });
   }
+
 }

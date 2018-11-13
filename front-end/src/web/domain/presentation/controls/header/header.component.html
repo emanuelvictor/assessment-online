@@ -6,14 +6,17 @@
   <img class="size-height-50 logo-image" *ngIf='configuracao?.logoPath'
        hide-sm hide-xs hide-md routerLink="" src="{{configuracao?.logoPath}}">
   <span flex> </span>
-  <label *ngIf="conta" class="mat-body-2 name-user" [matMenuTriggerFor]="menu">
+  <label [matMenuTriggerFor]="menu"
+         *ngIf="conta" class="mat-body-2 name-user">
     {{conta?.usuario?.nome ? conta?.usuario?.nome : conta?.email}}
   </label>
-  <div *ngIf="conta" class="avatar"
-       style="cursor: pointer" [matMenuTriggerFor]="menu"
-       layout-align="center center" layout="row" layout-margin>
+  <div layout-margin
+       *ngIf="conta" class="avatar"
+       layout-align="center center" layout="row"
+       style="cursor: pointer" [matMenuTriggerFor]="menu">
     <avatar style="margin-top:10px" [size]="0.2"
-            [usuario]="{'id': conta?.id , 'foto': conta?.usuario?.thumbnailPath}"></avatar>
+            [usuario]="{'id': conta?.id , 'foto': conta?.usuario?.thumbnailPath}">
+    </avatar>
   </div>
   <mat-menu #menu="matMenu">
     <button mat-menu-item color="primary" (click)="logout()">

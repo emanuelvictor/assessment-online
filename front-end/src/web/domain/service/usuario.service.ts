@@ -104,10 +104,6 @@ export class UsuarioService {
           }
 
         })
-        .catch(error => {
-          console.log(error);
-          reject(error);
-        });
 
     });
   }

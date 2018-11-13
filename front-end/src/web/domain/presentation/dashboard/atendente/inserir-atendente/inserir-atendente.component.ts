@@ -39,7 +39,7 @@ export class InserirAtendenteComponent implements OnInit {
   constructor(private usuarioService: UsuarioService,
               private colaboradorService: ColaboradorService,
               private router: Router, private snackBar: MatSnackBar,
-              private activatedRoute: ActivatedRoute, private _loadingService: TdLoadingService) {
+              private activatedRoute: ActivatedRoute) {
   }
 
   /**
@@ -57,21 +57,17 @@ export class InserirAtendenteComponent implements OnInit {
       this.snackBar.open('Selecione ao menos uma unidade', 'Fechar');
 
     else {
-      this._loadingService.register('overlayStarSyntax');
-
       this.usuarioService.save(this.atendente)
         .then(result => {
           this.atendente = result;
-          // TODO passar raciocínio para o back-end
-          console.log(this.colaboradores);
+
           this.colaboradores.forEach(colaborador => {
             colaborador.usuario = this.atendente;
             this.colaboradorService.save(colaborador)
           });
 
-          this._loadingService.resolve('overlayStarSyntax');
           this.success('Atendente inserido com sucesso');
-        }).catch(() => this._loadingService.resolve('overlayStarSyntax'));
+        });
     }
   }
 
