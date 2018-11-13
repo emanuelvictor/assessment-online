@@ -37,7 +37,7 @@
                       <mat-icon>show_chart</mat-icon>
                       <span>Estatísticas</span>
                     </button>
-                    <button mat-menu-item color='primary' (click)='alteraSenha()'>
+                    <button mat-menu-item color='primary' *ngIf='atendente?.conta?.email' (click)='alteraSenha()'>
                       <mat-icon>vpn_key</mat-icon>
                       <span>Alterar senha</span>
                     </button>

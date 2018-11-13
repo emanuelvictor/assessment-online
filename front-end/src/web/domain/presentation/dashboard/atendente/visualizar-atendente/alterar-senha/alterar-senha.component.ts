@@ -61,9 +61,6 @@ export class AlterarSenhaComponent implements OnInit {
           this.openSnackBar('Senha alterada com sucesso');
         }
       })
-      .catch(exception => {
-        this.openSnackBar(exception.message);
-      })
   }
 
   /**

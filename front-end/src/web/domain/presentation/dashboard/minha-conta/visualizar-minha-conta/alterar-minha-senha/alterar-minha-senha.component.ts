@@ -55,13 +55,10 @@ export class AlterarMinhaSenhaComponent implements OnInit {
   public alterarMinhaSenha(event: Event): void {
     event.preventDefault();
     this.contaService.changeMyPassword(this.usuario, this.currentPassword, this.newPassword)
-      .then(result => {
+      .then(() => {
         this.dialogRef.close();
         this.openSnackBar('Senha alterada com sucesso');
       })
-      .catch(exception =>
-        this.openSnackBar(exception)
-      )
   }
 
   /**

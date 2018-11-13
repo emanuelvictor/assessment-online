@@ -125,4 +125,10 @@ public class UsuarioResource {
         return Mono.just(this.usuarioService.createAccount(exchange, usuario));
     }
 
+    @GetMapping("contas/{usuarioId}/change-password")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    Mono<Usuario> changePassword(@PathVariable final long usuarioId, @RequestParam(required = false) final String password, @RequestParam final String newPassword) {
+        return Mono.just(this.usuarioService.changePassword(usuarioId, password, newPassword));
+    }
+
 }

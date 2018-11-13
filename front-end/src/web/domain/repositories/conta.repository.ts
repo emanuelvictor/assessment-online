@@ -4,6 +4,8 @@ import {Usuario} from '../entity/usuario/usuario.model';
 import {HttpClient} from '@angular/common/http';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
 import {Conta} from '../entity/usuario/conta.model';
+import {PageSerialize} from "../../infrastructure/page-serialize/page-serialize";
+import {HttpParams} from '@angular/common/http';
 
 
 @Injectable()
@@ -19,15 +21,6 @@ export class ContaRepository extends BaseRepository<Conta> {
 
   /**
    *
-   * @param {string} email
-   * @returns {Observable<Usuario>}
-   */
-  public findUsuarioByEmail(email: string): Observable<Usuario> {
-    return this.httpClient.get<Usuario>('contas?email=' + email)
-  }
-
-  /**
-   *
    * @param {Usuario} cliente
    * @returns {Promise<Usuario>}
    */
@@ -39,37 +32,33 @@ export class ContaRepository extends BaseRepository<Conta> {
    *
    * @param {Usuario} usuario
    * @param {string} newPassword
-   * @returns {Observable<any>}
+   * @returns {Observable<{}>}
    */
-  public changePassword(usuario: Usuario, newPassword: string): Promise<any> {
+  public changePassword(usuario: Usuario, newPassword: string): Promise<Usuario> {
     usuario.conta.password = newPassword;
-    return new Promise((resolve) => {
-      // this.saveWithAccount(usuario)
-      //   .then(result => resolve(result));
-    })
+
+    const params: HttpParams = new HttpParams().set('newPassword', newPassword);
+
+    return this.httpClient.get<Usuario>('usuarios/contas/'+ usuario.id +'/change-password', {
+      params: params
+    }).toPromise();
   }
 
   /**
    *
    * @param {Usuario} usuario
-   * @param {string} currentPassword
+   * @param {string} password
    * @param {string} newPassword
-   * @returns {Promise<any>}
+   * @returns {Promise<{}>}
    */
-  public changeMyPassword(usuario: Usuario, currentPassword: string, newPassword: string): Promise<any> {
-    return new Promise((resolve, reject) => {
+  public changeMyPassword(usuario: Usuario, password: string, newPassword: string): Promise<any> {
 
-      if (currentPassword === usuario.conta.password) {
-        usuario.conta.password = newPassword;
-        // this.saveWithAccount(usuario)
-        //   .then(resolved => {
-        //     resolve(resolved)
-        //   });
+    const params: HttpParams = new HttpParams().set('newPassword', newPassword).set('password', password);
 
-      } else {
-        reject('Senha atual incorreta')
-      }
+    return this.httpClient.get<Usuario>('usuarios/contas/'+ usuario.id +'/change-password', {
+      params: params
+    }).toPromise();
 
-    })
   }
+
 }

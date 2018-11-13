@@ -1,7 +1,9 @@
 package br.com.assessment.domain.service;
 
 import br.com.assessment.application.context.Context;
+import br.com.assessment.application.exceptions.PasswordNotFound;
 import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
+import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.repository.ContaRepository;
 import br.com.assessment.domain.repository.UsuarioRepository;
@@ -40,6 +42,53 @@ public class UsuarioService {
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
     private final ServerSecurityContextRepository serverSecurityContextRepository;
+
+    public Usuario changePassword(final long usuarioId, final String password, final String newPassword) {
+
+        final Conta loggedAccount = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername());
+
+        // Minha conta
+        if (loggedAccount.getUsuario().getId().equals(usuarioId)) {
+
+            if (passwordEncoder.matches(password, loggedAccount.getPassword())) {
+                loggedAccount.setPassword(passwordEncoder.encode(newPassword));
+                contaRepository.save(loggedAccount);
+                return usuarioRepository.findById(usuarioId).orElseGet(null);
+            }
+
+            throw new PasswordNotFound();
+
+        }
+        // Conta de um atendente, operador ou administrador meu
+        else if (!loggedAccount.isAdministrador() && loggedAccount.getIsOperador()) {
+
+            final List<Usuario> meusUsuarios = this.usuarioRepository.listByFilters(loggedAccount.getUsuario().getId(), loggedAccount.getPerfil().name(), null, null, null, null, null).getContent();
+
+            for (final Usuario meuUsuario : meusUsuarios)
+                if (meuUsuario.getId().equals(usuarioId)) {
+                    final Conta conta = contaRepository.findByEmailIgnoreCase(meuUsuario.getConta().getUsername());
+                    conta.setPassword(passwordEncoder.encode(newPassword));
+                    contaRepository.save(conta);
+                    meuUsuario.setConta(conta);
+                    return meuUsuario;
+                }
+
+            throw new PasswordNotFound();
+
+        }
+        // Se eu for administrador, altero de quem eu quiser
+        else {
+
+            final Usuario usuario = usuarioRepository.findById(usuarioId).orElseGet(null);
+            final Conta conta = contaRepository.findById(usuario.getConta().getId()).orElseGet(null);
+            conta.setPassword(passwordEncoder.encode(newPassword));
+            usuario.setConta(conta);
+            contaRepository.save(conta);
+            return usuario;
+
+        }
+
+    }
 
     public Optional<Usuario> findById(final long usuarioId) {
         return Optional.of(this.usuarioRepository.findUsuarioByIdAndReturnAvaliacoes(usuarioId));
@@ -204,7 +253,7 @@ public class UsuarioService {
         this.usuarioRepository.save(usuario);
     }
 
-    public List<Usuario> findByNome(final String nome){
+    public List<Usuario> findByNome(final String nome) {
         return this.usuarioRepository.findByNome(nome);
     }
 
