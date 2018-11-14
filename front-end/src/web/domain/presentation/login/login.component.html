@@ -1,4 +1,4 @@
-<div layout="column" layout-align="center center" class="login" [ngStyle]="{'background-image': 'url(./configuracoes/background/'+cliente+')'}">
+<div layout="column" layout-align="center center" class="login" [ngStyle]="{'background-image': 'url(./configuracoes/background?cliente='+cliente+')'}">
   <div layout="column" layout-align="center center">
     <mat-card style="width: 600px">
       <mat-card-content>
@@ -8,7 +8,7 @@
 
             <div layout="column" layout-margin layout-align="center center">
               <div layout="row" flex layout-margin >
-                <img *ngIf='cliente' class="logo" src="./configuracoes/logomarca/{{ cliente }}">
+                <img *ngIf='cliente' class="logo" src="./configuracoes/logomarca?cliente={{cliente}}">
               </div>
 
               <div layout="row" flex layout-margin>

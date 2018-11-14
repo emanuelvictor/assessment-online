@@ -52,7 +52,7 @@ public class ConfiguracaoService {
 
     public Configuracao getConfiguracao(final String cliente) {
         // Se o cliente é nulo ou igual ao public, retorna as configurações do public
-        if (cliente == null || cliente.equals(DEFAULT_TENANT_ID))
+        if (cliente == null || cliente.equals(DEFAULT_TENANT_ID) || cliente.equals("undefined"))
             return this.getConfiguracao();
 
         // Se o cliente não é nulo e não é o public, então retorna as configurações do cliente

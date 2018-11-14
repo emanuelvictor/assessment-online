@@ -1,3 +1,4 @@
+import {Subject} from 'rxjs/Subject';
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
@@ -27,11 +28,25 @@ export class LoginComponent {
 
   /**
    *
+   * @type {Subject<string>}
+   */
+  private modelChanged: Subject<string> = new Subject<string>();
+
+
+  /**
+   *
    * @param {Router} router
    * @param {AuthenticationService} authenticationService
    * @param {ConfiguracaoRepository} configuracaoRepository
    */
   constructor(private router: Router, private authenticationService: AuthenticationService, private configuracaoRepository: ConfiguracaoRepository) {
+    this.modelChanged
+      .debounceTime(1000)
+      .distinctUntilChanged()
+      .subscribe(model =>
+        this.configuracaoRepository.getClienteByUsername(model)
+          .subscribe(result => this.cliente = result)
+      );
   }
 
   /**
@@ -56,7 +71,7 @@ export class LoginComponent {
    */
   public changed(username: string) {
     if (username && username.length)
-      this.configuracaoRepository.getClienteByUsername(username)
-        .subscribe(result => this.cliente = result)
+      this.modelChanged.next(username);
+
   }
 }
