@@ -5,7 +5,6 @@ import {VisualizarMinhaContaComponent} from './presentation/dashboard/minha-cont
 import {AlterarMinhaContaComponent} from './presentation/dashboard/minha-conta/alterar-minha-conta/alterar-minha-conta.component';
 import {MinhaContaViewComponent} from './presentation/dashboard/minha-conta/minha-conta-view.component';
 import {VisualizarAtendenteComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-atendente.component';
-import {LoginComponent} from './presentation/login/login.component';
 import {ConsultarAtendentesComponent} from './presentation/dashboard/atendente/consultar-atendentes/consultar-atendentes.component';
 import {InserirAtendenteComponent} from './presentation/dashboard/atendente/inserir-atendente/inserir-atendente.component';
 import {AlterarAtendenteComponent} from './presentation/dashboard/atendente/alterar-atendente/alterar-atendente.component';
@@ -18,14 +17,13 @@ import {AuthenticationService} from './service/authentication.service';
 import {EstatisticasAtendenteComponent} from './presentation/dashboard/atendente/visualizar-atendente/estatisticas/estatisticas-atendente.component';
 import {EstatisticasUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/estatisticas/estatisticas-unidade.component';
 import {ConsultarUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component';
-import {UnidadeRankingComponent} from './presentation/dashboard/ranking/unidade/unidade-ranking/unidade-ranking.component';
-import {UnidadeRankingViewComponent} from './presentation/dashboard/ranking/unidade/unidade-ranking-view.component';
-import {AtendenteRankingViewComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking-view.component';
-import {AtendenteRankingComponent} from './presentation/dashboard/ranking/atendente/atendente-ranking/atendente-ranking.component';
 import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component';
 import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente.component';
 import {WebLoginComponent} from './presentation/login/web-login/web-login.component';
 import {ConfiguracaoComponent} from "./presentation/dashboard/configuracao/configuracao.component";
+import {AvaliacaoViewComponent} from "./presentation/dashboard/avaliacao/avaliacao-view.component";
+import {ConsultarAvaliacoesComponent} from "./presentation/dashboard/avaliacao/consultar-avaliacoes/consultar-avaliacoes.component";
+import {VisualizarAvaliacaoComponent} from "./presentation/dashboard/avaliacao/visualizar-avaliacao/visualizar-avaliacao.component";
 
 
 const routes: Routes = [
@@ -71,24 +69,13 @@ const routes: Routes = [
           ]
         },
         {
-          path: 'meus-melhores-atendentes', component: AtendenteRankingViewComponent,
+          path: 'avaliacoes', component: AvaliacaoViewComponent,
           children: [
             {
-              path: '', component: AtendenteRankingComponent
+              path: '', component: ConsultarAvaliacoesComponent
             },
             {
-              path: ':id', component: EstatisticasAtendenteComponent
-            }
-          ]
-        },
-        {
-          path: 'minhas-melhores-unidades', component: UnidadeRankingViewComponent,
-          children: [
-            {
-              path: '', component: UnidadeRankingComponent
-            },
-            {
-              path: ':id', component: EstatisticasUnidadeComponent
+              path: ':id', component: VisualizarAvaliacaoComponent
             }
           ]
         }

@@ -31,7 +31,7 @@ import {ConfirmDialogComponent} from './presentation/controls/confirm-dialog/con
 import {CnpjValidator, CpfValidator, DataNascimentoValidator} from './presentation/controls/validators/validators';
 import {SomenteNumerosPositivos} from './presentation/controls/patterns/somente-numeros-positivos';
 import {Interceptor} from '../application/interceptor/interceptor';
-import {WebRoutingModule} from './web.routing.module';
+import {WebRoutingModule} from './web-routing.module';
 import {WebComponent} from './presentation/web.component';
 import {SharedModule} from '../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -90,6 +90,9 @@ import {ConfiguracaoRepository} from "./repositories/configuracao.repository";
 import {ConfiguracaoService} from "./service/configuracao.service";
 import {ConfiguracaoComponent} from "./presentation/dashboard/configuracao/configuracao.component";
 import {BrandComponent} from './presentation/controls/brand/brand.component';
+import {AvaliacaoViewComponent} from "./presentation/dashboard/avaliacao/avaliacao-view.component";
+import {ConsultarAvaliacoesComponent} from "./presentation/dashboard/avaliacao/consultar-avaliacoes/consultar-avaliacoes.component";
+import {VisualizarAvaliacaoComponent} from "./presentation/dashboard/avaliacao/visualizar-avaliacao/visualizar-avaliacao.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -175,13 +178,10 @@ registerLocaleData(localePt, 'pt-BR');
     UnidadeItemComponent,
     EstatisticasUnidadeComponent,
 
-    // Ranking
-    SelecionarUnidadeComponent,
-    UnidadeRankingComponent,
-    UnidadeRankingViewComponent,
-    AtendenteRankingComponent,
-    AtendenteRankingViewComponent,
-    RankingComponent
+    // Avaliaçẽos
+    AvaliacaoViewComponent,
+    ConsultarAvaliacoesComponent,
+    VisualizarAvaliacaoComponent
   ],
   imports: [
     SharedModule,
