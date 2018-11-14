@@ -59,9 +59,9 @@ public class AvaliacaoResource {
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<Page<Avaliacao>> listByFilters(final Long[] unidadesFilter,
-                                        final Long[] atendentesFilter,
+                                        final Long[] usuariosFilter,
                                         @RequestParam(required = false) final LocalDateTime dataInicioFilter,
                                         @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
-        return Mono.just(this.avaliacaoService.listByFilters(getListFromArray(unidadesFilter), getListFromArray(atendentesFilter), dataInicioFilter, dataTerminoFilter, getPageable()));
+        return Mono.just(this.avaliacaoService.listByFilters(getListFromArray(unidadesFilter), getListFromArray(usuariosFilter), dataInicioFilter, dataTerminoFilter, getPageable()));
     }
 }

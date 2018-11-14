@@ -179,6 +179,22 @@ public class UsuarioService {
 
     /**
      * @param defaultFilter  String
+     * @param pageable       Pageable
+     * @return Page<Usuario>
+     */
+    public Page<Usuario> listByFilters(final String defaultFilter, final Pageable pageable) {
+
+        final Usuario usuario = this.contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
+
+        return this.usuarioRepository.listByFilters(
+                usuario.getId(),
+                usuario.getConta().getPerfil().name(),
+                defaultFilter,
+                pageable);
+    }
+
+    /**
+     * @param defaultFilter  String
      * @param unidadesFilter List<Long>
      * @param pageable       Pageable
      * @return Page<Usuario>

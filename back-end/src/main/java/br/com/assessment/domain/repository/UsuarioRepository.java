@@ -13,6 +13,47 @@ import java.util.List;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
+
+    @Query("SELECT new Usuario( " +
+            "   usuario.id, " +
+            "   usuario.nome, " +
+            "   usuario.conta.email, " +
+            "   usuario.thumbnailPath,  " +
+            "   usuario.avatarPath, " +
+            "   usuario.fotoPath " +
+            ") FROM Usuario usuario " +
+            "       LEFT OUTER JOIN Colaborador colaborador ON colaborador.usuario.id = usuario.id " +
+            "   WHERE " +
+            "   (   " +
+            "       (" +
+            "               FILTER(:defaultFilter, usuario.nome, usuario.conta.email) = TRUE" +
+            "       )" +
+            "       AND " +
+            "       (" +
+            "           (" +
+            "               :perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' " +
+            "               AND " +
+            "               colaborador.vinculo < 3 AND colaborador.unidade.id IN " +
+            "               (" +
+            "                   SELECT operador.unidade.id FROM Colaborador operador WHERE " +
+            "                   (" +
+            "                           operador.usuario.id = :usuarioId" +
+            "                       AND (operador.vinculo = 1 OR operador.vinculo = 2)" +
+            "                   )" +
+            "               )" +
+            "           )" +
+            "           OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' " +
+            "       )" +
+            "   )"
+            +
+            "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
+    )
+    Page<Usuario> listByFilters(
+            @Param("usuarioId") final Long usuarioId,
+            @Param("perfil") final String perfil,
+            @Param("defaultFilter") final String defaultFilter,
+            final Pageable pageable);
+
     @Query("SELECT new Usuario( " +
             "   usuario.id, " +
             "   usuario.nome, " +

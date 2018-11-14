@@ -11,6 +11,7 @@ import 'moment/locale/pt-br';
 import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
 import {AvaliacaoService} from "../../../../service/avaliacao.service";
+import {UsuarioService} from "../../../../service/usuario.service";
 
 @Component({
   selector: 'consultar-avaliacoes',
@@ -93,14 +94,15 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
   /**
    *
-   * @param {AvaliacaoService} avaliacaoService
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
+   * @param {UsuarioService} usuarioService
+   * @param {AvaliacaoService} avaliacaoService
    * @param {UnidadeService} unidadeService
    * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private avaliacaoService: AvaliacaoService,
-              private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
+  constructor(private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
+              private usuarioService: UsuarioService, private avaliacaoService: AvaliacaoService,
               private unidadeService: UnidadeService, private configuracaoService: ConfiguracaoService) {
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
@@ -154,6 +156,8 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
     this.pageRequest.unidadesFilter = this.asyncModel.map((result: any) => result.id);
 
+    this.pageRequest.usuariosFilter = this.asyncModelUsuario.map((result: any) => result.id);
+
     this.avaliacaoService.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
@@ -198,7 +202,6 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
         this.page = result;
-        console.log(result);
         this.page.content.forEach(avaliacao => {
           avaliacao.atendentes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador =>  ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
         })
@@ -253,6 +256,30 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       this.unidadeService.listLightByFilters(pageRequest)
         .subscribe((result) => {
           this.filteredAsync = result.content;
+        });
+
+    }
+  }
+
+  filteredAsyncUsuario: string[];
+
+  asyncModelUsuario: string[] = [];
+
+  filterAsyncUsuario(value: string): void {
+    this.filteredAsyncUsuario = undefined;
+    if (value) {
+
+      const pageRequest = { // PageRequest
+        size: 20,
+        page: 0,
+        sort: null,
+        defaultFilter: [] = [value]
+      };
+
+      this.usuarioService.listLightByFilters(pageRequest)
+        .subscribe((result) => {
+          console.log(result);
+          this.filteredAsyncUsuario = result.content;
         });
 
     }

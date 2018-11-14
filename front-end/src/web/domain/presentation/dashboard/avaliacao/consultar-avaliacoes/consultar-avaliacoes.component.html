@@ -1,10 +1,20 @@
 <search-bar>
 
-  <td-chips [(ngModel)]='pageRequest.defaultFilter'
-            style='margin-left:0; margin-top: 9px;'
-            placeholder="Pesquisar por nome ou e-mail"
-            flex-md="40" flex-gt-md="45" flex-gt-lg="50"
+  <td-chips requireMatch
+            [items]="filteredAsyncUsuario"
+            [(ngModel)]='asyncModelUsuario'
+            (inputChange)="filterAsyncUsuario($event)"
+            placeholder="Pesquisar por usuarios"
+            [debounce]="500" flex="30" style="margin-top: 0px;"
             (add)="onChangeFilters()" (remove)="onChangeFilters()">
+    <ng-template td-chip let-chip="chip">
+      {{chip?.nome}}
+    </ng-template>
+    <ng-template td-autocomplete-option let-option="option">
+      <div layout="row" layout-align="start center">
+        {{option?.nome}}
+      </div>
+    </ng-template>
   </td-chips>
 
 

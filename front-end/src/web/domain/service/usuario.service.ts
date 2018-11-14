@@ -42,6 +42,15 @@ export class UsuarioService {
 
   /**
    *
+   * @param pageable
+   * @returns {Observable<{}>}
+   */
+  public listLightByFilters(pageable: any): Observable<any> {
+    return this.usuarioRepository.listLightByFilters(pageable);
+  }
+
+  /**
+   *
    * @param {number} id
    * @returns {Observable<Usuario>}
    */

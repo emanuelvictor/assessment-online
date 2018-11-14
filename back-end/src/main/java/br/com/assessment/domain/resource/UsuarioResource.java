@@ -1,5 +1,6 @@
 package br.com.assessment.domain.resource;
 
+import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.service.UsuarioService;
@@ -62,6 +63,13 @@ public class UsuarioResource {
                                       @RequestParam(required = false) final LocalDateTime dataInicioFilter,
                                       @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
         return Mono.just(usuarioService.listByFilters(defaultFilter, getListFromArray(unidadesFilter), dataInicioFilter, dataTerminoFilter, getPageable()));
+    }
+
+
+    @GetMapping("light")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    Mono<Page<Usuario>> listByFilters(final String defaultFilter) {
+        return Mono.just(usuarioService.listByFilters(defaultFilter, getPageable()));
     }
 
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")

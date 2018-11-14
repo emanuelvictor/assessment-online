@@ -106,6 +106,21 @@ public class Usuario extends Pessoa {
         this.avaliacoes5 = avaliacoes5;
     }
 
+    public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath) {
+
+        final Conta conta = new Conta();
+        conta.setId(id);
+        conta.setEmail(email);
+        this.conta = conta;
+
+        this.id = id;
+        this.nome = nome;
+        this.thumbnailPath = thumbnailPath;
+        this.avatarPath = avatarPath;
+        this.fotoPath = fotoPath;
+
+    }
+
     /**
      *
      */

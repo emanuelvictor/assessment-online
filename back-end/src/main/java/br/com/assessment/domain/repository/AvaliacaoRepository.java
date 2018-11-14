@@ -25,6 +25,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             " ) FROM Avaliacao avaliacao " +
             "       LEFT OUTER JOIN AvaliacaoColaborador avaliacaoColaborador ON avaliacaoColaborador.avaliacao.id = avaliacao.id " +
             "       LEFT OUTER JOIN Unidade unidade ON avaliacaoColaborador.colaborador.unidade.id = unidade.id " +
+            "       LEFT OUTER JOIN Usuario usuario ON avaliacaoColaborador.colaborador.usuario.id = usuario.id " +
             "   WHERE " +
             "   (   " +
             "       (" +
@@ -63,7 +64,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "       AND " +
             "       (" +
             "           (" +
-            "               avaliacaoColaborador.colaborador.usuario.id IN :usuariosFilter" +
+            "               usuario.id IN :usuariosFilter" +
             "           )" +
             "           OR :usuariosFilter IS NULL" +
             "       )" +
