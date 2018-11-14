@@ -9,7 +9,7 @@ public class ArrayUtil {
      *
      */
     public static <T> List<T> getListFromArray(T[] array) {
-        if (array.length == 0)
+        if (array == null || array.length == 0)
             return null;
         return Arrays.asList(array);
     }

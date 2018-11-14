@@ -1,6 +1,5 @@
 import {MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {UsuarioService} from '../../../../service/usuario.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
 import {UnidadeService} from '../../../../service/unidade.service';
@@ -11,6 +10,7 @@ import * as moment from 'moment';
 import 'moment/locale/pt-br';
 import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
+import {AvaliacaoService} from "../../../../service/avaliacao.service";
 
 @Component({
   selector: 'consultar-avaliacoes',
@@ -42,7 +42,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     size: 20,
     page: 0,
     sort: null,
-    defaultFilter: [],
+    usuariosFilter: [],
     unidadesFilter: [],
     dataInicioFilter: null,
     dataTerminoFilter: null
@@ -59,14 +59,9 @@ export class ConsultarAvaliacoesComponent implements OnInit {
    */
   public displayedColumns: string[] =
     [
-      'nome',
-      'avaliacoes1',
-      'avaliacoes2',
-      'avaliacoes3',
-      'avaliacoes4',
-      'avaliacoes5',
-      'quantidadeAvaliacoes',
-      'media'
+      'nota',
+      'data',
+      'unidade.nome'
     ];
 
   /**
@@ -98,13 +93,13 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
   /**
    *
-   * @param {UsuarioService} usuarioService
+   * @param {AvaliacaoService} avaliacaoService
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    * @param {UnidadeService} unidadeService
    * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private usuarioService: UsuarioService,
+  constructor(private avaliacaoService: AvaliacaoService,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private unidadeService: UnidadeService, private configuracaoService: ConfiguracaoService) {
 
@@ -135,7 +130,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     /**
      * Listagem inicial
      */
-    this.listUsuariosByFilters(this.pageRequest);
+    this.listAvaliacoesByFilters(this.pageRequest);
 
     /**
      * Sobrescreve o sortChange do sort bindado
@@ -145,7 +140,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
         'properties': this.sort.active,
         'direction': this.sort.direction
       };
-      this.listUsuariosByFilters(this.pageRequest);
+      this.listAvaliacoesByFilters(this.pageRequest);
     });
   }
 
@@ -159,11 +154,15 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
     this.pageRequest.unidadesFilter = this.asyncModel.map((result: any) => result.id);
 
-    this.usuarioService.listByFilters(this.pageRequest)
+    this.avaliacaoService.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
 
         this.page = result;
+
+        this.page.content.forEach(avaliacao => {
+          avaliacao.atendentes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador =>  ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
+        })
       })
 
   }
@@ -172,7 +171,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
    * Consulta de usuarios com filtros do model
    *
    */
-  public listUsuariosByDates() {
+  public listAvaliacoesByDates() {
 
     if (this.dataInicio.data)
       this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
@@ -180,7 +179,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     if (this.dataTermino.data)
       this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
 
-    this.listUsuariosByFilters(this.pageRequest);
+    this.listAvaliacoesByFilters(this.pageRequest);
 
   }
 
@@ -188,18 +187,21 @@ export class ConsultarAvaliacoesComponent implements OnInit {
    * Consulta de usuarios
    *
    */
-  public listUsuariosByFilters(pageRequest: any) {
+  public listAvaliacoesByFilters(pageRequest: any) {
 
     pageRequest.unidadesFilter.concat(this.asyncModel.map((result: any) => result.id));
 
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;
 
-    this.usuarioService.listByFilters(pageRequest)
+    this.avaliacaoService.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
-
         this.page = result;
+        console.log(result);
+        this.page.content.forEach(avaliacao => {
+          avaliacao.atendentes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador =>  ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
+        })
       })
   }
 
@@ -213,7 +215,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       size: 20,
       page: 0,
       sort: null,
-      defaultFilter: [],
+      usuariosFilter: [],
       unidadesFilter: [],
       dataInicioFilter: null,
       dataTerminoFilter: null

@@ -26,10 +26,9 @@ export class ConclusaoComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.configuracaoRepository.configuracao.subscribe(configuracao =>  {
-      this.configuracao = configuracao;
-      console.log(configuracao)
-    });
+    this.configuracaoRepository.configuracao.subscribe(configuracao =>
+      this.configuracao = configuracao
+    );
 
     setTimeout(() => {
       this.router.navigate(['/avaliar']);

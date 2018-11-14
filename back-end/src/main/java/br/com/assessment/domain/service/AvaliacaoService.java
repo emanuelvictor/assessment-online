@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,8 +45,20 @@ public class AvaliacaoService {
         this.avaliacaoRepository.deleteById(id);
     }
 
-    public Page<Avaliacao> listByFilters(final String defaultFilter, final Pageable pageable) {
-        throw new RuntimeException("Não implementado");
+    public Page<Avaliacao> listByFilters(final List<Long> unidadesFilter,
+                                         final List<Long> atendentesFilter,
+                                         final LocalDateTime dataInicioFilter,
+                                         final LocalDateTime dataTerminoFilter,
+                                         final Pageable pageable) {
+
+        final Page<Avaliacao> page = this.avaliacaoRepository.listByFilters(unidadesFilter, atendentesFilter, dataInicioFilter, dataTerminoFilter, pageable);
+
+        // todo FALCATRUASSA
+        page.getContent().forEach(avaliacao ->
+                avaliacao.setAvaliacoesColaboradores(avaliacaoRepository.findAvaliacaoById(avaliacao.getId()).getAvaliacoesColaboradores())
+        );
+
+        return page;
     }
-    
+
 }

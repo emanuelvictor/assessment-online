@@ -1,24 +1,29 @@
 package br.com.assessment.domain.entity.avaliacao;
 
 import br.com.assessment.domain.entity.generic.AbstractEntity;
+import br.com.assessment.domain.entity.unidade.Unidade;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import org.hibernate.envers.Audited;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrePersist;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
 public class Avaliacao extends AbstractEntity {
 
-//    @OneToMany(mappedBy = "avaliacao", cascade = CascadeType.ALL, orphanRemoval = true) TODO descobrir pq esse casacade não está funcionando
-//    public List<AvaliacaoColaborador> avaliacoesColaboradores;
+    @OneToMany(mappedBy = "avaliacao", fetch = FetchType.EAGER)
+    public List<AvaliacaoColaborador> avaliacoesColaboradores;
 
     @NotNull
     @Column(nullable = false)
@@ -26,8 +31,8 @@ public class Avaliacao extends AbstractEntity {
 
     @NotNull
     @Column(nullable = false)
-//    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime data;
 
     @Column
@@ -37,6 +42,19 @@ public class Avaliacao extends AbstractEntity {
     @Column
     private String fotoPath;
 
+    @Transient
+    private Unidade unidade;
+
+    public Avaliacao() {
+    }
+
+    public Avaliacao(final long id, final String fotoPath, final @NotNull int nota, final @NotNull LocalDateTime data, final Unidade unidade) {
+        super(id);
+        this.nota = nota;
+        this.data = data;
+        this.fotoPath = fotoPath;
+        this.unidade = unidade;
+    }
 
     @PrePersist
     public void prePersist() {

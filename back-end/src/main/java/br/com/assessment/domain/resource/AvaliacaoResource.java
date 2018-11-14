@@ -6,13 +6,17 @@ import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.service.AvaliacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static br.com.assessment.application.context.Context.getPageable;
+import static br.com.assessment.infrastructure.util.ArrayUtil.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,14 +51,17 @@ public class AvaliacaoResource {
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Optional<Avaliacao>> findById(@PathVariable final long id) {
         return Mono.just(this.avaliacaoService.findById(id));
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    Mono<Page<Avaliacao>> listByFilters(final String defaultFilter) {
-        return Mono.just(this.avaliacaoService.listByFilters(defaultFilter, getPageable()));
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    Mono<Page<Avaliacao>> listByFilters(final Long[] unidadesFilter,
+                                        final Long[] atendentesFilter,
+                                        @RequestParam(required = false) final LocalDateTime dataInicioFilter,
+                                        @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
+        return Mono.just(this.avaliacaoService.listByFilters(getListFromArray(unidadesFilter), getListFromArray(atendentesFilter), dataInicioFilter, dataTerminoFilter, getPageable()));
     }
 }

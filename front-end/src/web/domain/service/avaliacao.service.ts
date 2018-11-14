@@ -26,6 +26,13 @@ export class AvaliacaoService {
 
   /**
    *
+   */
+  public listByFilters(pageable): Observable<any> {
+    return this.avaliacaoRepository.listByFilters(pageable);
+  }
+
+  /**
+   *
    * @param {number} id
    */
   public findById(id: number): Observable<Avaliacao> {
