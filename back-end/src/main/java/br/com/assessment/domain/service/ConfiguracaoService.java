@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import static br.com.assessment.application.context.Context.DEFAULT_TENANT_ID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -32,22 +34,32 @@ public class ConfiguracaoService {
         return this.configuracaoRepository.save(configuracao);
     }
 
-    public Configuracao getConfiguracao(final String username) {
+    public StringBuffer getSchemaByUsername(final String username) {
 
-        if (username != null) {
-            final Conta conta = contaRepository.findByEmailIgnoreCase(username);
+        final Conta conta;
 
-            if (conta != null)
-                Context.setCurrentSchema(conta.getEsquema());
-            else
-                Context.clearCurrentSchema();
+        if (username != null)
+            conta = contaRepository.findByEmailIgnoreCase(username);
+        else
+            return new StringBuffer(DEFAULT_TENANT_ID);
 
-        } else {
-            Context.clearCurrentSchema();
-        }
+        if (conta != null)
+            return new StringBuffer(conta.getEsquema());
+        else
+            return new StringBuffer(DEFAULT_TENANT_ID);
 
+    }
 
-        return this.getConfiguracao();
+    public Configuracao getConfiguracao(final String cliente) {
+        // Se o cliente é nulo ou igual ao public, retorna as configurações do public
+        if (cliente == null || cliente.equals(DEFAULT_TENANT_ID))
+            return this.getConfiguracao();
+
+        // Se o cliente não é nulo e não é o public, então retorna as configurações do cliente
+        Context.setCurrentSchema(cliente);
+        final Configuracao configuracao = (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
+        Context.clearCurrentSchema();
+        return configuracao;
     }
 
     public Configuracao getConfiguracao() {
@@ -62,8 +74,8 @@ public class ConfiguracaoService {
         return this.configuracaoRepository.save(configuracao).getBackgroundImagePath();
     }
 
-    public byte[] findBackground() {
-        return getConfiguracao().getBackgroundImage();
+    public byte[] findBackground(final String cliente) {
+        return getConfiguracao(cliente).getBackgroundImage();
     }
 
     public void deleteBackground() {
@@ -78,8 +90,8 @@ public class ConfiguracaoService {
         return this.configuracaoRepository.save(configuracao).getLogoPath();
     }
 
-    public byte[] findLogomarca() {
-        return this.getConfiguracao().getLogo();
+    public byte[] findLogomarca(final String cliente) {
+        return this.getConfiguracao(cliente).getLogo();
     }
 
     public void deleteLogomarca() {

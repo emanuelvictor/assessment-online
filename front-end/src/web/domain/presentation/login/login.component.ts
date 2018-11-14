@@ -1,11 +1,8 @@
 import {Component} from '@angular/core';
-
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
 import {Conta} from '../../entity/usuario/conta.model';
 import {ConfiguracaoRepository} from "../../repositories/configuracao.repository";
-import {Configuracao} from "../../entity/configuracao/configuracao.model";
-import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 
 /**
@@ -26,7 +23,7 @@ export class LoginComponent {
   /**
    *
    */
-  public configuracao: Configuracao;
+  public cliente: string;
 
   /**
    *
@@ -58,7 +55,8 @@ export class LoginComponent {
    * @param {string} username
    */
   public changed(username: string) {
-    this.configuracaoRepository.getConfiguracaoByUsername(username)
-      .subscribe(result => this.configuracao = result);
+    if (username && username.length)
+      this.configuracaoRepository.getClienteByUsername(username)
+        .subscribe(result => this.cliente = result)
   }
 }

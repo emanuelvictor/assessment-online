@@ -31,8 +31,8 @@ public class ConfiguracaoResource {
     }
 
     @GetMapping("{username}")
-    public Mono<Configuracao> getConfiguracao(final @PathVariable String username) {
-        return Mono.just(this.configuracaoService.getConfiguracao(username));
+    public Mono<StringBuffer> getSchemaByUsername(final @PathVariable String username) {
+        return Mono.just(this.configuracaoService.getSchemaByUsername(username));
     }
 
     @GetMapping
@@ -43,11 +43,11 @@ public class ConfiguracaoResource {
     /**
      * Busca a logomarca
      */
-    @GetMapping(value = "logomarca", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-    public Mono<ResponseEntity<byte[]>> findLogomarca() {
+    @GetMapping(value = "logomarca/{cliente}", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    public Mono<ResponseEntity<byte[]>> findLogomarca(final @PathVariable(value = "cliente", required = false) String cliente) {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.configuracaoService.findLogomarca())
+                        .body(this.configuracaoService.findLogomarca(cliente))
         );
     }
 
@@ -79,10 +79,10 @@ public class ConfiguracaoResource {
      * Busca o background
      */
     @GetMapping(value = "background", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-    public Mono<ResponseEntity<byte[]>> findBackground() {
+    public Mono<ResponseEntity<byte[]>> findBackground(final @RequestParam(value = "cliente", required = false) String cliente) {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.configuracaoService.findBackground())
+                        .body(this.configuracaoService.findBackground(cliente))
         );
     }
 

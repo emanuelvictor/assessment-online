@@ -19,8 +19,8 @@ export class ConfiguracaoRepository extends BaseRepository<Configuracao> {
     return this.httpClient.get<Configuracao>(ConfiguracaoRepository.collection)
   }
 
-  public getConfiguracaoByUsername(username: String): Observable<Configuracao> {
-    return this.httpClient.get<Configuracao>(ConfiguracaoRepository.collection + '/' + username)
+  public getClienteByUsername(username: String): Observable<string> {
+    return this.httpClient.get<string>(ConfiguracaoRepository.collection + '/' + username)
   }
 
   async save(configuracao: Configuracao): Promise<Configuracao> {
