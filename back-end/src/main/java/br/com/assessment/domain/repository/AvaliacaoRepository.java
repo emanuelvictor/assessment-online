@@ -71,8 +71,8 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data"
     )
     Page<Avaliacao> listByFilters(
-            @Param("usuariosFilter") final List<Long> usuariosFilter,
             @Param("unidadesFilter") final List<Long> unidadesFilter,
+            @Param("usuariosFilter") final List<Long> usuariosFilter,
             @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
             @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
             final Pageable pageable);

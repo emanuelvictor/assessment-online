@@ -46,12 +46,12 @@ public class AvaliacaoService {
     }
 
     public Page<Avaliacao> listByFilters(final List<Long> unidadesFilter,
-                                         final List<Long> atendentesFilter,
+                                         final List<Long> usuariosFilter,
                                          final LocalDateTime dataInicioFilter,
                                          final LocalDateTime dataTerminoFilter,
                                          final Pageable pageable) {
 
-        final Page<Avaliacao> page = this.avaliacaoRepository.listByFilters(unidadesFilter, atendentesFilter, dataInicioFilter, dataTerminoFilter, pageable);
+        final Page<Avaliacao> page = this.avaliacaoRepository.listByFilters(unidadesFilter, usuariosFilter, dataInicioFilter, dataTerminoFilter, pageable);
 
         // todo FALCATRUASSA
         page.getContent().forEach(avaliacao ->
