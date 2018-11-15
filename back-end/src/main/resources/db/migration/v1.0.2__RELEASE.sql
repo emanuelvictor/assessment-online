@@ -20,5 +20,5 @@ ALTER TABLE configuracao_aud ADD COLUMN background_image bytea;
 ALTER TABLE configuracao_aud ADD COLUMN background_image_path character varying(255);
 ALTER TABLE configuracao_aud ADD COLUMN agradecimento character varying(255);
 
-INSERT INTO configuracao (created, um, dois, tres, quatro, cinco, agradecimento)
-  VALUES (NOW(), 'Péssimo', 'Ruim', 'Regular', 'Bom', 'Ótimo', 'Obrigado pela participação');
+INSERT INTO configuracao (created, um, dois, tres, quatro, cinco)
+  VALUES (NOW(), 'Péssimo', 'Ruim', 'Regular', 'Bom', 'Ótimo');

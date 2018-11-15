@@ -78,7 +78,7 @@ public class Configuracao extends AbstractEntity {
 
     /**
      *
-     * @return
+     * @return byte[]
      */
     @JsonIgnore
     public byte[] getLogoFile() {
@@ -87,7 +87,7 @@ public class Configuracao extends AbstractEntity {
 
     /**
      *
-     * @return
+     * @return byte[]
      */
     @JsonIgnore
     public byte[] getBackgroundImageFile() {
@@ -96,7 +96,7 @@ public class Configuracao extends AbstractEntity {
 
     /**
      *
-     * @return
+     * @return byte[]
      */
     public String getLogoPath() {
         if (this.logo != null)
@@ -106,11 +106,19 @@ public class Configuracao extends AbstractEntity {
 
     /**
      *
-     * @return
+     * @return byte[]
      */
     public String getBackgroundImagePath() {
         if (this.backgroundImage != null)
             return "./configuracoes/background";
         return null;
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public String getAgradecimento() {
+        return agradecimento == null ? "Obrigado, agradecemos a participação" : agradecimento;
     }
 }
