@@ -1,8 +1,10 @@
 package br.com.assessment.domain.repository;
 
 import br.com.assessment.domain.entity.avaliacao.Avaliacao;
+import br.com.assessment.domain.entity.avaliacao.AvaliacaoColaborador;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -74,11 +76,4 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
             final Pageable pageable);
 
-    /**
-     *
-     * @param avaliacaoId long
-     * @return Avaliacao
-     */
-    @Query("FROM Avaliacao avaliacao WHERE avaliacao.id = :avaliacaoId")
-    Avaliacao findAvaliacaoById(@Param("avaliacaoId") final long avaliacaoId);
 }

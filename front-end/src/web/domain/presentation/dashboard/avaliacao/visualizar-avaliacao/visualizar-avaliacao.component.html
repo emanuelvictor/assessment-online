@@ -14,27 +14,27 @@
                             </button>
                         </div>
 
-                        <div layout='column' layout-gt-xs="row" layout-align="start center" flex-gt-xs="80">
+                        <div layout='column' layout-gt-xs="row" layout-align="start center" flex-gt-xs="100">
 
                             <div flex class='push-top push-right push-bottom'>
                                 <avatar [usuario]="{'id': avaliacao?.id , 'foto': avaliacao?.fotoPath}"></avatar>
                             </div>
 
                             <!--div foto e informações-->
-                            <div flex flex-gt-xs="60"
-                                 layout="row"
+                            <div layout="row"
                                  layout-margin
+                                 flex flex-gt-xs="80"
                                  layout-align="start center">
 
-                                <div layout="column">
-                                    <div layout='row' layout-align='start center'>
-                                        <mat-icon style='margin-left: -5px'
-                                                  [inline]="false" flex='25'
+                                <div layout='column' flex>
+                                    <div layout='row'
+                                         layout-align='start center'>
+                                        <mat-icon style='margin-left: 3px' layout-margin [inline]="false"
                                                   svgIcon="assets:{{avaliacao?.nota === 5 ? 'otimo' : (avaliacao?.nota === 4 ? 'bom' : (avaliacao?.nota === 3 ? 'regular' : (avaliacao?.nota === 2 ? 'ruim' : 'pessimo')))}}"
                                                   [ngStyle]="{'fill': avaliacao?.nota === 5 ? '#5ee924' : (avaliacao?.nota === 4 ? '#8fc82c' : (avaliacao?.nota === 3 ? '#d4c40d' : (avaliacao?.nota === 2 ? '#e96d01' : '#c21c1f')))}">
                                         </mat-icon>
                                         <h1 *ngIf='avaliacao?.avaliacoesColaboradores?.length'
-                                            flex class="mat-headline tc-blue-grey-800 no-margin">
+                                            flex='100' class="mat-headline tc-blue-grey-800 no-margin">
                                             {{avaliacao?.avaliacoesColaboradores[0].colaborador.unidade.nome}}
                                         </h1>
                                     </div>
@@ -46,11 +46,6 @@
                                     </h2>
                                 </div>
                             </div>
-                        </div>
-                        <span flex></span>
-                        <!--div opções-->
-                        <div layout="row" flex="40">
-                            <ng-content></ng-content>
                         </div>
                     </div>
 

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
@@ -45,6 +46,7 @@ public class AvaliacaoService {
         this.avaliacaoRepository.deleteById(id);
     }
 
+    @Transactional
     public Page<Avaliacao> listByFilters(final List<Long> unidadesFilter,
                                          final List<Long> usuariosFilter,
                                          final LocalDateTime dataInicioFilter,
@@ -55,7 +57,7 @@ public class AvaliacaoService {
 
         // todo FALCATRUASSA
         page.getContent().forEach(avaliacao ->
-                avaliacao.setAvaliacoesColaboradores(avaliacaoRepository.findAvaliacaoById(avaliacao.getId()).getAvaliacoesColaboradores())
+                avaliacao.setAvaliacoesColaboradores(avaliacaoColaboradorRepository.listAvaliacaoColaboradorByAvaliacaoId(avaliacao.getId()))
         );
 
         return page;
