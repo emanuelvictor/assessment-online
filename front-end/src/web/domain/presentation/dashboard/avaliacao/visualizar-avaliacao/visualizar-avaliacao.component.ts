@@ -1,14 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from '@angular/material';
+import {ActivatedRoute} from '@angular/router';
+import {MatIconRegistry, MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
-import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
-import {UsuarioService} from '../../../../service/usuario.service';
-import {UnidadeService} from '../../../../service/unidade.service';
-import {Usuario} from '../../../../entity/usuario/usuario.model';
-import {Colaborador} from '../../../../entity/colaborador/colaborador.model';
-import {ColaboradorService} from '../../../../service/colaborador.service';
-import {AuthenticationService} from '../../../../service/authentication.service';
+import {AvaliacaoService} from "../../../../service/avaliacao.service";
+import {Avaliacao} from "../../../../entity/avaliacao/avaliacao.model";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'visualizar-avaliacao',
@@ -20,54 +16,33 @@ export class VisualizarAvaliacaoComponent implements OnInit {
   /**
    *
    */
-  public unidades: any;
-
-  /**
-   *
-   */
   masks = textMasks;
 
   /**
    *
-   * @type {{unidade: {}}}
+   * @type {Avaliacao}
    */
-  public filter : any = {
-    unidade: {}
-  };
-
-  /**
-   *
-   * @type {Usuario}
-   */
-  atendente: Usuario = new Usuario();
-
-  /**
-   *
-   */
-  authenticatedUser: any;
+  avaliacao: Avaliacao = new Avaliacao();
 
   /**
    *
    * @param {MatSnackBar} snackBar
-   * @param {ColaboradorService} colaboradorService
-   * @param {Router} router
-   * @param {UsuarioService} usuarioService
    * @param {ActivatedRoute} activatedRoute
-   * @param {MatDialog} dialog
-   * @param {AuthenticationService} authenticationService
-   * @param {UnidadeService} unidadeService
+   * @param {AvaliacaoService} avaliacaoService
+   * @param {MatIconRegistry} iconRegistry
+   * @param {DomSanitizer} domSanitizer
    */
   constructor(private snackBar: MatSnackBar,
-              private colaboradorService: ColaboradorService,
-              private router: Router, private usuarioService: UsuarioService,
-              public activatedRoute: ActivatedRoute, private dialog: MatDialog,
-              private authenticationService: AuthenticationService, private unidadeService: UnidadeService) {
-    /**
-     * Pega o usuário logado
-     */
-    this.authenticationService.requestContaAutenticada().subscribe(result => {
-      this.authenticatedUser = result;
-    });
+              public activatedRoute: ActivatedRoute,
+              private avaliacaoService: AvaliacaoService,
+              private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+
+    this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'media', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/baseline-bar_chart-24px.svg'));
 
   }
 
@@ -75,64 +50,22 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    *
    */
   ngOnInit() {
-    const atendenteId: number = this.activatedRoute.snapshot.params['id'];
-    this.find(atendenteId);
-    this.listUnidadesByFilters();
-  }
-
-  /**
-   * Consulta de unidades
-   *
-   */
-  public listUnidadesByFilters() {
-    this.unidadeService.find()
-      .subscribe(result => {
-        this.unidades = result;
-      });
+    const avaliacaoId: number = this.activatedRoute.snapshot.params['id'];
+    this.find(avaliacaoId);
   }
 
   /**
    *
-   * @param {number} atendenteId
+   * @param {number} avaliacaoId
    */
-  public find(atendenteId: number) {
-    this.usuarioService.findById(atendenteId)
-      .subscribe((atendente: any) => {
-        this.atendente = atendente;
-      })
-  }
-
-  /**
-   *
-   */
-  public alteraSenha() {
-  }
-
-  /**
-   *
-   */
-  public remove() {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent,
-      {
-        data: {
-          text: 'Deseja realmente excluir?',
-          confirm: 'Sim',
-          cancel: 'Não'
-        }
+  public find(avaliacaoId: number) {
+    this.avaliacaoService.findById(avaliacaoId)
+      .subscribe((avaliacao: Avaliacao) =>{
+          this.avaliacao = avaliacao;
+          this.avaliacao.atendentes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador =>  ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
+          console.log(this.avaliacao);
       }
-    );
-
-    dialogRef.afterClosed().subscribe(remover => {
-      if (remover) {
-        this.usuarioService.remove(this.atendente)
-          .then(() => {
-            this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-            this.snackBar.open('Excluído com sucesso', 'Fechar', {
-              duration: 3000
-            });
-          })
-      }
-    });
+      )
   }
 
   /**
@@ -151,19 +84,5 @@ export class VisualizarAvaliacaoComponent implements OnInit {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
-  }
-
-  /**
-   *
-   * @param {Colaborador} colaborador
-   */
-  public saveColaborador(colaborador: Colaborador = new Colaborador()): void {
-    this.colaboradorService.save(colaborador)
-      .then(result => {
-        if (colaborador.vinculo)
-          this.openSnackBar('Vínculo salvo com sucesso!');
-        else
-          this.openSnackBar('Vínculo removido com sucesso!')
-      })
   }
 }

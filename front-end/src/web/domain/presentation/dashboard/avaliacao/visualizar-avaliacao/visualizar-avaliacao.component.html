@@ -1,80 +1,61 @@
 <div layout-align='center center' layout-gt-xs='row' layout-margin>
-  <div layout='row' flex-gt-xs='80' layout-margin>
-    <div flex layout-margin>
-      <mat-card class='bgc-grey-50' layout-margin>
+    <div layout='row' flex-gt-xs='80' layout-margin>
+        <div flex layout-margin>
+            <mat-card class='bgc-grey-50' layout-margin>
+                <mat-card-content>
 
-        <!--card informações-->
-        <mat-card-content>
+                    <div layout='row'>
 
-          <div layout='row'>
-            <div layout='column' style='min-width: 17px'>
-              <button *ngIf='activatedRoute?.snapshot?.params?.id'
-                      class='mat-headline tc-grey-500' type='button'
-                      routerLink='../' color='primary' mat-icon-button>
-                <mat-icon>arrow_back</mat-icon>
-              </button>
-            </div>
+                        <div layout='column' style='min-width: 17px'>
+                            <button *ngIf='activatedRoute?.snapshot?.params?.id'
+                                    class='mat-headline tc-grey-500' type='button'
+                                    routerLink='../' color='primary' mat-icon-button>
+                                <mat-icon>arrow_back</mat-icon>
+                            </button>
+                        </div>
 
-            <visualizar-dados-usuario [usuario]='atendente' *ngIf='atendente?.id' flex>
+                        <div layout='column' layout-gt-xs="row" layout-align="start center" flex-gt-xs="80">
 
-              <!--options-->
-              <div layout='column' layout-align='start end' flex
-                   *ngIf="authenticatedUser?.isAdministrador || !atendente?.isAdministrador">
-                <div layout='row'>
-                  <button mat-button hide-sm hide-xs class='tc-blue-grey-900' routerLink='estatisticas'>
-                    <mat-icon>show_chart</mat-icon>
-                    <span>Estatísticas</span>
-                  </button>
+                            <div flex class='push-top push-right push-bottom'>
+                                <avatar [usuario]="{'id': avaliacao?.id , 'foto': avaliacao?.fotoPath}"></avatar>
+                            </div>
 
-                  <button mat-icon-button routerLink='alterar' class='tc-blue-grey-900'>
-                    <mat-icon>mode_edit</mat-icon>
-                  </button>
-                  <button mat-icon-button [matMenuTriggerFor]='menu' class='tc-blue-grey-900'>
-                    <mat-icon>more_vert</mat-icon>
-                  </button>
-                  <mat-menu #menu='matMenu'>
-                    <button mat-menu-item hide-gt-sm color='primary' routerLink='estatisticas'>
-                      <mat-icon>show_chart</mat-icon>
-                      <span>Estatísticas</span>
-                    </button>
-                    <button mat-menu-item color='primary' *ngIf='atendente?.conta?.email' (click)='alteraSenha()'>
-                      <mat-icon>vpn_key</mat-icon>
-                      <span>Alterar senha</span>
-                    </button>
-                    <button mat-menu-item color='primary' (click)='remove(atendente?.id)'>
-                      <mat-icon>delete</mat-icon>
-                      <span>Remover</span>
-                    </button>
-                  </mat-menu>
-                </div>
-              </div>
-            </visualizar-dados-usuario>
-          </div>
-        </mat-card-content>
-      </mat-card>
+                            <!--div foto e informações-->
+                            <div flex flex-gt-xs="60"
+                                 layout="row"
+                                 layout-margin
+                                 layout-align="start center">
 
-      <div layout='row' flex layout-align='center center'>
-        <mat-form-field flex
-                        style='margin-bottom: 0'>
-          <input placeholder="Filtre as unidades por nome"
-                 id="filter" name="filter" matInput
-                 [ngModelOptions]='{standalone: true}'
-                 [(ngModel)]="filter.unidade.nome" maxlength="200">
-        </mat-form-field>
-      </div>
+                                <div layout="column">
+                                    <div layout='row' layout-align='start center'>
+                                        <mat-icon style='margin-left: -5px'
+                                                  [inline]="false" flex='25'
+                                                  svgIcon="assets:{{avaliacao?.nota === 5 ? 'otimo' : (avaliacao?.nota === 4 ? 'bom' : (avaliacao?.nota === 3 ? 'regular' : (avaliacao?.nota === 2 ? 'ruim' : 'pessimo')))}}"
+                                                  [ngStyle]="{'fill': avaliacao?.nota === 5 ? '#5ee924' : (avaliacao?.nota === 4 ? '#8fc82c' : (avaliacao?.nota === 3 ? '#d4c40d' : (avaliacao?.nota === 2 ? '#e96d01' : '#c21c1f')))}">
+                                        </mat-icon>
+                                        <h1 *ngIf='avaliacao?.avaliacoesColaboradores?.length'
+                                            flex class="mat-headline tc-blue-grey-800 no-margin">
+                                            {{avaliacao?.avaliacoesColaboradores[0].colaborador.unidade.nome}}
+                                        </h1>
+                                    </div>
+                                    <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
+                                        {{avaliacao?.atendentes}}
+                                    </h2>
+                                    <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
+                                        {{avaliacao?.data}}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <span flex></span>
+                        <!--div opções-->
+                        <div layout="row" flex="40">
+                            <ng-content></ng-content>
+                        </div>
+                    </div>
 
-      <mat-accordion>
-        <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
-
-          <vincular-unidade [filter]='filter'
-                            [usuario]='atendente'
-                            *ngIf='atendente?.id'
-                            (save)='saveColaborador($event)'>
-          </vincular-unidade>
-
-        </mat-expansion-panel>
-      </mat-accordion>
-
+                </mat-card-content>
+            </mat-card>
+        </div>
     </div>
-  </div>
 </div>
