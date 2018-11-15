@@ -6,13 +6,11 @@ import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.service.AvaliacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static br.com.assessment.application.context.Context.getPageable;

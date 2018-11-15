@@ -1,15 +1,11 @@
 package br.com.assessment.domain.repository;
 
 import br.com.assessment.domain.entity.avaliacao.Avaliacao;
-import br.com.assessment.domain.entity.usuario.Perfil;
-import br.com.assessment.domain.entity.usuario.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import sun.security.x509.AVA;
 
 import java.time.LocalDateTime;
 import java.util.List;

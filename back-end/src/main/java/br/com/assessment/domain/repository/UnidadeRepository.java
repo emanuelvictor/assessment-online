@@ -2,7 +2,6 @@ package br.com.assessment.domain.repository;
 
 import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Perfil;
-import br.com.assessment.domain.entity.usuario.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

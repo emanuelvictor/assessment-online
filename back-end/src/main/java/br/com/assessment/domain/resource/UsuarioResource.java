@@ -1,6 +1,5 @@
 package br.com.assessment.domain.resource;
 
-import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.service.UsuarioService;

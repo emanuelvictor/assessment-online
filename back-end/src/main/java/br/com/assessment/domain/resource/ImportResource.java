@@ -11,7 +11,6 @@ import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.entity.usuario.Usuario;
-import br.com.assessment.domain.repository.AvaliacaoColaboradorRepository;
 import br.com.assessment.domain.service.*;
 import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
-import sun.security.x509.AVA;
 
 import java.io.*;
 import java.net.URL;
