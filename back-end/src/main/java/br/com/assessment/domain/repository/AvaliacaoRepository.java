@@ -69,7 +69,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "           OR :usuariosFilter IS NULL" +
             "       )" +
             "   )" +
-            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data"
+            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.nome"
     )
     Page<Avaliacao> listByFilters(
             @Param("unidadesFilter") final List<Long> unidadesFilter,

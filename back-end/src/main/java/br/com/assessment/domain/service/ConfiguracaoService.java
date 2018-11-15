@@ -51,13 +51,23 @@ public class ConfiguracaoService {
     }
 
     public Configuracao getConfiguracao(final String cliente) {
+
+        final Configuracao defaultConfiguration = this.getConfiguracao();
+
         // Se o cliente é nulo ou igual ao public, retorna as configurações do public
         if (cliente == null || cliente.equals(DEFAULT_TENANT_ID) || cliente.equals("undefined"))
-            return this.getConfiguracao();
+            return defaultConfiguration;
 
         // Se o cliente não é nulo e não é o public, então retorna as configurações do cliente
         Context.setCurrentSchema(cliente);
         final Configuracao configuracao = (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
+
+        if (configuracao.getLogo() == null)
+            configuracao.setLogo(defaultConfiguration.getLogo());
+
+        if (configuracao.getBackgroundImage() == null)
+            configuracao.setBackgroundImage(defaultConfiguration.getBackgroundImage());
+
         Context.clearCurrentSchema();
         return configuracao;
     }
