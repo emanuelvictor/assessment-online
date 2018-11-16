@@ -1019,7 +1019,7 @@
 }
 
 .teal-text.text-lighten-1 {
-  color: #177ad9 !important
+  color: #1893ff !important
 }
 
 .bs.darken-1 {
@@ -8824,6 +8824,12 @@ button.fe:focus {
   padding-bottom: 200%
 }
 
+.phone-preview-sizer.setentaporcento:before {
+  content: '';
+  display: block;
+  padding-bottom: 70%
+}
+
 .phone-preview-sizer.fc {
   background: transparent !important
 }
@@ -8847,11 +8853,19 @@ button.fe:focus {
   background-image: url("../images/nexus5x.png")
 }
 
+.phone-preview-sizer .phone-preview.horizontal {
+  background-image: url("../images/nexus5x-horizontal.png");
+}
+
+.phone-preview-sizer .tablet-preview.horizontal {
+  background-image: url("../images/tablet-horizontal.png");
+}
+
 .phone-preview-sizer .image-container {
   width: 92%;
-  top: 9%;
+  top: 8%;
   left: 4%;
-  bottom: 10%
+  bottom: 6%;
 }
 
 .c .d.phone-preview-sizer {
@@ -10777,7 +10791,7 @@ button:focus {
 }
 
 i {
-  color: #177ad9
+  color: #ffffff
 }
 
 .primary-color {
