@@ -26,7 +26,7 @@ public class Avaliacao extends AbstractEntity {
     public List<AvaliacaoColaborador> avaliacoesColaboradores;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "NUMERIC(19,0)")
     private int nota;
 
     @NotNull

@@ -16,6 +16,7 @@
 /back-end/.idea
 /back-end/back-end.iml
 /back-end/target/**
+/back-end/assessment-online.iml
 /.vscode
 /front-end/package-lock.json
 
