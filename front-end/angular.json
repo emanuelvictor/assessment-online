@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "../back-end/src/main/resources/public/sistema",
             "index": "src/web/index.html",
             "main": "src/web/application/web-main.ts",
             "polyfills": "src/polyfills.ts",
@@ -111,7 +111,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mobile",
+            "outputPath": "../back-end/src/main/resources/public/sistema/mobile",
             "index": "src/mobile/index.html",
             "main": "src/mobile/application/mobile-main.ts",
             "polyfills": "src/polyfills.ts",

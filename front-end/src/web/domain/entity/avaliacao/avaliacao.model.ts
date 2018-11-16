@@ -10,4 +10,7 @@ export class Avaliacao extends Abstract {
   public data: any;
 
   public fotoPath: string;
+
+  public atendentes: any;
+
 }
