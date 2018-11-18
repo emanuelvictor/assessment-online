@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MobileService} from '../../../service/mobile.service';
 import {UnidadeService} from '../../../../../web/domain/service/unidade.service';
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'selecionar-unidade',
@@ -23,10 +24,12 @@ export class SelecionarUnidadeComponent implements OnInit {
   /**
    *
    * @param {Router} router
+   * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
    * @param {UnidadeService} unidadeService
    */
   constructor(private router: Router,
+              private snackBar: MatSnackBar,
               private mobileService: MobileService,
               private unidadeService: UnidadeService) {
   }
@@ -35,11 +38,20 @@ export class SelecionarUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
+    this.consultarUnidades();
+  }
+
+  /**
+   *
+   */
+  consultarUnidades(){
     this.unidadeService.find()
       .subscribe(result => {
         this.unidades = result.content;
-        if (this.unidades.length)
-          this.selecionar(this.unidades[0])
+        if (this.unidades.length == 1)
+          this.selecionar(this.unidades[0]);
+        else if (!this.unidades.length)
+          this.openSnackBar('Insira unidades de atendimento pela plataforma web')
       });
   }
 
@@ -51,5 +63,15 @@ export class SelecionarUnidadeComponent implements OnInit {
     this.mobileService.setUnidade(unidade.id);
     this.router.navigate(['avaliar']);
   }
-}
 
+  /**
+   *
+   * @param message
+   */
+  public openSnackBar(message: string) {
+    this.snackBar.open(message, 'Fechar', {
+      duration: 5000
+    });
+  }
+
+}

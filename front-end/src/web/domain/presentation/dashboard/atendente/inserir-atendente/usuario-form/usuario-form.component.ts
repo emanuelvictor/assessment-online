@@ -4,8 +4,6 @@ import {MatSnackBar} from '@angular/material';
 import {FormBuilder, Validators} from '@angular/forms';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../../entity/usuario/usuario.model';
-import {UsuarioService} from '../../../../../service/usuario.service';
-import {ContaService} from '../../../../../service/conta.service';
 import {AuthenticationService} from '../../../../../service/authentication.service';
 
 /**

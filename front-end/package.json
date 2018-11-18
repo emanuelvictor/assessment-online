@@ -5,8 +5,8 @@
   "scripts": {
     "debug-web": "node $NODE_DEBUG_OPTION node_modules/.bin/ng serve --proxy-config proxy.conf.json web --open",
     "debug-mobile": "node $NODE_DEBUG_OPTION node_modules/.bin/ng serve --proxy-config proxy.conf.json mobile --port 9000 --open",
-    "web": "node node_modules/.bin/ng serve --proxy-config proxy.conf.json web --open",
-    "mobile": "node node_modules/.bin/ng serve --proxy-config proxy.conf.json mobile --port 9000 --open",
+    "web": "ng serve --proxy-config proxy.conf.json web --open",
+    "mobile": "ng serve --proxy-config proxy.conf.json mobile --port 9000 --open",
     "build": "node node_modules/.bin/ng build web --prod && node node_modules/.bin/ng build mobile --prod",
     "ng-high-mem": "node --max_old_space_size=8192 node_modules/.bin/ng"
   },

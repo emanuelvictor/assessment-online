@@ -49,6 +49,12 @@ export class SelecionarAtendentesComponent implements OnInit {
     this.colaboradorService.listByFilters({unidadeId: this.mobileService.getUnidade(), vinculo: Vinculo[0]})
       .subscribe(page => {
         this.atendentes = page.content;
+        if (this.atendentes.length == 1) {
+          this.atendentes[0].selected = true;
+          this.concluir();
+        }
+        else if (!this.atendentes.length)
+          this.openSnackBar('Insira atendentes e vincule-os á unidade')
       });
 
   }
@@ -73,5 +79,15 @@ export class SelecionarAtendentesComponent implements OnInit {
     } else {
       this.snackBar.open('Selecione ao menos um atendente', 'Fechar', this.mobileService.getSnackBarConfig());
     }
+  }
+
+  /**
+   *
+   * @param message
+   */
+  public openSnackBar(message: string) {
+    this.snackBar.open(message, 'Fechar', {
+      duration: 5000
+    });
   }
 }
