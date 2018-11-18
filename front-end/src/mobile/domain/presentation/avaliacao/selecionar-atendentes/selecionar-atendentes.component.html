@@ -1,10 +1,12 @@
-<mat-card-title class='push' *ngIf='atendentes?.length'>
+<mat-card-title class='push'
+                *ngIf='atendentes?.length'>
   <div layout='column'
        layout-align='center center'>
     Selecione um ou mais atendentes
   </div>
 </mat-card-title>
-<mat-card-content class="no-margin" *ngIf='atendentes?.length'>
+<mat-card-content class="no-margin"
+                  *ngIf='atendentes?.length'>
 
   <mat-grid-list cols="{{atendentes.length > 6 ? 4 : 3}}" rowHeight="100px" *ngIf="atendentes.length">
     <mat-grid-tile
