@@ -26,7 +26,9 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param {MobileService} mobileService
    * @param {UnidadeService} unidadeService
    */
-  constructor(private router: Router, private mobileService: MobileService, private unidadeService: UnidadeService) {
+  constructor(private router: Router,
+              private mobileService: MobileService,
+              private unidadeService: UnidadeService) {
   }
 
   /**
@@ -36,6 +38,8 @@ export class SelecionarUnidadeComponent implements OnInit {
     this.unidadeService.find()
       .subscribe(result => {
         this.unidades = result.content;
+        if (this.unidades.length)
+          this.selecionar(this.unidades[0])
       });
   }
 
@@ -48,3 +52,4 @@ export class SelecionarUnidadeComponent implements OnInit {
     this.router.navigate(['avaliar']);
   }
 }
+
