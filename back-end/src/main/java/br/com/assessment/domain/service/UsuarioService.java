@@ -5,6 +5,8 @@ import br.com.assessment.application.exceptions.PasswordNotFound;
 import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
+import br.com.assessment.domain.repository.AvaliacaoColaboradorRepository;
+import br.com.assessment.domain.repository.ColaboradorRepository;
 import br.com.assessment.domain.repository.ContaRepository;
 import br.com.assessment.domain.repository.UsuarioRepository;
 import br.com.assessment.infrastructure.file.ImageUtils;
@@ -33,20 +35,25 @@ public class UsuarioService {
 
     private final Flyway flyway;
 
+    private final ContaRepository contaRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final UsuarioRepository usuarioRepository;
 
-    private final ContaRepository contaRepository;
+    private final ColaboradorRepository colaboradorRepository;
 
     private final TenantIdentifierResolver tenantIdentifierResolver;
+
+    private final AvaliacaoColaboradorRepository avaliacaoColaboradorRepository;
 
     private final ServerSecurityContextRepository serverSecurityContextRepository;
 
     /**
      * Serviço de alteração de senha
-     * @param usuarioId Long
-     * @param password String
+     *
+     * @param usuarioId   Long
+     * @param password    String
      * @param newPassword String
      * @return Usuario
      */
@@ -127,7 +134,6 @@ public class UsuarioService {
         }
 
         usuario.getConta().setEsquema(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());// TODO verificar se não da pra usar o context
-//        usuario.getConta().setUsuario(usuario);
 
         return this.usuarioRepository.save(usuario);
     }
@@ -174,12 +180,17 @@ public class UsuarioService {
     }
 
     public void delete(final long usuarioId) {
+
+        this.avaliacaoColaboradorRepository.deleteInBatch(this.avaliacaoColaboradorRepository.listAvaliacaoColaboradorByUsuarioId(usuarioId));
+
+        colaboradorRepository.deleteInBatch(colaboradorRepository.listByFilters(null, null, usuarioId, null, null, null).getContent());
+
         this.usuarioRepository.deleteById(usuarioId);
     }
 
     /**
-     * @param defaultFilter  String
-     * @param pageable       Pageable
+     * @param defaultFilter String
+     * @param pageable      Pageable
      * @return Page<Usuario>
      */
     public Page<Usuario> listByFilters(final String defaultFilter, final Pageable pageable) {

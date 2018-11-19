@@ -77,6 +77,9 @@ public class Usuario extends Pessoa {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Conta conta;
 
+    /**
+     *
+     */
     public Usuario() {
     }
 

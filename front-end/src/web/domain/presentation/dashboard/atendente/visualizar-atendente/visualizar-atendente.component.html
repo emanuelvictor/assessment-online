@@ -53,22 +53,26 @@
         </mat-card-content>
       </mat-card>
 
-      <div layout='row' flex layout-align='center center'>
-        <mat-form-field flex
-                        style='margin-bottom: 0'>
-          <input placeholder="Filtre as unidades por nome"
-                 id="filter" name="filter" matInput
+      <div layout='row' flex
+           *ngIf='unidades?.length'
+           layout-align='center center'>
+
+        <mat-form-field flex style='margin-bottom: 0'>
+          <input id="filter" name="filter" matInput
                  [ngModelOptions]='{standalone: true}'
+                 placeholder="Filtre as unidades por nome"
                  [(ngModel)]="filter.unidade.nome" maxlength="200">
         </mat-form-field>
+
       </div>
 
-      <mat-accordion>
+      <mat-accordion *ngIf='unidades?.length'>
         <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
 
           <vincular-unidade [filter]='filter'
                             [usuario]='atendente'
                             *ngIf='atendente?.id'
+                            [unidades]='unidades'
                             (save)='saveColaborador($event)'>
           </vincular-unidade>
 

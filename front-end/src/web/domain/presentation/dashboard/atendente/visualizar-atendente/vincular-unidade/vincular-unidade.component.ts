@@ -15,6 +15,7 @@ export class VincularUnidadeComponent implements OnInit {
   /**
    *
    */
+  @Input()
   public unidades: any;
 
   /**
@@ -22,7 +23,7 @@ export class VincularUnidadeComponent implements OnInit {
    * @type {Unidade}
    */
   @Input()
-  public filter : any = {
+  public filter: any = {
     unidade: {}
   };
 
@@ -46,47 +47,40 @@ export class VincularUnidadeComponent implements OnInit {
 
   /**
    *
-   * @param {UnidadeService} unidadeService
    * @param {ColaboradorService} colaboradorService
    */
-  constructor(private unidadeService: UnidadeService,
-              private colaboradorService: ColaboradorService) {
+  constructor(private colaboradorService: ColaboradorService) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    this.unidadeService.listLightByFilters(null)
-      .subscribe(page => {
-        const unidades = page.content;
+    this.atendentes = [];
+    for (let i = 0; i < this.unidades.length; i++) {
+      this.atendentes.push({
+        vinculo: 'Nenhum',
+        unidade: this.unidades[i],
+        usuario: this.usuario
+      });
+    }
 
-        this.atendentes = [];
-        for (let i = 0; i < unidades.length; i++) {
-          this.atendentes.push({
-            vinculo: 'Nenhum',
-            unidade: unidades[i],
-            usuario: this.usuario
-          });
+    this.colaboradorService.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
+      const result = page.content;
+      if (result.length) {
+
+        for (let i = 0; i < this.atendentes.length; i++) {
+          for (let k = 0; k < result.length; k++) {
+            if (result[k].unidade.id === this.atendentes[i].unidade.id) {
+              const unidadeTemp = this.atendentes[i].unidade;
+              this.atendentes[i] = result[k];
+              this.atendentes[i].unidade = unidadeTemp;
+            }
+          }
         }
 
-        this.colaboradorService.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
-          const result = page.content;
-          if (result.length) {
-
-            for (let i = 0; i < this.atendentes.length; i++) {
-              for (let k = 0; k < result.length; k++) {
-                if (result[k].unidade.id === this.atendentes[i].unidade.id) {
-                  const unidadeTemp = this.atendentes[i].unidade;
-                  this.atendentes[i] = result[k];
-                  this.atendentes[i].unidade = unidadeTemp;
-                }
-              }
-            }
-
-          }
-        });
-      });
+      }
+    });
   }
 
   /**

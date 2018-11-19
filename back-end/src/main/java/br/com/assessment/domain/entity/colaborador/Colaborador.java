@@ -1,14 +1,18 @@
 package br.com.assessment.domain.entity.colaborador;
 
+import br.com.assessment.domain.entity.avaliacao.AvaliacaoColaborador;
 import br.com.assessment.domain.entity.generic.AbstractEntity;
 import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity

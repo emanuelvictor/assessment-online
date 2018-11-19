@@ -5,9 +5,7 @@ import br.com.assessment.application.exceptions.PasswordNotFound;
 import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
-import br.com.assessment.domain.repository.ContaRepository;
-import br.com.assessment.domain.repository.UnidadeRepository;
-import br.com.assessment.domain.repository.UsuarioRepository;
+import br.com.assessment.domain.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,11 +23,15 @@ public class UnidadeService {
 
     private final ContaRepository contaRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     private final UsuarioRepository usuarioRepository;
 
     private final UnidadeRepository unidadeRepository;
 
-    private final PasswordEncoder passwordEncoder;
+    private final ColaboradorRepository colaboradorRepository;
+
+    private final AvaliacaoColaboradorRepository avaliacaoColaboradorRepository;
 
     public Unidade save(final long id, final Unidade unidade) {
         Assert.isTrue(unidade.getId() != null && unidade.getId().equals(id), "Você não tem acesso a essa unidade"); //TODO colocar validator em uma service, e colocar na camada de cima
@@ -40,8 +42,13 @@ public class UnidadeService {
         return this.unidadeRepository.save(unidade);
     }
 
-    public void delete(final long id) {
-        this.unidadeRepository.deleteById(id);
+    public void delete(final long unidadeId) {
+
+        this.avaliacaoColaboradorRepository.deleteInBatch(this.avaliacaoColaboradorRepository.listAvaliacaoColaboradorByUnidadeId(unidadeId));
+
+        this.colaboradorRepository.deleteInBatch(colaboradorRepository.listByFilters(null, null, null, unidadeId, null, null).getContent());
+
+        this.unidadeRepository.deleteById(unidadeId);
     }
 
     public Optional<Unidade> findById(final long id) {
@@ -84,6 +91,12 @@ public class UnidadeService {
         return this.unidadeRepository.findByNome(nome);
     }
 
+    /**
+     *
+     * @param unidadeId long
+     * @param password String
+     * @return boolean
+     */
     public boolean authenticateByUnidadeId(final long unidadeId, final String password) {
 
         final Conta conta = this.contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername());

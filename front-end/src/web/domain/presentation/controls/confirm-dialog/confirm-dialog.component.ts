@@ -6,11 +6,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
   templateUrl: './confirm-dialog.component.html',
   styleUrls: ['./confirm-dialog.component.css']
 })
-export class ConfirmDialogComponent implements OnInit {
-
-  /*-------------------------------------------------------------------
-   *                           ATTRIBUTES
-   *-------------------------------------------------------------------*/
+export class ConfirmDialogComponent {
 
   /**
    *
@@ -27,10 +23,6 @@ export class ConfirmDialogComponent implements OnInit {
    */
   public cancel: string;
 
-  /*-------------------------------------------------------------------
- *                           CONSTRUCTOR
- *-------------------------------------------------------------------*/
-
   /**
    *
    * @param dialogRef
@@ -43,14 +35,6 @@ export class ConfirmDialogComponent implements OnInit {
     this.confirm = data && data.confirm ? data.confirm : "Confirmar";
     this.cancel = data && data.cancel ? data.cancel : "Cancelar";
 
-  }
-
-
-  /*-------------------------------------------------------------------
-   *                           BEHAVIORS
-   *-------------------------------------------------------------------*/
-
-  ngOnInit() {
   }
 
 }
