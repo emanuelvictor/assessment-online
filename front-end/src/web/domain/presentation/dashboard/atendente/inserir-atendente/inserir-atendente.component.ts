@@ -1,19 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {Colaborador} from '../../../../entity/colaborador/colaborador.model';
 import {ColaboradorService} from '../../../../service/colaborador.service';
-import {TdLoadingService} from '@covalent/core';
 import {Conta} from '../../../../entity/usuario/conta.model';
+import {UnidadeService} from "../../../../service/unidade.service";
 
 @Component({
   selector: 'inserir-atendente',
   templateUrl: './inserir-atendente.component.html',
   styleUrls: ['./inserir-atendente.component.css']
 })
-export class InserirAtendenteComponent implements OnInit {
+export class InserirAtendenteComponent implements OnInit, OnDestroy {
 
   /**
    *
@@ -29,17 +29,22 @@ export class InserirAtendenteComponent implements OnInit {
 
   /**
    *
+   */
+  unidades: any;
+
+  /**
+   *
    * @param {UsuarioService} usuarioService
-   * @param {Router} router
    * @param {ColaboradorService} colaboradorService
+   * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {ActivatedRoute} activatedRoute
-   * @param {TdLoadingService} _loadingService
+   * @param {UnidadeService} unidadeService
    */
   constructor(private usuarioService: UsuarioService,
               private colaboradorService: ColaboradorService,
               private router: Router, private snackBar: MatSnackBar,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute, private unidadeService: UnidadeService) {
   }
 
   /**
@@ -47,6 +52,18 @@ export class InserirAtendenteComponent implements OnInit {
    */
   ngOnInit(): void {
     this.atendente.conta = new Conta();
+    this.listUnidadesByFilters();
+  }
+
+  /**
+   * Consulta de unidades
+   *
+   */
+  public listUnidadesByFilters() {
+    this.unidadeService.listLightByFilters(null)
+      .subscribe(result => {
+        this.unidades = result.content;
+      });
   }
 
   /**
@@ -127,5 +144,12 @@ export class InserirAtendenteComponent implements OnInit {
      */
     if (colaborador.vinculo)
       this.colaboradores.push(colaborador);
+  }
+
+
+  ngOnDestroy(): void {
+    this.unidades = [];
+    this.colaboradores = [];
+    this.atendente = new Usuario();
   }
 }

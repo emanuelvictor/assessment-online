@@ -88,7 +88,6 @@ export class VisualizarAtendenteComponent implements OnInit {
   public listUnidadesByFilters() {
     this.unidadeService.listLightByFilters(null)
       .subscribe(result => {
-        console.log(result);
         this.unidades = result.content;
       });
   }
