@@ -20,12 +20,12 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   unidade.documento, " +
             "   unidade.endereco," +
             "   AVG(CASE WHEN avaliacao.nota IS NULL THEN 0 ELSE avaliacao.nota END) AS media," +
-            "   COUNT(avaliacao) AS quantidadeAvaliacoes," +
-            "   COUNT(av1) AS avaliacoes1," +
-            "   COUNT(av2) AS avaliacoes2," +
-            "   COUNT(av3) AS avaliacoes3," +
-            "   COUNT(av4) AS avaliacoes4," +
-            "   COUNT(av5) AS avaliacoes5" +
+            "   COUNT(DISTINCT avaliacao) AS quantidadeAvaliacoes," +
+            "   COUNT(DISTINCT av1) AS avaliacoes1," +
+            "   COUNT(DISTINCT av2) AS avaliacoes2," +
+            "   COUNT(DISTINCT av3) AS avaliacoes3," +
+            "   COUNT(DISTINCT av4) AS avaliacoes4," +
+            "   COUNT(DISTINCT av5) AS avaliacoes5" +
             ") FROM Unidade unidade " +
             "       LEFT OUTER JOIN Colaborador colaborador ON colaborador.unidade.id = unidade.id " +
             "       LEFT OUTER JOIN AvaliacaoColaborador avaliacaoColaborador ON avaliacaoColaborador.colaborador.id = colaborador.id " +
