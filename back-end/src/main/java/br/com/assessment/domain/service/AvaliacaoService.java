@@ -56,8 +56,11 @@ public class AvaliacaoService {
         final Page<Avaliacao> page = this.avaliacaoRepository.listByFilters(unidadesFilter, usuariosFilter, dataInicioFilter, dataTerminoFilter, pageable);
 
         // todo FALCATRUASSA
-        page.getContent().forEach(avaliacao ->
-                avaliacao.setAvaliacoesColaboradores(avaliacaoColaboradorRepository.listAvaliacaoColaboradorByAvaliacaoId(avaliacao.getId()))
+        page.getContent().forEach(avaliacao -> {
+                    if (avaliacaoColaboradorRepository.listAvaliacaoColaboradorByAvaliacaoId(avaliacao.getId()).size() > 0)
+                        avaliacao.setAvaliacoesColaboradores(avaliacaoColaboradorRepository.listAvaliacaoColaboradorByAvaliacaoId(avaliacao.getId()));
+                    avaliacaoRepository.delete(avaliacao);
+                }
         );
 
         return page;

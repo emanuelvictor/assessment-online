@@ -6,7 +6,10 @@ import br.com.assessment.domain.entity.usuario.Usuario;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Data
 @Entity

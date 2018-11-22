@@ -22,7 +22,7 @@ import java.util.List;
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
 public class Avaliacao extends AbstractEntity {
 
-    @OneToMany(mappedBy = "avaliacao", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "avaliacao", fetch = FetchType.EAGER, orphanRemoval = true)
     public List<AvaliacaoColaborador> avaliacoesColaboradores;
 
     @NotNull

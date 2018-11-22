@@ -5,8 +5,6 @@ import br.com.assessment.application.exceptions.PasswordNotFound;
 import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
-import br.com.assessment.domain.repository.AvaliacaoColaboradorRepository;
-import br.com.assessment.domain.repository.ColaboradorRepository;
 import br.com.assessment.domain.repository.ContaRepository;
 import br.com.assessment.domain.repository.UsuarioRepository;
 import br.com.assessment.infrastructure.file.ImageUtils;
@@ -41,11 +39,9 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    private final ColaboradorRepository colaboradorRepository;
+    private final ColaboradorService colaboradorService;
 
     private final TenantIdentifierResolver tenantIdentifierResolver;
-
-    private final AvaliacaoColaboradorRepository avaliacaoColaboradorRepository;
 
     private final ServerSecurityContextRepository serverSecurityContextRepository;
 
@@ -76,7 +72,7 @@ public class UsuarioService {
         // Conta de um atendente, operador ou administrador meu
         else if (!loggedAccount.isAdministrador() && loggedAccount.getIsOperador()) {
 
-            final List<Usuario> meusUsuarios = this.usuarioRepository.listByFilters(loggedAccount.getUsuario().getId(), loggedAccount.getPerfil().name(), null, null, null, null, null).getContent();
+            final List<Usuario> meusUsuarios = usuarioRepository.listByFilters(loggedAccount.getUsuario().getId(), loggedAccount.getPerfil().name(), null, null, null, null, null).getContent();
 
             for (final Usuario meuUsuario : meusUsuarios)
                 if (meuUsuario.getId().equals(usuarioId)) {
@@ -105,17 +101,23 @@ public class UsuarioService {
     }
 
     public Optional<Usuario> findById(final long usuarioId) {
-        return Optional.of(this.usuarioRepository.findUsuarioByIdAndReturnAvaliacoes(usuarioId));
+        return Optional.of(usuarioRepository.findUsuarioByIdAndReturnAvaliacoes(usuarioId));
     }
 
+    /**
+     *
+     * @param id long
+     * @param usuario Usuario
+     * @return Usuario
+     */
     public Usuario save(final long id, final Usuario usuario) {
 
         Assert.isTrue(usuario.getId() != null && usuario.getId().equals(id), "Você não tem acesso á esse usuário");
 
-        final Usuario usuarioDB = this.usuarioRepository.findById(usuario.getId()).orElseGet(null);
+        final Usuario usuarioDB = usuarioRepository.findById(usuario.getId()).orElseGet(null);
 
         // Seta novamente o password anterior
-        usuario.getConta().setEsquema(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());//  TODO PQ TEM QUE SETAR DE NOVO????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+        usuario.getConta().setEsquema(tenantIdentifierResolver.resolveCurrentTenantIdentifier());//  TODO PQ TEM QUE SETAR DE NOVO????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
 
         usuario.getConta().setPassword(usuarioDB.getConta().getPassword());
 
@@ -124,32 +126,38 @@ public class UsuarioService {
         usuario.setThumbnail(usuarioDB.getThumbnail());
         usuario.setAvatar(usuarioDB.getAvatar());
 
-        return this.usuarioRepository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
+    /**
+     *
+     * @param usuario Usuario
+     * @return Usuario
+     */
     public Usuario save(final Usuario usuario) {
 
         // Encoda o password
         if (usuario.getConta().getEmail() != null && usuario.getConta().getEmail().length() > 0) {
             Assert.notNull(usuario.getConta().getPassword(), "Informe a senha");
-            usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
+            usuario.getConta().setPassword(passwordEncoder.encode(usuario.getConta().getPassword()));
         }
 
-        usuario.getConta().setEsquema(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier());// TODO verificar se não da pra usar o context
+        usuario.getConta().setEsquema(tenantIdentifierResolver.resolveCurrentTenantIdentifier());// TODO verificar se não da pra usar o context
 
-        return this.usuarioRepository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
     /**
      * Método público que cria a conta do usuário como administrador
      *
      * @param usuario Usuario
+     * @param exchange ServerWebExchange
      * @return Mono<Usuario>
      */
-    public Usuario createAccount(ServerWebExchange exchange, final Usuario usuario) {
+    public Usuario createAccount(final ServerWebExchange exchange, final Usuario usuario) {
 
         // Encoda a senha da conta
-        usuario.getConta().setPassword(this.passwordEncoder.encode(usuario.getConta().getPassword()));
+        usuario.getConta().setPassword(passwordEncoder.encode(usuario.getConta().getPassword()));
 
         // Seta a conta do usuário como administrador
         usuario.getConta().setAdministrador(true);
@@ -177,17 +185,19 @@ public class UsuarioService {
         Context.setCurrentSchema(usuario.getConta().getEsquema());
 
         // E o usuário será salvo automáticamente no esquema públic
-        return this.usuarioRepository.save(usuario);
+        return usuarioRepository.save(usuario);
 
     }
 
+    /**
+     *
+     * @param usuarioId long
+     */
     public void delete(final long usuarioId) {
 
-        this.avaliacaoColaboradorRepository.deleteInBatch(this.avaliacaoColaboradorRepository.listAvaliacaoColaboradorByUsuarioId(usuarioId));
+        colaboradorService.deleteByUsuarioId(usuarioId);
 
-        colaboradorRepository.deleteInBatch(colaboradorRepository.listByFilters(null, null, usuarioId, null, null, null).getContent());
-
-        this.usuarioRepository.deleteById(usuarioId);
+        usuarioRepository.deleteById(usuarioId);
     }
 
     /**
@@ -197,9 +207,9 @@ public class UsuarioService {
      */
     public Page<Usuario> listByFilters(final String defaultFilter, final Pageable pageable) {
 
-        final Usuario usuario = this.contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
+        final Usuario usuario = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
 
-        return this.usuarioRepository.listByFilters(
+        return usuarioRepository.listByFilters(
                 usuario.getId(),
                 usuario.getConta().getPerfil().name(),
                 defaultFilter,
@@ -218,9 +228,9 @@ public class UsuarioService {
                                        final LocalDateTime dataTerminoFilter,
                                        final Pageable pageable) {
 
-        final Usuario usuario = this.contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
+        final Usuario usuario = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
 
-        return this.usuarioRepository.listByFilters(
+        return usuarioRepository.listByFilters(
                 usuario.getId(),
                 usuario.getConta().getPerfil().name(),
                 defaultFilter,
@@ -237,7 +247,7 @@ public class UsuarioService {
      * @return String
      */
     public String save(final long id, final byte[] fileInBytes) {
-        final Usuario usuario = this.usuarioRepository.findById(id).orElseGet(null);
+        final Usuario usuario = usuarioRepository.findById(id).orElseGet(null);
 
         try {
             final int width = ImageUtils.getBufferedImageFromByteArray(fileInBytes).getWidth();
@@ -257,23 +267,23 @@ public class UsuarioService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return this.usuarioRepository.save(usuario).getFotoPath();
+        return usuarioRepository.save(usuario).getFotoPath();
     }
 
     public String update(final long id, final byte[] fileInBytes) {
-        return this.save(id, fileInBytes);
+        return save(id, fileInBytes);
     }
 
     public byte[] findThumbnail(final long id) {
-        return this.usuarioRepository.findById(id).orElseGet(null).getThumbnail();
+        return usuarioRepository.findById(id).orElseGet(null).getThumbnail();
     }
 
     public byte[] findAvatar(final long id) {
-        return this.usuarioRepository.findById(id).orElseGet(null).getAvatar();
+        return usuarioRepository.findById(id).orElseGet(null).getAvatar();
     }
 
     public byte[] findFoto(final long id) {
-        return this.usuarioRepository.findById(id).orElseGet(null).getFoto();
+        return usuarioRepository.findById(id).orElseGet(null).getFoto();
     }
 
     /**
@@ -282,15 +292,15 @@ public class UsuarioService {
      * @param id {long}
      */
     public void deleteFoto(long id) {
-        final Usuario usuario = this.usuarioRepository.findById(id).orElseGet(null);
+        final Usuario usuario = usuarioRepository.findById(id).orElseGet(null);
         usuario.setFoto(null);
         usuario.setAvatar(null);
         usuario.setThumbnail(null);
-        this.usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);
     }
 
     public List<Usuario> findByNome(final String nome) {
-        return this.usuarioRepository.findByNome(nome);
+        return usuarioRepository.findByNome(nome);
     }
 
 }

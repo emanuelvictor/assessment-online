@@ -17,6 +17,8 @@ public class ColaboradorService {
 
     private final ColaboradorRepository colaboradorRepository;
 
+    private final AvaliacaoColaboradorService avaliacaoColaboradorService;
+
     public Optional<Colaborador> findById(final long id) {
         return this.colaboradorRepository.findById(id);
     }
@@ -32,6 +34,13 @@ public class ColaboradorService {
 
     public void delete(final long id) {
         this.colaboradorRepository.deleteById(id);
+    }
+
+    public void deleteByUsuarioId(final long usuarioId){
+
+        avaliacaoColaboradorService.deleteByUsuarioId(usuarioId);
+
+        colaboradorRepository.deleteInBatch(colaboradorRepository.listByFilters(null, null, usuarioId, null, null, null).getContent());
     }
 
     public Page<Colaborador> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId, final Long unidadeId, final Vinculo vinculo, final Pageable pageable) {
