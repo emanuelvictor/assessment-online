@@ -1,5 +1,5 @@
 <mat-nav-list>
-  <div *ngFor="let atendente of atendentes | filter:filter | orderBy:'unidade.nome':false:'case-insensitive'">
+  <div *ngFor="let atendente of atendentes | filter:filter | orderBy:'vinculo':false:'case-insensitive'">
     <mat-list-item layout='row'
                    layout-margin
                    (click)='select.open()'>
@@ -11,10 +11,10 @@
       </p>
 
       <mat-form-field flex='30'>
-        <mat-select placeholder='Tipo de vínculo' #select
-                    [(value)]="atendente.vinculo"
+        <mat-select placeholder='Tipo de vínculo'
+                    [(value)]='atendente.vinculo' #select
                     (selectionChange)='saveColaborador(atendente)'>
-          <mat-option >
+          <mat-option>
             Nenhum
           </mat-option>
           <mat-option [value]="'Atendente'">

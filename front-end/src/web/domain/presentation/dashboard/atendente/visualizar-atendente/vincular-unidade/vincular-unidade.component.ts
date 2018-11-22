@@ -59,28 +59,30 @@ export class VincularUnidadeComponent implements OnInit {
     this.atendentes = [];
     for (let i = 0; i < this.unidades.length; i++) {
       this.atendentes.push({
-        vinculo: 'Nenhum',
+        vinculo: null,
         unidade: this.unidades[i],
         usuario: this.usuario
       });
     }
 
-    this.colaboradorService.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
-      const result = page.content;
-      if (result.length) {
+    if (this.usuario.id)
+      this.colaboradorService.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
+        const result = page.content;
 
-        for (let i = 0; i < this.atendentes.length; i++) {
-          for (let k = 0; k < result.length; k++) {
-            if (result[k].unidade.id === this.atendentes[i].unidade.id) {
-              const unidadeTemp = this.atendentes[i].unidade;
-              this.atendentes[i] = result[k];
-              this.atendentes[i].unidade = unidadeTemp;
+        if (result.length) {
+
+          for (let i = 0; i < this.atendentes.length; i++) {
+            for (let k = 0; k < result.length; k++) {
+              if (result[k].unidade.id === this.atendentes[i].unidade.id) {
+                const unidadeTemp = this.atendentes[i].unidade;
+                this.atendentes[i] = result[k];
+                this.atendentes[i].unidade = unidadeTemp;
+              }
             }
           }
-        }
 
-      }
-    });
+        }
+      });
   }
 
   /**

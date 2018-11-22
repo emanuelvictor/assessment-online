@@ -189,7 +189,6 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters(pageRequest: any) {
-
     pageRequest.unidadesFilter.concat(this.asyncModel.map((result: any) => result.id));
 
     pageRequest.page = this.paginator.pageIndex;
