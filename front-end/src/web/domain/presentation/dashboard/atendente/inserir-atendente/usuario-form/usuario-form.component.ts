@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer, AfterViewInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 
 import {FormBuilder, Validators} from '@angular/forms';
@@ -14,7 +14,7 @@ import {AuthenticationService} from '../../../../../service/authentication.servi
   templateUrl: './usuario-form.component.html',
   styleUrls: ['./usuario-form.component.css']
 })
-export class AtendenteFormComponent implements OnInit {
+export class AtendenteFormComponent implements OnInit, AfterViewInit  {
 
   /**
    *
@@ -80,20 +80,7 @@ export class AtendenteFormComponent implements OnInit {
 
   }
 
-  /**
-   *
-   */
-  ngOnInit() {
-    if (!this.usuario.conta || !this.usuario.conta.email || !this.usuario.conta.email.length)
-      this.showPassword = true;
 
-    this.form = this.fb.group({
-      nome: ['nome', [Validators.required]],
-      email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
-    });
-    this.fotoPath = this.usuario.fotoPath;
-    this.arquivoFile = this.usuario.arquivoFile;
-  }
 
   /**
    *
@@ -193,4 +180,83 @@ export class AtendenteFormComponent implements OnInit {
     this.fotoPath = null;
     this.arquivoFile = null;
   }
+
+  croppable = false;
+
+  cropper: any;
+
+  result: any;
+
+  Cropper: any = window['Cropper'];
+
+  /**
+   *
+   */
+  ngOnInit() {
+
+    if (!this.usuario.conta || !this.usuario.conta.email || !this.usuario.conta.email.length)
+      this.showPassword = true;
+
+    this.form = this.fb.group({
+      nome: ['nome', [Validators.required]],
+      email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
+    });
+    this.fotoPath = this.usuario.fotoPath;
+    this.arquivoFile = this.usuario.arquivoFile;
+  }
+
+  ngAfterViewInit() {
+    const image = document.getElementById('image');
+    this.result = document.getElementById('result');
+    const that = this;
+    this.cropper = new this.Cropper(image, {
+      aspectRatio: 1,
+      viewMode: 1,
+      ready: function () {
+        that.croppable = true;
+      },
+    });
+  }
+
+
+  public getRoundedCanvas(sourceCanvas) {
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    var width = sourceCanvas.width;
+    var height = sourceCanvas.height;
+
+    canvas.width = width;
+    canvas.height = height;
+    context.imageSmoothingEnabled = true;
+    context.drawImage(sourceCanvas, 0, 0, width, height);
+    context.globalCompositeOperation = 'destination-in';
+    context.beginPath();
+    context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
+    context.fill();
+    return canvas;
+  }
+
+  public clicked() {
+    var croppedCanvas;
+    var roundedCanvas;
+    var roundedImage;
+    //
+    // if (!this.croppable) {
+    //   return;
+    // }
+
+    // Crop
+    croppedCanvas = this.cropper.getCroppedCanvas();
+
+    // Round
+    roundedCanvas = this.getRoundedCanvas(croppedCanvas);
+
+    // Show
+    roundedImage = document.createElement('img');
+    roundedImage.src = roundedCanvas.toDataURL()
+    this.result.innerHTML = '';
+    this.result.appendChild(roundedImage);
+  };
+
+
 }
