@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer, AfterViewInit} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer, AfterViewInit, ViewChild} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 
 import {FormBuilder, Validators} from '@angular/forms';
@@ -79,8 +79,6 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
     });
 
   }
-
-
 
   /**
    *
@@ -169,7 +167,20 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (arquivo: any) => {
         this.fotoPath = arquivo.target.result;
+
+        this.result = document.getElementById('result');
+        const that = this;
+        that.image.nativeElement.src = that.fotoPath;
+        this.cropper = new this.Cropper(that.image.nativeElement, {
+          aspectRatio: 1,
+          viewMode: 1,
+          ready: function () {
+            that.croppable = true;
+          },
+        });
       };
+
+
     }
   }
 
@@ -179,6 +190,7 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
   public removeFile() {
     this.fotoPath = null;
     this.arquivoFile = null;
+    this.result = null;
   }
 
   croppable = false;
@@ -188,6 +200,9 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
   result: any;
 
   Cropper: any = window['Cropper'];
+
+  @ViewChild('image')
+  image: any;
 
   /**
    *
@@ -206,16 +221,7 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
   }
 
   ngAfterViewInit() {
-    const image = document.getElementById('image');
-    this.result = document.getElementById('result');
-    const that = this;
-    this.cropper = new this.Cropper(image, {
-      aspectRatio: 1,
-      viewMode: 1,
-      ready: function () {
-        that.croppable = true;
-      },
-    });
+
   }
 
 
@@ -252,10 +258,11 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
     roundedCanvas = this.getRoundedCanvas(croppedCanvas);
 
     // Show
-    roundedImage = document.createElement('img');
-    roundedImage.src = roundedCanvas.toDataURL()
-    this.result.innerHTML = '';
-    this.result.appendChild(roundedImage);
+    // roundedImage = document.createElement('img');
+    // roundedImage.src = roundedCanvas.toDataURL();
+    this.fotoPath = roundedCanvas.toDataURL();
+    // this.result.innerHTML = '';
+    // this.result.appendChild(roundedImage);
   };
 
 

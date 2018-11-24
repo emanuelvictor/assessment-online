@@ -1,8 +1,6 @@
 <div class="container">
   <div>
-    <img id="image" *ngIf='!fotoPath' src="{{fotoPath ? fotoPath : '/assets/images/poly4.jpg'}}" alt="Picture">
-    <img id="image" *ngIf='fotoPath'
-         src="{{fotoPath ? fotoPath : 'https://www.thefullclass.com/static/images/person.svg'}}" alt="Picture">
+    <img id="image" #image src="{{fotoPath}}" alt="Picture">
   </div>
   <p>
     <button type="button" id="button" (click)='clicked()'>Crop</button>
