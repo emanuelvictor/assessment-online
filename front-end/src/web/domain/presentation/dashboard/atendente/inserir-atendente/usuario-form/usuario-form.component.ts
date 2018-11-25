@@ -168,7 +168,6 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
       reader.onload = (arquivo: any) => {
         this.fotoPath = arquivo.target.result;
 
-        this.result = document.getElementById('result');
         const that = this;
         that.image.nativeElement.src = that.fotoPath;
         this.cropper = new this.Cropper(that.image.nativeElement, {
@@ -179,8 +178,6 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
           },
         });
       };
-
-
     }
   }
 
@@ -190,19 +187,21 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
   public removeFile() {
     this.fotoPath = null;
     this.arquivoFile = null;
-    this.result = null;
+    console.log(this.cropper);
+    this.cropper.destroy();
   }
 
   croppable = false;
 
   cropper: any;
 
-  result: any;
-
   Cropper: any = window['Cropper'];
 
   @ViewChild('image')
   image: any;
+
+  // @ViewChild('canvas')
+  // canvas: any;
 
   /**
    *
@@ -226,11 +225,15 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
 
 
   public getRoundedCanvas(sourceCanvas) {
-    var canvas = document.createElement('canvas');
-    var context = canvas.getContext('2d');
-    var width = sourceCanvas.width;
-    var height = sourceCanvas.height;
+    const canvas = document.createElement('canvas');
+    // const context = this.canvas.nativeElement.getContext('2d');
+    const context = canvas.getContext('2d');
 
+    const width = sourceCanvas.width;
+    const height = sourceCanvas.height;
+
+    // this.canvas.nativeElement.width = width;
+    // this.canvas.nativeElement.height = height;
     canvas.width = width;
     canvas.height = height;
     context.imageSmoothingEnabled = true;
@@ -239,30 +242,20 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
     context.beginPath();
     context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
     context.fill();
+    // return this.canvas.nativeElement;
     return canvas;
   }
 
   public clicked() {
-    var croppedCanvas;
-    var roundedCanvas;
-    var roundedImage;
-    //
-    // if (!this.croppable) {
-    //   return;
-    // }
 
     // Crop
-    croppedCanvas = this.cropper.getCroppedCanvas();
+    const croppedCanvas = this.cropper.getCroppedCanvas();
 
     // Round
-    roundedCanvas = this.getRoundedCanvas(croppedCanvas);
+    const roundedCanvas = this.getRoundedCanvas(croppedCanvas);
 
     // Show
-    // roundedImage = document.createElement('img');
-    // roundedImage.src = roundedCanvas.toDataURL();
     this.fotoPath = roundedCanvas.toDataURL();
-    // this.result.innerHTML = '';
-    // this.result.appendChild(roundedImage);
   };
 
 

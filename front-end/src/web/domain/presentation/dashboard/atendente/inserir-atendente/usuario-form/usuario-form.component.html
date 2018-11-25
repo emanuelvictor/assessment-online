@@ -1,11 +1,12 @@
 <div class="container">
+  <canvas #canvas *ngIf='fotoPath'></canvas>
   <div>
-    <img id="image" #image src="{{fotoPath}}" alt="Picture">
+    <img id="image" #image
+         src="{{fotoPath}}" alt="Picture">
   </div>
   <p>
     <button type="button" id="button" (click)='clicked()'>Crop</button>
   </p>
-  <div id="result"></div>
 </div>
 
 <div layout-align='center center' layout-gt-xs='row' layout-margin>
