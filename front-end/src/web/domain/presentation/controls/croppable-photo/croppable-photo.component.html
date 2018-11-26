@@ -1,0 +1,58 @@
+<div class="container">
+  <div>
+    <img id="image" #image
+         src="{{object?.filePath}}" alt="Picture">
+  </div>
+  <p>
+    <button (click)='clicked()'
+            type="button" id="button">
+      Crop
+    </button>
+  </p>
+</div>
+
+
+<div layout='column' flex
+     layout-align='center center'>
+  <div flex>
+    <svg height="210" width="200" transform="scale(1)">
+      <defs>
+        <pattern height="1" id="person" patternUnits="objectBoundingBox" width="1" x="0" y="0">
+          <image height="140" width="140" x="0" y="0"
+                 xlink:href="https://www.thefullclass.com/static/images/person.svg">
+          </image>
+        </pattern>
+        <pattern id="{{identifier}}" x="0" y="0" height="200" width="200" patternUnits="userSpaceOnUse">
+          <image width="200" height="200"
+                 [attr.xlink:href]="object.filePath"
+                 preserveAspectRatio="xMidYMid slice">
+          </image>
+        </pattern>
+      </defs>
+      <!--todo cor hardcoded-->
+      <circle *ngIf="!object.filePath" fill="rgb(223, 229, 231)" cx="100" cy="100" r="99"></circle>
+
+      <circle *ngIf="object.filePath" [style.fill]="'url(#'+identifier+')'" cx="100" cy="100" r="100"></circle>
+
+      <circle *ngIf="!object.filePath" fill="url(#person)" cx="100" cy="100" r="70"></circle>
+    </svg>
+  </div>
+  <div flex *ngIf='object.filePath'>
+    <button type='button' (click)='removeFile()' class='tc-grey-500' mat-button>
+      REMOVER FOTO
+    </button>
+  </div>
+  <div flex *ngIf='!object.filePath'>
+    <td-file-upload #singleFileUpload
+                    defaultColor='primary'
+                    (change)='fileChange($event)'
+                    name="file"
+                    accept='.png, .gif, .jpg, .jpeg'>
+      <span>{{ singleFileUpload?.files?.name }}</span>
+      <ng-template td-file-input-label>
+        <mat-icon>attach_file</mat-icon>
+        <span>Adicionar foto</span>
+      </ng-template>
+    </td-file-upload>
+  </div>
+</div>

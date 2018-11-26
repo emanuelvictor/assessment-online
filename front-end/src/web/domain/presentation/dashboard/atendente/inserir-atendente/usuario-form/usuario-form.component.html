@@ -1,14 +1,3 @@
-<div class="container">
-  <canvas #canvas *ngIf='fotoPath'></canvas>
-  <div>
-    <img id="image" #image
-         src="{{fotoPath}}" alt="Picture">
-  </div>
-  <p>
-    <button type="button" id="button" (click)='clicked()'>Crop</button>
-  </p>
-</div>
-
 <div layout-align='center center' layout-gt-xs='row' layout-margin>
   <div layout='row' flex-gt-xs='80' layout-margin>
     <div flex layout-margin>
@@ -23,7 +12,9 @@
 
               <!--dados e foto div-->
               <div layout-gt-sm='row' flex>
-                <!--<div flex>-->
+
+                <!--<croppable-photo [usuario]="{'id': usuario.id , 'foto': fotoPath}"></croppable-photo>-->
+
                 <div layout='column' flex layout-align='center center'>
                   <div flex>
                     <avatar [usuario]="{'id': usuario.id , 'foto': fotoPath}"></avatar>

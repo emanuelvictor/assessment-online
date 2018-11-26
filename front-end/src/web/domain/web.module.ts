@@ -87,6 +87,7 @@ import {BrandComponent} from './presentation/controls/brand/brand.component';
 import {AvaliacaoViewComponent} from "./presentation/dashboard/avaliacao/avaliacao-view.component";
 import {ConsultarAvaliacoesComponent} from "./presentation/dashboard/avaliacao/consultar-avaliacoes/consultar-avaliacoes.component";
 import {VisualizarAvaliacaoComponent} from "./presentation/dashboard/avaliacao/visualizar-avaliacao/visualizar-avaliacao.component";
+import {CroppablePhotoComponent} from "./presentation/controls/croppable-photo/croppable-photo.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -96,6 +97,7 @@ registerLocaleData(localePt, 'pt-BR');
 @NgModule({
   declarations: [
 
+    // Controls
     FilterPipe,
     CpfValidator,
     CnpjValidator,
@@ -114,6 +116,8 @@ registerLocaleData(localePt, 'pt-BR');
     SomenteLetras,
     SomenteNumeros,
     SomenteNumerosPositivos,
+
+    CroppablePhotoComponent,
 
     // Authentication
     WebLoginComponent,

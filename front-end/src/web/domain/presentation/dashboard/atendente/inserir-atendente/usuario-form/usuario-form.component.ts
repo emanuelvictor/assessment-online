@@ -167,16 +167,6 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (arquivo: any) => {
         this.fotoPath = arquivo.target.result;
-
-        const that = this;
-        that.image.nativeElement.src = that.fotoPath;
-        this.cropper = new this.Cropper(that.image.nativeElement, {
-          aspectRatio: 1,
-          viewMode: 1,
-          ready: function () {
-            that.croppable = true;
-          },
-        });
       };
     }
   }
@@ -187,21 +177,7 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
   public removeFile() {
     this.fotoPath = null;
     this.arquivoFile = null;
-    console.log(this.cropper);
-    this.cropper.destroy();
   }
-
-  croppable = false;
-
-  cropper: any;
-
-  Cropper: any = window['Cropper'];
-
-  @ViewChild('image')
-  image: any;
-
-  // @ViewChild('canvas')
-  // canvas: any;
 
   /**
    *
@@ -222,41 +198,5 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit  {
   ngAfterViewInit() {
 
   }
-
-
-  public getRoundedCanvas(sourceCanvas) {
-    const canvas = document.createElement('canvas');
-    // const context = this.canvas.nativeElement.getContext('2d');
-    const context = canvas.getContext('2d');
-
-    const width = sourceCanvas.width;
-    const height = sourceCanvas.height;
-
-    // this.canvas.nativeElement.width = width;
-    // this.canvas.nativeElement.height = height;
-    canvas.width = width;
-    canvas.height = height;
-    context.imageSmoothingEnabled = true;
-    context.drawImage(sourceCanvas, 0, 0, width, height);
-    context.globalCompositeOperation = 'destination-in';
-    context.beginPath();
-    context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
-    context.fill();
-    // return this.canvas.nativeElement;
-    return canvas;
-  }
-
-  public clicked() {
-
-    // Crop
-    const croppedCanvas = this.cropper.getCroppedCanvas();
-
-    // Round
-    const roundedCanvas = this.getRoundedCanvas(croppedCanvas);
-
-    // Show
-    this.fotoPath = roundedCanvas.toDataURL();
-  };
-
 
 }
