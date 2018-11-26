@@ -5,7 +5,6 @@ import {textMasks} from '../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {UsuarioService} from '../../../../service/usuario.service';
-import {ContaService} from '../../../../service/conta.service';
 
 @Component({
   selector: 'alterar-minha-conta',

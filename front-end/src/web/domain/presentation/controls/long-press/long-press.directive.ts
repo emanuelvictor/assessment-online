@@ -1,13 +1,4 @@
-
-import
-{
-  Directive,
-  Input,
-  Output,
-  EventEmitter,
-  HostBinding,
-  HostListener
-} from '@angular/core';
+import {Directive, EventEmitter, HostBinding, HostListener, Input, Output} from '@angular/core';
 
 @Directive({ selector: '[longPress]' })
 export class LongPressDirective

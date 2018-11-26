@@ -1,13 +1,4 @@
-
-import
-{
-  Directive,
-  Input,
-  Output,
-  EventEmitter,
-  HostBinding,
-  HostListener
-} from '@angular/core';
+import {Directive, HostListener} from '@angular/core';
 
 @Directive({ selector: '[stopPropagation]' })
 export class StopPropagationDirective

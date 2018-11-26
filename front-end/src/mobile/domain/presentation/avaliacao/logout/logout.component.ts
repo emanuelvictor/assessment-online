@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
 import {MobileService} from '../../../service/mobile.service';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../../../web/domain/service/authentication.service";

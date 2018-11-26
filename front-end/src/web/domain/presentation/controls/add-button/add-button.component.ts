@@ -1,6 +1,4 @@
-import {Component, OnInit} from "@angular/core";
-import { MatDialog } from "@angular/material";
-import {AuthenticationService} from "../../../service/authentication.service";
+import {Component} from "@angular/core";
 
 @Component({
   selector: 'add-button',

@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Usuario} from '../entity/usuario/usuario.model';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
 import {Conta} from '../entity/usuario/conta.model';
-import {PageSerialize} from "../../infrastructure/page-serialize/page-serialize";
-import {HttpParams} from '@angular/common/http';
 
 
 @Injectable()

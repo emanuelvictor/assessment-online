@@ -1,5 +1,6 @@
 <mat-nav-list>
-  <div *ngFor="let atendente of atendentes | filter:filter | orderBy:'vinculo':false:'case-insensitive'">
+  <div [ngStyle]="{'background-color': atendente?.selected ? 'aliceblue' : '#fafafa' }"
+       *ngFor="let atendente of atendentes | filter:filter | orderBy:'vinculo':false:'case-insensitive'">
     <mat-list-item layout='row'
                    layout-margin
                    (click)='select.open()'>

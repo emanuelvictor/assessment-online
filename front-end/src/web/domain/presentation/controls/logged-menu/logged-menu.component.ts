@@ -1,6 +1,5 @@
 import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {AuthenticationService} from '../../../service/authentication.service';
-import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {UsuarioService} from '../../../service/usuario.service';
 import {ColaboradorService} from '../../../service/colaborador.service';

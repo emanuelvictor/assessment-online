@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Usuario} from '../../../../../entity/usuario/usuario.model';
-import {UnidadeService} from '../../../../../service/unidade.service';
 import {ColaboradorService} from '../../../../../service/colaborador.service';
 import {Colaborador} from '../../../../../entity/colaborador/colaborador.model';
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
@@ -92,6 +91,12 @@ export class VincularUnidadeComponent implements OnInit {
    * @param {Colaborador} colaborador
    */
   public saveColaborador(colaborador: Colaborador = new Colaborador()): void {
+    (colaborador as any).selected = true;
+
+    setInterval( function () {
+      (colaborador as any).selected = false
+    }, 3000);
+
     this.save.emit(colaborador);
   }
 }

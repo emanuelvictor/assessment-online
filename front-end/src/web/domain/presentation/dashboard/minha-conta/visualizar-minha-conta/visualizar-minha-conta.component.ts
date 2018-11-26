@@ -8,7 +8,6 @@ import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {FileRepository} from '../../../../../infrastructure/repository/file/file.repository';
 import {ContaService} from '../../../../service/conta.service';
-import {UsuarioService} from '../../../../service/usuario.service';
 
 @Component({
   selector: 'visualizar-minha-conta',

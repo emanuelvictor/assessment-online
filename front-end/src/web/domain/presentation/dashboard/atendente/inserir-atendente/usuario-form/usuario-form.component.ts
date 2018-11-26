@@ -1,4 +1,14 @@
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer, AfterViewInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  Renderer
+} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 
 import {FormBuilder, Validators} from '@angular/forms';

@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
-import {UsuarioService} from '../../../../../service/usuario.service';
 import {ContaService} from '../../../../../service/conta.service';
 
 @Component({
