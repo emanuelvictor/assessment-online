@@ -91,6 +91,10 @@ export class ConsultarAvaliacoesComponent implements OnInit {
    *
    */
   @ViewChild('dataTermino') dataTermino: EvDatepicker;
+  filteredAsync: string[];
+  asyncModel: string[] = [];
+  filteredAsyncUsuario: string[];
+  asyncModelUsuario: string[] = [];
 
   /**
    *
@@ -165,7 +169,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
         this.page = result;
 
         this.page.content.forEach(avaliacao => {
-          avaliacao.atendentes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador =>  ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
+          avaliacao.atendentes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador => ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
         })
       })
 
@@ -203,7 +207,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
         this.page = result;
         this.page.content.forEach(avaliacao => {
-          avaliacao.atendentes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador =>  ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
+          avaliacao.atendentes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador => ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
         })
       })
   }
@@ -238,10 +242,6 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     }
   }
 
-  filteredAsync: string[];
-
-  asyncModel: string[] = [];
-
   filterAsync(value: string): void {
     this.filteredAsync = undefined;
     if (value) {
@@ -260,10 +260,6 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
     }
   }
-
-  filteredAsyncUsuario: string[];
-
-  asyncModelUsuario: string[] = [];
 
   filterAsyncUsuario(value: string): void {
     this.filteredAsyncUsuario = undefined;

@@ -92,9 +92,8 @@ public class UnidadeService {
     }
 
     /**
-     *
      * @param unidadeId long
-     * @param password String
+     * @param password  String
      * @return boolean
      */
     public boolean authenticateByUnidadeId(final long unidadeId, final String password) {

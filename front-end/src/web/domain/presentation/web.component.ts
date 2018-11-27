@@ -9,8 +9,7 @@ import {Router} from "@angular/router";
   templateUrl: './web.component.html',
   styleUrls: ['./web.component.scss']
 })
-export class WebComponent implements OnInit
-{
+export class WebComponent implements OnInit {
   /**
    * Usado para fazer scroll até o topo da página
    */
@@ -26,27 +25,22 @@ export class WebComponent implements OnInit
    *
    * @param {Router} router
    */
-  constructor(public router: Router)
-  {
+  constructor(public router: Router) {
   }
 
   /**
    *
    */
-  ngOnInit()
-  {
+  ngOnInit() {
     /**
      * Sempre que trocar a rota,
      * faz o scroll para o inicio do scroll de todos os sidenav-containers
      * que é uma div criada pelo componente side-nav
      */
-    this.router.events.subscribe((path: any) =>
-    {
-      if (path.url != this.currentUrl)
-      {
+    this.router.events.subscribe((path: any) => {
+      if (path.url != this.currentUrl) {
         let scrollableElements = document.getElementsByClassName("mat-drawer-content");
-        for (let i = 0; i < scrollableElements.length; i++)
-        {
+        for (let i = 0; i < scrollableElements.length; i++) {
           scrollableElements[i].scrollTop = 0;
         }
         this.currentUrl = path.url;

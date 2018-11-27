@@ -24,7 +24,7 @@ import {AuthenticationService} from '../../../../../service/authentication.servi
   templateUrl: './usuario-form.component.html',
   styleUrls: ['./usuario-form.component.css']
 })
-export class AtendenteFormComponent implements OnInit, AfterViewInit  {
+export class AtendenteFormComponent implements OnInit, AfterViewInit {
 
   /**
    *

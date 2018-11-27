@@ -76,9 +76,7 @@ export class ConfiguracaoService {
                 toSave.logoPath = uploaded;
                 resolve(toSave);
               })
-          } else
-
-          if (!backgroundImagePath && !logoPath) {
+          } else if (!backgroundImagePath && !logoPath) {
             this.fileRepository.remove('configuracoes/logomarca')
               .then(() => {
                 toSave.logoPath = null;

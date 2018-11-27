@@ -44,7 +44,7 @@ export class SelecionarUnidadeComponent implements OnInit {
   /**
    *
    */
-  consultarUnidades(){
+  consultarUnidades() {
     this.unidadeService.listLightByFilters(null)
       .subscribe(result => {
         this.unidades = result.content;

@@ -12,11 +12,6 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  private _contaAutenticada: any = null;
-
-  /**
-   *
-   */
   public contaAutenticadaChanged: EventEmitter<any>;
 
   /**
@@ -32,6 +27,28 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
       this.contaAutenticada = result;
     });
 
+  }
+
+  /**
+   *
+   */
+  private _contaAutenticada: any = null;
+
+  /**
+   *
+   * @returns {Conta}
+   */
+  get contaAutenticada(): Conta {
+    return this._contaAutenticada;
+  }
+
+  /**
+   *
+   * @param {Conta} contaAutenticada
+   */
+  set contaAutenticada(contaAutenticada: Conta) {
+    this._contaAutenticada = contaAutenticada;
+    this.contaAutenticadaChanged.emit(this.requestContaAutenticada());
   }
 
   /**
@@ -60,23 +77,6 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    */
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.canActivate(route, state);
-  }
-
-  /**
-   *
-    * @returns {Conta}
-   */
-  get contaAutenticada(): Conta {
-    return this._contaAutenticada;
-  }
-
-  /**
-   *
-   * @param {Conta} contaAutenticada
-   */
-  set contaAutenticada(contaAutenticada: Conta) {
-    this._contaAutenticada = contaAutenticada;
-    this.contaAutenticadaChanged.emit(this.requestContaAutenticada());
   }
 
   /**

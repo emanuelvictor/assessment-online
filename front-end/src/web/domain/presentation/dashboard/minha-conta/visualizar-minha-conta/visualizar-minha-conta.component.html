@@ -4,40 +4,40 @@
       <mat-card class="bgc-grey-50" layout-margin>
         <mat-card-content style="margin-left: 35px">
 
-            <visualizar-dados-usuario [usuario]='usuario' *ngIf='usuario?.id'>
+          <visualizar-dados-usuario [usuario]='usuario' *ngIf='usuario?.id'>
 
-              <!--options-->
-              <div layout="column" layout-align="start end" flex>
-                <div layout="row">
-                  <button mat-button hide-sm hide-xs class='tc-blue-grey-900' routerLink='minhas-estatisticas'>
+            <!--options-->
+            <div layout="column" layout-align="start end" flex>
+              <div layout="row">
+                <button mat-button hide-sm hide-xs class='tc-blue-grey-900' routerLink='minhas-estatisticas'>
+                  <mat-icon>show_chart</mat-icon>
+                  <span>Minhas estatísticas</span>
+                </button>
+
+                <button mat-icon-button routerLink="alterar" class="tc-blue-grey-900">
+                  <mat-icon>mode_edit</mat-icon>
+                </button>
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="tc-blue-grey-900">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #menu="matMenu">
+                  <button hide-gt-sm
+                          mat-menu-item color="primary"
+                          routerLink='minhas-estatisticas'>
                     <mat-icon>show_chart</mat-icon>
                     <span>Minhas estatísticas</span>
                   </button>
 
-                  <button mat-icon-button routerLink="alterar" class="tc-blue-grey-900">
-                    <mat-icon>mode_edit</mat-icon>
+                  <button mat-menu-item color="primary" (click)="alterarMinhaSenha()">
+                    <mat-icon>vpn_key</mat-icon>
+                    <span>Alterar minha senha</span>
                   </button>
-                  <button mat-icon-button [matMenuTriggerFor]="menu" class="tc-blue-grey-900">
-                    <mat-icon>more_vert</mat-icon>
-                  </button>
-
-                  <mat-menu #menu="matMenu">
-                    <button hide-gt-sm
-                            mat-menu-item color="primary"
-                            routerLink='minhas-estatisticas'>
-                      <mat-icon>show_chart</mat-icon>
-                      <span>Minhas estatísticas</span>
-                    </button>
-
-                    <button mat-menu-item color="primary" (click)="alterarMinhaSenha()">
-                      <mat-icon>vpn_key</mat-icon>
-                      <span>Alterar minha senha</span>
-                    </button>
-                  </mat-menu>
-                </div>
+                </mat-menu>
               </div>
+            </div>
 
-            </visualizar-dados-usuario>
+          </visualizar-dados-usuario>
 
         </mat-card-content>
       </mat-card>

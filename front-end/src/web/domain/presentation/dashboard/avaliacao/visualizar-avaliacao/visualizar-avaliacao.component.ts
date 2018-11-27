@@ -60,11 +60,11 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    */
   public find(avaliacaoId: number) {
     this.avaliacaoService.findById(avaliacaoId)
-      .subscribe((avaliacao: Avaliacao) =>{
+      .subscribe((avaliacao: Avaliacao) => {
           this.avaliacao = avaliacao;
-          this.avaliacao.atendentes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador =>  ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
+          this.avaliacao.atendentes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador => ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
           console.log(this.avaliacao);
-      }
+        }
       )
   }
 

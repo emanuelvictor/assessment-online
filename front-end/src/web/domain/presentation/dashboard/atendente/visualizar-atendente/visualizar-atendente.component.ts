@@ -32,7 +32,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    * @type {{unidade: {}}}
    */
-  public filter : any = {
+  public filter: any = {
     unidade: {}
   };
 
@@ -66,9 +66,8 @@ export class VisualizarAtendenteComponent implements OnInit {
     /**
      * Pega o usuário logado
      */
-    this.authenticationService.requestContaAutenticada().subscribe(result => {
-      this.authenticatedUser = result;
-    });
+    this.authenticationService.requestContaAutenticada()
+      .subscribe(result => this.authenticatedUser = result);
 
   }
 
@@ -87,9 +86,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    */
   public listUnidadesByFilters() {
     this.unidadeService.listLightByFilters(null)
-      .subscribe(result => {
-        this.unidades = result.content;
-      });
+      .subscribe(result => this.unidades = result.content);
   }
 
   /**
@@ -98,9 +95,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    */
   public find(atendenteId: number) {
     this.usuarioService.findById(atendenteId)
-      .subscribe((atendente: any) => {
-        this.atendente = atendente;
-      })
+      .subscribe(atendente => this.atendente = atendente)
   }
 
   /**
@@ -127,7 +122,7 @@ export class VisualizarAtendenteComponent implements OnInit {
     );
 
     dialogRef.afterClosed().subscribe(remover => {
-      if (remover) {
+      if (remover)
         this.usuarioService.remove(this.atendente)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
@@ -135,7 +130,6 @@ export class VisualizarAtendenteComponent implements OnInit {
               duration: 3000
             });
           })
-      }
     });
   }
 

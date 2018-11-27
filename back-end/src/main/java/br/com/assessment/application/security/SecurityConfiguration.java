@@ -59,7 +59,31 @@ public class SecurityConfiguration {
      *
      */
     private final ObjectMapper objectMapper;
-    
+
+    /**
+     * @param mapper {ObjectMapper}
+     * @return {Function<ServerWebExchange, Mono<Authentication>>}
+     */
+    private static Function<ServerWebExchange, Mono<Authentication>> jsonBodyAuthenticationConverter(final ObjectMapper mapper) {
+        return exchange -> exchange
+                .getRequest()
+                .getBody()
+                .next()
+                .flatMap(body -> {
+                    try {
+                        final Conta conta = mapper.readValue(body.asInputStream(), Conta.class);
+
+                        return Mono.just(
+                                new UsernamePasswordAuthenticationToken(
+                                        conta.getUsername(),
+                                        conta.getPassword()
+                                )
+                        );
+                    } catch (IOException e) {
+                        return Mono.error(new RuntimeException("Error while parsing credentials"));
+                    }
+                });
+    }
 
     /**
      * @return ServerSecurityContextRepository
@@ -127,31 +151,6 @@ public class SecurityConfiguration {
         );
 
         return logoutWebFilter;
-    }
-
-    /**
-     * @param mapper {ObjectMapper}
-     * @return {Function<ServerWebExchange, Mono<Authentication>>}
-     */
-    private static Function<ServerWebExchange, Mono<Authentication>> jsonBodyAuthenticationConverter(final ObjectMapper mapper) {
-        return exchange -> exchange
-                .getRequest()
-                .getBody()
-                .next()
-                .flatMap(body -> {
-                    try {
-                        final Conta conta = mapper.readValue(body.asInputStream(), Conta.class);
-
-                        return Mono.just(
-                                new UsernamePasswordAuthenticationToken(
-                                        conta.getUsername(),
-                                        conta.getPassword()
-                                )
-                        );
-                    } catch (IOException e) {
-                        return Mono.error(new RuntimeException("Error while parsing credentials"));
-                    }
-                });
     }
 
 }

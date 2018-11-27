@@ -36,7 +36,7 @@ public class ColaboradorService {
         this.colaboradorRepository.deleteById(id);
     }
 
-    public void deleteByUsuarioId(final long usuarioId){
+    public void deleteByUsuarioId(final long usuarioId) {
 
         avaliacaoColaboradorService.deleteByUsuarioId(usuarioId);
 

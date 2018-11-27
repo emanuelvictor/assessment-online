@@ -95,6 +95,8 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   @ViewChild('dataTermino') dataTermino: EvDatepicker;
+  filteredAsync: string[];
+  asyncModel: string[] = [];
 
   /**
    *
@@ -231,10 +233,6 @@ export class ConsultarAtendentesComponent implements OnInit {
       this.showPesquisaAvancada = true;
     }
   }
-
-  filteredAsync: string[];
-
-  asyncModel: string[] = [];
 
   filterAsync(value: string): void {
     this.filteredAsync = undefined;

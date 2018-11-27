@@ -9,7 +9,7 @@ export class CurrencyFormatPipe implements PipeTransform {
   transform(value: number, currencyCode: string = 'BRL', symbolDisplay: boolean = true, digits?: string): string {
     let currencyPipe: CurrencyPipe = new CurrencyPipe('pt-BR');
 
-    if(!value || value < 0){
+    if (!value || value < 0) {
       value = 0;
     }
     let newValue: string = currencyPipe.transform(value, currencyCode, symbolDisplay, digits);

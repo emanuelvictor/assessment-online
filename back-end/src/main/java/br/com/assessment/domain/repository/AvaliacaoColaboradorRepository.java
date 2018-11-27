@@ -17,7 +17,6 @@ public interface AvaliacaoColaboradorRepository extends JpaRepository<AvaliacaoC
     List<AvaliacaoColaborador> listAvaliacaoColaboradorByAvaliacaoId(@Param("avaliacaoId") final long avaliacaoId);
 
     /**
-     *
      * @param unidadeId long
      * @return List<AvaliacaoColaborador>
      */
@@ -25,7 +24,6 @@ public interface AvaliacaoColaboradorRepository extends JpaRepository<AvaliacaoC
     List<AvaliacaoColaborador> listAvaliacaoColaboradorByUnidadeId(@Param("unidadeId") final long unidadeId);
 
     /**
-     *
      * @param usuarioId long
      * @return List<AvaliacaoColaborador>
      */

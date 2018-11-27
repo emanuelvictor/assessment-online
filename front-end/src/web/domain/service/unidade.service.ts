@@ -31,6 +31,7 @@ export class UnidadeService {
   public find(): Observable<any> {
     return this.listByFilters(null);
   }
+
   /**
    *
    * @param pageable

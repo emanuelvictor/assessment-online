@@ -90,17 +90,6 @@ export class MinhasEstatisticasComponent implements OnInit {
    *
    */
   configuracao: Configuracao = new Configuracao();
-
-  /**
-   *
-   */
-  @ViewChild('dataInicio') dataInicio: EvDatepicker;
-
-  /**
-   *
-   */
-  @ViewChild('dataTermino') dataTermino: EvDatepicker;
-
   /**
    *
    * @type {[{name: string; value: number} , {name: string; value: number} , {name: string; value: number} , {name: string; value: number} , {name: string; value: number}]}
@@ -127,6 +116,14 @@ export class MinhasEstatisticasComponent implements OnInit {
       "value": 0,
     }
   ];
+  /**
+   *
+   */
+  @ViewChild('dataInicio') dataInicio: EvDatepicker;
+  /**
+   *
+   */
+  @ViewChild('dataTermino') dataTermino: EvDatepicker;
 
   /**
    *
@@ -137,7 +134,7 @@ export class MinhasEstatisticasComponent implements OnInit {
   constructor(private usuarioService: UsuarioService,
               private configuracaoService: ConfiguracaoService,
               public authenticationService: AuthenticationService) {
-    Object.assign(this, { single })
+    Object.assign(this, {single})
   }
 
   /**
@@ -223,7 +220,7 @@ export class MinhasEstatisticasComponent implements OnInit {
   /**
    *
    */
-  public resetDates(){
+  public resetDates() {
     this.dataInicio.data = null;
     this.dataTermino.data = null;
   }

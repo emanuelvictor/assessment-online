@@ -67,13 +67,13 @@ export class ClienteFormComponent implements OnInit {
   /**
    *
    */
-  ngOnInit(){
+  ngOnInit() {
 
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],
       email: ['email', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]],
       password: ['password', [Validators.required, password()]],
-      confirmacaoPassword: ['confirmacaoPassword', [ Validators.required, confirmPassword()]]
+      confirmacaoPassword: ['confirmacaoPassword', [Validators.required, confirmPassword()]]
     });
 
     this.fotoPath = this.cliente.fotoPath;

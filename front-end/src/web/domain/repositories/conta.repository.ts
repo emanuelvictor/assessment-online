@@ -37,7 +37,7 @@ export class ContaRepository extends BaseRepository<Conta> {
 
     const params: HttpParams = new HttpParams().set('newPassword', newPassword);
 
-    return this.httpClient.get<Usuario>('usuarios/contas/'+ usuario.id +'/change-password', {
+    return this.httpClient.get<Usuario>('usuarios/contas/' + usuario.id + '/change-password', {
       params: params
     }).toPromise();
   }
@@ -53,7 +53,7 @@ export class ContaRepository extends BaseRepository<Conta> {
 
     const params: HttpParams = new HttpParams().set('newPassword', newPassword).set('password', password);
 
-    return this.httpClient.get<Usuario>('usuarios/contas/'+ usuario.id +'/change-password', {
+    return this.httpClient.get<Usuario>('usuarios/contas/' + usuario.id + '/change-password', {
       params: params
     }).toPromise();
 

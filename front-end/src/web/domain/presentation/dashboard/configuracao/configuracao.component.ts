@@ -55,6 +55,16 @@ export class ConfiguracaoComponent implements OnInit {
    *
    */
   form: any;
+  /**
+   *
+   * @type {any}
+   */
+  importFilePath = null;
+  /**
+   *
+   * @type {any}
+   */
+  importFile = null;
 
   /**
    *
@@ -255,20 +265,6 @@ export class ConfiguracaoComponent implements OnInit {
     this.backgroundArquivoFile = null;
   }
 
-
-  /**
-   *
-   * @type {any}
-   */
-  importFilePath = null;
-
-  /**
-   *
-   * @type {any}
-   */
-  importFile = null;
-
-
   /**
    *
    * @param event
@@ -293,7 +289,7 @@ export class ConfiguracaoComponent implements OnInit {
     this.importFile = null;
   }
 
-  public importt(){
+  public importt() {
     this.fileRepository.importt(this.importFile);
   }
 

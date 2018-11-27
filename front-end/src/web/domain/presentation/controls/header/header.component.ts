@@ -41,7 +41,7 @@ export class HeaderComponent implements OnDestroy {
    */
   constructor(private authenticationService: AuthenticationService,
               private router: Router, private configuracaoRepository: ConfiguracaoRepository) {
-    this.configuracaoRepository.configuracao.subscribe( result => this.configuracao = result);
+    this.configuracaoRepository.configuracao.subscribe(result => this.configuracao = result);
     this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.conta = result;
     });

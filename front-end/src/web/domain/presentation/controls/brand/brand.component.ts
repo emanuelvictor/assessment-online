@@ -43,7 +43,7 @@ export class BrandComponent
    * @type {boolean}
    */
   @Input()
-  public  background;
+  public background;
 
   /**
    *

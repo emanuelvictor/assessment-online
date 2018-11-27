@@ -28,6 +28,18 @@ export class EvDatepicker implements OnChanges, OnInit {
 
   /**
    *
+   * @returns {boolean}
+   */
+  private static validateDate(date): boolean {
+    if (date != null && moment(date, 'DD/MM/YYYY').isValid())
+      if (typeof date === "string")
+        return date.replace('/', '').replace('/', '').length >= 8;
+      else
+        return true;
+  }
+
+  /**
+   *
    */
   changeData(date) {
     if (EvDatepicker.validateDate(date))
@@ -55,18 +67,6 @@ export class EvDatepicker implements OnChanges, OnInit {
       if (!changes.dataInput.currentValue || changes.dataInput.currentValue.length == 0)
         this.dataInputChange.emit(null);
     }
-  }
-
-  /**
-   *
-   * @returns {boolean}
-   */
-  private static validateDate(date): boolean {
-    if (date != null && moment(date, 'DD/MM/YYYY').isValid())
-      if (typeof date === "string")
-        return date.replace('/', '').replace('/', '').length >= 8;
-      else
-        return true;
   }
 
 }

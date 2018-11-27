@@ -24,6 +24,7 @@ public class AuthenticationResource {
 
     /**
      * TODO verificar se não da pra colocar em outro lugar também
+     *
      * @return Mono<Conta>
      */
     @GetMapping

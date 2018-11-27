@@ -51,17 +51,6 @@ export class EstatisticasAtendenteComponent implements OnInit {
    *
    */
   configuracao: Configuracao = new Configuracao();
-
-  /**
-   *
-   */
-  @ViewChild('dataInicio') dataInicio: EvDatepicker;
-
-  /**
-   *
-   */
-  @ViewChild('dataTermino') dataTermino: EvDatepicker;
-
   /**
    *
    * @type {[{name: string; value: number} , {name: string; value: number} , {name: string; value: number} , {name: string; value: number} , {name: string; value: number}]}
@@ -88,6 +77,14 @@ export class EstatisticasAtendenteComponent implements OnInit {
       "value": 0,
     }
   ];
+  /**
+   *
+   */
+  @ViewChild('dataInicio') dataInicio: EvDatepicker;
+  /**
+   *
+   */
+  @ViewChild('dataTermino') dataTermino: EvDatepicker;
 
   /**
    *

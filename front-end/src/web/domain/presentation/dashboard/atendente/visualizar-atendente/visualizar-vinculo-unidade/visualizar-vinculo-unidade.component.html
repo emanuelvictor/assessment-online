@@ -16,7 +16,8 @@
         {{'em: ' + atendente.unidade?.nome}}
       </h3>
       <p matLine *ngIf="atendente.unidade?.endereco?.cidade?.nome">
-        {{atendente.unidade?.endereco?.logradouro}}, {{atendente.unidade?.endereco?.numero}}, {{atendente.unidade?.endereco?.bairro}} -
+        {{atendente.unidade?.endereco?.logradouro}}, {{atendente.unidade?.endereco?.numero}},
+        {{atendente.unidade?.endereco?.bairro}} -
         {{atendente.unidade?.endereco?.cidade?.nome}} - {{atendente.unidade?.endereco?.cidade?.estado?.sigla}}
       </p>
     </mat-list-item>

@@ -52,6 +52,32 @@ public class ImportResource {
 
     private final ColaboradorService colaboradorService;
 
+    // Method which write the bytes into a file
+    private static File getFile(byte[] bytes) {
+        try {
+
+            // Path of a file
+            final String FILEPATH = Context.getCurrentSchema() + ".json";
+            final File file = new File(FILEPATH);
+
+            // Initialize a pointer
+            // in file using OutputStream
+            OutputStream os = new FileOutputStream(file);
+
+            // Starts writing the bytes in it
+            os.write(bytes);
+            System.out.println("Successfully byte inserted");
+
+            // Close the file
+            os.close();
+
+            return file;
+        } catch (Exception e) {
+            System.err.println("Exception: " + e);
+            return null;
+        }
+    }
+
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<String> save(@RequestPart("file") Flux<Part> file) {
@@ -191,9 +217,9 @@ public class ImportResource {
                                         avaliacao.setId((Long) ((JSONObject) avaliacaoJSON).get("id"));
 
 
-                                    // Se o jsonObject do avaliacaoColaborador não contiver a variável id,
-                                    // Então instancia uma avaliação, seta a nota e a data e salva,
-                                    // Depois pega o id e seta no jsonObject
+                                        // Se o jsonObject do avaliacaoColaborador não contiver a variável id,
+                                        // Então instancia uma avaliação, seta a nota e a data e salva,
+                                        // Depois pega o id e seta no jsonObject
                                     } else {
 
                                         // Extrai e seta a nota
@@ -233,33 +259,6 @@ public class ImportResource {
             return "Migração Concluída";
         } catch (IOException | ParseException e) {
             e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    // Method which write the bytes into a file
-    private static File getFile(byte[] bytes) {
-        try {
-
-            // Path of a file
-            final String FILEPATH = Context.getCurrentSchema() + ".json";
-            final File file = new File(FILEPATH);
-
-            // Initialize a pointer
-            // in file using OutputStream
-            OutputStream os = new FileOutputStream(file);
-
-            // Starts writing the bytes in it
-            os.write(bytes);
-            System.out.println("Successfully byte inserted");
-
-            // Close the file
-            os.close();
-
-            return file;
-        } catch (Exception e) {
-            System.err.println("Exception: " + e);
             return null;
         }
     }

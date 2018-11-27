@@ -1,55 +1,49 @@
 import {Directive, HostListener} from '@angular/core';
 
-@Directive({ selector: '[stopPropagation]' })
-export class StopPropagationDirective
-{ 
+@Directive({selector: '[stopPropagation]'})
+export class StopPropagationDirective {
   /**
-   * 
-   * @param event 
+   *
+   * @param event
    */
   @HostListener('click', ['$event'])
-  onClick(event)
-  {
+  onClick(event) {
     event.stopPropagation();
   }
 
   /**
-   * 
-   * @param event 
+   *
+   * @param event
    */
   @HostListener('mousedown', ['$event'])
-  onMouseDown(event)
-  {
+  onMouseDown(event) {
     event.stopPropagation();
   }
-  
+
   /**
-   * 
-   * @param event 
+   *
+   * @param event
    */
   @HostListener('mouseup', ['$event'])
-  onMouseUp(event)
-  {
+  onMouseUp(event) {
     event.stopPropagation();
   }
 
-   /**
-   * 
-   * @param event 
+  /**
+   *
+   * @param event
    */
   @HostListener('touchstart', ['$event'])
-  onTouchStart(event)
-  {
+  onTouchStart(event) {
     event.stopPropagation();
   }
 
-   /**
-   * 
-   * @param event 
+  /**
+   *
+   * @param event
    */
   @HostListener('touchend', ['$event'])
-  onTouchEnd(event)
-  {
+  onTouchEnd(event) {
     event.stopPropagation();
   }
 }

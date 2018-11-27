@@ -77,7 +77,6 @@ public class Configuracao extends AbstractEntity {
     private String agradecimento;
 
     /**
-     *
      * @return byte[]
      */
     @JsonIgnore
@@ -86,7 +85,6 @@ public class Configuracao extends AbstractEntity {
     }
 
     /**
-     *
      * @return byte[]
      */
     @JsonIgnore
@@ -95,7 +93,6 @@ public class Configuracao extends AbstractEntity {
     }
 
     /**
-     *
      * @return byte[]
      */
     public String getLogoPath() {
@@ -105,7 +102,6 @@ public class Configuracao extends AbstractEntity {
     }
 
     /**
-     *
      * @return byte[]
      */
     public String getBackgroundImagePath() {
@@ -115,7 +111,6 @@ public class Configuracao extends AbstractEntity {
     }
 
     /**
-     *
      * @return String
      */
     public String getAgradecimento() {

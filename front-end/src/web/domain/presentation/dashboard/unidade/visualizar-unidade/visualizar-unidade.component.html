@@ -25,7 +25,8 @@
                     Média: <span class="tc-purple-500"> {{unidade?.media| number:'.1-3' : 'en-US'}}</span>
                   </h1>
                   <h1 flex class="mat-headline tc-blue-grey-800 no-margin">{{unidade?.nome}}</h1>
-                  <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin" *ngIf='unidade?.documento'>CNPJ: {{unidade?.documento | documento}}</h2>
+                  <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin" *ngIf='unidade?.documento'>CNPJ:
+                    {{unidade?.documento | documento}}</h2>
                   <h3 flex class="mat-subheading-2 tc-blue-grey-500 no-margin" *ngIf="unidade?.endereco?.cidade?.nome">
                     {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.numero}}, {{unidade?.endereco?.bairro}} -
                     {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.uf}}

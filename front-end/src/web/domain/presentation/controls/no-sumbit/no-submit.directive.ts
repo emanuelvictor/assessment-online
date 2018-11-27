@@ -5,21 +5,20 @@ import {Directive, HostListener, Input} from '@angular/core';
 })
 export class NoSubmitDirective {
 
-  constructor() { }
-
   @Input() keyCode: number = 13;
 
+  constructor() {
+  }
+
   /**
-   * 
-   * @param event 
+   *
+   * @param event
    */
   @HostListener('keypress', ['$event'])
-  onClick(event)
-  {
-   if(event.keyCode === this.keyCode)
-      {
-        event.preventDefault();
-      }
+  onClick(event) {
+    if (event.keyCode === this.keyCode) {
+      event.preventDefault();
+    }
   }
 
 }

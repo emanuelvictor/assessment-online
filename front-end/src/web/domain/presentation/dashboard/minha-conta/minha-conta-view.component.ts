@@ -5,8 +5,7 @@ import {Component, OnInit} from '@angular/core';
   templateUrl: './minha-conta-view.component.html',
   styleUrls: ['./minha-conta-view.component.css']
 })
-export class MinhaContaViewComponent implements OnInit
-{
+export class MinhaContaViewComponent implements OnInit {
 
 
   /*-------------------------------------------------------------------
@@ -19,8 +18,7 @@ export class MinhaContaViewComponent implements OnInit
   /**
    *
    */
-  constructor()
-  {
+  constructor() {
   }
 
   /*-------------------------------------------------------------------
@@ -29,8 +27,7 @@ export class MinhaContaViewComponent implements OnInit
   /**
    *
    */
-  ngOnInit()
-  {
+  ngOnInit() {
   }
 
 }

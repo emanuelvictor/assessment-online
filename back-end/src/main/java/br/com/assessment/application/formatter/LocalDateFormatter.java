@@ -25,7 +25,7 @@ public class LocalDateFormatter implements Formatter<LocalDate> {
     }
 
     @Override
-    public String print(final LocalDate object,final  Locale locale) {
+    public String print(final LocalDate object, final Locale locale) {
         assert this.pattern != null;
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(this.pattern, locale);
         return object.format(formatter);

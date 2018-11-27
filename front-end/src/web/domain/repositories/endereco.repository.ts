@@ -6,7 +6,8 @@ export class EnderecoRepository {
 
   private postmon = 'http://api.postmon.com.br/v1/cep/';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+  }
 
   public getAdressByCep(cep: string): Promise<any> {
     return this.httpClient.get(this.postmon + cep).toPromise();

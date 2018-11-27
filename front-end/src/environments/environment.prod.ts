@@ -10,7 +10,7 @@ export const environment = {
     messagingSenderId: '450535726461'
   },
 
-  handlerUserUrl : 'https://us-central1-cinecataratas-online.cloudfunctions.net/handlerUser',
+  handlerUserUrl: 'https://us-central1-cinecataratas-online.cloudfunctions.net/handlerUser',
 
   // firebase: {
   //   apiKey: 'AIzaSyAHHXCFeVqid9fOpnt2sKHbJViTFMXGQ8o',

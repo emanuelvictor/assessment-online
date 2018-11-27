@@ -50,16 +50,6 @@ export class EstatisticasUnidadeComponent implements OnInit {
    *
    */
   configuracao: Configuracao = new Configuracao();
-
-  /**
-   *
-   */
-  @ViewChild('dataInicio') dataInicio: EvDatepicker;
-
-  /**
-   *
-   */
-  @ViewChild('dataTermino') dataTermino: EvDatepicker;
   /**
    *
    * @type {[{name: string; value: number} , {name: string; value: number} , {name: string; value: number} , {name: string; value: number} , {name: string; value: number}]}
@@ -86,6 +76,14 @@ export class EstatisticasUnidadeComponent implements OnInit {
       "value": 0,
     }
   ];
+  /**
+   *
+   */
+  @ViewChild('dataInicio') dataInicio: EvDatepicker;
+  /**
+   *
+   */
+  @ViewChild('dataTermino') dataTermino: EvDatepicker;
 
   /**
    *
@@ -96,7 +94,7 @@ export class EstatisticasUnidadeComponent implements OnInit {
   constructor(private unidadeService: UnidadeService,
               private activatedRoute: ActivatedRoute,
               private configuracaoService: ConfiguracaoService) {
-    Object.assign(this, { single })
+    Object.assign(this, {single})
   }
 
   /**
@@ -185,7 +183,7 @@ export class EstatisticasUnidadeComponent implements OnInit {
   /**
    *
    */
-  public resetDates(){
+  public resetDates() {
     this.dataInicio.data = null;
     this.dataTermino.data = null;
   }

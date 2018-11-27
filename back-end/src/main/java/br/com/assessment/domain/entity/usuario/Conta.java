@@ -107,7 +107,6 @@ public class Conta extends AbstractEntity implements UserDetails {
     }
 
     /**
-     *
      * @return Perfil
      */
     public Perfil getPerfil() {

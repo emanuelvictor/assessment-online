@@ -3,7 +3,7 @@ import {Abstract} from '../abstract/abstract.model';
 
 export class Cidade extends Abstract {
 
-  public nome:string;
+  public nome: string;
 
   public estado: Estado = new Estado();
 }

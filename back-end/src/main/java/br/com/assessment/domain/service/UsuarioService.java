@@ -105,8 +105,7 @@ public class UsuarioService {
     }
 
     /**
-     *
-     * @param id long
+     * @param id      long
      * @param usuario Usuario
      * @return Usuario
      */
@@ -130,7 +129,6 @@ public class UsuarioService {
     }
 
     /**
-     *
      * @param usuario Usuario
      * @return Usuario
      */
@@ -150,7 +148,7 @@ public class UsuarioService {
     /**
      * Método público que cria a conta do usuário como administrador
      *
-     * @param usuario Usuario
+     * @param usuario  Usuario
      * @param exchange ServerWebExchange
      * @return Mono<Usuario>
      */
@@ -190,7 +188,6 @@ public class UsuarioService {
     }
 
     /**
-     *
      * @param usuarioId long
      */
     public void delete(final long usuarioId) {

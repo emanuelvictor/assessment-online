@@ -160,7 +160,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   )" +
             "GROUP BY unidade.id, unidade.nome, unidade.documento"
     )
-    Unidade findUnidadeByIdAndReturnAvaliacoes( @Param("unidadeId") final Long unidadeId);
+    Unidade findUnidadeByIdAndReturnAvaliacoes(@Param("unidadeId") final Long unidadeId);
 
     List<Unidade> findByNome(final String nome);
 }

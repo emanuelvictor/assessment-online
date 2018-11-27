@@ -22,7 +22,7 @@ public class EnderecoResource {
     private final EnderecoService enderecoService;
 
     @GetMapping
-    public Mono<Optional<Cidade>> find(@RequestParam String cidade, @RequestParam String uf)  {
+    public Mono<Optional<Cidade>> find(@RequestParam String cidade, @RequestParam String uf) {
         return Mono.just(this.enderecoService.find(cidade, uf));
     }
 }

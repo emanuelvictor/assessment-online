@@ -50,6 +50,24 @@ export class Interceptor implements HttpInterceptor {
   }
 
   /**
+   *
+   * @param message
+   */
+  public error(message: string) {
+    this.openSnackBar(message);
+  }
+
+  /**
+   *
+   * @param message
+   */
+  public openSnackBar(message: string) {
+    this.snackBar.open(message, "Fechar", {
+      duration: 5000
+    });
+  }
+
+  /**
    * Função privada, captura os erros
    * @returns {(res: any) => ErrorObservable}
    */
@@ -74,24 +92,6 @@ export class Interceptor implements HttpInterceptor {
 
       return observableThrowError(res);
     };
-  }
-
-  /**
-   *
-   * @param message
-   */
-  public error(message: string) {
-    this.openSnackBar(message);
-  }
-
-  /**
-   *
-   * @param message
-   */
-  public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
-      duration: 5000
-    });
   }
 
 }

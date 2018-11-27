@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package br.com.assessment.infrastructure.hibernate.functions;
 
@@ -14,66 +14,54 @@ import java.util.List;
 
 /**
  * @author emanuel.fonseca
- *
  */
-public class PostgreSQLFullTextSearchFunction implements SQLFunction
-{
-	/**
-	 * 
-	 */
-	@Override
-	@SuppressWarnings("rawtypes")
-	public String render(Type firstArgumentType, List arguments, SessionFactoryImplementor factory) throws QueryException
-	{
-		try 
-		{
-			String fragment = null;
-			
-			final String field = (String) arguments.get(0);
-			final String value = (String) arguments.get(1);	
-			
-			try 
-			{
-				final String config = (String) arguments.get(2);
-				fragment = "to_tsvector("+ config +", "+ field +") @@ " + "to_tsquery("+ config +", "+ value +")";
-			}
-			catch (IndexOutOfBoundsException e)
-			{
-				fragment = "to_tsvector('simple', "+ field +") @@ " + "to_tsquery('simple', "+ value +")";
-			}
-			
-			return fragment;
-		} 
-		catch (IndexOutOfBoundsException e) 
-		{
-			throw new IllegalArgumentException("The function must be passed 2 or 3 arguments");
-		}
-	}
+public class PostgreSQLFullTextSearchFunction implements SQLFunction {
+    /**
+     *
+     */
+    @Override
+    @SuppressWarnings("rawtypes")
+    public String render(Type firstArgumentType, List arguments, SessionFactoryImplementor factory) throws QueryException {
+        try {
+            String fragment = null;
 
-	/**
-	 * 
-	 */
-	@Override
-	public Type getReturnType(Type columnType, Mapping mapping) throws QueryException
-	{
-		return new BooleanType();
-	}
+            final String field = (String) arguments.get(0);
+            final String value = (String) arguments.get(1);
 
-	/**
-	 * 
-	 */
-	@Override
-	public boolean hasArguments() 
-	{
-		return true;
-	}
+            try {
+                final String config = (String) arguments.get(2);
+                fragment = "to_tsvector(" + config + ", " + field + ") @@ " + "to_tsquery(" + config + ", " + value + ")";
+            } catch (IndexOutOfBoundsException e) {
+                fragment = "to_tsvector('simple', " + field + ") @@ " + "to_tsquery('simple', " + value + ")";
+            }
 
-	/**
-	 * 
-	 */
-	@Override
-	public boolean hasParenthesesIfNoArguments() 
-	{
-		return false;
-	}
+            return fragment;
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("The function must be passed 2 or 3 arguments");
+        }
+    }
+
+    /**
+     *
+     */
+    @Override
+    public Type getReturnType(Type columnType, Mapping mapping) throws QueryException {
+        return new BooleanType();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public boolean hasArguments() {
+        return true;
+    }
+
+    /**
+     *
+     */
+    @Override
+    public boolean hasParenthesesIfNoArguments() {
+        return false;
+    }
 }
