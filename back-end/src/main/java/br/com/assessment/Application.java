@@ -30,8 +30,6 @@ public class Application extends SpringBootServletInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
-    /**
-     */
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -60,7 +58,10 @@ public class Application extends SpringBootServletInitializer {
         return application.sources(Application.class);
     }
 
-
+    /**
+     *
+     * @return MessageSource
+     */
     @Bean
     public MessageSource messageSource() {
         final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -86,6 +87,7 @@ public class Application extends SpringBootServletInitializer {
 
     /**
      *
+     * @return MultipartConfigElement
      */
     @Bean
     public MultipartConfigElement multipartConfigElement() {
@@ -94,6 +96,7 @@ public class Application extends SpringBootServletInitializer {
 
     /**
      *
+     * @return MultipartResolver
      */
     @Bean
     public MultipartResolver multipartResolver() {
@@ -103,6 +106,8 @@ public class Application extends SpringBootServletInitializer {
     }
 
     /**
+     *
+     * @return Validator
      */
     @Bean
     public Validator validator() {
