@@ -8,8 +8,7 @@ import 'rxjs/add/operator/toPromise';
   templateUrl: './brand.component.html',
   styleUrls: ['./brand.component.scss']
 })
-export class BrandComponent
-  implements OnInit {
+export class BrandComponent implements OnInit {
 
   /**
    *
@@ -36,7 +35,7 @@ export class BrandComponent
    *
    * @type {}
    */
-  public pathFile: string = './assets/baseline-branding_watermark-24px.svg';
+  public pathFile: string = './assets/images/baseline-branding_watermark-24px.svg';
 
   /**
    *
@@ -50,7 +49,7 @@ export class BrandComponent
    */
   public ngOnInit() {
     if (this.background)
-      this.pathFile = './assets/baseline-landscape-24px.svg';
+      this.pathFile = './assets/images/baseline-landscape-24px.svg';
 
     this.identifier = Math.floor(Math.random() * 2000).toString();
     this.identifier = this.identifier + this.identifier;

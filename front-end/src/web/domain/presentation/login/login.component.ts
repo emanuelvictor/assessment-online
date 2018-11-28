@@ -1,5 +1,5 @@
 import {Subject} from 'rxjs/Subject';
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
 import {Conta} from '../../entity/usuario/conta.model';
@@ -24,13 +24,19 @@ export class LoginComponent {
   /**
    *
    */
-  public cliente: string;
+  public cliente: string = 'public';
 
   /**
    *
    * @type {Subject<string>}
    */
   private modelChanged: Subject<string> = new Subject<string>();
+
+  /**
+   *
+   */
+  @ViewChild('img')
+  public img;
 
 
   /**
@@ -45,7 +51,11 @@ export class LoginComponent {
       .distinctUntilChanged()
       .subscribe(model =>
         this.configuracaoRepository.getClienteByUsername(model)
-          .subscribe(result => this.cliente = result)
+          .subscribe(result => {
+            this.cliente = result;
+            if (this.img)
+              this.img.src = './configuracoes/logomarca?cliente=' + this.cliente;
+          })
       );
   }
 

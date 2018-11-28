@@ -1,15 +1,22 @@
-<div layout="column" layout-align="center center" class="login"
+<div layout-align="center center"
+     layout="column" class="login"
      [ngStyle]="{'background-image': 'url(./configuracoes/background?cliente='+cliente+')'}">
-  <div layout="column" layout-align="center center">
+
+  <div layout="column"
+       layout-align="center center">
+
     <mat-card style="width: 600px">
       <mat-card-content>
 
-        <form #signinForm="ngForm" (ngSubmit)="login()">
+        <form #signinForm="ngForm"
+              (ngSubmit)="login()">
           <div layout="column" layout-margin>
 
-            <div layout="column" layout-margin layout-align="center center">
+            <div layout-align="center center"
+                 layout="column" layout-margin>
+
               <div layout="row" flex layout-margin>
-                <img *ngIf='cliente' class="logo" src="./configuracoes/logomarca?cliente={{cliente}}">
+                <img class="logo" #img src="./configuracoes/logomarca?cliente={{cliente}}">
               </div>
 
               <div layout="row" flex layout-margin>
@@ -20,17 +27,22 @@
             </div>
 
 
-            <div layout="row" flex layout-margin style="margin-top: 34px;">
+            <div layout="row" layout-margin
+                 flex style="margin-top: 34px;">
               <mat-form-field flex>
-                <input matInput required name="email"
+                <input matInput
+                       required name="email"
                        (ngModelChange)='changed($event)'
                        placeholder="Acesse com seu email"
                        [(ngModel)]="conta.email" noWhiteSpace/>
               </mat-form-field>
             </div>
 
-            <div layout="column" flex layout-margin>
-              <div layout="row" flex="">
+            <div layout="column"
+                 flex layout-margin>
+
+              <div flex
+                   layout="row">
                 <mat-form-field flex>
                   <input placeholder="Sua senha"
                          required name="password"
@@ -40,9 +52,10 @@
               </div>
             </div>
 
-            <div layout="row" flex layout-margin>
-              <button [disabled]="!signinForm.form.valid"
-                      style="height: 55px" mat-raised-button color="accent" flex>
+            <div layout="row"
+                 flex layout-margin>
+              <button [disabled]="!signinForm.form.valid" flex
+                      style="height: 55px" mat-raised-button color="accent">
                 <b>Entrar</b>
               </button>
             </div>
