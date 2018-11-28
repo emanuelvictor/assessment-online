@@ -5,9 +5,12 @@ import br.com.assessment.domain.entity.configuracao.Configuracao;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.repository.ConfiguracaoRepository;
 import br.com.assessment.domain.repository.ContaRepository;
+import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import java.io.IOException;
 
 import static br.com.assessment.application.context.Context.DEFAULT_TENANT_ID;
 
@@ -76,10 +79,25 @@ public class ConfiguracaoService {
         return (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
     }
 
+    /**
+     *
+     * @param fileInBytes byte[]
+     * @return String
+     */
     public String saveBackground(final byte[] fileInBytes) {
         final Configuracao configuracao = this.getConfiguracao();
 
-        configuracao.setBackgroundImage(fileInBytes);
+        try {
+            final int width = ImageUtils.getBufferedImageFromByteArray(fileInBytes).getWidth();
+            final int height = ImageUtils.getBufferedImageFromByteArray(fileInBytes).getHeight();
+
+            final int imageWidth = width - (int) Math.round((width * 0.100));
+            final int imageHeight = height - (int) Math.round((height * 0.100));
+
+            configuracao.setBackgroundImage(ImageUtils.resizeImage(fileInBytes, imageWidth, imageHeight));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return this.configuracaoRepository.save(configuracao).getBackgroundImagePath();
     }
