@@ -21,7 +21,14 @@ public class Context {
     public static void setCurrentSchema(final String tenant) {
         if (currentSchema == null)
             currentSchema = new ThreadLocal<>();
-        currentSchema.set(tenant);
+
+        currentSchema.set(removeNoCache(tenant));
+    }
+
+    private static String removeNoCache(final String schema) {
+        if (schema.contains("?nocache"))
+            return schema.replace(schema.substring(schema.indexOf("?nocache")), "");
+        return schema;
     }
 
     public static void clearCurrentSchema() {

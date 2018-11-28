@@ -34,10 +34,15 @@ export class LoginComponent {
 
   /**
    *
+   * @type {string}
    */
-  @ViewChild('img')
-  public img;
+  logoImage: string = './configuracoes/logomarca?cliente=public';
 
+  /**
+   *
+   * @type {string}
+   */
+  backgroundImage: string = './configuracoes/background?cliente=public';
 
   /**
    *
@@ -53,8 +58,12 @@ export class LoginComponent {
         this.configuracaoRepository.getClienteByUsername(model)
           .subscribe(result => {
             this.cliente = result;
-            if (this.img)
-              this.img.src = './configuracoes/logomarca?cliente=' + this.cliente;
+
+            const identifier: string = this.getIdentifier();
+
+            this.logoImage = './configuracoes/logomarca?cliente=' + this.cliente + '?nocache=' + identifier;
+
+            this.backgroundImage = './configuracoes/background?cliente=' + this.cliente + '?nocache=' + identifier;
           })
       );
   }
@@ -82,6 +91,10 @@ export class LoginComponent {
   public changed(username: string) {
     if (username && username.length)
       this.modelChanged.next(username);
+  }
 
+
+  public getIdentifier(): string {
+    return Math.floor(Math.random() * 2000).toString();
   }
 }

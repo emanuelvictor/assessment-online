@@ -1,6 +1,6 @@
 <div layout-align="center center"
      layout="column" class="login"
-     [ngStyle]="{'background-image': 'url(./configuracoes/background?cliente='+cliente+')'}">
+     [style.background-image]="'url(' + backgroundImage + ')'">
 
   <div layout="column"
        layout-align="center center">
@@ -15,8 +15,9 @@
             <div layout-align="center center"
                  layout="column" layout-margin>
 
-              <div layout="row" flex layout-margin>
-                <img class="logo" #img src="./configuracoes/logomarca?cliente={{cliente}}">
+              <div layout="row"
+                   flex layout-margin>
+                <img class="logo" src="{{logoImage}}">
               </div>
 
               <div layout="row" flex layout-margin>
