@@ -1,10 +1,10 @@
 <search-bar>
 
-  <td-chips [(ngModel)]='pageRequest.defaultFilter'
-            style='margin-left:0; margin-top: 9px;'
+  <td-chips style='margin-left:0; margin-top: 9px;'
+            [(ngModel)]='pageRequest.defaultFilter'
             placeholder="Pesquisar por nome ou e-mail"
-            flex-md="40" flex-gt-md="45" flex-gt-lg="50"
-            (add)="onChangeFilters()" (remove)="onChangeFilters()">
+            (add)="onChangeFilters()" (remove)="onChangeFilters()"
+            flex-sm='30' flex-md="40" flex-gt-md="45" flex-gt-lg="50">
   </td-chips>
 
 
@@ -13,7 +13,7 @@
             [(ngModel)]='asyncModel'
             (inputChange)="filterAsync($event)"
             placeholder="Pesquisar por unidades"
-            [debounce]="500" flex="30" style="margin-top: 0px;"
+            [debounce]="500" flex="30" flex-sm='30' style="margin-top: 0px;"
             (add)="onChangeFilters()" (remove)="onChangeFilters()">
     <ng-template td-chip let-chip="chip">
       {{chip?.nome}} ({{chip?.endereco?.cidade?.nome }} - {{chip?.endereco?.cidade?.estado?.uf}})
@@ -27,10 +27,20 @@
 
   <div flex-gt-md></div>
 
-  <button mat-raised-button
+  <button hide-sm mat-raised-button
           class="bgc-blue-grey-50 push-right"
           (click)="toggleShowPesquisaAvancada()">
-    Pesquisa avançada
+    Filtros avançados
+  </button>
+
+  <button hide-gt-sm
+          color="accent"
+          mat-icon-button flex
+          [matTooltipPosition]="'below'"
+          matTooltip="Filtros avançados"
+          style='color: #0c3e6f !important;'
+          (click)="toggleShowPesquisaAvancada()">
+    <mat-icon>filter_list</mat-icon>
   </button>
 
   <add-button routerLink="inserir"

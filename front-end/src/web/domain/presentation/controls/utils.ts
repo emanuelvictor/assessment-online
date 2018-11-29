@@ -22,3 +22,8 @@ export const single = [
     "value": 0,
   }
 ];
+
+
+export function getIdentifier(): string {
+  return Math.floor(Math.random() * 2000).toString();
+}

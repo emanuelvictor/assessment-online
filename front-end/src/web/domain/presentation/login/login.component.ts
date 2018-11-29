@@ -1,10 +1,11 @@
 import {Subject} from 'rxjs/Subject';
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
 import {Conta} from '../../entity/usuario/conta.model';
 import {ConfiguracaoRepository} from "../../repositories/configuracao.repository";
 import 'rxjs/add/operator/debounceTime';
+import {getIdentifier} from "../controls/utils";
 
 /**
  *
@@ -57,13 +58,15 @@ export class LoginComponent {
       .subscribe(model =>
         this.configuracaoRepository.getClienteByUsername(model)
           .subscribe(result => {
-            this.cliente = result;
+            if (result != this.cliente){
+              this.cliente = result;
 
-            const identifier: string = this.getIdentifier();
+              const identifier: string = getIdentifier();
 
-            this.logoImage = './configuracoes/logomarca?cliente=' + this.cliente + '?nocache=' + identifier;
+              this.logoImage = './configuracoes/logomarca?cliente=' + this.cliente + '?nocache=' + identifier;
 
-            this.backgroundImage = './configuracoes/background?cliente=' + this.cliente + '?nocache=' + identifier;
+              this.backgroundImage = './configuracoes/background?cliente=' + this.cliente + '?nocache=' + identifier;
+            }
           })
       );
   }
@@ -94,7 +97,4 @@ export class LoginComponent {
   }
 
 
-  public getIdentifier(): string {
-    return Math.floor(Math.random() * 2000).toString();
-  }
 }
