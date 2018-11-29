@@ -11,6 +11,12 @@
 /front-end/functions/node_modules
 /bower_components
 
+# Mobile
+/mobile/www
+/mobile/node_modules
+/mobile/platform
+/mobile/package-lock.json
+
 # IDEs and editors
 /front-end/.idea
 /back-end/.idea
