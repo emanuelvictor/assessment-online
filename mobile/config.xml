@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="br.com.assessment" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Sódupé</name>
+    <description>
+        Sistema de Monitoramento de Avaliações
+    </description>
+    <author email="emanuel.info@gmail.com" href="http://www.emanuelvictor.com">
+        Emanuel Victor
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+        <preference name="android-minSdkVersion" value="16" />
+        <preference name="android-targetSdkVersion" value="22" />
+        <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />
+        <preference name="fullscreen" value="true" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+    <preference name="CRIInjectFirstFiles" value="www/js/init.js" />
+    <plugin name="cordova-plugin-insomnia" spec="git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git" />
+    <plugin name="cordova-plugin-kiosk" spec="git+https://github.com/hkalina/cordova-plugin-kiosk.git" />
+    <plugin name="cordova-plugin-remote-injection" spec="^0.5.2" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
+    <engine name="android" spec="^6.4.0" />
+</widget>
