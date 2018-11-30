@@ -1,4 +1,4 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+i# See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
 /front-end/dist/**
@@ -14,8 +14,10 @@
 # Mobile
 /mobile/www
 /mobile/node_modules
-/mobile/platform
+/mobile/platforms
+/mobile/res
 /mobile/package-lock.json
+/mobile/plugins
 
 # IDEs and editors
 /front-end/.idea
