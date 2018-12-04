@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {getIdentifier} from "../../../../web/domain/presentation/controls/utils";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-avaliacao',
@@ -8,10 +9,6 @@ import {getIdentifier} from "../../../../web/domain/presentation/controls/utils"
 })
 export class AvaliacaoComponent {
 
-  backgroundImage: string = './configuracoes/background' + '?nocache=' + getIdentifier();
-
-  constructor(){
-
-  }
+  backgroundImage: string = environment.endpoint + './configuracoes/background' + '?nocache=' + getIdentifier();
 
 }

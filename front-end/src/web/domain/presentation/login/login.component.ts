@@ -6,6 +6,7 @@ import {Conta} from '../../entity/usuario/conta.model';
 import {ConfiguracaoRepository} from "../../repositories/configuracao.repository";
 import 'rxjs/add/operator/debounceTime';
 import {getIdentifier} from "../controls/utils";
+import {environment} from "../../../../environments/environment";
 
 /**
  *
@@ -37,13 +38,13 @@ export class LoginComponent {
    *
    * @type {string}
    */
-  logoImage: string = './configuracoes/logomarca?cliente=public';
+  logoImage: string = environment.endpoint + './configuracoes/logomarca?cliente=public';
 
   /**
    *
    * @type {string}
    */
-  backgroundImage: string = './configuracoes/background?cliente=public';
+  backgroundImage: string = environment.endpoint + './configuracoes/background?cliente=public';
 
   /**
    *
@@ -58,14 +59,14 @@ export class LoginComponent {
       .subscribe(model =>
         this.configuracaoRepository.getClienteByUsername(model)
           .subscribe(result => {
-            if (result != this.cliente){
+            if (result != this.cliente) {
               this.cliente = result;
 
               const identifier: string = getIdentifier();
 
-              this.logoImage = './configuracoes/logomarca?cliente=' + this.cliente + '?nocache=' + identifier;
+              this.logoImage = environment.endpoint + './configuracoes/logomarca?cliente=' + this.cliente + '?nocache=' + identifier;
 
-              this.backgroundImage = './configuracoes/background?cliente=' + this.cliente + '?nocache=' + identifier;
+              this.backgroundImage = environment.endpoint + './configuracoes/background?cliente=' + this.cliente + '?nocache=' + identifier;
             }
           })
       );
@@ -95,6 +96,5 @@ export class LoginComponent {
     if (username && username.length)
       this.modelChanged.next(username);
   }
-
 
 }
