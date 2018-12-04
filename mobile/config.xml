@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="br.com.assessment" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Sódupé</name>
+    <name>Assessment Online</name>
     <description>
         Sistema de Monitoramento de Avaliações
     </description>
-    <author email="emanuel.info@gmail.com" href="http://www.emanuelvictor.com">
+    <author email="emanuel.info@gmail.com" href="http://www.assessment-online.com.br">
         Emanuel Victor
     </author>
     <content src="index.html" />
@@ -27,9 +27,9 @@
         <allow-intent href="itms-apps:*" />
     </platform>
     <preference name="CRIInjectFirstFiles" value="www/js/init.js" />
-    <plugin name="cordova-plugin-insomnia" spec="git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git" />
     <plugin name="cordova-plugin-kiosk" spec="git+https://github.com/hkalina/cordova-plugin-kiosk.git" />
     <plugin name="cordova-plugin-remote-injection" spec="^0.5.2" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
+    <plugin name="cordova-plugin-insomnia" spec="https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git" />
     <engine name="android" spec="^6.4.0" />
 </widget>

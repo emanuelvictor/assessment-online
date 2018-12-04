@@ -7,10 +7,6 @@ import {BaseRepository} from '../../infrastructure/repository/base/base.reposito
 @Injectable()
 export class UsuarioRepository extends BaseRepository<Usuario> {
 
-  /**
-   *
-   * @param {HttpClient} httpClient
-   */
   constructor(httpClient: HttpClient) {
     super(httpClient, 'usuarios');
   }

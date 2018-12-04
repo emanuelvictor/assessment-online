@@ -4,6 +4,7 @@ import {Usuario} from '../entity/usuario/usuario.model';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
 import {Conta} from '../entity/usuario/conta.model';
+import {environment} from "../../../environments/environment";
 
 
 @Injectable()
@@ -23,7 +24,7 @@ export class ContaRepository extends BaseRepository<Conta> {
    * @returns {Promise<Usuario>}
    */
   public createAccount(cliente: Usuario): Promise<Usuario> {
-    return this.httpClient.post<Usuario>('usuarios/contas', cliente).toPromise();
+    return this.httpClient.post<Usuario>(environment.endpoint + 'usuarios/contas', cliente).toPromise();
   }
 
   /**
@@ -37,7 +38,7 @@ export class ContaRepository extends BaseRepository<Conta> {
 
     const params: HttpParams = new HttpParams().set('newPassword', newPassword);
 
-    return this.httpClient.get<Usuario>('usuarios/contas/' + usuario.id + '/change-password', {
+    return this.httpClient.get<Usuario>(environment.endpoint + 'usuarios/contas/' + usuario.id + '/change-password', {
       params: params
     }).toPromise();
   }
@@ -53,7 +54,7 @@ export class ContaRepository extends BaseRepository<Conta> {
 
     const params: HttpParams = new HttpParams().set('newPassword', newPassword).set('password', password);
 
-    return this.httpClient.get<Usuario>('usuarios/contas/' + usuario.id + '/change-password', {
+    return this.httpClient.get<Usuario>(environment.endpoint + 'usuarios/contas/' + usuario.id + '/change-password', {
       params: params
     }).toPromise();
 

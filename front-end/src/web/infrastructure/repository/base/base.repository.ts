@@ -3,17 +3,18 @@ import {IRead} from '../interfaces/IRead';
 import {HttpClient} from '@angular/common/http';
 import {PageSerialize} from '../../page-serialize/page-serialize';
 import {Observable} from 'rxjs';
+import {environment} from "../../../../environments/environment";
 
 
 export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
 
-  private collectionName: string;
+  private collectionName: string = environment.endpoint;
 
   constructor(public httpClient: HttpClient, public collection: string) {
     if (collection)
-      this.collectionName = collection;
+      this.collectionName = this.collectionName + collection;
     else
-      this.collectionName = this.constructor.name.replace('Repository', '').toLowerCase() + 's';
+      this.collectionName = this.collectionName + this.constructor.name.replace('Repository', '').toLowerCase() + 's';
   }
 
   async save(item: T): Promise<T> {

@@ -5,6 +5,7 @@ import {FileRepository} from '../../infrastructure/repository/file/file.reposito
 import {MatSnackBar} from '@angular/material';
 import {UsuarioRepository} from '../repositories/usuario.repository';
 import {FotoLoadingComponent} from '../presentation/controls/foto-loading/foto-loading.component';
+import {environment} from "../../../environments/environment";
 
 /**
  *
@@ -65,7 +66,6 @@ export class UsuarioService {
    * @returns {Promise<Usuario>}
    */
   public save(usuario: Usuario): Promise<Usuario> {
-
     const arquivoFile = usuario.arquivoFile;
     const fotoPath = usuario.fotoPath;
 
@@ -84,7 +84,7 @@ export class UsuarioService {
           toSave = result;
           if (arquivoFile) {
 
-            this.fileRepository.save('usuarios/' + String(result.id) + '/foto', arquivoFile)
+            this.fileRepository.save(environment.endpoint + 'usuarios/' + String(result.id) + '/foto', arquivoFile)
               .then(uploaded => {
                 toSave.fotoPath = uploaded;
                 resolve(toSave);
@@ -97,7 +97,7 @@ export class UsuarioService {
           } else {
 
             if (!fotoPath) {
-              this.fileRepository.remove('usuarios/' + String(result.id) + '/foto')
+              this.fileRepository.remove(environment.endpoint + 'usuarios/' + String(result.id) + '/foto')
                 .then(() => {
                   toSave.fotoPath = null;
                   resolve(toSave);

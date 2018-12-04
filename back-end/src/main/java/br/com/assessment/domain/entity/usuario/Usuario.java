@@ -87,11 +87,8 @@ public class Usuario extends Pessoa {
      *
      */
     public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath,
-                   final Double media, final long quantidadeAvaliacoes, final long avaliacoes1, final long avaliacoes2, final long avaliacoes3, final long avaliacoes4, final long avaliacoes5) {
+                   final Double media, final long quantidadeAvaliacoes, final long avaliacoes1, final long avaliacoes2, final long avaliacoes3, final long avaliacoes4, final long avaliacoes5, final Conta conta) {
 
-        final Conta conta = new Conta();
-        conta.setId(id);
-        conta.setEmail(email);
         this.conta = conta;
 
         this.id = id;
@@ -109,11 +106,8 @@ public class Usuario extends Pessoa {
         this.avaliacoes5 = avaliacoes5;
     }
 
-    public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath) {
+    public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath, final Conta conta) {
 
-        final Conta conta = new Conta();
-        conta.setId(id);
-        conta.setEmail(email);
         this.conta = conta;
 
         this.id = id;

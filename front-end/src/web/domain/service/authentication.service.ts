@@ -5,6 +5,7 @@ import {isNullOrUndefined} from 'util';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Conta} from '../entity/usuario/conta.model';
+import {environment} from "../../../environments/environment";
 
 @Injectable()
 export class AuthenticationService implements CanActivate, CanActivateChild {
@@ -13,6 +14,11 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    *
    */
   public contaAutenticadaChanged: EventEmitter<any>;
+
+  /**
+   *
+   */
+  private _contaAutenticada: any = null;
 
   /**
    *
@@ -28,11 +34,6 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     });
 
   }
-
-  /**
-   *
-   */
-  private _contaAutenticada: any = null;
 
   /**
    *
@@ -85,21 +86,21 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {Promise<Conta>}
    */
   public login(conta: Conta): Promise<Conta> {
-    return this.httpClient.post<Conta>('login', conta).toPromise();
+    return this.httpClient.post<Conta>(environment.endpoint + 'login', conta).toPromise();
   }
 
   /**
    *
    */
   public logout(): Promise<any> {
-    return this.httpClient.get('logout').toPromise()
+    return this.httpClient.get(environment.endpoint + 'logout').toPromise()
   }
 
   /**
    *
    */
   public requestContaAutenticada(): Observable<Conta> {
-    return this.httpClient.get<Conta>('principal');
+    return this.httpClient.get<Conta>(environment.endpoint + 'principal');
   }
 
   /**
@@ -109,6 +110,6 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {Promise<{}>}
    */
   public authenticateByUnidade(unidadeId, password): Promise<any> {
-    return this.httpClient.get('unidades/authenticate/' + unidadeId + '?password=' + password).toPromise()
+    return this.httpClient.get(environment.endpoint + 'unidades/authenticate/' + unidadeId + '?password=' + password).toPromise()
   }
 }

@@ -20,7 +20,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   usuario.conta.email, " +
             "   usuario.thumbnailPath,  " +
             "   usuario.avatarPath, " +
-            "   usuario.fotoPath " +
+            "   usuario.fotoPath, " +
+            "   usuario.conta" +
             ") FROM Usuario usuario " +
             "       LEFT OUTER JOIN Colaborador colaborador ON colaborador.usuario.id = usuario.id " +
             "   WHERE " +
@@ -67,7 +68,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   COUNT(av2) AS avaliacoes2," +
             "   COUNT(av3) AS avaliacoes3," +
             "   COUNT(av4) AS avaliacoes4," +
-            "   COUNT(av5) AS avaliacoes5" +
+            "   COUNT(av5) AS avaliacoes5," +
+            "   usuario.conta" +
             ") FROM Usuario usuario " +
             "       LEFT OUTER JOIN Colaborador colaborador ON colaborador.usuario.id = usuario.id " +
             "       LEFT OUTER JOIN AvaliacaoColaborador avaliacaoColaborador ON avaliacaoColaborador.colaborador.id = colaborador.id " +
@@ -163,7 +165,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   COUNT(av2) AS avaliacoes2," +
             "   COUNT(av3) AS avaliacoes3," +
             "   COUNT(av4) AS avaliacoes4," +
-            "   COUNT(av5) AS avaliacoes5" +
+            "   COUNT(av5) AS avaliacoes5," +
+            "   usuario.conta" +
             ") FROM Usuario usuario " +
             "       LEFT OUTER JOIN Colaborador colaborador ON colaborador.usuario.id = usuario.id " +
             "       LEFT OUTER JOIN AvaliacaoColaborador avaliacaoColaborador ON avaliacaoColaborador.colaborador.id = colaborador.id " +

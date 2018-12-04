@@ -4,6 +4,7 @@ import 'rxjs/Rx';
 import {Configuracao} from '../entity/configuracao/configuracao.model';
 import {ConfiguracaoRepository} from "../repositories/configuracao.repository";
 import {FileRepository} from "../../infrastructure/repository/file/file.repository";
+import {environment} from "../../../environments/environment";
 
 /**
  *
@@ -55,45 +56,45 @@ export class ConfiguracaoService {
           toSave = result;
 
           if (logoFile && backgroundImageFile) {
-            this.fileRepository.save('configuracoes/logomarca', logoFile)
+            this.fileRepository.save(environment.endpoint + 'configuracoes/logomarca', logoFile)
               .then(uploaded => {
                 toSave.logoPath = uploaded;
-                this.fileRepository.save('configuracoes/background', backgroundImageFile)
+                this.fileRepository.save(environment.endpoint + 'configuracoes/background', backgroundImageFile)
                   .then(uploaded => {
                     toSave.backgroundImagePath = uploaded;
                     resolve(toSave);
                   })
               })
           } else if (backgroundImageFile) {
-            this.fileRepository.save('configuracoes/background', backgroundImageFile)
+            this.fileRepository.save(environment.endpoint + 'configuracoes/background', backgroundImageFile)
               .then(uploaded => {
                 toSave.backgroundImagePath = uploaded;
                 resolve(toSave);
               })
           } else if (logoFile) {
-            this.fileRepository.save('configuracoes/logomarca', logoFile)
+            this.fileRepository.save(environment.endpoint + 'configuracoes/logomarca', logoFile)
               .then(uploaded => {
                 toSave.logoPath = uploaded;
                 resolve(toSave);
               })
           } else if (!backgroundImagePath && !logoPath) {
-            this.fileRepository.remove('configuracoes/logomarca')
+            this.fileRepository.remove(environment.endpoint + 'configuracoes/logomarca')
               .then(() => {
                 toSave.logoPath = null;
-                this.fileRepository.remove('configuracoes/background')
+                this.fileRepository.remove(environment.endpoint + 'configuracoes/background')
                   .then(() => {
                     toSave.backgroundImagePath = null;
                     resolve(toSave);
                   })
               })
           } else if (!backgroundImagePath) {
-            this.fileRepository.remove('configuracoes/background')
+            this.fileRepository.remove(environment.endpoint + 'configuracoes/background')
               .then(() => {
                 toSave.backgroundImageFile = null;
                 resolve(toSave);
               })
           } else if (!logoPath) {
-            this.fileRepository.remove('configuracoes/logomarca')
+            this.fileRepository.remove(environment.endpoint + 'configuracoes/logomarca')
               .then(() => {
                 toSave.logoPath = null;
                 resolve(toSave);

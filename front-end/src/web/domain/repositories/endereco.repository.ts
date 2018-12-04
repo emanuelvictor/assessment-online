@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {environment} from "../../../environments/environment";
 
 @Injectable()
 export class EnderecoRepository {
@@ -19,6 +20,6 @@ export class EnderecoRepository {
     params = params.set('uf', uf ? uf : '');
 
 
-    return this.httpClient.get('cidades', {params: params}).toPromise().then(result => result);
+    return this.httpClient.get(environment.endpoint + 'cidades', {params: params}).toPromise().then(result => result);
   }
 }

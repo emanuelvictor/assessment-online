@@ -9,4 +9,5 @@ export class UnidadeRepository extends BaseRepository<Unidade> {
   constructor(httpClient: HttpClient) {
     super(httpClient, 'unidades');
   }
+
 }

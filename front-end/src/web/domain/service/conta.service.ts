@@ -4,6 +4,7 @@ import {Usuario} from '../entity/usuario/usuario.model';
 import {FileRepository} from '../../infrastructure/repository/file/file.repository';
 import {ContaRepository} from '../repositories/conta.repository';
 import {Conta} from '../entity/usuario/conta.model';
+import {environment} from "../../../environments/environment";
 
 /**
  *
@@ -77,7 +78,7 @@ export class ContaService {
           toSave = result;
 
           if (arquivoFile)
-            this.fileRepository.save('usuarios/' + String(result.id) + '/foto', arquivoFile)
+            this.fileRepository.save(environment.endpoint + 'usuarios/' + String(result.id) + '/foto', arquivoFile)
               .then(uploaded => {
                 toSave.fotoPath = uploaded;
                 resolve(toSave);
