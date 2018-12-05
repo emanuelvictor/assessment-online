@@ -106,6 +106,9 @@ public class Usuario extends Pessoa {
         this.avaliacoes5 = avaliacoes5;
     }
 
+    /**
+     *
+     */
     public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath, final Conta conta) {
 
         this.conta = conta;
