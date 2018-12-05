@@ -4,6 +4,7 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {Unidade} from '../../../../entity/unidade/unidade.model';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
+import {AuthenticationService} from "../../../../service/authentication.service";
 
 @Component({
   selector: 'visualizar-unidade',
@@ -20,9 +21,18 @@ export class VisualizarUnidadeComponent implements OnInit {
   /**
    *
    */
-  constructor(public snackBar: MatSnackBar,
-              public activatedRoute: ActivatedRoute, public router: Router,
-              public dialog: MatDialog, public unidadeService: UnidadeService) {
+  authenticatedUser: any;
+
+  /**
+   *
+   */
+  constructor(private snackBar: MatSnackBar,
+              private authenticationService: AuthenticationService,
+              private activatedRoute: ActivatedRoute, private router: Router,
+              private dialog: MatDialog, private unidadeService: UnidadeService) {
+    this.authenticationService.requestContaAutenticada().subscribe(result => {
+      this.authenticatedUser = result;
+    });
   }
 
   /**

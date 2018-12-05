@@ -16,14 +16,22 @@
 
   <div flex-gt-md></div>
 
-  <button mat-raised-button class="bgc-blue-grey-50 push-right" (click)="toggleShowPesquisaAvancada()">
+  <button mat-raised-button
+          class="bgc-blue-grey-50 push-right"
+          (click)="toggleShowPesquisaAvancada()">
     Pesquisa avançada
   </button>
 
   <add-button routerLink="inserir"
               [matTooltipPosition]="'below'"
-              matTooltip="Inserir novo atendente">
+              matTooltip="Inserir nova unidade">
   </add-button>
+
+  <!--<add-button routerLink="inserir"-->
+              <!--[matTooltipPosition]="'below'"-->
+              <!--matTooltip="Inserir nova unidade"-->
+              <!--*ngIf='authenticatedUser?.conta?.root'>-->
+  <!--</add-button>-->
 
 </search-bar>
 

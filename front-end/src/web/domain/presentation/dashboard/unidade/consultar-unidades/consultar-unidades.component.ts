@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import 'moment/locale/pt-br';
 import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
+import {AuthenticationService} from "../../../../service/authentication.service";
 
 @Component({
   selector: 'consultar-unidades',
@@ -98,13 +99,24 @@ export class ConsultarUnidadesComponent implements OnInit {
 
   /**
    *
-   * @param {MatIconRegistry} iconRegistry
-   * @param {DomSanitizer} domSanitizer
-   * @param {UnidadeService} unidadeService
-   * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
+  authenticatedUser: any;
+
+  /**
+   *
+   * @param authenticationService
+   * @param iconRegistry
+   * @param domSanitizer
+   * @param unidadeService
+   * @param configuracaoService
+   */
+  constructor(private authenticationService: AuthenticationService,
+              private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private unidadeService: UnidadeService, private configuracaoService: ConfiguracaoService) {
+
+    this.authenticationService.requestContaAutenticada().subscribe(result => {
+      this.authenticatedUser = result;
+    });
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));

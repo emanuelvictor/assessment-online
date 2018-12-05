@@ -23,12 +23,15 @@ export class LoggedMenuComponent implements OnDestroy {
 
   /**
    *
-   * @param {AuthenticationService} authenticationService
-   * @param {UsuarioService} usuarioService
-   * @param {ChangeDetectorRef} changeDetectionRef
-   * @param {ColaboradorService} colaboradorService
+   * @param usuarioService
+   * @param changeDetectionRef
+   * @param colaboradorService
+   * @param authenticationService
    */
-  constructor(private authenticationService: AuthenticationService, private usuarioService: UsuarioService, private changeDetectionRef: ChangeDetectorRef, private colaboradorService: ColaboradorService) {
+  constructor(private usuarioService: UsuarioService,
+              private changeDetectionRef: ChangeDetectorRef,
+              private colaboradorService: ColaboradorService,
+              private authenticationService: AuthenticationService) {
 
     this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.authenticatedUser = result;
