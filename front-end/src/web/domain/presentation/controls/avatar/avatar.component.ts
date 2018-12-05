@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
+import {environment} from "../../../../../environments/environment";
 
 
 @Component({
@@ -37,7 +38,7 @@ export class AvatarComponent implements OnInit {
   public ngOnInit() {
     this.identifier = /*this.usuario.id;*/Math.floor(Math.random() * 2000).toString();
     if (this.usuario.foto)
-      this.usuario.foto = this.usuario.foto + '?nocache=' + this.identifier;
+      this.usuario.foto = environment.endpoint +  this.usuario.foto + '?nocache=' + this.identifier;
     if (!this.size)
       this.size = 1;
   }

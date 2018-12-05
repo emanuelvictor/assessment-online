@@ -28,7 +28,7 @@ export class VisualizarUnidadeComponent implements OnInit {
    */
   constructor(private snackBar: MatSnackBar,
               private authenticationService: AuthenticationService,
-              private activatedRoute: ActivatedRoute, private router: Router,
+              public activatedRoute: ActivatedRoute, private router: Router,
               private dialog: MatDialog, private unidadeService: UnidadeService) {
     this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.authenticatedUser = result;
