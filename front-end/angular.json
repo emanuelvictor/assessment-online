@@ -113,7 +113,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "../back-end/src/main/resources/public/sistema/mobile",
+            "outputPath": "../mobile/www",
             "index": "src/mobile/index.html",
             "main": "src/mobile/application/mobile-main.ts",
             "polyfills": "src/polyfills.ts",
