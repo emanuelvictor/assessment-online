@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.ServerAuthenticationSuccessHandler;
@@ -52,6 +53,9 @@ public class LoginSuccessHandler implements ServerAuthenticationSuccessHandler {
         assert conta != null;
         conta.setLastLogin(LocalDateTime.now());
         this.contaRepository.save(conta);
+
+        // Adiciona cookie de armazenamento de sessão
+        webFilterExchange.getExchange().getResponse().addCookie(ResponseCookie.from("token", "token").build());
 
         try {
             final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes(conta));

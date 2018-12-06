@@ -21,9 +21,10 @@ import org.springframework.security.web.server.authentication.logout.LogoutWebFi
 import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
 import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
-import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.session.HeaderWebSessionIdResolver;
+import org.springframework.web.server.session.WebSessionIdResolver;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -60,6 +61,13 @@ public class SecurityConfiguration {
      */
     private final ObjectMapper objectMapper;
 
+    @Bean
+    public WebSessionIdResolver webSessionIdResolver() {
+        HeaderWebSessionIdResolver resolver = new HeaderWebSessionIdResolver();
+        resolver.setHeaderName("X-AUTH-TOKEN");
+        return resolver;
+    }
+
     /**
      * @param mapper {ObjectMapper}
      * @return {Function<ServerWebExchange, Mono<Authentication>>}
@@ -93,8 +101,7 @@ public class SecurityConfiguration {
 
         final WebSessionServerSecurityContextRepository securityContextRepository = new WebSessionServerSecurityContextRepository();
 
-        securityContextRepository.setSpringSecurityContextAttrName("spring-security-context");
-
+//        securityContextRepository.setSpringSecurityContextAttrName("spring-security-context");
         return securityContextRepository;
     }
 
