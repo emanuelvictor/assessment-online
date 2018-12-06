@@ -1,7 +1,7 @@
 import {CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule} from '@angular/core';
 import 'hammerjs';
 import {MobileComponent} from './presentation/mobile.component';
-import {CommonModule} from '@angular/common';
+import {CommonModule, registerLocaleData} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
@@ -37,6 +37,9 @@ import {MobileLoginComponent} from './presentation/login/web-login/mobile-login.
 import {ConfiguracaoRepository} from "../../web/domain/repositories/configuracao.repository";
 import {ConfiguracaoService} from "../../web/domain/service/configuracao.service";
 import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component";
+import {TokenStorage} from "../../web/infrastructure/local-storage/local-storage";
+import {CookieService} from "ngx-cookie-service";
+import localePt from "@angular/common/locales/pt";
 
 /**
  *
@@ -85,7 +88,9 @@ import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component"
     EnderecoService,
     UsuarioService,
     UnidadeService,
+    CookieService,
     MobileService,
+    TokenStorage,
     ContaService,
 
 
@@ -101,6 +106,7 @@ import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component"
 })
 export class MobileModule {
   constructor(public dateAdapter: DateAdapter<Date>) {
+    registerLocaleData(localePt);
     dateAdapter.setLocale('pt-BR');
   }
 }

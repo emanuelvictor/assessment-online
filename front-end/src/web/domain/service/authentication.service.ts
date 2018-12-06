@@ -6,6 +6,9 @@ import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Conta} from '../entity/usuario/conta.model';
 import {environment} from "../../../environments/environment";
+import {TokenStorage} from "../../infrastructure/local-storage/local-storage";
+import {CookieService} from "ngx-cookie-service";
+import {TOKEN_NAME} from "../presentation/controls/utils";
 
 @Injectable()
 export class AuthenticationService implements CanActivate, CanActivateChild {
@@ -24,8 +27,11 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    *
    * @param {Router} router
    * @param {HttpClient} httpClient
+   * @param tokenStorage
+   * @param cookieService
    */
-  constructor(private router: Router, private httpClient: HttpClient) {
+  constructor(private router: Router, private httpClient: HttpClient,
+              private tokenStorage: TokenStorage, private cookieService: CookieService) {
 
     this.contaAutenticadaChanged = new EventEmitter();
 
@@ -86,14 +92,35 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {Promise<Conta>}
    */
   public login(conta: Conta): Promise<Conta> {
-    return this.httpClient.post<Conta>(environment.endpoint + 'login', conta).toPromise();
+    return new Promise((resolve, reject) => {
+      this.httpClient.post<Conta>(environment.endpoint + 'login', conta).toPromise()
+        .then(result => {
+
+          if (this.cookieService.get(TOKEN_NAME))
+            this.tokenStorage.token = this.cookieService.get(TOKEN_NAME);
+
+          if (this.tokenStorage.token)
+            this.cookieService.set(TOKEN_NAME, this.tokenStorage.token);
+
+          resolve(result)
+        })
+        .catch(error => reject(error))
+    })
   }
 
   /**
    *
    */
   public logout(): Promise<any> {
-    return this.httpClient.get(environment.endpoint + 'logout').toPromise()
+    return new Promise((resolve, reject) => {
+      this.httpClient.get(environment.endpoint + 'logout').toPromise()
+        .then(() => {
+          this.tokenStorage.destroy();
+          this.cookieService.delete(TOKEN_NAME);
+          resolve();
+        })
+        .catch(error => reject(error))
+    })
   }
 
   /**

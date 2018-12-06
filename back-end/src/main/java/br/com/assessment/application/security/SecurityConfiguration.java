@@ -61,12 +61,10 @@ public class SecurityConfiguration {
      */
     private final ObjectMapper objectMapper;
 
-    @Bean
-    public WebSessionIdResolver webSessionIdResolver() {
-        HeaderWebSessionIdResolver resolver = new HeaderWebSessionIdResolver();
-        resolver.setHeaderName("X-AUTH-TOKEN");
-        return resolver;
-    }
+    /**
+     *
+     */
+    private final ServerSecurityContextRepository securityContextRepository;
 
     /**
      * @param mapper {ObjectMapper}
@@ -94,18 +92,6 @@ public class SecurityConfiguration {
     }
 
     /**
-     * @return ServerSecurityContextRepository
-     */
-    @Bean
-    public ServerSecurityContextRepository securityContextRepository() {
-
-        final WebSessionServerSecurityContextRepository securityContextRepository = new WebSessionServerSecurityContextRepository();
-
-//        securityContextRepository.setSpringSecurityContextAttrName("spring-security-context");
-        return securityContextRepository;
-    }
-
-    /**
      * @param httpSecurity ServerHttpSecurity
      * @return SecurityWebFilterChain
      */
@@ -116,7 +102,7 @@ public class SecurityConfiguration {
                 .httpBasic().disable()
                 .formLogin().disable()
                 .logout().disable()
-                .securityContextRepository(securityContextRepository())
+                .securityContextRepository(securityContextRepository)
                 .authorizeExchange()
                 .anyExchange().permitAll()
                 .and()
@@ -131,7 +117,7 @@ public class SecurityConfiguration {
     private AuthenticationWebFilter authenticationWebFilter() {
         final AuthenticationWebFilter filter = new AuthenticationWebFilter(reactiveAuthenticationManager);
 
-        filter.setSecurityContextRepository(securityContextRepository());
+        filter.setSecurityContextRepository(securityContextRepository);
         filter.setAuthenticationConverter(jsonBodyAuthenticationConverter(this.objectMapper));
         filter.setAuthenticationSuccessHandler(this.serverAuthenticationSuccessHandler);
         filter.setAuthenticationFailureHandler(this.serverAuthenticationFailureHandler);
@@ -149,7 +135,7 @@ public class SecurityConfiguration {
         final LogoutWebFilter logoutWebFilter = new LogoutWebFilter();
 
         final SecurityContextServerLogoutHandler logoutHandler = new SecurityContextServerLogoutHandler();
-        logoutHandler.setSecurityContextRepository(securityContextRepository());
+        logoutHandler.setSecurityContextRepository(securityContextRepository);
 
         logoutWebFilter.setLogoutHandler(logoutHandler);
         logoutWebFilter.setLogoutSuccessHandler(serverLogoutSuccessHandler);

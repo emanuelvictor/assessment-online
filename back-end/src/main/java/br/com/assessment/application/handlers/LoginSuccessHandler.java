@@ -54,9 +54,6 @@ public class LoginSuccessHandler implements ServerAuthenticationSuccessHandler {
         conta.setLastLogin(LocalDateTime.now());
         this.contaRepository.save(conta);
 
-        // Adiciona cookie de armazenamento de sessão
-        webFilterExchange.getExchange().getResponse().addCookie(ResponseCookie.from("token", "token").build());
-
         try {
             final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes(conta));
             webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);

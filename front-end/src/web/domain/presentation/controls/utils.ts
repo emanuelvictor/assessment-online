@@ -27,3 +27,5 @@ export const single = [
 export function getIdentifier(): string {
   return Math.floor(Math.random() * 2000).toString();
 }
+
+export const TOKEN_NAME = 'assessment-token';

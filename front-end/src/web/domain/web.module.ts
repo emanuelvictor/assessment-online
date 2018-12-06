@@ -88,6 +88,8 @@ import {AvaliacaoViewComponent} from "./presentation/dashboard/avaliacao/avaliac
 import {ConsultarAvaliacoesComponent} from "./presentation/dashboard/avaliacao/consultar-avaliacoes/consultar-avaliacoes.component";
 import {VisualizarAvaliacaoComponent} from "./presentation/dashboard/avaliacao/visualizar-avaliacao/visualizar-avaliacao.component";
 import {CroppablePhotoComponent} from "./presentation/controls/croppable-photo/croppable-photo.component";
+import {TokenStorage} from "../infrastructure/local-storage/local-storage";
+import {CookieService} from "ngx-cookie-service";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -212,6 +214,8 @@ registerLocaleData(localePt, 'pt-BR');
     EnderecoService,
     UsuarioService,
     UnidadeService,
+    CookieService,
+    TokenStorage,
     ContaService,
 
     {provide: LOCALE_ID, useValue: 'pt-BR'},

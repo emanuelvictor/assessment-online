@@ -100,10 +100,6 @@ public class UsuarioService {
 
     }
 
-    public Optional<Usuario> findById(final long usuarioId) {
-        return Optional.of(usuarioRepository.findUsuarioByIdAndReturnAvaliacoes(usuarioId));
-    }
-
     /**
      * @param id      long
      * @param usuario Usuario
@@ -185,6 +181,10 @@ public class UsuarioService {
         // E o usuário será salvo automáticamente no esquema públic
         return usuarioRepository.save(usuario);
 
+    }
+
+    public Optional<Usuario> findById(final long usuarioId) {
+        return Optional.of(usuarioRepository.findUsuarioByIdAndReturnAvaliacoes(usuarioId));
     }
 
     /**

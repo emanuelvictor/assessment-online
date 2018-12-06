@@ -1,6 +1,17 @@
 package br.com.assessment.application.security;
 
+import br.com.assessment.domain.entity.usuario.Conta;
+import br.com.assessment.domain.entity.usuario.Sessao;
+import br.com.assessment.domain.repository.ContaRepository;
+import br.com.assessment.domain.repository.SessaoRepository;
+import jdk.nashorn.internal.objects.annotations.Constructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.security.authentication.ReactiveAuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
@@ -19,23 +30,39 @@ import java.util.List;
  * Stores the {@link SecurityContext} in the
  * {@link org.springframework.web.server.WebSession}. When a {@link SecurityContext} is
  * saved, the session id is changed to prevent session fixation attacks.
+ *
  * @author Rob Winch
  * @since 5.0
  */
-public class WebSessionServerSecurityContextRepository
-        implements ServerSecurityContextRepository {
+@Configuration
+@RequiredArgsConstructor
+public class WebSessionServerSecurityContextRepository implements ServerSecurityContextRepository {
 
     /**
      * The default session attribute name to save and load the {@link SecurityContext}
      */
     public static final String DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME = "SPRING_SECURITY_CONTEXT";
 
+    /**
+     *
+     */
+    private static final String TOKEN_NAME = "assessment-token";
+
+    /**
+     *
+     */
     private String springSecurityContextAttrName = DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME;
 
     /**
+     *
+     */
+    private final SessaoRepository sessaoRepository;
+
+    /**
      * Sets the session attribute name used to save and load the {@link SecurityContext}
+     *
      * @param springSecurityContextAttrName the session attribute name to use to save and
-     * load the {@link SecurityContext}
+     *                                      load the {@link SecurityContext}
      */
     public void setSpringSecurityContextAttrName(String springSecurityContextAttrName) {
         Assert.hasText(springSecurityContextAttrName, "springSecurityContextAttrName cannot be null or empty");
@@ -49,38 +76,69 @@ public class WebSessionServerSecurityContextRepository
                         session.getAttributes().remove(this.springSecurityContextAttrName);
                     } else {
                         session.getAttributes().put(this.springSecurityContextAttrName, context);
+
+                        final Sessao sessao = new Sessao();
+                        sessao.setUsername(context.getAuthentication().getName());
+                        sessao.generateToken();
+                        this.sessaoRepository.save(sessao);
+
+                        // Adiciona cookie de armazenamento de sessão
+                        exchange.getResponse().addCookie(ResponseCookie.from(TOKEN_NAME, sessao.getToken()).build());
+
                     }
                 })
-                .flatMap(session -> session.changeSessionId());
+                .flatMap(WebSession::changeSessionId);
     }
 
+    private final ContaRepository contaRepository;
+
+    @Override
     public Mono<SecurityContext> load(ServerWebExchange exchange) {
-        System.out.println(exchange.getRequest().getCookies());
+
         return exchange.getSession()
                 .map(WebSession::getAttributes)
-                .flatMap( attrs -> {
-                    SecurityContext context = (SecurityContext) attrs.get(this.springSecurityContextAttrName);
-                    return Mono.justOrEmpty(context);
+                .flatMap(attrs -> {
+                    final SecurityContext context = (SecurityContext) attrs.get(this.springSecurityContextAttrName);
+
+                    if (context != null)
+                        return Mono.just(context);
+//                    return Mono.justOrEmpty(context);
+
+                    final List<HttpCookie> cookies = exchange.getRequest().getCookies().get(TOKEN_NAME);
+
+                    if (cookies == null || cookies.isEmpty())
+                        return Mono.empty();
+
+                    final String token = cookies.get(0).getValue();
+
+                    final Sessao sessao = sessaoRepository.findByToken(token);
+
+                    if (sessao == null || !sessao.validate()) {
+                        return Mono.empty();
+                    }
+
+                    final Conta conta = contaRepository.findByEmailIgnoreCase(sessao.getUsername());
+
+                    // Cria a autenticação
+                    final Authentication authentication = new UsernamePasswordAuthenticationToken(conta, conta.getPassword(), conta.getAuthorities());
+
+                    // Cria o contexto de segurança
+                    final SecurityContextImpl securityContext = new SecurityContextImpl(authentication);
+
+                    return this.save(exchange, securityContext)
+                            .map(auth -> securityContext);
+
+//                    final Mono<Authentication> authMono = reactiveAuthenticationManager.authenticate(authentication);
+//                    return authMono
+//                            .map(auth -> (SecurityContext) new SecurityContextImpl(auth))
+//                            .onErrorMap(
+//                                    er -> er instanceof AuthenticationException,
+//                                    autEx -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, autEx.getMessage(), autEx)
+//                            );
+
                 });
+
     }
-
-
-//        @Override
-//        public Mono<SecurityContext> load(ServerWebExchange exchange) {
-//            List<String> tokens = exchange.getRequest().getHeaders().get("X-Auth-Token");
-//            String token = (tokens != null && !tokens.isEmpty()) ? tokens.get(0) : null;
-//
-//            Mono<Authentication> authMono = reactiveAuthenticationManager
-//                    .authenticate( new HttpRequestHeaderToken(token) );
-//
-//            return authMono
-//                    .map( auth -> (SecurityContext)new SecurityContextImpl(auth))
-//                    .onErrorMap(
-//                            er -> er instanceof AuthenticationException,
-//                            autEx -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, autEx.getMessage(), autEx)
-//                    );
-//            )
-//        }
 
 }
 
