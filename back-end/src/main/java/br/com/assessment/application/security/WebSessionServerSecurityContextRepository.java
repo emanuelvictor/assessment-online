@@ -125,7 +125,7 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                     // Cria o contexto de segurança
                     final SecurityContextImpl securityContext = new SecurityContextImpl(authentication);
 
-                    return this.save(exchange, securityContext)
+                    return this.falcatrua(exchange, securityContext)
                             .map(auth -> securityContext);
 
 //                    final Mono<Authentication> authMono = reactiveAuthenticationManager.authenticate(authentication);
@@ -138,6 +138,19 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
 
                 });
 
+    }
+
+
+    private Mono<Void> falcatrua(ServerWebExchange exchange, SecurityContext context) {
+        return exchange.getSession()
+                .doOnNext(session -> {
+                    if (context == null) {
+                        session.getAttributes().remove(this.springSecurityContextAttrName);
+                    } else {
+                        session.getAttributes().put(this.springSecurityContextAttrName, context);
+                    }
+                })
+                .flatMap(WebSession::changeSessionId);
     }
 
 }

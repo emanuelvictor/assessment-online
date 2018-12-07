@@ -10,7 +10,9 @@ import {Router} from "@angular/router";
   styleUrls: ['./web.component.scss']
 })
 export class WebComponent implements OnInit {
+
   /**
+   *
    * Usado para fazer scroll até o topo da página
    */
   @ViewChild('top')
@@ -39,7 +41,7 @@ export class WebComponent implements OnInit {
      */
     this.router.events.subscribe((path: any) => {
       if (path.url != this.currentUrl) {
-        let scrollableElements = document.getElementsByClassName("mat-drawer-content");
+        const scrollableElements = document.getElementsByClassName("mat-drawer-content");
         for (let i = 0; i < scrollableElements.length; i++) {
           scrollableElements[i].scrollTop = 0;
         }
