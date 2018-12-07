@@ -110,13 +110,13 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         return Mono.empty();
 
                     final String token = cookies.get(0).getValue();
-
+                    System.out.println(token);
                     final Sessao sessao = sessaoRepository.findByToken(token);
 
                     if (sessao == null || !sessao.validate()) {
                         return Mono.empty();
                     }
-
+                    System.out.println("ID da sessão " + sessao.getId());
                     final Conta conta = contaRepository.findByEmailIgnoreCase(sessao.getUsername());
 
                     // Cria a autenticação
