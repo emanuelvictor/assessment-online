@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
 
-  // endpoint: ''
+  endpoint: ''
 
-  endpoint: 'https://assessment-online.com.br/'
+  // endpoint: 'https://assessment-online.com.br/'
 
   // endpoint: 'http://179.106.239.137:8080/'
 };

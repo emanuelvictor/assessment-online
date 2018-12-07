@@ -65,6 +65,13 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {boolean}
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+
+    if (this.cookieService.get(TOKEN_NAME))
+      this.tokenStorage.token = this.cookieService.get(TOKEN_NAME);
+
+    if (this.tokenStorage.token)
+      this.cookieService.set(TOKEN_NAME, this.tokenStorage.token);
+
     return this.requestContaAutenticada()
       .map(auth => {
         if (isNullOrUndefined(auth)) {
