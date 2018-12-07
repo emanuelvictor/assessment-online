@@ -25,6 +25,7 @@ import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Stores the {@link SecurityContext} in the
@@ -81,9 +82,14 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         sessao.setUsername(context.getAuthentication().getName());
                         sessao.generateToken();
                         this.sessaoRepository.save(sessao);
-
+                        System.out.println("remove address " + exchange.getRequest().getRemoteAddress());
                         // Adiciona cookie de armazenamento de sessão
-                        exchange.getResponse().addCookie(ResponseCookie.from(TOKEN_NAME, sessao.getToken()).build());
+                        final ResponseCookie httpCookie = ResponseCookie.from(TOKEN_NAME, sessao.getToken())
+                                .domain(Objects.requireNonNull(exchange.getRequest().getRemoteAddress()).getHostName())
+                                .path("/")
+                                .build();
+
+                        exchange.getResponse().addCookie(httpCookie);
 
                     }
                 })
