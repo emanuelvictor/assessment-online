@@ -3,7 +3,7 @@ export const environment = {
 
   // endpoint: ''
 
-  endpoint: 'https://assessment-online.com.br/'
+  endpoint: 'https://assessment-online.com.br/sistema/'
 
   // endpoint: 'http://179.106.239.137:8080/'
 };
