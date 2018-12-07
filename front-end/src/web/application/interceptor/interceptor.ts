@@ -4,6 +4,9 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from
 
 
 import {MatSnackBar} from "@angular/material";
+import {Token} from "@angular/compiler";
+import {TokenStorage} from "../../infrastructure/local-storage/local-storage";
+import {CookieService} from "ngx-cookie-service";
 
 /**
  *
@@ -19,8 +22,10 @@ export class Interceptor implements HttpInterceptor {
   /**
    *
    * @param {MatSnackBar} snackBar
+   * @param {TokenStorage} tokenStorage
    */
   constructor(public snackBar: MatSnackBar/*, private router: Router*/) {
+
   }
 
   /**
@@ -39,9 +44,9 @@ export class Interceptor implements HttpInterceptor {
 
         this.progress.start();
 
-        if (evt instanceof HttpResponse) {
+        if (evt instanceof HttpResponse)
           this.progress.done();
-        }
+
         else
           this.progress.inc(0.4);
 

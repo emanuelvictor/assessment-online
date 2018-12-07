@@ -21,9 +21,10 @@ import org.springframework.security.web.server.authentication.logout.LogoutWebFi
 import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
 import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
-import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.session.HeaderWebSessionIdResolver;
+import org.springframework.web.server.session.WebSessionIdResolver;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -61,6 +62,11 @@ public class SecurityConfiguration {
     private final ObjectMapper objectMapper;
 
     /**
+     *
+     */
+    private final ServerSecurityContextRepository securityContextRepository;
+
+    /**
      * @param mapper {ObjectMapper}
      * @return {Function<ServerWebExchange, Mono<Authentication>>}
      */
@@ -86,19 +92,6 @@ public class SecurityConfiguration {
     }
 
     /**
-     * @return ServerSecurityContextRepository
-     */
-    @Bean
-    public ServerSecurityContextRepository securityContextRepository() {
-
-        final WebSessionServerSecurityContextRepository securityContextRepository = new WebSessionServerSecurityContextRepository();
-
-        securityContextRepository.setSpringSecurityContextAttrName("spring-security-context");
-
-        return securityContextRepository;
-    }
-
-    /**
      * @param httpSecurity ServerHttpSecurity
      * @return SecurityWebFilterChain
      */
@@ -109,7 +102,7 @@ public class SecurityConfiguration {
                 .httpBasic().disable()
                 .formLogin().disable()
                 .logout().disable()
-                .securityContextRepository(securityContextRepository())
+                .securityContextRepository(securityContextRepository)
                 .authorizeExchange()
                 .anyExchange().permitAll()
                 .and()
@@ -124,7 +117,7 @@ public class SecurityConfiguration {
     private AuthenticationWebFilter authenticationWebFilter() {
         final AuthenticationWebFilter filter = new AuthenticationWebFilter(reactiveAuthenticationManager);
 
-        filter.setSecurityContextRepository(securityContextRepository());
+        filter.setSecurityContextRepository(securityContextRepository);
         filter.setAuthenticationConverter(jsonBodyAuthenticationConverter(this.objectMapper));
         filter.setAuthenticationSuccessHandler(this.serverAuthenticationSuccessHandler);
         filter.setAuthenticationFailureHandler(this.serverAuthenticationFailureHandler);
@@ -142,7 +135,7 @@ public class SecurityConfiguration {
         final LogoutWebFilter logoutWebFilter = new LogoutWebFilter();
 
         final SecurityContextServerLogoutHandler logoutHandler = new SecurityContextServerLogoutHandler();
-        logoutHandler.setSecurityContextRepository(securityContextRepository());
+        logoutHandler.setSecurityContextRepository(securityContextRepository);
 
         logoutWebFilter.setLogoutHandler(logoutHandler);
         logoutWebFilter.setLogoutSuccessHandler(serverLogoutSuccessHandler);

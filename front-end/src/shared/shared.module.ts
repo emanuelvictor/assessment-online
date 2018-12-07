@@ -49,6 +49,9 @@ import {DocumentoPipe} from '../web/domain/presentation/controls/documento-pipe/
 import {VirgulaPipe} from '../web/domain/presentation/controls/virgula-pipe/peso-pipe';
 import {AvatarComponent} from '../web/domain/presentation/controls/avatar/avatar.component';
 import {NoWhiteSpace} from '../web/domain/presentation/controls/patterns/no-white-space';
+import {TokenStorage} from "../web/infrastructure/local-storage/local-storage";
+import {CookieService} from "ngx-cookie-service";
+import {TOKEN_NAME} from "../web/domain/presentation/controls/utils";
 
 /**
  *
@@ -163,4 +166,14 @@ import {NoWhiteSpace} from '../web/domain/presentation/controls/patterns/no-whit
   ]
 })
 export class SharedModule {
+
+  constructor(private tokenStorage: TokenStorage, private cookieService: CookieService) {
+
+    if (this.cookieService.get(TOKEN_NAME))
+      this.tokenStorage.token = this.cookieService.get(TOKEN_NAME);
+
+    if (this.tokenStorage.token)
+      this.cookieService.set(TOKEN_NAME, this.tokenStorage.token);
+  }
+
 }
