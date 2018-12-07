@@ -89,7 +89,8 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                                 .path("/")
                                 .build();
 
-                        exchange.getResponse().addCookie(httpCookie);
+                        exchange.getResponse().addCookie(ResponseCookie.from(TOKEN_NAME, sessao.getToken())
+                                .build());
 
                     }
                 })
