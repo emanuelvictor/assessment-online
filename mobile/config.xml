@@ -19,6 +19,11 @@
         <allow-intent href="market:*" />
         <preference name="android-minSdkVersion" value="16" />
         <preference name="android-targetSdkVersion" value="22" />
+        <icon density="mdpi" src="www/assets/images/res/mipmap-mdpi/ic_launcher.png" />
+        <icon density="hdpi" src="www/assets/images/res/mipmap-hdpi/ic_launcher.png" />
+        <icon density="xhdpi" src="www/assets/images/res/mipmap-xhdpi/ic_launcher.png" />
+        <icon density="xxhdpi" src="www/assets/images/res/mipmap-xxhdpi/ic_launcher.png" />
+        <icon density="xxxhdpi" src="www/assets/images/res/mipmap-xxxhdpi/ic_launcher.png" />
         <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />
         <preference name="fullscreen" value="true" />
     </platform>
