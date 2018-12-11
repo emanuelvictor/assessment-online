@@ -31,6 +31,7 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <preference name="loadUrlTimeoutValue" value="60000" />
     <preference name="CRIInjectFirstFiles" value="www/assets/scripts/init.js" />
     <plugin name="cordova-plugin-kiosk" spec="git+https://github.com/hkalina/cordova-plugin-kiosk.git" />
     <plugin name="cordova-plugin-remote-injection" spec="^0.5.2" />

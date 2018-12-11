@@ -23,7 +23,8 @@ export class MobileLoginComponent {
    * @param {Router} router
    * @param {} authenticationService
    */
-  constructor(private router: Router, private authenticationService: AuthenticationService) {
+  constructor(private router: Router,
+              private authenticationService: AuthenticationService) {
   }
 
   /**

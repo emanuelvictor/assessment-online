@@ -45,11 +45,10 @@ var app = {
     document.addEventListener("backbutton", onBackKeyDown, false);
 
     function onBackKeyDown() {
-      // if (window.location.hash === '#/authentication')
-      //   window['KioskPlugin'].exitKiosk();
+      if (window.location.hash === '#/authentication')
+        window['KioskPlugin'].exitKiosk();
 
-      // else
-      if (window.location.hash === '#/avaliar' || window.location.hash === '#/selecionar-unidade') {
+      else if (window.location.hash === '#/avaliar' || window.location.hash === '#/selecionar-unidade') {
         if (localStorage.getItem(UNIDADE_ID) != null)
           navigator.notification.prompt(
             'Insira uma senha administrativa para sair do aplicativo.',  // message
@@ -104,10 +103,10 @@ var app = {
         localStorage.removeItem(UNIDADE_ID);
 
         window['cookieEmperor'].clearAll(
-          function() {
+          function () {
             console.log('Cookies have been cleared');
           },
-          function() {
+          function () {
             console.log('Cookies could not be cleared');
           });
 
@@ -115,7 +114,8 @@ var app = {
 
         // navigator.app.exitApp();
 
-        window.location.href = 'file:///android_asset/www/index.html'
+        window.location.href = 'file:///android_asset/www/index.html';
+
       };
 
       xmlhttpLogout.open("GET", logoutUrl, true);

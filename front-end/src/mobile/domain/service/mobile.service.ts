@@ -210,7 +210,7 @@ export class MobileService {
    */
   removeUnidade() {
     this.unidade = new Unidade();
-    window.localStorage.removeItem('unidadeKey');
+    window.localStorage.removeItem('unidadeId');
   }
 
   /**
