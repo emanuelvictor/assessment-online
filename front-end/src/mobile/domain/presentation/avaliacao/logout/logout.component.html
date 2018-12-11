@@ -10,10 +10,10 @@
       </span>
 
       <mat-form-field class="push-top">
-        <input type="password" matInput
+        <input [(ngModel)]="password"
                placeholder="Sua senha"
-               [(ngModel)]="password"
-               required name="password"/>
+               required name="password"
+               type="password" matInput/>
       </mat-form-field>
 
 
