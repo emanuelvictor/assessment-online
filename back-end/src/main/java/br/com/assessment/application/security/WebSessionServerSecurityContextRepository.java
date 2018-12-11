@@ -120,8 +120,6 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                     final Sessao sessao = sessaoRepository.findByToken(token);
 
                     if (sessao == null || !sessao.validate()) {
-                        // Se não houver token na base, remove ele dos cookies
-                        exchange.getResponse().getCookies().remove(TOKEN_NAME);
                         return Mono.empty();
                     }
                     System.out.println("ID da sessão " + sessao.getId());
