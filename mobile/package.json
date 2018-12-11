@@ -11,6 +11,7 @@
     "license": "Apache-2.0",
     "dependencies": {
         "cordova-android": "^6.4.0",
+        "cordova-plugin-cookieemperor": "git+https://github.com/rtk/cordova-cookie-emperor.git",
         "cordova-plugin-insomnia": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
         "cordova-plugin-kiosk": "git+https://github.com/hkalina/cordova-plugin-kiosk.git",
         "cordova-plugin-remote-injection": "^0.5.2",
@@ -21,7 +22,8 @@
             "cordova-plugin-whitelist": {},
             "cordova-plugin-insomnia": {},
             "cordova-plugin-kiosk": {},
-            "cordova-plugin-remote-injection": {}
+            "cordova-plugin-remote-injection": {},
+            "cordova-plugin-cookieemperor": {}
         },
         "platforms": [
             "android"

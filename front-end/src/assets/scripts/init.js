@@ -1,3 +1,6 @@
+var TOKEN_NAME = 'assessment-token';
+var END_POINT = 'https://assessment-online.com.br/sistema/mobile/';
+
 var app = {
     // Application Constructor
     initialize: function () {
@@ -23,6 +26,16 @@ var app = {
         console.log('Received Event: ' + id);
         window.plugins.insomnia.keepAwake();
         window['KioskPlugin'].setAllowedKeys([0x4]);
+
+        window['cookieEmperor'].getCookie(END_POINT, TOKEN_NAME, function (data) {
+            localStorage.setItem(TOKEN_NAME, data.cookieValue);
+            console.log('token em cookies ', data.cookieValue);
+            console.log('token em localstorage ', localStorage.getItem(TOKEN_NAME));
+        }, function (error) {
+            if (error) {
+                console.log('error: ' + error);
+            }
+        });
 
         document.addEventListener('backbutton', function () {
 
