@@ -84,10 +84,10 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         this.sessaoRepository.save(sessao);
                         System.out.println("remove address " + exchange.getRequest().getRemoteAddress());
                         // Adiciona cookie de armazenamento de sessão
-                        final ResponseCookie httpCookie = ResponseCookie.from(TOKEN_NAME, sessao.getToken())
-                                .domain(Objects.requireNonNull(exchange.getRequest().getRemoteAddress()).getHostName())
-                                .path("/")
-                                .build();
+//                        final ResponseCookie httpCookie = ResponseCookie.from(TOKEN_NAME, sessao.getToken())
+//                                .domain(Objects.requireNonNull(exchange.getRequest().getRemoteAddress()).getHostName())
+//                                .path("/")
+//                                .build();
 
                         exchange.getResponse().addCookie(ResponseCookie.from(TOKEN_NAME, sessao.getToken())
                                 .build());
@@ -117,10 +117,11 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         return Mono.empty();
 
                     final String token = cookies.get(0).getValue();
-                    System.out.println(token);
                     final Sessao sessao = sessaoRepository.findByToken(token);
 
                     if (sessao == null || !sessao.validate()) {
+                        // Se não houver token na base, remove ele dos cookies
+                        exchange.getResponse().getCookies().remove(TOKEN_NAME);
                         return Mono.empty();
                     }
                     System.out.println("ID da sessão " + sessao.getId());
@@ -134,14 +135,6 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
 
                     return this.falcatrua(exchange, securityContext)
                             .map(auth -> securityContext);
-
-//                    final Mono<Authentication> authMono = reactiveAuthenticationManager.authenticate(authentication);
-//                    return authMono
-//                            .map(auth -> (SecurityContext) new SecurityContextImpl(auth))
-//                            .onErrorMap(
-//                                    er -> er instanceof AuthenticationException,
-//                                    autEx -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, autEx.getMessage(), autEx)
-//                            );
 
                 });
 
