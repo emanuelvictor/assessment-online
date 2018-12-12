@@ -4,9 +4,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from
 
 
 import {MatSnackBar} from "@angular/material";
-import {Token} from "@angular/compiler";
 import {TokenStorage} from "../../infrastructure/local-storage/local-storage";
-import {CookieService} from "ngx-cookie-service";
 
 /**
  *

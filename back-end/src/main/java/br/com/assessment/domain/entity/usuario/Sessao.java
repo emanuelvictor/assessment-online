@@ -4,12 +4,10 @@ import br.com.assessment.domain.entity.generic.AbstractEntity;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
-import java.security.SecureRandom;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.UUID;
 
 import static br.com.assessment.application.context.LocalContext.DEFAULT_TENANT_ID;

@@ -1,7 +1,6 @@
 package br.com.assessment.application.context;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 
 public final class LocalContext {
 
