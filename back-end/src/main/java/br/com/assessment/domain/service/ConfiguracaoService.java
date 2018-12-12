@@ -55,10 +55,13 @@ public class ConfiguracaoService {
 
     public Configuracao getConfiguracao(final String cliente) {
 
+        if (cliente == null || cliente.equals(DEFAULT_TENANT_ID))
+            LocalContext.setCurrentSchema(DEFAULT_TENANT_ID);
+
         final Configuracao defaultConfiguration = this.getConfiguracao();
 
         // Se o cliente é nulo ou igual ao public, retorna as configurações do public
-        if (cliente == null || cliente.equals(DEFAULT_TENANT_ID) || cliente.equals("undefined"))
+        if (cliente != null && cliente.equals("undefined"))
             return defaultConfiguration;
 
         // Se o cliente não é nulo e não é o public, então retorna as configurações do cliente
@@ -80,7 +83,6 @@ public class ConfiguracaoService {
     }
 
     /**
-     *
      * @param fileInBytes byte[]
      * @return String
      */
