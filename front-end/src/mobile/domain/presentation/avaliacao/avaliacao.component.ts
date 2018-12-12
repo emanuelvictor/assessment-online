@@ -21,10 +21,13 @@ export class AvaliacaoComponent {
    * @param {AuthenticationService} authenticationService
    * @param {ConfiguracaoRepository} configuracaoRepository
    */
-  constructor(private authenticationService: AuthenticationService, private configuracaoRepository: ConfiguracaoRepository) {
+  constructor(private authenticationService: AuthenticationService,
+              private configuracaoRepository: ConfiguracaoRepository) {
     this.authenticationService.requestContaAutenticada()
-      .subscribe(conta =>
-        this.backgroundImage = environment.endpoint + './configuracoes/background?cliente=' + conta.esquema + '?nocache=' + getIdentifier()
+      .subscribe(conta => {
+          if (conta && conta.esquema)
+            this.backgroundImage = environment.endpoint + './configuracoes/background?cliente=' + conta.esquema + '?nocache=' + getIdentifier()
+        }
       )
 
   }

@@ -40,6 +40,7 @@ import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component"
 import {TokenStorage} from "../../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import localePt from "@angular/common/locales/pt";
+import {OfflineComponent} from "./presentation/avaliacao/offline/offline.component";
 
 /**
  *
@@ -53,6 +54,7 @@ import localePt from "@angular/common/locales/pt";
     AvaliacaoComponent,
     AvaliarComponent,
     LogoutComponent,
+    OfflineComponent,
 
     // Authentication
     MobileLoginComponent

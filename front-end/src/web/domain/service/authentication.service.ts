@@ -13,6 +13,9 @@ import {TOKEN_NAME} from "../presentation/controls/utils";
 @Injectable()
 export class AuthenticationService implements CanActivate, CanActivateChild {
 
+  private baseUrl = 'https://assessment-online.com.br';
+  private isOnline = false;
+
   /**
    *
    */
@@ -157,4 +160,32 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
   public authenticateByUnidade(unidadeId, password): Promise<any> {
     return this.httpClient.get(environment.endpoint + 'unidades/authenticate/' + unidadeId + '?password=' + password).toPromise()
   }
+
+  onlineCheck() {
+    let xhr = new XMLHttpRequest();
+    return new Promise((resolve, reject)=>{
+      xhr.onload = () => {
+        // Set online status
+        this.isOnline = true;
+        resolve(true);
+      };
+      xhr.onerror = () => {
+        // Set online status
+        this.isOnline = false;
+        reject(false);
+      };
+      xhr.open('GET', this.baseUrl, true);
+      xhr.send();
+    });
+  }
+
+  clickHandler() {
+    this.onlineCheck().then(() => {
+      // Has internet connection, carry on
+    }).catch(() => {
+      // Has no internet connection, let the user know
+      alert('Sorry, no internet.');
+    });
+  }
+
 }
