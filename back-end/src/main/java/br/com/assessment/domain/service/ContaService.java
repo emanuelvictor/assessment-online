@@ -1,6 +1,6 @@
 package br.com.assessment.domain.service;
 
-import br.com.assessment.application.context.Context;
+import br.com.assessment.application.context.LocalContext;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.repository.ContaRepository;
 import lombok.AllArgsConstructor;
@@ -37,7 +37,7 @@ public class ContaService implements ReactiveUserDetailsService {
 
         Assert.notNull(conta, "Conta não encontrada");
 
-        Context.setCurrentSchema(conta.getEsquema());
+        LocalContext.setCurrentSchema(conta.getEsquema());
 
         return Mono.just(contaRepository.findByEmailIgnoreCase(email.toLowerCase()));
 

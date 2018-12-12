@@ -1,6 +1,6 @@
 package br.com.assessment.domain.service;
 
-import br.com.assessment.application.context.Context;
+import br.com.assessment.application.context.LocalContext;
 import br.com.assessment.application.exceptions.PasswordNotFound;
 import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Conta;
@@ -61,7 +61,7 @@ public class UnidadeService {
                                        final LocalDateTime dataTerminoFilter,
                                        final Pageable pageable) {
 
-        final Usuario usuario = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
+        final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
 
         return this.unidadeRepository.listByFilters(
                 usuario.getId(),
@@ -77,7 +77,7 @@ public class UnidadeService {
     public Page<Unidade> listByFilters(final String defaultFilter,
                                        final Pageable pageable) {
 
-        final Usuario usuario = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
+        final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
 
         return this.unidadeRepository.listByFilters(
                 usuario.getId(),
@@ -98,7 +98,7 @@ public class UnidadeService {
      */
     public boolean authenticateByUnidadeId(final long unidadeId, final String password) {
 
-        final Conta conta = this.contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername());
+        final Conta conta = this.contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername());
         if (conta.isAdministrador() && this.passwordEncoder.matches(password, conta.getPassword()))
             return true;
 

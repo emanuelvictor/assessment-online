@@ -1,6 +1,6 @@
 package br.com.assessment.domain.service;
 
-import br.com.assessment.application.context.Context;
+import br.com.assessment.application.context.LocalContext;
 import br.com.assessment.application.exceptions.PasswordNotFound;
 import br.com.assessment.application.multitenancy.TenantIdentifierResolver;
 import br.com.assessment.domain.entity.usuario.Conta;
@@ -55,7 +55,7 @@ public class UsuarioService {
      */
     public Usuario changePassword(final long usuarioId, final String password, final String newPassword) {
 
-        final Conta loggedAccount = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername());
+        final Conta loggedAccount = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername());
 
         // Minha conta
         if (loggedAccount.getUsuario().getId().equals(usuarioId)) {
@@ -176,7 +176,7 @@ public class UsuarioService {
         serverSecurityContextRepository.save(exchange, securityContext).block();
 
         // Seto o squema default, isso fará o sistema setar o esquema da conta a se criar.
-        Context.setCurrentSchema(usuario.getConta().getEsquema());
+        LocalContext.setCurrentSchema(usuario.getConta().getEsquema());
 
         // E o usuário será salvo automáticamente no esquema públic
         return usuarioRepository.save(usuario);
@@ -204,7 +204,7 @@ public class UsuarioService {
      */
     public Page<Usuario> listByFilters(final String defaultFilter, final Pageable pageable) {
 
-        final Usuario usuario = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
+        final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
 
         return usuarioRepository.listByFilters(
                 usuario.getId(),
@@ -225,7 +225,7 @@ public class UsuarioService {
                                        final LocalDateTime dataTerminoFilter,
                                        final Pageable pageable) {
 
-        final Usuario usuario = contaRepository.findByEmailIgnoreCase(Context.getCurrentUsername()).getUsuario();
+        final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
 
         return usuarioRepository.listByFilters(
                 usuario.getId(),

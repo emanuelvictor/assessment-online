@@ -1,6 +1,6 @@
 package br.com.assessment.application.filter;
 
-import br.com.assessment.application.context.Context;
+import br.com.assessment.application.context.LocalContext;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.infrastructure.org.springframework.data.domain.PageRequest;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class DefaultFilter implements WebFilter {
     public Mono<Void> filter(ServerWebExchange serverWebExchange,
                              WebFilterChain webFilterChain) {
 
-        Context.setPageable(PageRequest.of(serverWebExchange));
+        LocalContext.setPageable(PageRequest.of(serverWebExchange));
 
         return ReactiveSecurityContextHolder.getContext()
                 .switchIfEmpty(
@@ -35,8 +35,8 @@ public class DefaultFilter implements WebFilter {
                 .map(securityContext -> {
                     if (securityContext.getAuthentication() != null) {
                         final Conta conta = ((Conta) securityContext.getAuthentication().getPrincipal());
-                        Context.setCurrentSchema(conta.getEsquema());
-                        Context.setCurrentUsername(conta.getUsername());
+                        LocalContext.setCurrentSchema(conta.getEsquema());
+                        LocalContext.setCurrentUsername(conta.getUsername());
                     }
                     return webFilterChain.filter(serverWebExchange);
                 })

@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static br.com.assessment.application.context.Context.getPageable;
+import static br.com.assessment.application.context.LocalContext.getPageable;
 import static br.com.assessment.infrastructure.util.ArrayUtil.getListFromArray;
 
 @RestController

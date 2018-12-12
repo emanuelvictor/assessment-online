@@ -1,7 +1,7 @@
 package br.com.assessment.application.handlers;
 
 
-import br.com.assessment.application.context.Context;
+import br.com.assessment.application.context.LocalContext;
 import br.com.assessment.domain.entity.usuario.Sessao;
 import br.com.assessment.domain.repository.SessaoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,8 +51,8 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
     public Mono<Void> onLogoutSuccess(final WebFilterExchange webFilterExchange, final Authentication authentication) {
 
         // Limpa o tenant
-        Context.clearCurrentSchema();
-        Context.clearCurrentUsername();
+        LocalContext.clearCurrentSchema();
+        LocalContext.clearCurrentUsername();
 
         try {
             final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Logout efetuado com sucesso"));

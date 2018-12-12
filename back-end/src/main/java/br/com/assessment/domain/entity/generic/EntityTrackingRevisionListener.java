@@ -1,6 +1,6 @@
 package br.com.assessment.domain.entity.generic;
 
-import br.com.assessment.application.context.Context;
+import br.com.assessment.application.context.LocalContext;
 import org.hibernate.envers.RevisionType;
 
 import java.io.Serializable;
@@ -14,8 +14,8 @@ public class EntityTrackingRevisionListener implements org.hibernate.envers.Enti
      */
     @Override
     public void newRevision(Object revisionEntity) {
-        final String schema = Context.getCurrentSchema();
-        final String username = Context.getCurrentUsername();
+        final String schema = LocalContext.getCurrentSchema();
+        final String username = LocalContext.getCurrentUsername();
         ((Revision<?, ?>) revisionEntity).setSchema(schema);
         ((Revision<?, ?>) revisionEntity).setUsername(username);
     }

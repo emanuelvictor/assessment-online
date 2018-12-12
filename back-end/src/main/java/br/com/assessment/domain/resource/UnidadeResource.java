@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static br.com.assessment.application.context.Context.getPageable;
+import static br.com.assessment.application.context.LocalContext.getPageable;
 
 @RestController
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
 package br.com.assessment.domain.service;
 
-import br.com.assessment.application.context.Context;
+import br.com.assessment.application.context.LocalContext;
 import br.com.assessment.domain.entity.configuracao.Configuracao;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.repository.ConfiguracaoRepository;
@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 
 import java.io.IOException;
 
-import static br.com.assessment.application.context.Context.DEFAULT_TENANT_ID;
+import static br.com.assessment.application.context.LocalContext.DEFAULT_TENANT_ID;
 
 
 @Service
@@ -62,7 +62,7 @@ public class ConfiguracaoService {
             return defaultConfiguration;
 
         // Se o cliente não é nulo e não é o public, então retorna as configurações do cliente
-        Context.setCurrentSchema(cliente);
+        LocalContext.setCurrentSchema(cliente);
         final Configuracao configuracao = (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
 
         if (configuracao.getLogo() == null)
@@ -71,7 +71,7 @@ public class ConfiguracaoService {
         if (configuracao.getBackgroundImage() == null)
             configuracao.setBackgroundImage(defaultConfiguration.getBackgroundImage());
 
-        Context.clearCurrentSchema();
+        LocalContext.clearCurrentSchema();
         return configuracao;
     }
 

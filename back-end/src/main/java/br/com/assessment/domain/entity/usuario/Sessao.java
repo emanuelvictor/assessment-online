@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 
-import static br.com.assessment.application.context.Context.DEFAULT_TENANT_ID;
+import static br.com.assessment.application.context.LocalContext.DEFAULT_TENANT_ID;
 
 @Data
 @Entity

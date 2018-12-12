@@ -1,6 +1,6 @@
 package br.com.assessment.domain.resource;
 
-import br.com.assessment.application.context.Context;
+import br.com.assessment.application.context.LocalContext;
 import br.com.assessment.domain.entity.avaliacao.Avaliacao;
 import br.com.assessment.domain.entity.avaliacao.AvaliacaoColaborador;
 import br.com.assessment.domain.entity.colaborador.Colaborador;
@@ -57,7 +57,7 @@ public class ImportResource {
         try {
 
             // Path of a file
-            final String FILEPATH = Context.getCurrentSchema() + ".json";
+            final String FILEPATH = LocalContext.getCurrentSchema() + ".json";
             final File file = new File(FILEPATH);
 
             // Initialize a pointer

@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-import static br.com.assessment.application.context.Context.DEFAULT_TENANT_ID;
+import static br.com.assessment.application.context.LocalContext.DEFAULT_TENANT_ID;
 
 
 /**
