@@ -72,6 +72,17 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     if (this.tokenStorage.token)
       this.cookieService.set(TOKEN_NAME, this.tokenStorage.token);
 
+    if (window['cookieEmperor'])
+      window['cookieEmperor'].getCookie(environment.endpoint, TOKEN_NAME, function (data) {
+        localStorage.setItem(TOKEN_NAME, data.cookieValue);
+        console.log('token em cookies ', data.cookieValue);
+        console.log('token em localstorage ', localStorage.getItem(TOKEN_NAME));
+      }, function (error) {
+        if (error) {
+          console.log('error: ' + error);
+        }
+      });
+
     return this.requestContaAutenticada()
       .map(auth => {
         if (isNullOrUndefined(auth)) {

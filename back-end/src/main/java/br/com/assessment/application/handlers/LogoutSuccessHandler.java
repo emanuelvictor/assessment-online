@@ -2,6 +2,8 @@ package br.com.assessment.application.handlers;
 
 
 import br.com.assessment.application.context.Context;
+import br.com.assessment.domain.entity.usuario.Sessao;
+import br.com.assessment.domain.repository.SessaoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.logging.Logger;
 
+import static br.com.assessment.application.security.WebSessionServerSecurityContextRepository.TOKEN_NAME;
+
 
 /**
  *
@@ -27,6 +31,11 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
      *
      */
     private static final Logger LOG = Logger.getLogger(LogoutSuccessHandler.class.getName());
+
+    /**
+     *
+     */
+    private final SessaoRepository sessaoRepository;
 
     /**
      *
@@ -48,6 +57,11 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
         try {
             final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Logout efetuado com sucesso"));
             webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);
+
+            // Deleta a sessão da base
+            final Sessao sessao = sessaoRepository.findByToken(webFilterExchange.getExchange().getRequest().getCookies().get(TOKEN_NAME).get(0).getValue());
+            sessaoRepository.deleteById(sessao.getId());
+
             return webFilterExchange.getExchange().getResponse().writeWith(Mono.just(buf));
         } catch (final JsonProcessingException e) {
             LOG.severe(e.getMessage());

@@ -42,12 +42,12 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
     /**
      * The default session attribute name to save and load the {@link SecurityContext}
      */
-    public static final String DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME = "SPRING_SECURITY_CONTEXT";
+    private static final String DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME = "SPRING_SECURITY_CONTEXT";
 
     /**
      *
      */
-    private static final String TOKEN_NAME = "assessment-token";
+    public static final String TOKEN_NAME = "assessment-token";
 
     /**
      *

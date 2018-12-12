@@ -59,11 +59,6 @@ var app = {
         else
           logout();
       }
-      // else if (window.location.hash === '#/logout')
-      //   window.location.hash = '#/avaliar';
-      //
-      // else if (window.location.hash === '#/selecionar-atendentes')
-      //   window.location.hash = '#/avaliar';
     }
 
     function onPrompt(results) {
