@@ -82,7 +82,7 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         sessao.setUsername(context.getAuthentication().getName());
                         sessao.generateToken();
                         this.sessaoRepository.save(sessao);
-                        System.out.println("remove address " + exchange.getRequest().getRemoteAddress());
+//                        System.out.println("remove address " + exchange.getRequest().getRemoteAddress());
                         // Adiciona cookie de armazenamento de sessão
 //                        final ResponseCookie httpCookie = ResponseCookie.from(TOKEN_NAME, sessao.getToken())
 //                                .domain(Objects.requireNonNull(exchange.getRequest().getRemoteAddress()).getHostName())
@@ -131,8 +131,7 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                     // Cria o contexto de segurança
                     final SecurityContextImpl securityContext = new SecurityContextImpl(authentication);
 
-                    return this.falcatrua(exchange, securityContext)
-                            .map(auth -> securityContext);
+                    return this.falcatrua(exchange, securityContext).map(auth -> securityContext);
 
                 });
 
