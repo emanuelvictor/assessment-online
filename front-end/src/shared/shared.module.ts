@@ -52,6 +52,7 @@ import {NoWhiteSpace} from '../web/domain/presentation/controls/patterns/no-whit
 import {TokenStorage} from "../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import {TOKEN_NAME} from "../web/domain/presentation/controls/utils";
+import {OfflineComponent} from "../mobile/domain/presentation/avaliacao/offline/offline.component";
 
 /**
  *
@@ -64,6 +65,7 @@ import {TOKEN_NAME} from "../web/domain/presentation/controls/utils";
     VirgulaPipe,
     NoWhiteSpace,
     AvatarComponent,
+    OfflineComponent,
 
     // Authentication
     LoginComponent,

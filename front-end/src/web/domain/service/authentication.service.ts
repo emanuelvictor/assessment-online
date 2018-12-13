@@ -9,6 +9,7 @@ import {environment} from "../../../environments/environment";
 import {TokenStorage} from "../../infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import {TOKEN_NAME} from "../presentation/controls/utils";
+import {ConnectionService} from "ng-connection-service";
 
 @Injectable()
 export class AuthenticationService implements CanActivate, CanActivateChild {
@@ -28,12 +29,14 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
 
   /**
    *
-   * @param {Router} router
-   * @param {HttpClient} httpClient
+   * @param connectionService
+   * @param router
+   * @param httpClient
    * @param tokenStorage
    * @param cookieService
    */
-  constructor(private router: Router, private httpClient: HttpClient,
+  constructor(private connectionService: ConnectionService,
+              private router: Router, private httpClient: HttpClient,
               private tokenStorage: TokenStorage, private cookieService: CookieService) {
 
     this.contaAutenticadaChanged = new EventEmitter();
@@ -88,13 +91,16 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
 
     return this.requestContaAutenticada()
       .map(auth => {
+
         if (isNullOrUndefined(auth)) {
           this.router.navigate(['authentication']);
           return false;
         } else {
           return true;
         }
+
       });
+
   }
 
   /**
@@ -161,9 +167,12 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     return this.httpClient.get(environment.endpoint + 'unidades/authenticate/' + unidadeId + '?password=' + password).toPromise()
   }
 
-  onlineCheck() {
+  /**
+   *
+   */
+  public onlineCheck(): Promise<boolean> {
     let xhr = new XMLHttpRequest();
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
       xhr.onload = () => {
         // Set online status
         this.isOnline = true;
@@ -176,15 +185,6 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
       };
       xhr.open('GET', this.baseUrl, true);
       xhr.send();
-    });
-  }
-
-  clickHandler() {
-    this.onlineCheck().then(() => {
-      // Has internet connection, carry on
-    }).catch(() => {
-      // Has no internet connection, let the user know
-      alert('Sorry, no internet.');
     });
   }
 

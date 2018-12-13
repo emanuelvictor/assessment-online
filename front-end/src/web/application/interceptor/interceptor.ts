@@ -4,7 +4,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from
 
 
 import {MatSnackBar} from "@angular/material";
-import {TokenStorage} from "../../infrastructure/local-storage/local-storage";
+import {Router} from "@angular/router";
 
 /**
  *
@@ -18,12 +18,10 @@ export class Interceptor implements HttpInterceptor {
   progress = window['NProgress'];
 
   /**
-   *
-   * @param {MatSnackBar} snackBar
-   * @param {TokenStorage} tokenStorage
+   * @param router
+   * @param snackBar
    */
-  constructor(public snackBar: MatSnackBar/*, private router: Router*/) {
-
+  constructor(private router: Router, public snackBar: MatSnackBar) {
   }
 
   /**
@@ -84,8 +82,9 @@ export class Interceptor implements HttpInterceptor {
         this.error(res.error.message)
       }
 
-      if (res.status === 504) {
-        this.error(res.error.message)
+      if (res.status === 504 || res.status === 408) {
+        this.router.navigate(['offline']);
+        this.error('Verifique sua conexão')
       }
 
       if (res.status === 401 || res.status === 403) {
@@ -94,7 +93,9 @@ export class Interceptor implements HttpInterceptor {
       }
 
       return observableThrowError(res);
+
     };
+
   }
 
 }
