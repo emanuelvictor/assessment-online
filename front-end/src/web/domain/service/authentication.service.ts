@@ -9,7 +9,6 @@ import {environment} from "../../../environments/environment";
 import {TokenStorage} from "../../infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import {TOKEN_NAME} from "../presentation/controls/utils";
-import {ConnectionService} from "ng-connection-service";
 
 @Injectable()
 export class AuthenticationService implements CanActivate, CanActivateChild {
@@ -29,14 +28,12 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
 
   /**
    *
-   * @param connectionService
    * @param router
    * @param httpClient
    * @param tokenStorage
    * @param cookieService
    */
-  constructor(private connectionService: ConnectionService,
-              private router: Router, private httpClient: HttpClient,
+  constructor(private router: Router, private httpClient: HttpClient,
               private tokenStorage: TokenStorage, private cookieService: CookieService) {
 
     this.contaAutenticadaChanged = new EventEmitter();
