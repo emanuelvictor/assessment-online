@@ -39,7 +39,7 @@ import java.util.TimeZone;
 @Transactional
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("import")
+@RequestMapping({"import", "sistema/import"})
 public class ImportResource {
 
     private final UsuarioService usuarioService;
