@@ -1,5 +1,6 @@
 package br.com.assessment.domain.resource;
 
+import br.com.assessment.application.context.LocalContext;
 import br.com.assessment.domain.entity.configuracao.Configuracao;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.service.ConfiguracaoService;
@@ -47,7 +48,7 @@ public class ConfiguracaoResource {
     public Mono<ResponseEntity<byte[]>> findLogomarca(final @RequestParam(value = "cliente", required = false) String cliente) {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.configuracaoService.findLogomarca(cliente))
+                        .body(this.configuracaoService.findLogomarca(cliente == null ? LocalContext.getCurrentSchema() : cliente))
         );
     }
 
@@ -79,10 +80,10 @@ public class ConfiguracaoResource {
      * Busca o background
      */
     @GetMapping(value = "background", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-    public Mono<ResponseEntity<byte[]>> findBackground(final @RequestParam(value = "cliente", required = false) String cliente) {
+    public Mono<ResponseEntity<byte[]>> findBackgroundByCliente(final @RequestParam(value = "cliente", required = false) String cliente) {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.configuracaoService.findBackground(cliente))
+                        .body(this.configuracaoService.findBackground(cliente == null ? LocalContext.getCurrentSchema() : cliente))
         );
     }
 

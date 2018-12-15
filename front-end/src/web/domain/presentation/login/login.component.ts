@@ -59,7 +59,7 @@ export class LoginComponent {
       .subscribe(model =>
         this.configuracaoRepository.getClienteByUsername(model)
           .subscribe(result => {
-            if (result != this.cliente) {
+            if (result !== this.cliente) {
               this.cliente = result;
 
               const identifier: string = getIdentifier();
