@@ -1,6 +1,6 @@
 export const environment = {
 
-  production: true,
+  production: false,
 
   endpoint: 'http://179.106.239.137:8080/'
 
