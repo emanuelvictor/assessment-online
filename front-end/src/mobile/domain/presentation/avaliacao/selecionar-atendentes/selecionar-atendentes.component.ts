@@ -25,6 +25,11 @@ export class SelecionarAtendentesComponent implements OnInit {
 
   /**
    *
+   */
+  time: 30000;
+
+  /**
+   *
    * @param {Router} router
    * @param {MobileService} mobileService
    * @param {ColaboradorService} colaboradorService
@@ -44,7 +49,7 @@ export class SelecionarAtendentesComponent implements OnInit {
     this.timeout = setTimeout(() => {
       this.mobileService.reset();
       this.router.navigate(['/avaliar']);
-    }, 180000);
+    }, this.time);
 
     this.colaboradorService.listByFilters({unidadeId: this.mobileService.getUnidade(), vinculo: Vinculo[0]})
       .subscribe(page => {
@@ -52,8 +57,7 @@ export class SelecionarAtendentesComponent implements OnInit {
         if (this.atendentes.length == 1) {
           this.atendentes[0].selected = true;
           this.concluir();
-        }
-        else if (!this.atendentes.length)
+        } else if (!this.atendentes.length)
           this.openSnackBar('Insira atendentes e vincule-os á unidade')
       });
 
@@ -79,6 +83,18 @@ export class SelecionarAtendentesComponent implements OnInit {
     } else {
       this.snackBar.open('Selecione ao menos um atendente', 'Fechar', this.mobileService.getSnackBarConfig());
     }
+  }
+
+  /**
+   *
+   */
+  public clearTimeout() {
+    clearTimeout(this.timeout);
+
+    this.timeout = setTimeout(() => {
+      this.mobileService.reset();
+      this.router.navigate(['/avaliar']);
+    }, this.time);
   }
 
   /**

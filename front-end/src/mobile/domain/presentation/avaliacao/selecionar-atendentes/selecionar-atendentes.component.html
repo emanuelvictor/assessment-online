@@ -14,7 +14,7 @@
         [colspan]="1"
         [rowspan]="2"
         *ngFor="let atendente of atendentes"
-        (click)='atendente.selected = !atendente.selected'
+        (click)='atendente.selected = !atendente.selected; clearTimeout()'
         [ngStyle]="{'background-color': (atendente.selected ? 'lightblue' : '')}">
       <div layout="column" layout-align="center center">
         <div mat-list-avatar style='width: 120px; height: 120px'>
