@@ -10,11 +10,4 @@ import {Component} from "@angular/core";
 })
 export class MobileComponent {
 
-  bcrypt = window['dcodeIO'].bcrypt;
-
-  constructor() {
-    const hash = '$2a$10$Ipj9ID5eqEUELkadTfVqm.2Z42AlAARdihUlQegDBaALlaCh8sqeq';
-
-    console.log(this.bcrypt.compareSync("123456", hash));
-  }
 }

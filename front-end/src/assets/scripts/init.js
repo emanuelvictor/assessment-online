@@ -63,6 +63,12 @@ var app = {
 
     function onPrompt(results) {
 
+      var bcrypt = window['dcodeIO'].bcrypt;
+
+      var hash = '$2a$10$Ipj9ID5eqEUELkadTfVqm.2Z42AlAARdihUlQegDBaALlaCh8sqeq';
+
+      // console.log(bcrypt.compareSync("123456", hash));
+
       var xmlhttpAuthenticate = new XMLHttpRequest();
       var authenticateUrl = END_POINT + 'unidades/authenticate/' + localStorage.getItem(UNIDADE_ID) + '?password=' + results.input1;
 
