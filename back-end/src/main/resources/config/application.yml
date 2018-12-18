@@ -27,8 +27,8 @@ spring:
       hibernate.dialect: br.com.assessment.infrastructure.hibernate.dialect.PostgreSQLDialect
       hibernate.id.new_generator_mappings: true
       hibernate.cache.use_second_level_cache: true
-      hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
-      hibernate.cache.provider_class: net.sf.ehcache.hibernate.EhCacheProvider
+#      hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+#      hibernate.cache.provider_class: net.sf.ehcache.hibernate.EhCacheProvider
       hibernate.default_schema: public
       org.hibernate.envers.audit_table_suffix: _aud
       org.hibernate.envers.revision_field_name: rev
