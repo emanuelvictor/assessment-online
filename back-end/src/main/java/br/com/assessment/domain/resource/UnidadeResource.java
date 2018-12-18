@@ -7,9 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static br.com.assessment.application.context.LocalContext.getPageable;
@@ -64,5 +66,11 @@ public class UnidadeResource {
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<Boolean> authenticateByUnidadeId(@PathVariable final long unidadeId, @RequestParam final String password) {
         return Mono.just(this.unidadeService.authenticateByUnidadeId(unidadeId, password));
+    }
+
+    @GetMapping("{unidadeId}/hashs")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    Mono<List<String>> getHashsByUnidadeId(@PathVariable final long unidadeId) {
+        return Mono.just(this.unidadeService.getHashsByUnidadeId(unidadeId));
     }
 }

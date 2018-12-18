@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Conta} from '../entity/usuario/conta.model';
 import {environment} from "../../../environments/environment";
-import {TokenStorage} from "../../infrastructure/local-storage/local-storage";
+import {LocalStorage} from "../../infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import {TOKEN_NAME} from "../presentation/controls/utils";
 
@@ -34,7 +34,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @param cookieService
    */
   constructor(private router: Router, private httpClient: HttpClient,
-              private tokenStorage: TokenStorage, private cookieService: CookieService) {
+              private tokenStorage: LocalStorage, private cookieService: CookieService) {
 
     this.contaAutenticadaChanged = new EventEmitter();
 
@@ -139,7 +139,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     return new Promise((resolve, reject) => {
       this.httpClient.get(environment.endpoint + 'logout').toPromise()
         .then(() => {
-          this.tokenStorage.destroy();
+          this.tokenStorage.removeToken();
           this.cookieService.delete(TOKEN_NAME);
           resolve();
         })

@@ -130,7 +130,8 @@
               "src/assets/styles/nprogress.css"
             ],
             "scripts": [
-              "./node_modules/nprogress/nprogress.js"
+              "./node_modules/nprogress/nprogress.js",
+              "src/assets/scripts/bcrypt.js"
             ]
           },
           "configurations": {

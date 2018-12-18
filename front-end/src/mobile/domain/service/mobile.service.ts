@@ -9,6 +9,7 @@ import {MatSnackBarConfig} from '@angular/material';
 import {AvaliacaoService} from '../../../web/domain/service/avaliacao.service';
 import {AvaliacaoColaborador} from '../../../web/domain/entity/avaliacao/avaliacao-colaborador.model';
 import {UnidadeService} from '../../../web/domain/service/unidade.service';
+import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -40,17 +41,19 @@ export class MobileService {
   private mdSnackBarConfig: MatSnackBarConfig = new MatSnackBarConfig();
 
   /**
-   *
+   * @param {LocalStorage} localStorage
    * @param {UnidadeService} unidadeService
    * @param {AvaliacaoService} avaliacaoService
    */
-  constructor(private unidadeService: UnidadeService, private avaliacaoService: AvaliacaoService) {
+  constructor(private localStorage: LocalStorage,
+              private unidadeService: UnidadeService,
+              private avaliacaoService: AvaliacaoService) {
 
     /**
      * Pega a key da unidade do localStorage
      * @type {string}
      */
-    this.unidade.id = parseInt(window.localStorage.getItem('unidadeId'));
+    this.unidade.id = this.localStorage.unidadeId;
 
     /**
      * Popula restante dos dados da unidade,
@@ -194,11 +197,9 @@ export class MobileService {
    */
   setUnidade(id: number) {
 
-    const storage = window.localStorage;
+    this.localStorage.removeUnidade();
 
-    storage.removeItem('unidadeId');
-
-    storage.setItem('unidadeId', id.toString());
+    this.localStorage.unidadeId = id;
 
     this.unidade.id = id;
 
@@ -210,7 +211,7 @@ export class MobileService {
    */
   removeUnidade() {
     this.unidade = new Unidade();
-    window.localStorage.removeItem('unidadeId');
+    this.localStorage.removeUnidade();
   }
 
   /**
@@ -230,4 +231,16 @@ export class MobileService {
       this.unidadeService.findById(this.unidade.id)
         .subscribe(unidade => this.unidade = unidade);
   }
+
+  /**
+   *
+   * @param id
+   */
+  public setHashsByUnidadeId(id: number) {
+    this.unidadeService.getHashsByUnidadeId(id)
+      .subscribe(hashs => {
+        this.localStorage.hashs = hashs;
+      });
+  }
+
 }

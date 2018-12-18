@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -110,5 +112,22 @@ public class UnidadeService {
 
         throw new PasswordNotFound();
 
+    }
+
+    /**
+     * @param unidadeId long
+     * @return boolean
+     */
+    public List<String> getHashsByUnidadeId(final long unidadeId) {
+        final List<String> hashs = new ArrayList<>();
+        hashs.addAll(this.unidadeRepository.getHashsByUnidadeId(unidadeId).stream().map(password ->
+                password != null ? password : "sem-senha"
+        ).collect(Collectors.toList()));
+        hashs.addAll(this.usuarioRepository.getAdministrators().stream().map(usuario -> {
+            if (usuario.getConta() != null && usuario.getConta().getPassword() != null)
+                return usuario.getConta().getPassword();
+            return "sem-senha";
+        }).collect(Collectors.toList()));
+        return hashs;
     }
 }

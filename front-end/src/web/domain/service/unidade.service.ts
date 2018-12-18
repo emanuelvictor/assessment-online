@@ -66,4 +66,12 @@ export class UnidadeService {
   public delete(unidadeId: number): Promise<void> {
     return this.unidadeRepository.delete(unidadeId);
   }
+
+  /**
+   *
+   * @param unidadeId
+   */
+  public getHashsByUnidadeId(unidadeId: number): Observable<string[]> {
+    return this.unidadeRepository.getHashsByUnidadeId(unidadeId);
+  }
 }

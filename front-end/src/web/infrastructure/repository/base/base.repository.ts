@@ -8,7 +8,7 @@ import {environment} from "../../../../environments/environment";
 
 export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
 
-  private collectionName: string = environment.endpoint;
+  protected collectionName: string = environment.endpoint;
 
   constructor(public httpClient: HttpClient, public collection: string) {
     if (collection)
@@ -39,14 +39,7 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
   listByFilters(pageable: any): Observable<any> {
 
     const params = PageSerialize.getHttpParamsFromPageable(pageable);
-console.log('asdfasda');
 
-    this.httpClient.get(this.collectionName, {
-      params: params
-    }).toPromise()
-      .catch(error => {
-        console.log(error)
-      });
     return this.httpClient.get(this.collectionName, {
       params: params
     })

@@ -33,6 +33,7 @@
     "@swimlane/ngx-charts": "^9.0.0",
     "@types/underscore": "1.8.9",
     "angular2-text-mask": "9.0.0",
+    "bcryptjs": "^2.4.3",
     "core-js": "2.5.7",
     "enhanced-resolve": "4.1.0",
     "hammerjs": "2.0.8",

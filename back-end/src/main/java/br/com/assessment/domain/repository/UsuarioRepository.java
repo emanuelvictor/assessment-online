@@ -202,4 +202,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "           )"
     )
     List<Usuario> listUsuariosByUnidadeId(@Param("unidadeId") final Long unidadeId);
+
+    /**
+     *
+     * @return
+     */
+    @Query("FROM Usuario usuario WHERE usuario.conta.administrador = TRUE")
+    List<Usuario> getAdministrators();
 }

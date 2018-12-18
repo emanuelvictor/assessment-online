@@ -37,7 +37,7 @@ import {MobileLoginComponent} from './presentation/login/web-login/mobile-login.
 import {ConfiguracaoRepository} from "../../web/domain/repositories/configuracao.repository";
 import {ConfiguracaoService} from "../../web/domain/service/configuracao.service";
 import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component";
-import {TokenStorage} from "../../web/infrastructure/local-storage/local-storage";
+import {LocalStorage} from "../../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import localePt from "@angular/common/locales/pt";
 
@@ -90,7 +90,7 @@ import localePt from "@angular/common/locales/pt";
     UnidadeService,
     CookieService,
     MobileService,
-    TokenStorage,
+    LocalStorage,
     ContaService,
 
 

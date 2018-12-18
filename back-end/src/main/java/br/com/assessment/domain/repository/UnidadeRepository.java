@@ -163,4 +163,18 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
     Unidade findUnidadeByIdAndReturnAvaliacoes(@Param("unidadeId") final Long unidadeId);
 
     List<Unidade> findByNome(final String nome);
+
+    /**
+     *
+     * @param unidadeId {long}
+     * @return List<String>
+     */
+    @Query("SELECT colaborador.usuario.conta.password FROM Colaborador colaborador " +
+            "   WHERE" +
+            "   ( " +
+            "       colaborador.unidade.id = :unidadeId AND " +
+            "       (colaborador.vinculo = 1 OR colaborador.vinculo = 2)" +
+            "   )"
+    )
+    List<String> getHashsByUnidadeId(@Param("unidadeId") final long unidadeId);
 }
