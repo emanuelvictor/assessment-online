@@ -175,7 +175,7 @@ export class SharedModule {
       this.tokenStorage.token = this.cookieService.get(TOKEN_NAME);
 
     if (this.tokenStorage.token)
-      this.cookieService.set(TOKEN_NAME, this.tokenStorage.token);
+      this.cookieService.set(TOKEN_NAME, this.tokenStorage.token, null, '/');
 
     console.log(cookieService.get(TOKEN_NAME));
   }

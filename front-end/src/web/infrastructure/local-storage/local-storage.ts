@@ -13,11 +13,15 @@ export class LocalStorage {
   }
 
   get hashs(): string[] {
+
     const hashs: string[] = [];
+
     for (var _i = 0; _i < window.localStorage['hashs.length']; _i++) {
       hashs.push(window.localStorage[_i]);
     }
+
     return hashs;
+
   }
 
   set hashs(hashs: string[]) {

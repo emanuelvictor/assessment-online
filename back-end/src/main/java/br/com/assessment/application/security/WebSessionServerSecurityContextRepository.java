@@ -77,14 +77,6 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         sessao.setUsername(context.getAuthentication().getName());
                         sessao.generateToken();
                         this.sessaoRepository.save(sessao);
-//                        System.out.println("remove address " + exchange.getRequest().getRemoteAddress());
-                        // Adiciona cookie de armazenamento de sessão
-//                        final ResponseCookie httpCookie = ResponseCookie.from(TOKEN_NAME, sessao.getToken())
-//                                .domain(Objects.requireNonNull(exchange.getRequest().getRemoteAddress()).getHostName())
-//                                .path("/")
-//                                .build();
-
-//                        session.getAttributes().put(TOKEN_NAME, sessao.getToken());
 
                         exchange.getResponse().addCookie(ResponseCookie.from(TOKEN_NAME, sessao.getToken())
                                 .build());
@@ -102,18 +94,13 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
         return exchange.getSession()
                 .map(WebSession::getAttributes)
                 .flatMap(attrs -> {
-//                    final SecurityContext context = (SecurityContext) attrs.get(this.springSecurityContextAttrName);
-//
-//                    if (context != null && exchange.getRequest().getCookies().get(TOKEN_NAME) != null)
-//                        return Mono.just(context);
-////                    return Mono.justOrEmpty(context);
 
                     final List<HttpCookie> cookies = exchange.getRequest().getCookies().get(TOKEN_NAME);
 
                     if (cookies == null || cookies.isEmpty())
                         return Mono.empty();
 
-                    final String token = /*(String) attrs.get(TOKEN_NAME);*/ cookies.get(0).getValue();
+                    final String token = cookies.get(0).getValue();
                     final Sessao sessao = sessaoRepository.findByToken(token);
 
                     if (sessao == null || !sessao.validate()) {
@@ -129,23 +116,10 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                     // Cria o contexto de segurança
                     final SecurityContextImpl securityContext = new SecurityContextImpl(authentication);
 
-                    return Mono.just(securityContext); //this.falcatrua(exchange, securityContext).map(auth -> securityContext);
+                    return Mono.just(securityContext);
 
                 });
 
-    }
-
-
-    private Mono<Void> falcatrua(ServerWebExchange exchange, SecurityContext context) {
-        return exchange.getSession()
-                .doOnNext(session -> {
-                    if (context == null) {
-                        session.getAttributes().remove(this.springSecurityContextAttrName);
-                    } else {
-                        session.getAttributes().put(this.springSecurityContextAttrName, context);
-                    }
-                })
-                .flatMap(WebSession::changeSessionId);
     }
 
 }

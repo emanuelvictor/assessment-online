@@ -73,7 +73,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
       this.tokenStorage.token = this.cookieService.get(TOKEN_NAME);
 
     if (this.tokenStorage.token)
-      this.cookieService.set(TOKEN_NAME, this.tokenStorage.token);
+      this.cookieService.set(TOKEN_NAME, this.tokenStorage.token, null, '/');
 
     if (window['cookieEmperor'])
       window['cookieEmperor'].getCookie(environment.endpoint, TOKEN_NAME, function (data) {
@@ -124,7 +124,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
             this.tokenStorage.token = this.cookieService.get(TOKEN_NAME);
 
           if (this.tokenStorage.token)
-            this.cookieService.set(TOKEN_NAME, this.tokenStorage.token);
+            this.cookieService.set(TOKEN_NAME, this.tokenStorage.token, null, '/');
 
           resolve(result)
         })

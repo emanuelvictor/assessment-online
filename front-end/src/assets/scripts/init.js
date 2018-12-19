@@ -61,66 +61,67 @@ var app = {
       }
     }
 
+    function removeHashs() {
+      for (var _i = 0; _i < localStorage['hashs.length']; _i++) {
+        localStorage.removeItem[_i];
+      }
+
+      localStorage.removeItem['hashs.length'];
+    }
+
+
+    function getHashs() {
+      var hashs = [];
+
+      for (var _i = 0; _i < window.localStorage['hashs.length']; _i++) {
+        hashs.push(window.localStorage[_i]);
+      }
+
+      return hashs;
+    }
+
     function onPrompt(results) {
 
       var bcrypt = window['dcodeIO'].bcrypt;
 
-      var hash = '$2a$10$Ipj9ID5eqEUELkadTfVqm.2Z42AlAARdihUlQegDBaALlaCh8sqeq';
+      // var hash = '$2a$10$Ipj9ID5eqEUELkadTfVqm.2Z42AlAARdihUlQegDBaALlaCh8sqeq';
 
       // console.log(bcrypt.compareSync("123456", hash));
 
-      var xmlhttpAuthenticate = new XMLHttpRequest();
-      var authenticateUrl = END_POINT + 'unidades/authenticate/' + localStorage.getItem(UNIDADE_ID) + '?password=' + results.input1;
+      var hashs = getHashs();
 
-      xmlhttpAuthenticate.onreadystatechange = function () {
-
-        if (this.readyState === 4 && this.status === 200) {
-
-          logout()
-
-        } else if (this.readyState > 3 && results.input1 !== null && results.input1.length) {
-          window.plugins.toast.showWithOptions(
-            {
-              message: "Senha incorreta",
-              duration: "long", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-              position: "bottom",
-              addPixelsY: -40  // added a negative value to move it up a bit (default 0)
-            }
-          );
+      for (var i = 0; i < hashs.length; i++) {
+        if (bcrypt.compareSync(results.input1, hashs[i])) {
+          logout();
+          return;
         }
-      };
+      }
 
-      xmlhttpAuthenticate.open("GET", authenticateUrl, true);
-      xmlhttpAuthenticate.send();
+      window.plugins.toast.showWithOptions(
+        {
+          message: "Senha incorreta",
+          duration: "long", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+          position: "bottom",
+          addPixelsY: -40  // added a negative value to move it up a bit (default 0)
+        }
+      );
 
     }
 
     function logout() {
-      var xmlhttpLogout = new XMLHttpRequest();
-      var logoutUrl = END_POINT + 'logout';
 
-      xmlhttpLogout.onreadystatechange = function () {
-        localStorage.removeItem(TOKEN_NAME);
-        localStorage.removeItem(UNIDADE_ID);
+      localStorage.removeItem(TOKEN_NAME);
+      localStorage.removeItem(UNIDADE_ID);
+      removeHashs();
 
-        window['cookieEmperor'].clearAll(
-          function () {
-            console.log('Cookies have been cleared');
-          },
-          function () {
-            console.log('Cookies could not be cleared');
-          });
+      window['cookieEmperor'].clearAll(
+        function () {
+          window.location.href = 'file:///android_asset/www/index.html';
+        },
+        function () {
+          console.log('Cookies could not be cleared');
+        });
 
-        // window['KioskPlugin'].exitKiosk();
-
-        // navigator.app.exitApp();
-
-        window.location.href = 'file:///android_asset/www/index.html';
-
-      };
-
-      xmlhttpLogout.open("GET", logoutUrl, true);
-      xmlhttpLogout.send();
     }
 
   }
