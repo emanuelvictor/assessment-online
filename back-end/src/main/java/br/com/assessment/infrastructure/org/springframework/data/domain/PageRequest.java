@@ -20,33 +20,6 @@ public class PageRequest extends AbstractPageRequest {
     private final Sort sort;
 
     /**
-     * Creates a new {@link PageRequest}. Pages are zero indexed, thus providing 0 for {@code page} will return the first
-     * page.
-     *
-     * @param page zero-based page index.
-     * @param size the size of the page to be returned.
-     * @deprecated use {@link #of(int, int)} instead.
-     */
-    @Deprecated
-    public PageRequest(int page, int size) {
-        this(page, size, Sort.unsorted());
-    }
-
-    /**
-     * Creates a new {@link PageRequest} with sort parameters applied.
-     *
-     * @param page       zero-based page index.
-     * @param size       the size of the page to be returned.
-     * @param direction  the direction of the {@link Sort} to be specified, can be {@literal null}.
-     * @param properties the properties to sort by, must not be {@literal null} or empty.
-     * @deprecated use {@link #of(int, int, Direction, String...)} instead.
-     */
-    @Deprecated
-    public PageRequest(int page, int size, Direction direction, String... properties) {
-        this(page, size, Sort.by(direction, properties));
-    }
-
-    /**
      * Creates a new {@link PageRequest} with sort parameters applied.
      *
      * @param page zero-based page index.
@@ -54,8 +27,7 @@ public class PageRequest extends AbstractPageRequest {
      * @param sort can be {@literal null}.
      * @deprecated since 2.0, use {@link #of(int, int, Sort)} instead.
      */
-    @Deprecated
-    public PageRequest(int page, int size, Sort sort) {
+    PageRequest(int page, int size, Sort sort) {
 
         super(page, size);
 
@@ -69,16 +41,16 @@ public class PageRequest extends AbstractPageRequest {
     public static PageRequest of(final ServerWebExchange serverWebExchange) {
         if (serverWebExchange.getRequest().getQueryParams().get("size") != null) {
 
-            final Integer page;
+            final int page;
 
             if (serverWebExchange.getRequest().getQueryParams().get("page") != null
                     && serverWebExchange.getRequest().getQueryParams().get("page").size() > 0
                     && serverWebExchange.getRequest().getQueryParams().get("page").get(0).length() > 0)
-                page = Integer.valueOf(serverWebExchange.getRequest().getQueryParams().get("page").get(0));
+                page = Integer.parseInt(serverWebExchange.getRequest().getQueryParams().get("page").get(0));
             else
                 page = 0;
 
-            final Integer size = Integer.valueOf(serverWebExchange.getRequest().getQueryParams().get("size").get(0));
+            final int size = Integer.parseInt(serverWebExchange.getRequest().getQueryParams().get("size").get(0));
 
             final Sort sort;
 
@@ -88,8 +60,7 @@ public class PageRequest extends AbstractPageRequest {
             } else
                 sort = Sort.unsorted();
 
-            if (page != null && size != null)
-                return of(page, size, sort);
+            return of(page, size, sort);
 
         }
 

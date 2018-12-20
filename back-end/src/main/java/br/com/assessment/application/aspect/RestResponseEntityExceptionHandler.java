@@ -49,24 +49,35 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
             String key;
             //Verifica o código do erro gerado pelo PostgreSQL
-            if (cause.getSQLState().equals("23503")) {
-                key = detail.substring(detail.indexOf('"'), detail.indexOf('.'));
-                Object[] args = new Object[]{key};
-                message = this.messageSource.getMessage("repository.foreignKeyViolation", args, LocaleContextHolder.getLocale()); //= this.messageSource.getMessage("repository.foreignKeyViolation", new String[]{key}, LocaleContextHolder.getLocale());
-            } else if (cause.getSQLState().equals("23505")) {
-                key = detail.substring(detail.indexOf('(') + 1, detail.indexOf(')'));
-                if (key.startsWith("lower(")) {
-                    key = key.replace("lower(", "");
-                    key = key.replace("::text", "");
-                }
-                Object[] args = new Object[]{key};
+            switch (cause.getSQLState()) {
+                case "23503": {
+                    key = detail.substring(detail.indexOf('"'), detail.indexOf('.'));
+                    Object[] args = new Object[]{key};
+                    message = this.messageSource.getMessage("repository.foreignKeyViolation", args, LocaleContextHolder.getLocale()); //= this.messageSource.getMessage("repository.foreignKeyViolation", new String[]{key}, LocaleContextHolder.getLocale());
 
-                message = this.messageSource.getMessage("repository.uniqueViolation", args, LocaleContextHolder.getLocale()); //message = this.messageSource.getMessage("repository.uniqueViolation", new String[]{key}, LocaleContextHolder.getLocale());
-            } else if (cause.getSQLState().equals("23502")) {
-                LOGGER.info(detail); //TODO
-                LOGGER.info("Not null violation.");
-            } else {
-                message = this.messageSource.getMessage("repository.uniqueViolation", null, LocaleContextHolder.getLocale()); //message = this.messageSource.getMessage("repository.uniqueViolation", new String[]{cause.getSQLState()}, LocaleContextHolder.getLocale());
+                    break;
+                }
+                case "23505": {
+                    key = detail.substring(detail.indexOf('(') + 1, detail.indexOf(')'));
+                    if (key.startsWith("lower(")) {
+                        key = key.replace("lower(", "");
+                        key = key.replace("::text", "");
+                    }
+                    Object[] args = new Object[]{key};
+
+                    message = this.messageSource.getMessage("repository.uniqueViolation", args, LocaleContextHolder.getLocale()); //message = this.messageSource.getMessage("repository.uniqueViolation", new String[]{key}, LocaleContextHolder.getLocale());
+
+                    break;
+                }
+                case "23502":
+                    LOGGER.info(detail); //TODO
+
+                    LOGGER.info("Not null violation.");
+                    break;
+                default:
+                    message = this.messageSource.getMessage("repository.uniqueViolation", null, LocaleContextHolder.getLocale()); //message = this.messageSource.getMessage("repository.uniqueViolation", new String[]{cause.getSQLState()}, LocaleContextHolder.getLocale());
+
+                    break;
             }
         }
 
