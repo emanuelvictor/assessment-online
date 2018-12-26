@@ -72,7 +72,7 @@ public class Usuario extends Pessoa {
      * PORQUE ESTÁ EAGER
      */
     @JsonProperty
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Avaliavel> avaliaveis;
 
     /**

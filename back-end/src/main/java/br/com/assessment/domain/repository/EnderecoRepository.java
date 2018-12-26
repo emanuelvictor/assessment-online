@@ -12,4 +12,5 @@ public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
 
     @Query("SELECT cidade FROM Cidade cidade WHERE (LOWER(cidade.nome) = LOWER(:cidade) AND LOWER(cidade.estado.uf) = LOWER(:uf))")
     Optional<Cidade> find(@Param("cidade") final String cidade, @Param("uf") final String uf);
+
 }

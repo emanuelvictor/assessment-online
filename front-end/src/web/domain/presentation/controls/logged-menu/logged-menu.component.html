@@ -52,6 +52,17 @@
       </div>
     </mat-list-item>
 
+    <mat-list-item class="push-bottom"
+                   routerLink="/dashboard/resultados"
+                   routerLinkActive #rlaResultados="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaResultados.isActive}">
+      <div layout="row" flex class="pad-left">
+        <span flex="10"></span>
+        <mat-icon matListAvatar flex>pie_chart</mat-icon>
+        <h3 matLine style="color: white" flex="85"> Resultados </h3>
+      </div>
+    </mat-list-item>
+
     <mat-divider class="bgc-blue-grey-300 push-top push-bottom pad-left"></mat-divider>
 
     <mat-list-item class="push-bottom"

@@ -54,7 +54,7 @@ public class UnidadeService {
     }
 
     public Optional<Unidade> findById(final long id) {
-        return null;//        return Optional.of(this.unidadeRepository.findUnidadeByIdAndReturnAvaliacoes(id));
+        return Optional.of(this.unidadeRepository.findUnidadeByIdAndReturnAvaliacoes(id));
     }
 
     public Page<Unidade> listByFilters(final String defaultFilter,
@@ -65,15 +65,14 @@ public class UnidadeService {
 
         final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
 
-        return null;
-//                this.unidadeRepository.listByFilters(
-//                usuario.getId(),
-//                usuario.getConta().getPerfil().name(),
-//                defaultFilter,
-//                enderecoFilter,
-//                dataInicioFilter,
-//                dataTerminoFilter,
-//                pageable);
+        return this.unidadeRepository.listByFilters(
+                usuario.getId(),
+                usuario.getConta().getPerfil().name(),
+                defaultFilter,
+                enderecoFilter,
+                dataInicioFilter,
+                dataTerminoFilter,
+                pageable);
 
     }
 
@@ -82,18 +81,17 @@ public class UnidadeService {
 
         final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
 
-        return null;
-//                this.unidadeRepository.listByFilters(
-//                usuario.getId(),
-//                usuario.getConta().getPerfil().name(),
-//                defaultFilter,
-//                pageable);
+        return this.unidadeRepository.listByFilters(
+                usuario.getId(),
+                usuario.getConta().getPerfil().name(),
+                defaultFilter,
+                pageable);
 
     }
 
-    public List<Unidade> findByNome(final String nome) {
-        return this.unidadeRepository.findByNome(nome);
-    }
+//    public List<Unidade> findByNome(final String nome) {
+//        return this.unidadeRepository.findByNome(nome);
+//    }
 
     /**
      * @param unidadeId long
@@ -132,7 +130,7 @@ public class UnidadeService {
                 return usuario.getConta().getPassword();
             return "sem-senha";
         }).collect(Collectors.toList()));
-        
+
         return hashs;
     }
 }

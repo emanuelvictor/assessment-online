@@ -120,7 +120,7 @@ public class Conta extends AbstractEntity implements UserDetails {
         if (this.isRoot())
             return Perfil.ROOT;
 
-        if (this.isAdministrador())
+        else if (this.isAdministrador())
             return Perfil.ADMINISTRADOR;
 
         else if (this.getIsOperador())

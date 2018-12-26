@@ -13,7 +13,9 @@ import java.util.List;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-
+    /**
+     *
+     */
     @Query("SELECT new Usuario( " +
             "   usuario.id, " +
             "   usuario.nome, " +
@@ -31,11 +33,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       AND " +
             "       (" +
             "           (" +
-            "               :perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' " +
+            "               (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "')" +
             "               AND " +
             "               operador.usuario.id = :usuarioId " +
             "           )" +
-            "           OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' " +
+            "           OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
             "       )" +
             "   )" +
             "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
@@ -121,11 +123,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       AND " +
             "       (" +
             "           (" +
-            "               :perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' " +
+            "               (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "')" +
             "               AND " +
             "               operador.usuario.id = :usuarioId " +
             "           )" +
-            "           OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' " +
+            "           OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
             "       )" +
             "   )" +
             "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
@@ -139,6 +141,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
             final Pageable pageable);
 
+    /**
+     *
+     */
     @Query("SELECT new Usuario( " +
             "   usuario.id, " +
             "   usuario.nome, " +
