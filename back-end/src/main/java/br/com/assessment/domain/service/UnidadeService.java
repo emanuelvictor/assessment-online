@@ -31,9 +31,9 @@ public class UnidadeService {
 
     private final UnidadeRepository unidadeRepository;
 
-    private final ColaboradorRepository colaboradorRepository;
+    private final OperadorRepository operadorRepository;
 
-    private final AvaliacaoColaboradorRepository avaliacaoColaboradorRepository;
+    private final AvaliacaoAvaliavelRepository avaliacaoAvaliavelRepository;
 
     public Unidade save(final long id, final Unidade unidade) {
         Assert.isTrue(unidade.getId() != null && unidade.getId().equals(id), "Você não tem acesso a essa unidade"); //TODO colocar validator em uma service, e colocar na camada de cima
@@ -46,15 +46,15 @@ public class UnidadeService {
 
     public void delete(final long unidadeId) {
 
-        this.avaliacaoColaboradorRepository.deleteInBatch(this.avaliacaoColaboradorRepository.listAvaliacaoColaboradorByUnidadeId(unidadeId));
+        this.avaliacaoAvaliavelRepository.deleteInBatch(this.avaliacaoAvaliavelRepository.listAvaliacaoAvaliavelByUnidadeId(unidadeId));
 
-        this.colaboradorRepository.deleteInBatch(colaboradorRepository.listByFilters(null, null, null, unidadeId, null, null).getContent());
+        this.operadorRepository.deleteInBatch(operadorRepository.listByFilters(null, null, null, unidadeId, null).getContent());
 
         this.unidadeRepository.deleteById(unidadeId);
     }
 
     public Optional<Unidade> findById(final long id) {
-        return Optional.of(this.unidadeRepository.findUnidadeByIdAndReturnAvaliacoes(id));
+        return null;//        return Optional.of(this.unidadeRepository.findUnidadeByIdAndReturnAvaliacoes(id));
     }
 
     public Page<Unidade> listByFilters(final String defaultFilter,
@@ -65,14 +65,15 @@ public class UnidadeService {
 
         final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
 
-        return this.unidadeRepository.listByFilters(
-                usuario.getId(),
-                usuario.getConta().getPerfil().name(),
-                defaultFilter,
-                enderecoFilter,
-                dataInicioFilter,
-                dataTerminoFilter,
-                pageable);
+        return null;
+//                this.unidadeRepository.listByFilters(
+//                usuario.getId(),
+//                usuario.getConta().getPerfil().name(),
+//                defaultFilter,
+//                enderecoFilter,
+//                dataInicioFilter,
+//                dataTerminoFilter,
+//                pageable);
 
     }
 
@@ -81,11 +82,12 @@ public class UnidadeService {
 
         final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
 
-        return this.unidadeRepository.listByFilters(
-                usuario.getId(),
-                usuario.getConta().getPerfil().name(),
-                defaultFilter,
-                pageable);
+        return null;
+//                this.unidadeRepository.listByFilters(
+//                usuario.getId(),
+//                usuario.getConta().getPerfil().name(),
+//                defaultFilter,
+//                pageable);
 
     }
 

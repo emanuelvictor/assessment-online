@@ -1,8 +1,8 @@
 package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.avaliacao.Avaliacao;
-import br.com.assessment.domain.entity.avaliacao.AvaliacaoColaborador;
-import br.com.assessment.domain.repository.AvaliacaoColaboradorRepository;
+import br.com.assessment.domain.entity.avaliacao.AvaliacaoAvaliavel;
+import br.com.assessment.domain.repository.AvaliacaoAvaliavelRepository;
 import br.com.assessment.domain.repository.AvaliacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,15 +22,15 @@ public class AvaliacaoService {
     private final AvaliacaoRepository avaliacaoRepository;
 
     // todo REMOVER e DELETAR depois que aprender a fazer funcionar o cascade
-    private final AvaliacaoColaboradorRepository avaliacaoColaboradorRepository;
+    private final AvaliacaoAvaliavelRepository avaliacaoAvaliavelRepository;
 
     public Optional<Avaliacao> findById(final long id) {
         return this.avaliacaoRepository.findById(id);
     }
 
     // todo REMOVER depois que aprender a fazer funcionar o cascade
-    public AvaliacaoColaborador save(final AvaliacaoColaborador avaliacaoColaborador) {
-        return this.avaliacaoColaboradorRepository.save(avaliacaoColaborador);
+    public AvaliacaoAvaliavel save(final AvaliacaoAvaliavel avaliacaoAvaliavel) {
+        return this.avaliacaoAvaliavelRepository.save(avaliacaoAvaliavel);
     }
 
     public Avaliacao save(final Avaliacao avaliacao) {
@@ -57,7 +57,7 @@ public class AvaliacaoService {
 
         // todo FALCATRUASSA
         page.getContent().forEach(avaliacao ->
-                avaliacao.setAvaliacoesColaboradores(avaliacaoColaboradorRepository.listAvaliacaoColaboradorByAvaliacaoId(avaliacao.getId()))
+                avaliacao.setAvaliacoesAvaliaveis(avaliacaoAvaliavelRepository.listAvaliacaoAvaliavelByAvaliacaoId(avaliacao.getId()))
         );
 
         return page;

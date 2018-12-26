@@ -6,15 +6,17 @@ import br.com.assessment.domain.entity.usuario.Usuario;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"tipo_avaliacao_id", "unidade_id"}),
+        @UniqueConstraint(columnNames = {"unidade_id", "ordem"})
+})
 public class UnidadeTipoAvaliacao extends AbstractEntity {
 
     /**
@@ -36,4 +38,5 @@ public class UnidadeTipoAvaliacao extends AbstractEntity {
     @NotNull
     @ManyToOne(optional = false)
     private Unidade unidade;
+
 }

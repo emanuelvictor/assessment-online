@@ -1,8 +1,8 @@
 package br.com.assessment.domain.entity.avaliacao;
 
-import br.com.assessment.domain.entity.colaborador.Colaborador;
 import br.com.assessment.domain.entity.generic.AbstractEntity;
 import br.com.assessment.domain.entity.usuario.Usuario;
+import br.com.assessment.domain.entity.usuario.vinculo.Avaliavel;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 
@@ -16,16 +16,16 @@ import javax.persistence.UniqueConstraint;
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"colaborador_id", "avaliacao_id"})
+        @UniqueConstraint(columnNames = {"avaliavel_id", "avaliacao_id"})
 })
-public class AvaliacaoColaborador extends AbstractEntity {
+public class AvaliacaoAvaliavel extends AbstractEntity {
 
     /**
      *
      */
 //    @NotNull
     @ManyToOne(optional = false)
-    private Colaborador colaborador;
+    private Avaliavel avaliavel;
 
     /**
      *
@@ -38,28 +38,28 @@ public class AvaliacaoColaborador extends AbstractEntity {
      * @param id          long
      * @param usuarioNome String
      */
-    public AvaliacaoColaborador(final long id, final String usuarioNome) {
+    public AvaliacaoAvaliavel(final long id, final String usuarioNome) {
         super(id);
 
         final Usuario usuario = new Usuario();
         usuario.setNome(usuarioNome);
 
-        final Colaborador colaborador = new Colaborador();
-        colaborador.setUsuario(usuario);
+        final Avaliavel avaliavel = new Avaliavel();
+        avaliavel.setUsuario(usuario);
 
-        this.colaborador = colaborador;
+        this.avaliavel = avaliavel;
     }
 
     /**
      * @param id long
      */
-    public AvaliacaoColaborador(final long id) {
+    public AvaliacaoAvaliavel(final long id) {
         super(id);
     }
 
     /**
      *
      */
-    public AvaliacaoColaborador() {
+    public AvaliacaoAvaliavel() {
     }
 }

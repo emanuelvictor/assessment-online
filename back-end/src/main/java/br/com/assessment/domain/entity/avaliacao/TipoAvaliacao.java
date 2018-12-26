@@ -21,10 +21,10 @@ import java.util.List;
 @lombok.EqualsAndHashCode(callSuper = true)
 public class TipoAvaliacao extends AbstractEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nome;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String enunciado;
 
     private String um;

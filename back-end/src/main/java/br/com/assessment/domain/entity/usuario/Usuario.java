@@ -1,14 +1,14 @@
 package br.com.assessment.domain.entity.usuario;
 
-import br.com.assessment.domain.entity.colaborador.Colaborador;
-import br.com.assessment.domain.entity.colaborador.Vinculo;
+import br.com.assessment.domain.entity.usuario.vinculo.Avaliavel;
+import br.com.assessment.domain.entity.usuario.vinculo.Operador;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -23,9 +23,6 @@ public class Usuario extends Pessoa {
      * -----------------------------------------------------------
      */
 
-    /**
-     *
-     */
     @Column
     @JsonIgnore
     private byte[] foto;
@@ -44,7 +41,6 @@ public class Usuario extends Pessoa {
     private byte[] avatar;
 
     /**
-     *
      *
      */
     @Column
@@ -69,7 +65,15 @@ public class Usuario extends Pessoa {
      */
     @JsonProperty
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Colaborador> colaboradores;
+    private Set<Operador> operadores;
+
+    /**
+     * Remover o transient
+     * PORQUE ESTÁ EAGER
+     */
+    @JsonProperty
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Avaliavel> avaliaveis;
 
     /**
      *
@@ -86,7 +90,7 @@ public class Usuario extends Pessoa {
     /**
      *
      */
-    public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath,
+    public Usuario(final long id, final String nome, final String thumbnailPath, final String avatarPath, final String fotoPath,
                    final Double media, final long quantidadeAvaliacoes, final long avaliacoes1, final long avaliacoes2, final long avaliacoes3, final long avaliacoes4, final long avaliacoes5, final Conta conta) {
 
         this.conta = conta;
@@ -109,7 +113,7 @@ public class Usuario extends Pessoa {
     /**
      *
      */
-    public Usuario(final long id, final String nome, final String email, final String thumbnailPath, final String avatarPath, final String fotoPath, final Conta conta) {
+    public Usuario(final long id, final String nome, final String thumbnailPath, final String avatarPath, final String fotoPath, final Conta conta) {
 
         this.conta = conta;
 
@@ -125,30 +129,18 @@ public class Usuario extends Pessoa {
      *
      */
     public boolean isOperador() {
-
-        if (this.colaboradores != null)
-            for (final Colaborador colaborador : this.colaboradores) {
-                if (colaborador.getVinculo().equals(Vinculo.Operador) || colaborador.getVinculo().equals(Vinculo.OperadorAtendente))
-                    return true;
-            }
-
-        return false;
+        return this.operadores != null && !this.operadores.isEmpty();
     }
 
     /**
      *
      */
     public boolean isAtendente() {
-        if (this.colaboradores != null)
-            for (final Colaborador colaborador : this.colaboradores) {
-                if (colaborador.getVinculo().equals(Vinculo.Atendente) || colaborador.getVinculo().equals(Vinculo.OperadorAtendente))
-                    return true;
-            }
-
-        return false;
+        return this.avaliaveis != null && !this.avaliaveis.isEmpty();
     }
 
     /**
+     *
      */
     public boolean getIsOperador() {
         return this.isOperador();
@@ -162,6 +154,7 @@ public class Usuario extends Pessoa {
     }
 
     /**
+     *
      */
     public boolean getIsAdministrador() {
         return this.conta != null && this.conta.isAdministrador();

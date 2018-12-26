@@ -17,14 +17,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query("SELECT new Usuario( " +
             "   usuario.id, " +
             "   usuario.nome, " +
-            "   usuario.conta.email, " +
             "   usuario.thumbnailPath,  " +
             "   usuario.avatarPath, " +
             "   usuario.fotoPath, " +
             "   usuario.conta" +
             ") FROM Usuario usuario " +
-            "       LEFT OUTER JOIN Colaborador colaborador ON colaborador.usuario.id = usuario.id " +
-            "   WHERE " +
+            "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
+            "   WHERE" +
             "   (   " +
             "       (" +
             "               FILTER(:defaultFilter, usuario.nome, usuario.conta.email) = TRUE" +
@@ -34,19 +33,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "           (" +
             "               :perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' " +
             "               AND " +
-            "               colaborador.vinculo < 3 AND colaborador.unidade.id IN " +
-            "               (" +
-            "                   SELECT operador.unidade.id FROM Colaborador operador WHERE " +
-            "                   (" +
-            "                           operador.usuario.id = :usuarioId" +
-            "                       AND (operador.vinculo = 1 OR operador.vinculo = 2)" +
-            "                   )" +
-            "               )" +
+            "               operador.usuario.id = :usuarioId " +
             "           )" +
             "           OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' " +
             "       )" +
-            "   )"
-            +
+            "   )" +
             "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
     )
     Page<Usuario> listByFilters(
@@ -55,10 +46,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             @Param("defaultFilter") final String defaultFilter,
             final Pageable pageable);
 
+    /**
+     *
+     */
     @Query("SELECT new Usuario( " +
             "   usuario.id, " +
             "   usuario.nome, " +
-            "   usuario.conta.email, " +
             "   usuario.thumbnailPath,  " +
             "   usuario.avatarPath, " +
             "   usuario.fotoPath, " +
@@ -71,14 +64,15 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   COUNT(av5) AS avaliacoes5," +
             "   usuario.conta" +
             ") FROM Usuario usuario " +
-            "       LEFT OUTER JOIN Colaborador colaborador ON colaborador.usuario.id = usuario.id " +
-            "       LEFT OUTER JOIN AvaliacaoColaborador avaliacaoColaborador ON avaliacaoColaborador.colaborador.id = colaborador.id " +
-            "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoColaborador.avaliacao.id " +
-            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoColaborador.avaliacao.id AND av1.nota = 1) " +
-            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoColaborador.avaliacao.id AND av2.nota = 2) " +
-            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoColaborador.avaliacao.id AND av3.nota = 3) " +
-            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoColaborador.avaliacao.id AND av4.nota = 4) " +
-            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoColaborador.avaliacao.id AND av5.nota = 5) " +
+            "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
+            "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.usuario.id = usuario.id " +
+            "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
+            "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
+            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
+            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2) " +
+            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoAvaliavel.avaliacao.id AND av3.nota = 3) " +
+            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoAvaliavel.avaliacao.id AND av4.nota = 4) " +
+            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoAvaliavel.avaliacao.id AND av5.nota = 5) " +
             "   WHERE " +
             "   (   " +
             "       (" +
@@ -116,9 +110,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "           (" +
             "               usuario.id IN " +
             "               (" +
-            "                   SELECT colaborador.usuario.id FROM Colaborador colaborador WHERE " +
+            "                   SELECT avaliavel.usuario.id FROM Avaliavel avaliavel WHERE " +
             "                   (" +
-            "                       colaborador.unidade.id  IN :unidadesFilter " +
+            "                       avaliavel.unidadeTipoAvaliacao.unidade.id IN :unidadesFilter " +
             "                   )" +
             "               )" +
             "           )" +
@@ -129,14 +123,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "           (" +
             "               :perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' " +
             "               AND " +
-            "               colaborador.vinculo < 3 AND colaborador.unidade.id IN " +
-            "               (" +
-            "                   SELECT operador.unidade.id FROM Colaborador operador WHERE " +
-            "                   (" +
-            "                           operador.usuario.id = :usuarioId" +
-            "                       AND (operador.vinculo = 1 OR operador.vinculo = 2)" +
-            "                   )" +
-            "               )" +
+            "               operador.usuario.id = :usuarioId " +
             "           )" +
             "           OR :perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' " +
             "       )" +
@@ -155,7 +142,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query("SELECT new Usuario( " +
             "   usuario.id, " +
             "   usuario.nome, " +
-            "   usuario.conta.email, " +
             "   usuario.thumbnailPath,  " +
             "   usuario.avatarPath, " +
             "   usuario.fotoPath, " +
@@ -168,14 +154,14 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   COUNT(av5) AS avaliacoes5," +
             "   usuario.conta" +
             ") FROM Usuario usuario " +
-            "       LEFT OUTER JOIN Colaborador colaborador ON colaborador.usuario.id = usuario.id " +
-            "       LEFT OUTER JOIN AvaliacaoColaborador avaliacaoColaborador ON avaliacaoColaborador.colaborador.id = colaborador.id " +
-            "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoColaborador.avaliacao.id " +
-            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoColaborador.avaliacao.id AND av1.nota = 1) " +
-            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoColaborador.avaliacao.id AND av2.nota = 2) " +
-            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoColaborador.avaliacao.id AND av3.nota = 3) " +
-            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoColaborador.avaliacao.id AND av4.nota = 4) " +
-            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoColaborador.avaliacao.id AND av5.nota = 5) " +
+            "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.usuario.id = usuario.id " +
+            "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
+            "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
+            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
+            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2) " +
+            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoAvaliavel.avaliacao.id AND av3.nota = 3) " +
+            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoAvaliavel.avaliacao.id AND av4.nota = 4) " +
+            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoAvaliavel.avaliacao.id AND av5.nota = 5) " +
             "   WHERE " +
             "   ( " +
             "       usuario.id = :usuarioId" +
@@ -184,27 +170,28 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     )
     Usuario findUsuarioByIdAndReturnAvaliacoes(@Param("usuarioId") final Long usuarioId);
 
-    List<Usuario> findByNome(final String nome);
+//    List<Usuario> findByNome(final String nome);
 
     @Query("FROM Usuario usuario WHERE " +
-            "           usuario.id IN " +
+            "           usuario.conta.administrador = TRUE " +
+            "           OR usuario.id IN" +
             "           (" +
-            "               SELECT colaborador.usuario.id FROM Colaborador colaborador WHERE " +
+            "               SELECT operador.usuario.id FROM Operador operador WHERE " +
             "               (" +
-            "                   colaborador.unidade.id = :unidadeId AND " +
-            "                   (" +
-            "                       (" +
-            "                           (colaborador.vinculo = 1 OR colaborador.vinculo = 2)" +
-            "                       )" +
-            "                       OR colaborador.usuario.conta.administrador = TRUE" +
-            "                   )" +
+            "                   operador.unidade.id = :unidadeId " +
+            "               )" +
+            "           )" +
+            "           OR usuario.id IN" +
+            "           (" +
+            "               SELECT avaliavel.usuario.id FROM Avaliavel avaliavel WHERE " +
+            "               (" +
+            "                   avaliavel.unidadeTipoAvaliacao.unidade.id = :unidadeId" +
             "               )" +
             "           )"
     )
     List<Usuario> listUsuariosByUnidadeId(@Param("unidadeId") final Long unidadeId);
 
     /**
-     *
      * @return
      */
     @Query("FROM Usuario usuario WHERE usuario.conta.administrador = TRUE")

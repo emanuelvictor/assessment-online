@@ -37,9 +37,9 @@ public class UsuarioService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final UsuarioRepository usuarioRepository;
+    private final OperadorService operadorService;
 
-    private final ColaboradorService colaboradorService;
+    private final UsuarioRepository usuarioRepository;
 
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
@@ -197,9 +197,10 @@ public class UsuarioService {
      */
     public void delete(final long usuarioId) {
 
-        colaboradorService.deleteByUsuarioId(usuarioId);
+        operadorService.deleteByUsuarioId(usuarioId);
 
         usuarioRepository.deleteById(usuarioId);
+
     }
 
     /**
@@ -211,11 +212,8 @@ public class UsuarioService {
 
         final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
 
-        return usuarioRepository.listByFilters(
-                usuario.getId(),
-                usuario.getConta().getPerfil().name(),
-                defaultFilter,
-                pageable);
+        return usuarioRepository.listByFilters(usuario.getId(), usuario.getConta().getPerfil().name(), defaultFilter, pageable);
+
     }
 
     /**
@@ -240,6 +238,7 @@ public class UsuarioService {
                 dataInicioFilter,
                 dataTerminoFilter,
                 pageable);
+
     }
 
 
@@ -252,6 +251,7 @@ public class UsuarioService {
         final Usuario usuario = usuarioRepository.findById(id).orElseGet(null);
 
         try {
+
             final int width = ImageUtils.getBufferedImageFromByteArray(fileInBytes).getWidth();
             final int height = ImageUtils.getBufferedImageFromByteArray(fileInBytes).getHeight();
 
@@ -266,9 +266,13 @@ public class UsuarioService {
             usuario.setAvatar(ImageUtils.resizeImage(fileInBytes, avatarWidth, avatarHeight));
 
             usuario.setFoto(fileInBytes);
+
         } catch (IOException e) {
+
             e.printStackTrace();
+
         }
+
         return usuarioRepository.save(usuario).getFotoPath();
     }
 
@@ -301,8 +305,8 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    public List<Usuario> findByNome(final String nome) {
-        return usuarioRepository.findByNome(nome);
-    }
+//    public List<Usuario> findByNome(final String nome) {
+//        return usuarioRepository.findByNome(nome);
+//    }
 
 }

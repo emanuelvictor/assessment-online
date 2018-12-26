@@ -1,7 +1,7 @@
 package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.avaliacao.Avaliacao;
-import br.com.assessment.domain.entity.avaliacao.AvaliacaoColaborador;
+import br.com.assessment.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.service.AvaliacaoService;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +29,11 @@ public class AvaliacaoResource {
         return Mono.just(this.avaliacaoService.save(avaliacao));
     }
 
-    @PostMapping("colaboradores")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    public Mono<AvaliacaoColaborador> save(@RequestBody final AvaliacaoColaborador avaliacaoColaborador) {
-        return Mono.just(this.avaliacaoService.save(avaliacaoColaborador));
-    }
+//    @PostMapping("colaboradores") TODO??? não vai mais existir
+//    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+//    public Mono<AvaliacaoAvaliavel> save(@RequestBody final AvaliacaoAvaliavel avaliacaoAvaliavel) {
+//        return Mono.just(this.avaliacaoService.save(avaliacaoAvaliavel));
+//    }
 
     @PutMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")

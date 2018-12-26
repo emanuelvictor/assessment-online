@@ -19,9 +19,9 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "   avaliacao.data, " +
             "   MAX(unidade)" +
             " ) FROM Avaliacao avaliacao " +
-            "       LEFT OUTER JOIN AvaliacaoColaborador avaliacaoColaborador ON avaliacaoColaborador.avaliacao.id = avaliacao.id " +
-            "       LEFT OUTER JOIN Unidade unidade ON avaliacaoColaborador.colaborador.unidade.id = unidade.id " +
-            "       LEFT OUTER JOIN Usuario usuario ON avaliacaoColaborador.colaborador.usuario.id = usuario.id " +
+            "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliacao.id = avaliacao.id " +
+            "       LEFT OUTER JOIN Unidade unidade ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacao.unidade.id = unidade.id " +
+            "       LEFT OUTER JOIN Usuario usuario ON avaliacaoAvaliavel.avaliavel.usuario.id = usuario.id " +
             "   WHERE " +
             "   (   " +
             "       (" +

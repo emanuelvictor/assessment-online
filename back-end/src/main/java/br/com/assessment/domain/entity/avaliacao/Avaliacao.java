@@ -23,7 +23,7 @@ import java.util.List;
 public class Avaliacao extends AbstractEntity {
 
     @OneToMany(mappedBy = "avaliacao", fetch = FetchType.EAGER, orphanRemoval = true)
-    public List<AvaliacaoColaborador> avaliacoesColaboradores;
+    public List<AvaliacaoAvaliavel> avaliacoesAvaliaveis;
 
     @NotNull
     @Column(nullable = false, columnDefinition = "NUMERIC(19,0)")

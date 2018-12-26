@@ -39,7 +39,7 @@ public class ContaService implements ReactiveUserDetailsService {
 
         LocalContext.setCurrentSchema(conta.getEsquema());
 
-        return Mono.just(contaRepository.findByEmailIgnoreCase(email.toLowerCase()));
+        return Mono.just(contaRepository.findByEmailIgnoreCase(email.toLowerCase())); // TODO???
 
     }
 

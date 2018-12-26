@@ -16,10 +16,12 @@ import reactor.core.publisher.Mono;
 @RequestMapping({"**contas", "**sistema/contas", "**sistema/mobile/contas"})
 public class ContaResource {
 
+    /**
+     *
+     */
     private final ContaService contaService;
 
     /**
-     * TODO verificar se não da pra unificar com o usuário
      *
      * @param email {String}
      * @return Mono<UserDetails>
