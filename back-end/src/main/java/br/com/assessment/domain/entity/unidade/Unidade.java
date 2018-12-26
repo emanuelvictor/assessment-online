@@ -21,6 +21,14 @@ public class Unidade extends Pessoa {
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     private Endereco endereco;
 
+    /**
+     *
+     */
+    private String agradecimento;
+
+    /**
+     *
+     */
     public Unidade() {
     }
 
