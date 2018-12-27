@@ -27,8 +27,8 @@ import {VisualizarAvaliacaoComponent} from "./presentation/dashboard/avaliacao/v
 import {OfflineComponent} from "../../mobile/domain/presentation/avaliacao/offline/offline.component";
 import {TipoAvaliacaoViewComponent} from "./presentation/dashboard/tipo-avaliacao/tipo-avaliacao-view.component";
 import {ConsultarTiposAvaliacoesComponent} from "./presentation/dashboard/tipo-avaliacao/consultar-tipos-avaliacoes/consultar-tipos-avaliacoes.component";
-import {VisualizarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/visualizar-tipo-avaliacao/visualizar-tipo-avaliacao.component";
 import {InserirTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/inserir-tipo-avaliacao/inserir-tipo-avaliacao.component";
+import {AlterarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/alterar-tipo-avaliacao/alterar-tipo-avaliacao.component";
 
 
 const routes: Routes = [
@@ -78,7 +78,7 @@ const routes: Routes = [
           children: [
             {path: '', component: ConsultarTiposAvaliacoesComponent},
             {path: 'inserir', component: InserirTipoAvaliacaoComponent},
-            {path: ':id', component: VisualizarTipoAvaliacaoComponent}
+            {path: ':id', component: AlterarTipoAvaliacaoComponent}
           ]
         },
         {

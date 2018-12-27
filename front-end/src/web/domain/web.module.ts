@@ -91,11 +91,11 @@ import {CroppablePhotoComponent} from "./presentation/controls/croppable-photo/c
 import {LocalStorage} from "../infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import {TipoAvaliacaoViewComponent} from "./presentation/dashboard/tipo-avaliacao/tipo-avaliacao-view.component";
-import {VisualizarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/visualizar-tipo-avaliacao/visualizar-tipo-avaliacao.component";
 import {InserirTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/inserir-tipo-avaliacao/inserir-tipo-avaliacao.component";
 import {TipoAvaliacaoFormComponent} from "./presentation/dashboard/tipo-avaliacao/inserir-tipo-avaliacao/tipo-avaliacao-form/tipo-avaliacao-form.component";
 import {ConsultarTiposAvaliacoesComponent} from "./presentation/dashboard/tipo-avaliacao/consultar-tipos-avaliacoes/consultar-tipos-avaliacoes.component";
 import {TipoAvaliacaoRepository} from "./repositories/tipo-avaliacao.repository";
+import {AlterarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/alterar-tipo-avaliacao/alterar-tipo-avaliacao.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -191,7 +191,7 @@ registerLocaleData(localePt, 'pt-BR');
 
     // Tipo avaliações
     TipoAvaliacaoViewComponent,
-    VisualizarTipoAvaliacaoComponent,
+    AlterarTipoAvaliacaoComponent,
     InserirTipoAvaliacaoComponent,
     TipoAvaliacaoFormComponent,
     ConsultarTiposAvaliacoesComponent
