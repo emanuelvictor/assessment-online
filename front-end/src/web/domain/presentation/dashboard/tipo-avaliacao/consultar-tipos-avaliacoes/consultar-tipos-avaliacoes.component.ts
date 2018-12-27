@@ -175,6 +175,7 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
     this.tipoAvaliacaoRepository.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
+
         this.page = result;
       })
   }

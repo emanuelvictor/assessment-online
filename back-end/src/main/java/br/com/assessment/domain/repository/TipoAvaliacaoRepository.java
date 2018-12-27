@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface TipoAvaliacaoRepository extends JpaRepository<TipoAvaliacao, Long> {
 
-    @Query(" FROM TipoAvaliacao tipoAvaliacao " +
+    @Query("SELECT tipoAvaliacao FROM TipoAvaliacao tipoAvaliacao " +
             "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.tipoAvaliacao.id = tipoAvaliacao.id " +
             "       LEFT OUTER JOIN Unidade unidade ON unidadeTipoAvaliacao.unidade.id = unidade.id " +
             "   WHERE " +
@@ -24,7 +24,8 @@ public interface TipoAvaliacaoRepository extends JpaRepository<TipoAvaliacao, Lo
             "           OR :unidadesFilter IS NULL" +
             "       )" +
             "       AND (FILTER(:defaultFilter, tipoAvaliacao.nome, tipoAvaliacao.enunciado) = TRUE)" +
-            "   )"
+            "   )" +
+            "GROUP BY tipoAvaliacao.id, tipoAvaliacao.nome, tipoAvaliacao.enunciado"
     )
     Page<TipoAvaliacao> listByFilters(
             @Param("defaultFilter") final String defaultFilter,

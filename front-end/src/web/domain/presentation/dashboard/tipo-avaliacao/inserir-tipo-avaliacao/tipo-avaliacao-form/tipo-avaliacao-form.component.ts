@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, Renderer} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 import {DomSanitizer} from "@angular/platform-browser";
@@ -9,6 +9,7 @@ import {ConfiguracaoService} from "../../../../../service/configuracao.service";
 import {FileRepository} from "../../../../../../infrastructure/repository/file/file.repository";
 import {TipoAvaliacao} from "../../../../../entity/avaliacao/tipo-avaliacao.model";
 import {Configuracao} from "../../../../../entity/configuracao/configuracao.model";
+import {Usuario} from "../../../../../entity/usuario/usuario.model";
 
 /**
  *
@@ -22,21 +23,27 @@ export class TipoAvaliacaoFormComponent implements OnInit {
 
   /**
    *
-   * @type {TipoAvaliacao}
    */
-  public tipoAvaliacao: TipoAvaliacao = new TipoAvaliacao();
+  form: any;
 
   /**
    *
    */
-  form: any;
+  @Output()
+  save: EventEmitter<any> = new EventEmitter();
+
+  /**
+   *
+   * @type {TipoAvaliacao}
+   */
+  @Input()
+  public tipoAvaliacao: TipoAvaliacao;
 
   /**
    *
    * @param {MatSnackBar} snackBar
    * @param {FileRepository} fileRepository
    * @param {ElementRef} element
-   * @param {ConfiguracaoService} configuracaoService
    * @param {Renderer} renderer
    * @param {FormBuilder} fb
    * @param {MatIconRegistry} iconRegistry
@@ -75,7 +82,7 @@ export class TipoAvaliacaoFormComponent implements OnInit {
   /**
    *
    */
-  public save(form): void {
+  public saveForm(form): void {
 
     // TODO provisório
     let valid = true;
@@ -124,7 +131,7 @@ export class TipoAvaliacaoFormComponent implements OnInit {
     }
 
     if (valid) {
-
+      this.save.emit(this.tipoAvaliacao);
     }
   }
 
