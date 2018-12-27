@@ -17,10 +17,56 @@
               *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
           <mat-card-content>
 
+            <div layout='column' layout-margin style='margin-top: 20px; padding-bottom: 25px'>
+              <div layout='row' layout-align='start center'>
+
+                <div layout='column' flex>
+                  <div layout='column' layout-margin>
+                    <h2 flex class="mat-subheading-2 tc-grey-500">
+                      Enunciado da avaliação
+                    </h2>
+                  </div>
+
+                  <div layout='row' layout-align='center center' class='push-left'>
+                    <div layout='column' flex="25" class='push-right'>
+                      <mat-form-field layout-margin>
+                        <input formControlName='nome'
+                               [matTooltipPosition]="'below'"
+                               matInput name='nome' id='nome'
+                               [(ngModel)]='tipoAvaliacao.nome'
+                               placeholder='Nome da avaliação' maxlength='144'
+                               matTooltip='Identificador utilizado apenas na plataforma web!'>
+                        <mat-error>
+                          Campo obrigatório
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                    <div layout='column' flex="75" class='push-right'>
+                      <mat-form-field layout-margin>
+                        <input formControlName='enunciado'
+                               [matTooltipPosition]="'below'"
+                               [(ngModel)]='tipoAvaliacao.enunciado'
+                               matInput name='enunciado' id='enunciado'
+                               placeholder='Enunciado da avaliação' maxlength='144'
+                               matTooltip='Enunciado a ser exibido no aplicativo móvel!'>
+                        <mat-error>
+                          Campo obrigatório
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
             <div layout='column' layout-margin>
               <div layout='row' layout-align='start center'>
                 <div layout="column" layout-margin>
-                  <h2 class="mat-subheading-2 tc-grey-500" flex>Configurações gerais do sistema</h2>
+                  <h2 class="mat-subheading-2 tc-grey-500" flex>Campos da avaliação</h2>
                 </div>
               </div>
 
@@ -32,9 +78,9 @@
                     </div>
                   </button>
                   <mat-form-field flex>
-                    <input [(ngModel)]='configuracao.um'
-                           matInput name='um' id='um' formControlName='um'
-                           placeholder='Péssimo' maxlength='144'>
+                    <input [(ngModel)]='tipoAvaliacao.um'
+                           placeholder='Péssimo' maxlength='144'
+                           matInput name='um' id='um' formControlName='um'>
                     <mat-error>
                       Campo obrigatório
                     </mat-error>
@@ -48,9 +94,9 @@
                     </div>
                   </button>
                   <mat-form-field flex>
-                    <input [(ngModel)]='configuracao.dois'
-                           matInput name='dois' id='dois' formControlName='dois'
-                           placeholder='Ruim' maxlength='144'>
+                    <input [(ngModel)]='tipoAvaliacao.dois'
+                           placeholder='Ruim' maxlength='144'
+                           matInput name='dois' id='dois' formControlName='dois'>
                     <mat-error>
                       Campo obrigatório
                     </mat-error>
@@ -64,9 +110,9 @@
                     </div>
                   </button>
                   <mat-form-field flex>
-                    <input [(ngModel)]='configuracao.tres'
-                           matInput name='tres' id='tres' formControlName='tres'
-                           placeholder='Regular' maxlength='144'>
+                    <input [(ngModel)]='tipoAvaliacao.tres'
+                           placeholder='Regular' maxlength='144'
+                           matInput name='tres' id='tres' formControlName='tres'>
                     <mat-error>
                       Campo obrigatório
                     </mat-error>
@@ -80,7 +126,7 @@
                     </div>
                   </button>
                   <mat-form-field flex>
-                    <input [(ngModel)]='configuracao.quatro'
+                    <input [(ngModel)]='tipoAvaliacao.quatro'
                            matInput name='quatro' id='quatro'
                            placeholder='Bom' maxlength='144' formControlName='quatro'>
                     <mat-error>
@@ -96,9 +142,9 @@
                     </div>
                   </button>
                   <mat-form-field flex>
-                    <input [(ngModel)]='configuracao.cinco'
+                    <input formControlName='cinco'
                            matInput name='cinco' id='cinco'
-                           formControlName='cinco'
+                           [(ngModel)]='tipoAvaliacao.cinco'
                            placeholder='Ótimo' maxlength='144'>
                     <mat-error>
                       Campo obrigatório
@@ -108,164 +154,8 @@
               </div>
             </div>
 
-            <mat-divider></mat-divider>
-
-            <div layout='column' layout-margin style='margin-top: 20px; padding-bottom: 25px'>
-              <div layout='row' layout-align='start center'>
-
-                <div layout='column' flex>
-                  <div layout='column' layout-margin>
-                    <h2 flex [matTooltipPosition]="'below'"
-                        class="mat-subheading-2 tc-grey-500"
-                        matTooltip='Logomarca e mensagem de agradecimento exibido ao término da avaliação'>
-                      Logomarca e mensagem de agradecimento
-                    </h2>
-                  </div>
-                  <div layout='row' layout-align='center center' class='push-left'>
-
-                    <div layout='column' flex="50" layout-align='center center'>
-                      <div flex>
-                        <brand [configuracao]="{'id': configuracao.id , 'logoPath': logoPath}"></brand>
-                      </div>
-                      <div flex *ngIf='logoPath'>
-                        <button type='button' (click)='removeFile()' class='tc-grey-500'
-                                mat-button>
-                          REMOVER FOTO
-                        </button>
-                      </div>
-                      <div flex *ngIf='!logoPath'>
-                        <td-file-upload #singleFileUpload
-                                        defaultColor='primary'
-                                        (change)='fileChange($event)'
-                                        name="file"
-                                        accept='.png, .gif, .jpg, .jpeg'>
-                          <span>{{ singleFileUpload?.files?.name }}</span>
-                          <ng-template td-file-input-label>
-                            <mat-icon>attach_file</mat-icon>
-                            <span>Adicionar logomarca</span>
-                          </ng-template>
-                        </td-file-upload>
-                      </div>
-                    </div>
-
-                    <div layout='column' flex="50" class='push-right'>
-                      <mat-form-field layout-margin>
-                        <input formControlName='agradecimento'
-                               [(ngModel)]='configuracao.agradecimento'
-                               matInput name='agradecimento' id='agradecimento'
-                               placeholder='Mensagem de agradecimento' maxlength='144'>
-                        <mat-error>
-                          Campo obrigatório
-                        </mat-error>
-                      </mat-form-field>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <mat-divider></mat-divider>
-
-            <div layout='column' layout-margin style='margin-top: 20px; padding-bottom: 25px'>
-              <div layout='row' layout-align='start center'>
-                <div layout="column" layout-margin>
-                  <h2 flex [matTooltipPosition]="'below'"
-                      class="mat-subheading-2 tc-grey-500"
-                      matTooltip='Plano de fundo da tela de login e do aplicativo móvel'>
-                    Plano de fundo do sistema
-                  </h2>
-                </div>
-              </div>
-              <div layout='row' layout-align='center center' class='push-left'>
-                <div layout='column' flex="50" layout-align='center start' style='margin-left: 30px'>
-                  <div flex>
-                    <brand [background]='true'
-                           [configuracao]="{'id': configuracao.id , 'logoPath': backgroundPath}">
-                    </brand>
-                  </div>
-                  <div flex *ngIf='backgroundPath'>
-                    <button type='button' (click)='removeBackgroundFile()' class='tc-grey-500'
-                            mat-button>
-                      REMOVER FOTO
-                    </button>
-                  </div>
-                  <div flex *ngIf='!backgroundPath'>
-                    <td-file-upload #backgroundFileUpload
-                                    accept='.png, .gif, .jpg, .jpeg'
-                                    (change)='backgroundChange($event)'
-                                    defaultColor='primary' name="file">
-                      <span>{{ backgroundFileUpload?.files?.name }}</span>
-                      <ng-template td-file-input-label>
-                        <mat-icon>attach_file</mat-icon>
-                        <span>Adicionar background</span>
-                      </ng-template>
-                    </td-file-upload>
-                  </div>
-                </div>
-                <span flex='20'></span>
-              </div>
-            </div>
-
-            <mat-divider></mat-divider>
-
-            <div layout='column' layout-margin style='margin-top: 20px; padding-bottom: 25px'>
-              <div layout='row' layout-align='start center'>
-                <div layout="column" layout-margin>
-                  <h2 flex [matTooltipPosition]="'below'"
-                      class="mat-subheading-2 tc-grey-500"
-                      matTooltip='Importação de dados do antigo sistema'>
-                    Importação de dados
-                  </h2>
-                </div>
-              </div>
-              <div layout='row' layout-align='center center' class='push-left'>
-                <div style='margin-left: 30px'
-                     layout='column' flex='50'
-                     layout-align='center start'>
-                  <div flex *ngIf='importFilePath'>
-                    <button type='button'
-                            (click)='removeImportFile()'
-                            class='tc-grey-500' mat-button>
-                      REMOVER ARQUIVO
-                    </button>
-                  </div>
-                  <div flex *ngIf='!importFilePath'>
-                    <td-file-upload accept='.json'
-                                    #importFileUpload
-                                    (change)='importFileChange($event)'
-                                    defaultColor='primary' name="file">
-                      <span>{{ importFileUpload?.files?.name }}</span>
-                      <ng-template td-file-input-label>
-                        <mat-icon>attach_file</mat-icon>
-                        <span>Adicionar arquivo</span>
-                      </ng-template>
-                    </td-file-upload>
-                  </div>
-                </div>
-                <button flex
-                        type='button'
-                        color='accent'
-                        mat-raised-button
-                        (click)='importt()'>
-                  Enviar
-                </button>
-              </div>
-            </div>
-
-            <!--actions div-->
-            <div flex layout-margin actions>
-              <div layout-gt-xs='row' flex layout-margin>
-
-                <span flex='70'></span>
-
-                <button flex
-                        color='accent'
-                        mat-raised-button>
-                  Salvar
-                </button>
-              </div>
-            </div>
+            <!-- actions -->
+            <ng-content select="[actions]"></ng-content>
 
           </mat-card-content>
         </form>

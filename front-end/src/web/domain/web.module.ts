@@ -95,6 +95,7 @@ import {VisualizarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-av
 import {InserirTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/inserir-tipo-avaliacao/inserir-tipo-avaliacao.component";
 import {TipoAvaliacaoFormComponent} from "./presentation/dashboard/tipo-avaliacao/inserir-tipo-avaliacao/tipo-avaliacao-form/tipo-avaliacao-form.component";
 import {ConsultarTiposAvaliacoesComponent} from "./presentation/dashboard/tipo-avaliacao/consultar-tipos-avaliacoes/consultar-tipos-avaliacoes.component";
+import {TipoAvaliacaoRepository} from "./repositories/tipo-avaliacao.repository";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -208,16 +209,19 @@ registerLocaleData(localePt, 'pt-BR');
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent],
   providers: [
+
     PageSerialize,
+
     AvaliacaoColaboradorRepository,
+    TipoAvaliacaoRepository,
     ConfiguracaoRepository,
     ColaboradorRepository,
     AvaliacaoRepository,
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
-    FileRepository,
     ContaRepository,
+    FileRepository,
 
     AuthenticationService,
     ConfiguracaoService,

@@ -4,14 +4,11 @@ import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
-import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
-
-import * as moment from 'moment';
 import 'moment/locale/pt-br';
 import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
-import {AvaliacaoService} from "../../../../service/avaliacao.service";
 import {UsuarioService} from "../../../../service/usuario.service";
+import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
 
 @Component({
   selector: 'consultar-tipos-avaliacoes',
@@ -43,10 +40,8 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
     size: 20,
     page: 0,
     sort: null,
-    usuariosFilter: [],
+    defaultFilter: [],
     unidadesFilter: [],
-    dataInicioFilter: null,
-    dataTerminoFilter: null
   };
 
   /**
@@ -56,13 +51,16 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
 
   /**
    * Serve para armazenar as colunas que serão exibidas na tabela
-   * @type {[string , string , string , string , string , string , string , string , string , string]}
    */
   public displayedColumns: string[] =
     [
-      'nota',
-      'data',
-      'unidade.nome'
+      'nome',
+      'enunciado',
+      'um',
+      'dois',
+      'tres',
+      'quatro',
+      'cinco'
     ];
 
   /**
@@ -82,32 +80,25 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
    */
   @ViewChild(MatSort) sort: MatSort;
 
-  /**
-   * TODO
-   */
-  @ViewChild('dataInicio') dataInicio: EvDatepicker;
-
-  /**
-   *
-   */
-  @ViewChild('dataTermino') dataTermino: EvDatepicker;
   filteredAsync: string[];
   asyncModel: string[] = [];
   filteredAsyncUsuario: string[];
-  asyncModelUsuario: string[] = [];
 
   /**
    *
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    * @param {UsuarioService} usuarioService
-   * @param {AvaliacaoService} avaliacaoService
    * @param {UnidadeService} unidadeService
    * @param {ConfiguracaoService} configuracaoService
+   * @param {TipoAvaliacaoRepository} tipoAvaliacaoRepository
    */
-  constructor(private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
-              private usuarioService: UsuarioService, private avaliacaoService: AvaliacaoService,
-              private unidadeService: UnidadeService, private configuracaoService: ConfiguracaoService) {
+  constructor(private domSanitizer: DomSanitizer,
+              private iconRegistry: MatIconRegistry,
+              private usuarioService: UsuarioService,
+              private unidadeService: UnidadeService,
+              private configuracaoService: ConfiguracaoService,
+              private tipoAvaliacaoRepository: TipoAvaliacaoRepository) {
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
@@ -115,6 +106,7 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
     this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'media', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/baseline-bar_chart-24px.svg'));
+
   }
 
   /**
@@ -160,34 +152,12 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
 
     this.pageRequest.unidadesFilter = this.asyncModel.map((result: any) => result.id);
 
-    this.pageRequest.usuariosFilter = this.asyncModelUsuario.map((result: any) => result.id);
-
-    this.avaliacaoService.listByFilters(this.pageRequest)
+    this.tipoAvaliacaoRepository.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
 
         this.page = result;
-
-        this.page.content.forEach(avaliacao => {
-          avaliacao.atendentes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador => ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
-        })
       })
-
-  }
-
-  /**
-   * Consulta de usuarios com filtros do model
-   *
-   */
-  public listAvaliacoesByDates() {
-
-    if (this.dataInicio.data)
-      this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
-
-    if (this.dataTermino.data)
-      this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
-
-    this.listAvaliacoesByFilters(this.pageRequest);
 
   }
 
@@ -202,46 +172,17 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;
 
-    this.avaliacaoService.listByFilters(pageRequest)
+    this.tipoAvaliacaoRepository.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
         this.page = result;
-        this.page.content.forEach(avaliacao => {
-          avaliacao.atendentes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador => ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
-        })
       })
   }
 
   /**
-   * Fechamento da pesquisa
+   *
+   * @param value
    */
-  public hidePesquisaAvancada() {
-    this.showPesquisaAvancada = false;
-
-    this.pageRequest = { // PageRequest
-      size: 20,
-      page: 0,
-      sort: null,
-      usuariosFilter: [],
-      unidadesFilter: [],
-      dataInicioFilter: null,
-      dataTerminoFilter: null
-    };
-
-    this.onChangeFilters();
-  }
-
-  /**
-   * Abertura da pesquisa
-   */
-  public toggleShowPesquisaAvancada() {
-    if (this.showPesquisaAvancada) {
-      this.hidePesquisaAvancada();
-    } else {
-      this.showPesquisaAvancada = true;
-    }
-  }
-
   filterAsync(value: string): void {
     this.filteredAsync = undefined;
     if (value) {
@@ -256,26 +197,6 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
       this.unidadeService.listLightByFilters(pageRequest)
         .subscribe((result) => {
           this.filteredAsync = result.content;
-        });
-
-    }
-  }
-
-  filterAsyncUsuario(value: string): void {
-    this.filteredAsyncUsuario = undefined;
-    if (value) {
-
-      const pageRequest = { // PageRequest
-        size: 20,
-        page: 0,
-        sort: null,
-        defaultFilter: [] = [value]
-      };
-
-      this.usuarioService.listLightByFilters(pageRequest)
-        .subscribe((result) => {
-          console.log(result);
-          this.filteredAsyncUsuario = result.content;
         });
 
     }

@@ -24,8 +24,7 @@ public interface TipoAvaliacaoRepository extends JpaRepository<TipoAvaliacao, Lo
             "           OR :unidadesFilter IS NULL" +
             "       )" +
             "       AND (FILTER(:defaultFilter, tipoAvaliacao.nome, tipoAvaliacao.enunciado) = TRUE)" +
-            "   )" +
-            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.nome"
+            "   )"
     )
     Page<TipoAvaliacao> listByFilters(
             @Param("defaultFilter") final String defaultFilter,
