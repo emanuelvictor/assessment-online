@@ -1,0 +1,56 @@
+<div layout-align='center center' layout-gt-xs='row' layout-margin>
+  <div layout='row' flex-gt-xs='80' layout-margin>
+    <div flex layout-margin>
+      <mat-card class='bgc-grey-50' layout-margin>
+        <mat-card-content>
+
+          <div layout='row'>
+
+            <div layout='column' style='min-width: 17px'>
+              <button *ngIf='activatedRoute?.snapshot?.params?.id'
+                      class='mat-headline tc-grey-500' type='button'
+                      routerLink='../' color='primary' mat-icon-button>
+                <mat-icon>arrow_back</mat-icon>
+              </button>
+            </div>
+
+            <div layout='column' layout-gt-xs="row" layout-align="start center" flex-gt-xs="100">
+
+              <div flex class='push-top push-right push-bottom'>
+                <avatar [usuario]="{'id': avaliacao?.id , 'foto': avaliacao?.fotoPath}"></avatar>
+              </div>
+
+              <!--div foto e informações-->
+              <div layout="row"
+                   layout-margin
+                   flex flex-gt-xs="80"
+                   layout-align="start center">
+
+                <div layout='column' flex>
+                  <div layout='row'
+                       layout-align='start center'>
+                    <mat-icon style='margin-left: 3px' layout-margin [inline]="false"
+                              svgIcon="assets:{{avaliacao?.nota === 5 ? 'otimo' : (avaliacao?.nota === 4 ? 'bom' : (avaliacao?.nota === 3 ? 'regular' : (avaliacao?.nota === 2 ? 'ruim' : 'pessimo')))}}"
+                              [ngStyle]="{'fill': avaliacao?.nota === 5 ? '#5ee924' : (avaliacao?.nota === 4 ? '#8fc82c' : (avaliacao?.nota === 3 ? '#d4c40d' : (avaliacao?.nota === 2 ? '#e96d01' : '#c21c1f')))}">
+                    </mat-icon>
+                    <h1 *ngIf='avaliacao?.avaliacoesColaboradores?.length'
+                        flex='100' class="mat-headline tc-blue-grey-800 no-margin">
+                      {{avaliacao?.avaliacoesColaboradores[0].colaborador.unidade.nome}}
+                    </h1>
+                  </div>
+                  <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
+                    {{avaliacao?.atendentes}}
+                  </h2>
+                  <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
+                    {{avaliacao?.data}}
+                  </h2>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

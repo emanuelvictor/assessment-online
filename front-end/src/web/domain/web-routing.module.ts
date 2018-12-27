@@ -25,6 +25,10 @@ import {AvaliacaoViewComponent} from "./presentation/dashboard/avaliacao/avaliac
 import {ConsultarAvaliacoesComponent} from "./presentation/dashboard/avaliacao/consultar-avaliacoes/consultar-avaliacoes.component";
 import {VisualizarAvaliacaoComponent} from "./presentation/dashboard/avaliacao/visualizar-avaliacao/visualizar-avaliacao.component";
 import {OfflineComponent} from "../../mobile/domain/presentation/avaliacao/offline/offline.component";
+import {TipoAvaliacaoViewComponent} from "./presentation/dashboard/tipo-avaliacao/tipo-avaliacao-view.component";
+import {ConsultarTiposAvaliacoesComponent} from "./presentation/dashboard/tipo-avaliacao/consultar-tipos-avaliacoes/consultar-tipos-avaliacoes.component";
+import {VisualizarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/visualizar-tipo-avaliacao/visualizar-tipo-avaliacao.component";
+import {InserirTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/inserir-tipo-avaliacao/inserir-tipo-avaliacao.component";
 
 
 const routes: Routes = [
@@ -70,17 +74,20 @@ const routes: Routes = [
           ]
         },
         {
-          path: 'avaliacoes', component: AvaliacaoViewComponent,
+          path: 'avaliacoes', component: TipoAvaliacaoViewComponent,
           children: [
-            {
-              path: '', component: ConsultarAvaliacoesComponent
-            },
-            {
-              path: ':id', component: VisualizarAvaliacaoComponent
-            }
+            {path: '', component: ConsultarTiposAvaliacoesComponent},
+            {path: 'inserir', component: InserirTipoAvaliacaoComponent},
+            {path: ':id', component: VisualizarTipoAvaliacaoComponent}
           ]
-        }
-        ,
+        },
+        {
+          path: 'resultados', component: AvaliacaoViewComponent,
+          children: [
+            {path: '', component: ConsultarAvaliacoesComponent},
+            {path: ':id', component: VisualizarAvaliacaoComponent}
+          ]
+        },
         {
           path: 'configuracoes', component: ConfiguracaoComponent,
         }

@@ -90,6 +90,11 @@ import {VisualizarAvaliacaoComponent} from "./presentation/dashboard/avaliacao/v
 import {CroppablePhotoComponent} from "./presentation/controls/croppable-photo/croppable-photo.component";
 import {LocalStorage} from "../infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
+import {TipoAvaliacaoViewComponent} from "./presentation/dashboard/tipo-avaliacao/tipo-avaliacao-view.component";
+import {VisualizarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/visualizar-tipo-avaliacao/visualizar-tipo-avaliacao.component";
+import {InserirTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/inserir-tipo-avaliacao/inserir-tipo-avaliacao.component";
+import {TipoAvaliacaoFormComponent} from "./presentation/dashboard/tipo-avaliacao/inserir-tipo-avaliacao/tipo-avaliacao-form/tipo-avaliacao-form.component";
+import {ConsultarTiposAvaliacoesComponent} from "./presentation/dashboard/tipo-avaliacao/consultar-tipos-avaliacoes/consultar-tipos-avaliacoes.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -178,10 +183,17 @@ registerLocaleData(localePt, 'pt-BR');
     UnidadeItemComponent,
     EstatisticasUnidadeComponent,
 
-    // Avaliaçẽos
+    // Avaliações
     AvaliacaoViewComponent,
     ConsultarAvaliacoesComponent,
-    VisualizarAvaliacaoComponent
+    VisualizarAvaliacaoComponent,
+
+    // Tipo avaliações
+    TipoAvaliacaoViewComponent,
+    VisualizarTipoAvaliacaoComponent,
+    InserirTipoAvaliacaoComponent,
+    TipoAvaliacaoFormComponent,
+    ConsultarTiposAvaliacoesComponent
   ],
   imports: [
     SharedModule,
