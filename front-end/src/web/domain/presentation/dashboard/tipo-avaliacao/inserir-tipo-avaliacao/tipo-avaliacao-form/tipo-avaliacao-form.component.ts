@@ -62,11 +62,6 @@ export class TipoAvaliacaoFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      um: ['um', [Validators.required]],
-      dois: ['dois', [Validators.required]],
-      tres: ['tres', [Validators.required]],
-      quatro: ['quatro', [Validators.required]],
-      cinco: ['cinco', [Validators.required]],
       nome: ['nome', [Validators.required]],
       enunciado: ['enunciado', [Validators.required]]
     });

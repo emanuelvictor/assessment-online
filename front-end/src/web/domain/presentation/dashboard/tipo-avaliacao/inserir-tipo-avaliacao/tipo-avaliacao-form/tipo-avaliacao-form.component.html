@@ -2,30 +2,19 @@
   <div layout="row" flex-gt-xs="80" layout-margin>
     <div flex layout-margin>
 
-      <!--cabeçalho div-->
-      <div layout='column' layout-margin header>
-        <div layout='row' layout-align='start center'>
-
-          <div layout="column" layout-margin>
-            <h1 class="mat-headline tc-grey-500" flex>Configurações</h1>
-          </div>
-        </div>
-      </div>
-
       <mat-card class="bgc-grey-50">
         <form [formGroup]='form' (ngSubmit)='saveForm(form)' novalidate>
 
           <mat-card-content>
 
-            <div layout='column' layout-margin style='margin-top: 20px; padding-bottom: 25px'>
+            <div layout='column' layout-margin style='/*margin-top: 20px; padding-bottom: 25px*/'>
+
+              <!--cabeçalho div-->
+              <ng-content select="[header]"></ng-content>
+
               <div layout='row' layout-align='start center'>
 
                 <div layout='column' flex>
-                  <div layout='column' layout-margin>
-                    <h2 flex class="mat-subheading-2 tc-grey-500">
-                      Enunciado da avaliação
-                    </h2>
-                  </div>
 
                   <div layout='row' layout-align='center center' class='push-left'>
                     <div layout='column' flex="25" class='push-right'>
@@ -58,99 +47,6 @@
                   </div>
                 </div>
 
-              </div>
-            </div>
-
-            <mat-divider></mat-divider>
-
-            <div layout='column' layout-margin>
-              <div layout='row' layout-align='start center'>
-                <div layout="column" layout-margin>
-                  <h2 class="mat-subheading-2 tc-grey-500" flex>Campos da avaliação</h2>
-                </div>
-              </div>
-
-              <div layout-align="center center" layout-gt-xs="row" layout-xs="column" layout-margin>
-                <div layout="column" layout-align="center center" flex>
-                  <button mat-button type="button">
-                    <div layout="column" layout-align="center center">
-                      <mat-icon style="fill: #c21c1f" svgIcon="assets:pessimo"></mat-icon>
-                    </div>
-                  </button>
-                  <mat-form-field flex>
-                    <input [(ngModel)]='tipoAvaliacao.um'
-                           placeholder='Péssimo' maxlength='144'
-                           matInput name='um' id='um' formControlName='um'>
-                    <mat-error>
-                      Campo obrigatório
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div layout="column" layout-align="center center" flex>
-                  <button mat-button type="button">
-                    <div layout="column" layout-align="center center">
-                      <mat-icon style="fill: #e96d01" svgIcon="assets:ruim"></mat-icon>
-                    </div>
-                  </button>
-                  <mat-form-field flex>
-                    <input [(ngModel)]='tipoAvaliacao.dois'
-                           placeholder='Ruim' maxlength='144'
-                           matInput name='dois' id='dois' formControlName='dois'>
-                    <mat-error>
-                      Campo obrigatório
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div layout="column" layout-align="center center" flex>
-                  <button mat-button type="button">
-                    <div layout="column" layout-align="center center">
-                      <mat-icon style="fill: #d4c40d" svgIcon="assets:meia-boca"></mat-icon>
-                    </div>
-                  </button>
-                  <mat-form-field flex>
-                    <input [(ngModel)]='tipoAvaliacao.tres'
-                           placeholder='Regular' maxlength='144'
-                           matInput name='tres' id='tres' formControlName='tres'>
-                    <mat-error>
-                      Campo obrigatório
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div layout="column" layout-align="center center" flex>
-                  <button mat-button type="button">
-                    <div layout="column" layout-align="center center">
-                      <mat-icon style="fill: #8fc82c" svgIcon="assets:bacana"></mat-icon>
-                    </div>
-                  </button>
-                  <mat-form-field flex>
-                    <input [(ngModel)]='tipoAvaliacao.quatro'
-                           matInput name='quatro' id='quatro'
-                           placeholder='Bom' maxlength='144' formControlName='quatro'>
-                    <mat-error>
-                      Campo obrigatório
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div layout="column" layout-align="center center" flex>
-                  <button mat-button type="button">
-                    <div layout="column" layout-align="center center">
-                      <mat-icon style="fill: #5ee924" svgIcon="assets:top-da-balada"></mat-icon>
-                    </div>
-                  </button>
-                  <mat-form-field flex>
-                    <input formControlName='cinco'
-                           matInput name='cinco' id='cinco'
-                           [(ngModel)]='tipoAvaliacao.cinco'
-                           placeholder='Ótimo' maxlength='144'>
-                    <mat-error>
-                      Campo obrigatório
-                    </mat-error>
-                  </mat-form-field>
-                </div>
               </div>
             </div>
 

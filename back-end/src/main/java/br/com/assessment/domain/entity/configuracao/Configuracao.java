@@ -17,6 +17,37 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 public class Configuracao extends AbstractEntity {
 
+    /*
+     * --------------------------------------------------------------
+     *            Configurações de nomes das avaliações
+     * --------------------------------------------------------------
+     */
+
+    /**
+     *
+     */
+    private String um;
+
+    /**
+     *
+     */
+    private String dois;
+
+    /**
+     *
+     */
+    private String tres;
+
+    /**
+     *
+     */
+    private String quatro;
+
+    /**
+     *
+     */
+    private String cinco;
+
     /**
      *
      */
@@ -43,7 +74,7 @@ public class Configuracao extends AbstractEntity {
     /**
      *
      */
-    private String agradecimentoDefault;
+    private String agradecimento;
 
     /**
      * @return byte[]
@@ -82,7 +113,47 @@ public class Configuracao extends AbstractEntity {
     /**
      * @return String
      */
-    public String getAgradecimentoDefault() {
-        return agradecimentoDefault == null ? "Obrigado, agradecemos a participação" : agradecimentoDefault;
+    public String getAgradecimento() {
+        return agradecimento == null ? "Obrigado, agradecemos a participação" : agradecimento;
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public String getUm() {
+        return um == null ? "Péssimo" : um;
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public String getDois() {
+        return dois == null ? "Ruim" : dois;
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public String getTres() {
+        return tres == null ? "Regular" : tres;
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public String getQuatro() {
+        return quatro == null ? "Bom" : quatro;
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public String getCinco() {
+        return cinco == null ? "Ótimo" : cinco;
     }
 }

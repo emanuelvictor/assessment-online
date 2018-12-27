@@ -93,6 +93,11 @@ export class ConfiguracaoComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = this.fb.group({
+      um: ['um', [Validators.required]],
+      dois: ['dois', [Validators.required]],
+      tres: ['tres', [Validators.required]],
+      quatro: ['quatro', [Validators.required]],
+      cinco: ['cinco', [Validators.required]],
       agradecimento: ['agradecimento', [Validators.required]],
     });
 

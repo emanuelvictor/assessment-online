@@ -31,11 +31,6 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
   /**
    *
    */
-  public showPesquisaAvancada = false;
-
-  /**
-   *
-   */
   public pageRequest = { // PageRequest
     size: 20,
     page: 0,
@@ -55,12 +50,7 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
   public displayedColumns: string[] =
     [
       'nome',
-      'enunciado',
-      'um',
-      'dois',
-      'tres',
-      'quatro',
-      'cinco'
+      'enunciado'
     ];
 
   /**
@@ -82,7 +72,6 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
 
   filteredAsync: string[];
   asyncModel: string[] = [];
-  filteredAsyncUsuario: string[];
 
   /**
    *
