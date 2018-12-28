@@ -96,6 +96,9 @@ import {TipoAvaliacaoFormComponent} from "./presentation/dashboard/tipo-avaliaca
 import {ConsultarTiposAvaliacoesComponent} from "./presentation/dashboard/tipo-avaliacao/consultar-tipos-avaliacoes/consultar-tipos-avaliacoes.component";
 import {TipoAvaliacaoRepository} from "./repositories/tipo-avaliacao.repository";
 import {AlterarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/alterar-tipo-avaliacao/alterar-tipo-avaliacao.component";
+import {VincularTipoAvaliacaoComponent} from "./presentation/dashboard/unidade/visualizar-unidade/vincular-tipo-avaliacao/vincular-tipo-avaliacao.component";
+import {UnidadeTipoAvaliacaoRepository} from "./repositories/unidade-tipo-avaliacao.repository";
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -183,6 +186,7 @@ registerLocaleData(localePt, 'pt-BR');
     UnidadeFormComponent,
     UnidadeItemComponent,
     EstatisticasUnidadeComponent,
+    VincularTipoAvaliacaoComponent,
 
     // Avaliações
     AvaliacaoViewComponent,
@@ -204,14 +208,16 @@ registerLocaleData(localePt, 'pt-BR');
     BrowserAnimationsModule,
     NgxChartsModule,
     WebRoutingModule,
-    MatExpansionModule
+    MatExpansionModule,
+    DragDropModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent],
+  entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent, InserirTipoAvaliacaoComponent],
   providers: [
 
     PageSerialize,
 
+    UnidadeTipoAvaliacaoRepository,
     AvaliacaoColaboradorRepository,
     TipoAvaliacaoRepository,
     ConfiguracaoRepository,

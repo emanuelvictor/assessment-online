@@ -1,0 +1,25 @@
+<div cdkDropList class="example-list"
+     (cdkDropListDropped)="drop($event)">
+  <div class="example-box" cdkDrag
+       *ngFor="let unidadeTipoAvaliacao of unidadesTiposAvaliacoes | filter:filter; let i = index">
+    <div>
+      {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome + ' - ' + unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado}}
+    </div>
+    <div>{{'Ordem: ' + (i + 1)}}</div>
+  </div>
+</div>
+
+<!--<mat-nav-list>-->
+<!--<div [ngStyle]="{'background-color': unidadeTipoAvaliacao?.selected ? 'aliceblue' : '#fafafa' }"-->
+<!--*ngFor="let unidadeTipoAvaliacao of unidadesTiposAvaliacoes | filter:filter | orderBy:'vinculo':false:'case-insensitive'">-->
+<!--<mat-list-item disableRipple layout='row' layout-margin>-->
+<!--<h3 matLine>{{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}} </h3>-->
+<!--<p matLine>{{unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado}}</p>-->
+<!--<button color='primary'-->
+<!--class='push-right'-->
+<!--type='button' mat-icon-button>-->
+<!--{{'Vincular'}}-->
+<!--</button>-->
+<!--</mat-list-item>-->
+<!--</div>-->
+<!--</mat-nav-list>-->

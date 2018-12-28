@@ -46,9 +46,9 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
 
     this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.conta = result;
-      // this.colaboradorService.listOperadoresByUsuarioKey(this.conta.usuario.id)
+      // this.colaboradorService.listOperadoresByUsuarioKey(this.conta.unidade.id)
       //   .subscribe(operadores => { TODO o is operador já tem que vir
-      //     this.conta.usuario.isOperador = operadores.length > 0;
+      //     this.conta.unidade.isOperador = operadores.length > 0;
       //   });
     });
   }

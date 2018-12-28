@@ -56,7 +56,6 @@ export class InserirTipoAvaliacaoComponent implements OnInit {
     this.tipoAvaliacaoRepository.save(this.tipoAvaliacao)
       .then(result => {
         this.tipoAvaliacao = result;
-
         this.success('Tipo de avaliação inserida com sucesso');
       });
   }

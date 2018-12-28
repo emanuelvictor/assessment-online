@@ -2,8 +2,7 @@
   <div layout="row" flex-gt-xs="80" layout-margin>
     <div flex layout-margin>
 
-      <mat-card class="bgc-grey-50"
-                layout-margin style="max-width: 1200px">
+      <mat-card class="bgc-grey-50" layout-margin>
 
         <!--card informações-->
         <mat-card-content>
@@ -39,14 +38,14 @@
                     (unidade?.avaliacoes3 ? unidade?.avaliacoes3 : 0) +
                     (unidade?.avaliacoes4 ? unidade?.avaliacoes4 : 0) +
                     (unidade?.avaliacoes5 ? unidade?.avaliacoes5 : 0)
-                    )
-                    === 0 ? '' :
+                  )
+                  === 0 ? '' :
                     (
-                    (unidade?.avaliacoes1 ? unidade?.avaliacoes1 : 0) +
-                    (unidade?.avaliacoes2 ? unidade?.avaliacoes2 : 0) +
-                    (unidade?.avaliacoes3 ? unidade?.avaliacoes3 : 0) +
-                    (unidade?.avaliacoes4 ? unidade?.avaliacoes4 : 0) +
-                    (unidade?.avaliacoes5 ? unidade?.avaliacoes5 : 0)
+                      (unidade?.avaliacoes1 ? unidade?.avaliacoes1 : 0) +
+                      (unidade?.avaliacoes2 ? unidade?.avaliacoes2 : 0) +
+                      (unidade?.avaliacoes3 ? unidade?.avaliacoes3 : 0) +
+                      (unidade?.avaliacoes4 ? unidade?.avaliacoes4 : 0) +
+                      (unidade?.avaliacoes5 ? unidade?.avaliacoes5 : 0)
                     ) + ' avaliações'}}
                   </h2>
                 </div>
@@ -80,10 +79,10 @@
                     </button>
 
                     <!--<button (click)="remove(unidade?.id)"-->
-                            <!--mat-menu-item class='tc-blue-grey-900'-->
-                            <!--*ngIf='authenticatedUser?.conta?.root'>-->
-                      <!--<mat-icon>delete</mat-icon>-->
-                      <!--<span>Remover</span>-->
+                    <!--mat-menu-item class='tc-blue-grey-900'-->
+                    <!--*ngIf='authenticatedUser?.conta?.root'>-->
+                    <!--<mat-icon>delete</mat-icon>-->
+                    <!--<span>Remover</span>-->
                     <!--</button>-->
                   </mat-menu>
                 </div>
@@ -93,6 +92,33 @@
 
         </mat-card-content>
       </mat-card>
+
+      <div layout='row' flex
+           *ngIf='tiposAvaliacoes?.length'
+           layout-align='center center'>
+
+        <mat-form-field flex style='margin-bottom: 0'>
+          <input id="filter" name="filter" matInput
+                 [ngModelOptions]='{standalone: true}'
+                 placeholder="Filtre as unidades por nome"
+                 [(ngModel)]="filter.nome" maxlength="200">
+        </mat-form-field>
+
+      </div>
+
+      <mat-accordion *ngIf='tiposAvaliacoes?.length'>
+        <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
+
+          <vincular-tipo-avaliacao [filter]='filter'
+                                   [unidade]="unidade"
+                                   *ngIf='unidade?.id'
+                                   [tiposAvaliacoes]='tiposAvaliacoes'
+                                   (save)='saveUnidadeTipoAvaliacao($event)'>
+          </vincular-tipo-avaliacao>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+
     </div>
   </div>
 </div>

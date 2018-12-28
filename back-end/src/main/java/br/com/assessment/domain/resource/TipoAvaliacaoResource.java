@@ -16,7 +16,7 @@ import static br.com.assessment.infrastructure.util.ArrayUtil.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"**tipos-avaliacoes", "**sistema/tipos-avaliacoes", "**sistema/mobile/tipos-avaliacoes"})
+@RequestMapping({"tipos-avaliacoes", "sistema/tipos-avaliacoes", "sistema/mobile/tipos-avaliacoes"})
 public class TipoAvaliacaoResource {
 
     private final TipoAvaliacaoService tipoAvaliacaoService;

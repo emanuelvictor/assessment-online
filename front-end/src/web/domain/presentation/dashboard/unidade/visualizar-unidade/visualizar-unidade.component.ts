@@ -5,6 +5,9 @@ import {Unidade} from '../../../../entity/unidade/unidade.model';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
 import {AuthenticationService} from "../../../../service/authentication.service";
+import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
+import {UnidadeTipoAvaliacao} from "../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../repositories/unidade-tipo-avaliacao.repository";
 
 @Component({
   selector: 'visualizar-unidade',
@@ -12,6 +15,11 @@ import {AuthenticationService} from "../../../../service/authentication.service"
   styleUrls: ['./visualizar-unidade.component.css']
 })
 export class VisualizarUnidadeComponent implements OnInit {
+
+  /**
+   *
+   */
+  public tiposAvaliacoes: any;
 
   /**
    *
@@ -25,11 +33,23 @@ export class VisualizarUnidadeComponent implements OnInit {
 
   /**
    *
+   * @type {{unidade: {}}}
+   */
+  public filter: any = {
+    nome: null,
+    enunciado: null
+  };
+
+  /**
+   *
    */
   constructor(private snackBar: MatSnackBar,
               private authenticationService: AuthenticationService,
+              private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
               public activatedRoute: ActivatedRoute, private router: Router,
-              private dialog: MatDialog, private unidadeService: UnidadeService) {
+              private dialog: MatDialog, private unidadeService: UnidadeService,
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
+
     this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.authenticatedUser = result;
     });
@@ -41,6 +61,8 @@ export class VisualizarUnidadeComponent implements OnInit {
   ngOnInit() {
     const id: number = this.activatedRoute.snapshot.params['id'];
     this.findById(id);
+    this.tipoAvaliacaoRepository.listByFilters(null)
+      .subscribe(result => this.tiposAvaliacoes = result.content);
   }
 
   /**
@@ -90,5 +112,13 @@ export class VisualizarUnidadeComponent implements OnInit {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
+  }
+
+  /**
+   *
+   * @param {UnidadeTipoAvaliacao} unidadeTipoAvaliacao
+   */
+  public saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao()): void {
+    this.unidadeTipoAvaliacaoRepository.save(unidadeTipoAvaliacao)
   }
 }
