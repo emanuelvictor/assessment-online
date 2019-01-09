@@ -21,7 +21,7 @@
             <div layout-gt-xs="row" layout-align="start center" flex-gt-xs="80">
               <div layout="row" layout-align="start center" layout-margin flex>
                 <div layout="column">
-                  <h1 flex *ngIf="unidade?.media" class="mat-headline no-margin">
+                  <h1 flex *ngIf="unidade?.media" class="mat-headline no-margin\">
                     Média: <span class="tc-purple-500"> {{unidade?.media| number:'.1-3' : 'en-US'}}</span>
                   </h1>
                   <h1 flex class="mat-headline tc-blue-grey-800 no-margin">{{unidade?.nome}}</h1>
@@ -38,14 +38,14 @@
                     (unidade?.avaliacoes3 ? unidade?.avaliacoes3 : 0) +
                     (unidade?.avaliacoes4 ? unidade?.avaliacoes4 : 0) +
                     (unidade?.avaliacoes5 ? unidade?.avaliacoes5 : 0)
-                  )
-                  === 0 ? '' :
+                    )
+                    === 0 ? '' :
                     (
-                      (unidade?.avaliacoes1 ? unidade?.avaliacoes1 : 0) +
-                      (unidade?.avaliacoes2 ? unidade?.avaliacoes2 : 0) +
-                      (unidade?.avaliacoes3 ? unidade?.avaliacoes3 : 0) +
-                      (unidade?.avaliacoes4 ? unidade?.avaliacoes4 : 0) +
-                      (unidade?.avaliacoes5 ? unidade?.avaliacoes5 : 0)
+                    (unidade?.avaliacoes1 ? unidade?.avaliacoes1 : 0) +
+                    (unidade?.avaliacoes2 ? unidade?.avaliacoes2 : 0) +
+                    (unidade?.avaliacoes3 ? unidade?.avaliacoes3 : 0) +
+                    (unidade?.avaliacoes4 ? unidade?.avaliacoes4 : 0) +
+                    (unidade?.avaliacoes5 ? unidade?.avaliacoes5 : 0)
                     ) + ' avaliações'}}
                   </h2>
                 </div>
@@ -94,14 +94,15 @@
       </mat-card>
 
       <div layout='row' flex
-           *ngIf='tiposAvaliacoes?.length'
-           layout-align='center center'>
+           layout-align='center center'
+           *ngIf='tiposAvaliacoes?.length'>
 
         <mat-form-field flex style='margin-bottom: 0'>
-          <input id="filter" name="filter" matInput
+          <input maxlength="200"
+                 id="filter" name="filter" matInput
                  [ngModelOptions]='{standalone: true}'
-                 placeholder="Filtre as unidades por nome"
-                 [(ngModel)]="filter.nome" maxlength="200">
+                 [(ngModel)]="filter.tipoAvaliacao.nome"
+                 placeholder="Filtre as avaliações pelo nome">
         </mat-form-field>
 
       </div>
@@ -110,7 +111,7 @@
         <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
 
           <vincular-tipo-avaliacao [filter]='filter'
-                                   [unidade]="unidade"
+                                   [unidade]='unidade'
                                    *ngIf='unidade?.id'
                                    [tiposAvaliacoes]='tiposAvaliacoes'
                                    (save)='saveUnidadeTipoAvaliacao($event)'>

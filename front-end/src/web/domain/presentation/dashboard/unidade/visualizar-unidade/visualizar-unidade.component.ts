@@ -8,6 +8,7 @@ import {AuthenticationService} from "../../../../service/authentication.service"
 import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacao} from "../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repositories/unidade-tipo-avaliacao.repository";
+import {Filter} from "../../../controls/utils";
 
 @Component({
   selector: 'visualizar-unidade',
@@ -33,11 +34,13 @@ export class VisualizarUnidadeComponent implements OnInit {
 
   /**
    *
-   * @type {{unidade: {}}}
+   * @type {{tipoAvaliacao: {nome: any; enunciado: any}}}
    */
   public filter: any = {
-    nome: null,
-    enunciado: null
+    tipoAvaliacao: {
+      nome: null,
+      enunciado: null
+    }
   };
 
   /**
@@ -78,10 +81,9 @@ export class VisualizarUnidadeComponent implements OnInit {
 
   /**
    *
-   * @param {string} unidadeKey
    */
-  public remove(unidadeKey: string) {
-    let dialogRef = this.dialog.open(ConfirmDialogComponent,
+  public remove() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
         data: {
           text: 'Deseja realmente excluir a unidade?',
@@ -119,6 +121,8 @@ export class VisualizarUnidadeComponent implements OnInit {
    * @param {UnidadeTipoAvaliacao} unidadeTipoAvaliacao
    */
   public saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao()): void {
+    console.log(unidadeTipoAvaliacao);
     this.unidadeTipoAvaliacaoRepository.save(unidadeTipoAvaliacao)
   }
+
 }

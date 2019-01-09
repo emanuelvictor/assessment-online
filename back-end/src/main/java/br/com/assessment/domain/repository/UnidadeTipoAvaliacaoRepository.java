@@ -9,11 +9,17 @@ import org.springframework.data.repository.query.Param;
 
 public interface UnidadeTipoAvaliacaoRepository extends JpaRepository<UnidadeTipoAvaliacao, Long> {
 
-    @Query("SELECT unidadeTipoAvaliacao FROM UnidadeTipoAvaliacao unidadeTipoAvaliacao " +
-            "   WHERE(FILTER(:defaultFilter, unidadeTipoAvaliacao.tipoAvaliacao.nome, unidadeTipoAvaliacao.tipoAvaliacao.enunciado) = TRUE)"
+    @Query("SELECT unidadeTipoAvaliacao FROM UnidadeTipoAvaliacao unidadeTipoAvaliacao WHERE" +
+            "   (" +
+            "       FILTER(:defaultFilter, unidadeTipoAvaliacao.tipoAvaliacao.nome, unidadeTipoAvaliacao.tipoAvaliacao.enunciado) = TRUE" +
+            "       AND ( (:unidadeId IS NOT NULL AND unidadeTipoAvaliacao.unidade.id = :unidadeId) OR :unidadeId IS NULL)" +
+            "       AND ( (:tipoAvaliacaoId IS NOT NULL AND unidadeTipoAvaliacao.tipoAvaliacao.id = :tipoAvaliacaoId) OR :tipoAvaliacaoId IS NULL)" +
+            "   )"
     )
     Page<UnidadeTipoAvaliacao> listByFilters(
             @Param("defaultFilter") final String defaultFilter,
+            @Param("tipoAvaliacaoId") final Long tipoAvaliacaoId,
+            @Param("unidadeId") final Long unidadeId,
             final Pageable pageable);
 
 }

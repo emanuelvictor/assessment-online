@@ -1,12 +1,12 @@
 <header-component>
-  <mat-sidenav-container>
+  <mat-sidenav-container [@routerAnimation]="o.isActivated ? o.activatedRoute : ''">
 
     <mat-sidenav *ngIf="conta?.usuario?.isOperador || conta?.isAdministrador"
                  mode="side" [opened]="isSmallScreen" class="mat-elevation-z5">
       <logged-menu></logged-menu>
     </mat-sidenav>
 
-    <router-outlet></router-outlet>
+    <router-outlet #o="outlet"></router-outlet>
 
   </mat-sidenav-container>
 </header-component>

@@ -10,4 +10,6 @@ export class UnidadeTipoAvaliacao extends Abstract {
 
   private unidade: Unidade;
 
+  private ativo: boolean;
+
 }

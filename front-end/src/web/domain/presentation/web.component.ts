@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'web-root',
   templateUrl: './web.component.html',
-  styleUrls: ['./web.component.scss']
+  styleUrls: ['./web.component.scss'],
 })
 export class WebComponent implements OnInit {
 
@@ -40,7 +40,7 @@ export class WebComponent implements OnInit {
      * que é uma div criada pelo componente side-nav
      */
     this.router.events.subscribe((path: any) => {
-      if (path.url != this.currentUrl) {
+      if (path.url !== this.currentUrl) {
         const scrollableElements = document.getElementsByClassName("mat-drawer-content");
         for (let i = 0; i < scrollableElements.length; i++) {
           scrollableElements[i].scrollTop = 0;

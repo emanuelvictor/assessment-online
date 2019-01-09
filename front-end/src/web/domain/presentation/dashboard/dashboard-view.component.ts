@@ -1,14 +1,15 @@
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {TdMediaService} from '@covalent/core';
 import {Subscription} from 'rxjs';
-import {ColaboradorService} from '../../service/colaborador.service';
 import {AuthenticationService} from '../../service/authentication.service';
+import {routerAnimation} from "../controls/utils";
 
 
 @Component({
   selector: 'dashboard-view',
   templateUrl: './dashboard-view.component.html',
-  styleUrls: ['./dashboard-view.component.scss']
+  styleUrls: ['./dashboard-view.component.scss'],
+  animations: [routerAnimation]
 })
 export class DashboardViewComponent implements OnInit, OnDestroy {
 
@@ -35,21 +36,15 @@ export class DashboardViewComponent implements OnInit, OnDestroy {
 
   /**
    *
-   * @param {ColaboradorService} colaboradorService
    * @param {TdMediaService} media
    * @param {NgZone} ngZone
    * @param {AuthenticationService} authenticationService
    */
-  constructor(private colaboradorService: ColaboradorService,
-              public media: TdMediaService, public ngZone: NgZone,
+  constructor(public media: TdMediaService, public ngZone: NgZone,
               private authenticationService: AuthenticationService) {
 
     this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.conta = result;
-      // this.colaboradorService.listOperadoresByUsuarioKey(this.conta.unidade.id)
-      //   .subscribe(operadores => { TODO o is operador já tem que vir
-      //     this.conta.unidade.isOperador = operadores.length > 0;
-      //   });
     });
   }
 

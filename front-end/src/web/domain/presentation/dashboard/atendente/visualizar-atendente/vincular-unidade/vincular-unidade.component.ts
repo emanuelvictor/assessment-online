@@ -74,7 +74,7 @@ export class VincularUnidadeComponent implements OnInit {
                 const unidadeTemp = this.atendentes[i].unidade;
                 this.atendentes[i] = result[k];
                 this.atendentes[i].unidade = unidadeTemp;
-                if (this.atendentes[i].vinculo == "Nenhum")
+                if (this.atendentes[i].vinculo === 'Nenhum')
                   this.atendentes[i].vinculo = null;
               }
       });

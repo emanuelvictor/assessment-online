@@ -8,6 +8,7 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -23,7 +24,7 @@ public class UnidadeTipoAvaliacao extends AbstractEntity {
      * Ordem em que a avaliação será exibida no tablet
      */
     @Column
-    private short ordem;
+    private Short ordem;
 
     /**
      *
@@ -38,5 +39,19 @@ public class UnidadeTipoAvaliacao extends AbstractEntity {
     @NotNull
     @ManyToOne(optional = false)
     private Unidade unidade;
+
+    /**
+     *
+     */
+    private boolean ativo;
+
+    /**
+     *
+     */
+    @PrePersist
+    public void prePersist() {
+        this.ordem = null;
+        this.ativo = this.id == null || this.id == 0 || !this.ativo;
+    }
 
 }

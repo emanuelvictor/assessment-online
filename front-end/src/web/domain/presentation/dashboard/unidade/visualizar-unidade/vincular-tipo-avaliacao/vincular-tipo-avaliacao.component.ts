@@ -1,32 +1,24 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
-import {TipoAvaliacaoRepository} from "../../../../../repositories/tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacao} from "../../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repositories/unidade-tipo-avaliacao.repository";
 import {TipoAvaliacao} from "../../../../../entity/avaliacao/tipo-avaliacao.model";
-import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {viewAnimation} from "../../../../controls/utils";
 
 @Component({
   selector: 'vincular-tipo-avaliacao',
   templateUrl: './vincular-tipo-avaliacao.component.html',
-  styleUrls: ['./vincular-tipo-avaliacao.component.css']
+  styleUrls: ['./vincular-tipo-avaliacao.component.css'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class VincularTipoAvaliacaoComponent implements OnInit {
+
   /**
    *
    */
   public tipoAvaliacao: TipoAvaliacao = new TipoAvaliacao();
-
-  movies = [
-    'Episode I - The Phantom Menace',
-    'Episode II - Attack of the Clones',
-    'Episode III - Revenge of the Sith',
-    'Episode IV - A New Hope',
-    'Episode V - The Empire Strikes Back',
-    'Episode VI - Return of the Jedi',
-    'Episode VII - The Force Awakens',
-    'Episode VIII - The Last Jedi'
-  ];
 
   /**
    *
@@ -64,6 +56,12 @@ export class VincularTipoAvaliacaoComponent implements OnInit {
 
   /**
    *
+   * @type {boolean}
+   */
+  public done: boolean = false;
+
+  /**
+   *
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
   constructor(private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
@@ -76,7 +74,7 @@ export class VincularTipoAvaliacaoComponent implements OnInit {
     this.unidadesTiposAvaliacoes = [];
     for (let i = 0; i < this.tiposAvaliacoes.length; i++)
       this.unidadesTiposAvaliacoes.push({
-        vinculo: null,
+        ativo: false,
         tipoAvaliacao: this.tiposAvaliacoes[i],
         unidade: this.unidade
       });
@@ -84,24 +82,16 @@ export class VincularTipoAvaliacaoComponent implements OnInit {
     if (this.unidade.id)
       this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: this.unidade.id}).subscribe(page => {
         const result = page.content;
-
-        if (result.length)
+console.log("asdfa");
+        if (result.length) {
           for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++)
             for (let k = 0; k < result.length; k++)
-              if (result[k].unidade.id === this.unidadesTiposAvaliacoes[i].unidade.id) {
-                const unidadeTemp = this.unidadesTiposAvaliacoes[i].unidade;
+              if (result[k].tipoAvaliacao.id === this.unidadesTiposAvaliacoes[i].tipoAvaliacao.id)
                 this.unidadesTiposAvaliacoes[i] = result[k];
-                this.unidadesTiposAvaliacoes[i].unidade = unidadeTemp;
-              }
-      });
-  }
+        }
 
-  /**
-   *
-   * @param event
-   */
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.unidadesTiposAvaliacoes, event.previousIndex, event.currentIndex);
+        this.done = true;
+      });
   }
 
   /**
@@ -109,12 +99,6 @@ export class VincularTipoAvaliacaoComponent implements OnInit {
    * @param {UnidadeTipoAvaliacao} unidadeTipoAvaliacao
    */
   public saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao()): void {
-    (unidadeTipoAvaliacao as any).selected = true;
-
-    setInterval(function () {
-      (unidadeTipoAvaliacao as any).selected = false
-    }, 3000);
-
     this.save.emit(unidadeTipoAvaliacao);
   }
 }

@@ -1,8 +1,6 @@
 package br.com.assessment.domain.service;
 
-import br.com.assessment.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.assessment.domain.entity.avaliacao.UnidadeTipoAvaliacao;
-import br.com.assessment.domain.repository.TipoAvaliacaoRepository;
 import br.com.assessment.domain.repository.UnidadeTipoAvaliacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -10,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,8 +33,8 @@ public class UnidadeTipoAvaliacaoService {
         this.unidadeTipoAvaliacaoRepository.deleteById(id);
     }
 
-    public Page<UnidadeTipoAvaliacao> listByFilters(final String defaultFilter, final Pageable pageable) {
-        return this.unidadeTipoAvaliacaoRepository.listByFilters(defaultFilter, pageable);
+    public Page<UnidadeTipoAvaliacao> listByFilters(final String defaultFilter, final Long tipoAvaliacaoId, final Long unidadeId, final Pageable pageable) {
+        return this.unidadeTipoAvaliacaoRepository.listByFilters(defaultFilter, tipoAvaliacaoId, unidadeId, pageable);
     }
 
 }
