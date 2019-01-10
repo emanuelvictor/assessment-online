@@ -82,7 +82,7 @@ export class VincularTipoAvaliacaoComponent implements OnInit {
     if (this.unidade.id)
       this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: this.unidade.id}).subscribe(page => {
         const result = page.content;
-console.log("asdfa");
+
         if (result.length) {
           for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++)
             for (let k = 0; k < result.length; k++)

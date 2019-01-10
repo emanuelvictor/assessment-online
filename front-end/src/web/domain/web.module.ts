@@ -72,7 +72,7 @@ import {UsuarioRepository} from './repositories/usuario.repository';
 import {UnidadeRepository} from './repositories/unidade.repository';
 import {EnderecoRepository} from './repositories/endereco.repository';
 import {AvaliacaoRepository} from './repositories/avaliacao.repository';
-import {ColaboradorRepository} from './repositories/colaborador.repository';
+import {OperadorRepository} from './repositories/operador.repository';
 import {AvaliacaoColaboradorRepository} from './repositories/avaliacao-colaborador.repository';
 import {ContaRepository} from './repositories/conta.repository';
 import {ContaService} from './service/conta.service';
@@ -221,7 +221,7 @@ registerLocaleData(localePt, 'pt-BR');
     AvaliacaoColaboradorRepository,
     TipoAvaliacaoRepository,
     ConfiguracaoRepository,
-    ColaboradorRepository,
+    OperadorRepository,
     AvaliacaoRepository,
     EnderecoRepository,
     UnidadeRepository,

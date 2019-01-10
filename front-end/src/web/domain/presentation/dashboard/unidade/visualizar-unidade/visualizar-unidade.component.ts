@@ -8,7 +8,6 @@ import {AuthenticationService} from "../../../../service/authentication.service"
 import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacao} from "../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repositories/unidade-tipo-avaliacao.repository";
-import {Filter} from "../../../controls/utils";
 
 @Component({
   selector: 'visualizar-unidade',
@@ -121,7 +120,6 @@ export class VisualizarUnidadeComponent implements OnInit {
    * @param {UnidadeTipoAvaliacao} unidadeTipoAvaliacao
    */
   public saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao()): void {
-    console.log(unidadeTipoAvaliacao);
     this.unidadeTipoAvaliacaoRepository.save(unidadeTipoAvaliacao)
   }
 

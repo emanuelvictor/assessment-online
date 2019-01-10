@@ -8,6 +8,7 @@ import lombok.Data;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -65,7 +66,7 @@ public class Usuario extends Pessoa {
      */
     @JsonProperty
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Operador> operadores;
+    private List<Operador> operadores;
 
     /**
      * Remover o transient

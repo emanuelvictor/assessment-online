@@ -26,7 +26,6 @@ import {EllipsisModule} from 'ngx-ellipsis';
 import {AvaliacaoRepository} from '../../web/domain/repositories/avaliacao.repository';
 import {UsuarioRepository} from '../../web/domain/repositories/usuario.repository';
 import {AvaliacaoColaboradorRepository} from '../../web/domain/repositories/avaliacao-colaborador.repository';
-import {ColaboradorRepository} from '../../web/domain/repositories/colaborador.repository';
 import {EnderecoRepository} from '../../web/domain/repositories/endereco.repository';
 import {UnidadeRepository} from '../../web/domain/repositories/unidade.repository';
 import {ContaRepository} from '../../web/domain/repositories/conta.repository';
@@ -40,6 +39,7 @@ import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component"
 import {LocalStorage} from "../../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import localePt from "@angular/common/locales/pt";
+import {OperadorRepository} from "../../web/domain/repositories/operador.repository";
 
 /**
  *
@@ -73,7 +73,7 @@ import localePt from "@angular/common/locales/pt";
     PageSerialize,
     ConfiguracaoRepository,
     AvaliacaoColaboradorRepository,
-    ColaboradorRepository,
+    OperadorRepository,
     AvaliacaoRepository,
     EnderecoRepository,
     UnidadeRepository,

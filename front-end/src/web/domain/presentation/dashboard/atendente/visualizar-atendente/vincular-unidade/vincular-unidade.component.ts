@@ -3,11 +3,13 @@ import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {ColaboradorService} from '../../../../../service/colaborador.service';
 import {Colaborador} from '../../../../../entity/colaborador/colaborador.model';
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
+import {OperadorRepository} from "../../../../../repositories/operador.repository";
+import {Operador} from "../../../../../entity/usuario/vinculo/operador.model";
 
 @Component({
   selector: 'vincular-unidade',
   templateUrl: './vincular-unidade.component.html',
-  styleUrls: ['./vincular-unidade.component.css']
+  styleUrls: ['./vincular-unidade.component.scss']
 })
 export class VincularUnidadeComponent implements OnInit {
 
@@ -42,13 +44,19 @@ export class VincularUnidadeComponent implements OnInit {
    *
    */
   @Output()
-  save: EventEmitter<any> = new EventEmitter();
+  saveOperador: EventEmitter<any> = new EventEmitter();
 
   /**
    *
-   * @param {ColaboradorService} colaboradorService
    */
-  constructor(private colaboradorService: ColaboradorService) {
+  @Output()
+  removeOperador: EventEmitter<any> = new EventEmitter();
+
+  /**
+   *
+   * @param {operadorRepository} OperadorRepository
+   */
+  constructor(private operadorRepository: OperadorRepository) {
   }
 
   /**
@@ -64,7 +72,7 @@ export class VincularUnidadeComponent implements OnInit {
       });
 
     if (this.usuario.id)
-      this.colaboradorService.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
+      this.operadorRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
         const result = page.content;
 
         if (result.length)
@@ -82,15 +90,18 @@ export class VincularUnidadeComponent implements OnInit {
 
   /**
    *
-   * @param {Colaborador} colaborador
+   * @param {Unidade} unidade
    */
-  public saveColaborador(colaborador: Colaborador = new Colaborador()): void {
-    (colaborador as any).selected = true;
+  public saveOperadorInner(unidade: Unidade): void {
 
-    setInterval(function () {
-      (colaborador as any).selected = false
-    }, 3000);
+    const operador: Operador = new Operador();
+    operador.usuario = this.usuario;
+    operador.unidade = unidade;
 
-    this.save.emit(colaborador);
+    if (!(unidade as any).operador)
+      this.removeOperador.emit(operador);
+    else
+      this.saveOperador.emit(operador)
+
   }
 }

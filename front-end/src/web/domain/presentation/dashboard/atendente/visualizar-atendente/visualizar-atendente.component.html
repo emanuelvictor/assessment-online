@@ -65,19 +65,16 @@
         </mat-form-field>
 
       </div>
+      <mat-card class='bgc-grey-50' *ngIf='unidades?.length'>
 
-      <mat-accordion *ngIf='unidades?.length'>
-        <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
+        <vincular-unidade [filter]='filter'
+                          [usuario]='atendente'
+                          *ngIf='atendente?.id'
+                          [unidades]='unidades'
+                          (saveOperador)='saveOperador($event)'>
+        </vincular-unidade>
 
-          <vincular-unidade [filter]='filter'
-                            [usuario]='atendente'
-                            *ngIf='atendente?.id'
-                            [unidades]='unidades'
-                            (save)='saveColaborador($event)'>
-          </vincular-unidade>
-
-        </mat-expansion-panel>
-      </mat-accordion>
+      </mat-card>
 
     </div>
   </div>

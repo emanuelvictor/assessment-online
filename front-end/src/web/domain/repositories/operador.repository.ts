@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
 import {HttpClient} from '@angular/common/http';
-import {Colaborador} from '../entity/colaborador/colaborador.model';
+import {Operador} from "../entity/usuario/vinculo/operador.model";
 
 @Injectable()
-export class ColaboradorRepository extends BaseRepository<Colaborador> {
+export class OperadorRepository extends BaseRepository<Operador> {
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, 'colaboradores');
+    super(httpClient, 'operadores');
   }
 
 }

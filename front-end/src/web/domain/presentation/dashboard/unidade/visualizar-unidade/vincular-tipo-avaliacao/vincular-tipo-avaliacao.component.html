@@ -1,14 +1,3 @@
-<!--<div cdkDropList class="example-list"-->
-<!--(cdkDropListDropped)="drop($event)">-->
-<!--<div class="example-box" cdkDrag-->
-<!--*ngFor="let unidadeTipoAvaliacao of unidadesTiposAvaliacoes | filter:filter; let i = index">-->
-<!--<div>-->
-<!--{{unidadeTipoAvaliacao?.tipoAvaliacao?.nome + ' - ' + unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado}}-->
-<!--</div>-->
-<!--<div>{{'Ordem: ' + (i + 1)}}</div>-->
-<!--</div>-->
-<!--</div>-->
-
 <mat-nav-list *ngIf='done'  [@fadeInOut]>
   <div *ngFor="let unidadeTipoAvaliacao of unidadesTiposAvaliacoes | filter:filter"
        [ngStyle]="{'background-color': unidadeTipoAvaliacao?.ativo ? 'aliceblue' : '#fafafa' }"

@@ -10,6 +10,8 @@ import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {Colaborador} from '../../../../entity/colaborador/colaborador.model';
 import {ColaboradorService} from '../../../../service/colaborador.service';
 import {AuthenticationService} from '../../../../service/authentication.service';
+import {Operador} from "../../../../entity/usuario/vinculo/operador.model";
+import {OperadorRepository} from "../../../../repositories/operador.repository";
 
 @Component({
   selector: 'visualizar-atendente',
@@ -50,7 +52,7 @@ export class VisualizarAtendenteComponent implements OnInit {
   /**
    *
    * @param {MatSnackBar} snackBar
-   * @param {ColaboradorService} colaboradorService
+   * @param {OperadorRepository} operadorRepository
    * @param {Router} router
    * @param {UsuarioService} usuarioService
    * @param {ActivatedRoute} activatedRoute
@@ -59,7 +61,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {UnidadeService} unidadeService
    */
   constructor(private snackBar: MatSnackBar,
-              private colaboradorService: ColaboradorService,
+              private operadorRepository: OperadorRepository,
               private router: Router, private usuarioService: UsuarioService,
               public activatedRoute: ActivatedRoute, private dialog: MatDialog,
               private authenticationService: AuthenticationService, private unidadeService: UnidadeService) {
@@ -153,15 +155,12 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param {Colaborador} colaborador
+   * @param {Operador} operador
    */
-  public saveColaborador(colaborador: Colaborador = new Colaborador()): void {
-    this.colaboradorService.save(colaborador)
-      .then(result => {
-        if (colaborador.vinculo)
+  public saveOperador(operador: Operador): void {
+    this.operadorRepository.save(operador)
+      .then(() => {
           this.openSnackBar('Vínculo salvo com sucesso!');
-        else
-          this.openSnackBar('Vínculo removido com sucesso!')
       })
   }
 }
