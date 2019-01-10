@@ -32,10 +32,10 @@ public class OperadorResource {
         return Mono.just(this.operadorService.save(id, operador));
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    public Mono<Boolean> delete(@RequestParam long operadorId) {
-        this.operadorService.delete(operadorId);
+    public Mono<Boolean> delete(@PathVariable final long id) {
+        this.operadorService.delete(id);
         return Mono.just(true);
     }
 

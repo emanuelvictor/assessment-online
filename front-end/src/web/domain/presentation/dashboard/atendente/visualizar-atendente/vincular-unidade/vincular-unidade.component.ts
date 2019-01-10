@@ -28,11 +28,11 @@ export class VincularUnidadeComponent implements OnInit {
     unidade: {}
   };
 
-  /**
-   *
-   * @type {Array}
-   */
-  public atendentes = [];
+  // /**
+  //  *
+  //  * @type {Array}
+  //  */
+  // public atendentes = [];
 
   /**
    *
@@ -63,27 +63,23 @@ export class VincularUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.atendentes = [];
-    for (let i = 0; i < this.unidades.length; i++)
-      this.atendentes.push({
-        vinculo: null,
-        unidade: this.unidades[i],
-        usuario: this.usuario
-      });
+    // this.atendentes = [];
+    // for (let i = 0; i < this.unidades.length; i++)
+    //   this.atendentes.push({
+    //     vinculo: null,
+    //     unidade: this.unidades[i],
+    //     usuario: this.usuario
+    //   });
 
     if (this.usuario.id)
       this.operadorRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
         const result = page.content;
-
         if (result.length)
-          for (let i = 0; i < this.atendentes.length; i++)
+          for (let i = 0; i < this.unidades.length; i++)
             for (let k = 0; k < result.length; k++)
-              if (result[k].unidade.id === this.atendentes[i].unidade.id) {
-                const unidadeTemp = this.atendentes[i].unidade;
-                this.atendentes[i] = result[k];
-                this.atendentes[i].unidade = unidadeTemp;
-                if (this.atendentes[i].vinculo === 'Nenhum')
-                  this.atendentes[i].vinculo = null;
+              if (result[k].unidade.id === this.unidades[i].id) {
+                this.unidades[i].operadorValue = true;
+                this.unidades[i].operador = result[k];
               }
       });
   }
@@ -97,9 +93,9 @@ export class VincularUnidadeComponent implements OnInit {
     const operador: Operador = new Operador();
     operador.usuario = this.usuario;
     operador.unidade = unidade;
-
-    if (!(unidade as any).operador)
-      this.removeOperador.emit(operador);
+console.log((unidade as any).operador);
+    if (!(unidade as any).operadorValue)
+      this.removeOperador.emit((unidade as any).operador);
     else
       this.saveOperador.emit(operador)
 

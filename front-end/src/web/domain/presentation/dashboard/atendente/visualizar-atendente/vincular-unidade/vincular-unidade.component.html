@@ -4,7 +4,7 @@
       <h3 matLine>{{unidade?.nome}}</h3>
       <p matLine>{{unidade?.enunciado}}</p>
       <mat-slide-toggle flex layout-margin
-                        [(ngModel)]='unidade.operador'
+                        [(ngModel)]='unidade.operadorValue'
                         (ngModelChange)='saveOperadorInner(unidade)'>
         Operador
       </mat-slide-toggle>

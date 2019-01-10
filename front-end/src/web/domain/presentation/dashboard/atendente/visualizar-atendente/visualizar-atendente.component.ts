@@ -163,4 +163,13 @@ export class VisualizarAtendenteComponent implements OnInit {
           this.openSnackBar('Vínculo salvo com sucesso!');
       })
   }
+
+  public removeOperador(operador: Operador): void {
+    console.log(operador);
+    this.operadorRepository.delete(operador.id)
+      .then(() => {
+        this.openSnackBar('Vínculo removido com sucesso!');
+      })
+  }
+
 }

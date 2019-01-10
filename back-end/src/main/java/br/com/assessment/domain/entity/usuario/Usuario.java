@@ -61,19 +61,17 @@ public class Usuario extends Pessoa {
     private String thumbnailPath;
 
     /**
-     * Remover o transient
-     * PORQUE ESTÁ EAGER
+     * Lista auxiliar que serve para informar se o usuário é um operador
      */
     @JsonProperty
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario")
     private List<Operador> operadores;
 
     /**
-     * Remover o transient
-     * PORQUE ESTÁ EAGER
+     * Lista auxiliar que serve para informar se o usuário é um avaliável
      */
     @JsonProperty
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario")
     private Set<Avaliavel> avaliaveis;
 
     /**
@@ -161,7 +159,9 @@ public class Usuario extends Pessoa {
         return this.conta != null && this.conta.isAdministrador();
     }
 
-
+    /**
+     *
+     */
     @PrePersist
     @PreUpdate
     public void handlePathFoto() {

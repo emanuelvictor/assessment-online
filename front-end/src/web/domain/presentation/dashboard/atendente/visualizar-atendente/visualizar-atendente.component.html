@@ -71,6 +71,7 @@
                           [usuario]='atendente'
                           *ngIf='atendente?.id'
                           [unidades]='unidades'
+                          (removeOperador)='removeOperador($event)'
                           (saveOperador)='saveOperador($event)'>
         </vincular-unidade>
 
