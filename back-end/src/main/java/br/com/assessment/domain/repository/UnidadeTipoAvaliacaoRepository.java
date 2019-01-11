@@ -14,12 +14,14 @@ public interface UnidadeTipoAvaliacaoRepository extends JpaRepository<UnidadeTip
             "       FILTER(:defaultFilter, unidadeTipoAvaliacao.tipoAvaliacao.nome, unidadeTipoAvaliacao.tipoAvaliacao.enunciado) = TRUE" +
             "       AND ( (:unidadeId IS NOT NULL AND unidadeTipoAvaliacao.unidade.id = :unidadeId) OR :unidadeId IS NULL)" +
             "       AND ( (:tipoAvaliacaoId IS NOT NULL AND unidadeTipoAvaliacao.tipoAvaliacao.id = :tipoAvaliacaoId) OR :tipoAvaliacaoId IS NULL)" +
+            "       AND ((:ativo IS NOT NULL AND unidadeTipoAvaliacao.ativo = :ativo) OR :ativo IS NULL)" +
             "   )"
     )
     Page<UnidadeTipoAvaliacao> listByFilters(
             @Param("defaultFilter") final String defaultFilter,
             @Param("tipoAvaliacaoId") final Long tipoAvaliacaoId,
             @Param("unidadeId") final Long unidadeId,
+            @Param("ativo") final Boolean ativo,
             final Pageable pageable);
 
 }

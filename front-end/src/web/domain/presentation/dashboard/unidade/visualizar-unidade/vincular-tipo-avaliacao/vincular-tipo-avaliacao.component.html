@@ -1,13 +1,16 @@
 <mat-nav-list *ngIf='done'  [@fadeInOut]>
   <div *ngFor="let unidadeTipoAvaliacao of unidadesTiposAvaliacoes | filter:filter"
-       [ngStyle]="{'background-color': unidadeTipoAvaliacao?.ativo ? 'aliceblue' : '#fafafa' }"
-       (click)='unidadeTipoAvaliacao.ativo = !unidadeTipoAvaliacao.ativo; saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>
+       [ngStyle]="{'background-color': unidadeTipoAvaliacao?.ativo ? 'aliceblue' : '#fafafa' }">
     <mat-list-item layout='row' layout-margin>
-      <h3 matLine>{{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}} </h3>
-      <p matLine>{{unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado}}</p>
-      <mat-slide-toggle [(ngModel)]='unidadeTipoAvaliacao.ativo'>
+
+      <h3 matLine (click)='unidadeTipoAvaliacao.ativo = !unidadeTipoAvaliacao.ativo; saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>{{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}} </h3>
+      <p matLine (click)='unidadeTipoAvaliacao.ativo = !unidadeTipoAvaliacao.ativo; saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>{{unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado}}</p>
+
+      <mat-slide-toggle [(ngModel)]='unidadeTipoAvaliacao.ativo'
+                        (ngModelChange)='saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>
         <!--{{unidadeTipoAvaliacao?.ativo ? 'Vincular' : 'Desvincular'}}-->
       </mat-slide-toggle>
+
     </mat-list-item>
   </div>
 </mat-nav-list>

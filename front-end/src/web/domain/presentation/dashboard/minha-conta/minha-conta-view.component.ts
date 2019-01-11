@@ -1,33 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
+import {routerAnimation} from "../../controls/utils";
 
 @Component({
   selector: 'minha-conta-view',
   templateUrl: './minha-conta-view.component.html',
-  styleUrls: ['./minha-conta-view.component.css']
+  styleUrls: ['./minha-conta-view.component.css'],
+  animations: [routerAnimation]
 })
-export class MinhaContaViewComponent implements OnInit {
-
-
-  /*-------------------------------------------------------------------
-   *                           ATTRIBUTES
-   *-------------------------------------------------------------------*/
-
-  /*-------------------------------------------------------------------
-   *                           CONSTRUCTORS
-   *-------------------------------------------------------------------*/
-  /**
-   *
-   */
-  constructor() {
-  }
-
-  /*-------------------------------------------------------------------
-   *                           BEHAVIORS
-   *-------------------------------------------------------------------*/
-  /**
-   *
-   */
-  ngOnInit() {
-  }
+export class MinhaContaViewComponent {
 
 }

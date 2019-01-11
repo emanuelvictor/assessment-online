@@ -33,8 +33,8 @@ public class UnidadeTipoAvaliacaoService {
         this.unidadeTipoAvaliacaoRepository.deleteById(id);
     }
 
-    public Page<UnidadeTipoAvaliacao> listByFilters(final String defaultFilter, final Long tipoAvaliacaoId, final Long unidadeId, final Pageable pageable) {
-        return this.unidadeTipoAvaliacaoRepository.listByFilters(defaultFilter, tipoAvaliacaoId, unidadeId, pageable);
+    public Page<UnidadeTipoAvaliacao> listByFilters(final String defaultFilter, final Long tipoAvaliacaoId, final Long unidadeId, final Boolean ativo, final Pageable pageable) {
+        return this.unidadeTipoAvaliacaoRepository.listByFilters(defaultFilter, tipoAvaliacaoId, unidadeId, ativo, pageable);
     }
 
 }

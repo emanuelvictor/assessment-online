@@ -4,6 +4,7 @@ import {UnidadeTipoAvaliacao} from "../../../../../entity/avaliacao/unidade-tipo
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repositories/unidade-tipo-avaliacao.repository";
 import {TipoAvaliacao} from "../../../../../entity/avaliacao/tipo-avaliacao.model";
 import {viewAnimation} from "../../../../controls/utils";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'vincular-tipo-avaliacao',
@@ -50,21 +51,17 @@ export class VincularTipoAvaliacaoComponent implements OnInit {
 
   /**
    *
-   */
-  @Output()
-  public save: EventEmitter<any> = new EventEmitter();
-
-  /**
-   *
    * @type {boolean}
    */
   public done: boolean = false;
 
   /**
    *
+   * @param {MatSnackBar} snackBar
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
-  constructor(private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
+  constructor(private snackBar: MatSnackBar,
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
   }
 
   /**
@@ -98,7 +95,22 @@ export class VincularTipoAvaliacaoComponent implements OnInit {
    *
    * @param {UnidadeTipoAvaliacao} unidadeTipoAvaliacao
    */
-  public saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao()): void {
-    this.save.emit(unidadeTipoAvaliacao);
+  public saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao): void {
+    this.unidadeTipoAvaliacaoRepository.save(unidadeTipoAvaliacao)
+      .then(result => {
+        for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++)
+          if (unidadeTipoAvaliacao.tipoAvaliacao.id === this.unidadesTiposAvaliacoes[i].tipoAvaliacao.id)
+            this.unidadesTiposAvaliacoes[i] = result;
+      });
+  }
+
+  /**
+   *
+   * @param message
+   */
+  public openSnackBar(message: string) {
+    this.snackBar.open(message, 'Fechar', {
+      duration: 5000
+    });
   }
 }

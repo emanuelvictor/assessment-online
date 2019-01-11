@@ -11,11 +11,15 @@ import * as moment from 'moment';
 import 'moment/locale/pt-br';
 import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
+import {viewAnimation} from "../../../controls/utils";
 
 @Component({
   selector: 'consultar-atendentes',
   templateUrl: './consultar-atendentes.component.html',
-  styleUrls: ['./consultar-atendentes.component.css']
+  styleUrls: ['./consultar-atendentes.component.css'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class ConsultarAtendentesComponent implements OnInit {
 

@@ -8,17 +8,18 @@
 
           <div layout='row'>
             <div layout='column' style='min-width: 17px'>
-              <button *ngIf='activatedRoute?.snapshot?.params?.id'
+              <button [@fadeInOut]
+                      *ngIf='activatedRoute?.snapshot?.params?.id'
                       class='mat-headline tc-grey-500' type='button'
                       routerLink='../' color='primary' mat-icon-button>
                 <mat-icon>arrow_back</mat-icon>
               </button>
             </div>
 
-            <visualizar-dados-usuario [usuario]='atendente' *ngIf='atendente?.id' flex>
+            <visualizar-dados-usuario [usuario]='atendente' *ngIf='atendente?.id' [@fadeInOut] flex>
 
               <!--options-->
-              <div layout='column' layout-align='start end' flex
+              <div layout='column' layout-align='start end' flex [@fadeInOut]
                    *ngIf="authenticatedUser?.isAdministrador || !atendente?.isAdministrador">
                 <div layout='row'>
                   <button mat-button hide-sm hide-xs class='tc-blue-grey-900' routerLink='estatisticas'>
@@ -37,7 +38,8 @@
                       <mat-icon>show_chart</mat-icon>
                       <span>Estatísticas</span>
                     </button>
-                    <button mat-menu-item color='primary' *ngIf='atendente?.conta?.email' (click)='alteraSenha()'>
+                    <button mat-menu-item color='primary' [@fadeInOut]
+                            *ngIf='atendente?.conta?.email' (click)='alteraSenha()'>
                       <mat-icon>vpn_key</mat-icon>
                       <span>Alterar senha</span>
                     </button>
@@ -53,7 +55,8 @@
         </mat-card-content>
       </mat-card>
 
-      <div layout='row' flex
+      <div [@fadeInOut]
+           layout='row' flex
            *ngIf='unidades?.length'
            layout-align='center center'>
 
@@ -71,8 +74,8 @@
                           [usuario]='atendente'
                           *ngIf='atendente?.id'
                           [unidades]='unidades'
-                          (removeOperador)='removeOperador($event)'
-                          (saveOperador)='saveOperador($event)'>
+                          (saveOperador)='saveOperador($event)'
+                          (removeOperador)='removeOperador($event)'>
         </vincular-unidade>
 
       </mat-card>

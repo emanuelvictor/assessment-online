@@ -7,16 +7,18 @@ import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-d
 import {UsuarioService} from '../../../../service/usuario.service';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
-import {Colaborador} from '../../../../entity/colaborador/colaborador.model';
-import {ColaboradorService} from '../../../../service/colaborador.service';
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {Operador} from "../../../../entity/usuario/vinculo/operador.model";
 import {OperadorRepository} from "../../../../repositories/operador.repository";
+import {viewAnimation} from "../../../controls/utils";
 
 @Component({
   selector: 'visualizar-atendente',
   templateUrl: './visualizar-atendente.component.html',
-  styleUrls: ['./visualizar-atendente.component.scss']
+  styleUrls: ['./visualizar-atendente.component.scss'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class VisualizarAtendenteComponent implements OnInit {
 
@@ -159,11 +161,15 @@ export class VisualizarAtendenteComponent implements OnInit {
    */
   public saveOperador(operador: Operador): void {
     this.operadorRepository.save(operador)
-      .then(() => {
-          this.openSnackBar('Vínculo salvo com sucesso!');
-      })
+      .then(() =>
+        this.openSnackBar('Vínculo salvo com sucesso!')
+      )
   }
 
+  /**
+   *
+   * @param {Operador} operador
+   */
   public removeOperador(operador: Operador): void {
     console.log(operador);
     this.operadorRepository.delete(operador.id)

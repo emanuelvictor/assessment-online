@@ -52,7 +52,7 @@
 
 <!--Pesquisa avançada-->
 <mat-card style='height: 95px'
-          *ngIf='showPesquisaAvancada'
+          *ngIf='showPesquisaAvancada' [@fadeInOut]
           class='push-none bgc-grey-50 filters-card-avanced'>
   <div layout='row'
        layout-align='center center'>
@@ -129,7 +129,7 @@
             </avatar>
             <div layout-margin layout='column'>
               <span>{{usuario?.nome}}</span>
-              <span *ngIf='documento'
+              <span *ngIf='documento' [@fadeInOut]
                     style='color: #607d8b'>CPF: {{usuario?.documento | documento}}</span>
               <span style='color: gray'>{{usuario?.conta?.email}}</span>
             </div>

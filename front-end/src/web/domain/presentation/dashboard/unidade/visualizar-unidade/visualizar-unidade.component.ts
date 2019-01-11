@@ -6,13 +6,16 @@ import {UnidadeService} from '../../../../service/unidade.service';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
 import {AuthenticationService} from "../../../../service/authentication.service";
 import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
-import {UnidadeTipoAvaliacao} from "../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repositories/unidade-tipo-avaliacao.repository";
+import {viewAnimation} from "../../../controls/utils";
 
 @Component({
   selector: 'visualizar-unidade',
   templateUrl: './visualizar-unidade.component.html',
-  styleUrls: ['./visualizar-unidade.component.css']
+  styleUrls: ['./visualizar-unidade.component.css'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class VisualizarUnidadeComponent implements OnInit {
 
@@ -113,14 +116,6 @@ export class VisualizarUnidadeComponent implements OnInit {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
-  }
-
-  /**
-   *
-   * @param {UnidadeTipoAvaliacao} unidadeTipoAvaliacao
-   */
-  public saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao()): void {
-    this.unidadeTipoAvaliacaoRepository.save(unidadeTipoAvaliacao)
   }
 
 }

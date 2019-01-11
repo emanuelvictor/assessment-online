@@ -99,6 +99,7 @@ import {AlterarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avali
 import {VincularTipoAvaliacaoComponent} from "./presentation/dashboard/unidade/visualizar-unidade/vincular-tipo-avaliacao/vincular-tipo-avaliacao.component";
 import {UnidadeTipoAvaliacaoRepository} from "./repositories/unidade-tipo-avaliacao.repository";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {AvaliavelRepository} from "./repositories/avaliavel.repository";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -221,8 +222,9 @@ registerLocaleData(localePt, 'pt-BR');
     AvaliacaoColaboradorRepository,
     TipoAvaliacaoRepository,
     ConfiguracaoRepository,
-    OperadorRepository,
+    AvaliavelRepository,
     AvaliacaoRepository,
+    OperadorRepository,
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,

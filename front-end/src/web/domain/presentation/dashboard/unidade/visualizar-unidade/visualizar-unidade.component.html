@@ -95,7 +95,7 @@
 
       <div layout='row' flex
            layout-align='center center'
-           *ngIf='tiposAvaliacoes?.length'>
+           [@fadeInOut] *ngIf='tiposAvaliacoes?.length'>
 
         <mat-form-field flex style='margin-bottom: 0'>
           <input maxlength="200"
@@ -107,7 +107,7 @@
 
       </div>
 
-      <mat-accordion *ngIf='tiposAvaliacoes?.length'>
+      <mat-accordion [@fadeInOut] *ngIf='tiposAvaliacoes?.length'>
         <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
 
           <vincular-tipo-avaliacao [filter]='filter'

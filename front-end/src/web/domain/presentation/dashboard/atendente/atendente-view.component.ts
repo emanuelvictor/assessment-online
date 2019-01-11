@@ -1,4 +1,5 @@
 import {Component} from "@angular/core";
+import {routerAnimation} from "../../controls/utils";
 
 
 /**
@@ -7,7 +8,8 @@ import {Component} from "@angular/core";
 @Component({
   selector: 'atendente-view',
   templateUrl: './atendente-view.component.html',
-  styleUrls: ['./atendente-view.component.css']
+  styleUrls: ['./atendente-view.component.css'],
+  animations: [routerAnimation]
 })
 export class AtendenteViewComponent {
 }

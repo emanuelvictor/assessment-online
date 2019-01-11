@@ -1,25 +1,36 @@
-<mat-nav-list>
-  <div *ngFor="let unidade of unidades | filter:filter">
+<mat-nav-list *ngIf='unidades?.length'>
+  <div *ngFor="let unidade of unidades | filter:filter.unidade">
     <mat-list-item disableRipple layout='row' layout-margin>
+
       <h3 matLine>{{unidade?.nome}}</h3>
-      <p matLine>{{unidade?.enunciado}}</p>
+      <p matLine>{{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.numero}},
+        {{unidade?.endereco?.bairro}} -
+        {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.uf}}
+      </p>
+
       <mat-slide-toggle flex layout-margin
                         [(ngModel)]='unidade.operadorValue'
                         (ngModelChange)='saveOperadorInner(unidade)'>
         Operador
       </mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]='unidade.avaliavel' flex layout-margin>
+      <mat-slide-toggle [(ngModel)]='unidade.avaliavelValue' flex layout-margin
+                        (ngModelChange)='changeAvaliavel(unidade)'>
         Avaliável
       </mat-slide-toggle>
 
     </mat-list-item>
+
     <mat-accordion>
-      <mat-expansion-panel class='bgc-grey-100' [expanded]='unidade.avaliavel'>
+      <mat-expansion-panel class='bgc-grey-100' [expanded]='unidade.avaliavelValue'
+                           *ngIf='unidade?.unidadesTiposAvaliacoes?.length' [@fadeInOut]>
 
         <mat-card-content>
-          <section class="example-section">
-            <mat-checkbox class="example-margin" [(ngModel)]="checked">Checked</mat-checkbox>
-            <mat-checkbox class="example-margin" [(ngModel)]="indeterminate">Indeterminate</mat-checkbox>
+          <section class="example-section"
+                   *ngIf='unidade?.unidadesTiposAvaliacoes?.length'>
+            <mat-checkbox class="example-margin"
+                          *ngFor="let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes">
+              {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
+            </mat-checkbox>
           </section>
         </mat-card-content>
 
@@ -28,44 +39,3 @@
   </div>
 
 </mat-nav-list>
-
-
-<mat-accordion>
-  <mat-expansion-panel class='bgc-grey-50'>
-    asdfasdf
-    <!--<mat-nav-list>-->
-    <!--<div [ngStyle]="{'background-color': atendente?.selected ? 'aliceblue' : '#fafafa' }"-->
-    <!--*ngFor="let atendente of atendentes | filter:filter | orderBy:'vinculo':false:'case-insensitive'">-->
-    <!--<mat-list-item layout='row'-->
-    <!--layout-margin-->
-    <!--(click)='select.open()'>-->
-    <!--<h3 matLine>{{atendente.unidade?.nome}} </h3>-->
-    <!--<p matLine *ngIf="atendente.unidade?.endereco?.cidade?.nome">-->
-    <!--{{atendente.unidade?.endereco?.logradouro}}, {{atendente.unidade?.endereco?.numero}},-->
-    <!--{{atendente.unidade?.endereco?.bairro}} - -->
-    <!--{{atendente.unidade?.endereco?.cidade?.nome}} - {{atendente.unidade?.endereco?.cidade?.estado?.sigla}}-->
-    <!--</p>-->
-
-    <!--<mat-form-field flex='30'>-->
-    <!--<mat-select placeholder='Tipo de vínculo'-->
-    <!--[(value)]='atendente.vinculo' #select-->
-    <!--(selectionChange)='saveColaborador(atendente)'>-->
-    <!--<mat-option>-->
-    <!--Nenhum-->
-    <!--</mat-option>-->
-    <!--<mat-option [value]="'Atendente'">-->
-    <!--Atendente-->
-    <!--</mat-option>-->
-    <!--<mat-option [value]="'Operador'">-->
-    <!--Operador-->
-    <!--</mat-option>-->
-    <!--<mat-option [value]="'OperadorAtendente'">-->
-    <!--Operador e Atendente-->
-    <!--</mat-option>-->
-    <!--</mat-select>-->
-    <!--</mat-form-field>-->
-    <!--</mat-list-item>-->
-    <!--</div>-->
-    <!--</mat-nav-list>-->
-  </mat-expansion-panel>
-</mat-accordion>

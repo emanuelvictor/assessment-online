@@ -50,7 +50,7 @@ public class UnidadeTipoAvaliacaoResource {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    Mono<Page<UnidadeTipoAvaliacao>> listByFilters(final String defaultFilter, final Long tipoAvaliacaoId, final Long unidadeId) {
-        return Mono.just(this.unidadeTipoAvaliacaoService.listByFilters(defaultFilter, tipoAvaliacaoId, unidadeId, getPageable()));
+    Mono<Page<UnidadeTipoAvaliacao>> listByFilters(final String defaultFilter, final Long tipoAvaliacaoId, final Boolean ativo, final Long unidadeId) {
+        return Mono.just(this.unidadeTipoAvaliacaoService.listByFilters(defaultFilter, tipoAvaliacaoId, unidadeId, ativo, getPageable()));
     }
 }
