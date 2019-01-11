@@ -23,14 +23,15 @@
 
     <mat-accordion>
       <mat-expansion-panel class='bgc-grey-100'
-                           (opened)='changeAvaliavel(unidade)'
-                           [expanded]='unidade.avaliavelValue'>
+                           [expanded]='unidade.avaliavelValue'
+                           (opened)='changeAvaliavel(unidade)'>
 
         <mat-card-content>
           <section class="example-section"
                    *ngIf='unidade?.unidadesTiposAvaliacoes?.length'>
             <mat-checkbox class='example-margin'
-                          (change)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'
+                          [(ngModel)]='unidadeTipoAvaliacao.checked'
+                          (ngModelChange)='changeUnidadeTipoAvaliacao(unidade, unidadeTipoAvaliacao)'
                           *ngFor="let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes">
               {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
             </mat-checkbox>

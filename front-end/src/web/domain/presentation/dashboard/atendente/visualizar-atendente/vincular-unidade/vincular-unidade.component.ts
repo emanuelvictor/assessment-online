@@ -80,9 +80,12 @@ export class VincularUnidadeComponent implements OnInit {
         if (result.length)
           for (let i = 0; i < this.unidades.length; i++)
             for (let k = 0; k < result.length; k++)
-              if (result[k].unidade.id === this.unidades[i].id) {
-                this.unidades[i].avaliavelValue = true;
-                this.unidades[i].avaliavel = result[k];
+              if (result[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+                if (result[k].ativo)
+                  this.unidades[i].avaliavelValue = true;
+                if (!this.unidades[i].avaliaveis)
+                  this.unidades[i].avaliaveis = [];
+                this.unidades[i].avaliaveis.push(result[k]);
               }
       });
     }
@@ -117,25 +120,60 @@ export class VincularUnidadeComponent implements OnInit {
 
   /**
    *
-   * @param unidadeTipoAvaliacao
+   * @param {Unidade} unidade
    */
-  public changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao) {
-    const avaliavel: Avaliavel = new Avaliavel();
-    avaliavel.usuario = this.usuario;
-    avaliavel.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
-    this.avaliavelRepository.save(avaliavel);
+  public listTiposAvaliacoesByUnidadeId(unidade) {
+    this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidade.id, ativo: true})
+      .subscribe(page => {
+          unidade.unidadesTiposAvaliacoes = page.content;
+          for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
+            if (unidade.avaliaveis)
+              for (let i = 0; i < unidade.avaliaveis.length; i++) {
+                if (unidade.avaliaveis[i].unidadeTipoAvaliacao.tipoAvaliacao.id === unidade.unidadesTiposAvaliacoes[k].tipoAvaliacao.id)
+                  unidade.unidadesTiposAvaliacoes[k].checked = unidade.avaliaveis[i].ativo;
+              }
+          }
+        }
+      );
   }
 
   /**
    *
-   * @param {Unidade} unidade
+   * @param unidade
+   * @param unidadeTipoAvaliacao
    */
-  public listTiposAvaliacoesByUnidadeId(unidade: Unidade) {
-    this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidade.id, ativo: true})
-      .subscribe(page => {
-          (unidade as any).unidadesTiposAvaliacoes = page.content;
+  public changeUnidadeTipoAvaliacao(unidade, unidadeTipoAvaliacao) {
+
+    const avaliavel: Avaliavel = new Avaliavel();
+    avaliavel.usuario = this.usuario;
+    avaliavel.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+
+    if (unidade.avaliaveis)
+      for (let k = 0; k < unidade.avaliaveis.length; k++) {
+        if (unidade.avaliaveis[k].unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id) {
+          avaliavel.id = unidade.avaliaveis[k].id;
+          unidade.avaliaveis[k].ativo = !unidade.avaliaveis[k].ativo;
+          avaliavel.ativo = unidade.avaliaveis[k].ativo;
         }
-      );
+      }
+
+    this.avaliavelRepository.save(avaliavel)
+      .then(result => {
+        if (unidade.avaliaveis) {
+          for (let k = 0; k < unidade.avaliaveis.length; k++) {
+            if (unidade.avaliaveis[k].id === result.id){
+              unidade.avaliaveis[k] = result;
+              break;
+            }
+            if (k === unidade.avaliaveis.length -1)
+              unidade.avaliaveis.push(result);
+          }
+        }
+        else {
+          unidade.avaliaveis = [];
+          unidade.avaliaveis.push(result)
+        }
+      });
   }
 
 }

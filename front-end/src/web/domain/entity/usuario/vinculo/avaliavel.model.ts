@@ -8,4 +8,6 @@ export class Avaliavel extends Pessoa {
 
   public unidadeTipoAvaliacao: UnidadeTipoAvaliacao;
 
+  public ativo: boolean;
+
 }

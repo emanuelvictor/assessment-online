@@ -36,14 +36,14 @@ public class Avaliavel extends AbstractEntity {
     /**
      *
      */
-    private boolean ativo;
+    private boolean ativo /*= false*/;
 
     /**
      *
      */
     @PrePersist
     public void prePersist() {
-        this.ativo = this.id == null || this.id == 0 || !this.ativo;
+        this.ativo = true;
     }
 
 }
