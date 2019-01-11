@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
 import {UnidadeTipoAvaliacao} from "../../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repositories/unidade-tipo-avaliacao.repository";
@@ -98,6 +98,7 @@ export class VincularTipoAvaliacaoComponent implements OnInit {
   public saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao): void {
     this.unidadeTipoAvaliacaoRepository.save(unidadeTipoAvaliacao)
       .then(result => {
+        this.openSnackBar(result.ativo ? 'Vínculo criado com sucesso' : 'Vínculo removido' );
         for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++)
           if (unidadeTipoAvaliacao.tipoAvaliacao.id === this.unidadesTiposAvaliacoes[i].tipoAvaliacao.id)
             this.unidadesTiposAvaliacoes[i] = result;

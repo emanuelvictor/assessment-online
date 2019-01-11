@@ -8,8 +8,8 @@ export class UnidadeTipoAvaliacao extends Abstract {
 
   public tipoAvaliacao: TipoAvaliacao;
 
-  private unidade: Unidade;
+  public unidade: Unidade;
 
-  private ativo: boolean;
+  public ativo: boolean;
 
 }

@@ -5,6 +5,7 @@ import {OperadorRepository} from "../../../../../repositories/operador.repositor
 import {Operador} from "../../../../../entity/usuario/vinculo/operador.model";
 import {AvaliavelRepository} from "../../../../../repositories/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repositories/unidade-tipo-avaliacao.repository";
+import {Avaliavel} from "../../../../../entity/usuario/vinculo/avaliavel.model";
 
 @Component({
   selector: 'vincular-unidade',
@@ -112,6 +113,17 @@ export class VincularUnidadeComponent implements OnInit {
   public changeAvaliavel(unidade) {
     if (unidade.avaliavelValue)
       this.listTiposAvaliacoesByUnidadeId(unidade);
+  }
+
+  /**
+   *
+   * @param unidadeTipoAvaliacao
+   */
+  public changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao) {
+    const avaliavel: Avaliavel = new Avaliavel();
+    avaliavel.usuario = this.usuario;
+    avaliavel.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+    this.avaliavelRepository.save(avaliavel);
   }
 
   /**

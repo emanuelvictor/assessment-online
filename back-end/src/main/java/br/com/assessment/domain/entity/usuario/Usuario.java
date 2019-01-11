@@ -5,16 +5,18 @@ import br.com.assessment.domain.entity.usuario.vinculo.Operador;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
 @Audited
-@lombok.EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Usuario extends Pessoa {
 
     /**
@@ -70,6 +72,7 @@ public class Usuario extends Pessoa {
     /**
      * Lista auxiliar que serve para informar se o usuário é um avaliável
      */
+    @EqualsAndHashCode.Exclude
     @JsonProperty
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario")
     private Set<Avaliavel> avaliaveis;
@@ -77,6 +80,7 @@ public class Usuario extends Pessoa {
     /**
      *
      */
+    @EqualsAndHashCode.Exclude
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Conta conta;
 
@@ -175,4 +179,39 @@ public class Usuario extends Pessoa {
             this.thumbnailPath = null;
         }
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        if (!super.equals(o)) return false;
+//
+//        Usuario usuario = (Usuario) o;
+//
+//        if (!Arrays.equals(foto, usuario.foto)) return false;
+//        if (fotoPath != null ? !fotoPath.equals(usuario.fotoPath) : usuario.fotoPath != null) return false;
+//        if (!Arrays.equals(avatar, usuario.avatar)) return false;
+//        if (avatarPath != null ? !avatarPath.equals(usuario.avatarPath) : usuario.avatarPath != null) return false;
+//        if (!Arrays.equals(thumbnail, usuario.thumbnail)) return false;
+//        if (thumbnailPath != null ? !thumbnailPath.equals(usuario.thumbnailPath) : usuario.thumbnailPath != null)
+//            return false;
+//        if (operadores != null ? !operadores.equals(usuario.operadores) : usuario.operadores != null) return false;
+//        if (avaliaveis != null ? !avaliaveis.equals(usuario.avaliaveis) : usuario.avaliaveis != null) return false;
+//        return conta != null ? conta.equals(usuario.conta) : usuario.conta == null;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int result = super.hashCode();
+//        result = 31 * result + Arrays.hashCode(foto);
+//        result = 31 * result + (fotoPath != null ? fotoPath.hashCode() : 0);
+//        result = 31 * result + Arrays.hashCode(avatar);
+//        result = 31 * result + (avatarPath != null ? avatarPath.hashCode() : 0);
+//        result = 31 * result + Arrays.hashCode(thumbnail);
+//        result = 31 * result + (thumbnailPath != null ? thumbnailPath.hashCode() : 0);
+//        result = 31 * result + (operadores != null ? operadores.hashCode() : 0);
+////        result = 31 * result + (avaliaveis != null ? avaliaveis.hashCode() : 0);
+//        result = 31 * result + (conta != null ? conta.hashCode() : 0);
+//        return result;
+//    }
 }
