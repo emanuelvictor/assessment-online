@@ -8,9 +8,9 @@ import {UsuarioService} from '../../../../service/usuario.service';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {AuthenticationService} from '../../../../service/authentication.service';
-import {Operador} from "../../../../entity/usuario/vinculo/operador.model";
 import {OperadorRepository} from "../../../../repositories/operador.repository";
 import {viewAnimation} from "../../../controls/utils";
+import {AvaliavelRepository} from "../../../../repositories/avaliavel.repository";
 
 @Component({
   selector: 'visualizar-atendente',
@@ -26,6 +26,16 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    */
   public unidades: any;
+
+  /**
+   *
+   */
+  public operadores: any;
+
+  /**
+   *
+   */
+  public avaliaveis: any;
 
   /**
    *
@@ -55,6 +65,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    * @param {MatSnackBar} snackBar
    * @param {OperadorRepository} operadorRepository
+   * @param {AvaliavelRepository} avaliavelRepository
    * @param {Router} router
    * @param {UsuarioService} usuarioService
    * @param {ActivatedRoute} activatedRoute
@@ -64,6 +75,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    */
   constructor(private snackBar: MatSnackBar,
               private operadorRepository: OperadorRepository,
+              private avaliavelRepository: AvaliavelRepository,
               private router: Router, private usuarioService: UsuarioService,
               public activatedRoute: ActivatedRoute, private dialog: MatDialog,
               private authenticationService: AuthenticationService, private unidadeService: UnidadeService) {
@@ -81,16 +93,6 @@ export class VisualizarAtendenteComponent implements OnInit {
   ngOnInit() {
     const atendenteId: number = this.activatedRoute.snapshot.params['id'];
     this.find(atendenteId);
-    this.listUnidadesByFilters();
-  }
-
-  /**
-   * Consulta de unidades
-   *
-   */
-  public listUnidadesByFilters() {
-    this.unidadeService.listLightByFilters(null)
-      .subscribe(result => this.unidades = result.content);
   }
 
   /**
@@ -98,8 +100,41 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {number} atendenteId
    */
   public find(atendenteId: number) {
-    this.usuarioService.findById(atendenteId)
-      .subscribe(atendente => this.atendente = atendente)
+    this.usuarioService.findById(atendenteId).subscribe(atendente => {
+
+      this.unidadeService.listLightByFilters(null).subscribe(result => {
+        this.unidades = result.content;
+
+        this.operadorRepository.listByFilters({usuarioId: atendenteId}).subscribe(page => {
+          this.operadores = page.content;
+
+          if (this.operadores.length)
+            for (let i = 0; i < this.unidades.length; i++)
+              for (let k = 0; k < this.operadores.length; k++)
+                if (this.operadores[k].unidade.id === this.unidades[i].id) {
+                  this.unidades[i].operadorValue = true;
+                  this.unidades[i].operador = this.operadores[k];
+                }
+        });
+
+        this.avaliavelRepository.listByFilters({usuarioId: this.atendente.id}).subscribe(page => {
+          this.avaliaveis = page.content;
+          for (let i = 0; i < this.unidades.length; i++)
+            for (let k = 0; k < this.avaliaveis.length; k++)
+              if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+                if (this.avaliaveis[k].ativo)
+                  this.unidades[i].avaliavelValue = true;
+                if (!this.unidades[i].avaliaveis)
+                  this.unidades[i].avaliaveis = [];
+                this.unidades[i].avaliaveis.push(this.avaliaveis[k]);
+              }
+        });
+
+        this.atendente = atendente;
+
+      });
+
+    })
   }
 
   /**
@@ -157,25 +192,46 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param {Operador} operador
+   * @param operador
    */
-  public saveOperador(operador: Operador): void {
+  public saveOperador(operador): void {
     this.operadorRepository.save(operador)
-      .then(() =>
-        this.openSnackBar('Vínculo salvo com sucesso!')
-      )
+      .then(result => {
+        operador = result;
+
+        // for (let i = 0; i < this.unidades.length; i++)
+        //   if (this.unidades[i].id === operador.unidade.id)
+        //     this.unidades[i] = operador.unidade;
+
+        this.openSnackBar('Vínculo salvo com sucesso!');
+      })
   }
 
   /**
    *
-   * @param {Operador} operador
+   * @param operador
    */
-  public removeOperador(operador: Operador): void {
-    console.log(operador);
+  public removeOperador(operador): void {
     this.operadorRepository.delete(operador.id)
       .then(() => {
         this.openSnackBar('Vínculo removido com sucesso!');
       })
+  }
+
+  /**
+   *
+   * @param unidade
+   */
+  public saveAvaliavel(unidade): void {
+    console.log(unidade)
+  }
+
+  /**
+   *
+   * @param unidade
+   */
+  public removeAvaliavel(unidade): void {
+    console.log(unidade)
   }
 
 }

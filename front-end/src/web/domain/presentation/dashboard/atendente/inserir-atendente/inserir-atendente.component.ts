@@ -3,10 +3,10 @@ import {UsuarioService} from '../../../../service/usuario.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
-import {Colaborador} from '../../../../entity/colaborador/colaborador.model';
-import {ColaboradorService} from '../../../../service/colaborador.service';
 import {Conta} from '../../../../entity/usuario/conta.model';
 import {UnidadeService} from "../../../../service/unidade.service";
+import {Unidade} from "../../../../entity/unidade/unidade.model";
+import {OperadorRepository} from "../../../../repositories/operador.repository";
 
 @Component({
   selector: 'inserir-atendente',
@@ -17,9 +17,8 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
 
   /**
    *
-   * @type {Array}
    */
-  colaboradores: Colaborador[] = [];
+  public operadores: any = [];
 
   /**
    *
@@ -35,14 +34,14 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
   /**
    *
    * @param {UsuarioService} usuarioService
-   * @param {ColaboradorService} colaboradorService
+   * @param {OperadorRepository} operadorRepository
    * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {ActivatedRoute} activatedRoute
    * @param {UnidadeService} unidadeService
    */
   constructor(private usuarioService: UsuarioService,
-              private colaboradorService: ColaboradorService,
+              private operadorRepository: OperadorRepository,
               private router: Router, private snackBar: MatSnackBar,
               private activatedRoute: ActivatedRoute, private unidadeService: UnidadeService) {
   }
@@ -70,7 +69,7 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
    *
    */
   public save(): void {
-    if (!this.colaboradores.length && !this.atendente.conta.administrador)
+    if (!this.operadores.length && !this.atendente.conta.administrador)
       this.snackBar.open('Selecione ao menos uma unidade', 'Fechar');
 
     else {
@@ -78,9 +77,9 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
         .then(result => {
           this.atendente = result;
 
-          this.colaboradores.forEach(colaborador => {
-            colaborador.usuario = this.atendente;
-            this.colaboradorService.save(colaborador)
+          this.operadores.forEach(operador => {
+            operador.usuario = this.atendente;
+            this.operadorRepository.save(operador)
           });
 
           this.success('Atendente inserido com sucesso');
@@ -109,47 +108,48 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
 
   /**
    *
-   * @param {Colaborador} colaborador
+   * @param operador
    */
-  public saveColaborador(colaborador: Colaborador = new Colaborador()): void {
-    colaborador.usuario = this.atendente;
-    for (let i = 0; i < this.colaboradores.length; i++) {
-
-      /**
-       * Se o vínculo a ser inserido é undefined, remove o mesmo do array a ser inserido
-       */
-      if (this.colaboradores[i].unidade.id === colaborador.unidade.id && !this.colaboradores[i].vinculo) {
-        this.colaboradores.splice(i, 1);
-        return;
-      }
-
-      /**
-       * Já tem o mesmo vinculo cancela o restante do algorítimo
-       */
-      if (this.colaboradores[i].unidade.id === colaborador.unidade.id && this.colaboradores[i].vinculo === colaborador.vinculo) {
-        return;
-      }
-
-      /**
-       * Se o vínculo a ser inserido não é undefined, mas é diferente do contido no array
-       */
-      if (this.colaboradores[i].unidade.id === colaborador.unidade.id && this.colaboradores[i].vinculo !== undefined && this.colaboradores[i].vinculo !== colaborador.vinculo) {
-        this.colaboradores[i] = colaborador;
+  public removeOperador(operador): void {
+    for (let i = 0; i < this.operadores.length; i++) {
+      if (this.operadores[i].unidade.id === operador.unidade.id) {
+        this.operadores.splice(i, 1);
         return;
       }
     }
-
-    /**
-     * Se a chave da unidade não foi encontrada no array, insere o novo colaborador
-     */
-    if (colaborador.vinculo)
-      this.colaboradores.push(colaborador);
   }
 
+  /**
+   *
+   * @param operador
+   */
+  public saveOperador(operador): void {
+    this.operadores.push(operador);
+  }
 
+  /**
+   *
+   * @param unidade
+   */
+  public saveAvaliavel(unidade): void {
+    console.log(unidade)
+  }
+
+  /**
+   *
+   * @param unidade
+   */
+  public removeAvaliavel(unidade): void {
+    console.log(unidade)
+  }
+
+  /**
+   *
+   */
   ngOnDestroy(): void {
     this.unidades = [];
-    this.colaboradores = [];
+    this.operadores = [];
     this.atendente = new Usuario();
   }
+
 }

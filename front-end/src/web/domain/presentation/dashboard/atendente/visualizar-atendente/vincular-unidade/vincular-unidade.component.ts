@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
-import {OperadorRepository} from "../../../../../repositories/operador.repository";
 import {Operador} from "../../../../../entity/usuario/vinculo/operador.model";
 import {AvaliavelRepository} from "../../../../../repositories/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repositories/unidade-tipo-avaliacao.repository";
@@ -15,10 +14,49 @@ import {Avaliavel} from "../../../../../entity/usuario/vinculo/avaliavel.model";
 export class VincularUnidadeComponent implements OnInit {
 
   /**
-   *
+   * Unidades do sistema
    */
   @Input()
   public unidades: any;
+
+  /**
+   *
+   * @type {EventEmitter}
+   */
+  @Output()
+  public unidadesChange = new EventEmitter();
+
+  /**
+   *
+   */
+  @Input()
+  public operadores: any;
+
+  /**
+   *
+   * @type {EventEmitter}
+   */
+  @Output()
+  public operadoresChange = new EventEmitter();
+
+  /**
+   *
+   */
+  @Input()
+  public avaliaveis: any;
+
+  /**
+   *
+   * @type {EventEmitter}
+   */
+  @Output()
+  public avaliaveisChange = new EventEmitter();
+
+  /**
+   *
+   */
+  @Input()
+  public avaliaveis: any;
 
   /**
    *
@@ -49,12 +87,22 @@ export class VincularUnidadeComponent implements OnInit {
 
   /**
    *
-   * @param {OperadorRepository} operadorRepository
+   */
+  @Output()
+  saveAvaliavel: EventEmitter<any> = new EventEmitter();
+
+  /**
+   *
+   */
+  @Output()
+  removeAvaliavel: EventEmitter<any> = new EventEmitter();
+
+  /**
+   *
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
-  constructor(private operadorRepository: OperadorRepository,
-              private avaliavelRepository: AvaliavelRepository,
+  constructor(private avaliavelRepository: AvaliavelRepository,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
   }
 
@@ -62,34 +110,6 @@ export class VincularUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-
-    if (this.usuario.id) {
-      this.operadorRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
-        const result = page.content;
-        if (result.length)
-          for (let i = 0; i < this.unidades.length; i++)
-            for (let k = 0; k < result.length; k++)
-              if (result[k].unidade.id === this.unidades[i].id) {
-                this.unidades[i].operadorValue = true;
-                this.unidades[i].operador = result[k];
-              }
-      });
-
-      this.avaliavelRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
-        const result = page.content;
-        if (result.length)
-          for (let i = 0; i < this.unidades.length; i++)
-            for (let k = 0; k < result.length; k++)
-              if (result[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-                if (result[k].ativo)
-                  this.unidades[i].avaliavelValue = true;
-                if (!this.unidades[i].avaliaveis)
-                  this.unidades[i].avaliaveis = [];
-                this.unidades[i].avaliaveis.push(result[k]);
-              }
-      });
-    }
-
   }
 
   /**
@@ -97,15 +117,20 @@ export class VincularUnidadeComponent implements OnInit {
    * @param {Unidade} unidade
    */
   public saveOperadorInner(unidade: Unidade): void {
+    if (!(unidade as any).operador) {
+      const operador: Operador = new Operador();
+      operador.usuario = this.usuario;
 
-    const operador: Operador = new Operador();
-    operador.usuario = this.usuario;
-    operador.unidade = unidade;
+      const u = new Unidade();
+      u.id = unidade.id;
+      operador.unidade = u;
+      (unidade as any).operador = operador;
+    }
 
     if (!(unidade as any).operadorValue)
       this.removeOperador.emit((unidade as any).operador);
     else
-      this.saveOperador.emit(operador)
+      this.saveOperador.emit((unidade as any).operador)
 
   }
 
@@ -144,6 +169,21 @@ export class VincularUnidadeComponent implements OnInit {
    */
   public changeUnidadeTipoAvaliacao(unidade, unidadeTipoAvaliacao) {
 
+    if (!(unidade as any).operador) {
+      const operador: Operador = new Operador();
+      operador.usuario = this.usuario;
+
+      const u = new Unidade();
+      u.id = unidade.id;
+      operador.unidade = u;
+      (unidade as any).operador = operador;
+    }
+
+    if (!(unidade as any).avaliavelValue)
+      this.removeAvaliavel.emit((unidade as any));
+    else
+      this.saveAvaliavel.emit((unidade as any));
+
     const avaliavel: Avaliavel = new Avaliavel();
     avaliavel.usuario = this.usuario;
     avaliavel.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
@@ -161,11 +201,11 @@ export class VincularUnidadeComponent implements OnInit {
       .then(result => {
         if (unidade.avaliaveis) {
           for (let k = 0; k < unidade.avaliaveis.length; k++) {
-            if (unidade.avaliaveis[k].id === result.id){
+            if (unidade.avaliaveis[k].id === result.id) {
               unidade.avaliaveis[k] = result;
               break;
             }
-            if (k === unidade.avaliaveis.length -1)
+            if (k === unidade.avaliaveis.length - 1)
               unidade.avaliaveis.push(result);
           }
         }
@@ -175,5 +215,6 @@ export class VincularUnidadeComponent implements OnInit {
         }
       });
   }
+
 
 }

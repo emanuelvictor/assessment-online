@@ -68,14 +68,20 @@
         </mat-form-field>
 
       </div>
-      <mat-card class='bgc-grey-50' *ngIf='unidades?.length'>
+
+      <mat-card class='bgc-grey-50'
+                *ngIf='unidades?.length'>
 
         <vincular-unidade [filter]='filter'
                           [usuario]='atendente'
                           *ngIf='atendente?.id'
-                          [unidades]='unidades'
+                          [(unidades)]='unidades'
+                          [(operadores)]='operadores'
+                          [(avaliaveis)]='avaliaveis'
                           (saveOperador)='saveOperador($event)'
-                          (removeOperador)='removeOperador($event)'>
+                          (removeOperador)='removeOperador($event)'
+                          (saveAvaliavel)='saveAvaliavel($event)'
+                          (removeAvaliavel)='removeAvaliavel($event)'>
         </vincular-unidade>
 
       </mat-card>

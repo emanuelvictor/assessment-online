@@ -44,7 +44,7 @@ export class EvDatepicker implements OnChanges, OnInit {
   changeData(date) {
     if (EvDatepicker.validateDate(date))
       this.dataInputChange.emit(moment(date, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY'));
-    if (!date || date.length == 0)
+    if (!date || date.length === 0)
       this.dataInputChange.emit(null);
   }
 
@@ -64,7 +64,7 @@ export class EvDatepicker implements OnChanges, OnInit {
     if (!changes.dataInput.firstChange) {
       if (EvDatepicker.validateDate(changes.dataInput.currentValue))
         this.dataInputChange.emit(moment(moment(changes.dataInput.currentValue, 'DD/MM/YYYY').locale('pt-BR').toDate(), 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY'));
-      if (!changes.dataInput.currentValue || changes.dataInput.currentValue.length == 0)
+      if (!changes.dataInput.currentValue || changes.dataInput.currentValue.length === 0)
         this.dataInputChange.emit(null);
     }
   }

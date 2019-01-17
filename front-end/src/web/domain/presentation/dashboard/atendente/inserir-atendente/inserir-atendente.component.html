@@ -21,8 +21,14 @@
   </mat-divider>
 
   <vincular-unidade unidades
-                    [usuario]='atendente' *ngIf='unidades?.length'
-                    [unidades]='unidades' (save)="saveColaborador($event)">
+                    [usuario]='atendente'
+                    [(unidades)]='unidades'
+                    [(operadores)]='operadores'
+                    [(avaliaveis)]='avaliaveis'
+                    (saveOperador)='saveOperador($event)'
+                    (removeOperador)='removeOperador($event)'
+                    (saveAvaliavel)='saveAvaliavel($event)'
+                    (removeAvaliavel)='removeAvaliavel($event)'>
   </vincular-unidade>
 
   <!--actions div-->
