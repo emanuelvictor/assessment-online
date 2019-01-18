@@ -8,6 +8,7 @@ import {AuthenticationService} from "../../../../service/authentication.service"
 import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repositories/unidade-tipo-avaliacao.repository";
 import {viewAnimation} from "../../../controls/utils";
+import {UnidadeTipoAvaliacao} from "../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
 
 @Component({
   selector: 'visualizar-unidade',
@@ -47,6 +48,12 @@ export class VisualizarUnidadeComponent implements OnInit {
 
   /**
    *
+   * @type {Array}
+   */
+  public unidadesTiposAvaliacoes = [];
+
+  /**
+   *
    */
   constructor(private snackBar: MatSnackBar,
               private authenticationService: AuthenticationService,
@@ -64,10 +71,21 @@ export class VisualizarUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
-    const id: number = this.activatedRoute.snapshot.params['id'];
-    this.findById(id);
+    const unidadeId: number = this.activatedRoute.snapshot.params['id'];
+    this.findById(unidadeId);
+
     this.tipoAvaliacaoRepository.listByFilters(null)
-      .subscribe(result => this.tiposAvaliacoes = result.content);
+      .subscribe(result => {
+        this.tiposAvaliacoes = result.content;
+
+        this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidadeId}).subscribe(page => {
+          this.unidadesTiposAvaliacoes = page.content;
+          for (let k = 0; k < this.unidadesTiposAvaliacoes.length; k++)
+            for (let i = 0; i < this.tiposAvaliacoes.length; i++)
+              if (this.tiposAvaliacoes[i].id === this.unidadesTiposAvaliacoes[k].tipoAvaliacao.id)
+                this.tiposAvaliacoes[i].ativo = this.unidadesTiposAvaliacoes[k].ativo;
+        });
+      });
   }
 
   /**
@@ -76,9 +94,7 @@ export class VisualizarUnidadeComponent implements OnInit {
    */
   public findById(id: number) {
     this.unidadeService.findById(id)
-      .subscribe(result => {
-        this.unidade = result;
-      })
+      .subscribe(result => this.unidade = result)
   }
 
   /**
@@ -106,6 +122,36 @@ export class VisualizarUnidadeComponent implements OnInit {
           })
       }
     });
+  }
+
+  /**
+   *
+   * @param {TipoAvaliacao} tipoAvaliacao
+   */
+  public saveUnidadeTipoAvaliacao(tipoAvaliacao): void {
+
+    const unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
+    unidadeTipoAvaliacao.tipoAvaliacao = tipoAvaliacao;
+    unidadeTipoAvaliacao.unidade = this.unidade;
+    unidadeTipoAvaliacao.ativo = tipoAvaliacao.ativo;
+
+    for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++)
+      if (tipoAvaliacao.id === this.unidadesTiposAvaliacoes[i].tipoAvaliacao.id)
+        unidadeTipoAvaliacao.id = this.unidadesTiposAvaliacoes[i].id;
+
+    this.unidadeTipoAvaliacaoRepository.save(unidadeTipoAvaliacao)
+      .then(result => {
+        this.openSnackBar(result.ativo ? 'Vínculo criado com sucesso' : 'Vínculo removido');
+
+        for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++)
+          if (result.id === this.unidadesTiposAvaliacoes[i].id) {
+            this.unidadesTiposAvaliacoes[i] = result;
+            return;
+          }
+
+        this.unidadesTiposAvaliacoes.push(result);
+
+      });
   }
 
   /**

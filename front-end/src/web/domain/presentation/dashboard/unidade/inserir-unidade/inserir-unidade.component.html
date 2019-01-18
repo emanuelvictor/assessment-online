@@ -7,4 +7,18 @@
   <div layout="row" layout-margin>
     <h1 class="mat-headline tc-grey-500" flex> Inserir unidade</h1>
   </div>
+
+  <mat-divider [inset]='true' divider
+               style='margin-left: -25px; margin-right: -25px; margin-bottom: 40px; margin-top: 40px; position: inherit;width: auto'>
+  </mat-divider>
+
+  <mat-divider [inset]='true' divider2
+               style='margin-left: -25px; margin-right: -25px; margin-bottom: 40px; margin-top: 40px; position: inherit;width: auto'>
+  </mat-divider>
+
+  <vincular-tipo-avaliacao [(tiposAvaliacoes)]='tiposAvaliacoes'
+                           [unidade]='unidade' unidadesTiposAvaliacoes
+                           (saveUnidadeTipoAvaliacao)='saveUnidadeTipoAvaliacao($event)'>
+  </vincular-tipo-avaliacao>
+
 </unidade-form>

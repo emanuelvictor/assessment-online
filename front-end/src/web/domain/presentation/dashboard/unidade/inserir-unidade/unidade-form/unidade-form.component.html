@@ -43,17 +43,24 @@
                 </div>
               </div>
 
+              <!--divider-->
+              <ng-content select="[divider]"></ng-content>
+
+              <ng-content select="[unidadesTiposAvaliacoes]"></ng-content>
+
+              <ng-content select="[divider2]"></ng-content>
+
               <div flex>
 
                 <!--endereço div-->
                 <div flex class="push-top">
-                  <div layout="column" flex class="push-top">
-                    <div layout="row" layout-margin>
-                      <div flex>
-                        <h1 class="mat-subheading-2 tc-grey-500">ENDEREÇO</h1>
-                      </div>
-                    </div>
-                  </div>
+                  <!--<div layout="column" flex class="push-top">-->
+                  <!--<div layout="row" layout-margin>-->
+                  <!--<div flex>-->
+                  <!--<h1 class="mat-subheading-2 tc-grey-500">ENDEREÇO</h1>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--</div>-->
 
                   <maps-component [showMap]="false" [endereco]="unidade?.endereco" [form]="form"></maps-component>
                 </div>

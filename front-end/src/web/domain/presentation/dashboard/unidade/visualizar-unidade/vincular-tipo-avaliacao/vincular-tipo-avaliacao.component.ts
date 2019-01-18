@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
 import {UnidadeTipoAvaliacao} from "../../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repositories/unidade-tipo-avaliacao.repository";
@@ -14,18 +14,20 @@ import {MatSnackBar} from "@angular/material";
     viewAnimation
   ]
 })
-export class VincularTipoAvaliacaoComponent implements OnInit {
-
-  /**
-   *
-   */
-  public tipoAvaliacao: TipoAvaliacao = new TipoAvaliacao();
+export class VincularTipoAvaliacaoComponent {
 
   /**
    *
    */
   @Input()
   public tiposAvaliacoes: any;
+
+  /**
+   *
+   * @type {EventEmitter<any>}
+   */
+  @Output()
+  public tiposAvaliacoesChange = new EventEmitter();
 
   /**
    *
@@ -39,79 +41,17 @@ export class VincularTipoAvaliacaoComponent implements OnInit {
 
   /**
    *
-   * @type {Array}
+   * @type {EventEmitter<any>}
    */
-  public unidadesTiposAvaliacoes = [];
+  @Output()
+  public saveUnidadeTipoAvaliacao = new EventEmitter();
 
   /**
    *
+   * @param tipoAvaliacao
    */
-  @Input()
-  public unidade: Unidade;
-
-  /**
-   *
-   * @type {boolean}
-   */
-  public done: boolean = false;
-
-  /**
-   *
-   * @param {MatSnackBar} snackBar
-   * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
-   */
-  constructor(private snackBar: MatSnackBar,
-              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
+  public saveUnidadeTipoAvaliacaoInner(tipoAvaliacao): void {
+    this.saveUnidadeTipoAvaliacao.emit(tipoAvaliacao);
   }
 
-  /**
-   *
-   */
-  ngOnInit() {
-    this.unidadesTiposAvaliacoes = [];
-    for (let i = 0; i < this.tiposAvaliacoes.length; i++)
-      this.unidadesTiposAvaliacoes.push({
-        ativo: false,
-        tipoAvaliacao: this.tiposAvaliacoes[i],
-        unidade: this.unidade
-      });
-
-    if (this.unidade.id)
-      this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: this.unidade.id}).subscribe(page => {
-        const result = page.content;
-
-        if (result.length) {
-          for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++)
-            for (let k = 0; k < result.length; k++)
-              if (result[k].tipoAvaliacao.id === this.unidadesTiposAvaliacoes[i].tipoAvaliacao.id)
-                this.unidadesTiposAvaliacoes[i] = result[k];
-        }
-
-        this.done = true;
-      });
-  }
-
-  /**
-   *
-   * @param {UnidadeTipoAvaliacao} unidadeTipoAvaliacao
-   */
-  public saveUnidadeTipoAvaliacao(unidadeTipoAvaliacao): void {
-    this.unidadeTipoAvaliacaoRepository.save(unidadeTipoAvaliacao)
-      .then(result => {
-        this.openSnackBar(result.ativo ? 'Vínculo criado com sucesso' : 'Vínculo removido' );
-        for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++)
-          if (unidadeTipoAvaliacao.tipoAvaliacao.id === this.unidadesTiposAvaliacoes[i].tipoAvaliacao.id)
-            this.unidadesTiposAvaliacoes[i] = result;
-      });
-  }
-
-  /**
-   *
-   * @param message
-   */
-  public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 5000
-    });
-  }
 }

@@ -42,3 +42,16 @@ img {
 //    min-width: 206px;
 //  }
 //}
+
+vincular-unidade {
+  .mat-expansion-panel-body {
+    padding: 0 24px 0 !important;
+  }
+}
+
+inserir-unidade {
+  mat-nav-list {
+
+    margin-right: 16px;
+  }
+}

@@ -78,12 +78,6 @@
                       <span>Remover</span>
                     </button>
 
-                    <!--<button (click)="remove(unidade?.id)"-->
-                    <!--mat-menu-item class='tc-blue-grey-900'-->
-                    <!--*ngIf='authenticatedUser?.conta?.root'>-->
-                    <!--<mat-icon>delete</mat-icon>-->
-                    <!--<span>Remover</span>-->
-                    <!--</button>-->
                   </mat-menu>
                 </div>
               </div>
@@ -110,11 +104,9 @@
       <mat-accordion [@fadeInOut] *ngIf='tiposAvaliacoes?.length'>
         <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
 
-          <vincular-tipo-avaliacao [filter]='filter'
-                                   [unidade]='unidade'
-                                   *ngIf='unidade?.id'
-                                   [tiposAvaliacoes]='tiposAvaliacoes'
-                                   (save)='saveUnidadeTipoAvaliacao($event)'>
+          <vincular-tipo-avaliacao [filter]='filter' [unidade]='unidade'
+                                   [(tiposAvaliacoes)]='tiposAvaliacoes' *ngIf='unidade?.id'
+                                   (saveUnidadeTipoAvaliacao)='saveUnidadeTipoAvaliacao($event)'>
           </vincular-tipo-avaliacao>
 
         </mat-expansion-panel>

@@ -150,70 +150,70 @@ export class VincularUnidadeComponent implements OnInit {
   public listTiposAvaliacoesByUnidadeId(unidade) {
     this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidade.id, ativo: true})
       .subscribe(page => {
+
+          const aux = unidade.unidadesTiposAvaliacoes;
+
           unidade.unidadesTiposAvaliacoes = page.content;
-          for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
-            if (unidade.avaliaveis)
-              for (let i = 0; i < unidade.avaliaveis.length; i++) {
-                if (unidade.avaliaveis[i].unidadeTipoAvaliacao.tipoAvaliacao.id === unidade.unidadesTiposAvaliacoes[k].tipoAvaliacao.id)
-                  unidade.unidadesTiposAvaliacoes[k].checked = unidade.avaliaveis[i].ativo;
+
+          if (aux && aux.length)
+            for (let i = 0; i < aux.length; i++)
+              for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
+                if (unidade.unidadesTiposAvaliacoes[k].tipoAvaliacao.id === aux[i].tipoAvaliacao.id){
+                  unidade.unidadesTiposAvaliacoes[k].checked = aux[i].avaliavel.ativo;
+                  unidade.unidadesTiposAvaliacoes[k].avaliavel = aux[i].avaliavel;
+                }
               }
-          }
         }
       );
   }
 
   /**
    *
-   * @param unidade
    * @param unidadeTipoAvaliacao
    */
-  public changeUnidadeTipoAvaliacao(unidade, unidadeTipoAvaliacao) {
+  public changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao) {
 
-    if (!(unidade as any).operador) {
-      const operador: Operador = new Operador();
-      operador.usuario = this.usuario;
-
-      const u = new Unidade();
-      u.id = unidade.id;
-      operador.unidade = u;
-      (unidade as any).operador = operador;
-    }
-
-    if (!(unidade as any).avaliavelValue)
-      this.removeAvaliavel.emit((unidade as any));
-    else
-      this.saveAvaliavel.emit((unidade as any));
-
-    const avaliavel: Avaliavel = new Avaliavel();
+    let avaliavel: Avaliavel = new Avaliavel();
     avaliavel.usuario = this.usuario;
     avaliavel.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
 
-    if (unidade.avaliaveis)
-      for (let k = 0; k < unidade.avaliaveis.length; k++) {
-        if (unidade.avaliaveis[k].unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id) {
-          avaliavel.id = unidade.avaliaveis[k].id;
-          unidade.avaliaveis[k].ativo = !unidade.avaliaveis[k].ativo;
-          avaliavel.ativo = unidade.avaliaveis[k].ativo;
-        }
-      }
+    for (let i = 0; i < this.avaliaveis.length; i++)
+      if (this.avaliaveis[i].unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id)
+        avaliavel = this.avaliaveis[i];
 
-    this.avaliavelRepository.save(avaliavel)
-      .then(result => {
-        if (unidade.avaliaveis) {
-          for (let k = 0; k < unidade.avaliaveis.length; k++) {
-            if (unidade.avaliaveis[k].id === result.id) {
-              unidade.avaliaveis[k] = result;
-              break;
-            }
-            if (k === unidade.avaliaveis.length - 1)
-              unidade.avaliaveis.push(result);
-          }
-        }
-        else {
-          unidade.avaliaveis = [];
-          unidade.avaliaveis.push(result)
-        }
-      });
+    avaliavel.ativo = (unidadeTipoAvaliacao as any).checked;
+
+    if (!(unidadeTipoAvaliacao as any).checked)
+      this.removeAvaliavel.emit(avaliavel);
+    else
+      this.saveAvaliavel.emit(avaliavel);
+
+    // if (unidade.avaliaveis)
+    //   for (let k = 0; k < unidade.avaliaveis.length; k++) {
+    //     if (unidade.avaliaveis[k].unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id) {
+    //       avaliavel.id = unidade.avaliaveis[k].id;
+    //       unidade.avaliaveis[k].ativo = !unidade.avaliaveis[k].ativo;
+    //       avaliavel.ativo = unidade.avaliaveis[k].ativo;
+    //     }
+    //   }
+    //
+    // this.avaliavelRepository.save(avaliavel)
+    //   .then(result => {
+    //     if (unidade.avaliaveis) {
+    //       for (let k = 0; k < unidade.avaliaveis.length; k++) {
+    //         if (unidade.avaliaveis[k].id === result.id) {
+    //           unidade.avaliaveis[k] = result;
+    //           break;
+    //         }
+    //         if (k === unidade.avaliaveis.length - 1)
+    //           unidade.avaliaveis.push(result);
+    //       }
+    //     }
+    //     else {
+    //       unidade.avaliaveis = [];
+    //       unidade.avaliaveis.push(result)
+    //     }
+    //   });
   }
 
 

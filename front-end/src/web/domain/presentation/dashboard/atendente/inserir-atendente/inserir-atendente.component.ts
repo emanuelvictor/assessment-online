@@ -5,8 +5,8 @@ import {MatSnackBar} from '@angular/material';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {Conta} from '../../../../entity/usuario/conta.model';
 import {UnidadeService} from "../../../../service/unidade.service";
-import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {OperadorRepository} from "../../../../repositories/operador.repository";
+import {AvaliavelRepository} from "../../../../repositories/avaliavel.repository";
 
 @Component({
   selector: 'inserir-atendente',
@@ -14,6 +14,11 @@ import {OperadorRepository} from "../../../../repositories/operador.repository";
   styleUrls: ['./inserir-atendente.component.css']
 })
 export class InserirAtendenteComponent implements OnInit, OnDestroy {
+
+  /**
+   *
+   */
+  public avaliaveis: any = [];
 
   /**
    *
@@ -33,8 +38,16 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
 
   /**
    *
+   */
+  ngOnInit(): void {
+    this.atendente.conta = new Conta();
+    this.listUnidadesByFilters();
+  }
+
+  /**
    * @param {UsuarioService} usuarioService
    * @param {OperadorRepository} operadorRepository
+   * @param {AvaliavelRepository} avaliavelRepository
    * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {ActivatedRoute} activatedRoute
@@ -42,16 +55,9 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
    */
   constructor(private usuarioService: UsuarioService,
               private operadorRepository: OperadorRepository,
+              private avaliavelRepository: AvaliavelRepository,
               private router: Router, private snackBar: MatSnackBar,
               private activatedRoute: ActivatedRoute, private unidadeService: UnidadeService) {
-  }
-
-  /**
-   *
-   */
-  ngOnInit(): void {
-    this.atendente.conta = new Conta();
-    this.listUnidadesByFilters();
   }
 
   /**
@@ -69,7 +75,7 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
    *
    */
   public save(): void {
-    if (!this.operadores.length && !this.atendente.conta.administrador)
+    if (!this.avaliaveis.length && !this.atendente.conta.administrador)
       this.snackBar.open('Selecione ao menos uma unidade', 'Fechar');
 
     else {
@@ -80,6 +86,11 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
           this.operadores.forEach(operador => {
             operador.usuario = this.atendente;
             this.operadorRepository.save(operador)
+          });
+
+          this.avaliaveis.forEach(avaliavel => {
+            avaliavel.usuario = this.atendente;
+            this.avaliavelRepository.save(avaliavel)
           });
 
           this.success('Atendente inserido com sucesso');
@@ -110,6 +121,14 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
    *
    * @param operador
    */
+  public saveOperador(operador): void {
+    this.operadores.push(operador);
+  }
+
+  /**
+   *
+   * @param operador
+   */
   public removeOperador(operador): void {
     for (let i = 0; i < this.operadores.length; i++) {
       if (this.operadores[i].unidade.id === operador.unidade.id) {
@@ -121,26 +140,23 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
 
   /**
    *
-   * @param operador
+   * @param avaliavel
    */
-  public saveOperador(operador): void {
-    this.operadores.push(operador);
+  public saveAvaliavel(avaliavel): void {
+    this.avaliaveis.push(avaliavel);
   }
 
   /**
    *
-   * @param unidade
+   * @param avaliavel
    */
-  public saveAvaliavel(unidade): void {
-    console.log(unidade)
-  }
-
-  /**
-   *
-   * @param unidade
-   */
-  public removeAvaliavel(unidade): void {
-    console.log(unidade)
+  public removeAvaliavel(avaliavel): void {
+    for (let i = 0; i < this.avaliaveis.length; i++) {
+      if (this.avaliaveis[i].unidadeTipoAvaliacao.unidade.id === avaliavel.unidadeTipoAvaliacao.unidade.id) {
+        this.avaliaveis.splice(i, 1);
+        return;
+      }
+    }
   }
 
   /**
@@ -151,5 +167,4 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
     this.operadores = [];
     this.atendente = new Usuario();
   }
-
 }

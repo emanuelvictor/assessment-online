@@ -11,6 +11,7 @@ import {AuthenticationService} from '../../../../service/authentication.service'
 import {OperadorRepository} from "../../../../repositories/operador.repository";
 import {viewAnimation} from "../../../controls/utils";
 import {AvaliavelRepository} from "../../../../repositories/avaliavel.repository";
+import {Avaliavel} from "../../../../entity/usuario/vinculo/avaliavel.model";
 
 @Component({
   selector: 'visualizar-atendente',
@@ -117,17 +118,19 @@ export class VisualizarAtendenteComponent implements OnInit {
                 }
         });
 
-        this.avaliavelRepository.listByFilters({usuarioId: this.atendente.id}).subscribe(page => {
+        this.avaliavelRepository.listByFilters({usuarioId: atendenteId}).subscribe(page => {
           this.avaliaveis = page.content;
-          for (let i = 0; i < this.unidades.length; i++)
+          for (let i = 0; i < this.unidades.length; i++) {
+            if (!this.unidades[i].unidadesTiposAvaliacoes)
+              this.unidades[i].unidadesTiposAvaliacoes = [];
             for (let k = 0; k < this.avaliaveis.length; k++)
+
               if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-                if (this.avaliaveis[k].ativo)
-                  this.unidades[i].avaliavelValue = true;
-                if (!this.unidades[i].avaliaveis)
-                  this.unidades[i].avaliaveis = [];
-                this.unidades[i].avaliaveis.push(this.avaliaveis[k]);
+                this.unidades[i].avaliavelValue = this.avaliaveis[k].ativo;
+                this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
+                this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao);
               }
+          }
         });
 
         this.atendente = atendente;
@@ -199,9 +202,9 @@ export class VisualizarAtendenteComponent implements OnInit {
       .then(result => {
         operador = result;
 
-        // for (let i = 0; i < this.unidades.length; i++)
-        //   if (this.unidades[i].id === operador.unidade.id)
-        //     this.unidades[i] = operador.unidade;
+        for (let i = 0; i < this.unidades.length; i++)
+          if (this.unidades[i].id === operador.unidade.id)
+            this.unidades[i].operador = operador;
 
         this.openSnackBar('Vínculo salvo com sucesso!');
       })
@@ -220,18 +223,85 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param unidade
+   * @param avaliavel
    */
-  public saveAvaliavel(unidade): void {
-    console.log(unidade)
+  public saveAvaliavel(avaliavel): void {
+
+    const aux = new Avaliavel();
+    aux.unidadeTipoAvaliacao = avaliavel.unidadeTipoAvaliacao;
+    aux.usuario = avaliavel.usuario;
+    aux.id = avaliavel.id;
+    aux.ativo = avaliavel.ativo;
+    delete (aux.unidadeTipoAvaliacao as any).avaliavel;
+
+    this.avaliavelRepository.save(aux)
+      .then(result => {
+        avaliavel = result;
+        this.openSnackBar('Vínculo salvo com sucesso!');
+
+        // Se não tiiver nenhum avaliavel na lista
+        if (!this.avaliaveis || !this.avaliaveis.length) {
+          this.avaliaveis = [];
+          this.avaliaveis.push(this.avaliaveis);
+        }
+
+        // Se tiver avaliaveis
+        else
+          for (let i = 0; i < this.avaliaveis.length; i++)
+            if (this.avaliaveis[i].id === avaliavel.id) {
+              this.avaliaveis[i] = avaliavel;
+              return;
+            }
+
+            // Não encontrou no array coloca no último
+            else if (i === this.avaliaveis.length - 1) {
+              this.avaliaveis.push(avaliavel);
+              return;
+            }
+
+      })
   }
 
   /**
    *
-   * @param unidade
+   * @param avaliavel
    */
-  public removeAvaliavel(unidade): void {
-    console.log(unidade)
+  public removeAvaliavel(avaliavel): void {
+
+    const aux = new Avaliavel();
+    aux.unidadeTipoAvaliacao = avaliavel.unidadeTipoAvaliacao;
+    aux.usuario = avaliavel.usuario;
+    aux.id = avaliavel.id;
+    aux.ativo = avaliavel.ativo;
+    delete (aux.unidadeTipoAvaliacao as any).avaliavel;
+
+    this.avaliavelRepository.save(aux)
+      .then(result => {
+        this.openSnackBar('Vínculo removido com sucesso!');
+
+        avaliavel = result;
+
+        // Se não tiiver nenhum avaliavel na lista
+        if (!this.avaliaveis || !this.avaliaveis.length) {
+          this.avaliaveis = [];
+          this.avaliaveis.push(this.avaliaveis);
+        }
+
+        // Se tiver avaliáveis
+        else
+          for (let i = 0; i < this.avaliaveis.length; i++)
+            if (this.avaliaveis[i].id === avaliavel.id) {
+              this.avaliaveis[i] = avaliavel;
+              return;
+            }
+
+            // Não encontrou no array coloca no último
+            else if (i === this.avaliaveis.length - 1) {
+              this.avaliaveis.push(avaliavel);
+              return;
+            }
+
+      })
   }
 
 }

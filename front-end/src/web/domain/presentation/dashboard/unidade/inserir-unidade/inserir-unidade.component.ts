@@ -1,10 +1,13 @@
-import {Component, OnInit} from "@angular/core";
+import {Component} from "@angular/core";
 import {MatSnackBar} from "@angular/material";
 // import 'rxjs/add/operator/toPromise';
 import {textMasks} from "../../../controls/text-masks/text-masks";
 import {Router} from "@angular/router";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {UnidadeService} from "../../../../service/unidade.service";
+import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
+import {UnidadeTipoAvaliacao} from "../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../repositories/unidade-tipo-avaliacao.repository";
 
 
 /**
@@ -13,9 +16,9 @@ import {UnidadeService} from "../../../../service/unidade.service";
 @Component({
   selector: 'inserir-unidade',
   templateUrl: './inserir-unidade.component.html',
-  styleUrls: ['./inserir-unidade.component.css']
+  styleUrls: ['./inserir-unidade.component.scss']
 })
-export class InserirUnidadeComponent implements OnInit {
+export class InserirUnidadeComponent {
 
   /**
    *
@@ -30,26 +33,76 @@ export class InserirUnidadeComponent implements OnInit {
 
   /**
    *
-   * @param {UnidadeService} unidadeService
-   * @param {Router} router
-   * @param {MatSnackBar} snackBar
+   * @type {Array}
    */
-  constructor(private  unidadeService: UnidadeService, private  router: Router, private  snackBar: MatSnackBar) {
-  }
+  public unidadesTiposAvaliacoes = [];
 
   /**
    *
    */
-  ngOnInit() {
+  public tiposAvaliacoes: any;
+
+  /**
+   *
+   * @param {UnidadeService} unidadeService
+   * @param {Router} router
+   * @param {MatSnackBar} snackBar
+   * @param {TipoAvaliacaoRepository} tipoAvaliacaoRepository
+   * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
+   */
+  constructor(private unidadeService: UnidadeService,
+              private router: Router, private  snackBar: MatSnackBar,
+              private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
+
+    this.tipoAvaliacaoRepository.listByFilters(null)
+      .subscribe(result => {
+        this.tiposAvaliacoes = result.content;
+      });
   }
 
   /**
    *
    */
   public save(): void {
-    this.unidadeService.save(this.unidade).then(result => {
+    const test = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ativo);
+    if (!test || !test.length)
+      this.openSnackBar('Selecione ao menos uma avaliação');
+
+    this.unidadeService.save(this.unidade).then(unidade => {
+
+      this.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
+
+        unidadeTipoAvaliacao.unidade = unidade;
+
+        if (unidadeTipoAvaliacao.ativo)
+          this.unidadeTipoAvaliacaoRepository.save(unidadeTipoAvaliacao)
+
+      });
+
       this.success('Unidade inserido com sucesso');
     });
+  }
+
+  /**
+   *
+   * @param tipoAvaliacao
+   */
+  public saveUnidadeTipoAvaliacao(tipoAvaliacao): void {
+
+    const unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
+    unidadeTipoAvaliacao.tipoAvaliacao = tipoAvaliacao;
+    unidadeTipoAvaliacao.unidade = this.unidade;
+    unidadeTipoAvaliacao.ativo = tipoAvaliacao.ativo;
+
+    for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++) {
+      if (this.unidadesTiposAvaliacoes[i].tipoAvaliacao.id === unidadeTipoAvaliacao.tipoAvaliacao.id) {
+        this.unidadesTiposAvaliacoes[i] = unidadeTipoAvaliacao;
+        return;
+      }
+    }
+
+    this.unidadesTiposAvaliacoes.push(unidadeTipoAvaliacao);
   }
 
   /**
