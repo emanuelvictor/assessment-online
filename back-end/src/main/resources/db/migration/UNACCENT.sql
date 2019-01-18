@@ -5,7 +5,6 @@
 
 CREATE EXTENSION IF NOT EXISTS unaccent WITH SCHEMA pg_catalog;
 
-
 --
 -- TOC entry 2174 (class 0 OID 0)
 -- Dependencies: 1

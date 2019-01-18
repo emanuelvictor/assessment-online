@@ -537,7 +537,7 @@
       };
 
       var options = Object.defineProperty({}, 'once', {
-        get: function get() {
+        get: function get () {
           supported = true;
           return once;
         },
@@ -547,7 +547,7 @@
          * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Getter_only}
          * @param {boolean} value - The value to set
          */
-        set: function set(value) {
+        set: function set (value) {
           once = value;
         }
       });

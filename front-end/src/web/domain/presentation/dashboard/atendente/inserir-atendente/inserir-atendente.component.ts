@@ -37,14 +37,6 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
   unidades: any;
 
   /**
-   *
-   */
-  ngOnInit(): void {
-    this.atendente.conta = new Conta();
-    this.listUnidadesByFilters();
-  }
-
-  /**
    * @param {UsuarioService} usuarioService
    * @param {OperadorRepository} operadorRepository
    * @param {AvaliavelRepository} avaliavelRepository
@@ -58,6 +50,14 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
               private avaliavelRepository: AvaliavelRepository,
               private router: Router, private snackBar: MatSnackBar,
               private activatedRoute: ActivatedRoute, private unidadeService: UnidadeService) {
+  }
+
+  /**
+   *
+   */
+  ngOnInit(): void {
+    this.atendente.conta = new Conta();
+    this.listUnidadesByFilters();
   }
 
   /**

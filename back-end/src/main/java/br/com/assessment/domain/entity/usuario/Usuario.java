@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -20,9 +19,8 @@ import java.util.Set;
 public class Usuario extends Pessoa {
 
     /**
-     *
      * -----------------------------------------------------------
-     *                          Foto
+     * Foto
      * -----------------------------------------------------------
      */
 

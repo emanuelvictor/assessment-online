@@ -1,7 +1,6 @@
 package br.com.assessment.domain.resource;
 
 import br.com.assessment.domain.entity.avaliacao.Avaliacao;
-import br.com.assessment.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.service.AvaliacaoService;
 import lombok.RequiredArgsConstructor;

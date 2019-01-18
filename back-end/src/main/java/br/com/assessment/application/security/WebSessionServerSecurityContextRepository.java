@@ -33,24 +33,22 @@ import java.util.List;
 public class WebSessionServerSecurityContextRepository implements ServerSecurityContextRepository {
 
     /**
-     * The default session attribute name to save and load the {@link SecurityContext}
-     */
-    private static final String DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME = "SPRING_SECURITY_CONTEXT";
-
-    /**
      *
      */
     public static final String TOKEN_NAME = "assessment-token";
-
     /**
-     *
+     * The default session attribute name to save and load the {@link SecurityContext}
      */
-    private String springSecurityContextAttrName = DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME;
-
+    private static final String DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME = "SPRING_SECURITY_CONTEXT";
     /**
      *
      */
     private final SessaoRepository sessaoRepository;
+    private final ContaRepository contaRepository;
+    /**
+     *
+     */
+    private String springSecurityContextAttrName = DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME;
 
     /**
      * Sets the session attribute name used to save and load the {@link SecurityContext}
@@ -85,8 +83,6 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                 })
                 .flatMap(WebSession::changeSessionId);
     }
-
-    private final ContaRepository contaRepository;
 
     @Override
     public Mono<SecurityContext> load(ServerWebExchange exchange) {

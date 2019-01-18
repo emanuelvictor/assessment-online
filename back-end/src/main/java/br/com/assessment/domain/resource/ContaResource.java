@@ -22,7 +22,6 @@ public class ContaResource {
     private final ContaService contaService;
 
     /**
-     *
      * @param email {String}
      * @return Mono<UserDetails>
      */

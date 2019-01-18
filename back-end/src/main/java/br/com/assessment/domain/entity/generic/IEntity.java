@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public interface IEntity<ID extends Serializable> extends Serializable {
     /*-------------------------------------------------------------------
-	 * 		 				GETTERS AND SETTERS
+     * 		 				GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/
 
     /**

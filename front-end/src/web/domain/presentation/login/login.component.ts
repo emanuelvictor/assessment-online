@@ -27,24 +27,21 @@ export class LoginComponent {
    *
    */
   public cliente: string = 'public';
-
-  /**
-   *
-   * @type {Subject<string>}
-   */
-  private modelChanged: Subject<string> = new Subject<string>();
-
   /**
    *
    * @type {string}
    */
   logoImage: string = environment.endpoint + './configuracoes/logomarca?cliente=public';
-
   /**
    *
    * @type {string}
    */
   backgroundImage: string = environment.endpoint + './configuracoes/background?cliente=public';
+  /**
+   *
+   * @type {Subject<string>}
+   */
+  private modelChanged: Subject<string> = new Subject<string>();
 
   /**
    *

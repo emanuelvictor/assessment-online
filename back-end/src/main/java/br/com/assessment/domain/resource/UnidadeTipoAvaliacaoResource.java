@@ -1,9 +1,7 @@
 package br.com.assessment.domain.resource;
 
-import br.com.assessment.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.assessment.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.assessment.domain.entity.usuario.Perfil;
-import br.com.assessment.domain.service.TipoAvaliacaoService;
 import br.com.assessment.domain.service.UnidadeTipoAvaliacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,7 +12,6 @@ import reactor.core.publisher.Mono;
 import java.util.Optional;
 
 import static br.com.assessment.application.context.LocalContext.getPageable;
-import static br.com.assessment.infrastructure.util.ArrayUtil.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor

@@ -35,10 +35,10 @@ public interface OperadorRepository extends JpaRepository<Operador, Long> {
                             ")"
             )
     Page<Operador> listByFilters(@Param("defaultFilter") final String defaultFilter,
-                                    @Param("enderecoFilter") final String enderecoFilter,
-                                    @Param("usuarioId") final Long usuarioId,
-                                    @Param("unidadeId") final Long unidadeId,
+                                 @Param("enderecoFilter") final String enderecoFilter,
+                                 @Param("usuarioId") final Long usuarioId,
+                                 @Param("unidadeId") final Long unidadeId,
 //                                    @Param("vinculo") final Vinculo vinculo,
-                                    final Pageable pageable);
+                                 final Pageable pageable);
 
 }

@@ -1,5 +1,4 @@
 import {Configuracao} from "../../entity/configuracao/configuracao.model";
-import {TipoAvaliacao} from "../../entity/avaliacao/tipo-avaliacao.model";
 import {animate, query, style, transition, trigger} from "@angular/animations";
 
 export const single = [

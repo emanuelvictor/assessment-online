@@ -223,16 +223,6 @@ export class MobileService {
   }
 
   /**
-   * Carrega demais dados da unidade
-   * @param {number} id
-   */
-  private loadUnidade(id: number) {
-    if (id)
-      this.unidadeService.findById(this.unidade.id)
-        .subscribe(unidade => this.unidade = unidade);
-  }
-
-  /**
    *
    * @param id
    */
@@ -241,6 +231,16 @@ export class MobileService {
       .subscribe(hashs => {
         this.localStorage.hashs = hashs;
       });
+  }
+
+  /**
+   * Carrega demais dados da unidade
+   * @param {number} id
+   */
+  private loadUnidade(id: number) {
+    if (id)
+      this.unidadeService.findById(this.unidade.id)
+        .subscribe(unidade => this.unidade = unidade);
   }
 
 }

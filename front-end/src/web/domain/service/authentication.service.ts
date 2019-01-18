@@ -13,18 +13,12 @@ import {TOKEN_NAME} from "../presentation/controls/utils";
 @Injectable()
 export class AuthenticationService implements CanActivate, CanActivateChild {
 
-  private baseUrl = 'https://assessment-online.com.br';
-  private isOnline = false;
-
   /**
    *
    */
   public contaAutenticadaChanged: EventEmitter<any>;
-
-  /**
-   *
-   */
-  private _contaAutenticada: any = null;
+  private baseUrl = 'https://assessment-online.com.br';
+  private isOnline = false;
 
   /**
    *
@@ -43,6 +37,11 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     });
 
   }
+
+  /**
+   *
+   */
+  private _contaAutenticada: any = null;
 
   /**
    *

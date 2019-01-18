@@ -59,7 +59,6 @@ public class Application extends SpringBootServletInitializer {
     }
 
     /**
-     *
      * @return MessageSource
      */
     @Bean
@@ -86,7 +85,6 @@ public class Application extends SpringBootServletInitializer {
 
 
     /**
-     *
      * @return MultipartConfigElement
      */
     @Bean
@@ -95,7 +93,6 @@ public class Application extends SpringBootServletInitializer {
     }
 
     /**
-     *
      * @return MultipartResolver
      */
     @Bean
@@ -106,7 +103,6 @@ public class Application extends SpringBootServletInitializer {
     }
 
     /**
-     *
      * @return Validator
      */
     @Bean

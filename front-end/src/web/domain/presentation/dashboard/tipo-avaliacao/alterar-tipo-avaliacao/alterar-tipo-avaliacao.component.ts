@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatIconRegistry, MatSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
-import {AvaliacaoService} from "../../../../service/avaliacao.service";
-import {Avaliacao} from "../../../../entity/avaliacao/avaliacao.model";
 import {DomSanitizer} from "@angular/platform-browser";
 import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";

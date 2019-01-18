@@ -36,14 +36,12 @@ export class VisualizarUnidadeComponent implements OnInit {
   authenticatedUser: any;
 
   /**
-   *
-   * @type {{tipoAvaliacao: {nome: any; enunciado: any}}}
+   * 
+   * @type {{nome: any; enunciado: any}}
    */
   public filter: any = {
-    tipoAvaliacao: {
-      nome: null,
-      enunciado: null
-    }
+    nome: null,
+    enunciado: null
   };
 
   /**

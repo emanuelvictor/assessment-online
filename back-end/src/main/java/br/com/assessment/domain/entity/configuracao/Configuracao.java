@@ -118,7 +118,6 @@ public class Configuracao extends AbstractEntity {
     }
 
     /**
-     *
      * @return String
      */
     public String getUm() {
@@ -126,7 +125,6 @@ public class Configuracao extends AbstractEntity {
     }
 
     /**
-     *
      * @return String
      */
     public String getDois() {
@@ -134,7 +132,6 @@ public class Configuracao extends AbstractEntity {
     }
 
     /**
-     *
      * @return String
      */
     public String getTres() {
@@ -142,7 +139,6 @@ public class Configuracao extends AbstractEntity {
     }
 
     /**
-     *
      * @return String
      */
     public String getQuatro() {
@@ -150,7 +146,6 @@ public class Configuracao extends AbstractEntity {
     }
 
     /**
-     *
      * @return String
      */
     public String getCinco() {

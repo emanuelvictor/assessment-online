@@ -2,7 +2,6 @@ package br.com.assessment.domain.entity.usuario.vinculo;
 
 import br.com.assessment.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.assessment.domain.entity.generic.AbstractEntity;
-import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import lombok.Data;
 import org.hibernate.envers.Audited;

@@ -5,11 +5,8 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry, MatSnackBar} from "@angular/material";
 
 import {FormBuilder, Validators} from "@angular/forms";
-import {ConfiguracaoService} from "../../../../../service/configuracao.service";
 import {FileRepository} from "../../../../../../infrastructure/repository/file/file.repository";
 import {TipoAvaliacao} from "../../../../../entity/avaliacao/tipo-avaliacao.model";
-import {Configuracao} from "../../../../../entity/configuracao/configuracao.model";
-import {Usuario} from "../../../../../entity/usuario/usuario.model";
 
 /**
  *

@@ -1,10 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
-import {UnidadeTipoAvaliacao} from "../../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../../repositories/unidade-tipo-avaliacao.repository";
-import {TipoAvaliacao} from "../../../../../entity/avaliacao/tipo-avaliacao.model";
 import {viewAnimation} from "../../../../controls/utils";
-import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'vincular-tipo-avaliacao',
