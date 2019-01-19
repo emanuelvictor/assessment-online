@@ -5,14 +5,18 @@ import {AlterarMinhaSenhaComponent} from './alterar-minha-senha/alterar-minha-se
 import {AuthenticationService} from '../../../../service/authentication.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {Subscription} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
-import {FileRepository} from '../../../../../infrastructure/repository/file/file.repository';
-import {ContaService} from '../../../../service/conta.service';
+import {UnidadeService} from "../../../../service/unidade.service";
+import {OperadorRepository} from "../../../../repositories/operador.repository";
+import {AvaliavelRepository} from "../../../../repositories/avaliavel.repository";
+import {viewAnimation} from "../../../controls/utils";
 
 @Component({
   selector: 'visualizar-minha-conta',
   templateUrl: './visualizar-minha-conta.component.html',
-  styleUrls: ['./visualizar-minha-conta.component.css']
+  styleUrls: ['./visualizar-minha-conta.component.css'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
 
@@ -25,6 +29,21 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
    *
    */
   usuario: Usuario;
+
+  /**
+   *
+   */
+  public unidades: any;
+
+  /**
+   *
+   */
+  public operadores: any;
+
+  /**
+   *
+   */
+  public avaliaveis: any;
 
   /**
    *
@@ -41,17 +60,14 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
    *
    * @param {MatDialog} dialog
    * @param {MatSnackBar} snackBar
-   * @param {ContaService} contaService
-   * @param {ActivatedRoute} activatedRoute
-   * @param {FileRepository} fileRepository
    * @param {AuthenticationService} authenticationService
+   * @param {UnidadeService} unidadeService
+   * @param {OperadorRepository} operadorRepository
+   * @param {AvaliavelRepository} avaliavelRepository
    */
-  constructor(public dialog: MatDialog,
-              public snackBar: MatSnackBar,
-              public contaService: ContaService,
-              public activatedRoute: ActivatedRoute,
-              public fileRepository: FileRepository,
-              public authenticationService: AuthenticationService) {
+  constructor(private dialog: MatDialog, private snackBar: MatSnackBar,
+              private authenticationService: AuthenticationService, private unidadeService: UnidadeService,
+              private operadorRepository: OperadorRepository, private avaliavelRepository: AvaliavelRepository) {
   }
 
   /**
@@ -61,6 +77,39 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
     this.authenticationService.requestContaAutenticada().subscribe(conta => {
       conta.usuario.conta = conta;
       this.usuario = conta.usuario;
+
+      this.unidadeService.listByUsuarioId({usuarioId: this.usuario.id}).subscribe(result => {
+        this.unidades = result;
+
+        this.operadorRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
+          this.operadores = page.content;
+
+          if (this.operadores.length)
+            for (let i = 0; i < this.unidades.length; i++)
+              for (let k = 0; k < this.operadores.length; k++)
+                if (this.operadores[k].unidade.id === this.unidades[i].id) {
+                  this.unidades[i].operadorValue = true;
+                  this.unidades[i].operador = this.operadores[k];
+                }
+        });
+
+        this.avaliavelRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
+          this.avaliaveis = page.content;
+          for (let i = 0; i < this.unidades.length; i++) {
+            if (!this.unidades[i].unidadesTiposAvaliacoes)
+              this.unidades[i].unidadesTiposAvaliacoes = [];
+            for (let k = 0; k < this.avaliaveis.length; k++)
+
+              if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+                this.unidades[i].avaliavelValue = this.avaliaveis[k].ativo;
+                this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
+                this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao);
+              }
+          }
+        });
+
+      });
+
     })
   }
 

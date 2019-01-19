@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Unidade} from '../entity/unidade/unidade.model';
 import {UnidadeRepository} from '../repositories/unidade.repository';
+import {PageSerialize} from "../../infrastructure/page-serialize/page-serialize";
+import {Usuario} from "../entity/usuario/usuario.model";
 
 /**
  *
@@ -15,6 +17,13 @@ export class UnidadeService {
   constructor(private unidadeRepository: UnidadeRepository) {
   }
 
+  /**
+   *
+   * @returns {Observable<{}>}
+   */
+  public listByUsuarioId(pageable: any): Observable<any> {
+    return this.unidadeRepository.listByUsuarioId(pageable);
+  }
 
   /**
    *

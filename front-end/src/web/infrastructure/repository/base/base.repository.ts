@@ -58,4 +58,13 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
       params: params
     })
   }
+
+  listByUsuarioId(pageable: any): Observable<T[]> {
+
+    const params = PageSerialize.getHttpParamsFromPageable(pageable);
+
+    return this.httpClient.get<T[]>(this.collectionName + '/by-usuario', {
+      params: params
+    })
+  }
 }

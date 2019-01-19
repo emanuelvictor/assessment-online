@@ -54,12 +54,6 @@ export class VincularUnidadeComponent implements OnInit {
 
   /**
    *
-   */
-  @Input()
-  public avaliaveis: any;
-
-  /**
-   *
    * @type {Unidade}
    */
   @Input()
@@ -188,33 +182,6 @@ export class VincularUnidadeComponent implements OnInit {
     else
       this.saveAvaliavel.emit(avaliavel);
 
-    // if (unidade.avaliaveis)
-    //   for (let k = 0; k < unidade.avaliaveis.length; k++) {
-    //     if (unidade.avaliaveis[k].unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id) {
-    //       avaliavel.id = unidade.avaliaveis[k].id;
-    //       unidade.avaliaveis[k].ativo = !unidade.avaliaveis[k].ativo;
-    //       avaliavel.ativo = unidade.avaliaveis[k].ativo;
-    //     }
-    //   }
-    //
-    // this.avaliavelRepository.save(avaliavel)
-    //   .then(result => {
-    //     if (unidade.avaliaveis) {
-    //       for (let k = 0; k < unidade.avaliaveis.length; k++) {
-    //         if (unidade.avaliaveis[k].id === result.id) {
-    //           unidade.avaliaveis[k] = result;
-    //           break;
-    //         }
-    //         if (k === unidade.avaliaveis.length - 1)
-    //           unidade.avaliaveis.push(result);
-    //       }
-    //     }
-    //     else {
-    //       unidade.avaliaveis = [];
-    //       unidade.avaliaveis.push(result)
-    //     }
-    //   });
   }
-
 
 }

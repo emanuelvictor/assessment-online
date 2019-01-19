@@ -177,11 +177,30 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
     )
     Unidade findUnidadeByIdAndReturnAvaliacoes(@Param("unidadeId") final Long unidadeId);
 
-//    /**
-//     * @param nome {String}
-//     * @return List<Unidade>
-//     */
-//    List<Unidade> findByNome(final String nome);
+    /**
+     * @param usuarioId {long}
+     * @return List<Unidade>
+     */
+
+
+    @Query("FROM Unidade unidade WHERE " +
+            "   (   " +
+            "       unidade.id IN (" +
+            "           SELECT avaliavel.unidadeTipoAvaliacao.unidade.id FROM Avaliavel avaliavel WHERE " +
+            "           (" +
+            "               avaliavel.usuario.id = :usuarioId" +
+            "           )" +
+            "       ) " +
+            "       OR " +
+            "       unidade.id IN (" +
+            "           SELECT operador.unidade.id FROM Operador operador WHERE " +
+            "           (" +
+            "               operador.usuario.id = :usuarioId" +
+            "           )" +
+            "       ) " +
+            "   )"
+    )
+    List<Unidade> listByUsuarioId(@Param("usuarioId") final long usuarioId);
 
     /**
      * @param unidadeId {long}

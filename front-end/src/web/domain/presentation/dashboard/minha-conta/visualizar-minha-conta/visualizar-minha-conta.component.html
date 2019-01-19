@@ -1,7 +1,7 @@
 <div layout-align="center center" layout-gt-xs="row" layout-margin>
   <div layout="row" flex-gt-xs="80" layout-margin>
-    <div flex layout-margin>
-      <mat-card class="bgc-grey-50" layout-margin>
+    <div flex layout-margin layout='column' layout-align='center center'>
+      <mat-card class="bgc-grey-50" layout-margin style="width: calc(100% - 15px)">
         <mat-card-content style="margin-left: 35px">
 
           <visualizar-dados-usuario [usuario]='usuario' *ngIf='usuario?.id'>
@@ -42,11 +42,16 @@
         </mat-card-content>
       </mat-card>
 
-      <mat-accordion>
-        <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
-          <visualizar-vinculo-unidade [usuario]='usuario' *ngIf='usuario?.id'></visualizar-vinculo-unidade>
-        </mat-expansion-panel>
-      </mat-accordion>
+      <mat-card class='bgc-grey-50'
+                style="width: 100%"
+                *ngIf='unidades?.length'>
+        <visualizar-vinculo-unidade
+            [usuario]='usuario'
+            [(unidades)]='unidades'
+            [(operadores)]='operadores'
+            [(avaliaveis)]='avaliaveis'>
+        </visualizar-vinculo-unidade>
+      </mat-card>
 
     </div>
   </div>

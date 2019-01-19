@@ -89,9 +89,9 @@ public class UnidadeService {
 
     }
 
-//    public List<Unidade> findByNome(final String nome) {
-//        return this.unidadeRepository.findByNome(nome);
-//    }
+    public List<Unidade> listByUsuarioId(final long usuarioId) {
+        return this.unidadeRepository.listByUsuarioId(usuarioId);
+    }
 
     /**
      * @param unidadeId long
