@@ -49,6 +49,12 @@ vincular-unidade, visualizar-minha-conta {
   }
 }
 
+router-outlet ~ * {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
 inserir-unidade {
   mat-nav-list {
     margin-left: -24px !important;

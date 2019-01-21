@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {getIdentifier} from "../../../../web/domain/presentation/controls/utils";
+import {getIdentifier, routerAnimation} from "../../../../web/domain/presentation/controls/utils";
 import {environment} from "../../../../environments/environment";
 import {AuthenticationService} from "../../../../web/domain/service/authentication.service";
 

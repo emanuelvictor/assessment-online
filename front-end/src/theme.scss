@@ -237,9 +237,3 @@ Pinta as fontes dos botões "accent's" (verdes) de branco, no lugar de preto.
 button[color='accent'] {
   color: white !important;
 }
-
-router-outlet ~ * {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
