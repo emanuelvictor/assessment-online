@@ -1,17 +1,20 @@
-  <mat-card-title class="push">
-    Selecione uma unidade
-  </mat-card-title>
-  <mat-card-content>
-    <div layout="column" layout-margin (click)="consultarUnidades()">
-      <mat-form-field flex='30'>
-        <mat-select flex name="unidade" class="mat-select-mobile"
-                    placeholder="Unidade de atendimento"
-                    [(ngModel)]="model">
-          <mat-option class="mat-option-mobile" *ngFor="let unidade of unidades" [value]="unidade.nome"
-                      (click)="selecionar(unidade)">
-            {{ unidade.nome }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </mat-card-content>
+<mat-card-title class="push">
+  Selecione uma unidade
+</mat-card-title>
+<mat-card-content>
+  <div layout-margin
+       layout="column"
+       (click)="consultarUnidades()">
+    <mat-form-field flex='30'>
+      <mat-select [(ngModel)]="model"
+                  placeholder="Unidade de atendimento"
+                  flex name="unidade" class="mat-select-mobile">
+        <mat-option class="mat-option-mobile"
+                    *ngFor="let unidade of unidades"
+                    [value]="unidade.nome" (click)="selecionar(unidade)">
+          {{ unidade.nome }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</mat-card-content>

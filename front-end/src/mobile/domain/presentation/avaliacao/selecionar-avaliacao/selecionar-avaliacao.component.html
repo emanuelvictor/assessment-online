@@ -1,0 +1,17 @@
+  <mat-card-title class="push">
+    Selecione as avaliações
+  </mat-card-title>
+  <mat-card-content>
+    <div layout="column" layout-margin>
+      <mat-form-field flex='30'>
+
+        <mat-select placeholder="Selecione as avaliações" multiple>
+          <mat-option *ngFor="let unidadeTipoAvaliacao of unidadesTiposAvaliacoes"
+                      [value]="unidadeTipoAvaliacao.tipoAvaliacao.nome">
+            {{ unidadeTipoAvaliacao.tipoAvaliacao.nome }}
+          </mat-option>
+        </mat-select>
+
+      </mat-form-field>
+    </div>
+  </mat-card-content>

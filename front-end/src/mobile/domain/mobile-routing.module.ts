@@ -9,6 +9,7 @@ import {AuthenticationService} from "../../web/domain/service/authentication.ser
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/selecionar-atendentes/selecionar-atendentes.component";
 import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component";
 import {OfflineComponent} from "./presentation/avaliacao/offline/offline.component";
+import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/selecionar-avaliacao/selecionar-avaliacao.component";
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
     path: '', component: AvaliacaoComponent, canActivate: [AuthenticationService],
     children: [
       {path: 'selecionar-unidade', component: SelecionarUnidadeComponent},
+      {path: 'selecionar-avaliacao', component: SelecionarAvaliacaoComponent},
       {path: 'avaliar', component: AvaliarComponent},
       {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
       {path: 'conclusao', component: ConclusaoComponent},

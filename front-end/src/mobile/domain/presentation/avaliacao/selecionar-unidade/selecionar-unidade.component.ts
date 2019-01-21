@@ -64,7 +64,7 @@ export class SelecionarUnidadeComponent implements OnInit {
 
     this.mobileService.setHashsByUnidadeId(unidade.id);
 
-    this.router.navigate(['avaliar']);
+    this.router.navigate(['selecionar-avaliacao']);
   }
 
   /**

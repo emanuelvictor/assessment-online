@@ -27,7 +27,12 @@ export class MobileService {
   /**
    *
    */
-  private unidade: Unidade = new Unidade();
+  private _unidade: Unidade = new Unidade();
+
+  /**
+   *
+   */
+  private _unidadesTiposAvaliacoes: any;
 
   /**
    *
@@ -50,22 +55,36 @@ export class MobileService {
               private avaliacaoService: AvaliacaoService) {
 
     /**
-     * Pega a key da unidade do localStorage
+     * Pega a key da _unidade do localStorage
      * @type {string}
      */
-    this.unidade.id = this.localStorage.unidadeId;
+    this._unidade.id = this.localStorage.unidadeId;
 
     /**
-     * Popula restante dos dados da unidade,
-     * Desta forma as avaliacoes da unidade não ficam zeradas
+     * Popula restante dos dados da _unidade,
+     * Desta forma as avaliacoes da _unidade não ficam zeradas
      */
-    this.loadUnidade(this.unidade.id);
+    this.loadUnidade(this._unidade.id);
 
     /**
      * Seta a duração default da snackbar
      * @type {number}
      */
     this.mdSnackBarConfig.duration = 5000;
+  }
+
+
+  get unidade(): Unidade {
+    return this._unidade;
+  }
+
+
+  get unidadesTiposAvaliacoes(): any {
+    return this._unidadesTiposAvaliacoes;
+  }
+
+  set unidadesTiposAvaliacoes(value: any) {
+    this._unidadesTiposAvaliacoes = value;
   }
 
   /**
@@ -109,10 +128,10 @@ export class MobileService {
     this.colaboradores.forEach(colaborador => {
 
       /**
-       * Seta no colaborador a unidade correta
+       * Seta no colaborador a _unidade correta
        * @type {Unidade}
        */
-      colaborador.unidade = this.unidade;
+      colaborador.unidade = this._unidade;
 
       /**
        * Salva a nota da avaliação no usuário. Facilita o cálculo da média.
@@ -149,7 +168,7 @@ export class MobileService {
     });
 
     /**
-     * Popula nota da unidade
+     * Popula nota da _unidade
      */
     if (this.avaliacao.nota === 1) {
       this.colaboradores[0].unidade.avaliacoes1 = this.colaboradores[0].unidade.avaliacoes1 != null ? this.colaboradores[0].unidade.avaliacoes1 + 1 : 1;
@@ -188,7 +207,7 @@ export class MobileService {
    * @returns {any}
    */
   getUnidade(): number {
-    return this.unidade.id;
+    return this._unidade.id;
   }
 
   /**
@@ -201,7 +220,7 @@ export class MobileService {
 
     this.localStorage.unidadeId = id;
 
-    this.unidade.id = id;
+    this._unidade.id = id;
 
     this.loadUnidade(id);
   }
@@ -210,7 +229,7 @@ export class MobileService {
    *
    */
   removeUnidade() {
-    this.unidade = new Unidade();
+    this._unidade = new Unidade();
     this.localStorage.removeUnidade();
   }
 
@@ -234,13 +253,13 @@ export class MobileService {
   }
 
   /**
-   * Carrega demais dados da unidade
+   * Carrega demais dados da _unidade
    * @param {number} id
    */
   private loadUnidade(id: number) {
     if (id)
-      this.unidadeService.findById(this.unidade.id)
-        .subscribe(unidade => this.unidade = unidade);
+      this.unidadeService.findById(this._unidade.id)
+        .subscribe(unidade => this._unidade = unidade);
   }
 
 }

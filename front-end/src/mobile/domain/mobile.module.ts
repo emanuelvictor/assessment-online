@@ -40,19 +40,23 @@ import {LocalStorage} from "../../web/infrastructure/local-storage/local-storage
 import {CookieService} from "ngx-cookie-service";
 import localePt from "@angular/common/locales/pt";
 import {OperadorRepository} from "../../web/domain/repositories/operador.repository";
+import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/selecionar-avaliacao/selecionar-avaliacao.component";
+import {UnidadeTipoAvaliacaoRepository} from "../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 
 /**
  *
  */
 @NgModule({
   declarations: [
+
+    LogoutComponent,
     MobileComponent,
-    SelecionarUnidadeComponent,
-    SelecionarAtendentesComponent,
+    AvaliarComponent,
     ConclusaoComponent,
     AvaliacaoComponent,
-    AvaliarComponent,
-    LogoutComponent,
+    SelecionarUnidadeComponent,
+    SelecionarAvaliacaoComponent,
+    SelecionarAtendentesComponent,
 
     // Authentication
     MobileLoginComponent
@@ -72,6 +76,7 @@ import {OperadorRepository} from "../../web/domain/repositories/operador.reposit
   providers: [
     PageSerialize,
     ConfiguracaoRepository,
+    UnidadeTipoAvaliacaoRepository,
     AvaliacaoColaboradorRepository,
     OperadorRepository,
     AvaliacaoRepository,
