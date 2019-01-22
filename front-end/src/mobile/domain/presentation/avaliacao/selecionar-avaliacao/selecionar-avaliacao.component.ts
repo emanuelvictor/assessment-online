@@ -14,7 +14,7 @@ export class SelecionarAvaliacaoComponent {
   /**
    *
    */
-  model: any;
+  unidadesTiposAvaliacoesSelecionados: any;
 
   /**
    *
@@ -39,11 +39,55 @@ export class SelecionarAvaliacaoComponent {
    *
    */
   listByUnidadeId() {
+
     this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.mobileService.unidade.id, ativo: true})
       .subscribe(result => {
+
         this.unidadesTiposAvaliacoes = result.content;
-        this.mobileService.unidadesTiposAvaliacoes = this.unidadesTiposAvaliacoes;
+
       });
+
+  }
+
+  /**
+   *
+   * @param unidadeTipoAvaliacao
+   */
+  public order(unidadeTipoAvaliacao) {
+
+    if (unidadeTipoAvaliacao.ordem) {
+
+      for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++) {
+        if (this.unidadesTiposAvaliacoes[i].ordem > unidadeTipoAvaliacao.ordem) {
+          this.unidadesTiposAvaliacoes[i].ordem = this.unidadesTiposAvaliacoes[i].ordem - 1;
+        }
+      }
+
+      unidadeTipoAvaliacao.ordem = null;
+
+      return;
+    }
+
+    let aux = 0;
+
+    for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++) {
+      if (this.unidadesTiposAvaliacoes[i].ordem && this.unidadesTiposAvaliacoes[i].ordem > aux)
+        aux = this.unidadesTiposAvaliacoes[i].ordem;
+    }
+
+    unidadeTipoAvaliacao.ordem = aux + 1;
+
+  }
+
+  /**
+   *
+   */
+  public continue(): void {
+
+    this.mobileService.unidadesTiposAvaliacoes = this.unidadesTiposAvaliacoes;
+
+    this.router.navigate(['avaliar']);
+
   }
 
   /**

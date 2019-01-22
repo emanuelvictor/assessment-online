@@ -42,6 +42,8 @@ import localePt from "@angular/common/locales/pt";
 import {OperadorRepository} from "../../web/domain/repositories/operador.repository";
 import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/selecionar-avaliacao/selecionar-avaliacao.component";
 import {UnidadeTipoAvaliacaoRepository} from "../../web/domain/repositories/unidade-tipo-avaliacao.repository";
+import {OrderByPipe} from "../../web/domain/presentation/controls/order-by-pipe/order-by";
+import {OrderModule} from "ngx-order-pipe";
 
 /**
  *
@@ -68,6 +70,7 @@ import {UnidadeTipoAvaliacaoRepository} from "../../web/domain/repositories/unid
     SharedModule,
     CommonModule,
     BrowserModule,
+    OrderModule,
     BrowserAnimationsModule,
     MobileRoutingModule,
 

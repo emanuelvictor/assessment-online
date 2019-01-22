@@ -1,17 +1,32 @@
-  <mat-card-title class="push">
-    Selecione as avaliações
-  </mat-card-title>
-  <mat-card-content>
-    <div layout="column" layout-margin>
-      <mat-form-field flex='30'>
+<mat-card-title class="push">
+  Selecione as avaliações
+</mat-card-title>
+<mat-card-content style='margin-bottom: 0'>
+  <div layout="column" layout-margin>
+    <mat-form-field flex='30'>
+      <mat-select multiple
+                  [(ngModel)]="unidadesTiposAvaliacoesSelecionados"
+                  placeholder="Selecione as avaliações">
+        <mat-option [value]="unidadeTipoAvaliacao"
+                    (click)='order(unidadeTipoAvaliacao)'
+                    *ngFor="let unidadeTipoAvaliacao of unidadesTiposAvaliacoes | orderBy:'ordem'">
+          {{unidadeTipoAvaliacao?.ordem ? unidadeTipoAvaliacao?.ordem + ' - ' : ''}}
+          {{ unidadeTipoAvaliacao?.tipoAvaliacao?.nome + ': ' + unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado }}
+        </mat-option>
+      </mat-select>
 
-        <mat-select placeholder="Selecione as avaliações" multiple>
-          <mat-option *ngFor="let unidadeTipoAvaliacao of unidadesTiposAvaliacoes"
-                      [value]="unidadeTipoAvaliacao.tipoAvaliacao.nome">
-            {{ unidadeTipoAvaliacao.tipoAvaliacao.nome }}
-          </mat-option>
-        </mat-select>
-
-      </mat-form-field>
-    </div>
-  </mat-card-content>
+    </mat-form-field>
+  </div>
+</mat-card-content>
+<mat-card-actions>
+  <div layout-margin
+       layout='column'
+       layout-align='center end'>
+    <button mat-button
+            color='primary'
+            (click)='continue()'
+            layout-align='center end'>
+      Continuar
+    </button>
+  </div>
+</mat-card-actions>
