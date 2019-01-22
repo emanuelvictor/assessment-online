@@ -16,8 +16,11 @@ public class TipoAvaliacao extends AbstractEntity {
     @Column(nullable = false, unique = true)
     private String nome;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String enunciado;
+
+    @Column(nullable = false)
+    private String selecao;
 
     private String um;
 

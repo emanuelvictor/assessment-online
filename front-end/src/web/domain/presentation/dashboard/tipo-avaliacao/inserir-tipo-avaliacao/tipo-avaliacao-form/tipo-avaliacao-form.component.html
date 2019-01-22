@@ -14,9 +14,9 @@
 
               <div layout='row' layout-align='start center'>
 
-                <div layout='column' flex>
+                <div layout='column' flex class='push-left'>
 
-                  <div layout='row' layout-align='center center' class='push-left'>
+                  <div layout='row' layout-align='center center'>
                     <div layout='column' flex="25" class='push-right'>
                       <mat-form-field layout-margin>
                         <input formControlName='nome'
@@ -44,6 +44,20 @@
                         </mat-error>
                       </mat-form-field>
                     </div>
+                  </div>
+
+                  <div layout='column' flex="75" class='push-right'>
+                    <mat-form-field layout-margin>
+                      <input formControlName='selecao'
+                             [matTooltipPosition]="'below'"
+                             [(ngModel)]='tipoAvaliacao.selecao'
+                             matInput name='selecao' id='selecao' maxlength='144'
+                             matTooltip='Frase de seleção dos quesitos a serem exibidos no aplicativo móvel!'
+                             placeholder='Frase de seleção dos atendentes (atendentes, quesitos, professores, ítens ...)'>
+                      <mat-error>
+                        Campo obrigatório
+                      </mat-error>
+                    </mat-form-field>
                   </div>
                 </div>
 

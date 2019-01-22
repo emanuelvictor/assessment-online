@@ -70,6 +70,23 @@
           </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef='selecao'>
+          <mat-header-cell layout-align="start center"
+                           *matHeaderCellDef mat-sort-header
+                           flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'>
+            <div layout-margin layout='column'>
+              Frase de seleção
+            </div>
+          </mat-header-cell>
+          <mat-cell layout-align="start center"
+                    *matCellDef='let tipoAvaliacao'
+                    flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'>
+            <div layout-margin layout='column'>
+              {{tipoAvaliacao?.selecao}}
+            </div>
+          </mat-cell>
+        </ng-container>
+
         <mat-header-row *matHeaderRowDef="displayedColumns">
         </mat-header-row>
 

@@ -50,7 +50,8 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
   public displayedColumns: string[] =
     [
       'nome',
-      'enunciado'
+      'enunciado',
+      'selecao'
     ];
 
   /**

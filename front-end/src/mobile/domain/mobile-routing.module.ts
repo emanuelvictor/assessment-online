@@ -10,29 +10,27 @@ import {SelecionarAtendentesComponent} from "./presentation/avaliacao/selecionar
 import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component";
 import {OfflineComponent} from "./presentation/avaliacao/offline/offline.component";
 import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/selecionar-avaliacao/selecionar-avaliacao.component";
+import {VisualizarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/visualizar-avaliacao/visualizar-avaliacao.component";
 
 
 const routes: Routes = [
+  {path: '', redirectTo: 'avaliar', pathMatch: 'full'},
+  {path: 'authentication', component: LoginComponent},
   {
-    path: '', redirectTo: 'avaliar', pathMatch: 'full'
-  },
-  {
-    path: 'authentication', component: LoginComponent
-  },
-  {
-    path: '', component: AvaliacaoComponent, canActivate: [AuthenticationService],
-    children: [
+    path: '', component: AvaliacaoComponent, canActivate: [AuthenticationService], children: [
       {path: 'selecionar-unidade', component: SelecionarUnidadeComponent},
       {path: 'selecionar-avaliacao', component: SelecionarAvaliacaoComponent},
-      {path: 'avaliar', component: AvaliarComponent},
+      {
+        path: 'avaliar', component: AvaliarComponent, children: [
+          {path: ':id', component: VisualizarAvaliacaoComponent}
+        ]
+      },
       {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
       {path: 'conclusao', component: ConclusaoComponent},
       {path: 'logout', component: LogoutComponent},
     ]
   },
-  {
-    path: 'offline', component: OfflineComponent
-  }
+  {path: 'offline', component: OfflineComponent}
 ];
 
 /**

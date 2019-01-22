@@ -60,6 +60,7 @@ export class TipoAvaliacaoFormComponent implements OnInit {
 
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],
+      selecao: ['selecao', [Validators.required]],
       enunciado: ['enunciado', [Validators.required]]
     });
 

@@ -15,6 +15,11 @@ export class TipoAvaliacao extends Abstract {
   /**
    *
    */
+  public selecao: string;
+
+  /**
+   *
+   */
   constructor() {
     super();
   }
