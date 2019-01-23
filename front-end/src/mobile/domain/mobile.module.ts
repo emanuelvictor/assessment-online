@@ -17,14 +17,13 @@ import {AvaliarComponent} from './presentation/avaliacao/avaliar/avaliar.compone
 import {AvaliacaoComponent} from './presentation/avaliacao/avaliacao.component';
 import {ConclusaoComponent} from './presentation/avaliacao/conclusao/conclusao.component';
 import {SelecionarUnidadeComponent} from './presentation/avaliacao/selecionar-unidade/selecionar-unidade.component';
-import {ColaboradorService} from '../../web/domain/service/colaborador.service';
 import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
 import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {EllipsisModule} from 'ngx-ellipsis';
 import {AvaliacaoRepository} from '../../web/domain/repositories/avaliacao.repository';
 import {UsuarioRepository} from '../../web/domain/repositories/usuario.repository';
-import {AvaliacaoColaboradorRepository} from '../../web/domain/repositories/avaliacao-colaborador.repository';
+import {AvaliacaoAvaliavelRepository} from '../../web/domain/repositories/avaliacao-avaliavel-repository.service';
 import {EnderecoRepository} from '../../web/domain/repositories/endereco.repository';
 import {UnidadeRepository} from '../../web/domain/repositories/unidade.repository';
 import {ContaRepository} from '../../web/domain/repositories/conta.repository';
@@ -80,9 +79,10 @@ import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repos
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     PageSerialize,
-    ConfiguracaoRepository,
+
     UnidadeTipoAvaliacaoRepository,
-    AvaliacaoColaboradorRepository,
+    AvaliacaoAvaliavelRepository,
+    ConfiguracaoRepository,
     AvaliavelRepository,
     AvaliacaoRepository,
     OperadorRepository,
@@ -94,7 +94,6 @@ import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repos
 
     AuthenticationService,
     ConfiguracaoService,
-    ColaboradorService,
     AvaliacaoService,
     EnderecoService,
     UsuarioService,

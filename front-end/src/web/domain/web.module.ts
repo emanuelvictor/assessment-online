@@ -52,7 +52,6 @@ import {UnidadeItemComponent} from './presentation/dashboard/atendente/consultar
 import {VisualizarDadosUsuarioComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-dados-usuario/visualizar-dados-usuario.component';
 import {VincularUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/vincular-unidade/vincular-unidade.component';
 import {VisualizarVinculoUnidadeComponent} from './presentation/dashboard/atendente/visualizar-atendente/visualizar-vinculo-unidade/visualizar-vinculo-unidade.component';
-import {ColaboradorService} from './service/colaborador.service';
 import {FileRepository} from '../infrastructure/repository/file/file.repository';
 import {FotoLoadingComponent} from './presentation/controls/foto-loading/foto-loading.component';
 import {EstatisticasAtendenteComponent} from './presentation/dashboard/atendente/visualizar-atendente/estatisticas/estatisticas-atendente.component';
@@ -73,7 +72,7 @@ import {UnidadeRepository} from './repositories/unidade.repository';
 import {EnderecoRepository} from './repositories/endereco.repository';
 import {AvaliacaoRepository} from './repositories/avaliacao.repository';
 import {OperadorRepository} from './repositories/operador.repository';
-import {AvaliacaoColaboradorRepository} from './repositories/avaliacao-colaborador.repository';
+import {AvaliacaoAvaliavelRepository} from './repositories/avaliacao-avaliavel-repository.service';
 import {ContaRepository} from './repositories/conta.repository';
 import {ContaService} from './service/conta.service';
 import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente.component';
@@ -219,7 +218,7 @@ registerLocaleData(localePt, 'pt-BR');
     PageSerialize,
 
     UnidadeTipoAvaliacaoRepository,
-    AvaliacaoColaboradorRepository,
+    AvaliacaoAvaliavelRepository,
     TipoAvaliacaoRepository,
     ConfiguracaoRepository,
     AvaliavelRepository,
@@ -233,7 +232,6 @@ registerLocaleData(localePt, 'pt-BR');
 
     AuthenticationService,
     ConfiguracaoService,
-    ColaboradorService,
     AvaliacaoService,
     EnderecoService,
     UsuarioService,

@@ -9,6 +9,9 @@
 
 @include mat-core();
 
+$roxoclaro: rgb(96, 51, 142);
+$roxoforte: rgb(74, 33, 116);
+
 $primary: mat-palette($mat-blue, 900);
 $accent: mat-palette($mat-blue-grey);
 $warn: mat-palette($mat-red, 300);
@@ -18,9 +21,21 @@ $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
 @include covalent-theme($theme);
 
-.mat-hint-error {
-  color: #1976d2;
-}
+//// Não serve pra nada
+//.mat-hint-error {
+//  color: #1976d2;
+//}
+//.mat-nav-list-first-green {
+//  mat-list-item {
+//    h1 {
+//      color: #009688
+//    }
+//  }
+//
+//  mat-nav-list {
+//    padding: 0;
+//  }
+//}
 
 .avatar {
   img {
@@ -91,39 +106,21 @@ mat-toolbar {
   min-height: 80px;
 }
 
-.mat-nav-list-first-green {
-  mat-list-item {
-    h1 {
-      color: #009688
-    }
-  }
-
-  mat-nav-list {
-    padding: 0;
-  }
-}
-
 // Referente ao autocomplete - Aumenta o tamanho do options exibido
 .mat-autocomplete-panel {
   width: 800px !important;
 }
 
-//// Referente ao toggle slider
-//.mat-slide-toggle-thumb {
-//  background-color: #5e7c8b;
-//}
-//
-//.mat-slide-toggle-bar {
-//  background-color: #9c27b0 !important;
-//  width: 40px !important;
-//  height: 25px !important;
-//  border-radius: 77px !important;
-//}
-//
-//.mat-slide-toggle-thumb-container {
-//  top: 2px !important;
-//  left: 2px !important;
-//}
+.mat-slide-toggle-bar {
+  width: 40px !important;
+  height: 25px !important;
+  border-radius: 77px !important;
+}
+
+.mat-slide-toggle-thumb-container {
+  top: 2px !important;
+  left: 2px !important;
+}
 
 /**
 Remove a transparência padrão do mat-icon
@@ -131,9 +128,9 @@ Obs:. Remove somente da side-nav
 Seta cor padrão ao gaveta lateral
  */
 mat-sidenav {
-  background-color: #0c3e6f !important;
+  background-color: $roxoclaro !important;
   mat-icon {
-    background-color: #0c3e6f !important;
+    background-color: $roxoclaro !important;
   }
 }
 
@@ -141,14 +138,16 @@ mat-sidenav {
 Menu da gaveta lateral
  */
 .menu-active {
-  background-color: #0c3e6f !important;
+  background-color: $roxoforte !important;
+
   div {
     mat-icon {
       margin-left: -4px;
       background-color: #ffffff !important;
-      color: #0c3e6f !important;
+      color: $roxoforte !important;
     }
   }
+
   border-left-width: 4px;
   border-left-style: solid;
   border-left-color: #ffffff;

@@ -60,7 +60,7 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param unidade
    */
   selecionar(unidade) {
-    this.mobileService.setUnidade(unidade.id);
+    this.mobileService.setUnidadeId(unidade.id);
 
     this.mobileService.setHashsByUnidadeId(unidade.id);
 

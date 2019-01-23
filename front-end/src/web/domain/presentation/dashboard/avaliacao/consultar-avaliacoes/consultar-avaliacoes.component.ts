@@ -169,7 +169,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
         this.page = result;
 
         this.page.content.forEach(avaliacao => {
-          avaliacao.unidadesTiposAvaliacoes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador => ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
+          avaliacao.unidadesTiposAvaliacoes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
         })
       })
 
@@ -207,7 +207,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
         this.page = result;
         this.page.content.forEach(avaliacao => {
-          avaliacao.unidadesTiposAvaliacoes = avaliacao.avaliacoesColaboradores.map(avaliacaoColaborador => ' ' + avaliacaoColaborador.colaborador.usuario.nome).join();
+          avaliacao.unidadesTiposAvaliacoes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoColaborador => ' ' + avaliacaoColaborador.avaliavel.usuario.nome).join();
         })
       })
   }

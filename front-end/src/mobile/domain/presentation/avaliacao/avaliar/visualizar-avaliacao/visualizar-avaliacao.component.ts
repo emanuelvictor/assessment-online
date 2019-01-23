@@ -64,7 +64,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
     /**
      * Se não tem unidade selecionada vai para tela de selação de unidade
      */
-    if (!this.mobileService.getUnidade())
+    if (!this.mobileService.getUnidadeId())
       this.router.navigate(['../selecionar-unidade']);
 
     this.configuracaoService.configuracao.subscribe(result => this.configuracao = result)
@@ -75,8 +75,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    */
   public avaliar(nota: number) {
     this.mobileService.setNota(nota);
-    console.log('nota ', nota);
-    this.router.navigate(['avaliar/' + this.activatedRoute.snapshot.params['ordem'] + '/selecionar-atendentes']);
+    this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['ordem']) + '/selecionar-atendentes']);
   }
 
   /**

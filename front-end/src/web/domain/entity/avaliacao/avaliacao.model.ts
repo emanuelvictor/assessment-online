@@ -1,9 +1,9 @@
 import {Abstract} from '../abstract/abstract.model';
-import {AvaliacaoColaborador} from "./avaliacao-colaborador.model";
+import {AvaliacaoAvaliavel} from "./avaliacao-avaliavel.model";
 
 export class Avaliacao extends Abstract {
 
-  public avaliacoesColaboradores: AvaliacaoColaborador[];
+  public avaliacoesAvaliaveis: AvaliacaoAvaliavel[];
 
   public nota: number;
 

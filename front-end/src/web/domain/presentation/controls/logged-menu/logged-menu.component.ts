@@ -2,7 +2,6 @@ import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {AuthenticationService} from '../../../service/authentication.service';
 import {Subscription} from 'rxjs';
 import {UsuarioService} from '../../../service/usuario.service';
-import {ColaboradorService} from '../../../service/colaborador.service';
 
 @Component({
   selector: 'logged-menu',
@@ -25,12 +24,10 @@ export class LoggedMenuComponent implements OnDestroy {
    *
    * @param usuarioService
    * @param changeDetectionRef
-   * @param colaboradorService
    * @param authenticationService
    */
   constructor(private usuarioService: UsuarioService,
               private changeDetectionRef: ChangeDetectorRef,
-              private colaboradorService: ColaboradorService,
               private authenticationService: AuthenticationService) {
 
     this.authenticationService.requestContaAutenticada().subscribe(result => {

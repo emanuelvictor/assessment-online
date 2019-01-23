@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Avaliacao} from '../entity/avaliacao/avaliacao.model';
 import 'rxjs/Rx';
 import {AvaliacaoRepository} from '../repositories/avaliacao.repository';
-import {AvaliacaoColaboradorRepository} from '../repositories/avaliacao-colaborador.repository';
+import {AvaliacaoAvaliavelRepository} from '../repositories/avaliacao-avaliavel-repository.service';
 
 @Injectable()
 export class AvaliacaoService {
@@ -11,10 +11,10 @@ export class AvaliacaoService {
   /**
    *
    * @param {AvaliacaoRepository} avaliacaoRepository
-   * @param {AvaliacaoColaboradorRepository} avaliacaoColaboradorRepository
+   * @param {AvaliacaoAvaliavelRepository} avaliacaoAvaliavelRepository
    */
   constructor(private avaliacaoRepository: AvaliacaoRepository,
-              private avaliacaoColaboradorRepository: AvaliacaoColaboradorRepository) {
+              private avaliacaoAvaliavelRepository: AvaliacaoAvaliavelRepository) {
   }
 
   /**
@@ -45,9 +45,9 @@ export class AvaliacaoService {
    * @param {Avaliacao} avaliacao
    */
   public save(avaliacao: Avaliacao): PromiseLike<any> {
-    const avaliacoesColaboradores = avaliacao.avaliacoesColaboradores;
+    const avaliacoesAvaliaveis = avaliacao.avaliacoesAvaliaveis;
 
-    delete avaliacao.avaliacoesColaboradores;
+    delete avaliacao.avaliacoesAvaliaveis;
 
     return this.avaliacaoRepository.save(avaliacao)
       .then(result => {
@@ -56,17 +56,17 @@ export class AvaliacaoService {
          * Calcula e salva média da unidade.
          * @type {number}
          */
-        // avaliacoesColaboradores[0].colaborador.unidade.media = calcularMedia(avaliacoesColaboradores[0].colaborador.unidade);
-        // this.unidadeRepository.save(avaliacoesColaboradores[0].colaborador.unidade);
+        // avaliacoesAvaliaveis[0].avaliavel.unidade.media = calcularMedia(avaliacoesAvaliaveis[0].avaliavel.unidade);
+        // this.unidadeRepository.save(avaliacoesAvaliaveis[0].avaliavel.unidade);
 
-        avaliacoesColaboradores.forEach(avaliacaoColaborador => {
+        avaliacoesAvaliaveis.forEach(avaliacaoAvaliavel => {
 
-          avaliacaoColaborador.avaliacao = result;
+          avaliacaoAvaliavel.avaliacao = result;
 
-          // avaliacaoColaborador.colaborador.usuario.media = calcularMedia(avaliacaoColaborador.colaborador.usuario);
-          // this.usuarioRepository.save(avaliacaoColaborador.colaborador.usuario);
+          // avaliacaoColaborador.avaliavel.usuario.media = calcularMedia(avaliacaoColaborador.avaliavel.usuario);
+          // this.usuarioRepository.save(avaliacaoColaborador.avaliavel.usuario);
 
-          this.avaliacaoColaboradorRepository.save(avaliacaoColaborador);
+          this.avaliacaoAvaliavelRepository.save(avaliacaoAvaliavel);
         })
       });
   }

@@ -41,7 +41,7 @@ export class LogoutComponent {
    *
    */
   public logout(): void {
-    this.authenticationService.authenticateByUnidade(this.mobileService.getUnidade(), this.password)
+    this.authenticationService.authenticateByUnidade(this.mobileService.getUnidadeId(), this.password)
       .then(() => {
 
         this.mobileService.removeUnidade();

@@ -33,9 +33,9 @@
                               svgIcon="assets:{{avaliacao?.nota === 5 ? 'otimo' : (avaliacao?.nota === 4 ? 'bom' : (avaliacao?.nota === 3 ? 'regular' : (avaliacao?.nota === 2 ? 'ruim' : 'pessimo')))}}"
                               [ngStyle]="{'fill': avaliacao?.nota === 5 ? '#5ee924' : (avaliacao?.nota === 4 ? '#8fc82c' : (avaliacao?.nota === 3 ? '#d4c40d' : (avaliacao?.nota === 2 ? '#e96d01' : '#c21c1f')))}">
                     </mat-icon>
-                    <h1 *ngIf='avaliacao?.avaliacoesColaboradores?.length'
+                    <h1 *ngIf='avaliacao?.avaliacoesAvaliaveis?.length'
                         flex='100' class="mat-headline tc-blue-grey-800 no-margin">
-                      {{avaliacao?.avaliacoesColaboradores[0].colaborador.unidade.nome}}
+                      {{avaliacao?.avaliacoesAvaliaveis[0].avaliavel.unidade.nome}}
                     </h1>
                   </div>
                   <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">

@@ -30,7 +30,7 @@ export class SelecionarAtendentesComponent implements OnInit {
   /**
    *
    */
-  time: 30000;
+  time = 30000;
 
   /**
    *
@@ -54,7 +54,7 @@ export class SelecionarAtendentesComponent implements OnInit {
 
     this.unidadeTipoAvaliacao = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
 
-    if(!this.unidadeTipoAvaliacao)
+    if (!this.unidadeTipoAvaliacao)
       this.router.navigate(['selecionar-avaliacao']);
 
     this.timeout = setTimeout(() => {
@@ -83,16 +83,16 @@ export class SelecionarAtendentesComponent implements OnInit {
    */
   public concluir() {
     clearTimeout(this.timeout);
-    this.avaliaveis.forEach(colaborador => {
-      if (colaborador.selected) {
-        this.mobileService.addColaborador(colaborador);
+    this.avaliaveis.forEach(avaliavel => {
+      if (avaliavel.selected) {
+        this.mobileService.addAvaliavel(avaliavel);
       }
     });
 
     /**
      * TODO aumentar o timeout da toast
      */
-    if (this.mobileService.getColaboradores().length > 0) {
+    if (this.mobileService.getAvaliaveis().length > 0) {
       this.mobileService.enviarAvaliacao();
       this.router.navigate(['conclusao']);
     } else {

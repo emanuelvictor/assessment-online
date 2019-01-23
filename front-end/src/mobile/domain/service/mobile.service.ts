@@ -4,12 +4,12 @@
 import {Injectable} from '@angular/core';
 import {Avaliacao} from '../../../web/domain/entity/avaliacao/avaliacao.model';
 import {Unidade} from '../../../web/domain/entity/unidade/unidade.model';
-import {Colaborador} from '../../../web/domain/entity/colaborador/colaborador.model';
 import {MatSnackBarConfig} from '@angular/material';
 import {AvaliacaoService} from '../../../web/domain/service/avaliacao.service';
-import {AvaliacaoColaborador} from '../../../web/domain/entity/avaliacao/avaliacao-colaborador.model';
+import {AvaliacaoAvaliavel} from '../../../web/domain/entity/avaliacao/avaliacao-avaliavel.model';
 import {UnidadeService} from '../../../web/domain/service/unidade.service';
 import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
+import {Avaliavel} from "../../../web/domain/entity/usuario/vinculo/avaliavel.model";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -37,7 +37,7 @@ export class MobileService {
   /**
    *
    */
-  private colaboradores: Colaborador[] = [];
+  private avaliaveis: Avaliavel[] = [];
 
   /**
    *
@@ -92,7 +92,7 @@ export class MobileService {
    */
   public reset() {
     this.avaliacao = new Avaliacao();
-    this.colaboradores = [];
+    this.avaliaveis = [];
   }
 
   /**
@@ -105,10 +105,10 @@ export class MobileService {
 
   /**
    *
-   * @param colaborador
+   * @param avaliavel
    */
-  public addColaborador(colaborador) {
-    this.colaboradores.push(colaborador);
+  public addAvaliavel(avaliavel) {
+    this.avaliaveis.push(avaliavel);
   }
 
   /**
@@ -120,38 +120,37 @@ export class MobileService {
      * Instancia o array de tabela associativa
      * @type {Array}
      */
-    this.avaliacao.avaliacoesColaboradores = [];
+    this.avaliacao.avaliacoesAvaliaveis = [];
 
     /**
      * Percorre os colaboradores
      */
-    this.colaboradores.forEach(colaborador => {
+    this.avaliaveis.forEach(avaliavel => {
 
       /**
-       * Seta no colaborador a _unidade correta
+       * Seta no avaliavel a _unidade correta
        * @type {Unidade}
        */
-      colaborador.unidade = this._unidade;
+      avaliavel.unidadeTipoAvaliacao.unidade = this._unidade;
 
       /**
        * Salva a nota da avaliação no usuário. Facilita o cálculo da média.
        */
-      if (this.avaliacao.nota === 1) {
-        colaborador.usuario.avaliacoes1 = colaborador.usuario.avaliacoes1 != null ? colaborador.usuario.avaliacoes1 + 1 : 1;
-      } else if (this.avaliacao.nota === 2) {
-        colaborador.usuario.avaliacoes2 = colaborador.usuario.avaliacoes2 != null ? colaborador.usuario.avaliacoes2 + 1 : 1;
-      } else if (this.avaliacao.nota === 3) {
-        colaborador.usuario.avaliacoes3 = colaborador.usuario.avaliacoes3 != null ? colaborador.usuario.avaliacoes3 + 1 : 1;
-      } else if (this.avaliacao.nota === 4) {
-        colaborador.usuario.avaliacoes4 = colaborador.usuario.avaliacoes4 != null ? colaborador.usuario.avaliacoes4 + 1 : 1;
-      } else {
-        colaborador.usuario.avaliacoes5 = colaborador.usuario.avaliacoes5 != null ? colaborador.usuario.avaliacoes5 + 1 : 1;
-      }
+      if (this.avaliacao.nota === 1)
+        avaliavel.usuario.avaliacoes1 = avaliavel.usuario.avaliacoes1 != null ? avaliavel.usuario.avaliacoes1 + 1 : 1;
+      else if (this.avaliacao.nota === 2)
+        avaliavel.usuario.avaliacoes2 = avaliavel.usuario.avaliacoes2 != null ? avaliavel.usuario.avaliacoes2 + 1 : 1;
+      else if (this.avaliacao.nota === 3)
+        avaliavel.usuario.avaliacoes3 = avaliavel.usuario.avaliacoes3 != null ? avaliavel.usuario.avaliacoes3 + 1 : 1;
+      else if (this.avaliacao.nota === 4)
+        avaliavel.usuario.avaliacoes4 = avaliavel.usuario.avaliacoes4 != null ? avaliavel.usuario.avaliacoes4 + 1 : 1;
+      else
+        avaliavel.usuario.avaliacoes5 = avaliavel.usuario.avaliacoes5 != null ? avaliavel.usuario.avaliacoes5 + 1 : 1;
 
       /**
        * Cria um registro tabela associativa e adiciona dentro da avaliação
        */
-      const avaliacaoColaborador: AvaliacaoColaborador = new AvaliacaoColaborador();
+      const avaliacaoAvaliavel: AvaliacaoAvaliavel = new AvaliacaoAvaliavel();
 
       /**
        *
@@ -160,27 +159,26 @@ export class MobileService {
       const avaliacaoAux: Avaliacao = new Avaliacao();
       avaliacaoAux.nota = this.avaliacao.nota;
       avaliacaoAux.id = this.avaliacao.id;
-      avaliacaoColaborador.avaliacao = avaliacaoAux;
 
-      avaliacaoColaborador.colaborador = colaborador;
+      avaliacaoAvaliavel.avaliacao = avaliacaoAux;
+      avaliacaoAvaliavel.avaliavel = avaliavel;
 
-      this.avaliacao.avaliacoesColaboradores.push(avaliacaoColaborador);
+      this.avaliacao.avaliacoesAvaliaveis.push(avaliacaoAvaliavel);
     });
 
     /**
      * Popula nota da _unidade
      */
-    if (this.avaliacao.nota === 1) {
-      this.colaboradores[0].unidade.avaliacoes1 = this.colaboradores[0].unidade.avaliacoes1 != null ? this.colaboradores[0].unidade.avaliacoes1 + 1 : 1;
-    } else if (this.avaliacao.nota === 2) {
-      this.colaboradores[0].unidade.avaliacoes2 = this.colaboradores[0].unidade.avaliacoes2 != null ? this.colaboradores[0].unidade.avaliacoes2 + 1 : 1;
-    } else if (this.avaliacao.nota === 3) {
-      this.colaboradores[0].unidade.avaliacoes3 = this.colaboradores[0].unidade.avaliacoes3 != null ? this.colaboradores[0].unidade.avaliacoes3 + 1 : 1;
-    } else if (this.avaliacao.nota === 4) {
-      this.colaboradores[0].unidade.avaliacoes4 = this.colaboradores[0].unidade.avaliacoes4 != null ? this.colaboradores[0].unidade.avaliacoes4 + 1 : 1;
-    } else {
-      this.colaboradores[0].unidade.avaliacoes5 = this.colaboradores[0].unidade.avaliacoes5 != null ? this.colaboradores[0].unidade.avaliacoes5 + 1 : 1;
-    }
+    if (this.avaliacao.nota === 1)
+      this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes1 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes1 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes1 + 1 : 1;
+    else if (this.avaliacao.nota === 2)
+      this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes2 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes2 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes2 + 1 : 1;
+    else if (this.avaliacao.nota === 3)
+      this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes3 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes3 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes3 + 1 : 1;
+    else if (this.avaliacao.nota === 4)
+      this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes4 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes4 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes4 + 1 : 1;
+    else
+      this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes5 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes5 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes5 + 1 : 1;
 
     /**
      * Insere avaliação
@@ -198,15 +196,15 @@ export class MobileService {
    *
    * @returns {Array}
    */
-  getColaboradores() {
-    return this.colaboradores;
+  getAvaliaveis() {
+    return this.avaliaveis;
   }
 
   /**
    *
    * @returns {any}
    */
-  getUnidade(): number {
+  getUnidadeId(): number {
     return this._unidade.id;
   }
 
@@ -214,7 +212,7 @@ export class MobileService {
    *
    * @param {number} id
    */
-  setUnidade(id: number) {
+  setUnidadeId(id: number) {
 
     this.localStorage.removeUnidade();
 
