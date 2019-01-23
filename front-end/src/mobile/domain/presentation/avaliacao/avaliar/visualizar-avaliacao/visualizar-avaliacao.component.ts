@@ -38,8 +38,8 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    * @param {DomSanitizer} domSanitizer
    */
   constructor(private router: Router,
-              private mobileService: MobileService,
-              private activatedRoute: ActivatedRoute,
+              public mobileService: MobileService,
+              public activatedRoute: ActivatedRoute,
               private configuracaoService: ConfiguracaoService,
               private authenticationService: AuthenticationService,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {

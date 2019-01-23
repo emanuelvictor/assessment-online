@@ -1,45 +1,56 @@
 <div layout="column" layout-align="center center">
-  <mat-card style="width: 600px"><mat-card-title class='push'
-                *ngIf='avaliaveis?.length'>
-  <div layout='column'
-       layout-align='center center'>
-    {{unidadeTipoAvaliacao?.tipoAvaliacao?.selecao}}
-  </div>
-</mat-card-title>
-<mat-card-content class="no-margin"
-                  *ngIf="avaliaveis?.length">
+  <mat-card style="width: 600px">
+    <mat-card-title class='push'
+                    *ngIf='avaliaveis?.length'>
+      <div layout='column'
+           layout-align='center center'>
+        {{unidadeTipoAvaliacao?.tipoAvaliacao?.selecao}}
+      </div>
+    </mat-card-title>
+    <mat-card-content class="no-margin"
+                      *ngIf="avaliaveis?.length">
 
-  <mat-grid-list cols="{{avaliaveis.length > 6 ? 4 : 3}}" rowHeight="100px" *ngIf="avaliaveis.length">
-    <mat-grid-tile
-        mat-ripple
-        [colspan]="1"
-        [rowspan]="2"
-        *ngFor="let avaliavel of avaliaveis"
-        (click)='avaliavel.selected = !avaliavel.selected; clearTimeout()'
-        [ngStyle]="{'background-color': (avaliavel.selected ? 'lightblue' : '')}">
-      <div layout="column" layout-align="center center">
-        <div mat-list-avatar style='width: 120px; height: 120px'>
-          <avatar class='image-cover' [size]='0.6'
-                  [usuario]="{'id': avaliavel?.usuario?.id , 'foto': avaliavel?.usuario?.avatarPath}">
-          </avatar>
+      <mat-grid-list cols="{{avaliaveis.length > 6 ? 4 : 3}}" rowHeight="100px" *ngIf="avaliaveis.length">
+        <mat-grid-tile
+            mat-ripple
+            [colspan]="1"
+            [rowspan]="2"
+            *ngFor="let avaliavel of avaliaveis"
+            (click)='avaliavel.selected = !avaliavel.selected; clearTimeout()'
+            [ngStyle]="{'background-color': (avaliavel.selected ? 'lightblue' : '')}">
+          <div layout="column" layout-align="center center">
+            <div mat-list-avatar style='width: 120px; height: 120px'>
+              <avatar class='image-cover' [size]='0.6'
+                      [usuario]="{'id': avaliavel?.usuario?.id , 'foto': avaliavel?.usuario?.avatarPath}">
+              </avatar>
+            </div>
+            <div class="text-truncate" style="max-width: 160px">
+              {{avaliavel?.usuario?.nome}}
+            </div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <div layout='row' layout-align='center center' flex>
+        <div layout-margin
+             layout='column' flex
+             layout-align='end start'>
+          {{activatedRoute?.snapshot?.params['ordem'] + '/' + mobileService?.unidadesTiposAvaliacoes?.length}}
         </div>
-        <div class="text-truncate" style="max-width: 160px">
-          {{avaliavel?.usuario?.nome}}
+
+        <div layout-margin
+             layout='column' flex
+             layout-align='center end'>
+          <button mat-button
+                  color='primary'
+                  (click)='concluir()'
+                  layout-align='center end'>
+            Concluir
+          </button>
         </div>
       </div>
-    </mat-grid-tile>
-  </mat-grid-list>
-
-</mat-card-content>
-<mat-card-actions>
-  <div layout-align='center end'
-       layout='column'
-       layout-margin>
-    <button layout-align='center end'
-            mat-button
-            color='primary'
-            (click)='concluir()'>
-      Concluir
-    </button>
-  </div>
-</mat-card-actions></mat-card></div>
+    </mat-card-actions>
+  </mat-card>
+</div>

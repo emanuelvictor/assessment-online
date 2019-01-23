@@ -31,7 +31,7 @@ export class ConclusaoComponent implements OnInit {
     );
 
     setTimeout(() => {
-      this.router.navigate(['/avaliar']);
+      this.router.navigate(['/avaliar/1']);
     }, 5000);
   }
 }

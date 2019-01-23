@@ -42,8 +42,8 @@ export class SelecionarAtendentesComponent implements OnInit {
    */
   constructor(private router: Router,
               private snackBar: MatSnackBar,
-              private mobileService: MobileService,
-              private activatedRoute: ActivatedRoute,
+              public mobileService: MobileService,
+              public activatedRoute: ActivatedRoute,
               private avaliavelRepository: AvaliavelRepository) {
   }
 
@@ -94,7 +94,10 @@ export class SelecionarAtendentesComponent implements OnInit {
      */
     if (this.mobileService.getAvaliaveis().length > 0) {
       this.mobileService.enviarAvaliacao();
-      this.router.navigate(['conclusao']);
+      if (this.mobileService.unidadesTiposAvaliacoes.length !== +this.activatedRoute.snapshot.params['ordem'])
+        this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['ordem'] + 1)]);
+      else
+        this.router.navigate(['conclusao']);
     } else {
       this.snackBar.open('Selecione ao menos um atendente', 'Fechar', this.mobileService.getSnackBarConfig());
     }
