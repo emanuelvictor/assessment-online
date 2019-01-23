@@ -54,7 +54,7 @@ const routes: Routes = [
           ]
         },
         {
-          path: 'atendentes', component: AtendenteViewComponent,
+          path: 'avaliaveis', component: AtendenteViewComponent,
           children: [
             {path: '', component: ConsultarAtendentesComponent},
             {path: 'inserir', component: InserirAtendenteComponent},

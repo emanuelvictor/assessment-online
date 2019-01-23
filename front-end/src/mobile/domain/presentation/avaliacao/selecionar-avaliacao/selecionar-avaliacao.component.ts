@@ -86,7 +86,7 @@ export class SelecionarAvaliacaoComponent {
 
     this.mobileService.unidadesTiposAvaliacoes = this.unidadesTiposAvaliacoes;
 
-    this.router.navigate(['avaliar']);
+    this.router.navigate(['avaliar/1']);
 
   }
 

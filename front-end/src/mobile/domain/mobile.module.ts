@@ -17,7 +17,6 @@ import {AvaliarComponent} from './presentation/avaliacao/avaliar/avaliar.compone
 import {AvaliacaoComponent} from './presentation/avaliacao/avaliacao.component';
 import {ConclusaoComponent} from './presentation/avaliacao/conclusao/conclusao.component';
 import {SelecionarUnidadeComponent} from './presentation/avaliacao/selecionar-unidade/selecionar-unidade.component';
-import {SelecionarAtendentesComponent} from './presentation/avaliacao/selecionar-atendentes/selecionar-atendentes.component';
 import {ColaboradorService} from '../../web/domain/service/colaborador.service';
 import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
 import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
@@ -44,6 +43,8 @@ import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/selecionar-
 import {UnidadeTipoAvaliacaoRepository} from "../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {OrderModule} from "ngx-order-pipe";
 import {VisualizarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/visualizar-avaliacao/visualizar-avaliacao.component";
+import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-atendentes/selecionar-atendentes.component";
+import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repository";
 
 /**
  *
@@ -82,8 +83,9 @@ import {VisualizarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/vis
     ConfiguracaoRepository,
     UnidadeTipoAvaliacaoRepository,
     AvaliacaoColaboradorRepository,
-    OperadorRepository,
+    AvaliavelRepository,
     AvaliacaoRepository,
+    OperadorRepository,
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,

@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {MobileService} from '../../../service/mobile.service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
-import {ColaboradorService} from '../../../../../web/domain/service/colaborador.service';
-import {Vinculo} from "../../../../../web/domain/entity/colaborador/vinculo.enum";
+import {MobileService} from "../../../../service/mobile.service";
+import {AvaliavelRepository} from "../../../../../../web/domain/repositories/avaliavel.repository";
 
 @Component({
   selector: 'selecionar-atendentes',
@@ -16,7 +15,12 @@ export class SelecionarAtendentesComponent implements OnInit {
    *
    * @type {Array}
    */
-  atendentes: any[] = [];
+  avaliaveis: any[] = [];
+
+  /**
+   *
+   */
+  unidadeTipoAvaliacao: any;
 
   /**
    *
@@ -31,14 +35,16 @@ export class SelecionarAtendentesComponent implements OnInit {
   /**
    *
    * @param {Router} router
-   * @param {MobileService} mobileService
-   * @param {ColaboradorService} colaboradorService
    * @param {MatSnackBar} snackBar
+   * @param {MobileService} mobileService
+   * @param {ActivatedRoute} activatedRoute
+   * @param {AvaliavelRepository} avaliavelRepository
    */
   constructor(private router: Router,
               private snackBar: MatSnackBar,
               private mobileService: MobileService,
-              private colaboradorService: ColaboradorService) {
+              private activatedRoute: ActivatedRoute,
+              private avaliavelRepository: AvaliavelRepository) {
   }
 
   /**
@@ -46,19 +52,28 @@ export class SelecionarAtendentesComponent implements OnInit {
    */
   ngOnInit() {
 
+    this.unidadeTipoAvaliacao = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
+
+    if(!this.unidadeTipoAvaliacao)
+      this.router.navigate(['selecionar-avaliacao']);
+
     this.timeout = setTimeout(() => {
       this.mobileService.reset();
       this.router.navigate(['/avaliar']);
     }, this.time);
 
-    this.colaboradorService.listByFilters({unidadeId: this.mobileService.getUnidade(), vinculo: Vinculo[0]})
+    this.avaliavelRepository.listByFilters(
+      {
+        unidadeTipoAvaliacaoId: this.mobileService.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === +this.activatedRoute.snapshot.params['ordem'])[0].id
+      }
+    )
       .subscribe(page => {
-        this.atendentes = page.content;
-        if (this.atendentes.length == 1) {
-          this.atendentes[0].selected = true;
+        this.avaliaveis = page.content;
+        if (this.avaliaveis.length === 1) {
+          this.avaliaveis[0].selected = true;
           this.concluir();
-        } else if (!this.atendentes.length)
-          this.openSnackBar('Insira atendentes e vincule-os á unidade')
+        } else if (!this.avaliaveis.length)
+          this.openSnackBar('Vincule atendnetes, itens ou quesitos á essa unidade nessa avaliação')
       });
 
   }
@@ -68,7 +83,7 @@ export class SelecionarAtendentesComponent implements OnInit {
    */
   public concluir() {
     clearTimeout(this.timeout);
-    this.atendentes.forEach(colaborador => {
+    this.avaliaveis.forEach(colaborador => {
       if (colaborador.selected) {
         this.mobileService.addColaborador(colaborador);
       }
@@ -93,7 +108,6 @@ export class SelecionarAtendentesComponent implements OnInit {
 
     this.timeout = setTimeout(() => {
       this.mobileService.reset();
-      this.router.navigate(['/avaliar']);
     }, this.time);
   }
 

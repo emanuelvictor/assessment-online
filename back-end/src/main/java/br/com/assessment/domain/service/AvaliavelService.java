@@ -35,8 +35,8 @@ public class AvaliavelService {
         this.avaliavelRepository.deleteById(id);
     }
 
-    public Page<Avaliavel> listByFilters(final String defaultFilter, final Long usuarioId, final Long unidadeId, final Pageable pageable) {
-        return this.avaliavelRepository.listByFilters(defaultFilter, usuarioId, unidadeId, pageable);
+    public Page<Avaliavel> listByFilters(final String defaultFilter, final Long usuarioId, final Long unidadeId, final Long unidadeTipoAvaliacaoId, final Pageable pageable) {
+        return this.avaliavelRepository.listByFilters(defaultFilter, usuarioId, unidadeId, unidadeTipoAvaliacaoId, pageable);
     }
 
 }

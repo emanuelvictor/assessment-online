@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {MobileService} from "../../../../service/mobile.service";
 import {ConfiguracaoService} from "../../../../../../web/domain/service/configuracao.service";
 import {AuthenticationService} from "../../../../../../web/domain/service/authentication.service";
 import {MatIconRegistry} from "@angular/material";
 import {DomSanitizer} from "@angular/platform-browser";
+import {UnidadeTipoAvaliacao} from "../../../../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
 
 @Component({
   selector: 'visualizar-avaliacao',
@@ -22,8 +23,15 @@ export class VisualizarAvaliacaoComponent implements OnInit {
 
   /**
    *
+   * @type {UnidadeTipoAvaliacao}
+   */
+  unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
+
+  /**
+   *
    * @param {Router} router
    * @param {MobileService} mobileService
+   * @param {ActivatedRoute} activatedRoute
    * @param {ConfiguracaoService} configuracaoService
    * @param {AuthenticationService} authenticationService
    * @param {MatIconRegistry} iconRegistry
@@ -31,8 +39,9 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    */
   constructor(private router: Router,
               private mobileService: MobileService,
+              private activatedRoute: ActivatedRoute,
               private configuracaoService: ConfiguracaoService,
-              public authenticationService: AuthenticationService,
+              private authenticationService: AuthenticationService,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
   }
 
@@ -40,6 +49,11 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    *
    */
   ngOnInit() {
+
+    this.unidadeTipoAvaliacao = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
+
+    if(!this.unidadeTipoAvaliacao)
+      this.router.navigate(['selecionar-avaliacao']);
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
@@ -51,7 +65,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
      * Se não tem unidade selecionada vai para tela de selação de unidade
      */
     if (!this.mobileService.getUnidade())
-      this.router.navigate(['selecionar-unidade']);
+      this.router.navigate(['../selecionar-unidade']);
 
     this.configuracaoService.configuracao.subscribe(result => this.configuracao = result)
   }
@@ -61,7 +75,8 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    */
   public avaliar(nota: number) {
     this.mobileService.setNota(nota);
-    this.router.navigate(['selecionar-atendentes']);
+    console.log('nota ', nota);
+    this.router.navigate(['avaliar/' + this.activatedRoute.snapshot.params['ordem'] + '/selecionar-atendentes']);
   }
 
   /**

@@ -262,4 +262,21 @@ export class MobileService {
         .subscribe(unidade => this._unidade = unidade);
   }
 
+  /**
+   *
+   * @param {number} ordem
+   * @returns {any}
+   */
+  public getUnidadeTipoAvaliacaoByIndex(ordem: number): any {
+    if (!ordem && !this.unidadesTiposAvaliacoes.length)
+      return null;
+
+    const unidadesTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === +ordem);
+
+    if (!unidadesTiposAvaliacoes.length)
+      return null;
+
+    return unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === +ordem)[0];
+  }
+
 }
