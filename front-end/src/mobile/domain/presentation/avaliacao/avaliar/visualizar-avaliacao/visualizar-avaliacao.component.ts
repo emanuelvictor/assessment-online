@@ -4,9 +4,11 @@ import {Configuracao} from "../../../../../../web/domain/entity/configuracao/con
 import {MobileService} from "../../../../service/mobile.service";
 import {ConfiguracaoService} from "../../../../../../web/domain/service/configuracao.service";
 import {AuthenticationService} from "../../../../../../web/domain/service/authentication.service";
-import {MatIconRegistry} from "@angular/material";
+import {MatIconRegistry, MatSnackBar} from "@angular/material";
 import {DomSanitizer} from "@angular/platform-browser";
 import {UnidadeTipoAvaliacao} from "../../../../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
+import {AvaliavelRepository} from "../../../../../../web/domain/repositories/avaliavel.repository";
 
 @Component({
   selector: 'visualizar-avaliacao',
@@ -30,18 +32,24 @@ export class VisualizarAvaliacaoComponent implements OnInit {
   /**
    *
    * @param {Router} router
+   * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
    * @param {ActivatedRoute} activatedRoute
    * @param {ConfiguracaoService} configuracaoService
+   * @param {AvaliavelRepository} avaliavelRepository
    * @param {AuthenticationService} authenticationService
+   * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    */
   constructor(private router: Router,
+              private snackBar: MatSnackBar,
               public mobileService: MobileService,
               public activatedRoute: ActivatedRoute,
               private configuracaoService: ConfiguracaoService,
+              private avaliavelRepository: AvaliavelRepository,
               private authenticationService: AuthenticationService,
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
   }
 
@@ -50,11 +58,30 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    */
   ngOnInit() {
 
-    if (this.mobileService.unidadesTiposAvaliacoes && this.mobileService.unidadesTiposAvaliacoes.length)
-      this.unidadeTipoAvaliacao = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
+    this.avaliavelRepository.listByFilters(
+      {
+        unidadeTipoAvaliacaoId: this.mobileService.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params['ordem'])[0].id
+      }
+    )
+      .subscribe(page => {
+        if (!page.content.length) {
+          this.openSnackBar('Vincule atendnetes, itens ou quesitos á essa unidade nessa avaliação');
+          this.router.navigate(['conclusao'])
+        }
+      });
 
-    if(!this.unidadeTipoAvaliacao)
-      this.router.navigate(['selecionar-avaliacao']);
+
+    if (this.mobileService.unidadesTiposAvaliacoes && this.mobileService.unidadesTiposAvaliacoes.length) {
+
+      const local = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
+
+      if (!local)
+        this.router.navigate(['selecionar-avaliacao']);
+
+      this.unidadeTipoAvaliacaoRepository.findById(local.id)
+        .subscribe(result => this.unidadeTipoAvaliacao = result)
+
+    }
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
@@ -69,6 +96,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
       this.router.navigate(['../selecionar-unidade']);
 
     this.configuracaoService.configuracao.subscribe(result => this.configuracao = result)
+
   }
 
   /**
@@ -87,4 +115,15 @@ export class VisualizarAvaliacaoComponent implements OnInit {
     this.authenticationService.logout();
     this.router.navigate(['/authentication']);
   }
+
+  /**
+   *
+   * @param message
+   */
+  public openSnackBar(message: string) {
+    this.snackBar.open(message, 'Fechar', {
+      duration: 5000
+    });
+  }
+
 }

@@ -57,7 +57,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   usuario.thumbnailPath,  " +
             "   usuario.avatarPath, " +
             "   usuario.fotoPath, " +
-            "   AVG(CASE WHEN avaliacao.nota IS NULL THEN 0 ELSE avaliacao.nota END) AS media," +
+            "   AVG(avaliacao.nota) AS media," +
             "   COUNT(avaliacao) AS quantidadeAvaliacoes," +
             "   COUNT(av1) AS avaliacoes1," +
             "   COUNT(av2) AS avaliacoes2," +

@@ -10,6 +10,7 @@ import {AvaliacaoAvaliavel} from '../../../web/domain/entity/avaliacao/avaliacao
 import {UnidadeService} from '../../../web/domain/service/unidade.service';
 import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
 import {Avaliavel} from "../../../web/domain/entity/usuario/vinculo/avaliavel.model";
+import {UnidadeTipoAvaliacaoRepository} from "../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -86,6 +87,7 @@ export class MobileService {
    * @returns {any}
    */
   get unidadesTiposAvaliacoes(): any {
+
     this._unidadesTiposAvaliacoes = [];
 
     const local = this.localStorage.unidadesTiposAvaliacoes;
@@ -283,15 +285,16 @@ export class MobileService {
    * @returns {any}
    */
   public getUnidadeTipoAvaliacaoByIndex(ordem: string): any {
+
     if (!ordem && !this.unidadesTiposAvaliacoes.length)
       return null;
 
-    const unidadesTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === +ordem);
+    const unidadesTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === ordem);
 
     if (!unidadesTiposAvaliacoes.length)
       return null;
 
-    return unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === +ordem)[0];
+    return unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === ordem)[0];
   }
 
 }

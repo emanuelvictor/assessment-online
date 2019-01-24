@@ -206,9 +206,9 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
         this.page = result;
-        this.page.content.forEach(avaliacao => {
-          avaliacao.unidadesTiposAvaliacoes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoColaborador => ' ' + avaliacaoColaborador.avaliavel.usuario.nome).join();
-        })
+        this.page.content.forEach(avaliacao =>
+          avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join()
+        )
       })
   }
 

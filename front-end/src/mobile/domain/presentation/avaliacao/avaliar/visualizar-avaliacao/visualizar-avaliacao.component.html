@@ -6,7 +6,7 @@
         {{unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado}}
       </div>
     </mat-card-title>
-    <mat-card-content>
+    <mat-card-content style='margin-bottom: 0'>
       <div layout-gt-xs="row" layout-xs="column" layout-margin>
         <button mat-button (click)="avaliar(1)">
           <div layout="column" layout-align="center center">
@@ -40,6 +40,15 @@
         </button>
       </div>
     </mat-card-content>
-    <span style='font-size: 25px;'>{{activatedRoute?.snapshot?.params['ordem'] + '/' + mobileService?.unidadesTiposAvaliacoes?.length}}</span>
+    <mat-card-actions>
+      <div layout='row' layout-align='center center' flex>
+        <div layout-margin
+             layout='column' flex
+             layout-align='end start'
+             style='font-size: 25px;'>
+          {{activatedRoute?.snapshot?.params['ordem'] + '/' + mobileService?.unidadesTiposAvaliacoes?.length}}
+        </div>
+      </div>
+    </mat-card-actions>
   </mat-card>
 </div>

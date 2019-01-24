@@ -28,7 +28,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   unidade.nome, " +
             "   unidade.documento, " +
             "   unidade.endereco," +
-            "   AVG(CASE WHEN avaliacao.nota IS NULL THEN 0 ELSE avaliacao.nota END) AS media," +
+            "   AVG(avaliacao.nota) AS media," +
             "   COUNT(DISTINCT avaliacao.id) AS quantidadeAvaliacoes," +
             "   COUNT(DISTINCT av1.id) AS avaliacoes1," +
             "   COUNT(DISTINCT av2.id) AS avaliacoes2," +
