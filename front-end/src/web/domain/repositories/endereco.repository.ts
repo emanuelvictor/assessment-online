@@ -5,7 +5,7 @@ import {environment} from "../../../environments/environment";
 @Injectable()
 export class EnderecoRepository {
 
-  private postmon = 'http://api.postmon.com.br/v1/cep/';
+  private postmon = 'https://api.postmon.com.br/v1/cep/';
 
   constructor(private httpClient: HttpClient) {
   }

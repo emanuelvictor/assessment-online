@@ -45,6 +45,11 @@ export class SelecionarAvaliacaoComponent {
 
         this.unidadesTiposAvaliacoes = result.content;
 
+        if (this.unidadesTiposAvaliacoes.length === 1) {
+          this.unidadesTiposAvaliacoes[0].ordem = 1;
+          this.continue()
+        }
+
       });
 
   }
@@ -84,7 +89,7 @@ export class SelecionarAvaliacaoComponent {
    */
   public continue(): void {
 
-    if (!this.unidadesTiposAvaliacoes || !this.unidadesTiposAvaliacoes.length){
+    if (!this.unidadesTiposAvaliacoes || !this.unidadesTiposAvaliacoes.length) {
       this.openSnackBar('Selecione ao menos uma avaliação');
       return;
     }
