@@ -32,7 +32,7 @@ export class LogoutComponent {
 
     this.timeout = setTimeout(() => {
       this.mobileService.reset();
-      this.router.navigate(['/avaliar']);
+      this.router.navigate(['/avaliar/1']);
     }, 180000);
 
   }

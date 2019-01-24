@@ -25,7 +25,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    *
    * @type {UnidadeTipoAvaliacao}
    */
-  unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
+  unidadeTipoAvaliacao: UnidadeTipoAvaliacao = null;
 
   /**
    *
@@ -50,7 +50,8 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    */
   ngOnInit() {
 
-    this.unidadeTipoAvaliacao = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
+    if (this.mobileService.unidadesTiposAvaliacoes && this.mobileService.unidadesTiposAvaliacoes.length)
+      this.unidadeTipoAvaliacao = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
 
     if(!this.unidadeTipoAvaliacao)
       this.router.navigate(['selecionar-avaliacao']);

@@ -73,18 +73,35 @@ export class MobileService {
     this.mdSnackBarConfig.duration = 5000;
   }
 
-
+  /**
+   *
+   * @returns {Unidade}
+   */
   get unidade(): Unidade {
     return this._unidade;
   }
 
-
+  /**
+   *
+   * @returns {any}
+   */
   get unidadesTiposAvaliacoes(): any {
+    this._unidadesTiposAvaliacoes = [];
+
+    const local = this.localStorage.unidadesTiposAvaliacoes;
+
+    for (let i = 0; i < local.length; i++)
+      this._unidadesTiposAvaliacoes.push(local[i]);
+
     return this._unidadesTiposAvaliacoes;
   }
 
+  /**
+   *
+   * @param value
+   */
   set unidadesTiposAvaliacoes(value: any) {
-    this._unidadesTiposAvaliacoes = value;
+    this.localStorage.unidadesTiposAvaliacoes = value
   }
 
   /**
@@ -265,7 +282,7 @@ export class MobileService {
    * @param {number} ordem
    * @returns {any}
    */
-  public getUnidadeTipoAvaliacaoByIndex(ordem: number): any {
+  public getUnidadeTipoAvaliacaoByIndex(ordem: string): any {
     if (!ordem && !this.unidadesTiposAvaliacoes.length)
       return null;
 

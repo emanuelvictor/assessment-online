@@ -84,7 +84,12 @@ export class SelecionarAvaliacaoComponent {
    */
   public continue(): void {
 
-    this.mobileService.unidadesTiposAvaliacoes = this.unidadesTiposAvaliacoes;
+    if (!this.unidadesTiposAvaliacoes || !this.unidadesTiposAvaliacoes.length){
+      this.openSnackBar('Selecione ao menos uma avaliação');
+      return;
+    }
+
+    this.mobileService.unidadesTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem !== null && unidadeTipoAvaliacao.ordem !== 0);
 
     this.router.navigate(['avaliar/1']);
 

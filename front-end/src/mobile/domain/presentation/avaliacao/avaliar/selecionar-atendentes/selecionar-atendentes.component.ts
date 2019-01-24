@@ -59,7 +59,7 @@ export class SelecionarAtendentesComponent implements OnInit {
 
     this.timeout = setTimeout(() => {
       this.mobileService.reset();
-      this.router.navigate(['/avaliar']);
+      this.router.navigate(['/avaliar/1']);
     }, this.time);
 
     this.avaliavelRepository.listByFilters(
@@ -94,6 +94,7 @@ export class SelecionarAtendentesComponent implements OnInit {
      */
     if (this.mobileService.getAvaliaveis().length > 0) {
       this.mobileService.enviarAvaliacao();
+
       if (this.mobileService.unidadesTiposAvaliacoes.length !== +this.activatedRoute.snapshot.params['ordem'])
         this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['ordem'] + 1)]);
       else
