@@ -1,50 +1,46 @@
+-- --
+-- -- PostgreSQL database dump
+-- --
 --
--- PostgreSQL database dump
+-- -- Dumped from database version 10.6 (Ubuntu 10.6-1.pgdg16.04+1)
+-- -- Dumped by pg_dump version 10.6 (Ubuntu 10.6-1.pgdg16.04+1)
 --
-
--- Dumped from database version 10.6 (Ubuntu 10.6-1.pgdg16.04+1)
--- Dumped by pg_dump version 10.6 (Ubuntu 10.6-1.pgdg16.04+1)
-
--- Started on 2019-01-24 18:42:43 -02
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET row_security = off;
-
+-- -- Started on 2019-01-24 18:42:43 -02
 --
--- TOC entry 258 (class 1255 OID 53906)
--- Name: filter(text, text[]); Type: FUNCTION; Schema: public; Owner: postgres
+-- SET statement_timeout = 0;
+-- SET lock_timeout = 0;
+-- SET idle_in_transaction_session_timeout = 0;
+-- SET client_encoding = 'UTF8';
+-- SET standard_conforming_strings = on;
+-- SELECT pg_catalog.set_config('search_path', '', false);
+-- SET check_function_bodies = false;
+-- SET client_min_messages = warning;
+-- SET row_security = off;
 --
-
-CREATE FUNCTION filter(needles text, VARIADIC haystacks text[]) RETURNS boolean
-    LANGUAGE sql
-    AS $$
-SELECT needles IS NULL OR trim(needles) = '' OR EXISTS(
-    SELECT DISTINCT 1
-    FROM unnest(haystacks) haystack,
-          unnest(string_to_array(needles, ',')) needle
-    WHERE unaccent(haystack) ILIKE '%' || unaccent(needle) || '%');
-$$;
-
-
-ALTER FUNCTION filter(needles text, VARIADIC haystacks text[]) OWNER TO postgres;
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
+-- --
+-- -- TOC entry 258 (class 1255 OID 53906)
+-- -- Name: filter(text, text[]); Type: FUNCTION; Schema: public; Owner: postgres
+-- --
+--
+-- CREATE OR REPLACE FUNCTION filter(needles text, VARIADIC haystacks text [])
+-- RETURNS boolean AS $$
+-- SELECT needles IS NULL OR trim(needles) = '' OR EXISTS(
+--     SELECT DISTINCT 1
+--     FROM unnest(haystacks) haystack,
+--     unnest(string_to_array(needles, ',')) needle
+--     WHERE unaccent(haystack) ILIKE '%' || unaccent(needle) || '%');
+-- $$ LANGUAGE SQL;
+--
+-- SET default_tablespace = '';
+--
+-- SET default_with_oids = false;
 
 --
 -- TOC entry 216 (class 1259 OID 53562)
 -- Name: avaliacao; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE avaliacao (
+CREATE TABLE IF NOT EXISTS avaliacao (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -62,7 +58,7 @@ ALTER TABLE avaliacao OWNER TO assessment;
 -- Name: avaliacao_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE avaliacao_aud (
+CREATE TABLE IF NOT EXISTS avaliacao_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -80,7 +76,7 @@ ALTER TABLE avaliacao_aud OWNER TO assessment;
 -- Name: avaliacao_avaliavel; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE avaliacao_avaliavel (
+CREATE TABLE IF NOT EXISTS avaliacao_avaliavel (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -96,7 +92,7 @@ ALTER TABLE avaliacao_avaliavel OWNER TO assessment;
 -- Name: avaliacao_avaliavel_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE avaliacao_avaliavel_aud (
+CREATE TABLE IF NOT EXISTS avaliacao_avaliavel_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -160,7 +156,7 @@ ALTER SEQUENCE avaliacao_id_seq OWNED BY avaliacao.id;
 -- Name: avaliavel; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE avaliavel (
+CREATE TABLE IF NOT EXISTS avaliavel (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -177,7 +173,7 @@ ALTER TABLE avaliavel OWNER TO assessment;
 -- Name: avaliavel_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE avaliavel_aud (
+CREATE TABLE IF NOT EXISTS avaliavel_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -218,7 +214,7 @@ ALTER SEQUENCE avaliavel_id_seq OWNED BY avaliavel.id;
 -- Name: cidade; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE cidade (
+CREATE TABLE IF NOT EXISTS cidade (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -234,7 +230,7 @@ ALTER TABLE cidade OWNER TO assessment;
 -- Name: cidade_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE cidade_aud (
+CREATE TABLE IF NOT EXISTS cidade_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -274,7 +270,7 @@ ALTER SEQUENCE cidade_id_seq OWNED BY cidade.id;
 -- Name: configuracao; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE configuracao (
+CREATE TABLE IF NOT EXISTS configuracao (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -298,7 +294,7 @@ ALTER TABLE configuracao OWNER TO assessment;
 -- Name: configuracao_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE configuracao_aud (
+CREATE TABLE IF NOT EXISTS configuracao_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -346,7 +342,7 @@ ALTER SEQUENCE configuracao_id_seq OWNED BY configuracao.id;
 -- Name: conta; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE conta (
+CREATE TABLE IF NOT EXISTS conta (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -366,7 +362,7 @@ ALTER TABLE conta OWNER TO assessment;
 -- Name: conta_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE conta_aud (
+CREATE TABLE IF NOT EXISTS conta_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -410,7 +406,7 @@ ALTER SEQUENCE conta_id_seq OWNED BY conta.id;
 -- Name: endereco; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE endereco (
+CREATE TABLE IF NOT EXISTS endereco (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -430,7 +426,7 @@ ALTER TABLE endereco OWNER TO assessment;
 -- Name: endereco_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE endereco_aud (
+CREATE TABLE IF NOT EXISTS endereco_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -474,7 +470,7 @@ ALTER SEQUENCE endereco_id_seq OWNED BY endereco.id;
 -- Name: estado; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE estado (
+CREATE TABLE IF NOT EXISTS estado (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -491,7 +487,7 @@ ALTER TABLE estado OWNER TO assessment;
 -- Name: estado_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE estado_aud (
+CREATE TABLE IF NOT EXISTS estado_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -526,34 +522,12 @@ ALTER TABLE estado_id_seq OWNER TO assessment;
 
 ALTER SEQUENCE estado_id_seq OWNED BY estado.id;
 
-
---
--- TOC entry 197 (class 1259 OID 53454)
--- Name: flyway_schema_history; Type: TABLE; Schema: public; Owner: assessment
---
-
-CREATE TABLE flyway_schema_history (
-    installed_rank integer NOT NULL,
-    version character varying(50),
-    description character varying(200) NOT NULL,
-    type character varying(20) NOT NULL,
-    script character varying(1000) NOT NULL,
-    checksum integer,
-    installed_by character varying(100) NOT NULL,
-    installed_on timestamp without time zone DEFAULT now() NOT NULL,
-    execution_time integer NOT NULL,
-    success boolean NOT NULL
-);
-
-
-ALTER TABLE flyway_schema_history OWNER TO assessment;
-
 --
 -- TOC entry 231 (class 1259 OID 53645)
 -- Name: operador; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE operador (
+CREATE TABLE IF NOT EXISTS operador (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -569,7 +543,7 @@ ALTER TABLE operador OWNER TO assessment;
 -- Name: operador_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE operador_aud (
+CREATE TABLE IF NOT EXISTS operador_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -609,7 +583,7 @@ ALTER SEQUENCE operador_id_seq OWNED BY operador.id;
 -- Name: pais; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE pais (
+CREATE TABLE IF NOT EXISTS pais (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -624,7 +598,7 @@ ALTER TABLE pais OWNER TO assessment;
 -- Name: pais_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE pais_aud (
+CREATE TABLE IF NOT EXISTS pais_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -663,7 +637,7 @@ ALTER SEQUENCE pais_id_seq OWNED BY pais.id;
 -- Name: pessoa; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE pessoa (
+CREATE TABLE IF NOT EXISTS pessoa (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -679,7 +653,7 @@ ALTER TABLE pessoa OWNER TO assessment;
 -- Name: pessoa_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE pessoa_aud (
+CREATE TABLE IF NOT EXISTS pessoa_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -719,7 +693,7 @@ ALTER SEQUENCE pessoa_id_seq OWNED BY pessoa.id;
 -- Name: revision; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE revision (
+CREATE TABLE IF NOT EXISTS revision (
     id bigint NOT NULL,
     schema character varying(255),
     "timestamp" bigint NOT NULL,
@@ -758,7 +732,7 @@ ALTER SEQUENCE revision_id_seq OWNED BY revision.id;
 -- Name: sessao; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE sessao (
+CREATE TABLE IF NOT EXISTS sessao (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -775,7 +749,7 @@ ALTER TABLE sessao OWNER TO assessment;
 -- Name: sessao_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE sessao_aud (
+CREATE TABLE IF NOT EXISTS sessao_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -816,7 +790,7 @@ ALTER SEQUENCE sessao_id_seq OWNED BY sessao.id;
 -- Name: tipo_avaliacao; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE tipo_avaliacao (
+CREATE TABLE IF NOT EXISTS tipo_avaliacao (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -838,7 +812,7 @@ ALTER TABLE tipo_avaliacao OWNER TO assessment;
 -- Name: tipo_avaliacao_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE tipo_avaliacao_aud (
+CREATE TABLE IF NOT EXISTS tipo_avaliacao_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -884,7 +858,7 @@ ALTER SEQUENCE tipo_avaliacao_id_seq OWNED BY tipo_avaliacao.id;
 -- Name: unidade; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE unidade (
+CREATE TABLE IF NOT EXISTS unidade (
     agradecimento character varying(255),
     id bigint NOT NULL,
     endereco_id bigint NOT NULL
@@ -898,7 +872,7 @@ ALTER TABLE unidade OWNER TO assessment;
 -- Name: unidade_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE unidade_aud (
+CREATE TABLE IF NOT EXISTS unidade_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     agradecimento character varying(255),
@@ -913,7 +887,7 @@ ALTER TABLE unidade_aud OWNER TO assessment;
 -- Name: unidade_tipo_avaliacao; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE unidade_tipo_avaliacao (
+CREATE TABLE IF NOT EXISTS unidade_tipo_avaliacao (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
@@ -931,7 +905,7 @@ ALTER TABLE unidade_tipo_avaliacao OWNER TO assessment;
 -- Name: unidade_tipo_avaliacao_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE unidade_tipo_avaliacao_aud (
+CREATE TABLE IF NOT EXISTS unidade_tipo_avaliacao_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     revtype smallint,
@@ -973,7 +947,7 @@ ALTER SEQUENCE unidade_tipo_avaliacao_id_seq OWNED BY unidade_tipo_avaliacao.id;
 -- Name: usuario; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE usuario (
+CREATE TABLE IF NOT EXISTS usuario (
     avatar bytea,
     avatar_path character varying(255),
     foto bytea,
@@ -992,7 +966,7 @@ ALTER TABLE usuario OWNER TO assessment;
 -- Name: usuario_aud; Type: TABLE; Schema: public; Owner: assessment
 --
 
-CREATE TABLE usuario_aud (
+CREATE TABLE IF NOT EXISTS usuario_aud (
     id bigint NOT NULL,
     rev bigint NOT NULL,
     avatar bytea,
@@ -1408,15 +1382,6 @@ ALTER TABLE ONLY estado
 
 
 --
--- TOC entry 2944 (class 2606 OID 53462)
--- Name: flyway_schema_history flyway_schema_history_pk; Type: CONSTRAINT; Schema: public; Owner: assessment
---
-
-ALTER TABLE ONLY flyway_schema_history
-    ADD CONSTRAINT flyway_schema_history_pk PRIMARY KEY (installed_rank);
-
-
---
 -- TOC entry 3005 (class 2606 OID 53655)
 -- Name: operador_aud operador_aud_pkey; Type: CONSTRAINT; Schema: public; Owner: assessment
 --
@@ -1675,15 +1640,6 @@ ALTER TABLE ONLY usuario_aud
 
 ALTER TABLE ONLY usuario
     ADD CONSTRAINT usuario_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 2945 (class 1259 OID 53463)
--- Name: flyway_schema_history_s_idx; Type: INDEX; Schema: public; Owner: assessment
---
-
-CREATE INDEX flyway_schema_history_s_idx ON flyway_schema_history USING btree (success);
-
 
 --
 -- TOC entry 3047 (class 2606 OID 53804)
@@ -1970,3 +1926,36 @@ ALTER TABLE ONLY configuracao_aud
 -- PostgreSQL database dump complete
 --
 
+-- Table: flyway_schema_history
+
+-- DROP TABLE flyway_schema_history;
+
+CREATE TABLE IF NOT EXISTS flyway_schema_history
+(
+    installed_rank integer NOT NULL,
+    version character varying(50),
+    description character varying(200) NOT NULL,
+    type character varying(20) NOT NULL,
+    script character varying(1000) NOT NULL,
+    checksum integer,
+    installed_by character varying(100) NOT NULL,
+    installed_on timestamp without time zone NOT NULL DEFAULT now(),
+    execution_time integer NOT NULL,
+    success boolean NOT NULL,
+    CONSTRAINT flyway_schema_history_pk PRIMARY KEY (installed_rank)
+    )
+    WITH (
+        OIDS=FALSE
+        );
+ALTER TABLE flyway_schema_history
+    OWNER TO assessment;
+
+-- CREATE INDEX IN POSTGRES 9.4+
+DO $$
+BEGIN
+
+IF to_regclass('flyway_schema_history_s_idx') IS NULL THEN
+CREATE INDEX flyway_schema_history_s_idx ON flyway_schema_history USING btree (success);
+END IF;
+
+END$$;
