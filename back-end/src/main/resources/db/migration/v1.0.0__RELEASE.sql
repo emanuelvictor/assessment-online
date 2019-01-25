@@ -1,39 +1,30 @@
--- --
--- -- PostgreSQL database dump
--- --
---
--- -- Dumped from database version 10.6 (Ubuntu 10.6-1.pgdg16.04+1)
--- -- Dumped by pg_dump version 10.6 (Ubuntu 10.6-1.pgdg16.04+1)
---
--- -- Started on 2019-01-24 18:42:43 -02
---
--- SET statement_timeout = 0;
--- SET lock_timeout = 0;
--- SET idle_in_transaction_session_timeout = 0;
--- SET client_encoding = 'UTF8';
--- SET standard_conforming_strings = on;
--- SELECT pg_catalog.set_config('search_path', '', false);
--- SET check_function_bodies = false;
--- SET client_min_messages = warning;
--- SET row_security = off;
---
--- --
--- -- TOC entry 258 (class 1255 OID 53906)
--- -- Name: filter(text, text[]); Type: FUNCTION; Schema: public; Owner: postgres
--- --
---
--- CREATE OR REPLACE FUNCTION filter(needles text, VARIADIC haystacks text [])
--- RETURNS boolean AS $$
--- SELECT needles IS NULL OR trim(needles) = '' OR EXISTS(
---     SELECT DISTINCT 1
---     FROM unnest(haystacks) haystack,
---     unnest(string_to_array(needles, ',')) needle
---     WHERE unaccent(haystack) ILIKE '%' || unaccent(needle) || '%');
--- $$ LANGUAGE SQL;
---
--- SET default_tablespace = '';
---
--- SET default_with_oids = false;
+CREATE SEQUENCE revision_id_seq
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+ALTER TABLE revision_id_seq
+    OWNER TO assessment;
+
+
+-- Table: revision
+
+-- DROP TABLE revision;
+
+CREATE TABLE IF NOT EXISTS public.revision
+(
+    id bigint NOT NULL DEFAULT nextval('revision_id_seq'::regclass),
+    "timestamp" bigint NOT NULL,
+    username character varying(200),
+    schema character varying(200),
+    CONSTRAINT revision_pkey PRIMARY KEY (id)
+    )
+    WITH (
+        OIDS=FALSE
+        );
+ALTER TABLE public.revision
+    OWNER TO assessment;
 
 --
 -- TOC entry 216 (class 1259 OID 53562)
@@ -351,7 +342,8 @@ CREATE TABLE IF NOT EXISTS conta (
     esquema character varying(255) NOT NULL,
     last_login timestamp without time zone,
     password character varying(255),
-    root boolean NOT NULL
+    root boolean NOT NULL,
+    usuario_id bigint
 );
 
 
@@ -371,7 +363,8 @@ CREATE TABLE IF NOT EXISTS conta_aud (
     esquema character varying(255),
     last_login timestamp without time zone,
     password character varying(255),
-    root boolean
+    root boolean,
+    usuario_id bigint
 );
 
 
@@ -686,46 +679,6 @@ ALTER TABLE pessoa_id_seq OWNER TO assessment;
 --
 
 ALTER SEQUENCE pessoa_id_seq OWNED BY pessoa.id;
-
-
---
--- TOC entry 211 (class 1259 OID 53524)
--- Name: revision; Type: TABLE; Schema: public; Owner: assessment
---
-
-CREATE TABLE IF NOT EXISTS revision (
-    id bigint NOT NULL,
-    schema character varying(255),
-    "timestamp" bigint NOT NULL,
-    username character varying(255)
-);
-
-
-ALTER TABLE revision OWNER TO assessment;
-
---
--- TOC entry 210 (class 1259 OID 53522)
--- Name: revision_id_seq; Type: SEQUENCE; Schema: public; Owner: assessment
---
-
-CREATE SEQUENCE revision_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE revision_id_seq OWNER TO assessment;
-
---
--- TOC entry 3253 (class 0 OID 0)
--- Dependencies: 210
--- Name: revision_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: assessment
---
-
-ALTER SEQUENCE revision_id_seq OWNED BY revision.id;
-
 
 --
 -- TOC entry 213 (class 1259 OID 53535)
@@ -1070,14 +1023,6 @@ ALTER TABLE ONLY pessoa ALTER COLUMN id SET DEFAULT nextval('pessoa_id_seq'::reg
 
 
 --
--- TOC entry 2932 (class 2604 OID 53527)
--- Name: revision id; Type: DEFAULT; Schema: public; Owner: assessment
---
-
-ALTER TABLE ONLY revision ALTER COLUMN id SET DEFAULT nextval('revision_id_seq'::regclass);
-
-
---
 -- TOC entry 2933 (class 2604 OID 53538)
 -- Name: sessao id; Type: DEFAULT; Schema: public; Owner: assessment
 --
@@ -1199,15 +1144,6 @@ SELECT pg_catalog.setval('pais_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('pessoa_id_seq', 9, true);
-
-
---
--- TOC entry 3268 (class 0 OID 0)
--- Dependencies: 210
--- Name: revision_id_seq; Type: SEQUENCE SET; Schema: public; Owner: assessment
---
-
-SELECT pg_catalog.setval('revision_id_seq', 172, true);
 
 
 --
@@ -1436,15 +1372,6 @@ ALTER TABLE ONLY pessoa
 
 
 --
--- TOC entry 2969 (class 2606 OID 53532)
--- Name: revision revision_pkey; Type: CONSTRAINT; Schema: public; Owner: assessment
---
-
-ALTER TABLE ONLY revision
-    ADD CONSTRAINT revision_pkey PRIMARY KEY (id);
-
-
---
 -- TOC entry 2975 (class 2606 OID 53551)
 -- Name: sessao_aud sessao_aud_pkey; Type: CONSTRAINT; Schema: public; Owner: assessment
 --
@@ -1656,7 +1583,7 @@ ALTER TABLE ONLY avaliavel
 --
 
 ALTER TABLE ONLY pessoa_aud
-    ADD CONSTRAINT fk24tiwpkx458kkfykpdw0eplnw FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fk24tiwpkx458kkfykpdw0eplnw FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1665,7 +1592,7 @@ ALTER TABLE ONLY pessoa_aud
 --
 
 ALTER TABLE ONLY avaliacao_avaliavel_aud
-    ADD CONSTRAINT fk4rp9v89c9v7740876pw9c7r8g FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fk4rp9v89c9v7740876pw9c7r8g FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1674,7 +1601,7 @@ ALTER TABLE ONLY avaliacao_avaliavel_aud
 --
 
 ALTER TABLE ONLY cidade_aud
-    ADD CONSTRAINT fk5eniib2h0qdbeg6i20kgjhrtu FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fk5eniib2h0qdbeg6i20kgjhrtu FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1692,7 +1619,7 @@ ALTER TABLE ONLY usuario_aud
 --
 
 ALTER TABLE ONLY estado_aud
-    ADD CONSTRAINT fk70vj54e74od9gxcre4d3y8sb7 FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fk70vj54e74od9gxcre4d3y8sb7 FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1737,7 +1664,7 @@ ALTER TABLE ONLY unidade_tipo_avaliacao
 --
 
 ALTER TABLE ONLY sessao_aud
-    ADD CONSTRAINT fkfgw762y3kjq9fidwv4ova0c6e FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fkfgw762y3kjq9fidwv4ova0c6e FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1746,7 +1673,7 @@ ALTER TABLE ONLY sessao_aud
 --
 
 ALTER TABLE ONLY unidade_tipo_avaliacao_aud
-    ADD CONSTRAINT fkhb918o8hsu32di2bc974dp601 FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fkhb918o8hsu32di2bc974dp601 FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1755,7 +1682,7 @@ ALTER TABLE ONLY unidade_tipo_avaliacao_aud
 --
 
 ALTER TABLE ONLY operador_aud
-    ADD CONSTRAINT fkhcecwopl83nqaknck7qpf6xbf FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fkhcecwopl83nqaknck7qpf6xbf FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1791,7 +1718,7 @@ ALTER TABLE ONLY estado
 --
 
 ALTER TABLE ONLY tipo_avaliacao_aud
-    ADD CONSTRAINT fklyp7dky0ii83h1a2bim7eo6qq FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fklyp7dky0ii83h1a2bim7eo6qq FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1800,7 +1727,7 @@ ALTER TABLE ONLY tipo_avaliacao_aud
 --
 
 ALTER TABLE ONLY usuario
-    ADD CONSTRAINT fkm9ew1jp3jewapkiridletuerr FOREIGN KEY (conta_id) REFERENCES conta(id);
+    ADD CONSTRAINT fkm9ew1jp3jewapkiridletuerr FOREIGN KEY (conta_id) REFERENCES public.conta(id);
 
 
 --
@@ -1818,7 +1745,7 @@ ALTER TABLE ONLY operador
 --
 
 ALTER TABLE ONLY endereco_aud
-    ADD CONSTRAINT fknabsn79mk6puy70jlaavkt5vx FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fknabsn79mk6puy70jlaavkt5vx FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1836,7 +1763,7 @@ ALTER TABLE ONLY usuario
 --
 
 ALTER TABLE ONLY avaliacao_aud
-    ADD CONSTRAINT fko4c47hsy8077g9cjndbkjlqce FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fko4c47hsy8077g9cjndbkjlqce FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1872,7 +1799,7 @@ ALTER TABLE ONLY avaliacao_avaliavel
 --
 
 ALTER TABLE ONLY conta_aud
-    ADD CONSTRAINT fkqm7g69hly0iufwaspo5vl8uls FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fkqm7g69hly0iufwaspo5vl8uls FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1899,7 +1826,7 @@ ALTER TABLE ONLY unidade_tipo_avaliacao
 --
 
 ALTER TABLE ONLY avaliavel_aud
-    ADD CONSTRAINT fksgkqofx8yqakyqhk9crofy60p FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fksgkqofx8yqakyqhk9crofy60p FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1908,7 +1835,7 @@ ALTER TABLE ONLY avaliavel_aud
 --
 
 ALTER TABLE ONLY pais_aud
-    ADD CONSTRAINT fksi42g1ni0ad8g851u5fxk4fw7 FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fksi42g1ni0ad8g851u5fxk4fw7 FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 --
@@ -1917,7 +1844,7 @@ ALTER TABLE ONLY pais_aud
 --
 
 ALTER TABLE ONLY configuracao_aud
-    ADD CONSTRAINT fksru5nb79ldou74p921idp2ooi FOREIGN KEY (rev) REFERENCES revision(id);
+    ADD CONSTRAINT fksru5nb79ldou74p921idp2ooi FOREIGN KEY (rev) REFERENCES public.revision(id);
 
 
 -- Completed on 2019-01-24 18:42:43 -02
