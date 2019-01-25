@@ -36,16 +36,17 @@ export class LocalStorage {
   }
 
   get unidadesTiposAvaliacoes(): UnidadeTipoAvaliacao[] {
+
     const unidadesTiposAvaliacoes: UnidadeTipoAvaliacao[] = [];
 
     for (var _i = 0; _i < window.localStorage['unidadesTiposAvaliacoes.length']; _i++) {
       const unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
 
       unidadeTipoAvaliacao.id = window.localStorage['unidadeTipoAvaliacao' + (_i)]
-        .substring(0, 1);
+        .substring(0, window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('='));
 
       unidadeTipoAvaliacao.ordem = window.localStorage['unidadeTipoAvaliacao' + (_i)]
-        .substring(window.localStorage['unidadeTipoAvaliacao' + _i].length - 1, window.localStorage['unidadeTipoAvaliacao' + _i].length);
+        .substring(window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('=') + 1, window.localStorage['unidadeTipoAvaliacao' + _i].length);
 
       unidadesTiposAvaliacoes.push(unidadeTipoAvaliacao);
     }

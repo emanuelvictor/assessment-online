@@ -10,7 +10,6 @@ import {AvaliacaoAvaliavel} from '../../../web/domain/entity/avaliacao/avaliacao
 import {UnidadeService} from '../../../web/domain/service/unidade.service';
 import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
 import {Avaliavel} from "../../../web/domain/entity/usuario/vinculo/avaliavel.model";
-import {UnidadeTipoAvaliacaoRepository} from "../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
