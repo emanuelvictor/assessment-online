@@ -2,15 +2,18 @@ package br.com.assessment.domain.service;
 
 import br.com.assessment.application.context.LocalContext;
 import br.com.assessment.application.exceptions.PasswordNotFound;
+import br.com.assessment.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
+import br.com.assessment.domain.entity.usuario.vinculo.Avaliavel;
 import br.com.assessment.domain.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
@@ -31,9 +34,11 @@ public class UnidadeService {
 
     private final UnidadeRepository unidadeRepository;
 
-    private final AvaliavelRepository avaliavelRepository;
-
     private final OperadorRepository operadorRepository;
+
+    private final AvaliacaoRepository avaliacaoRepository;
+
+    private final AvaliavelRepository avaliavelRepository;
 
     private final AvaliacaoAvaliavelRepository avaliacaoAvaliavelRepository;
 
@@ -48,11 +53,15 @@ public class UnidadeService {
 
     public void delete(final long unidadeId) {
 
+        this.operadorRepository.deleteInBatch(operadorRepository.listByFilters(null, null, null, unidadeId, null).getContent());
+
+        final List<AvaliacaoAvaliavel> avaliacoesAvaliaveis = this.avaliacaoAvaliavelRepository.listAvaliacaoAvaliavelByUnidadeId(unidadeId);
+
+        avaliacoesAvaliaveis.forEach(avaliacaoAvaliavel -> this.avaliacaoRepository.deleteById(avaliacaoAvaliavel.getAvaliacao().getId()));
+
         this.avaliacaoAvaliavelRepository.deleteInBatch(this.avaliacaoAvaliavelRepository.listAvaliacaoAvaliavelByUnidadeId(unidadeId));
 
-//        this.avaliavelRepository.deleteInBatch(this.avaliavelRepository.listAvaliavelByUnidadeId(unidadeId)); TODO
-
-        this.operadorRepository.deleteInBatch(operadorRepository.listByFilters(null, null, null, unidadeId, null).getContent());
+        this.avaliavelRepository.deleteInBatch(this.avaliavelRepository.listAvaliavelByUnidadeId(unidadeId));
 
         this.unidadeRepository.deleteById(unidadeId);
     }
