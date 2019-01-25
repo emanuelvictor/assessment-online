@@ -1,9 +1,14 @@
 <header-component>
   <mat-sidenav-container [@routerAnimation]="o.isActivated ? o.activatedRoute : ''">
 
-    <mat-sidenav *ngIf="conta?.usuario?.isOperador || conta?.isAdministrador"
-                 mode="side" [opened]="isSmallScreen" class="mat-elevation-z5">
+    <mat-sidenav [opened]='isSmallScreen'
+                 class='mat-elevation-z5' mode='side'
+                 *ngIf='conta?.usuario?.isOperador || conta?.isAdministrador'>
       <logged-menu></logged-menu>
+
+      <!--<div style='height: 40px; width: 100%;margin-top: auto; margin-left: 50px; margin-bottom: 20px'>-->
+        <!--<img class="size-height-50 logo-image" src="./assets/images/ubest2.png">-->
+      <!--</div>-->
     </mat-sidenav>
 
     <router-outlet #o="outlet"></router-outlet>

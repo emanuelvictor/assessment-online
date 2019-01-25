@@ -19,36 +19,42 @@
     </mat-list-item>
 
     <mat-list-item class="push-bottom"
+                   [matTooltipPosition]="'left'"
                    routerLink="/dashboard/avaliaveis"
                    routerLinkActive #rlaUsuarios="routerLinkActive"
-                   [ngClass]="{'menu-active': rlaUsuarios.isActive}">
+                   [ngClass]="{'menu-active': rlaUsuarios.isActive}"
+                   matTooltip='Atendentes, professores, quesitos, ítens de buffet, etc ...'>
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>supervisor_account</mat-icon>
-        <h3 matLine style="color: white" flex="85"> {{authenticatedUser?.isAdministrador ? 'Atendentes' : 'Meus
-          atendentes'}} </h3>
+        <h3 matLine style="color: white" flex="85">
+          {{authenticatedUser?.isAdministrador ? 'Ítens avaliáveis' : 'Meus ítens avaliáveis'}}
+        </h3>
       </div>
     </mat-list-item>
 
-    <mat-list-item class="push-bottom" routerLink="/dashboard/unidades"
+    <mat-list-item class="push-bottom"
+                   routerLink="/dashboard/unidades"
                    routerLinkActive #rlaFornecedores="routerLinkActive"
                    [ngClass]="{'menu-active': rlaFornecedores.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>store</mat-icon>
-        <h3 matLine style="color: white" flex="85"> {{authenticatedUser?.isAdministrador ? 'Unidades' : 'Minhas
-          unidades'}} </h3>
+        <h3 matLine style="color: white" flex="85">
+          {{authenticatedUser?.isAdministrador ? 'Unidades' : 'Minhas unidades'}}
+        </h3>
       </div>
     </mat-list-item>
 
     <mat-list-item class="push-bottom"
                    routerLink="/dashboard/avaliacoes"
+                   *ngIf='authenticatedUser?.isAdministrador'
                    routerLinkActive #rlaAvaliacoes="routerLinkActive"
                    [ngClass]="{'menu-active': rlaAvaliacoes.isActive}">
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>assessment</mat-icon>
-        <h3 matLine style="color: white" flex="85"> Avaliações </h3>
+        <h3 matLine style="color: white" flex="85"> Tipos de Avaliações </h3>
       </div>
     </mat-list-item>
 

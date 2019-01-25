@@ -10,10 +10,18 @@ visualizar-atendente, visualizar-minha-conta, visualizar-unidade {
   }
 }
 
+dashboard-view {
+  .mat-drawer-inner-container {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
 #date-filters {
   margin-top: 10px;
   margin-right: 5px;
   margin-left: -24px;
+
   .mat-form-field-underline {
     height: 0 !important;
   }
@@ -61,6 +69,7 @@ inserir-unidade {
     margin-right: -24px !important;
     margin-top: -8px !important;
     margin-bottom: -8px !important;
+
     mat-list-item {
       margin: 0 !important;
     }

@@ -31,6 +31,8 @@ public class UnidadeService {
 
     private final UnidadeRepository unidadeRepository;
 
+    private final AvaliavelRepository avaliavelRepository;
+
     private final OperadorRepository operadorRepository;
 
     private final AvaliacaoAvaliavelRepository avaliacaoAvaliavelRepository;
@@ -47,6 +49,8 @@ public class UnidadeService {
     public void delete(final long unidadeId) {
 
         this.avaliacaoAvaliavelRepository.deleteInBatch(this.avaliacaoAvaliavelRepository.listAvaliacaoAvaliavelByUnidadeId(unidadeId));
+
+//        this.avaliavelRepository.deleteInBatch(this.avaliavelRepository.listAvaliavelByUnidadeId(unidadeId)); TODO
 
         this.operadorRepository.deleteInBatch(operadorRepository.listByFilters(null, null, null, unidadeId, null).getContent());
 
