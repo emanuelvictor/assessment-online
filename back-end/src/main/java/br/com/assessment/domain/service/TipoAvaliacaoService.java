@@ -34,10 +34,7 @@ public class TipoAvaliacaoService {
         this.tipoAvaliacaoRepository.deleteById(id);
     }
 
-    public Page<TipoAvaliacao> listByFilters(final String defaultFilter,
-                                             final List<Long> unidadesFilter,
-                                             final Pageable pageable) {
-
+    public Page<TipoAvaliacao> listByFilters(final String defaultFilter, final List<Long> unidadesFilter, final Pageable pageable) {
         return this.tipoAvaliacaoRepository.listByFilters(defaultFilter, unidadesFilter, pageable);
     }
 

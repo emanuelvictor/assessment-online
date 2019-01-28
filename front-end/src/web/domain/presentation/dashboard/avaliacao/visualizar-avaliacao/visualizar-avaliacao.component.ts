@@ -62,6 +62,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
     this.avaliacaoService.findById(avaliacaoId)
       .subscribe((avaliacao: Avaliacao) => {
           this.avaliacao = avaliacao;
+          this.avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
         }
       )
   }
