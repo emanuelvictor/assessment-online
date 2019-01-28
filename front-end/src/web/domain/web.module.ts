@@ -99,6 +99,7 @@ import {VincularTipoAvaliacaoComponent} from "./presentation/dashboard/unidade/v
 import {UnidadeTipoAvaliacaoRepository} from "./repositories/unidade-tipo-avaliacao.repository";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {AvaliavelRepository} from "./repositories/avaliavel.repository";
+import {VisualizarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/visualizar-tipo-avaliacao/visualizar-tipo-avaliacao.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -198,6 +199,7 @@ registerLocaleData(localePt, 'pt-BR');
     AlterarTipoAvaliacaoComponent,
     InserirTipoAvaliacaoComponent,
     TipoAvaliacaoFormComponent,
+    VisualizarTipoAvaliacaoComponent,
     ConsultarTiposAvaliacoesComponent
   ],
   imports: [

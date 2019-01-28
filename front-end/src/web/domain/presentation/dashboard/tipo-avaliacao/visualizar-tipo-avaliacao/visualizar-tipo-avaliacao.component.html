@@ -1,0 +1,73 @@
+<div layout-align='center center' layout-gt-xs='row' layout-margin>
+  <div layout='row' flex-gt-xs='80' layout-margin>
+    <div flex layout-margin>
+      <mat-card class='bgc-grey-50' layout-margin>
+        <mat-card-content>
+
+          <div layout='row'>
+            <div layout='column' style='min-width: 17px'>
+              <button *ngIf='activatedRoute?.snapshot?.params?.id'
+                      class='mat-headline tc-grey-500' type='button'
+                      routerLink='../' color='primary' mat-icon-button>
+                <mat-icon>arrow_back</mat-icon>
+              </button>
+            </div>
+
+            <div layout='column' layout-gt-xs="row"
+                 layout-align="start center" flex-gt-xs="100">
+
+              <div layout="row"
+                   layout-margin
+                   flex flex-gt-xs="80"
+                   style='margin-top: 0'
+                   layout-align="start center">
+
+                <div layout='column' flex>
+                  <div layout='row'
+                       layout-align='start center'>
+                    <h1 flex='100' class="mat-headline tc-blue-grey-800 no-margin">
+                      {{tipoAvaliacao?.nome}}
+                    </h1>
+                  </div>
+                  <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
+                    Enunciado: {{tipoAvaliacao?.enunciado}}
+                  </h2>
+                  <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
+                    Frase para seleção de ítens: "{{tipoAvaliacao?.selecao}}"
+                  </h2>
+                </div>
+              </div>
+            </div>
+
+            <span flex></span>
+
+            <!--div opções-->
+            <div layout="row" flex="40">
+              <!--options-->
+              <div layout='column' layout-align='start end' flex>
+                <div layout='row'>
+                  <button mat-icon-button routerLink='alterar' class='tc-blue-grey-900'>
+                    <mat-icon>mode_edit</mat-icon>
+                  </button>
+                  <button mat-icon-button [matMenuTriggerFor]='menu' class='tc-blue-grey-900'>
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu='matMenu'>
+                    <button mat-menu-item
+                            color='primary'
+                            (click)='remove()'>
+                      <mat-icon>delete</mat-icon>
+                      <span>Remover</span>
+                    </button>
+                  </mat-menu>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

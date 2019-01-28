@@ -33,10 +33,10 @@ public class TipoAvaliacaoResource {
         return Mono.just(this.tipoAvaliacaoService.save(id, tipoAvaliacao));
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    public Mono<Boolean> delete(@RequestParam long tipoAvaliacaoId) {
-        this.tipoAvaliacaoService.delete(tipoAvaliacaoId);
+    public Mono<Boolean> delete(@PathVariable final long id) {
+        this.tipoAvaliacaoService.delete(id);
         return Mono.just(true);
     }
 

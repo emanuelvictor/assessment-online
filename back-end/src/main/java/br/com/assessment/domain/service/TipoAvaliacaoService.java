@@ -1,19 +1,25 @@
 package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.avaliacao.TipoAvaliacao;
+import br.com.assessment.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.assessment.domain.repository.TipoAvaliacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class TipoAvaliacaoService {
+
+    private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
 
     private final TipoAvaliacaoRepository tipoAvaliacaoRepository;
 
@@ -30,7 +36,11 @@ public class TipoAvaliacaoService {
         return this.tipoAvaliacaoRepository.save(tipoTipoAvaliacao);
     }
 
+    @Transactional
     public void delete(final long id) {
+
+        this.unidadeTipoAvaliacaoService.delete(this.unidadeTipoAvaliacaoService.findAllByTipoAvaliacaoId(id));
+
         this.tipoAvaliacaoRepository.deleteById(id);
     }
 

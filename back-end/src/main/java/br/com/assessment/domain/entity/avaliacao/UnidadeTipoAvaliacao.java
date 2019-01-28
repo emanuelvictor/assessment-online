@@ -46,6 +46,20 @@ public class UnidadeTipoAvaliacao extends AbstractEntity {
     /**
      *
      */
+    public UnidadeTipoAvaliacao() {
+    }
+
+    /**
+     *
+     * @param id {Long}
+     */
+    public UnidadeTipoAvaliacao(Long id) {
+        super(id);
+    }
+
+    /**
+     *
+     */
     @PrePersist
     public void prePersist() {
         this.ordem = null;
