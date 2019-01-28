@@ -47,6 +47,11 @@ public class AvaliacaoService {
     }
 
     @Transactional
+    public void delete(final List<Avaliacao> avaliacoes) {
+        this.avaliacaoRepository.deleteInBatch(avaliacoes);
+    }
+
+    @Transactional
     public Page<Avaliacao> listByFilters(final List<Long> unidadesFilter,
                                          final List<Long> usuariosFilter,
                                          final LocalDateTime dataInicioFilter,

@@ -30,4 +30,10 @@ public interface AvaliacaoAvaliavelRepository extends JpaRepository<AvaliacaoAva
     @Query("FROM AvaliacaoAvaliavel avaliacaoAvaliavel WHERE avaliacaoAvaliavel.avaliavel.usuario.id = :usuarioId")
     List<AvaliacaoAvaliavel> listAvaliacaoAvaliavelByUsuarioId(@Param("usuarioId") final long usuarioId);
 
+    /**
+     * @param avaliavelId long
+     * @return List<AvaliacaoAvaliavel>
+     */
+    List<AvaliacaoAvaliavel> findAllByAvaliavelId(@Param("avaliavelId") final long avaliavelId);
+
 }

@@ -6,8 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,11 +33,16 @@ public class OperadorService {
         return this.operadorRepository.save(avaliavel);
     }
 
+    @Transactional
+    public void delete(final List<Operador> operadores) {
+        this.operadorRepository.deleteInBatch(operadores);
+    }
+
     public void delete(final long id) {
         this.operadorRepository.deleteById(id);
     }
 
-    public void deleteByUsuarioId(final long usuarioId) {
+    void deleteByUsuarioId(final long usuarioId) {
 
         avaliacaoAvaliavelService.deleteByUsuarioId(usuarioId);
 
@@ -44,6 +51,10 @@ public class OperadorService {
 
     public Page<Operador> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId, final Long unidadeId, final Pageable pageable) {
         return this.operadorRepository.listByFilters(defaultFilter, enderecoFilter, usuarioId, unidadeId, pageable);
+    }
+
+    List<Operador> findAllByUnidadeId(final Long unidadeId) {
+        return this.operadorRepository.findAllByUnidadeId(unidadeId);
     }
 
 }

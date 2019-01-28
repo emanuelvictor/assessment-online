@@ -1,6 +1,5 @@
 package br.com.assessment.domain.repository;
 
-import br.com.assessment.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.assessment.domain.entity.usuario.vinculo.Avaliavel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,12 +42,14 @@ public interface AvaliavelRepository extends JpaRepository<Avaliavel, Long> {
                                   final Pageable pageable);
 
 
-    /**
-     * @param unidadeId long
-     * @return List<AvaliacaoAvaliavel>
-     */
-    @Query("FROM Avaliavel avaliavel WHERE avaliavel.unidadeTipoAvaliacao.unidade.id = :unidadeId")
-    List<Avaliavel> listAvaliavelByUnidadeId(@Param("unidadeId") final long unidadeId);
+//    /**
+//     * @param unidadeId long
+//     * @return List<AvaliacaoAvaliavel>
+//     */
+//    @Query("FROM Avaliavel avaliavel WHERE avaliavel.unidadeTipoAvaliacao.unidade.id = :unidadeId")
+//    List<Avaliavel> listAvaliavelByUnidadeId(@Param("unidadeId") final long unidadeId);
+
+    List<Avaliavel> findAllByUnidadeTipoAvaliacaoId(final long avaliacaoUnidadeTipoId);
 
 
 }

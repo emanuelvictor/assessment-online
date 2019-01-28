@@ -2,12 +2,12 @@ package br.com.assessment.domain.service;
 
 import br.com.assessment.application.context.LocalContext;
 import br.com.assessment.application.exceptions.PasswordNotFound;
-import br.com.assessment.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Usuario;
-import br.com.assessment.domain.entity.usuario.vinculo.Avaliavel;
-import br.com.assessment.domain.repository.*;
+import br.com.assessment.domain.repository.ContaRepository;
+import br.com.assessment.domain.repository.UnidadeRepository;
+import br.com.assessment.domain.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,42 +34,60 @@ public class UnidadeService {
 
     private final UnidadeRepository unidadeRepository;
 
-    private final OperadorRepository operadorRepository;
+    private final OperadorService operadorService;
 
-    private final AvaliacaoRepository avaliacaoRepository;
+    private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
 
-    private final AvaliavelRepository avaliavelRepository;
-
-    private final AvaliacaoAvaliavelRepository avaliacaoAvaliavelRepository;
-
+    /**
+     * @param id      long
+     * @param unidade Unidade
+     * @return Unidade
+     */
     public Unidade save(final long id, final Unidade unidade) {
         Assert.isTrue(unidade.getId() != null && unidade.getId().equals(id), "Você não tem acesso a essa unidade"); //TODO colocar validator em uma service, e colocar na camada de cima
         return this.save(unidade);
     }
 
+    /**
+     * @param unidade Unidade
+     * @return Unidade
+     */
     public Unidade save(final Unidade unidade) {
         return this.unidadeRepository.save(unidade);
     }
 
+    /**
+     * @param unidadeId long
+     */
+    @Transactional
     public void delete(final long unidadeId) {
 
-        this.operadorRepository.deleteInBatch(operadorRepository.listByFilters(null, null, null, unidadeId, null).getContent());
+        // Deleta todos os operadores
+        this.operadorService.delete(this.operadorService.findAllByUnidadeId(unidadeId));
 
-        final List<AvaliacaoAvaliavel> avaliacoesAvaliaveis = this.avaliacaoAvaliavelRepository.listAvaliacaoAvaliavelByUnidadeId(unidadeId);
+        // Deleta todos os unidades tipos avaliações
+        this.unidadeTipoAvaliacaoService.delete(this.unidadeTipoAvaliacaoService.findAllByUnidadeId(unidadeId));
 
-        avaliacoesAvaliaveis.forEach(avaliacaoAvaliavel -> this.avaliacaoRepository.deleteById(avaliacaoAvaliavel.getAvaliacao().getId()));
-
-        this.avaliacaoAvaliavelRepository.deleteInBatch(this.avaliacaoAvaliavelRepository.listAvaliacaoAvaliavelByUnidadeId(unidadeId));
-
-        this.avaliavelRepository.deleteInBatch(this.avaliavelRepository.listAvaliavelByUnidadeId(unidadeId));
-
+        // Deleta unidade
         this.unidadeRepository.deleteById(unidadeId);
     }
 
+    /**
+     * @param id long
+     * @return Optional<Unidade>
+     */
     public Optional<Unidade> findById(final long id) {
         return Optional.of(this.unidadeRepository.findUnidadeByIdAndReturnAvaliacoes(id));
     }
 
+    /**
+     * @param defaultFilter     String
+     * @param enderecoFilter    String
+     * @param dataInicioFilter  String
+     * @param dataTerminoFilter String
+     * @param pageable          pageable
+     * @return Page<Unidade>
+     */
     public Page<Unidade> listByFilters(final String defaultFilter,
                                        final String enderecoFilter,
                                        final LocalDateTime dataInicioFilter,
@@ -89,8 +107,12 @@ public class UnidadeService {
 
     }
 
-    public Page<Unidade> listByFilters(final String defaultFilter,
-                                       final Pageable pageable) {
+    /**
+     * @param defaultFilter String
+     * @param pageable      Pageable
+     * @return Page<Unidade>
+     */
+    public Page<Unidade> listByFilters(final String defaultFilter, final Pageable pageable) {
 
         final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
 
@@ -102,6 +124,10 @@ public class UnidadeService {
 
     }
 
+    /**
+     * @param usuarioId long
+     * @return List<Unidade>
+     */
     public List<Unidade> listByUsuarioId(final long usuarioId) {
         return this.unidadeRepository.listByUsuarioId(usuarioId);
     }
@@ -132,6 +158,7 @@ public class UnidadeService {
      * @return boolean
      */
     public List<String> getHashsByUnidadeId(final long unidadeId) {
+
         final List<String> hashs = new ArrayList<>();
 
         hashs.addAll(this.unidadeRepository.getHashsByUnidadeId(unidadeId).stream().map(password ->

@@ -26,9 +26,9 @@ export class ConfirmDialogComponent {
   /**
    *
    * @param dialogRef
+   * @param dataDialog
    */
-  constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public dataDialog: any) {
+  constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) public dataDialog: any) {
     const data = this.dataDialog;
 
     this.text = data && data.text ? data.text : "Você confirma a sua ação?";

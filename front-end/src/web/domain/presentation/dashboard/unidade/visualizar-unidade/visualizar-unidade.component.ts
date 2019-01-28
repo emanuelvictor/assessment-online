@@ -102,7 +102,7 @@ export class VisualizarUnidadeComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
         data: {
-          text: 'Deseja realmente excluir a unidade?',
+          text: 'Isso vai remover também todas as avaliações realizadas para esta unidade, incluindo as vinculadas á ítens avaliáveis. Deseja realmente prosseguir?',
           confirm: 'Sim',
           cancel: 'Não'
         }

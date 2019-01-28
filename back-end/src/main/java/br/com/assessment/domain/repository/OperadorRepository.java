@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface OperadorRepository extends JpaRepository<Operador, Long> {
 
     @Query
@@ -24,21 +26,13 @@ public interface OperadorRepository extends JpaRepository<Operador, Long> {
                             "   (" +
                             "       FILTER(:enderecoFilter, operador.unidade.endereco.logradouro, operador.unidade.endereco.complemento, operador.unidade.endereco.bairro, operador.unidade.endereco.cep, operador.unidade.endereco.numero, operador.unidade.endereco.cidade.nome, operador.unidade.endereco.cidade.estado.uf, operador.unidade.endereco.cidade.estado.pais.nome) = TRUE" +
                             "   )" +
-//                            "   AND " +
-//                            "   (" +
-//                            "       (" +
-//                            "           :vinculo IS NOT NULL AND " +
-//                            "           operador.vinculo = :vinculo OR operador.vinculo = " + Vinculo.OPERADOR_ATENDENTE_VALUE +
-//                            "       )" +
-//                            "       OR :vinculo IS NULL" +
-//                            "   )" +
                             ")"
             )
     Page<Operador> listByFilters(@Param("defaultFilter") final String defaultFilter,
                                  @Param("enderecoFilter") final String enderecoFilter,
                                  @Param("usuarioId") final Long usuarioId,
                                  @Param("unidadeId") final Long unidadeId,
-//                                    @Param("vinculo") final Vinculo vinculo,
                                  final Pageable pageable);
 
+    List<Operador> findAllByUnidadeId(final long unidadeId);
 }
