@@ -59,7 +59,7 @@ public class UnidadeResource {
      * Lista todas as unidades pelo id do usuário.
      *
      * @param usuarioId {long}
-     * @return Mono<List<Unidade>>
+     * @return Mono<List < Unidade>>
      */
     @GetMapping("by-usuario") //TODO gambitinho
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")

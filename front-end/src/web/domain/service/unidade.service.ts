@@ -2,8 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Unidade} from '../entity/unidade/unidade.model';
 import {UnidadeRepository} from '../repositories/unidade.repository';
-import {PageSerialize} from "../../infrastructure/page-serialize/page-serialize";
-import {Usuario} from "../entity/usuario/usuario.model";
 
 /**
  *

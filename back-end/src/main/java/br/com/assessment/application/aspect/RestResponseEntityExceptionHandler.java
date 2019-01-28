@@ -104,6 +104,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     }
 
     /**
+     *
      */
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<Object> handleException(final DuplicateKeyException exception) {
@@ -112,6 +113,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     }
 
     /**
+     *
      */
     @ExceptionHandler(org.springframework.dao.EmptyResultDataAccessException.class)
     public ResponseEntity<Object> handleException(final org.springframework.dao.EmptyResultDataAccessException exception) {

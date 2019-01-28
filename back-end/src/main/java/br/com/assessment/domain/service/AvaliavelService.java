@@ -1,6 +1,5 @@
 package br.com.assessment.domain.service;
 
-import br.com.assessment.domain.entity.avaliacao.Avaliacao;
 import br.com.assessment.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.assessment.domain.entity.usuario.vinculo.Avaliavel;
 import br.com.assessment.domain.repository.AvaliavelRepository;

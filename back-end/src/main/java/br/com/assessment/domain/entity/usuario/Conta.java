@@ -132,6 +132,7 @@ public class Conta extends AbstractEntity implements UserDetails {
     }
 
     /**
+     *
      */
     @Override
     public boolean isEnabled() {

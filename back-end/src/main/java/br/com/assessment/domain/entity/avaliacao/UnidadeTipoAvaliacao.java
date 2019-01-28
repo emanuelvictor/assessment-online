@@ -50,7 +50,6 @@ public class UnidadeTipoAvaliacao extends AbstractEntity {
     }
 
     /**
-     *
      * @param id {Long}
      */
     public UnidadeTipoAvaliacao(Long id) {

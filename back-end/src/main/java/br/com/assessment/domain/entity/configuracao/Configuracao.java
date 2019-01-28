@@ -56,7 +56,6 @@ public class Configuracao extends AbstractEntity {
 
     /**
      *
-     *
      */
     private String logoPath;
 

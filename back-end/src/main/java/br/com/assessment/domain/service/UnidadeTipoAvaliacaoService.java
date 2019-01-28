@@ -1,7 +1,6 @@
 package br.com.assessment.domain.service;
 
 import br.com.assessment.domain.entity.avaliacao.UnidadeTipoAvaliacao;
-import br.com.assessment.domain.entity.usuario.vinculo.Avaliavel;
 import br.com.assessment.domain.repository.UnidadeTipoAvaliacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

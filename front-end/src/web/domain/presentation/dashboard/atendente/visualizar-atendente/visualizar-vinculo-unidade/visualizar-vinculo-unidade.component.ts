@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {viewAnimation} from "../../../../controls/utils";
 import {Avaliavel} from "../../../../../entity/usuario/vinculo/avaliavel.model";
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
-import {Operador} from "../../../../../entity/usuario/vinculo/operador.model";
 import {AvaliavelRepository} from "../../../../../repositories/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repositories/unidade-tipo-avaliacao.repository";
 import {Usuario} from "../../../../../entity/usuario/usuario.model";
