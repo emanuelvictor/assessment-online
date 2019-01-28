@@ -18,7 +18,7 @@ public class OperadorService {
 
     private final OperadorRepository operadorRepository;
 
-    private final AvaliacaoAvaliavelService avaliacaoAvaliavelService;
+//    private final AvaliacaoAvaliavelService avaliacaoAvaliavelService;
 
     public Optional<Operador> findById(final long id) {
         return this.operadorRepository.findById(id);
@@ -42,12 +42,12 @@ public class OperadorService {
         this.operadorRepository.deleteById(id);
     }
 
-    void deleteByUsuarioId(final long usuarioId) {
-
-        avaliacaoAvaliavelService.deleteByUsuarioId(usuarioId);
-
-        operadorRepository.deleteInBatch(operadorRepository.listByFilters(null, null, usuarioId, null, null).getContent());
-    }
+//    void deleteByUsuarioId(final long usuarioId) {
+//
+//        avaliacaoAvaliavelService.deleteByUsuarioId(usuarioId);
+//
+//        operadorRepository.deleteInBatch(operadorRepository.listByFilters(null, null, usuarioId, null, null).getContent());
+//    }
 
     public Page<Operador> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId, final Long unidadeId, final Pageable pageable) {
         return this.operadorRepository.listByFilters(defaultFilter, enderecoFilter, usuarioId, unidadeId, pageable);
@@ -55,6 +55,10 @@ public class OperadorService {
 
     List<Operador> findAllByUnidadeId(final Long unidadeId) {
         return this.operadorRepository.findAllByUnidadeId(unidadeId);
+    }
+
+    List<Operador> findAllByUsuarioId(final Long usuarioId) {
+        return this.operadorRepository.findAllByUsuarioId(usuarioId);
     }
 
 }

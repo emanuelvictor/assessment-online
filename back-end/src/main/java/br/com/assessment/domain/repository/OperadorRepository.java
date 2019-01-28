@@ -35,4 +35,8 @@ public interface OperadorRepository extends JpaRepository<Operador, Long> {
                                  final Pageable pageable);
 
     List<Operador> findAllByUnidadeId(final long unidadeId);
+
+
+    List<Operador> findAllByUsuarioId(final long usuarioId);
+
 }

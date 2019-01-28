@@ -156,7 +156,7 @@ export class VisualizarAtendenteComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
         data: {
-          text: 'Deseja realmente excluir?',
+          text: 'Você perderá todas as avaliações deste ítem, inclusive aquelas vinculadas as unidades. Deseja realmente excluir?',
           confirm: 'Sim',
           cancel: 'Não'
         }

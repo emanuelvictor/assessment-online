@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 
@@ -38,6 +39,8 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
 
     private final OperadorService operadorService;
+
+    private final AvaliavelService avaliavelService;
 
     private final UsuarioRepository usuarioRepository;
 
@@ -188,6 +191,10 @@ public class UsuarioService {
 
     }
 
+    /**
+     * @param usuarioId long
+     * @return Optional<Usuario>
+     */
     public Optional<Usuario> findById(final long usuarioId) {
         return Optional.of(usuarioRepository.findUsuarioByIdAndReturnAvaliacoes(usuarioId));
     }
@@ -195,9 +202,14 @@ public class UsuarioService {
     /**
      * @param usuarioId long
      */
+    @Transactional
     public void delete(final long usuarioId) {
 
-        operadorService.deleteByUsuarioId(usuarioId);
+        // Deleta todos os operadores
+        this.operadorService.delete(this.operadorService.findAllByUsuarioId(usuarioId));
+
+        // Deleta todos os avaliáveis
+        this.avaliavelService.delete(this.avaliavelService.findAllByUsuarioId(usuarioId));
 
         usuarioRepository.deleteById(usuarioId);
 

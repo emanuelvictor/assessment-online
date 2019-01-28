@@ -77,4 +77,8 @@ public class AvaliavelService {
     List<Avaliavel> findAllByUnidadeTipoAvaliacaoId(final Long unidadeTipoAvaliacaoId) {
         return this.avaliavelRepository.findAllByUnidadeTipoAvaliacaoId(unidadeTipoAvaliacaoId);
     }
+
+    List<Avaliavel> findAllByUsuarioId(final Long usuarioId) {
+        return this.avaliavelRepository.findAllByUsuarioId(usuarioId);
+    }
 }
