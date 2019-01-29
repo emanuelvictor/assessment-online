@@ -57,7 +57,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   usuario.thumbnailPath,  " +
             "   usuario.avatarPath, " +
             "   usuario.fotoPath, " +
-            "   AVG(avaliacao.nota) AS media," +
+//            "   AVG(avaliacao.nota) AS media," +
+            "   AVG(CASE WHEN avaliacao.nota IS NULL THEN 0 ELSE avaliacao.nota END) AS media," +
             "   COUNT(avaliacao) AS quantidadeAvaliacoes," +
             "   COUNT(av1) AS avaliacoes1," +
             "   COUNT(av2) AS avaliacoes2," +
@@ -66,7 +67,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   COUNT(av5) AS avaliacoes5," +
             "   usuario.conta" +
             ") FROM Usuario usuario " +
-            "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
+//            "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.usuario.id = usuario.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
             "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
@@ -107,36 +108,36 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       (" +
             "               FILTER(:defaultFilter, usuario.nome, usuario.conta.email) = TRUE" +
             "       )" +
-            "       AND " +
-            "       (" +
-            "           (" +
-            "               usuario.id IN " +
-            "               (" +
-            "                   SELECT avaliavel.usuario.id FROM Avaliavel avaliavel WHERE " +
-            "                   (" +
-            "                       avaliavel.unidadeTipoAvaliacao.unidade.id IN :unidadesFilter " +
-            "                   )" +
-            "               )" +
-            "           )" +
-            "           OR :unidadesFilter IS NULL" +
-            "       )" +
-            "       AND " +
-            "       (" +
-            "           (" +
-            "               (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "')" +
-            "               AND " +
-            "               operador.usuario.id = :usuarioId " +
-            "           )" +
-            "           OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
-            "       )" +
+//            "       AND " +
+//            "       (" +
+//            "           (" +
+//            "               usuario.id IN " +
+//            "               (" +
+//            "                   SELECT avaliavel.usuario.id FROM Avaliavel avaliavel WHERE " +
+//            "                   (" +
+//            "                       avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id AND avaliavel.unidadeTipoAvaliacao.unidade.id IN :unidadesFilter " +
+//            "                   )" +
+//            "               )" +
+//            "           )" +
+//            "           OR :unidadesFilter IS NULL" +
+//            "       )" +
+//            "       AND " +
+//            "       (" +
+//            "           (" +
+//            "               (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "')" +
+//            "               AND " +
+//            "               operador.usuario.id = :usuarioId " +
+//            "           )" +
+//            "           OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
+//            "       )" +
             "   )" +
-            "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
+            "GROUP BY usuario.id, usuario.nome, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
     )
     Page<Usuario> listByFilters(
-            @Param("usuarioId") final Long usuarioId,
-            @Param("perfil") final String perfil,
+//            @Param("usuarioId") final Long usuarioId,
+//            @Param("perfil") final String perfil,
             @Param("defaultFilter") final String defaultFilter,
-            @Param("unidadesFilter") final List<Long> unidadesFilter,
+//            @Param("unidadesFilter") final List<Long> unidadesFilter,
             @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
             @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
             final Pageable pageable);
@@ -174,8 +175,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
     )
     Usuario findUsuarioByIdAndReturnAvaliacoes(@Param("usuarioId") final Long usuarioId);
-
-//    List<Usuario> findByNome(final String nome);
 
     @Query("FROM Usuario usuario WHERE " +
             "           usuario.conta.administrador = TRUE " +
