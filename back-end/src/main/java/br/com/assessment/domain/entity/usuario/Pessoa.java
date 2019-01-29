@@ -34,7 +34,7 @@ public class Pessoa extends AbstractEntity implements Serializable {
     protected String documento;
 
     @Transient
-    protected Double media;
+    protected Object media;
 
     @Transient
     protected long quantidadeAvaliacoes;

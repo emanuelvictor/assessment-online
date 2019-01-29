@@ -7,6 +7,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.lang.Nullable;
 import org.springframework.web.server.ServerWebExchange;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Basic Java Bean implementation of {@code Pageable}.
  *
@@ -56,7 +59,15 @@ public class PageRequest extends AbstractPageRequest {
 
             if (serverWebExchange.getRequest().getQueryParams().get("sort") != null) {
                 final String sortString = serverWebExchange.getRequest().getQueryParams().get("sort").get(0);
-                sort = Sort.by(extractDirectionFromString(sortString), extractPropertiesFromString(sortString));
+
+                final String[] property = extractAllPropertiesFromString(sortString);
+
+                final List<Sort.Order> orderList = new ArrayList<>();
+
+                    orderList.add(new Sort.Order(extractDirectionFromString(sortString), extractPropertyFromString(sortString)/*, Sort.NullHandling.NULLS_FIRST*/));
+
+                sort = Sort.by(orderList);
+//                sort = Sort.by(extractDirectionFromString(sortString), extractPropertiesFromString(sortString), Sort.NullHandling.NULLS_LAST).a;
             } else
                 sort = Sort.unsorted();
 
@@ -67,9 +78,17 @@ public class PageRequest extends AbstractPageRequest {
         return null;
     }
 
-    private static String[] extractPropertiesFromString(final String sort) {
-        return sort.replace("asc", "").replace("desc", "").split(",");
+    private static String[] extractAllPropertiesFromString(final String sort) {
+        return sort.split(",");
     }
+
+    private static String extractPropertyFromString(final String sort) {
+        return sort.replace(",asc", "").replace(",desc", "");
+    }
+
+//    private static String[] extractPropertiesFromString(final String sort) {
+//        return sort.replace("asc", "").replace("desc", "").split(",");
+//    }
 
     private static Direction extractDirectionFromString(final String sort) {
         if (sort.contains("asc"))
