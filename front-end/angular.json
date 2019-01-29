@@ -26,7 +26,6 @@
               "./node_modules/@covalent/core/common/platform.scss",
               "src/web/application/web-theme.scss",
               "./node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
-              "./node_modules/nprogress/nprogress.css",
               "src/assets/styles/nprogress.css",
               "src/assets/styles/cropper.css"
             ],
