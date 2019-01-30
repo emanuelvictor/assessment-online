@@ -48,7 +48,6 @@ spring:
 logging:
   level:
     org.hibernate: INFO
-    org.directwebremoting: INFO
     org.springframework.web: INFO
     org.springframework.context.support: INFO
     org.springframework.security: INFO

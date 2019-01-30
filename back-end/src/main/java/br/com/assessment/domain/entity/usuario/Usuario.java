@@ -91,6 +91,14 @@ public class Usuario extends Pessoa {
     /**
      *
      */
+    public Usuario(final long id, final Object media) {
+        this.id = id;
+        this.media = media;
+    }
+
+    /**
+     *
+     */
     public Usuario(final long id, final String nome, final String thumbnailPath, final String avatarPath, final String fotoPath,
                    final Object media, final long quantidadeAvaliacoes, final long avaliacoes1, final long avaliacoes2, final long avaliacoes3, final long avaliacoes4, final long avaliacoes5, final Conta conta) {
 

@@ -60,11 +60,9 @@ public class PageRequest extends AbstractPageRequest {
             if (serverWebExchange.getRequest().getQueryParams().get("sort") != null) {
                 final String sortString = serverWebExchange.getRequest().getQueryParams().get("sort").get(0);
 
-                final String[] property = extractAllPropertiesFromString(sortString);
-
                 final List<Sort.Order> orderList = new ArrayList<>();
 
-                    orderList.add(new Sort.Order(extractDirectionFromString(sortString), extractPropertyFromString(sortString)/*, Sort.NullHandling.NULLS_FIRST*/));
+                    orderList.add(new Sort.Order(extractDirectionFromString(sortString), extractPropertyFromString(sortString), Sort.NullHandling.NATIVE));
 
                 sort = Sort.by(orderList);
 //                sort = Sort.by(extractDirectionFromString(sortString), extractPropertiesFromString(sortString), Sort.NullHandling.NULLS_LAST).a;
