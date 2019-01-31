@@ -29,12 +29,12 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   unidade.documento, " +
             "   unidade.endereco," +
             "   AVG(avaliacao.nota) AS media," +
-            "   COUNT(DISTINCT avaliacao.id) AS quantidadeAvaliacoes," +
-            "   COUNT(DISTINCT av1.id) AS avaliacoes1," +
-            "   COUNT(DISTINCT av2.id) AS avaliacoes2," +
-            "   COUNT(DISTINCT av3.id) AS avaliacoes3," +
-            "   COUNT(DISTINCT av4.id) AS avaliacoes4," +
-            "   COUNT(DISTINCT av5.id) AS avaliacoes5" +
+            "   COUNT(avaliacao.id) AS quantidadeAvaliacoes," +
+            "   COUNT(av1.id) AS avaliacoes1," +
+            "   COUNT(av2.id) AS avaliacoes2," +
+            "   COUNT(av3.id) AS avaliacoes3," +
+            "   COUNT(av4.id) AS avaliacoes4," +
+            "   COUNT(av5.id) AS avaliacoes5" +
             ") FROM Unidade unidade " +
             "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.unidade.id = unidade.id " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id " +

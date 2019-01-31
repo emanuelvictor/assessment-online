@@ -21,7 +21,7 @@ spring:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
       ddl-auto: validate
     show-sql: true
-    format_sql: true
+    format_sql: false
     open-in-view: false
     properties:
       hibernate.dialect: br.com.assessment.infrastructure.hibernate.dialect.PostgreSQLDialect
