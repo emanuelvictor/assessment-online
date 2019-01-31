@@ -16,6 +16,7 @@ import java.util.List;
  * @author Oliver Gierke
  * @author Thomas Darimont
  */
+@SuppressWarnings("ALL")
 public class PageRequest extends AbstractPageRequest {
 
     private static final long serialVersionUID = -4541509938956089562L;
@@ -62,7 +63,7 @@ public class PageRequest extends AbstractPageRequest {
 
                 final List<Sort.Order> orderList = new ArrayList<>();
 
-                    orderList.add(new Sort.Order(extractDirectionFromString(sortString), extractPropertyFromString(sortString), Sort.NullHandling.NATIVE));
+                orderList.add(new Sort.Order(extractDirectionFromString(sortString), extractPropertyFromString(sortString)/*, Sort.NullHandling.NATIVE*/));
 
                 sort = Sort.by(orderList);
 //                sort = Sort.by(extractDirectionFromString(sortString), extractPropertiesFromString(sortString), Sort.NullHandling.NULLS_LAST).a;
@@ -76,9 +77,9 @@ public class PageRequest extends AbstractPageRequest {
         return null;
     }
 
-    private static String[] extractAllPropertiesFromString(final String sort) {
-        return sort.split(",");
-    }
+//    private static String[] extractAllPropertiesFromString(final String sort) {
+//        return sort.split(",");
+//    }
 
     private static String extractPropertyFromString(final String sort) {
         return sort.replace(",asc", "").replace(",desc", "");

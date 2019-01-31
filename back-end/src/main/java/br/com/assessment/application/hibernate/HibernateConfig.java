@@ -55,6 +55,7 @@ public class HibernateConfig {
         properties.put(Environment.FORMAT_SQL, env.getProperty("spring.jpa.format_sql"));
         properties.put(Environment.HBM2DDL_AUTO, env.getProperty("spring.jpa.hibernate.ddl-auto"));
         properties.put(Environment.DIALECT, env.getProperty("spring.jpa.properties.hibernate.dialect"));
+        properties.put(Environment.DEFAULT_NULL_ORDERING, env.getProperty("spring.jpa.properties.hibernate.order_by.default_null_ordering"));
         properties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
         properties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProviderImpl);
         properties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
