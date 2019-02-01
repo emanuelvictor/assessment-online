@@ -177,6 +177,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     )
     Usuario findUsuarioByIdAndReturnAvaliacoes(@Param("usuarioId") final Long usuarioId);
 
+    /**
+     *
+     * @param unidadeId Long
+     * @return List<Usuario>
+     */
     @Query("FROM Usuario usuario WHERE " +
             "           usuario.conta.administrador = TRUE " +
             "           OR usuario.id IN" +
@@ -197,8 +202,16 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Usuario> listUsuariosByUnidadeId(@Param("unidadeId") final Long unidadeId);
 
     /**
-     * @return
+     * @return List<Usuario>
      */
     @Query("FROM Usuario usuario WHERE usuario.conta.administrador = TRUE")
     List<Usuario> getAdministrators();
+
+    /**
+     *
+     * @param nome String
+     * @return List<Usuario>
+     */
+    List<Usuario> findByNome(final String nome);
+
 }

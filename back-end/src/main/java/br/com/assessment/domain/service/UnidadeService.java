@@ -173,4 +173,8 @@ public class UnidadeService {
 
         return hashs;
     }
+
+    public List<Unidade> findByNome(final String nome) {
+        return unidadeRepository.findByNome(nome);
+    }
 }

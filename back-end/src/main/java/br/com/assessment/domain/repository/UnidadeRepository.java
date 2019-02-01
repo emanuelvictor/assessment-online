@@ -2,6 +2,7 @@ package br.com.assessment.domain.repository;
 
 import br.com.assessment.domain.entity.unidade.Unidade;
 import br.com.assessment.domain.entity.usuario.Perfil;
+import br.com.assessment.domain.entity.usuario.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -181,8 +182,6 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
      * @param usuarioId {long}
      * @return List<Unidade>
      */
-
-
     @Query("FROM Unidade unidade WHERE " +
             "   (   " +
             "       unidade.id IN (" +
@@ -213,4 +212,10 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   )"
     )
     List<String> getHashsByUnidadeId(@Param("unidadeId") final long unidadeId);
+
+    /**
+     * @param nome String
+     * @return List<Unidade>
+     */
+    List<Unidade> findByNome(final String nome);
 }

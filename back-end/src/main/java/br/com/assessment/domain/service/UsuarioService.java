@@ -317,8 +317,8 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-//    public List<Usuario> findByNome(final String nome) {
-//        return usuarioRepository.findByNome(nome);
-//    }
+    public List<Usuario> findByNome(final String nome) {
+        return usuarioRepository.findByNome(nome);
+    }
 
 }
