@@ -3,6 +3,8 @@ package br.com.assessment.domain.resource;
 import br.com.assessment.application.context.LocalContext;
 import br.com.assessment.domain.entity.avaliacao.Avaliacao;
 import br.com.assessment.domain.entity.avaliacao.AvaliacaoAvaliavel;
+import br.com.assessment.domain.entity.avaliacao.TipoAvaliacao;
+import br.com.assessment.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.assessment.domain.entity.endereco.Cidade;
 import br.com.assessment.domain.entity.endereco.Endereco;
 import br.com.assessment.domain.entity.unidade.Unidade;
@@ -54,6 +56,10 @@ public class ImportResource {
     private final AvaliavelService avaliavelService;
 
     private final AvaliacaoService avaliacaoService;
+
+    private final TipoAvaliacaoService tipoAvaliacaoService;
+
+    private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
 
     // Method which write the bytes into a file
     private static File getFile(byte[] bytes) {
@@ -158,6 +164,12 @@ public class ImportResource {
 
             });
 
+            final TipoAvaliacao tipoAvaliacao = new TipoAvaliacao();
+            tipoAvaliacao.setNome("Atendimento");
+            tipoAvaliacao.setEnunciado("Como você avalia nosso atendimento?");
+            tipoAvaliacao.setSelecao("Selecione os atendentes");
+            tipoAvaliacaoService.save(tipoAvaliacao);
+
             final JSONObject colaboradoresJSONArray = (JSONObject) ((JSONObject) obj).get("colaboradores");
             colaboradoresJSONArray.forEach((colaboradorKey, colaboradorJSON) -> {
 
@@ -170,6 +182,12 @@ public class ImportResource {
                 final Usuario usuario = usuarioService.findByNome(usuarioNome).get(0);
                 final Unidade unidade = unidadeService.findByNome(unidadeNome).get(0);
 
+                final UnidadeTipoAvaliacao unidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
+                unidadeTipoAvaliacao.setAtivo(true);
+                unidadeTipoAvaliacao.setUnidade(unidade);
+                unidadeTipoAvaliacao.setTipoAvaliacao(tipoAvaliacao);
+                unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
+
                 if (((JSONObject) colaboradorJSON).get("vinculo") == "Operador" || ((JSONObject) colaboradorJSON).get("vinculo") == "OperadorAtendente") {
                     final Operador operador = new Operador();
                     operador.setUnidade(unidade);
@@ -180,7 +198,7 @@ public class ImportResource {
 
                     final Avaliavel avaliavel = new Avaliavel();
                     avaliavel.setUsuario(usuario);
-//                    avaliavel.setUnidade(unidade); todo AQUI
+                    avaliavel.setUnidadeTipoAvaliacao(unidadeTipoAvaliacao);
 
                     avaliavelService.save(avaliavel);
 
