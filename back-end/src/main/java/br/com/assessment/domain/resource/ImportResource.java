@@ -5,10 +5,7 @@ import br.com.assessment.domain.entity.avaliacao.Avaliacao;
 import br.com.assessment.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.assessment.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.assessment.domain.entity.avaliacao.UnidadeTipoAvaliacao;
-import br.com.assessment.domain.entity.endereco.Cidade;
-import br.com.assessment.domain.entity.endereco.Endereco;
 import br.com.assessment.domain.entity.unidade.Unidade;
-import br.com.assessment.domain.entity.usuario.Conta;
 import br.com.assessment.domain.entity.usuario.Perfil;
 import br.com.assessment.domain.entity.usuario.Usuario;
 import br.com.assessment.domain.entity.usuario.vinculo.Avaliavel;
@@ -16,7 +13,6 @@ import br.com.assessment.domain.entity.usuario.vinculo.Operador;
 import br.com.assessment.domain.service.*;
 import br.com.assessment.infrastructure.file.ImageUtils;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -32,14 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.TimeZone;
 
-@Transactional
 @RestController
 @RequiredArgsConstructor
 @RequestMapping({"import", "sistema/import"})
@@ -103,72 +96,79 @@ public class ImportResource {
      * @param fileInBytes byte[]
      * @return String
      */
+    @Transactional
     public String save(final byte[] fileInBytes) {
 
         try {
             final JSONParser parser = new JSONParser();
             final Object obj = parser.parse(new FileReader(Objects.requireNonNull(getFile(fileInBytes)).getAbsolutePath()));
 
-            final JSONObject usuariosJSONArray = (JSONObject) ((JSONObject) obj).get("usuarios");
-            usuariosJSONArray.forEach((key, usuarioJSON) -> {
+//            final JSONObject usuariosJSONArray = (JSONObject) ((JSONObject) obj).get("usuarios");
+//            usuariosJSONArray.forEach((key, usuarioJSON) -> {
+//
+//                try {
+//
+//                    final Usuario usuario = new Usuario();
+//                    usuario.setNome((String) ((JSONObject) usuarioJSON).get("nome"));
+//
+//                    final Conta conta = new Conta();
+//                    conta.setEmail((String) (((JSONObject) usuarioJSON).get("email")));
+//                    conta.setAdministrador((((JSONObject) usuarioJSON).get("isAdministrador")) != null ? ((Boolean) (((JSONObject) usuarioJSON).get("isAdministrador"))) : false);
+//                    conta.setPassword((((JSONObject) usuarioJSON).get("password")) != null ? ((String) (((JSONObject) usuarioJSON).get("password"))) : "123456");
+//                    usuario.setConta(conta);
+//
+//                    usuarioService.save(usuario);
+//
+//                    if ((((JSONObject) usuarioJSON).get("urlFile")) != null) {
+//                        final URL url = new URL((String) (((JSONObject) usuarioJSON).get("urlFile")));
+//                        final URLConnection connection = url.openConnection();
+//                        final InputStream in = connection.getInputStream();
+//                        final byte[] bytes = IOUtils.toByteArray(in);
+//                        in.close();
+//
+//                        usuarioService.save(usuario.getId(), bytes);
+//                    }
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//
+//
+//            final JSONObject unidadesJSONArray = (JSONObject) ((JSONObject) obj).get("unidades");
+//            unidadesJSONArray.forEach((key, unidadeJSON) -> {
+//
+//                final Unidade unidade = new Unidade();
+//                unidade.setNome((String) ((JSONObject) unidadeJSON).get("nome"));
+//                unidade.setDocumento((String) ((JSONObject) unidadeJSON).get("cnpj"));
+//
+//
+//                final Endereco endereco = new Endereco();
+//                endereco.setCep((String) ((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("cep"));
+//                endereco.setNumero((String) ((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("numero"));
+//                endereco.setBairro((String) ((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("bairro"));
+//                endereco.setLogradouro((String) ((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("logradouro"));
+//                endereco.setComplemento((String) ((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("complemento"));
+//
+//                final Cidade cidade = enderecoService.find((String) ((JSONObject) (((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("cidade"))).get("nome"), (String) ((JSONObject) ((JSONObject) (((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("cidade"))).get("estado")).get("sigla")).orElseGet(null);
+//                endereco.setCidade(cidade);
+//                unidade.setEndereco(endereco);
+//
+//                unidadeService.save(unidade);
+//
+//            });
 
-                try {
+            TipoAvaliacao tipoAvaliacaoFounded = tipoAvaliacaoService.listByFilters(null, null, null).getContent().get(0);
+            if (tipoAvaliacaoFounded == null) {
+                tipoAvaliacaoFounded = new TipoAvaliacao();
+                tipoAvaliacaoFounded.setNome("Atendimento");
+                tipoAvaliacaoFounded.setEnunciado("Como você avalia nosso atendimento?");
+                tipoAvaliacaoFounded.setSelecao("Selecione os atendentes");
+                tipoAvaliacaoService.save(tipoAvaliacaoFounded);
+            }
 
-                    final Usuario usuario = new Usuario();
-                    usuario.setNome((String) ((JSONObject) usuarioJSON).get("nome"));
+            final TipoAvaliacao tipoAvaliacao = tipoAvaliacaoFounded;
 
-                    final Conta conta = new Conta();
-                    conta.setEmail((String) (((JSONObject) usuarioJSON).get("email")));
-                    conta.setAdministrador((((JSONObject) usuarioJSON).get("isAdministrador")) != null ? ((Boolean) (((JSONObject) usuarioJSON).get("isAdministrador"))) : false);
-                    conta.setPassword((((JSONObject) usuarioJSON).get("password")) != null ? ((String) (((JSONObject) usuarioJSON).get("password"))) : "123456");
-                    usuario.setConta(conta);
-
-                    usuarioService.save(usuario);
-
-                    if ((((JSONObject) usuarioJSON).get("urlFile")) != null) {
-                        final URL url = new URL((String) (((JSONObject) usuarioJSON).get("urlFile")));
-                        final URLConnection connection = url.openConnection();
-                        final InputStream in = connection.getInputStream();
-                        final byte[] bytes = IOUtils.toByteArray(in);
-                        in.close();
-
-                        usuarioService.save(usuario.getId(), bytes);
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-
-            final JSONObject unidadesJSONArray = (JSONObject) ((JSONObject) obj).get("unidades");
-            unidadesJSONArray.forEach((key, unidadeJSON) -> {
-
-                final Unidade unidade = new Unidade();
-                unidade.setNome((String) ((JSONObject) unidadeJSON).get("nome"));
-                unidade.setDocumento((String) ((JSONObject) unidadeJSON).get("cnpj"));
-
-
-                final Endereco endereco = new Endereco();
-                endereco.setCep((String) ((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("cep"));
-                endereco.setNumero((String) ((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("numero"));
-                endereco.setBairro((String) ((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("bairro"));
-                endereco.setLogradouro((String) ((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("logradouro"));
-                endereco.setComplemento((String) ((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("complemento"));
-
-                final Cidade cidade = enderecoService.find((String) ((JSONObject) (((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("cidade"))).get("nome"), (String) ((JSONObject) ((JSONObject) (((JSONObject) ((JSONObject) unidadeJSON).get("endereco")).get("cidade"))).get("estado")).get("sigla")).orElseGet(null);
-                endereco.setCidade(cidade);
-                unidade.setEndereco(endereco);
-
-                unidadeService.save(unidade);
-
-            });
-
-            final TipoAvaliacao tipoAvaliacao = new TipoAvaliacao();
-            tipoAvaliacao.setNome("Atendimento");
-            tipoAvaliacao.setEnunciado("Como você avalia nosso atendimento?");
-            tipoAvaliacao.setSelecao("Selecione os atendentes");
-            tipoAvaliacaoService.save(tipoAvaliacao);
 
             final JSONObject colaboradoresJSONArray = (JSONObject) ((JSONObject) obj).get("colaboradores");
             colaboradoresJSONArray.forEach((colaboradorKey, colaboradorJSON) -> {
@@ -182,18 +182,23 @@ public class ImportResource {
                 final Usuario usuario = usuarioService.findByNome(usuarioNome).get(0);
                 final Unidade unidade = unidadeService.findByNome(unidadeNome).get(0);
 
-                final UnidadeTipoAvaliacao unidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
+                UnidadeTipoAvaliacao unidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
                 unidadeTipoAvaliacao.setAtivo(true);
                 unidadeTipoAvaliacao.setUnidade(unidade);
                 unidadeTipoAvaliacao.setTipoAvaliacao(tipoAvaliacao);
-                unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
 
-                if (((JSONObject) colaboradorJSON).get("vinculo") == "Operador" || ((JSONObject) colaboradorJSON).get("vinculo") == "OperadorAtendente") {
+                final UnidadeTipoAvaliacao founded = unidadeTipoAvaliacaoService.findByUnidadeIdAndTipoAvaliacaoId(unidade.getId(), tipoAvaliacao.getId());
+                if (founded == null)
+                    unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
+                else unidadeTipoAvaliacao = founded;
+
+                if (((JSONObject) colaboradorJSON).get("vinculo") != null && (((JSONObject) colaboradorJSON).get("vinculo").equals("Operador") || ((JSONObject) colaboradorJSON).get("vinculo").equals("OperadorAtendente"))) {
                     final Operador operador = new Operador();
                     operador.setUnidade(unidade);
                     operador.setUsuario(usuario);
                     operadorService.save(operador);
-                } else if (((JSONObject) colaboradorJSON).get("vinculo") == "Atendente" || ((JSONObject) colaboradorJSON).get("vinculo") == "OperadorAtendente") {
+                }
+                if (((JSONObject) colaboradorJSON).get("vinculo") != null && (((JSONObject) colaboradorJSON).get("vinculo").equals("Atendente") || ((JSONObject) colaboradorJSON).get("vinculo").equals("OperadorAtendente"))) {
 
 
                     final Avaliavel avaliavel = new Avaliavel();
@@ -202,9 +207,9 @@ public class ImportResource {
 
                     avaliavelService.save(avaliavel);
 
-                    final JSONObject avaliacoesColaboradoresJSONArray = (JSONObject) ((JSONObject) obj).get("avaliacoes-colaboradoreswe");
+                    final JSONObject avaliacoesColaboradoresJSONArray = (JSONObject) ((JSONObject) obj).get("avaliacoes-colaboradores");
                     avaliacoesColaboradoresJSONArray.forEach((avaliacaoColaboradorKey, avaliacaoColaboradorJSON) -> {
-                        final String avaliacaoColaboradorColaboradorKey = (String) ((JSONObject) ((JSONObject) avaliacaoColaboradorJSON).get("avaliavel")).get("key");
+                        final String avaliacaoColaboradorColaboradorKey = (String) ((JSONObject) ((JSONObject) avaliacaoColaboradorJSON).get("colaborador")).get("key");
 
                         // Se o avaliavel é o avaliavel do loop externo (ou seja, o recém salvo)
                         if (avaliacaoColaboradorColaboradorKey.equals(colaboradorKey)) {

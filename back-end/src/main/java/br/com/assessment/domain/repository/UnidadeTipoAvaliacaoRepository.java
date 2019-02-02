@@ -31,4 +31,5 @@ public interface UnidadeTipoAvaliacaoRepository extends JpaRepository<UnidadeTip
 
     List<UnidadeTipoAvaliacao> findAllByTipoAvaliacaoId(final long tipoAvaliacaoId);
 
+    UnidadeTipoAvaliacao findByUnidadeIdAndTipoAvaliacaoId(final long unidadeId, final long tipoAvaliacaoId);
 }

@@ -1628,7 +1628,7 @@ ALTER TABLE ONLY estado_aud
 --
 
 ALTER TABLE ONLY endereco
-    ADD CONSTRAINT fk8b1kcb3wucapb8dejshyn5fsx FOREIGN KEY (cidade_id) REFERENCES cidade(id);
+    ADD CONSTRAINT fk8b1kcb3wucapb8dejshyn5fsx FOREIGN KEY (cidade_id) REFERENCES public.cidade(id);
 
 
 --

@@ -62,4 +62,7 @@ public class UnidadeTipoAvaliacaoService {
         return this.unidadeTipoAvaliacaoRepository.findAllByTipoAvaliacaoId(tipoAvaliacaoId);
     }
 
+    public UnidadeTipoAvaliacao findByUnidadeIdAndTipoAvaliacaoId(final long unidadeId, final long tipoAvaliacaoId) {
+        return this.unidadeTipoAvaliacaoRepository.findByUnidadeIdAndTipoAvaliacaoId(unidadeId, tipoAvaliacaoId);
+    }
 }
