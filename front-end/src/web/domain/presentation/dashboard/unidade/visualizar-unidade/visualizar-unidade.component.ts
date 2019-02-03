@@ -98,7 +98,7 @@ export class VisualizarUnidadeComponent implements OnInit {
   /**
    *
    */
-  public remove() {
+  public remove(id: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
         data: {
@@ -111,7 +111,7 @@ export class VisualizarUnidadeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(remover => {
       if (remover) {
-        this.unidadeService.delete(this.unidade.id)
+        this.unidadeService.delete(id)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
             this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {
