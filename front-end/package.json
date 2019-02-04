@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "debug-web": "node $NODE_DEBUG_OPTION node_modules\\.bin\\ng serve --proxy-config proxy.conf.json web --open",
-    "debug-mobile": "node $NODE_DEBUG_OPTION node_modules\\.bin\\ng serve --proxy-config proxy.conf.json mobile --port 9000 --open",
+    "debug-web": "node $NODE_DEBUG_OPTION node_modules/.bin/ng serve --proxy-config proxy.conf.json web --open",
+    "debug-mobile": "node $NODE_DEBUG_OPTION node_modules/.bin/ng serve --proxy-config proxy.conf.json mobile --port 9000 --open",
     "web": "ng serve --proxy-config proxy.conf.json web --open",
     "mobile": "ng serve --proxy-config proxy.conf.json mobile --port 9000 --open",
-    "build": "node node_modules\\.bin\\ng build web --prod && node node_modules\\.bin\\ng build mobile --prod --output-path='..\\back-end\\src\\main\\resources\\public\\sistema\\mobile'",
+    "build": "node node_modules/.bin/ng build web --prod && node node_modules/.bin/ng build mobile --prod --output-path='../back-end/src/main/resources/public/sistema/mobile'",
     "build.all": "npm run build && npm run prod.mobile",
-    "prod.mobile": "node node_modules\\.bin\\ng build --configuration=prod.mobile --prod mobile",
-    "dev.mobile": "node node_modules\\.bin\\ng build --configuration=dev.mobile --prod mobile",
-    "ng-high-mem": "node --max_old_space_size=8192 node_modules\\.bin\\ng"
+    "prod.mobile": "node node_modules/.bin/ng build --configuration=prod.mobile --prod mobile",
+    "dev.mobile": "node node_modules/.bin/ng build --configuration=dev.mobile --prod mobile",
+    "ng-high-mem": "node --max_old_space_size=8192 node_modules/.bin/ng"
   },
   "dependencies": {
     "@angular/animations": "7.1.4",
