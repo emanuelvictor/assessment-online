@@ -1,6 +1,6 @@
-var TOKEN_NAME = 'assessment-token';
+var TOKEN_NAME = 'ubest-token';
 var UNIDADE_ID = 'unidadeId';
-var END_POINT = 'https://assessment-online.com.br/sistema/mobile/';
+var END_POINT = 'https://ubest-online.com.br/sistema/mobile/';
 
 var app = {
   // Application Constructor

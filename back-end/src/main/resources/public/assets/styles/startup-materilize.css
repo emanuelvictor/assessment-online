@@ -1015,11 +1015,11 @@
 }
 
 .bs.lighten-1 {
-    background-color: #177ad9 !important
+    background-color: rgb(127, 58, 180) !important
 }
 
 .teal-text.text-lighten-1 {
-    color: #1893ff !important
+    color: rgb(156, 59, 227) !important
 }
 
 .bs.darken-1 {
@@ -2449,7 +2449,7 @@ nav,
 blockquote {
     margin: 20px 0;
     padding-left: 1.5rem;
-    border-left: 5px solid #177ad9
+    border-left: 5px solid rgb(156, 59, 227)
 }
 
 i {
@@ -2509,7 +2509,7 @@ video.responsive-video {
 }
 
 .by li.g {
-    background-color: #177ad9
+    background-color: rgb(156, 59, 227)
 }
 
 .by li.au a {
@@ -2692,7 +2692,7 @@ ul.staggered-list li {
 
 .page-footer {
     padding-top: 20px;
-    background-color: #177ad9
+    background-color: rgb(156, 59, 227)
 }
 
 .page-footer .footer-copyright {
@@ -2908,7 +2908,7 @@ th {
 }
 
 .p .collection-item.g {
-    background-color: #177ad9;
+    background-color: rgb(156, 59, 227);
     color: #eafaf9
 }
 
@@ -2919,7 +2919,7 @@ th {
 .p a.collection-item {
     display: block;
     transition: .25s;
-    color: #177ad9
+    color: rgb(156, 59, 227)
 }
 
 .p a.collection-item:not(.active):hover {
@@ -2942,7 +2942,7 @@ th {
 
 .secondary-content {
     float: right;
-    color: #177ad9
+    color: rgb(156, 59, 227)
 }
 
 .t .p {
@@ -2983,12 +2983,12 @@ th {
     top: 0;
     left: 0;
     bottom: 0;
-    background-color: #177ad9;
+    background-color: rgb(156, 59, 227);
     transition: width .3s linear
 }
 
 .eb .ee {
-    background-color: #177ad9
+    background-color: rgb(156, 59, 227)
 }
 
 .eb .ee:before {
@@ -3119,7 +3119,7 @@ span.dy.hs {
     font-weight: 300;
     font-size: 0.8rem;
     color: #fff;
-    background-color: #177ad9;
+    background-color: rgb(156, 59, 227);
     border-radius: 2px
 }
 
@@ -4140,7 +4140,7 @@ nav ul a span.dy {
 
 nav {
     color: #fff;
-    background-color: #177ad9;
+    background-color: rgb(156, 59, 227);
     width: 100%;
     height: 56px;
     line-height: 56px
@@ -5148,14 +5148,14 @@ small {
 .f:focus,
 .btn-large:focus,
 .btn-floating:focus {
-    background-color: #177ad9
+    background-color: rgb(156, 59, 227)
 }
 
 .f,
 .btn-large {
     text-decoration: none;
     color: #fff;
-    background-color: #177ad9;
+    background-color: rgb(156, 59, 227);
     text-align: center;
     letter-spacing: .5px;
     transition: .2s ease-out;
@@ -5164,7 +5164,7 @@ small {
 
 .f:hover,
 .btn-large:hover {
-    background-color: #177ad9
+    background-color: rgb(156, 59, 227)
 }
 
 .btn-floating {
@@ -5177,7 +5177,7 @@ small {
     height: 40px;
     line-height: 40px;
     padding: 0;
-    background-color: #177ad9;
+    background-color: rgb(156, 59, 227);
     border-radius: 50%;
     transition: .3s;
     cursor: pointer;
@@ -5185,7 +5185,7 @@ small {
 }
 
 .btn-floating:hover {
-    background-color: #177ad9
+    background-color: rgb(156, 59, 227)
 }
 
 .btn-floating:before {
@@ -5326,7 +5326,7 @@ button.btn-floating {
     z-index: -1;
     width: 40px;
     height: 40px;
-    background-color: #177ad9;
+    background-color: rgb(156, 59, 227);
     border-radius: 50%;
     transform: scale(0)
 }
@@ -5415,7 +5415,7 @@ button.btn-floating {
 .dropdown-content li > a,
 .dropdown-content li > span {
     font-size: 16px;
-    color: #177ad9;
+    color: rgb(156, 59, 227);
     display: block;
     line-height: 22px;
     padding: 14px 16px
@@ -5784,8 +5784,8 @@ button.btn-floating {
 }
 
 .dt.ib {
-    border-bottom: 1px solid #177ad9;
-    box-shadow: 0 1px 0 0 #177ad9
+    border-bottom: 1px solid rgb(156, 59, 227);
+    box-shadow: 0 1px 0 0 rgb(156, 59, 227)
 }
 
 .dt:hover {
@@ -5793,7 +5793,7 @@ button.btn-floating {
 }
 
 .dt .fy.en {
-    background-color: #177ad9;
+    background-color: rgb(156, 59, 227);
     color: #fff
 }
 
@@ -6003,8 +6003,8 @@ input[type=tel]:focus:not([readonly]),
 input[type=number]:focus:not([readonly]),
 input[type=search]:focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-    border-bottom: 1px solid #177ad9;
-    box-shadow: 0 1px 0 0 #177ad9
+    border-bottom: 1px solid rgb(156, 59, 227);
+    box-shadow: 0 1px 0 0 rgb(156, 59, 227)
 }
 
 input:not([type]):focus:not([readonly]) + label,
@@ -6020,7 +6020,7 @@ input[type=tel]:focus:not([readonly]) + label,
 input[type=number]:focus:not([readonly]) + label,
 input[type=search]:focus:not([readonly]) + label,
 textarea.materialize-textarea:focus:not([readonly]) + label {
-    color: #177ad9
+    color: rgb(156, 59, 227)
 }
 
 input:not([type]).aj,
@@ -6232,7 +6232,7 @@ textarea.materialize-textarea + label:after {
 }
 
 .input-field .ck.g {
-    color: #177ad9
+    color: rgb(156, 59, 227)
 }
 
 .input-field .ck ~ input,
@@ -6398,12 +6398,12 @@ textarea.materialize-textarea {
 [type="radio"]:checked + label:after,
 [type="radio"].with-gap:checked + label:before,
 [type="radio"].with-gap:checked + label:after {
-    border: 2px solid #177ad9
+    border: 2px solid rgb(156, 59, 227)
 }
 
 [type="radio"]:checked + label:after,
 [type="radio"].with-gap:checked + label:after {
-    background-color: #177ad9
+    background-color: rgb(156, 59, 227)
 }
 
 [type="radio"]:checked + label:after {
@@ -6516,8 +6516,8 @@ form p:last-child {
     height: 22px;
     border-top: 2px solid transparent;
     border-left: 2px solid transparent;
-    border-right: 2px solid #177ad9;
-    border-bottom: 2px solid #177ad9;
+    border-right: 2px solid rgb(156, 59, 227);
+    border-bottom: 2px solid rgb(156, 59, 227);
     transform: rotate(40deg);
     backface-visibility: hidden;
     transform-origin: 100% 100%
@@ -6535,7 +6535,7 @@ form p:last-child {
     height: 22px;
     border-top: none;
     border-left: none;
-    border-right: 2px solid #177ad9;
+    border-right: 2px solid rgb(156, 59, 227);
     border-bottom: none;
     transform: rotate(90deg);
     backface-visibility: hidden;
@@ -6600,8 +6600,8 @@ form p:last-child {
     top: 0;
     width: 20px;
     height: 20px;
-    border: 2px solid #177ad9;
-    background-color: #177ad9;
+    border: 2px solid rgb(156, 59, 227);
+    background-color: rgb(156, 59, 227);
     z-index: 0
 }
 
@@ -6613,8 +6613,8 @@ form p:last-child {
 
 [type="checkbox"].filled-in.ed:checked:focus + label:after {
     border-radius: 2px;
-    background-color: #177ad9;
-    border-color: #177ad9
+    background-color: rgb(156, 59, 227);
+    border-color: rgb(156, 59, 227)
 }
 
 [type="checkbox"].filled-in:disabled:not(:checked) + label:before {
@@ -6659,7 +6659,7 @@ form p:last-child {
 }
 
 .cw label input[type=checkbox]:checked + .dd:after {
-    background-color: #177ad9;
+    background-color: rgb(156, 59, 227);
     left: 24px
 }
 
@@ -6900,7 +6900,7 @@ input[type=range] + .eo {
     height: 0;
     width: 0;
     border-radius: 50%;
-    background-color: #177ad9;
+    background-color: rgb(156, 59, 227);
     margin-left: 7px;
     transform-origin: 50% 50%;
     transform: rotate(-45deg)
@@ -6910,7 +6910,7 @@ input[type=range] + .eo .ha {
     display: block;
     width: 30px;
     text-align: center;
-    color: #177ad9;
+    color: rgb(156, 59, 227);
     font-size: 0;
     transform: rotate(45deg)
 }
@@ -6942,7 +6942,7 @@ input[type=range]::-webkit-slider-thumb {
     height: 14px;
     width: 14px;
     border-radius: 50%;
-    background-color: #177ad9;
+    background-color: rgb(156, 59, 227);
     transform-origin: 50% 50%;
     margin: -5px 0 0 0;
     transition: .3s
@@ -6967,7 +6967,7 @@ input[type=range]::-moz-range-thumb {
     height: 14px;
     width: 14px;
     border-radius: 50%;
-    background: #177ad9;
+    background: rgb(156, 59, 227);
     margin-top: -5px
 }
 
@@ -7001,7 +7001,7 @@ input[type=range]::-ms-thumb {
     height: 14px;
     width: 14px;
     border-radius: 50%;
-    background: #177ad9
+    background: rgb(156, 59, 227)
 }
 
 input[type=range]:focus::-ms-fill-lower {
@@ -7034,7 +7034,7 @@ input[type=range]:focus::-ms-fill-upper {
 .table-of-contents a:hover {
     color: #a8a8a8;
     padding-left: 19px;
-    border-left: 1px solid #177ad9
+    border-left: 1px solid rgb(156, 59, 227)
 }
 
 .table-of-contents a.g {
@@ -7118,11 +7118,11 @@ input[type=range]:focus::-ms-fill-upper {
 .side-nav li > a.f:hover,
 .side-nav li > a.btn-large:hover,
 .side-nav li > a.btn-large:hover {
-    background-color: #177ad9
+    background-color: rgb(156, 59, 227)
 }
 
 .side-nav li > a.btn-floating:hover {
-    background-color: #177ad9
+    background-color: rgb(156, 59, 227)
 }
 
 .side-nav li > a > i,
@@ -7249,7 +7249,7 @@ input[type=range]:focus::-ms-fill-upper {
 
 .side-nav .collapsible-body > ul:not(.collapsible) > li.g,
 .side-nav.ax .collapsible-body > ul:not(.collapsible) > li.g {
-    background-color: #177ad9
+    background-color: rgb(156, 59, 227)
 }
 
 .side-nav .collapsible-body > ul:not(.collapsible) > li.g a,
@@ -9075,7 +9075,7 @@ button.fe:focus {
 
 .pricing-table {
     margin-top: 50px;
-    border: 2px solid #177ad9
+    border: 2px solid rgb(156, 59, 227)
 }
 
 .pricing-table.fk {
@@ -10965,11 +10965,11 @@ i {
 }
 
 .primary-color {
-    background-color: #177ad9 !important
+    background-color: rgb(156, 59, 227) !important
 }
 
 .primary-color-text {
-    color: #177ad9 !important
+    color: rgb(156, 59, 227) !important
 }
 
 .eh {
@@ -11074,7 +11074,7 @@ nav.n ul.dropdown-content li > span::before,
 .dropdown-content li > a::before,
 .dropdown-content li > span::before,
 .side-nav li > a::before {
-    background-color: #177ad9;
+    background-color: rgb(156, 59, 227);
     left: -10px;
     width: 2px;
     height: 100%;
@@ -11100,7 +11100,7 @@ nav.n ul.dropdown-content li > a:hover,
 nav.n ul.dropdown-content li > span:hover,
 .dropdown-content li > a:hover,
 .dropdown-content li > span:hover {
-    color: #177ad9
+    color: rgb(156, 59, 227)
 }
 
 nav.n ul.dropdown-content li > a:hover::before,
@@ -11191,7 +11191,7 @@ nav.n.ao {
 
 nav.n.ao.bi,
 nav.n.ao {
-    background-color: #1a66c3;
+    background-color: rgb(96, 51, 142);
     box-shadow: 0 1px 4px rgba(0, 0, 0, .1)
 }
 
@@ -11208,7 +11208,7 @@ nav.n.ao.bi ul.dropdown-content li > a::before,
 nav.n.ao ul.dropdown-content li > a::before,
 nav.n.ao.bi ul.dropdown-content li > span::before,
 nav.n.ao ul.dropdown-content li > span::before {
-    background-color: #177ad9
+    background-color: rgb(156, 59, 227)
 }
 
 nav.n.ao.bi a::before,
@@ -11228,7 +11228,7 @@ nav.n .brand-logo i {
 }
 
 nav.n.cv .brand-logo i {
-    color: #177ad9
+    color: rgb(156, 59, 227)
 }
 
 nav.n ul > li.active > a::before,
@@ -11408,7 +11408,7 @@ nav.n ul a:hover {
 .v.r,
 .page-footer .v.footer-copyright {
     color: rgba(0, 0, 0, 0.6);
-    background-color: #1d62ad
+    background-color: rgb(127, 58, 180)
 }
 
 .v.r h1,
@@ -11425,7 +11425,7 @@ nav.n ul a:hover {
 }
 
 .v.gradient-1 {
-    background: #1d62ad;
+    background: rgb(127, 58, 180);
     background: -moz-linear-gradient(top, #c 0%, #a 100%);
     background: -webkit-linear-gradient(top, #c 0%, #a 100%);
     background: linear-gradient(to bottom, #c 0%, #a 100%);

@@ -29,7 +29,7 @@ export function getIdentifier(): string {
   return Math.floor(Math.random() * 2000).toString();
 }
 
-export const TOKEN_NAME = 'assessment-token';
+export const TOKEN_NAME = 'ubest-token';
 
 export const viewAnimation = trigger('fadeInOut', [
   transition(':enter', [   // :enter is alias to 'void => *'

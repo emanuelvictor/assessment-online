@@ -17,7 +17,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    *
    */
   public contaAutenticadaChanged: EventEmitter<any>;
-  private baseUrl = 'https://assessment-online.com.br';
+  private baseUrl = 'https://ubest-online.com.br';
   private isOnline = false;
 
   /**

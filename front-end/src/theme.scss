@@ -11,31 +11,77 @@
 
 $roxoclaro: rgb(96, 51, 142);
 $roxoforte: rgb(74, 33, 116);
+$verde: rgb(128, 195, 66);
 
-$primary: mat-palette($mat-blue, 900);
-$accent: mat-palette($mat-blue-grey);
+$mat-roxo: (
+        50: #f3e5f5,
+        100: #e1bee7,
+        200: #ce93d8,
+        300: #ba68c8,
+        400: #ab47bc,
+        500: #9c27b0,
+        600: #8e24aa,
+        700: #7b1fa2,
+        800: #6a1b9a,
+        850: $roxoclaro,
+        900: $roxoforte,
+        A100: #ea80fc,
+        A200: #e040fb,
+        A400: #d500f9,
+        A700: #aa00ff,
+        contrast: (
+                50: $black-87-opacity,
+                100: $black-87-opacity,
+                200: $black-87-opacity,
+                300: white,
+                400: white,
+                500: $white-87-opacity,
+                600: $white-87-opacity,
+                700: $white-87-opacity,
+                800: $white-87-opacity,
+                900: $white-87-opacity,
+                A100: $black-87-opacity,
+                A200: white,
+                A400: white,
+                A700: white,
+        )
+);
+
+$mat-verde: (
+        50: #eceff1,
+        100: #d4dcd9,
+        200: #b3c5b8,
+        300: $verde,
+        400: #679c6c,
+        500: #4caf50,
+        600: #6eff72,
+        700: #47a64a,
+        800: #2c662e,
+        900: #214d22,
+        1000: #102611,
+        B100: #6eff72,
+        B65: #47a64a,
+        B40: #2c662e,
+        B30: #214d22,
+        B15: #102611,
+        contrast: (
+                500: white,
+                B100: white,
+                B65: white,
+                B40: white,
+                B30: white,
+                B15: white,
+        )
+);
+
+$primary: mat-palette($mat-verde);
+$accent: mat-palette($mat-roxo, 900);
 $warn: mat-palette($mat-red, 300);
 
 $theme: mat-light-theme($primary, $accent, $warn);
 
 @include angular-material-theme($theme);
 @include covalent-theme($theme);
-
-//// Não serve pra nada
-//.mat-hint-error {
-//  color: #1976d2;
-//}
-//.mat-nav-list-first-green {
-//  mat-list-item {
-//    h1 {
-//      color: #009688
-//    }
-//  }
-//
-//  mat-nav-list {
-//    padding: 0;
-//  }
-//}
 
 .avatar {
   img {
@@ -84,8 +130,8 @@ mat-toolbar {
 
 //Override
 .md2-datepicker-input-focused {
-  color: #0c3e6f !important;
-  border-color: #0c3e6f !important;
+  color: $roxoforte !important;
+  border-color: $roxoforte !important;
 }
 
 .app-container {
@@ -102,7 +148,7 @@ mat-toolbar {
 }
 
 .button-activate {
-  color: #0c3e6f !important;
+  color: $roxoforte !important;
   min-height: 80px;
 }
 
@@ -235,4 +281,8 @@ Pinta as fontes dos botões "accent's" (verdes) de branco, no lugar de preto.
  */
 button[color='accent'] {
   color: white !important;
+}
+
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+  background-color: $roxoforte;
 }
