@@ -49,7 +49,6 @@ yarn.lock
 #System Files
 .DS_Store
 
-functions
 node_modules
 front-end/front-end.iml
 dist/
