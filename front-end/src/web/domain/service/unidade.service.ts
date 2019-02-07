@@ -88,7 +88,7 @@ export class UnidadeService {
    * @param id
    * @param pageRequest
    */
-  public findEstatisticasByUnidadeId(id: number, pageRequest: any): Observable<Usuario> {
+  public findEstatisticasByUnidadeId(id: number, pageRequest: any): Observable<Unidade> {
     return this.unidadeRepository.findEstatisticasByUnidadeId(id, pageRequest);
   }
 }
