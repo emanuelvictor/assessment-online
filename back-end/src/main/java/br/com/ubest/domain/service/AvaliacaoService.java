@@ -58,14 +58,8 @@ public class AvaliacaoService {
                                          final LocalDateTime dataTerminoFilter,
                                          final Pageable pageable) {
 
-        final Page<Avaliacao> page = this.avaliacaoRepository.listByFilters(unidadesFilter, usuariosFilter, dataInicioFilter, dataTerminoFilter, pageable);
+        return this.avaliacaoRepository.listByFilters(unidadesFilter, usuariosFilter, dataInicioFilter, dataTerminoFilter, pageable);
 
-        // todo FALCATRUASSA
-        page.getContent().forEach(avaliacao ->
-                avaliacao.setAvaliacoesAvaliaveis(avaliacaoAvaliavelRepository.listAvaliacaoAvaliavelByAvaliacaoId(avaliacao.getId()))
-        );
-
-        return page;
     }
 
 }

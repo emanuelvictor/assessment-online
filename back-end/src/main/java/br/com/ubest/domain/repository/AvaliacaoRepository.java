@@ -12,13 +12,7 @@ import java.util.List;
 
 public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
 
-    @Query("SELECT new Avaliacao ( " +
-            "   avaliacao.id, " +
-            "   avaliacao.fotoPath, " +
-            "   avaliacao.nota, " +
-            "   avaliacao.data, " +
-            "   MAX(unidade)" +
-            " ) FROM Avaliacao avaliacao " +
+    @Query("SELECT avaliacao FROM Avaliacao avaliacao " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliacao.id = avaliacao.id " +
             "       LEFT OUTER JOIN Unidade unidade ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacao.unidade.id = unidade.id " +
             "       LEFT OUTER JOIN Usuario usuario ON avaliacaoAvaliavel.avaliavel.usuario.id = usuario.id " +

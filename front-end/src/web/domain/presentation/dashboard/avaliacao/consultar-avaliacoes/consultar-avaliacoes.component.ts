@@ -170,6 +170,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
         this.page.content.forEach(avaliacao => {
           avaliacao.unidadesTiposAvaliacoes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
+          avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade;
         })
       })
 
@@ -206,9 +207,10 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
         this.page = result;
-        this.page.content.forEach(avaliacao =>
-          avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join()
-        )
+        this.page.content.forEach(avaliacao => {
+          avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
+          avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade;
+        })
       })
   }
 
