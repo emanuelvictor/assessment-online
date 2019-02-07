@@ -59,6 +59,14 @@ export class UsuarioService {
     return this.usuarioRepository.findById(id);
   }
 
+  /**
+   *
+   * @param id
+   * @param pageRequest
+   */
+  public findEstatisticasByUsuarioId(id: number, pageRequest: any): Observable<Usuario> {
+    return this.usuarioRepository.findEstatisticasByUsuarioId(id, pageRequest);
+  }
 
   /**
    *

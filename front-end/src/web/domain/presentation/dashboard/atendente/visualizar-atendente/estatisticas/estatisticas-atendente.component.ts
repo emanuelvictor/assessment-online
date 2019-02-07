@@ -134,19 +134,11 @@ export class EstatisticasAtendenteComponent implements OnInit {
    */
   public listUsuariosByFilters(pageRequest: any) {
 
-    this.usuarioService.findById(this.activatedRoute.snapshot.params['id']).subscribe((rankeavel: any) => {
+    this.usuarioService.findEstatisticasByUsuarioId(this.activatedRoute.snapshot.params['id'], pageRequest).subscribe(result => {
 
-      this.rankeavel = rankeavel;
+      this.rankeavel = result;
 
-      pageRequest.defaultFilter = [this.rankeavel.nome];
-
-      this.usuarioService.listByFilters(pageRequest).subscribe(result => {
-
-        this.rankeavel = result.content[0];
-
-        this.mapEstatisticas();
-
-      });
+      this.mapEstatisticas();
 
     });
 

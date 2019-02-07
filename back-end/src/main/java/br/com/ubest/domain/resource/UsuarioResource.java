@@ -56,6 +56,14 @@ public class UsuarioResource {
         return Mono.just(this.usuarioService.findById(id));
     }
 
+    @GetMapping("{id}/estatisticas")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<Optional<Usuario>> findUsuarioById(@PathVariable final long id,
+                                      @RequestParam(required = false) final LocalDateTime dataInicioFilter,
+                                      @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
+        return Mono.just(usuarioService.findUsuarioById(id, dataInicioFilter, dataTerminoFilter));
+    }
+
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<Page<Usuario>> listByFilters(final String defaultFilter, final Long[] unidadesFilter,

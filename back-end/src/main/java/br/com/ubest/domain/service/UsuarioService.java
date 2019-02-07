@@ -75,7 +75,7 @@ public class UsuarioService {
         // Conta de um atendente, operador ou administrador meu
         else if (!loggedAccount.isAdministrador() && loggedAccount.getIsOperador()) {
 
-            final List<Usuario> meusUsuarios = usuarioRepository.listByFilters(loggedAccount.getUsuario().getId(), loggedAccount.getPerfil().name(),  null,null, null, null, null).getContent();
+            final List<Usuario> meusUsuarios = usuarioRepository.listByFilters(loggedAccount.getUsuario().getId(), loggedAccount.getPerfil().name(), null, null, null, null, null).getContent();
 
             for (final Usuario meuUsuario : meusUsuarios)
                 if (meuUsuario.getId().equals(usuarioId)) {
@@ -250,6 +250,14 @@ public class UsuarioService {
                 dataInicioFilter,
                 dataTerminoFilter,
                 pageable);
+
+    }
+
+    public Optional<Usuario> findUsuarioById(final Long usuarioId,
+                                             final LocalDateTime dataInicioFilter,
+                                             final LocalDateTime dataTerminoFilter) {
+
+        return usuarioRepository.findUsuarioById(usuarioId, dataInicioFilter, dataTerminoFilter);
 
     }
 
