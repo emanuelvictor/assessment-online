@@ -97,14 +97,13 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   )" +
             "GROUP BY unidade.id, unidade.nome, unidade.documento"
     )
-    Page<Unidade> listByFilters(
-            @Param("usuarioId") final Long usuarioId,
-            @Param("perfil") final String perfil,
-            @Param("defaultFilter") final String defaultFilter,
-            @Param("enderecoFilter") final String enderecoFilter,
-            @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
-            @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
-            final Pageable pageable);
+    Page<Unidade> listByFilters(@Param("usuarioId") final Long usuarioId,
+                                @Param("perfil") final String perfil,
+                                @Param("defaultFilter") final String defaultFilter,
+                                @Param("enderecoFilter") final String enderecoFilter,
+                                @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
+                                @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
+                                final Pageable pageable);
 
     /**
      * @param usuarioId     {Long}
@@ -139,11 +138,10 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "'))" +
             "   )"
     )
-    Page<Unidade> listByFilters(
-            @Param("usuarioId") final Long usuarioId,
-            @Param("perfil") final String perfil,
-            @Param("defaultFilter") final String defaultFilter,
-            final Pageable pageable);
+    Page<Unidade> listByFilters(@Param("usuarioId") final Long usuarioId,
+                                @Param("perfil") final String perfil,
+                                @Param("defaultFilter") final String defaultFilter,
+                                final Pageable pageable);
 
     /**
      *

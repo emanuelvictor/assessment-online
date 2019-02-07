@@ -6,6 +6,7 @@ import {AuthenticationService} from '../../../service/authentication.service';
 import {ConfiguracaoRepository} from "../../../repositories/configuracao.repository";
 import {Configuracao} from "../../../entity/configuracao/configuracao.model";
 import {Conta} from "../../../entity/usuario/conta.model";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'header-component',
@@ -41,7 +42,10 @@ export class HeaderComponent implements OnDestroy {
    */
   constructor(private authenticationService: AuthenticationService,
               private router: Router, private configuracaoRepository: ConfiguracaoRepository) {
-    this.configuracaoRepository.configuracao.subscribe(result => this.configuracao = result);
+    this.configuracaoRepository.configuracao.subscribe(result => {
+      this.configuracao = result;
+      this.configuracao.logoPath = this.configuracao.logoPath + '?nocache=' +  Math.floor(Math.random() * 2000).toString();
+    });
     this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.conta = result;
     });

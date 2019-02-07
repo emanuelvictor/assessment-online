@@ -28,7 +28,7 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav mode="over" class="mat-elevation-z5"
                style="background-color: #0c3e6f" (click)="sidenav.toggle()">
-    <logged-menu></logged-menu>
+    <logged-menu *ngIf='conta?.id'></logged-menu>
   </mat-sidenav>
 
   <!--Tag será substiuída pelo content da tag pai chamada-->
