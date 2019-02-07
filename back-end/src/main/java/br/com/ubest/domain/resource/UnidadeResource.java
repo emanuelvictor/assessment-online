@@ -2,6 +2,7 @@ package br.com.ubest.domain.resource;
 
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Perfil;
+import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.service.UnidadeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -45,6 +46,14 @@ public class UnidadeResource {
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Optional<Unidade>> findById(@PathVariable final long id) {
         return Mono.just(this.unidadeService.findById(id));
+    }
+
+    @GetMapping("{id}/estatisticas")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<Optional<Unidade>> findUnidadeById(@PathVariable final long id,
+                                            @RequestParam(required = false) final LocalDateTime dataInicioFilter,
+                                            @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
+        return Mono.just(unidadeService.findUnidadeById(id, dataInicioFilter, dataTerminoFilter));
     }
 
     @GetMapping

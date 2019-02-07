@@ -174,11 +174,9 @@ export class MinhasEstatisticasComponent implements OnInit {
 
       this.rankeavel = conta.usuario;
 
-      pageRequest.defaultFilter = [this.rankeavel.nome];
+      this.usuarioService.findEstatisticasByUsuarioId(conta.usuario.id, pageRequest).subscribe(result => {
 
-      this.usuarioService.listByFilters(pageRequest).subscribe(result => {
-
-        this.rankeavel = result.content[0];
+        this.rankeavel = result;
 
         this.mapEstatisticas();
 

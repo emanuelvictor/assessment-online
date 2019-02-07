@@ -133,19 +133,11 @@ export class EstatisticasUnidadeComponent implements OnInit {
    */
   public listUnidadesByFilters(pageRequest: any) {
 
-    this.unidadeService.findById(this.activatedRoute.snapshot.params['id']).subscribe((rankeavel: any) => {
+    this.unidadeService.findEstatisticasByUnidadeId(this.activatedRoute.snapshot.params['id'], pageRequest).subscribe(result => {
 
-      this.rankeavel = rankeavel;
+      this.rankeavel = result;
 
-      pageRequest.defaultFilter = [this.rankeavel.nome];
-
-      this.unidadeService.listByFilters(pageRequest).subscribe(result => {
-
-        this.rankeavel = result.content[0];
-
-        this.mapEstatisticas();
-
-      });
+      this.mapEstatisticas();
 
     });
 

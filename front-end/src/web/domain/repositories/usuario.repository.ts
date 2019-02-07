@@ -9,6 +9,10 @@ import {PageSerialize} from "../../infrastructure/page-serialize/page-serialize"
 @Injectable()
 export class UsuarioRepository extends BaseRepository<Usuario> {
 
+  /**
+   *
+   * @param httpClient
+   */
   constructor(httpClient: HttpClient) {
     super(httpClient, 'usuarios');
   }

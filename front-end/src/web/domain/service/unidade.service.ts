@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Unidade} from '../entity/unidade/unidade.model';
 import {UnidadeRepository} from '../repositories/unidade.repository';
+import {Usuario} from "../entity/usuario/usuario.model";
 
 /**
  *
@@ -80,5 +81,14 @@ export class UnidadeService {
    */
   public getHashsByUnidadeId(unidadeId: number): Observable<string[]> {
     return this.unidadeRepository.getHashsByUnidadeId(unidadeId);
+  }
+
+  /**
+   *
+   * @param id
+   * @param pageRequest
+   */
+  public findEstatisticasByUnidadeId(id: number, pageRequest: any): Observable<Usuario> {
+    return this.unidadeRepository.findEstatisticasByUnidadeId(id, pageRequest);
   }
 }

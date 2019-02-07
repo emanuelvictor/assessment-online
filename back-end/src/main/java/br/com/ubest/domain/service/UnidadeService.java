@@ -107,6 +107,14 @@ public class UnidadeService {
 
     }
 
+    public Optional<Unidade> findUnidadeById(final Long unidadeId,
+                                             final LocalDateTime dataInicioFilter,
+                                             final LocalDateTime dataTerminoFilter) {
+
+        return unidadeRepository.findUnidadeById(unidadeId, dataInicioFilter, dataTerminoFilter);
+
+    }
+
     /**
      * @param defaultFilter String
      * @param pageable      Pageable
