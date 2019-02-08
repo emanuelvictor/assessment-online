@@ -1,6 +1,6 @@
 var TOKEN_NAME = 'ubest-token';
 var UNIDADE_ID = 'unidadeId';
-var END_POINT = 'https://ubest-online.com.br/sistema/mobile/';
+var END_POINT = 'https://ubest.com.br/sistema/mobile/';
 
 var app = {
   // Application Constructor
@@ -48,7 +48,7 @@ var app = {
       if (window.location.hash === '#/authentication')
         window['KioskPlugin'].exitKiosk();
 
-      else if (window.location.hash === '#/avaliar' || window.location.hash === '#/selecionar-unidade') {
+      else if (window.location.hash.includes('#/avaliar') || window.location.hash === '#/selecionar-unidade' || window.location.hash === '#/selecionar-avaliacao') {
         if (localStorage.getItem(UNIDADE_ID) != null)
           navigator.notification.prompt(
             'Insira uma senha administrativa para sair do aplicativo.',  // message

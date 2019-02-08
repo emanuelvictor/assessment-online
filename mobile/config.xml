@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="br.com.assessment" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Assessment Online</name>
+<widget id="br.com.ubest" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>UBest</name>
     <description>
         Sistema de Monitoramento de Avaliações
     </description>
-    <author email="emanuel.info@gmail.com" href="https://www.assessment-online.com.br">
+    <author email="emanuel.info@gmail.com" href="https://www.ubest.com.br">
         Emanuel Victor
     </author>
     <content src="index.html" />
@@ -19,11 +19,11 @@
         <allow-intent href="market:*" />
         <preference name="android-minSdkVersion" value="16" />
         <preference name="android-targetSdkVersion" value="22" />
-        <icon density="mdpi" src="www/assets/images/res/mipmap-mdpi/ic_launcher.png" />
-        <icon density="hdpi" src="www/assets/images/res/mipmap-hdpi/ic_launcher.png" />
-        <icon density="xhdpi" src="www/assets/images/res/mipmap-xhdpi/ic_launcher.png" />
-        <icon density="xxhdpi" src="www/assets/images/res/mipmap-xxhdpi/ic_launcher.png" />
-        <icon density="xxxhdpi" src="www/assets/images/res/mipmap-xxxhdpi/ic_launcher.png" />
+        <icon density="mdpi" src="www/assets/images/res/drawable-mdpi/ic_launcher.png" />
+        <icon density="hdpi" src="www/assets/images/res/drawable-hdpi/ic_launcher.png" />
+        <icon density="xhdpi" src="www/assets/images/res/drawable-xhdpi/ic_launcher.png" />
+        <icon density="xxhdpi" src="www/assets/images/res/drawable-xxhdpi/ic_launcher.png" />
+        <icon density="xxxhdpi" src="www/assets/images/res/drawable-xxxhdpi/ic_launcher.png" />
         <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />
         <preference name="fullscreen" value="true" />
     </platform>
