@@ -44,6 +44,7 @@ import {OrderModule} from "ngx-order-pipe";
 import {VisualizarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/visualizar-avaliacao/visualizar-avaliacao.component";
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-atendentes/selecionar-atendentes.component";
 import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repository";
+import {TdLoadingService} from "@covalent/core";
 
 /**
  *

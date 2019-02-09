@@ -14,7 +14,7 @@ import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/se
 
 
 const routes: Routes = [
-  {path: '', redirectTo: 'avaliar', pathMatch: 'full'},
+  {path: '', redirectTo: 'avaliar/1', pathMatch: 'full'},
   {path: 'authentication', component: LoginComponent},
   {
     path: '', component: AvaliacaoComponent, canActivate: [AuthenticationService],

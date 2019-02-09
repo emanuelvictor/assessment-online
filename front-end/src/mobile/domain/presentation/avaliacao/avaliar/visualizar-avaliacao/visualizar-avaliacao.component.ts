@@ -9,6 +9,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {UnidadeTipoAvaliacao} from "../../../../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {AvaliavelRepository} from "../../../../../../web/domain/repositories/avaliavel.repository";
+import {TdLoadingService} from "@covalent/core";
 
 @Component({
   selector: 'visualizar-avaliacao',
@@ -46,6 +47,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
               private snackBar: MatSnackBar,
               public mobileService: MobileService,
               public activatedRoute: ActivatedRoute,
+              private _loadingService: TdLoadingService,
               private configuracaoService: ConfiguracaoService,
               private avaliavelRepository: AvaliavelRepository,
               private authenticationService: AuthenticationService,
@@ -57,7 +59,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    *
    */
   ngOnInit() {
-
+    this._loadingService.register('overlayStarSyntax');
     this.avaliavelRepository.listByFilters(
       {
         unidadeTipoAvaliacaoId: this.mobileService.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params['ordem'])[0].id
@@ -95,7 +97,10 @@ export class VisualizarAvaliacaoComponent implements OnInit {
     if (!this.mobileService.getUnidadeId())
       this.router.navigate(['../selecionar-unidade']);
 
-    this.configuracaoService.configuracao.subscribe(result => this.configuracao = result)
+    this.configuracaoService.configuracao.subscribe(result => {
+      this.configuracao = result;
+      this._loadingService.resolve('overlayStarSyntax');
+    })
 
   }
 
@@ -103,6 +108,8 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    *
    */
   public avaliar(nota: number) {
+    this._loadingService.register('overlayStarSyntax');
+
     this.mobileService.setNota(nota);
     this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['ordem']) + '/selecionar-atendentes']);
   }

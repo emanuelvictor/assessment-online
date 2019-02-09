@@ -4,6 +4,7 @@ import {MatSnackBar} from '@angular/material';
 import {MobileService} from "../../../../service/mobile.service";
 import {AvaliavelRepository} from "../../../../../../web/domain/repositories/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
+import {TdLoadingService} from "@covalent/core";
 
 @Component({
   selector: 'selecionar-atendentes',
@@ -25,16 +26,6 @@ export class SelecionarAtendentesComponent implements OnInit {
 
   /**
    *
-   */
-  timeout: any;
-
-  /**
-   *
-   */
-  time = 30000;
-
-  /**
-   *
    * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
@@ -46,6 +37,7 @@ export class SelecionarAtendentesComponent implements OnInit {
               private snackBar: MatSnackBar,
               public mobileService: MobileService,
               public activatedRoute: ActivatedRoute,
+              private _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
   }
@@ -53,8 +45,18 @@ export class SelecionarAtendentesComponent implements OnInit {
   /**
    *
    */
-  ngOnInit() {
+  timeout: any;
 
+  /**
+   *
+   */
+  time = 30000;
+
+  /**
+   *
+   */
+  ngOnInit() {
+    this._loadingService.register('overlayStarSyntax');
     if (this.mobileService.unidadesTiposAvaliacoes && this.mobileService.unidadesTiposAvaliacoes.length) {
 
       const local = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
@@ -70,6 +72,7 @@ export class SelecionarAtendentesComponent implements OnInit {
     this.timeout = setTimeout(() => {
       this.mobileService.reset();
       this.router.navigate(['/avaliar/1']);
+      this._loadingService.resolve('overlayStarSyntax');
     }, this.time);
 
     this.avaliavelRepository.listByFilters(
@@ -79,6 +82,8 @@ export class SelecionarAtendentesComponent implements OnInit {
     )
       .subscribe(page => {
         this.avaliaveis = page.content;
+        this._loadingService.resolve('overlayStarSyntax');
+
         if (this.avaliaveis.length === 1) {
           this.avaliaveis[0].selected = true;
           this.concluir();

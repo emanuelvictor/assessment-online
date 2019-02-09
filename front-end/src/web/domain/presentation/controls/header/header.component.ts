@@ -44,7 +44,8 @@ export class HeaderComponent implements OnDestroy {
               private router: Router, private configuracaoRepository: ConfiguracaoRepository) {
     this.configuracaoRepository.configuracao.subscribe(result => {
       this.configuracao = result;
-      this.configuracao.logoPath = this.configuracao.logoPath + '?nocache=' +  Math.floor(Math.random() * 2000).toString();
+      if (this.configuracao.logoPath)
+        this.configuracao.logoPath = this.configuracao.logoPath + '?nocache=' +  Math.floor(Math.random() * 2000).toString();
     });
     this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.conta = result;

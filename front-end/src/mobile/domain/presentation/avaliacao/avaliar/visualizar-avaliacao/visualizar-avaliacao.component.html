@@ -1,4 +1,5 @@
-<div layout="column" layout-align="center center">
+<div layout="column" layout-align="center center"
+     *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
   <mat-card style="width: 600px">
     <!--<button (click)="logout()">sair</button>-->
     <mat-card-title class="push" layout-align="center center">
@@ -41,7 +42,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <div layout='row' layout-align='center center' flex>
+      <div layout='row' layout-align='center center' flex *ngIf='mobileService?.unidadesTiposAvaliacoes?.length > 1'>
         <div layout-margin
              layout='column' flex
              layout-align='end start'
