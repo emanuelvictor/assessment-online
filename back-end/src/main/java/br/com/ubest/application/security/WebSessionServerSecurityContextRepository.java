@@ -103,7 +103,7 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         return Mono.empty();
                     }
 
-                    System.out.println("ID da sessão " + sessao.getId());
+//                    System.out.println("ID da sessão " + sessao.getId());
                     final Conta conta = contaRepository.findByEmailIgnoreCase(sessao.getUsername());
 
                     // Cria a autenticação

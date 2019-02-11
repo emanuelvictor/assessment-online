@@ -60,7 +60,7 @@ export class VisualizarTipoAvaliacaoComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
         data: {
-          text: 'Isso vai remover também todas as avaliações realizadas para este tipo de avaliação, incluindo as vinculadas á ítens avaliáveis. Deseja realmente prosseguir?',
+          text: 'Isso vai remover também todas as avaliações realizadas para este tipo de avaliação, incluindo as vinculadas á itens avaliáveis. Deseja realmente prosseguir?',
           confirm: 'Sim',
           cancel: 'Não'
         }

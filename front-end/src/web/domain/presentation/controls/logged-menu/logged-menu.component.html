@@ -23,12 +23,12 @@
                    routerLink="/dashboard/avaliaveis"
                    routerLinkActive #rlaUsuarios="routerLinkActive"
                    [ngClass]="{'menu-active': rlaUsuarios.isActive}"
-                   matTooltip='Atendentes, professores, quesitos, ítens de buffet, etc ...'>
+                   matTooltip='Atendentes, professores, quesitos, itens de buffet, etc ...'>
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>supervisor_account</mat-icon>
         <h3 matLine style="color: white" flex="85">
-          {{authenticatedUser?.isAdministrador ? 'Ítens avaliáveis' : 'Meus ítens avaliáveis'}}
+          {{authenticatedUser?.isAdministrador ? 'Itens avaliáveis' : 'Meus itens avaliáveis'}}
         </h3>
       </div>
     </mat-list-item>

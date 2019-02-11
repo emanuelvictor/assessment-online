@@ -54,7 +54,6 @@ public class ConfiguracaoService {
     }
 
     public Configuracao getConfiguracao(final String cliente) {
-
         if (cliente == null || cliente.equals(DEFAULT_TENANT_ID))
             LocalContext.setCurrentSchema(DEFAULT_TENANT_ID);
 
@@ -74,7 +73,9 @@ public class ConfiguracaoService {
         if (configuracao.getBackgroundImage() == null)
             configuracao.setBackgroundImage(defaultConfiguration.getBackgroundImage());
 
-        LocalContext.clearCurrentSchema();
+//        System.out.println("cliente = " + cliente);
+//        System.out.println("LocalContext.getCurrentSchema() = " + LocalContext.getCurrentSchema());
+//        LocalContext.clearCurrentSchema(); //TODO BUGA?
         return configuracao;
     }
 

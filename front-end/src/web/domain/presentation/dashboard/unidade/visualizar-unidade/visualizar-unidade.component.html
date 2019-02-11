@@ -28,8 +28,10 @@
                   <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin" *ngIf='unidade?.documento'>CNPJ:
                     {{unidade?.documento | documento}}</h2>
                   <h3 flex class="mat-subheading-2 tc-blue-grey-500 no-margin" *ngIf="unidade?.endereco?.cidade?.nome">
-                    {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.numero}}, {{unidade?.endereco?.bairro}} -
-                    {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.uf}}
+                    {{unidade?.endereco?.logradouro ? unidade?.endereco?.logradouro + ', ' : ''}}
+                    {{unidade?.endereco?.numero ? unidade?.endereco?.numero + ', ' : ''}}
+                    {{unidade?.endereco?.bairro ? unidade?.endereco?.bairro + ', ' : ''}}
+                    {{unidade?.endereco?.cidade?.nome + ' - '}}{{unidade?.endereco?.cidade?.estado?.uf}}
                   </h3>
                   <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
                     {{(

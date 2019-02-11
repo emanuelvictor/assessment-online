@@ -3,8 +3,13 @@ package br.com.ubest.domain.service;
 import br.com.ubest.application.context.LocalContext;
 import br.com.ubest.application.exceptions.PasswordNotFound;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
+import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
+import br.com.ubest.domain.entity.endereco.Endereco;
+import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Usuario;
+import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
 import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.domain.repository.UsuarioRepository;
 import br.com.ubest.infrastructure.file.ImageUtils;
@@ -41,6 +46,14 @@ public class UsuarioService {
     private final OperadorService operadorService;
 
     private final AvaliavelService avaliavelService;
+
+    private final TipoAvaliacaoService tipoAvaliacaoService;
+
+    private final EnderecoService enderecoService;
+
+    private final UnidadeService unidadeService;
+
+    private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
 
     private final UsuarioRepository usuarioRepository;
 
@@ -138,6 +151,9 @@ public class UsuarioService {
      */
     public Usuario save(final Usuario usuario) {
 
+        if (usuario.getConta() == null)
+            usuario.setConta(new Conta());
+
         // Encoda o password
         if (usuario.getConta().getEmail() != null && usuario.getConta().getEmail().length() > 0) {
             Assert.notNull(usuario.getConta().getPassword(), "Informe a senha");
@@ -157,6 +173,9 @@ public class UsuarioService {
      * @return Mono<Usuario>
      */
     public Usuario createAccount(final ServerWebExchange exchange, final Usuario usuario) {
+
+        if (this.contaRepository.findByEmailIgnoreCase(usuario.getConta().getEmail()) != null)
+            throw new RuntimeException("Conta com e-mail " + usuario.getConta().getEmail() + " já cadastrada");
 
         // Encoda a senha da conta
         usuario.getConta().setPassword(passwordEncoder.encode(usuario.getConta().getPassword()));
@@ -186,9 +205,53 @@ public class UsuarioService {
         // Seto o squema default, isso fará o sistema setar o esquema da conta a se criar.
         LocalContext.setCurrentSchema(usuario.getConta().getEsquema());
 
-        // E o usuário será salvo automáticamente no esquema públic
-        return usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);
 
+        // Insere os dados padrões para utilização inicial do sistema
+        this.bootstrapTemplate();
+
+        // E o usuário será salvo automáticamente no esquema públic
+        return usuario;
+
+    }
+
+    /**
+     * Dados padrão para utilização inicial do sistema
+     */
+    @Transactional
+    public void bootstrapTemplate() {
+        // Tipo de avaliação
+        final TipoAvaliacao tipoAvaliacao = new TipoAvaliacao();
+        tipoAvaliacao.setNome("Atendimento");
+        tipoAvaliacao.setEnunciado("Como você avalia nosso atendimento?");
+        tipoAvaliacao.setSelecao("Selecione um ou mais atendentes");
+        this.tipoAvaliacaoService.save(tipoAvaliacao);
+
+        // Unidade
+        final Endereco endereo = new Endereco();
+        endereo.setCidade(this.enderecoService.find("Foz do Iguaçu", "PR").get());
+        final Unidade unidade = new Unidade();
+        unidade.setNome("Minha primeira unidade");
+        unidade.setEndereco(endereo);
+        this.unidadeService.save(unidade);
+
+        // Vínculo entre unidade e tipo de avaliação
+        final UnidadeTipoAvaliacao unidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
+        unidadeTipoAvaliacao.setAtivo(true);
+        unidadeTipoAvaliacao.setTipoAvaliacao(tipoAvaliacao);
+        unidadeTipoAvaliacao.setUnidade(unidade);
+        this.unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
+
+        // Quesito
+        final Usuario quesito = new Usuario();
+        quesito.setNome("Atendimento");
+        this.save(quesito);
+
+        // Vinculo entre a avaliação vinculada á unidade e o quesito
+        final Avaliavel avaliavel = new Avaliavel();
+        avaliavel.setUsuario(quesito);
+        avaliavel.setUnidadeTipoAvaliacao(unidadeTipoAvaliacao);
+        this.avaliavelService.save(avaliavel);
     }
 
     /**

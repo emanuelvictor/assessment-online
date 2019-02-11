@@ -110,10 +110,13 @@
                     flex-xl='45' flex-gt-md='45' flex-md='45' flex-sm='45'>
             <div layout="column">
               <span>{{unidade?.nome}}</span>
-              <span *ngIf='unidade?.documento' [@fadeInOut] style="color: #607d8b">CNPJ: {{unidade?.documento | documento}}</span>
+              <span *ngIf='unidade?.documento' [@fadeInOut]
+                    style="color: #607d8b">CNPJ: {{unidade?.documento | documento}}</span>
               <span style="color: gray">
-                {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.numero}}, {{unidade?.endereco?.bairro}},
-                {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.uf}}
+                {{unidade?.endereco?.logradouro ? unidade?.endereco?.logradouro + ', ' : ''}}
+                {{unidade?.endereco?.numero ? unidade?.endereco?.numero + ', ' : ''}}
+                {{unidade?.endereco?.bairro ? unidade?.endereco?.bairro + ', ' : ''}}
+                {{unidade?.endereco?.cidade?.nome + ' - '}}{{unidade?.endereco?.cidade?.estado?.uf}}
               </span>
             </div>
           </mat-cell>
@@ -239,7 +242,7 @@
             <div layout='column'
                  class='push-right'
                  layout-align='center center'>
-              {{unidade?.media > 0 ? (unidade?.media | number:'1.0-2' :'pt-BR').replace(',','.') : 0}}
+              {{unidade?.media > 0 ? (unidade?.media | number:'1.0-2' :'pt-BR').replace(',', '.') : 0}}
             </div>
           </mat-cell>
         </ng-container>

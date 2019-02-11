@@ -1,4 +1,4 @@
-<div layout-align="center center" layout-gt-xs="row" layout-margin>
+<div layout-align="center center" layout-gt-xs="row" layout-margin *ngIf='done'>
   <div layout="row" flex-gt-xs="80" layout-margin>
     <div flex layout-margin>
 
@@ -13,8 +13,7 @@
       </div>
 
       <mat-card class="bgc-grey-50">
-        <form [formGroup]='form' (ngSubmit)='save(form)' novalidate
-              *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+        <form [formGroup]='form' (ngSubmit)='save(form)' novalidate>
           <mat-card-content>
 
             <div layout='column' layout-margin>

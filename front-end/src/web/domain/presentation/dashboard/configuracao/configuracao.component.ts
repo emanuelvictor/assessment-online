@@ -10,6 +10,7 @@ import {TdLoadingService} from '@covalent/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {ConfiguracaoService} from "../../../service/configuracao.service";
 import {FileRepository} from "../../../../infrastructure/repository/file/file.repository";
+import {ConfiguracaoRepository} from "../../../repositories/configuracao.repository";
 
 /**
  *
@@ -65,7 +66,7 @@ export class ConfiguracaoComponent implements OnInit {
    * @type {any}
    */
   importFile = null;
-
+done: boolean = false;
   /**
    *
    * @param {MatSnackBar} snackBar
@@ -84,6 +85,7 @@ export class ConfiguracaoComponent implements OnInit {
               @Inject(ElementRef) private element: ElementRef,
               private configuracaoService: ConfiguracaoService,
               private renderer: Renderer, private fb: FormBuilder,
+              private configuracaoRepository: ConfiguracaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
   }
 
@@ -117,6 +119,8 @@ export class ConfiguracaoComponent implements OnInit {
 
         this.backgroundPath = this.configuracao.backgroundImagePath;
         this.backgroundArquivoFile = this.configuracao.backgroundImageFile;
+
+        this.done = true;
 
       })
   }
@@ -187,6 +191,8 @@ export class ConfiguracaoComponent implements OnInit {
           this.configuracao = result;
           this._loadingService.resolve('overlayStarSyntax');
           this.success('Configuração atualizada com sucesso');
+
+          this.configuracaoRepository.observer.next(result);
         });
     }
   }
