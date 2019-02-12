@@ -75,8 +75,8 @@ import {OperadorRepository} from './repositories/operador.repository';
 import {AvaliacaoAvaliavelRepository} from './repositories/avaliacao-avaliavel-repository.service';
 import {ContaRepository} from './repositories/conta.repository';
 import {ContaService} from './service/conta.service';
-import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente.component';
-import {ClienteFormComponent} from './presentation/dashboard/cliente/cliente-form/cliente-form.component';
+import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente/inserir-cliente.component';
+import {ClienteFormComponent} from './presentation/dashboard/cliente/inserir-cliente/cliente-form/cliente-form.component';
 import {PageSerialize} from '../infrastructure/page-serialize/page-serialize';
 import {WebLoginComponent} from './presentation/login/web-login/web-login.component';
 import {ConfiguracaoRepository} from "./repositories/configuracao.repository";
@@ -100,6 +100,10 @@ import {UnidadeTipoAvaliacaoRepository} from "./repositories/unidade-tipo-avalia
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {AvaliavelRepository} from "./repositories/avaliavel.repository";
 import {VisualizarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/visualizar-tipo-avaliacao/visualizar-tipo-avaliacao.component";
+import {VisualizarDadosClienteComponent} from "./presentation/dashboard/cliente/visualizar-cliente/visualizar-dados-cliente/visualizar-dados-cliente.component";
+import {ConsultarClientesComponent} from "./presentation/dashboard/cliente/consultar-clientes/consultar-clientes.component";
+import {VisualizarClienteComponent} from "./presentation/dashboard/cliente/visualizar-cliente/visualizar-cliente.component";
+import {ClienteViewComponent} from "./presentation/dashboard/cliente/cleinte-view.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -169,10 +173,6 @@ registerLocaleData(localePt, 'pt-BR');
     MinhasEstatisticasComponent,
     InserirClienteComponent,
 
-    // Cliente
-    InserirClienteComponent,
-    ClienteFormComponent,
-
     // Password
     AlterarMinhaSenhaComponent,
     AlterarSenhaComponent,
@@ -200,7 +200,17 @@ registerLocaleData(localePt, 'pt-BR');
     InserirTipoAvaliacaoComponent,
     TipoAvaliacaoFormComponent,
     VisualizarTipoAvaliacaoComponent,
-    ConsultarTiposAvaliacoesComponent
+    ConsultarTiposAvaliacoesComponent,
+
+    // Cliente
+    InserirClienteComponent,
+    ClienteFormComponent,
+    ClienteViewComponent,
+    VisualizarClienteComponent,
+    VisualizarDadosClienteComponent,
+    InserirClienteComponent,
+    ClienteFormComponent,
+    ConsultarClientesComponent,
   ],
   imports: [
     SharedModule,

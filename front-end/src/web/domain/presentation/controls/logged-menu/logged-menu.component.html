@@ -19,6 +19,20 @@
     </mat-list-item>
 
     <mat-list-item class="push-bottom"
+                   *ngIf='authenticatedUser?.root'
+                   routerLink='/dashboard/clientes'
+                   routerLinkActive #rlaClientes="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaClientes.isActive}">
+      <div layout="row" flex class="pad-left">
+        <span flex="10"></span>
+        <mat-icon matListAvatar flex>person_outline</mat-icon>
+        <h3 matLine style="color: white" flex="85">
+          Clientes
+        </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item class="push-bottom"
                    [matTooltipPosition]="'left'"
                    routerLink="/dashboard/avaliaveis"
                    routerLinkActive #rlaUsuarios="routerLinkActive"
@@ -81,28 +95,6 @@
         <h3 matLine style="color: white" flex="85"> Configurações </h3>
       </div>
     </mat-list-item>
-
-    <!--<mat-list-item class="push-bottom"-->
-    <!--routerLink="/dashboard/meus-melhores-atendentes"-->
-    <!--routerLinkActive #rlaMelhorAtendente="routerLinkActive"-->
-    <!--[ngClass]="{'menu-active': rlaMelhorAtendente.isActive}">-->
-    <!--<div layout="row" flex class="pad-left">-->
-    <!--<span flex="10"></span>-->
-    <!--<mat-icon matListAvatar flex>card_giftcard</mat-icon>-->
-    <!--<h3 matLine style="color: white" flex="85"> Meus melhores atendentes </h3>-->
-    <!--</div>-->
-    <!--</mat-list-item>-->
-
-    <!--<mat-list-item class="push-bottom"-->
-    <!--routerLink="/dashboard/minhas-melhores-unidades"-->
-    <!--routerLinkActive #rlaMelhoresUnidades="routerLinkActive"-->
-    <!--[ngClass]="{'menu-active': rlaMelhoresUnidades.isActive}">-->
-    <!--<div layout="row" flex class="pad-left">-->
-    <!--<span flex="10"></span>-->
-    <!--<mat-icon matListAvatar flex>ubest</mat-icon>-->
-    <!--<h3 matLine style="color: white" flex="85"> Minhas melhores unidades </h3>-->
-    <!--</div>-->
-    <!--</mat-list-item>-->
 
   </mat-list>
 </mat-nav-list>

@@ -2,9 +2,9 @@ import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Rend
 import {MatSnackBar} from '@angular/material';
 
 import {FormBuilder, Validators} from '@angular/forms';
-import {textMasks} from '../../../controls/text-masks/text-masks';
-import {Usuario} from '../../../../entity/usuario/usuario.model';
-import {confirmPassword, password} from '../../../controls/validators/validators';
+import {textMasks} from '../../../../controls/text-masks/text-masks';
+import {Usuario} from '../../../../../entity/usuario/usuario.model';
+import {confirmPassword, password} from '../../../../controls/validators/validators';
 
 /**
  *

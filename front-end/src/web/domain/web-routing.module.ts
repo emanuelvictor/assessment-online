@@ -18,7 +18,7 @@ import {EstatisticasAtendenteComponent} from './presentation/dashboard/atendente
 import {EstatisticasUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/estatisticas/estatisticas-unidade.component';
 import {ConsultarUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component';
 import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component';
-import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente.component';
+import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente/inserir-cliente.component';
 import {WebLoginComponent} from './presentation/login/web-login/web-login.component';
 import {ConfiguracaoComponent} from "./presentation/dashboard/configuracao/configuracao.component";
 import {AvaliacaoViewComponent} from "./presentation/dashboard/avaliacao/avaliacao-view.component";
@@ -30,6 +30,9 @@ import {ConsultarTiposAvaliacoesComponent} from "./presentation/dashboard/tipo-a
 import {InserirTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/inserir-tipo-avaliacao/inserir-tipo-avaliacao.component";
 import {AlterarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/alterar-tipo-avaliacao/alterar-tipo-avaliacao.component";
 import {VisualizarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/visualizar-tipo-avaliacao/visualizar-tipo-avaliacao.component";
+import {VisualizarClienteComponent} from "./presentation/dashboard/cliente/visualizar-cliente/visualizar-cliente.component";
+import {ConsultarClientesComponent} from "./presentation/dashboard/cliente/consultar-clientes/consultar-clientes.component";
+import {ClienteViewComponent} from "./presentation/dashboard/cliente/cleinte-view.component";
 
 
 const routes: Routes = [
@@ -46,6 +49,13 @@ const routes: Routes = [
     path: 'dashboard', component: DashboardViewComponent, canActivate: [AuthenticationService],
     children:
       [
+        {
+          path: 'clientes', component: ClienteViewComponent,
+          children: [
+            {path: '', component: ConsultarClientesComponent},
+            {path: ':id', component: VisualizarClienteComponent}
+          ]
+        },
         {
           path: 'minha-conta', component: MinhaContaViewComponent,
           children: [

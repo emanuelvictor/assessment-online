@@ -1,0 +1,45 @@
+<div layout='row'>
+  <div layout-gt-xs="row" layout-align="start center" flex-gt-xs="80">
+
+    <div flex class='push-top push-right push-bottom'>
+      <avatar [usuario]="{'id': usuario?.id , 'foto': usuario?.avatarPath}"></avatar>
+    </div>
+
+
+    <!--div foto e informações-->
+    <div flex="60"
+         layout="row"
+         layout-margin
+         layout-align="start center">
+      <div layout="column">
+        <h1 flex *ngIf="usuario?.media" class="mat-headline no-margin">
+          Média: <span class="tc-purple-500"> {{usuario?.media| number:'.1-3' : 'en-US'}}</span>
+        </h1>
+        <h1 flex class="mat-headline tc-blue-grey-800 no-margin">{{usuario?.nome}}</h1>
+        <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">{{usuario?.conta?.email}}</h2>
+        <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
+          {{(
+          (usuario?.avaliacoes1 ? usuario?.avaliacoes1 : 0) +
+          (usuario?.avaliacoes2 ? usuario?.avaliacoes2 : 0) +
+          (usuario?.avaliacoes3 ? usuario?.avaliacoes3 : 0) +
+          (usuario?.avaliacoes4 ? usuario?.avaliacoes4 : 0) +
+          (usuario?.avaliacoes5 ? usuario?.avaliacoes5 : 0)
+          )
+          === 0 ? '' :
+          (
+          (usuario?.avaliacoes1 ? usuario?.avaliacoes1 : 0) +
+          (usuario?.avaliacoes2 ? usuario?.avaliacoes2 : 0) +
+          (usuario?.avaliacoes3 ? usuario?.avaliacoes3 : 0) +
+          (usuario?.avaliacoes4 ? usuario?.avaliacoes4 : 0) +
+          (usuario?.avaliacoes5 ? usuario?.avaliacoes5 : 0)
+          ) + ' avaliações'}}
+        </h2>
+      </div>
+    </div>
+  </div>
+  <span flex></span>
+  <!--div opções-->
+  <div layout="row" flex="40">
+    <ng-content></ng-content>
+  </div>
+</div>
