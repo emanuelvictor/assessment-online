@@ -30,6 +30,7 @@ export class SelecionarAtendentesComponent implements OnInit {
    * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
    * @param {ActivatedRoute} activatedRoute
+   * @param {TdLoadingService} _loadingService
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
@@ -77,6 +78,7 @@ export class SelecionarAtendentesComponent implements OnInit {
 
     this.avaliavelRepository.listByFilters(
       {
+        ativo : true,
         unidadeTipoAvaliacaoId: this.mobileService.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params['ordem'])[0].id
       }
     )

@@ -65,12 +65,10 @@ public class AvaliavelService {
         // Deleta os avaliáveis
         this.avaliavelRepository.deleteInBatch(avaliaveis);
 
-        // Deleta as avaliações
-        this.avaliacaoService.delete(avalicoesAvaliaveis.stream().map(AvaliacaoAvaliavel::getAvaliacao).collect(Collectors.toList()));
     }
 
-    public Page<Avaliavel> listByFilters(final String defaultFilter, final Long usuarioId, final Long unidadeId, final Long unidadeTipoAvaliacaoId, final Pageable pageable) {
-        return this.avaliavelRepository.listByFilters(defaultFilter, usuarioId, unidadeId, unidadeTipoAvaliacaoId, pageable);
+    public Page<Avaliavel> listByFilters(final String defaultFilter, final Long usuarioId, final Long unidadeId, final Boolean ativo, final Long unidadeTipoAvaliacaoId, final Pageable pageable) {
+        return this.avaliavelRepository.listByFilters(defaultFilter, usuarioId, unidadeId, ativo, unidadeTipoAvaliacaoId, pageable);
     }
 
 

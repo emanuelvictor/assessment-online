@@ -1,5 +1,6 @@
 package br.com.ubest.domain.service;
 
+import br.com.ubest.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

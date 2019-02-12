@@ -47,7 +47,7 @@ public class AvaliavelResource {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<Page<Avaliavel>> listByFilters(final String defaultFilter, final Long usuarioId, final Long unidadeId, final Long unidadeTipoAvaliacaoId) {
-        return Mono.just(this.avaliavelService.listByFilters(defaultFilter, usuarioId, unidadeId, unidadeTipoAvaliacaoId, getPageable()));
+    Mono<Page<Avaliavel>> listByFilters(final String defaultFilter, final Long usuarioId, final Long unidadeId, final Boolean ativo, final Long unidadeTipoAvaliacaoId) {
+        return Mono.just(this.avaliavelService.listByFilters(defaultFilter, usuarioId, unidadeId, ativo, unidadeTipoAvaliacaoId, getPageable()));
     }
 }

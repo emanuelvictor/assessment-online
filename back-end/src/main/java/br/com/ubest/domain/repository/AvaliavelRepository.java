@@ -25,6 +25,11 @@ public interface AvaliavelRepository extends JpaRepository<Avaliavel, Long> {
                     "       (:unidadeTipoAvaliacaoId IS NOT NULL AND avaliavel.unidadeTipoAvaliacao.id = :unidadeTipoAvaliacaoId)" +
                     "       OR :unidadeTipoAvaliacaoId IS NULL  " +
                     "   )" +
+                    "   AND " +
+                    "   (" +
+                    "       (:ativo IS NOT NULL AND avaliavel.ativo = :ativo)" +
+                    "       OR :ativo IS NULL " +
+                    "   )" +
                     "   AND (" +
                     "           FILTER(:defaultFilter, avaliavel.unidadeTipoAvaliacao.unidade.nome) = TRUE" +
                     "       OR " +
@@ -37,6 +42,7 @@ public interface AvaliavelRepository extends JpaRepository<Avaliavel, Long> {
     Page<Avaliavel> listByFilters(@Param("defaultFilter") final String defaultFilter,
                                   @Param("usuarioId") final Long usuarioId,
                                   @Param("unidadeId") final Long unidadeId,
+                                  @Param("ativo") final Boolean ativo,
                                   @Param("unidadeTipoAvaliacaoId") final Long unidadeTipoAvaliacaoId,
                                   final Pageable pageable);
 
