@@ -93,6 +93,27 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit {
   /**
    *
    */
+  ngOnInit() {
+
+    if (!this.usuario.conta || !this.usuario.conta.email || !this.usuario.conta.email.length)
+      this.showPassword = true;
+
+    this.form = this.fb.group({
+      nome: ['nome', [Validators.required]],
+      email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
+    });
+
+    this.fotoPath = this.usuario.fotoPath;
+    this.arquivoFile = this.usuario.arquivoFile;
+  }
+
+  ngAfterViewInit() {
+
+  }
+
+  /**
+   *
+   */
   public saveAtendente(form: any): void {
     // TODO provisório
     let valid = true;
@@ -187,26 +208,6 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit {
   public removeFile() {
     this.fotoPath = null;
     this.arquivoFile = null;
-  }
-
-  /**
-   *
-   */
-  ngOnInit() {
-
-    if (!this.usuario.conta || !this.usuario.conta.email || !this.usuario.conta.email.length)
-      this.showPassword = true;
-
-    this.form = this.fb.group({
-      nome: ['nome', [Validators.required]],
-      email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
-    });
-    this.fotoPath = this.usuario.fotoPath;
-    this.arquivoFile = this.usuario.arquivoFile;
-  }
-
-  ngAfterViewInit() {
-
   }
 
 }

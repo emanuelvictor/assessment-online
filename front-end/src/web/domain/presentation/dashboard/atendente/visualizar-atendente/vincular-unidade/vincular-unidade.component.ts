@@ -125,7 +125,6 @@ export class VincularUnidadeComponent implements OnInit {
       this.removeOperador.emit((unidade as any).operador);
     else
       this.saveOperador.emit((unidade as any).operador)
-
   }
 
   /**
@@ -135,6 +134,35 @@ export class VincularUnidadeComponent implements OnInit {
   public changeAvaliavel(unidade) {
     if (unidade.avaliavelValue)
       this.listTiposAvaliacoesByUnidadeId(unidade);
+
+    else if (unidade.unidadesTiposAvaliacoes && unidade.unidadesTiposAvaliacoes.length)
+      for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
+        unidade.unidadesTiposAvaliacoes[k].checked = false;
+        this.changeUnidadeTipoAvaliacao(unidade.unidadesTiposAvaliacoes[k])
+      }
+  }
+
+  /**
+   *
+   * @param unidadeTipoAvaliacao
+   */
+  public changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao) {
+
+    let avaliavel: Avaliavel = new Avaliavel();
+    avaliavel.usuario = this.usuario;
+    avaliavel.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+
+    for (let i = 0; i < this.avaliaveis.length; i++)
+      if (this.avaliaveis[i].unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id)
+        avaliavel = this.avaliaveis[i];
+
+    avaliavel.ativo = (unidadeTipoAvaliacao as any).checked;
+
+    if (!(unidadeTipoAvaliacao as any).checked)
+      this.removeAvaliavel.emit(avaliavel);
+    else
+      this.saveAvaliavel.emit(avaliavel);
+
   }
 
   /**
@@ -159,29 +187,6 @@ export class VincularUnidadeComponent implements OnInit {
               }
         }
       );
-  }
-
-  /**
-   *
-   * @param unidadeTipoAvaliacao
-   */
-  public changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao) {
-
-    let avaliavel: Avaliavel = new Avaliavel();
-    avaliavel.usuario = this.usuario;
-    avaliavel.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
-
-    for (let i = 0; i < this.avaliaveis.length; i++)
-      if (this.avaliaveis[i].unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id)
-        avaliavel = this.avaliaveis[i];
-
-    avaliavel.ativo = (unidadeTipoAvaliacao as any).checked;
-
-    if (!(unidadeTipoAvaliacao as any).checked)
-      this.removeAvaliavel.emit(avaliavel);
-    else
-      this.saveAvaliavel.emit(avaliavel);
-
   }
 
 }

@@ -1,6 +1,7 @@
 package br.com.ubest.domain.repository;
 
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
+import br.com.ubest.domain.entity.usuario.Perfil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliacao.id = avaliacao.id " +
             "       LEFT OUTER JOIN Unidade unidade ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacao.unidade.id = unidade.id " +
             "       LEFT OUTER JOIN Usuario usuario ON avaliacaoAvaliavel.avaliavel.usuario.id = usuario.id " +
+//            "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
             "   WHERE " +
             "   (   " +
             "       (" +
@@ -58,14 +60,26 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "           )" +
             "           OR :usuariosFilter IS NULL" +
             "       )" +
+            "       AND" +
+            "       (" +
+            "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') " +
+            "           AND unidade.id IN " +
+            "           (" +
+            "               SELECT operador.unidade.id FROM Operador operador WHERE " +
+            "               (" +
+            "                   operador.usuario.id = :usuarioId" +
+            "               )" +
+            "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
+            "       )" +
             "   )" +
             "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.nome"
     )
-    Page<Avaliacao> listByFilters(
-            @Param("unidadesFilter") final List<Long> unidadesFilter,
-            @Param("usuariosFilter") final List<Long> usuariosFilter,
-            @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
-            @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
-            final Pageable pageable);
+    Page<Avaliacao> listByFilters(@Param("usuarioId") final Long usuarioId,
+                                  @Param("perfil") final String perfil,
+                                  @Param("unidadesFilter") final List<Long> unidadesFilter,
+                                  @Param("usuariosFilter") final List<Long> usuariosFilter,
+                                  @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
+                                  @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
+                                  final Pageable pageable);
 
 }

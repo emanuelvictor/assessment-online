@@ -79,7 +79,7 @@
       <div layout="row" flex class="pad-left">
         <span flex="10"></span>
         <mat-icon matListAvatar flex>pie_chart</mat-icon>
-        <h3 matLine style="color: white" flex="85"> Resultados </h3>
+        <h3 matLine style="color: white" flex="85"> {{authenticatedUser?.isAdministrador ? 'Resultados' : 'Meus resultados'}} </h3>
       </div>
     </mat-list-item>
 

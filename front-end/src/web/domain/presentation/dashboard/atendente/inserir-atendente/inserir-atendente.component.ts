@@ -75,7 +75,7 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
    *
    */
   public save(): void {
-    if (!this.avaliaveis.length && !this.atendente.conta.administrador)
+    if ((!this.avaliaveis.length && !this.operadores.length) && !this.atendente.conta.administrador)
       this.snackBar.open('Selecione ao menos uma unidade', 'Fechar');
 
     else {

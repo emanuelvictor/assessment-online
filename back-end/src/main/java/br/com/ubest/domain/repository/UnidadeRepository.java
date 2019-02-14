@@ -121,9 +121,9 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       AND" +
             "       ((:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') AND unidade.id IN " +
             "       (" +
-            "           SELECT avaliavel.unidadeTipoAvaliacao.unidade.id FROM Avaliavel avaliavel WHERE " +
+            "           SELECT operador.unidade.id FROM Operador operador WHERE " +
             "           (" +
-            "               avaliavel.usuario.id = :usuarioId" +
+            "               operador.usuario.id = :usuarioId" +
             "               AND " +
             "               (" +
             "                   (" +

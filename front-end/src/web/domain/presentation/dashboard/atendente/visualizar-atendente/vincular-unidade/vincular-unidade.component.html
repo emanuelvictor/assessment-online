@@ -25,7 +25,8 @@
     <mat-accordion>
       <mat-expansion-panel class='bgc-grey-100'
                            [expanded]='unidade.avaliavelValue'
-                           (opened)='changeAvaliavel(unidade)'>
+                           (opened)='changeAvaliavel(unidade)'
+                           (closed)='changeAvaliavel(unidade)'>
 
         <mat-card-content>
           <section class="example-section"

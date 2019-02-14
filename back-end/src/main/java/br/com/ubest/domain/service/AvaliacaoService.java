@@ -1,9 +1,12 @@
 package br.com.ubest.domain.service;
 
+import br.com.ubest.application.context.LocalContext;
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
 import br.com.ubest.domain.entity.avaliacao.AvaliacaoAvaliavel;
+import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.repository.AvaliacaoAvaliavelRepository;
 import br.com.ubest.domain.repository.AvaliacaoRepository;
+import br.com.ubest.domain.repository.ContaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +21,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AvaliacaoService {
+
+    private final ContaRepository contaRepository;
 
     private final AvaliacaoRepository avaliacaoRepository;
 
@@ -58,7 +63,17 @@ public class AvaliacaoService {
                                          final LocalDateTime dataTerminoFilter,
                                          final Pageable pageable) {
 
-        return this.avaliacaoRepository.listByFilters(unidadesFilter, usuariosFilter, dataInicioFilter, dataTerminoFilter, pageable);
+        final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
+
+        return this.avaliacaoRepository.listByFilters(
+                usuario.getId(),
+                usuario.getConta().getPerfil().name(),
+                unidadesFilter,
+                usuariosFilter,
+                dataInicioFilter,
+                dataTerminoFilter,
+                pageable
+        );
 
     }
 
