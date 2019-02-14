@@ -181,112 +181,119 @@ public class ImportService {
                 final JSONObject usuariosJSON = (JSONObject) ((JSONObject) obj).get("usuarios");
                 final JSONObject unidadesJSON = (JSONObject) ((JSONObject) obj).get("unidades");
 
-                final String usuarioNome = (String) ((JSONObject) usuariosJSON.get(((JSONObject) (((JSONObject) colaboradorJSON).get("usuario"))).get("key"))).get("nome");
-                final String unidadeNome = (String) ((JSONObject) unidadesJSON.get(((JSONObject) (((JSONObject) colaboradorJSON).get("unidade"))).get("key"))).get("nome");
+                try {
 
-                final Usuario usuario = usuarioService.findByNome(usuarioNome).get(0);
-                final Unidade unidade = unidadeService.findByNome(unidadeNome).get(0);
-
-                UnidadeTipoAvaliacao unidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
-                unidadeTipoAvaliacao.setAtivo(true);
-                unidadeTipoAvaliacao.setUnidade(unidade);
-                unidadeTipoAvaliacao.setTipoAvaliacao(tipoAvaliacao);
-
-                final UnidadeTipoAvaliacao founded = unidadeTipoAvaliacaoService.findByUnidadeIdAndTipoAvaliacaoId(unidade.getId(), tipoAvaliacao.getId());
-                if (founded == null)
-                    unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
-                else unidadeTipoAvaliacao = founded;
-
-                if (((JSONObject) colaboradorJSON).get("vinculo") != null && (((JSONObject) colaboradorJSON).get("vinculo").equals("Operador") || ((JSONObject) colaboradorJSON).get("vinculo").equals("OperadorAtendente"))) {
-                    final Operador operador = new Operador();
-                    operador.setUnidade(unidade);
-                    operador.setUsuario(usuario);
-                    operadorService.save(operador);
-                }
-                if (((JSONObject) colaboradorJSON).get("vinculo") != null && (((JSONObject) colaboradorJSON).get("vinculo").equals("Atendente") || ((JSONObject) colaboradorJSON).get("vinculo").equals("OperadorAtendente"))) {
+                    final String usuarioNome = (String) ((JSONObject) usuariosJSON.get(((JSONObject) (((JSONObject) colaboradorJSON).get("usuario"))).get("key"))).get("nome");
+                    final String unidadeNome = (String) ((JSONObject) unidadesJSON.get(((JSONObject) (((JSONObject) colaboradorJSON).get("unidade"))).get("key"))).get("nome");
 
 
-                    final Avaliavel avaliavel = new Avaliavel();
-                    avaliavel.setUsuario(usuario);
-                    avaliavel.setUnidadeTipoAvaliacao(unidadeTipoAvaliacao);
+                    final Usuario usuario = usuarioService.findByNome(usuarioNome).get(0);
+                    final Unidade unidade = unidadeService.findByNome(unidadeNome).get(0);
 
-                    avaliavelService.save(avaliavel);
+                    UnidadeTipoAvaliacao unidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
+                    unidadeTipoAvaliacao.setAtivo(true);
+                    unidadeTipoAvaliacao.setUnidade(unidade);
+                    unidadeTipoAvaliacao.setTipoAvaliacao(tipoAvaliacao);
 
-                    final JSONObject avaliacoesColaboradoresJSONArray = (JSONObject) ((JSONObject) obj).get("avaliacoes-colaboradores");
-                    avaliacoesColaboradoresJSONArray.forEach((avaliacaoColaboradorKey, avaliacaoColaboradorJSON) -> {
-                        final String avaliacaoColaboradorColaboradorKey = (String) ((JSONObject) ((JSONObject) avaliacaoColaboradorJSON).get("colaborador")).get("key");
+                    final UnidadeTipoAvaliacao founded = unidadeTipoAvaliacaoService.findByUnidadeIdAndTipoAvaliacaoId(unidade.getId(), tipoAvaliacao.getId());
+                    if (founded == null)
+                        unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
+                    else unidadeTipoAvaliacao = founded;
 
-                        // Se o avaliavel é o avaliavel do loop externo (ou seja, o recém salvo)
-                        if (avaliacaoColaboradorColaboradorKey.equals(colaboradorKey)) {
-
-                            final AvaliacaoAvaliavel avaliacaoAvaliavel = new AvaliacaoAvaliavel();
-
-                            // Seto o avaliavel recém salvo
-                            avaliacaoAvaliavel.setAvaliavel(avaliavel);
-
-                            /*
-                             * ... Parto para o salvamento das avaliações
-                             */
-
-                            // Percorro as avaliações
-                            final JSONObject avaliacoesJSONArray = (JSONObject) ((JSONObject) obj).get("avaliacoes");
-                            avaliacoesJSONArray.forEach((avaliacaoKey, avaliacaoJSON) -> {
-
-                                if (((JSONObject) avaliacaoJSON).get("nota") != null && ((JSONObject) avaliacaoJSON).get("data") != null) {
-
-                                    // Se a avaliação do loop é igual a avialiação do avaliacaoAvaliavel, instancia e salva ela
-                                    if (avaliacaoKey.equals(((JSONObject) ((JSONObject) avaliacaoColaboradorJSON).get("avaliacao")).get("key"))) {
-
-                                        final Avaliacao avaliacao = new Avaliacao();
-
-                                        // Verificação de variável de controle.
-                                        // Se o jsonObject tiver a variável id, é pq a avaliação já foi salva,
-                                        // então pega esse id e seta na avaliação que será vinculada á avaliacaoAvaliavel de fora
-                                        if (((JSONObject) avaliacaoJSON).get("id") != null) {
-
-                                            // Seta o id encontrado, que será o mesmo recém salvo no banco
-                                            avaliacao.setId((Long) ((JSONObject) avaliacaoJSON).get("id"));
+                    if (((JSONObject) colaboradorJSON).get("vinculo") != null && (((JSONObject) colaboradorJSON).get("vinculo").equals("Operador") || ((JSONObject) colaboradorJSON).get("vinculo").equals("OperadorAtendente"))) {
+                        final Operador operador = new Operador();
+                        operador.setUnidade(unidade);
+                        operador.setUsuario(usuario);
+                        operadorService.save(operador);
+                    }
+                    if (((JSONObject) colaboradorJSON).get("vinculo") != null && (((JSONObject) colaboradorJSON).get("vinculo").equals("Atendente") || ((JSONObject) colaboradorJSON).get("vinculo").equals("OperadorAtendente"))) {
 
 
-                                            // Se o jsonObject do avaliacaoAvaliavel não contiver a variável id,
-                                            // Então instancia uma avaliação, seta a nota e a data e salva,
-                                            // Depois pega o id e seta no jsonObject
-                                        } else {
+                        final Avaliavel avaliavel = new Avaliavel();
+                        avaliavel.setUsuario(usuario);
+                        avaliavel.setUnidadeTipoAvaliacao(unidadeTipoAvaliacao);
 
-                                            // Extrai e seta a nota
-                                            avaliacao.setNota(Integer.valueOf(Long.toString((Long) ((JSONObject) avaliacaoJSON).get("nota"))));
+                        avaliavelService.save(avaliavel);
 
-                                            // Extrai o timestamp da data da avaliação, em formato de long
-                                            final long timestamp = (Long) ((JSONObject) avaliacaoJSON).get("data");
+                        final JSONObject avaliacoesColaboradoresJSONArray = (JSONObject) ((JSONObject) obj).get("avaliacoes-colaboradores");
+                        avaliacoesColaboradoresJSONArray.forEach((avaliacaoColaboradorKey, avaliacaoColaboradorJSON) -> {
+                            final String avaliacaoColaboradorColaboradorKey = (String) ((JSONObject) ((JSONObject) avaliacaoColaboradorJSON).get("colaborador")).get("key");
 
-                                            // Converte o long para timestamp
-                                            avaliacao.setData(LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), TimeZone.getDefault().toZoneId()));
+                            // Se o avaliavel é o avaliavel do loop externo (ou seja, o recém salvo)
+                            if (avaliacaoColaboradorColaboradorKey.equals(colaboradorKey)) {
 
-                                            // Salvo a avaliação
-                                            this.avaliacaoService.save(avaliacao);
+                                final AvaliacaoAvaliavel avaliacaoAvaliavel = new AvaliacaoAvaliavel();
 
-                                            // Seto o id no jsonObject da avaliação
-                                            ((JSONObject) avaliacaoJSON).put("id", avaliacao.getId());
+                                // Seto o avaliavel recém salvo
+                                avaliacaoAvaliavel.setAvaliavel(avaliavel);
+
+                                /*
+                                 * ... Parto para o salvamento das avaliações
+                                 */
+
+                                // Percorro as avaliações
+                                final JSONObject avaliacoesJSONArray = (JSONObject) ((JSONObject) obj).get("avaliacoes");
+                                avaliacoesJSONArray.forEach((avaliacaoKey, avaliacaoJSON) -> {
+
+                                    if (((JSONObject) avaliacaoJSON).get("nota") != null && ((JSONObject) avaliacaoJSON).get("data") != null) {
+
+                                        // Se a avaliação do loop é igual a avialiação do avaliacaoAvaliavel, instancia e salva ela
+                                        if (avaliacaoKey.equals(((JSONObject) ((JSONObject) avaliacaoColaboradorJSON).get("avaliacao")).get("key"))) {
+
+                                            final Avaliacao avaliacao = new Avaliacao();
+
+                                            // Verificação de variável de controle.
+                                            // Se o jsonObject tiver a variável id, é pq a avaliação já foi salva,
+                                            // então pega esse id e seta na avaliação que será vinculada á avaliacaoAvaliavel de fora
+                                            if (((JSONObject) avaliacaoJSON).get("id") != null) {
+
+                                                // Seta o id encontrado, que será o mesmo recém salvo no banco
+                                                avaliacao.setId((Long) ((JSONObject) avaliacaoJSON).get("id"));
+
+
+                                                // Se o jsonObject do avaliacaoAvaliavel não contiver a variável id,
+                                                // Então instancia uma avaliação, seta a nota e a data e salva,
+                                                // Depois pega o id e seta no jsonObject
+                                            } else {
+
+                                                // Extrai e seta a nota
+                                                avaliacao.setNota(Integer.valueOf(Long.toString((Long) ((JSONObject) avaliacaoJSON).get("nota"))));
+
+                                                // Extrai o timestamp da data da avaliação, em formato de long
+                                                final long timestamp = (Long) ((JSONObject) avaliacaoJSON).get("data");
+
+                                                // Converte o long para timestamp
+                                                avaliacao.setData(LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), TimeZone.getDefault().toZoneId()));
+
+                                                // Salvo a avaliação
+                                                this.avaliacaoService.save(avaliacao);
+
+                                                // Seto o id no jsonObject da avaliação
+                                                ((JSONObject) avaliacaoJSON).put("id", avaliacao.getId());
+
+                                            }
+
+                                            // Seto a avliação no avaliavel
+                                            avaliacaoAvaliavel.setAvaliacao(avaliacao);
+
+                                            // Salvo o avaliaçãoColaborador
+                                            this.avaliacaoService.save(avaliacaoAvaliavel);
 
                                         }
 
-                                        // Seto a avliação no avaliavel
-                                        avaliacaoAvaliavel.setAvaliacao(avaliacao);
-
-                                        // Salvo o avaliaçãoColaborador
-                                        this.avaliacaoService.save(avaliacaoAvaliavel);
-
                                     }
 
-                                }
+                                });
+                            }
 
-                            });
-                        }
+                        });
 
-                    });
+                    }
 
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
             });
 
             return "Migração Concluída";

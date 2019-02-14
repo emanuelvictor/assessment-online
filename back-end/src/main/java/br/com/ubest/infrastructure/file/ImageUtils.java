@@ -5,11 +5,15 @@ import org.springframework.http.codec.multipart.FilePart;
 import reactor.core.publisher.Mono;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
+
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 public class ImageUtils {
 
@@ -25,7 +29,7 @@ public class ImageUtils {
             if (dataBufferSignal.hasValue()) {
 
                 final DataBuffer dataBuffer = dataBufferSignal.get();
-                final int count = dataBuffer.readableByteCount();
+                final int count = Objects.requireNonNull(dataBuffer).readableByteCount();
                 final byte[] bytes = new byte[count];
                 dataBuffer.read(bytes);
 
@@ -56,8 +60,8 @@ public class ImageUtils {
     public static byte[] resizeImage(final byte[] imageByte, final int width, final int height) throws IOException {
         try (final InputStream inputImage = new ByteArrayInputStream(imageByte)) {
             final BufferedImage image = ImageIO.read(inputImage);
-            final BufferedImage imgResized = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            imgResized.getGraphics().drawImage(image, 0, 0, width, height, null);
+            final BufferedImage imgResized = new BufferedImage(width, height, TYPE_INT_RGB);
+            imgResized.getGraphics().drawImage(image, 0, 0, width, height, Color.WHITE, null);
             return imageToByte(imgResized);
         }
     }
