@@ -69,7 +69,7 @@ public class ImageUtils {
     /**
      * Converte BufferedImage para array de bytes no formato JPG.
      */
-    private static byte[] imageToByte(BufferedImage img) throws IOException {
+    private static byte[] imageToByte(final BufferedImage img) throws IOException {
         try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             ImageIO.write(img, "jpg", baos);
             baos.flush();

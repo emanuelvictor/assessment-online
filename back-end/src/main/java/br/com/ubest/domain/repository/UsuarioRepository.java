@@ -29,7 +29,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   WHERE" +
             "   (   " +
             "       (" +
-            "               FILTER(:defaultFilter, usuario.nome, usuario.conta.email) = TRUE" +
+            "           FILTER(:defaultFilter, usuario.nome, usuario.conta.email) = TRUE" +
             "       )" +
             "       AND " +
             "       (" +
@@ -70,6 +70,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             ") FROM Usuario usuario " +
             "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.usuario.id = usuario.id " +
+            "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.id = avaliavel.unidadeTipoAvaliacao.id " +
+            "       LEFT OUTER JOIN Unidade unidade ON unidade.id = unidadeTipoAvaliacao.unidade.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
             "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
             "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
@@ -122,12 +124,49 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "           )" +
             "           OR :unidadesFilter IS NULL" +
             "       )" +
+//            "       AND " +
+//            "       (" +
+//            "           (" +
+//            "               (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "')" +
+//            "               AND " +
+//            "               operador.usuario.id = :usuarioId " +
+//            "           )" +
+//            "           OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
+//            "       )" +
             "       AND " +
             "       (" +
             "           (" +
-            "               (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "')" +
+            "               (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') " +
             "               AND " +
-            "               operador.usuario.id = :usuarioId " +
+            "               (" +
+            "                   unidade.id IN " +
+            "                   (" +
+            "                       SELECT avaliavel.unidadeTipoAvaliacao.unidade.id FROM Avaliavel avaliavel WHERE " +
+            "                       (" +
+            "                           avaliavel.unidadeTipoAvaliacao.unidade.id IN " +
+            "                           (" +
+            "                               SELECT operador.unidade.id FROM Operador operador WHERE " +
+            "                               (" +
+            "                                   operador.usuario.id = :usuarioId " +
+            "                               )" +
+            "                           )" +
+            "                       )" +
+            "                   )" +
+//            "                   AND " +
+//            "                   unidade.id IN " +
+//            "                   (" +
+//            "                       SELECT avaliavel.unidade.id FROM Operador avaliavel WHERE " +
+//            "                       (" +
+//            "                           avaliavel.unidade.id IN " +
+//            "                           (" +
+//            "                               SELECT operador.unidade.id FROM Operador operador WHERE " +
+//            "                               (" +
+//            "                                   operador.usuario.id = :usuarioId " +
+//            "                               )" +
+//            "                           )" +
+//            "                       )" +
+//            "                   )" +
+            "               )" +
             "           )" +
             "           OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
             "       )" +
