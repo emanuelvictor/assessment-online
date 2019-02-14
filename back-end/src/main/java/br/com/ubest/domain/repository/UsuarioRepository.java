@@ -124,15 +124,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "           )" +
             "           OR :unidadesFilter IS NULL" +
             "       )" +
-//            "       AND " +
-//            "       (" +
-//            "           (" +
-//            "               (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "')" +
-//            "               AND " +
-//            "               operador.usuario.id = :usuarioId " +
-//            "           )" +
-//            "           OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
-//            "       )" +
             "       AND " +
             "       (" +
             "           (" +
@@ -152,20 +143,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "                           )" +
             "                       )" +
             "                   )" +
-//            "                   AND " +
-//            "                   unidade.id IN " +
-//            "                   (" +
-//            "                       SELECT avaliavel.unidade.id FROM Operador avaliavel WHERE " +
-//            "                       (" +
-//            "                           avaliavel.unidade.id IN " +
-//            "                           (" +
-//            "                               SELECT operador.unidade.id FROM Operador operador WHERE " +
-//            "                               (" +
-//            "                                   operador.usuario.id = :usuarioId " +
-//            "                               )" +
-//            "                           )" +
-//            "                       )" +
-//            "                   )" +
+            "                   OR operador.unidade.id IN " +
+            "                   (" +
+            "                       SELECT operadorInner.unidade.id FROM Operador operadorInner WHERE operadorInner.usuario.id = :usuarioId " +
+            "                   ) " +
             "               )" +
             "           )" +
             "           OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
