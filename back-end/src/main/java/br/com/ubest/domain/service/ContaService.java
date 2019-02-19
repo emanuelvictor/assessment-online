@@ -2,8 +2,11 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.application.context.LocalContext;
 import br.com.ubest.domain.entity.usuario.Conta;
+import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.repository.ContaRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -43,4 +46,7 @@ public class ContaService implements ReactiveUserDetailsService {
 
     }
 
+    public Page<Conta> listByFilters(final String defaultFilter, final Pageable pageable) {
+        return contaRepository.listByFilters(defaultFilter, pageable);
+    }
 }

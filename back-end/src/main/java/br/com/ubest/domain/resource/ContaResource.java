@@ -1,8 +1,11 @@
 package br.com.ubest.domain.resource;
 
+import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Perfil;
+import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.service.ContaService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
+
+import static br.com.ubest.application.context.LocalContext.getPageable;
 
 @RestController
 @AllArgsConstructor
@@ -30,5 +35,12 @@ public class ContaResource {
     public Mono<UserDetails> findUsuarioByEmail(@RequestParam final String email) {
         return this.contaService.findUsuarioByEmail(email);
     }
+
+    @GetMapping
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ROOT_VALUE + "')")
+    Mono<Page<Conta>> listByFilters(final String defaultFilter) {
+        return Mono.just(contaService.listByFilters(defaultFilter, getPageable()));
+    }
+
 
 }

@@ -72,6 +72,36 @@ public class Conta extends AbstractEntity implements UserDetails {
     private Usuario usuario;
 
     /**
+     *
+     */
+    public Conta() {
+    }
+
+    /**
+     *
+     * @param id long
+     * @param administrador boolean
+     * @param root boolean
+     * @param esquema String
+     * @param email String
+     * @param password String
+     * @param lastLogin LocalDateTime
+     * @param usuario Usuario
+     */
+    public Conta(final long id, final @NotNull boolean administrador,
+                 @NotNull final boolean root, @NotNull final String esquema,
+                 @Email final String email, final String password, final LocalDateTime lastLogin, final Usuario usuario) {
+        this.id = id;
+        this.administrador = administrador;
+        this.root = root;
+        this.esquema = esquema;
+        this.email = email;
+        this.password = password;
+        this.lastLogin = lastLogin;
+        this.usuario = usuario;
+    }
+
+    /**
      * (non-Javadoc)
      *
      * @see org.springframework.security.core.userdetails.UserDetails#getUsername()
