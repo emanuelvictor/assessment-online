@@ -35,8 +35,16 @@ public class DefaultFilter implements WebFilter {
                 .map(securityContext -> {
                     if (securityContext.getAuthentication() != null) {
                         final Conta conta = ((Conta) securityContext.getAuthentication().getPrincipal());
-                        LocalContext.setCurrentSchema(conta.getEsquema());
+
+                        LocalContext.setCurrentScheme(conta.getEsquema());
                         LocalContext.setCurrentUsername(conta.getUsername());
+
+                        if (conta.isRoot()){
+//                            LocalContext.setRoot(true);
+                            // Se for root seta como esquema atual o esquema escolhido pelo root
+                            LocalContext.setCurrentScheme(LocalContext.getRootCurrentScheme());
+                        }
+
                     }
                     return webFilterChain.filter(serverWebExchange);
                 })

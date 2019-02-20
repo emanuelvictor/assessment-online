@@ -33,7 +33,7 @@
                  [dataSource]='dataSource'
                  #table matSort class='bgc-grey-50'>
 
-        <ng-container matColumnDef='usuario.nome'>
+        <ng-container matColumnDef='email'>
           <mat-header-cell *matHeaderCellDef
                            [matTooltipPosition]='"left"'
                            matTooltip='Ordernar pelo nome' mat-sort-header
@@ -59,7 +59,7 @@
         </mat-header-row>
 
         <mat-row *matRowDef="let conta; columns: displayedColumns"
-                 routerLink="{{conta.id}}" style="cursor: pointer">
+                 (click)="assumirEsquema(conta?.esquema)" style="cursor: pointer">
         </mat-row>
       </mat-table>
       <mat-paginator [pageSizeOptions]="[5, 20, 50, 100]"

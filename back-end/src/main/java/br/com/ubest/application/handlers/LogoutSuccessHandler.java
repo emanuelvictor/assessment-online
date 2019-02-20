@@ -2,6 +2,7 @@ package br.com.ubest.application.handlers;
 
 
 import br.com.ubest.application.context.LocalContext;
+import br.com.ubest.application.filter.DefaultFilter;
 import br.com.ubest.domain.entity.usuario.Sessao;
 import br.com.ubest.domain.repository.SessaoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,7 +31,12 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
     /**
      *
      */
-    private static final Logger LOG = Logger.getLogger(LogoutSuccessHandler.class.getName());
+    private final ObjectMapper objMapper;
+
+    /**
+     *
+     */
+    private final DefaultFilter defaultFilter;
 
     /**
      *
@@ -40,7 +46,7 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
     /**
      *
      */
-    private final ObjectMapper objMapper;
+    private static final Logger LOG = Logger.getLogger(LogoutSuccessHandler.class.getName());
 
     /**
      * @param webFilterExchange {WebFilterExchange}

@@ -2,6 +2,7 @@ package br.com.ubest.domain.service;
 
 
 import br.com.ubest.application.context.LocalContext;
+import br.com.ubest.application.filter.DefaultFilter;
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
 import br.com.ubest.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
@@ -61,11 +62,11 @@ public class ImportService {
     private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
 
     // Method which write the bytes into a file
-    private static File getFile(byte[] bytes) {
+    private File getFile(byte[] bytes) {
         try {
 
             // Path of a file
-            final String FILEPATH = LocalContext.getCurrentSchema() + ".json";
+            final String FILEPATH = LocalContext.getCurrentScheme() + ".json";
             final File file = new File(FILEPATH);
 
             // Initialize a pointer
@@ -86,7 +87,7 @@ public class ImportService {
         }
     }
 
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ROOT_VALUE + "')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<String> save(@RequestPart("file") Flux<Part> file) {
 

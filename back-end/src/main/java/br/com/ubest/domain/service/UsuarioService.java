@@ -2,6 +2,7 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.application.context.LocalContext;
 import br.com.ubest.application.exceptions.PasswordNotFound;
+import br.com.ubest.application.filter.DefaultFilter;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
@@ -38,6 +39,8 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final Flyway flyway;
+
+    private final DefaultFilter defaultWebFilter;
 
     private final ContaRepository contaRepository;
 
@@ -203,7 +206,7 @@ public class UsuarioService {
         serverSecurityContextRepository.save(exchange, securityContext).block();
 
         // Seto o squema default, isso fará o sistema setar o esquema da conta a se criar.
-        LocalContext.setCurrentSchema(usuario.getConta().getEsquema());
+        LocalContext.setCurrentScheme(usuario.getConta().getEsquema());
 
         usuarioRepository.save(usuario);
 
@@ -303,11 +306,13 @@ public class UsuarioService {
                                        final LocalDateTime dataTerminoFilter,
                                        final Pageable pageable) {
 
-        final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
+        final Conta conta = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername());
+
+        final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 
         return usuarioRepository.listByFilters(
-                usuario.getId(),
-                usuario.getConta().getPerfil().name(),
+                usuarioId,
+                conta.getPerfil().name(),
                 defaultFilter,
                 unidadesFilter,
                 dataInicioFilter,
@@ -316,6 +321,13 @@ public class UsuarioService {
 
     }
 
+    /**
+     *
+     * @param usuarioId
+     * @param dataInicioFilter
+     * @param dataTerminoFilter
+     * @return
+     */
     public Optional<Usuario> findUsuarioById(final Long usuarioId,
                                              final LocalDateTime dataInicioFilter,
                                              final LocalDateTime dataTerminoFilter) {
@@ -388,7 +400,7 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    public List<Usuario> findByNome(final String nome) {
+    List<Usuario> findByNome(final String nome) {
         return usuarioRepository.findByNome(nome);
     }
 

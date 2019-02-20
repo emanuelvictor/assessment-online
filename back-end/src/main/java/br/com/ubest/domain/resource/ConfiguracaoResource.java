@@ -48,7 +48,7 @@ public class ConfiguracaoResource {
     public Mono<ResponseEntity<byte[]>> findLogomarca(final @RequestParam(value = "cliente", required = false) String cliente) {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.configuracaoService.findLogomarca(cliente == null ? LocalContext.getCurrentSchema() : cliente))
+                        .body(this.configuracaoService.findLogomarca(cliente == null ? LocalContext.getCurrentScheme() : cliente))
         );
     }
 
@@ -83,7 +83,7 @@ public class ConfiguracaoResource {
     public Mono<ResponseEntity<byte[]>> findBackgroundByCliente(final @RequestParam(value = "cliente", required = false) String cliente) {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.configuracaoService.findBackground(cliente == null ? LocalContext.getCurrentSchema() : cliente))
+                        .body(this.configuracaoService.findBackground(cliente == null ? LocalContext.getCurrentScheme() : cliente))
         );
     }
 

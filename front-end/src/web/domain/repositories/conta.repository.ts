@@ -60,4 +60,11 @@ export class ContaRepository extends BaseRepository<Conta> {
 
   }
 
+  /**
+   *
+   * @param esquema
+   */
+  assumirEsquema(esquema: string): Promise<any> {
+    return this.httpClient.get<any>(environment.endpoint + 'contas/accept-scheme/' + esquema).toPromise();
+  }
 }

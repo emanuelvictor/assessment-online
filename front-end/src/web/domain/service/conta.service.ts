@@ -86,7 +86,7 @@ export class ContaService {
         .then(result => {
           toSave = result;
 
-          if (arquivoFile)
+          if (arquivoFile) {
             this.fileRepository.save(environment.endpoint + 'usuarios/' + String(result.id) + '/foto', arquivoFile)
               .then(uploaded => {
                 toSave.fotoPath = uploaded;
@@ -96,10 +96,9 @@ export class ContaService {
                 console.error(error);
                 reject(error);
               });
-
-
-          else
+          } else {
             resolve(toSave);
+          }
 
         })
         .catch(error => {
@@ -109,5 +108,9 @@ export class ContaService {
 
     });
 
+  }
+
+  assumirEsquema(esquema: string): Promise<any> {
+    return this.contaRepository.assumirEsquema(esquema)
   }
 }

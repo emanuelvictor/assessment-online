@@ -2,7 +2,6 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.application.context.LocalContext;
 import br.com.ubest.domain.entity.usuario.Conta;
-import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.repository.ContaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +17,7 @@ import reactor.core.publisher.Mono;
 public class ContaService implements ReactiveUserDetailsService {
 
     /**
-     * TODO refazer tudo isso
+     *
      */
     private final ContaRepository contaRepository;
 
@@ -40,13 +39,28 @@ public class ContaService implements ReactiveUserDetailsService {
 
         Assert.notNull(conta, "Conta não encontrada");
 
-        LocalContext.setCurrentSchema(conta.getEsquema());
+        LocalContext.setCurrentScheme(conta.getEsquema());
 
         return Mono.just(contaRepository.findByEmailIgnoreCase(email.toLowerCase())); // TODO???
-
     }
 
+    /**
+     *
+     * @param defaultFilter String
+     * @param pageable Pageable
+     * @return Page<Conta>
+     */
     public Page<Conta> listByFilters(final String defaultFilter, final Pageable pageable) {
         return contaRepository.listByFilters(defaultFilter, pageable);
+    }
+
+    /**
+     *
+     * @param scheme String
+     * @return boolean
+     */
+    public boolean acceptScheme(final String scheme) {
+        LocalContext.setRootCurrentScheme(scheme);
+        return true;
     }
 }

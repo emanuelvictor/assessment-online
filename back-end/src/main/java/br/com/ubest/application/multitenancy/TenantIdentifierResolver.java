@@ -11,7 +11,7 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
 
     @Override
     public String resolveCurrentTenantIdentifier() {
-        return LocalContext.getCurrentSchema();
+        return LocalContext.getCurrentScheme();
     }
 
     @Override

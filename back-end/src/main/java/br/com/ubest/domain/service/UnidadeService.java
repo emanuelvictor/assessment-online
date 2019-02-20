@@ -2,6 +2,7 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.application.context.LocalContext;
 import br.com.ubest.application.exceptions.PasswordNotFound;
+import br.com.ubest.application.filter.DefaultFilter;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Usuario;
@@ -9,6 +10,7 @@ import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.domain.repository.UnidadeRepository;
 import br.com.ubest.domain.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -94,11 +96,13 @@ public class UnidadeService {
                                        final LocalDateTime dataTerminoFilter,
                                        final Pageable pageable) {
 
-        final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
+        final Conta conta = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername());
+
+        final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 
         return this.unidadeRepository.listByFilters(
-                usuario.getId(),
-                usuario.getConta().getPerfil().name(),
+                usuarioId,
+                conta.getPerfil().name(),
                 defaultFilter,
                 enderecoFilter,
                 dataInicioFilter,
@@ -122,11 +126,14 @@ public class UnidadeService {
      */
     public Page<Unidade> listByFilters(final String defaultFilter, final Pageable pageable) {
 
-        final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
+
+        final Conta conta = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername());
+
+        final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 
         return this.unidadeRepository.listByFilters(
-                usuario.getId(),
-                usuario.getConta().getPerfil().name(),
+                usuarioId,
+                conta.getPerfil().name(),
                 defaultFilter,
                 pageable);
 
@@ -182,7 +189,7 @@ public class UnidadeService {
         return hashs;
     }
 
-    public List<Unidade> findByNome(final String nome) {
+    List<Unidade> findByNome(final String nome) {
         return unidadeRepository.findByNome(nome);
     }
 }

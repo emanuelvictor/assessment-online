@@ -206,9 +206,9 @@
               </div>
             </div>
 
-            <mat-divider></mat-divider>
+            <mat-divider *ngIf='contaAutenticada?.root'></mat-divider>
 
-            <div layout='column' layout-margin style='margin-top: 20px; padding-bottom: 25px'>
+            <div *ngIf='contaAutenticada?.root' layout='column' layout-margin style='margin-top: 20px; padding-bottom: 25px'>
               <div layout='row' layout-align='start center'>
                 <div layout="column" layout-margin>
                   <h2 flex [matTooltipPosition]="'below'"
@@ -232,8 +232,8 @@
                   <div flex *ngIf='!importFilePath'>
                     <td-file-upload accept='.json'
                                     #importFileUpload
-                                    (change)='importFileChange($event)'
-                                    defaultColor='primary' name="file">
+                                    defaultColor='primary' name='file'
+                                    (change)='importFileChange($event)'>
                       <span>{{ importFileUpload?.files?.name }}</span>
                       <ng-template td-file-input-label>
                         <mat-icon>attach_file</mat-icon>

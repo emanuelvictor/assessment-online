@@ -1,9 +1,10 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.application.context.LocalContext;
+import br.com.ubest.application.filter.DefaultFilter;
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
 import br.com.ubest.domain.entity.avaliacao.AvaliacaoAvaliavel;
-import br.com.ubest.domain.entity.usuario.Usuario;
+import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.AvaliacaoAvaliavelRepository;
 import br.com.ubest.domain.repository.AvaliacaoRepository;
 import br.com.ubest.domain.repository.ContaRepository;
@@ -21,6 +22,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AvaliacaoService {
+
+    private final DefaultFilter defaultFilter;
 
     private final ContaRepository contaRepository;
 
@@ -63,11 +66,13 @@ public class AvaliacaoService {
                                          final LocalDateTime dataTerminoFilter,
                                          final Pageable pageable) {
 
-        final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
+        final Conta conta = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername());
+
+        final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 
         return this.avaliacaoRepository.listByFilters(
-                usuario.getId(),
-                usuario.getConta().getPerfil().name(),
+                usuarioId,
+                conta.getPerfil().name(),
                 unidadesFilter,
                 usuariosFilter,
                 dataInicioFilter,

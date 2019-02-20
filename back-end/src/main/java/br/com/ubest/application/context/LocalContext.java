@@ -4,18 +4,11 @@ import org.springframework.data.domain.Pageable;
 
 public final class LocalContext {
 
-//    private static final LocalContext INSTANCE = new LocalContext();
-//
-//    private LocalContext() {
-//    }
-//
-//    LocalContext getInstance() {
-//        return INSTANCE;
-//    }
-
     public static final String DEFAULT_TENANT_ID = "public";
 
-    private static String currentSchema;
+    private static String rootCurrentScheme;
+
+    private static String currentScheme;
 
     private static String currentUsername;
 
@@ -23,19 +16,36 @@ public final class LocalContext {
 
     /**
      * --------------------------
-     * pageable
+     * rootCurrentScheme
      * --------------------------
      */
-    public static String getCurrentSchema() {
-        if (currentSchema != null)
-            return currentSchema;
+    public static String getRootCurrentScheme() {
+        if (rootCurrentScheme != null)
+            return rootCurrentScheme;
         return DEFAULT_TENANT_ID;
     }
 
-    public static void setCurrentSchema(final String tenant) {
-        if (currentSchema == null)
-            currentSchema = DEFAULT_TENANT_ID;
-        currentSchema = removeNoCache(tenant);
+    public static void setRootCurrentScheme(final String tenant) {
+        if (rootCurrentScheme == null)
+            rootCurrentScheme = DEFAULT_TENANT_ID;
+        rootCurrentScheme = removeNoCache(tenant);
+    }
+
+    /**
+     * --------------------------
+     * currentScheme
+     * --------------------------
+     */
+    public static String getCurrentScheme() {
+        if (currentScheme != null)
+            return currentScheme;
+        return DEFAULT_TENANT_ID;
+    }
+
+    public static void setCurrentScheme(final String tenant) {
+        if (currentScheme == null)
+            currentScheme = DEFAULT_TENANT_ID;
+        currentScheme = removeNoCache(tenant);
     }
 
     private static String removeNoCache(final String schema) {
@@ -45,7 +55,7 @@ public final class LocalContext {
     }
 
     public static void clearCurrentSchema() {
-        currentSchema = null;
+        currentScheme = null;
     }
 
     /**

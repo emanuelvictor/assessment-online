@@ -16,130 +16,136 @@ import {ContaService} from "../../../../service/conta.service";
 import {Conta} from "../../../../entity/usuario/conta.model";
 
 @Component({
-    selector: 'consultar-clientes',
-    templateUrl: './consultar-clientes.component.html',
-    styleUrls: ['./consultar-clientes.component.css'],
-    animations: [
-        viewAnimation
-    ]
+  selector: 'consultar-clientes',
+  templateUrl: './consultar-clientes.component.html',
+  styleUrls: ['./consultar-clientes.component.css'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class ConsultarClientesComponent implements OnInit {
 
-    /**
-     *
-     */
-    masks = textMasks;
+  /**
+   *
+   */
+  masks = textMasks;
+
+  /**
+   *
+   */
+  public pageRequest = { // PageRequest
+    size: 20,
+    page: 0,
+    sort: null,
+    defaultFilter: [],
+  };
+
+  /**
+   * Serve para armazenar o total de elementos
+   */
+  public page: any = {};
+
+  /**
+   * Serve para armazenar as colunas que serão exibidas na tabela
+   * @type {[string]}
+   */
+  public displayedColumns: string[] =
+    [
+      'email'
+    ];
+
+  /**
+   *
+   * dataSource com os usuários
+   * @type {MatTableDataSource<Conta>}
+   */
+  dataSource = new MatTableDataSource<Conta>();
+
+  /**
+   * Bind com o objeto paginator
+   */
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  /**
+   * Bind com objeto sort
+   */
+  @ViewChild(MatSort) sort: MatSort;
+
+  /**
+   *
+   * @param {UsuarioService} contaService
+   * @param {MatIconRegistry} iconRegistry
+   * @param {DomSanitizer} domSanitizer
+   * @param {UnidadeService} unidadeService
+   */
+  constructor(private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
+              private contaService: ContaService, private unidadeService: UnidadeService) {
+  }
+
+  /**
+   *
+   */
+  ngOnInit() {
 
     /**
-     *
+     * Seta o size do pageRequest no size do paginator
+     * @type {number}
      */
-    public pageRequest = { // PageRequest
-        size: 20,
-        page: 0,
-        sort: null,
-        defaultFilter: [],
-    };
+    this.paginator.pageSize = this.pageRequest.size;
 
     /**
-     * Serve para armazenar o total de elementos
+     * Listagem inicial
      */
-    public page: any = {};
+    this.listClientesByFilters(this.pageRequest);
 
     /**
-     * Serve para armazenar as colunas que serão exibidas na tabela
-     * @type {[string]}
+     * Sobrescreve o sortChange do sort bindado
      */
-    public displayedColumns: string[] =
-        [
-            'usuario.nome'
-        ];
+    this.sort.sortChange.subscribe(() => {
+      this.pageRequest.sort = {
+        'properties': this.sort.active,
+        'direction': this.sort.direction
+      };
+      this.listClientesByFilters(this.pageRequest);
+    });
+  }
 
-    /**
-     *
-     * dataSource com os usuários
-     * @type {MatTableDataSource<Conta>}
-     */
-    dataSource = new MatTableDataSource<Conta>();
+  /**
+   * Chamado ao alterar algum filtro
+   *
+   */
+  public onChangeFilters() {
 
-    /**
-     * Bind com o objeto paginator
-     */
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    this.pageRequest.page = 0;
 
-    /**
-     * Bind com objeto sort
-     */
-    @ViewChild(MatSort) sort: MatSort;
+    this.contaService.listByFilters(this.pageRequest)
+      .subscribe((result) => {
+        this.dataSource = new MatTableDataSource<Conta>(result.content);
 
-    /**
-     *
-     * @param {UsuarioService} contaService
-     * @param {MatIconRegistry} iconRegistry
-     * @param {DomSanitizer} domSanitizer
-     * @param {UnidadeService} unidadeService
-     */
-    constructor(private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
-                private contaService: ContaService, private unidadeService: UnidadeService) {
-    }
-
-    /**
-     *
-     */
-    ngOnInit() {
-
-        /**
-         * Seta o size do pageRequest no size do paginator
-         * @type {number}
-         */
-        this.paginator.pageSize = this.pageRequest.size;
-
-        /**
-         * Listagem inicial
-         */
-        this.listClientesByFilters(this.pageRequest);
-
-        /**
-         * Sobrescreve o sortChange do sort bindado
-         */
-        this.sort.sortChange.subscribe(() => {
-            this.pageRequest.sort = {
-                'properties': this.sort.active,
-                'direction': this.sort.direction
-            };
-            this.listClientesByFilters(this.pageRequest);
-        });
-    }
-
-    /**
-     * Chamado ao alterar algum filtro
-     *
-     */
-    public onChangeFilters() {
-
-        this.pageRequest.page = 0;
-
-        this.contaService.listByFilters(this.pageRequest)
-            .subscribe((result) => {
-                this.dataSource = new MatTableDataSource<Conta>(result.content);
-
-                this.page = result;
-            })
-    }
+        this.page = result;
+      })
+  }
 
 
-    /**
-     * Consulta de usuarios
-     *
-     */
-    public listClientesByFilters(pageRequest: any) {
-        pageRequest.page = this.paginator.pageIndex;
-        pageRequest.size = this.paginator.pageSize;
+  /**
+   * Consulta de usuarios
+   *
+   */
+  public listClientesByFilters(pageRequest: any) {
+    pageRequest.page = this.paginator.pageIndex;
+    pageRequest.size = this.paginator.pageSize;
 
-        this.contaService.listByFilters(pageRequest)
-            .subscribe((result) => {
-                this.dataSource = new MatTableDataSource<Conta>(result.content);
+    this.contaService.listByFilters(pageRequest)
+      .subscribe((result) => {
+        this.dataSource = new MatTableDataSource<Conta>(result.content);
 
-                this.page = result;
-            })
-    }
+        this.page = result;
+      })
+  }
+
+  public assumirEsquema(esquema: string): void {
+    this.contaService.assumirEsquema(esquema)
+      .then((result) => {
+      })
+  }
 }

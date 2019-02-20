@@ -55,7 +55,7 @@ public class ConfiguracaoService {
 
     public Configuracao getConfiguracao(final String cliente) {
         if (cliente == null || cliente.equals(DEFAULT_TENANT_ID))
-            LocalContext.setCurrentSchema(DEFAULT_TENANT_ID);
+            LocalContext.setCurrentScheme(DEFAULT_TENANT_ID);
 
         final Configuracao defaultConfiguration = this.getConfiguracao();
 
@@ -64,7 +64,7 @@ public class ConfiguracaoService {
             return defaultConfiguration;
 
         // Se o cliente não é nulo e não é o public, então retorna as configurações do cliente
-        LocalContext.setCurrentSchema(cliente);
+        LocalContext.setCurrentScheme(cliente);
         final Configuracao configuracao = (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
 
         if (configuracao.getLogo() == null)
@@ -74,7 +74,7 @@ public class ConfiguracaoService {
             configuracao.setBackgroundImage(defaultConfiguration.getBackgroundImage());
 
 //        System.out.println("cliente = " + cliente);
-//        System.out.println("LocalContext.getCurrentSchema() = " + LocalContext.getCurrentSchema());
+//        System.out.println("LocalContext.getCurrentScheme() = " + LocalContext.getCurrentScheme());
 //        LocalContext.clearCurrentSchema(); //TODO BUGA?
         return configuracao;
     }

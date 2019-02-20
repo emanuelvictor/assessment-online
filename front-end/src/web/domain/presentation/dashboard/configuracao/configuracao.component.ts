@@ -11,6 +11,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {ConfiguracaoService} from "../../../service/configuracao.service";
 import {FileRepository} from "../../../../infrastructure/repository/file/file.repository";
 import {ConfiguracaoRepository} from "../../../repositories/configuracao.repository";
+import {AuthenticationService} from "../../../service/authentication.service";
 
 /**
  *
@@ -21,6 +22,8 @@ import {ConfiguracaoRepository} from "../../../repositories/configuracao.reposit
   styleUrls: ['./configuracao.component.scss']
 })
 export class ConfiguracaoComponent implements OnInit {
+
+    contaAutenticada: any = null;
 
   /**
    *
@@ -67,24 +70,28 @@ export class ConfiguracaoComponent implements OnInit {
    */
   importFile = null;
 done: boolean = false;
-  /**
-   *
-   * @param {MatSnackBar} snackBar
-   * @param {FileRepository} fileRepository
-   * @param {TdLoadingService} _loadingService
-   * @param {ElementRef} element
-   * @param {ConfiguracaoService} configuracaoService
-   * @param {Renderer} renderer
-   * @param {FormBuilder} fb
-   * @param {MatIconRegistry} iconRegistry
-   * @param {DomSanitizer} domSanitizer
-   */
+
+    /**
+     *
+     * @param snackBar
+     * @param fileRepository
+     * @param _loadingService
+     * @param element
+     * @param configuracaoService
+     * @param renderer
+     * @param fb
+     * @param authenticationService
+     * @param configuracaoRepository
+     * @param iconRegistry
+     * @param domSanitizer
+     */
   constructor(private snackBar: MatSnackBar,
               private fileRepository: FileRepository,
               private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
               private configuracaoService: ConfiguracaoService,
               private renderer: Renderer, private fb: FormBuilder,
+              private authenticationService: AuthenticationService,
               private configuracaoRepository: ConfiguracaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
   }
@@ -122,7 +129,10 @@ done: boolean = false;
 
         this.done = true;
 
-      })
+      });
+
+      this.contaAutenticada = this.authenticationService.contaAutenticada;
+      console.log(this.contaAutenticada);
   }
 
   /**
