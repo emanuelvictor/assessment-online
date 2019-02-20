@@ -129,7 +129,7 @@
             </avatar>
             <div layout-margin layout='column'>
               <span>{{usuario?.nome}}</span>
-              <span *ngIf='documento' [@fadeInOut]
+              <span *ngIf='usuario?.documento' [@fadeInOut]
                     style='color: #607d8b'>CPF: {{usuario?.documento | documento}}</span>
               <span style='color: gray'>{{usuario?.conta?.email}}</span>
             </div>

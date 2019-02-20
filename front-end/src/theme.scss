@@ -286,3 +286,10 @@ button[color='accent'] {
 .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
   background-color: $roxoforte;
 }
+
+// Alterar a cor do botão da snackbar
+simple-snack-bar {
+  .mat-button-wrapper{
+    color: $verde !important;
+  }
+}

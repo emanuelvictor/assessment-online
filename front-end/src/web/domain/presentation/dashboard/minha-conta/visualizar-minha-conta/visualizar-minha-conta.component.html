@@ -1,7 +1,16 @@
 <div layout-align="center center" layout-gt-xs="row" layout-margin>
   <div layout="row" flex-gt-xs="80" layout-margin>
     <div flex layout-margin layout='column' layout-align='center center'>
-      <mat-card class="bgc-grey-50" layout-margin style="width: calc(100% - 15px)">
+
+      <div flex layout-margin
+           *ngIf='message' layout="row"
+           layout-align="center center">
+        <div layout="column">
+          <h1 flex class="mat-headline tc-blue-grey-800 no-margin">{{message}}</h1>
+        </div>
+      </div>
+
+      <mat-card class="bgc-grey-50" layout-margin style="width: calc(100% - 15px)" *ngIf='usuario?.id'>
         <mat-card-content style="margin-left: 35px">
 
           <visualizar-dados-usuario [usuario]='usuario' *ngIf='usuario?.id'>
@@ -52,7 +61,6 @@
             [(avaliaveis)]='avaliaveis'>
         </visualizar-vinculo-unidade>
       </mat-card>
-
     </div>
   </div>
 </div>

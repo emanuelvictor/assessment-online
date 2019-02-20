@@ -1,4 +1,4 @@
-import {MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatIconRegistry, MatPaginator, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
@@ -14,6 +14,8 @@ import {ConfiguracaoService} from "../../../../service/configuracao.service";
 import {viewAnimation} from "../../../controls/utils";
 import {ContaService} from "../../../../service/conta.service";
 import {Conta} from "../../../../entity/usuario/conta.model";
+import {Route, Router} from "@angular/router";
+import {ConfiguracaoRepository} from "../../../../repositories/configuracao.repository";
 
 @Component({
   selector: 'consultar-clientes',
@@ -73,12 +75,16 @@ export class ConsultarClientesComponent implements OnInit {
 
   /**
    *
+   * @param router
+   * @param snackBar
    * @param {UsuarioService} contaService
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    * @param {UnidadeService} unidadeService
    */
-  constructor(private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
+  constructor(private configuracaoRepository: ConfiguracaoRepository,
+              private router: Router, private snackBar: MatSnackBar,
+              private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private contaService: ContaService, private unidadeService: UnidadeService) {
   }
 
@@ -146,6 +152,29 @@ export class ConsultarClientesComponent implements OnInit {
   public assumirEsquema(esquema: string): void {
     this.contaService.assumirEsquema(esquema)
       .then((result) => {
+        if (result) {
+          if (esquema === 'public') {
+            this.openSnackBar('Conta administrativa selecionada');
+            this.router.navigate(['dashboard/minha-conta']);
+          } else {
+            this.openSnackBar('Cliente ' + '\'' + esquema + '\'' + ' selecionado');
+            this.router.navigate(['dashboard/avaliaveis']);
+          }
+
+          this.configuracaoRepository.configuracao;
+
+        }
       })
   }
+
+  /**
+   *
+   * @param message
+   */
+  public openSnackBar(message: string) {
+    this.snackBar.open(message, "Fechar", {
+      duration: 5000
+    });
+  }
+
 }

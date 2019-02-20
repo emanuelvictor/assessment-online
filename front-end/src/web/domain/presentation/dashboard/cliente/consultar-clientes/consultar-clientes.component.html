@@ -2,14 +2,9 @@
 
   <td-chips style='margin-left:0; margin-top: 9px;'
             [(ngModel)]='pageRequest.defaultFilter'
-            placeholder="Pesquisar por nome ou e-mail" flex
+            placeholder="Pesquisar por e-mail" flex
             (add)="onChangeFilters()" (remove)="onChangeFilters()">
   </td-chips>
-
-  <add-button routerLink="inserir"
-              [matTooltipPosition]="'below'"
-              matTooltip="Inserir novo ítem avaliável">
-  </add-button>
 
 </search-bar>
 
@@ -58,8 +53,9 @@
         <mat-header-row *matHeaderRowDef="displayedColumns">
         </mat-header-row>
 
-        <mat-row *matRowDef="let conta; columns: displayedColumns"
-                 (click)="assumirEsquema(conta?.esquema)" style="cursor: pointer">
+        <mat-row *matRowDef='let conta; columns: displayedColumns'
+                 (click)='assumirEsquema(conta?.esquema)' style='cursor: pointer'
+                 matTooltip='Selecione o cliente e começe a visualizar seus dados'>
         </mat-row>
       </mat-table>
       <mat-paginator [pageSizeOptions]="[5, 20, 50, 100]"

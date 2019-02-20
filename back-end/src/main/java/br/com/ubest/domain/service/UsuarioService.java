@@ -15,6 +15,7 @@ import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.domain.repository.UsuarioRepository;
 import br.com.ubest.infrastructure.file.ImageUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.flywaydb.core.Flyway;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import static br.com.ubest.application.context.LocalContext.DEFAULT_TENANT_ID;
 
 
 @Service
@@ -164,6 +167,8 @@ public class UsuarioService {
         }
 
         usuario.getConta().setEsquema(tenantIdentifierResolver.resolveCurrentTenantIdentifier());// TODO verificar se não da pra usar o context
+
+        usuario.getConta().setRoot(LocalContext.getCurrentScheme().equals(DEFAULT_TENANT_ID));
 
         return usuarioRepository.save(usuario);
     }

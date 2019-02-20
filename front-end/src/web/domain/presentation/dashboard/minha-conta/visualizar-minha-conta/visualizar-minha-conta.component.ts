@@ -33,6 +33,11 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
   /**
    *
    */
+  message: string = null;
+
+  /**
+   *
+   */
   public unidades: any;
 
   /**
@@ -75,41 +80,42 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.authenticationService.requestContaAutenticada().subscribe(conta => {
-      conta.usuario.conta = conta;
-      this.usuario = conta.usuario;
+      if (conta.usuario) {
+        conta.usuario.conta = conta;
+        this.usuario = conta.usuario;
 
-      this.unidadeService.listByUsuarioId({usuarioId: this.usuario.id}).subscribe(result => {
-        this.unidades = result;
+        this.unidadeService.listByUsuarioId({usuarioId: this.usuario.id}).subscribe(result => {
+          this.unidades = result;
 
-        this.operadorRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
-          this.operadores = page.content;
+          this.operadorRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
+            this.operadores = page.content;
 
-          if (this.operadores.length)
-            for (let i = 0; i < this.unidades.length; i++)
-              for (let k = 0; k < this.operadores.length; k++)
-                if (this.operadores[k].unidade.id === this.unidades[i].id) {
-                  this.unidades[i].operadorValue = true;
-                  this.unidades[i].operador = this.operadores[k];
+            if (this.operadores.length)
+              for (let i = 0; i < this.unidades.length; i++)
+                for (let k = 0; k < this.operadores.length; k++)
+                  if (this.operadores[k].unidade.id === this.unidades[i].id) {
+                    this.unidades[i].operadorValue = true;
+                    this.unidades[i].operador = this.operadores[k];
+                  }
+          });
+
+          this.avaliavelRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
+            this.avaliaveis = page.content;
+            for (let i = 0; i < this.unidades.length; i++) {
+              if (!this.unidades[i].unidadesTiposAvaliacoes)
+                this.unidades[i].unidadesTiposAvaliacoes = [];
+              for (let k = 0; k < this.avaliaveis.length; k++)
+
+                if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+                  this.unidades[i].avaliavelValue = this.avaliaveis[k].ativo;
+                  this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
+                  this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao);
                 }
+            }
+          });
+
         });
-
-        this.avaliavelRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
-          this.avaliaveis = page.content;
-          for (let i = 0; i < this.unidades.length; i++) {
-            if (!this.unidades[i].unidadesTiposAvaliacoes)
-              this.unidades[i].unidadesTiposAvaliacoes = [];
-            for (let k = 0; k < this.avaliaveis.length; k++)
-
-              if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-                this.unidades[i].avaliavelValue = this.avaliaveis[k].ativo;
-                this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
-                this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao);
-              }
-          }
-        });
-
-      });
-
+      } else this.message = 'Volte ao seu cliente para visualizar seus dados';
     })
   }
 
