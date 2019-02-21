@@ -132,7 +132,6 @@ done: boolean = false;
       });
 
       this.contaAutenticada = this.authenticationService.contaAutenticada;
-      console.log(this.contaAutenticada);
   }
 
   /**
@@ -202,7 +201,7 @@ done: boolean = false;
           this._loadingService.resolve('overlayStarSyntax');
           this.success('Configuração atualizada com sucesso');
 
-          this.configuracaoRepository.observer.next(result);
+          this.configuracaoRepository.observerConfiguracao.next(result);
         });
     }
   }

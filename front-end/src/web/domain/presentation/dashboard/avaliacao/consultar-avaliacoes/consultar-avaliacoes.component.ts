@@ -276,7 +276,6 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
       this.usuarioService.listLightByFilters(pageRequest)
         .subscribe((result) => {
-          console.log(result);
           this.filteredAsyncUsuario = result.content;
         });
 

@@ -112,5 +112,13 @@ public class ConfiguracaoResource {
         return Mono.just(true);
     }
 
+    /**
+     * Deleta o background
+     */
+    @GetMapping("scheme")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    public Mono<String> getCurrentScheme() {
+        return Mono.just(LocalContext.getCurrentScheme());
+    }
 
 }

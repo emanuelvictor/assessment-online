@@ -19,20 +19,6 @@
     </mat-list-item>
 
     <mat-list-item class="push-bottom"
-                   *ngIf='authenticatedUser?.root'
-                   routerLink='/dashboard/clientes'
-                   routerLinkActive #rlaClientes="routerLinkActive"
-                   [ngClass]="{'menu-active': rlaClientes.isActive}">
-      <div layout="row" flex class="pad-left">
-        <span flex="10"></span>
-        <mat-icon matListAvatar flex>person_outline</mat-icon>
-        <h3 matLine style="color: white" flex="85">
-          Clientes
-        </h3>
-      </div>
-    </mat-list-item>
-
-    <mat-list-item class="push-bottom"
                    [matTooltipPosition]="'left'"
                    routerLink="/dashboard/avaliaveis"
                    routerLinkActive #rlaUsuarios="routerLinkActive"

@@ -5,7 +5,7 @@ import {FileRepository} from '../../infrastructure/repository/file/file.reposito
 import {ContaRepository} from '../repositories/conta.repository';
 import {Conta} from '../entity/usuario/conta.model';
 import {environment} from "../../../environments/environment";
-import {PageSerialize} from "../../infrastructure/page-serialize/page-serialize";
+import {ConfiguracaoRepository} from "../repositories/configuracao.repository";
 
 /**
  *
@@ -17,8 +17,9 @@ export class ContaService {
    *
    * @param {ContaRepository} contaRepository
    * @param {FileRepository} fileRepository
+   * @param configuracaoRepository
    */
-  constructor(private contaRepository: ContaRepository, private fileRepository: FileRepository) {
+  constructor(private contaRepository: ContaRepository, private fileRepository: FileRepository, private configuracaoRepository: ConfiguracaoRepository) {
   }
 
   /**
@@ -109,8 +110,16 @@ export class ContaService {
     });
 
   }
-
+// Verificar se não pode ser em outro lugar, ou aqui mesmo TODO
   assumirEsquema(esquema: string): Promise<any> {
-    return this.contaRepository.assumirEsquema(esquema)
+
+    // Altero o esquema
+    return this.contaRepository.assumirEsquema(esquema).then (() =>
+
+      // Depois atualizo a configuração;
+      this.configuracaoRepository.configuracao
+
+    );
+
   }
 }

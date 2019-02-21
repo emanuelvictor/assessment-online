@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Configuracao} from "../entity/configuracao/configuracao.model";
 import {Observable, Subject} from 'rxjs';
 import {environment} from "../../../environments/environment";
+import {isNullOrUndefined} from "util";
 
 /**
  */
@@ -12,16 +13,25 @@ export class ConfiguracaoRepository extends BaseRepository<Configuracao> {
 
   private static collection = 'configuracoes';
 
-  public observer: Subject<Configuracao> = new Subject<Configuracao>();
+  public observerConfiguracao: Subject<Configuracao> = new Subject<Configuracao>();
+
+  public observerEsquema: Subject<string> = new Subject<string>();
+;
 
   constructor(httpClient: HttpClient) {
     super(httpClient, ConfiguracaoRepository.collection);
   }
 
   public get configuracao(): Observable<Configuracao> {
-      this.httpClient.get<Configuracao>(environment.endpoint + ConfiguracaoRepository.collection)
-        .subscribe(result => this.observer.next(result));
-    return this.observer;
+    this.httpClient.get<Configuracao>(environment.endpoint + ConfiguracaoRepository.collection)
+      .subscribe(result => this.observerConfiguracao.next(result));
+
+    this.httpClient.get<string>(environment.endpoint + ConfiguracaoRepository.collection + '/scheme', {responseType: 'text'})
+      .subscribe(scheme => {
+        this.observerEsquema.next(scheme);
+      });
+
+    return this.observerConfiguracao;
   }
 
   public getClienteByUsername(username: String): Observable<string> {

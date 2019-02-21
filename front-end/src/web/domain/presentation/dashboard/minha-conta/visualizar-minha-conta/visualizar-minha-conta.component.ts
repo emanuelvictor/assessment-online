@@ -9,6 +9,9 @@ import {UnidadeService} from "../../../../service/unidade.service";
 import {OperadorRepository} from "../../../../repositories/operador.repository";
 import {AvaliavelRepository} from "../../../../repositories/avaliavel.repository";
 import {viewAnimation} from "../../../controls/utils";
+import {ContaService} from "../../../../service/conta.service";
+import {ConfiguracaoRepository} from "../../../../repositories/configuracao.repository";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'visualizar-minha-conta',
@@ -62,15 +65,18 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
   public userSubscription: Subscription;
 
   /**
-   *
+   * @param router
    * @param {MatDialog} dialog
    * @param {MatSnackBar} snackBar
-   * @param {AuthenticationService} authenticationService
-   * @param {UnidadeService} unidadeService
-   * @param {OperadorRepository} operadorRepository
-   * @param {AvaliavelRepository} avaliavelRepository
+   * @param configuracaoRepository
+   * @param contaService
+   * @param authenticationService
+   * @param unidadeService
+   * @param operadorRepository
+   * @param avaliavelRepository
    */
-  constructor(private dialog: MatDialog, private snackBar: MatSnackBar,
+  constructor(private dialog: MatDialog, private snackBar: MatSnackBar, private router: Router,
+              private configuracaoRepository: ConfiguracaoRepository, private contaService: ContaService,
               private authenticationService: AuthenticationService, private unidadeService: UnidadeService,
               private operadorRepository: OperadorRepository, private avaliavelRepository: AvaliavelRepository) {
   }
@@ -79,6 +85,7 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
    *
    */
   ngOnInit(): void {
+    this.message = null;
     this.authenticationService.requestContaAutenticada().subscribe(conta => {
       if (conta.usuario) {
         conta.usuario.conta = conta;
@@ -90,41 +97,56 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
           this.operadorRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
             this.operadores = page.content;
 
-            if (this.operadores.length)
-              for (let i = 0; i < this.unidades.length; i++)
-                for (let k = 0; k < this.operadores.length; k++)
+            if (this.operadores.length) {
+              for (let i = 0; i < this.unidades.length; i++) {
+                for (let k = 0; k < this.operadores.length; k++) {
                   if (this.operadores[k].unidade.id === this.unidades[i].id) {
                     this.unidades[i].operadorValue = true;
                     this.unidades[i].operador = this.operadores[k];
                   }
+                }
+              }
+            }
           });
 
           this.avaliavelRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
             this.avaliaveis = page.content;
             for (let i = 0; i < this.unidades.length; i++) {
-              if (!this.unidades[i].unidadesTiposAvaliacoes)
+              if (!this.unidades[i].unidadesTiposAvaliacoes) {
                 this.unidades[i].unidadesTiposAvaliacoes = [];
-              for (let k = 0; k < this.avaliaveis.length; k++)
-
+              }
+              for (let k = 0; k < this.avaliaveis.length; k++) {
                 if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
                   this.unidades[i].avaliavelValue = this.avaliaveis[k].ativo;
                   this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
                   this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao);
                 }
+              }
             }
           });
 
         });
-      } else this.message = 'Volte ao seu cliente para visualizar seus dados';
+      } else {
+        this.message = 'Volte ao acesso administrativo para visualizar seus dados';
+      }
     })
+  }
+
+  public assumirEsquemaPublico(): void {
+    this.contaService.assumirEsquema('public')
+      .then(() => {
+        this.openSnackBar('Voltando ao acesso administrativo');
+        this.ngOnInit();
+      })
   }
 
   /**
    *
    */
   ngOnDestroy(): void {
-    if (this.userSubscription)
+    if (this.userSubscription) {
       this.userSubscription.unsubscribe();
+    }
   }
 
   /**

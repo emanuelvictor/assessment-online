@@ -104,6 +104,7 @@ import {VisualizarDadosClienteComponent} from "./presentation/dashboard/cliente/
 import {ConsultarClientesComponent} from "./presentation/dashboard/cliente/consultar-clientes/consultar-clientes.component";
 import {VisualizarClienteComponent} from "./presentation/dashboard/cliente/visualizar-cliente/visualizar-cliente.component";
 import {ClienteViewComponent} from "./presentation/dashboard/cliente/cleinte-view.component";
+import {LoggedRootMenuComponent} from "./presentation/controls/logged-root-menu/logged-root-menu.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -145,6 +146,7 @@ registerLocaleData(localePt, 'pt-BR');
     CloseButtonComponent,
     AddButtonComponent,
     LoggedMenuComponent,
+    LoggedRootMenuComponent,
     ConfirmDialogComponent,
     WebComponent,
     HeaderComponent,

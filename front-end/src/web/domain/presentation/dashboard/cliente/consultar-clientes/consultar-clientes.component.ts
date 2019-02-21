@@ -82,8 +82,7 @@ export class ConsultarClientesComponent implements OnInit {
    * @param {DomSanitizer} domSanitizer
    * @param {UnidadeService} unidadeService
    */
-  constructor(private configuracaoRepository: ConfiguracaoRepository,
-              private router: Router, private snackBar: MatSnackBar,
+  constructor(private router: Router, private snackBar: MatSnackBar,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private contaService: ContaService, private unidadeService: UnidadeService) {
   }
@@ -160,9 +159,6 @@ export class ConsultarClientesComponent implements OnInit {
             this.openSnackBar('Cliente ' + '\'' + esquema + '\'' + ' selecionado');
             this.router.navigate(['dashboard/avaliaveis']);
           }
-
-          this.configuracaoRepository.configuracao;
-
         }
       })
   }
