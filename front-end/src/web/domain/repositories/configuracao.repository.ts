@@ -26,7 +26,7 @@ export class ConfiguracaoRepository extends BaseRepository<Configuracao> {
     this.httpClient.get<Configuracao>(environment.endpoint + ConfiguracaoRepository.collection)
       .subscribe(result => this.observerConfiguracao.next(result));
 
-    this.httpClient.get<string>(environment.endpoint + ConfiguracaoRepository.collection + '/scheme', {responseType: 'text'})
+    this.httpClient.get(environment.endpoint + ConfiguracaoRepository.collection + '/scheme', {responseType: "text"})
       .subscribe(scheme => {
         this.observerEsquema.next(scheme);
       });
