@@ -175,6 +175,7 @@ Seta cor padrão ao gaveta lateral
  */
 mat-sidenav {
   background-color: $roxoclaro !important;
+
   mat-icon {
     background-color: $roxoclaro !important;
   }
@@ -289,7 +290,48 @@ button[color='accent'] {
 
 // Alterar a cor do botão da snackbar
 simple-snack-bar {
-  .mat-button-wrapper{
+  .mat-button-wrapper {
     color: $verde !important;
   }
 }
+
+
+mat-table {
+  border-radius: 0 !important;
+}
+
+mat-card {
+  border-radius: 0 !important;
+}
+
+mat-paginator {
+  border-radius: 0 !important;
+}
+
+button {
+  border-radius: 0 !important;
+}
+
+// ------------------
+// Edita o scroll
+// ------------------
+//::-webkit-scrollbar {
+//  width: 7px;
+//}
+//
+///* Track */
+//::-webkit-scrollbar-track {
+//  box-shadow: inset 0 0 5px gray;
+//  border-radius: 0;
+//}
+//
+///* Handle */
+//::-webkit-scrollbar-thumb {
+//  background: gray;
+//  border-radius: 0;
+//}
+//
+///* Handle on hover */
+//::-webkit-scrollbar-thumb:hover {
+//  background: $roxoclaro;
+//}
