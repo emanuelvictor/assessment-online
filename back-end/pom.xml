@@ -36,15 +36,15 @@
                 <spring.profiles.active>dev</spring.profiles.active>
             </properties>
             <dependencies>
-                <!--<dependency>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-starter-jetty</artifactId>-->
-                <!--</dependency>-->
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                    <!--tomcat sem scope provided para funcionamento no jetbrains-->
+                    <artifactId>spring-boot-starter-jetty</artifactId>
                 </dependency>
+                <!--<dependency>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+                <!--&lt;!&ndash;tomcat sem scope provided para funcionamento no jetbrains&ndash;&gt;-->
+                <!--</dependency>-->
             </dependencies>
         </profile>
 
@@ -67,6 +67,12 @@
             <properties>
                 <spring.profiles.active>production</spring.profiles.active>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-jetty</artifactId>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 
@@ -197,11 +203,33 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-jdbc</artifactId>
         </dependency>
+
+
+        <!--&lt;!&ndash;jaxb for java 10 compat&ndash;&gt;-->
         <!--<dependency>-->
-        <!--<groupId>com.h2database</groupId>-->
-        <!--<artifactId>h2</artifactId>-->
-        <!--<version>1.4.197</version>-->
-        <!--<scope>runtime</scope>-->
+            <!--<groupId>javax.xml.bind</groupId>-->
+            <!--<artifactId>jaxb-api</artifactId>-->
+            <!--<version>2.3.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.sun.xml.bind</groupId>-->
+            <!--<artifactId>jaxb-core</artifactId>-->
+            <!--<version>2.3.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.sun.xml.bind</groupId>-->
+            <!--<artifactId>jaxb-impl</artifactId>-->
+            <!--<version>2.3.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>javax.activation</groupId>-->
+            <!--<artifactId>activation</artifactId>-->
+            <!--<version>1.1.1</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-configuration-processor</artifactId>-->
+            <!--<optional>true</optional>-->
         <!--</dependency>-->
 
     </dependencies>
