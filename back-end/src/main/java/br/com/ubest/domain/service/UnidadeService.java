@@ -1,8 +1,7 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.application.context.LocalContext;
-import br.com.ubest.application.exceptions.PasswordNotFound;
-import br.com.ubest.application.filter.DefaultFilter;
+import br.com.ubest.application.aspect.exceptions.PasswordNotFound;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Usuario;
@@ -10,7 +9,6 @@ import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.domain.repository.UnidadeRepository;
 import br.com.ubest.domain.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;

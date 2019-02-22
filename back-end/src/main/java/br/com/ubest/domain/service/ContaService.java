@@ -60,7 +60,7 @@ public class ContaService implements ReactiveUserDetailsService {
      * @return boolean
      */
     public boolean acceptScheme(final String scheme) {
-        LocalContext.setRootCurrentScheme(scheme);
+        LocalContext.addRootCurrentScheme(LocalContext.getCurrentUsername(), scheme);
         return true;
     }
 }

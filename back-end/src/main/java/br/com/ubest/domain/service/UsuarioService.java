@@ -1,7 +1,7 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.application.context.LocalContext;
-import br.com.ubest.application.exceptions.PasswordNotFound;
+import br.com.ubest.application.aspect.exceptions.PasswordNotFound;
 import br.com.ubest.application.filter.DefaultFilter;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
@@ -15,7 +15,6 @@ import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.domain.repository.UsuarioRepository;
 import br.com.ubest.infrastructure.file.ImageUtils;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.flywaydb.core.Flyway;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

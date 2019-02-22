@@ -39,10 +39,9 @@ public class DefaultFilter implements WebFilter {
                         LocalContext.setCurrentScheme(conta.getEsquema());
                         LocalContext.setCurrentUsername(conta.getUsername());
 
-                        if (conta.isRoot()){
-//                            LocalContext.setRoot(true);
+                        if (conta.isRoot()) {
                             // Se for root seta como esquema atual o esquema escolhido pelo root
-                            LocalContext.setCurrentScheme(LocalContext.getRootCurrentScheme());
+                            LocalContext.setCurrentScheme(LocalContext.getRootCurrentScheme(LocalContext.getCurrentUsername()));
                         }
 
                     }

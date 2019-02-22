@@ -39,6 +39,7 @@ public class ContaResource {
         return Mono.just(contaService.listByFilters(defaultFilter, getPageable()));
     }
 
+    // TODO mudar para configuração
     @GetMapping("accept-scheme/{scheme}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ROOT_VALUE + "')")
     Mono<Boolean> acceptScheme(@PathVariable  final String scheme) {

@@ -2,11 +2,14 @@ package br.com.ubest.application.context;
 
 import org.springframework.data.domain.Pageable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class LocalContext {
 
     public static final String DEFAULT_TENANT_ID = "public";
 
-    private static String rootCurrentScheme;
+    private static Map<String, String> rootCurrentScheme;
 
     private static String currentScheme;
 
@@ -19,16 +22,17 @@ public final class LocalContext {
      * rootCurrentScheme
      * --------------------------
      */
-    public static String getRootCurrentScheme() {
-        if (rootCurrentScheme != null)
-            return rootCurrentScheme;
+    public static String getRootCurrentScheme(final String account) {
+        if (rootCurrentScheme != null && rootCurrentScheme.get(account) != null)
+            return rootCurrentScheme.get(account);
         return DEFAULT_TENANT_ID;
     }
 
-    public static void setRootCurrentScheme(final String tenant) {
-        if (rootCurrentScheme == null)
-            rootCurrentScheme = DEFAULT_TENANT_ID;
-        rootCurrentScheme = removeNoCache(tenant);
+    public static void addRootCurrentScheme(final String account, final String tenant) {
+        if (rootCurrentScheme != null && rootCurrentScheme.get(account) != null)
+            rootCurrentScheme.put(account, DEFAULT_TENANT_ID);
+        if (rootCurrentScheme == null) rootCurrentScheme = new HashMap<>();
+        rootCurrentScheme.put(account, removeNoCache(tenant));
     }
 
     /**

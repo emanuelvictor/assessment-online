@@ -18,7 +18,7 @@ import static br.com.ubest.application.context.LocalContext.DEFAULT_TENANT_ID;
 @Component
 @AllArgsConstructor
 public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionProvider {
-    private static Logger logger = LoggerFactory.getLogger(MultiTenantConnectionProvider.class.getName());
+//    private static Logger logger = LoggerFactory.getLogger(MultiTenantConnectionProvider.class.getName());
 
     private final DataSource dataSource;
 
