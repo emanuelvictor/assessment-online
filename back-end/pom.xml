@@ -199,39 +199,6 @@
             <artifactId>gson</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session-jdbc</artifactId>
-        </dependency>
-
-
-        <!--&lt;!&ndash;jaxb for java 10 compat&ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>javax.xml.bind</groupId>-->
-            <!--<artifactId>jaxb-api</artifactId>-->
-            <!--<version>2.3.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.sun.xml.bind</groupId>-->
-            <!--<artifactId>jaxb-core</artifactId>-->
-            <!--<version>2.3.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.sun.xml.bind</groupId>-->
-            <!--<artifactId>jaxb-impl</artifactId>-->
-            <!--<version>2.3.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>javax.activation</groupId>-->
-            <!--<artifactId>activation</artifactId>-->
-            <!--<version>1.1.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-configuration-processor</artifactId>-->
-            <!--<optional>true</optional>-->
-        <!--</dependency>-->
-
     </dependencies>
 
     <dependencyManagement>
@@ -252,6 +219,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <!--<jvmArguments>&#45;&#45;add-modules java.xml.bind</jvmArguments>-->
                     <mainClass>${start-class}</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
