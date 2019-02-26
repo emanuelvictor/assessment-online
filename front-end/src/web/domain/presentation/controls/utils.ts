@@ -31,6 +31,26 @@ export function getIdentifier(): string {
 
 export const TOKEN_NAME = 'ubest-token';
 
+/**
+ * -----------------------------------------------------------------------------------------
+ *                                        Animações
+ * -----------------------------------------------------------------------------------------
+ *
+ * Animação referente aos *ngIf
+ *
+ * <div [@fadeInOut]> </div>
+ *
+ *  @Component({
+ *    selector: 'selector',
+ *    templateUrl: './template.component.html',
+ *    styleUrls: ['./style.component.css'],
+ *    animations: [
+ *      viewAnimation
+ *    ]
+ *  })
+ *
+ *
+ */
 export const viewAnimation = trigger('fadeInOut', [
   transition(':enter', [   // :enter is alias to 'void => *'
     style({opacity: 0}),
@@ -41,6 +61,21 @@ export const viewAnimation = trigger('fadeInOut', [
   ])
 ]);
 
+/**
+ * Animação referente aos routerOutlet
+ *
+ * <main [@routerAnimation]="o.isActivated ? o.activatedRoute : ''">
+ *    <router-outlet #o="outlet"></router-outlet>
+ * </main>
+ *
+ *  @Component({
+ *    selector: 'selector',
+ *    templateUrl: './template.component.html',
+ *    styleUrls: ['./style.component.css'],
+ *    animations: [routerAnimation]
+ *  })
+ *
+ */
 export const routerAnimation = trigger('routerAnimation', [
   // The '* => *' will trigger the animation to change between any two states
   transition('* => *', [
@@ -67,4 +102,3 @@ export const routerAnimation = trigger('routerAnimation', [
     )
   ])
 ]);
-
