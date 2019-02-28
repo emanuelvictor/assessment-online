@@ -1,6 +1,5 @@
 package br.com.ubest.domain.service;
 
-import br.com.ubest.application.context.LocalContext;
 import br.com.ubest.application.aspect.exceptions.PasswordNotFound;
 import br.com.ubest.application.filter.DefaultFilter;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
@@ -32,7 +30,6 @@ import org.springframework.web.server.ServerWebExchange;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static br.com.ubest.application.context.LocalContext.DEFAULT_TENANT_ID;

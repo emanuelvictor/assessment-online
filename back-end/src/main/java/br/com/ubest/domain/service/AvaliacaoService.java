@@ -1,6 +1,5 @@
 package br.com.ubest.domain.service;
 
-import br.com.ubest.application.context.LocalContext;
 import br.com.ubest.application.filter.DefaultFilter;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
@@ -12,14 +11,12 @@ import br.com.ubest.domain.repository.ContaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service

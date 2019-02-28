@@ -1,6 +1,5 @@
 package br.com.ubest.domain.service;
 
-import br.com.ubest.application.context.LocalContext;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.configuracao.Configuracao;
 import br.com.ubest.domain.entity.usuario.Conta;

@@ -1,7 +1,7 @@
 package br.com.ubest.application.aspect;
 
-import br.com.ubest.application.aspect.handler.ResponseEntityExceptionHandler;
 import br.com.ubest.application.aspect.exceptions.PasswordNotFound;
+import br.com.ubest.application.aspect.handler.ResponseEntityExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.postgresql.util.PSQLException;

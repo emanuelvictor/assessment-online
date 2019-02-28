@@ -2,7 +2,6 @@ package br.com.ubest.domain.resource;
 
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Perfil;
-import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.service.UnidadeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

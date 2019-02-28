@@ -1,6 +1,5 @@
 package br.com.ubest.domain.entity.generic;
 
-import br.com.ubest.application.context.LocalContext;
 import org.hibernate.envers.RevisionType;
 
 import java.io.Serializable;

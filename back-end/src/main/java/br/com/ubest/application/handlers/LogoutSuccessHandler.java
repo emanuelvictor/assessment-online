@@ -1,7 +1,6 @@
 package br.com.ubest.application.handlers;
 
 
-import br.com.ubest.application.context.LocalContext;
 import br.com.ubest.application.filter.DefaultFilter;
 import br.com.ubest.domain.entity.usuario.Sessao;
 import br.com.ubest.domain.repository.SessaoRepository;

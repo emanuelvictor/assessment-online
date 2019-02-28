@@ -1,8 +1,6 @@
 package br.com.ubest.domain.service;
 
 
-import br.com.ubest.application.context.LocalContext;
-import br.com.ubest.application.filter.DefaultFilter;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
 import br.com.ubest.domain.entity.avaliacao.AvaliacaoAvaliavel;
