@@ -3,6 +3,7 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.application.context.LocalContext;
 import br.com.ubest.application.filter.DefaultFilter;
+import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
 import br.com.ubest.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
@@ -61,12 +62,14 @@ public class ImportService {
 
     private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
 
+    private final TenantIdentifierResolver tenantIdentifierResolver;
+
     // Method which write the bytes into a file
     private File getFile(byte[] bytes) {
         try {
 
             // Path of a file
-            final String FILEPATH = LocalContext.getCurrentScheme() + ".json";
+            final String FILEPATH = tenantIdentifierResolver.resolveCurrentTenantIdentifier() + ".json";
             final File file = new File(FILEPATH);
 
             // Initialize a pointer

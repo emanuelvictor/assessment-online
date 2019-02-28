@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import static br.com.ubest.application.context.LocalContext.getPageable;
@@ -42,8 +43,8 @@ public class ContaResource {
     // TODO mudar para configuração
     @GetMapping("accept-scheme/{scheme}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ROOT_VALUE + "')")
-    Mono<Boolean> acceptScheme(@PathVariable  final String scheme) {
-        return Mono.just(contaService.acceptScheme(scheme));
+    Mono<Boolean> acceptScheme(final ServerWebExchange exchange, @PathVariable final String scheme) {
+        return contaService.acceptScheme(exchange, scheme);
     }
 
 }

@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
@@ -31,6 +32,7 @@ import org.springframework.web.server.ServerWebExchange;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static br.com.ubest.application.context.LocalContext.DEFAULT_TENANT_ID;
@@ -76,7 +78,7 @@ public class UsuarioService {
      */
     public Usuario changePassword(final long usuarioId, final String password, final String newPassword) {
 
-        final Conta loggedAccount = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername());
+        final Conta loggedAccount = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
 
         // Minha conta
         if (loggedAccount.getUsuario().getId().equals(usuarioId)) {
@@ -165,9 +167,9 @@ public class UsuarioService {
             usuario.getConta().setPassword(passwordEncoder.encode(usuario.getConta().getPassword()));
         }
 
-        usuario.getConta().setEsquema(tenantIdentifierResolver.resolveCurrentTenantIdentifier());// TODO verificar se não da pra usar o context
+        usuario.getConta().setEsquema(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
 
-        usuario.getConta().setRoot(LocalContext.getCurrentScheme().equals(DEFAULT_TENANT_ID));
+        usuario.getConta().setRoot(tenantIdentifierResolver.resolveCurrentTenantIdentifier().equals(DEFAULT_TENANT_ID));
 
         return usuarioRepository.save(usuario);
     }
@@ -206,11 +208,10 @@ public class UsuarioService {
         // Cria o contexto de segurança
         final SecurityContextImpl securityContext = new SecurityContextImpl(authentication);
 
-        // Insere o contexto no repositório de contexto e retorna o usuário inserido //TODO teve que ser feito o block
+        // Insere o contexto no repositório de contexto e retorna o usuário inserido
         serverSecurityContextRepository.save(exchange, securityContext).block();
 
-        // Seto o squema default, isso fará o sistema setar o esquema da conta a se criar.
-        LocalContext.setCurrentScheme(usuario.getConta().getEsquema());
+        tenantIdentifierResolver.setSchema(usuario.getConta().getEsquema());
 
         usuarioRepository.save(usuario);
 
@@ -292,7 +293,7 @@ public class UsuarioService {
      */
     public Page<Usuario> listByFilters(final String defaultFilter, final Pageable pageable) {
 
-        final Usuario usuario = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername()).getUsuario();
+        final Usuario usuario = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername()).getUsuario();
 
         return usuarioRepository.listByFilters(usuario.getId(), usuario.getConta().getPerfil().name(), defaultFilter, pageable);
 
@@ -310,7 +311,8 @@ public class UsuarioService {
                                        final LocalDateTime dataTerminoFilter,
                                        final Pageable pageable) {
 
-        final Conta conta = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername());
+        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
+
 
         final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 

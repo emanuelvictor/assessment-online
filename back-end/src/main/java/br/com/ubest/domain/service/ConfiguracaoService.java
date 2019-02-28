@@ -1,6 +1,7 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.application.context.LocalContext;
+import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.configuracao.Configuracao;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.ConfiguracaoRepository;
@@ -22,6 +23,8 @@ public class ConfiguracaoService {
     private final ContaRepository contaRepository;
 
     private final ConfiguracaoRepository configuracaoRepository;
+
+    private final TenantIdentifierResolver tenantIdentifierResolver;
 
     public Configuracao save(final long id, final Configuracao configuracao) {
         Assert.isTrue(configuracao.getId().equals(id) && this.getConfiguracao().getId().equals(id), "Você não pode atualizar essas configurações");
@@ -55,7 +58,7 @@ public class ConfiguracaoService {
 
     public Configuracao getConfiguracao(final String cliente) {
         if (cliente == null || cliente.equals(DEFAULT_TENANT_ID))
-            LocalContext.setCurrentScheme(DEFAULT_TENANT_ID);
+            tenantIdentifierResolver.setSchema(DEFAULT_TENANT_ID);
 
         final Configuracao defaultConfiguration = this.getConfiguracao();
 
@@ -64,7 +67,7 @@ public class ConfiguracaoService {
             return defaultConfiguration;
 
         // Se o cliente não é nulo e não é o public, então retorna as configurações do cliente
-        LocalContext.setCurrentScheme(cliente);
+        tenantIdentifierResolver.setSchema(cliente);
         final Configuracao configuracao = (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
 
         if (configuracao.getLogo() == null)

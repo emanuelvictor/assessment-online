@@ -36,13 +36,13 @@ public class DefaultFilter implements WebFilter {
                     if (securityContext.getAuthentication() != null) {
                         final Conta conta = ((Conta) securityContext.getAuthentication().getPrincipal());
 
-                        LocalContext.setCurrentScheme(conta.getEsquema());
-                        LocalContext.setCurrentUsername(conta.getUsername());
+//                        LocalContext.setCurrentScheme(conta.getEsquema());
+//                        LocalContext.setCurrentUsername(conta.getUsername()); TODO? verificar como salvar o coiso
 
-                        if (conta.isRoot()) {
-                            // Se for root seta como esquema atual o esquema escolhido pelo root
-                            LocalContext.setCurrentScheme(LocalContext.getRootCurrentScheme(LocalContext.getCurrentUsername()));
-                        }
+//                        if (conta.isRoot()) {
+//                            // Se for root seta como esquema atual o esquema escolhido pelo root
+//                            LocalContext.setCurrentScheme(LocalContext.getRootCurrentScheme(LocalContext.getCurrentUsername()));
+//                        }
 
                     }
                     return webFilterChain.filter(serverWebExchange);

@@ -14,10 +14,10 @@ public class EntityTrackingRevisionListener implements org.hibernate.envers.Enti
      */
     @Override
     public void newRevision(Object revisionEntity) {
-        final String schema = LocalContext.getCurrentScheme();
-        final String username = LocalContext.getCurrentUsername();
-        ((Revision<?, ?>) revisionEntity).setSchema(schema);
-        ((Revision<?, ?>) revisionEntity).setUsername(username);
+//        final String schema = LocalContext.getCurrentScheme();
+//        final String username = LocalContext.getCurrentUsername();
+//        ((Revision<?, ?>) revisionEntity).setSchema(schema);
+//        ((Revision<?, ?>) revisionEntity).setUsername(username);
     }
 
     /*

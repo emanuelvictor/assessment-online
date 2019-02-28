@@ -1,5 +1,6 @@
 package br.com.ubest.application.security;
 
+import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Sessao;
 import br.com.ubest.domain.repository.ContaRepository;
@@ -45,6 +46,8 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
      */
     private final SessaoRepository sessaoRepository;
     private final ContaRepository contaRepository;
+
+    private final TenantIdentifierResolver tenantIdentifierResolver;
     /**
      *
      */
@@ -64,13 +67,8 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
     public Mono<Void> save(ServerWebExchange exchange, SecurityContext context) {
         return exchange.getSession()
                 .doOnNext(session -> {
-                    if (context == null) {
-//                        System.out.println(exchange.getResponse().getCookies());
-//                        System.out.println(exchange.getRequest().getCookies());
-//                        session.getAttributes().remove(TOKEN_NAME);
-                        //TODO fazer aqui o handler de remover token da base, assim não precisa ser lá no logout, ou não né ...
-                    } else {
 
+                    if (context != null) {
                         final Sessao sessao = new Sessao();
                         sessao.setUsername(context.getAuthentication().getName());
                         sessao.generateToken();
@@ -78,8 +76,8 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
 
                         exchange.getResponse().addCookie(ResponseCookie.from(TOKEN_NAME, sessao.getToken())
                                 .build());
-
                     }
+
                 })
                 .flatMap(WebSession::changeSessionId);
     }
@@ -103,8 +101,14 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         return Mono.empty();
                     }
 
-//                    System.out.println("ID da sessão " + sessao.getId());
                     final Conta conta = contaRepository.findByEmailIgnoreCase(sessao.getUsername());
+
+                    if (attrs.get("schema") != null)
+                        tenantIdentifierResolver.setSchema((String) attrs.get("schema"));
+                    else
+                        tenantIdentifierResolver.setSchema(conta.getEsquema());
+
+                    tenantIdentifierResolver.setUsername(conta.getUsername());
 
                     // Cria a autenticação
                     final Authentication authentication = new UsernamePasswordAuthenticationToken(conta, conta.getPassword(), conta.getAuthorities());

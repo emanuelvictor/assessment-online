@@ -57,8 +57,8 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
     public Mono<Void> onLogoutSuccess(final WebFilterExchange webFilterExchange, final Authentication authentication) {
 
         // Limpa o tenant
-        LocalContext.clearCurrentSchema();
-        LocalContext.clearCurrentUsername();
+//        LocalContext.clearCurrentSchema();
+//        LocalContext.clearCurrentUsername();
 
         try {
             final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Logout efetuado com sucesso"));

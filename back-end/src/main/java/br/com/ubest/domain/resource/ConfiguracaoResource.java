@@ -1,6 +1,6 @@
 package br.com.ubest.domain.resource;
 
-import br.com.ubest.application.context.LocalContext;
+import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.configuracao.Configuracao;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.service.ConfiguracaoService;
@@ -25,6 +25,8 @@ public class ConfiguracaoResource {
 
     private final ConfiguracaoService configuracaoService;
 
+    private final TenantIdentifierResolver tenantIdentifierResolver;
+
     @PostMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Configuracao> save(@RequestBody final Configuracao configuracao) {
@@ -48,7 +50,7 @@ public class ConfiguracaoResource {
     public Mono<ResponseEntity<byte[]>> findLogomarca(final @RequestParam(value = "cliente", required = false) String cliente) {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.configuracaoService.findLogomarca(cliente == null ? LocalContext.getCurrentScheme() : cliente))
+                        .body(this.configuracaoService.findLogomarca(cliente == null ? tenantIdentifierResolver.resolveCurrentTenantIdentifier() : cliente))
         );
     }
 
@@ -83,7 +85,7 @@ public class ConfiguracaoResource {
     public Mono<ResponseEntity<byte[]>> findBackgroundByCliente(final @RequestParam(value = "cliente", required = false) String cliente) {
         return Mono.just(
                 ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.configuracaoService.findBackground(cliente == null ? LocalContext.getCurrentScheme() : cliente))
+                        .body(this.configuracaoService.findBackground(cliente == null ? tenantIdentifierResolver.resolveCurrentTenantIdentifier() : cliente))
         );
     }
 
@@ -118,7 +120,7 @@ public class ConfiguracaoResource {
     @GetMapping("scheme")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     public Mono<String> getCurrentScheme() {
-        return Mono.just(LocalContext.getCurrentScheme());
+        return Mono.just(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
     }
 
 }

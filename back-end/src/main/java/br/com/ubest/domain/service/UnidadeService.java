@@ -2,6 +2,7 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.application.context.LocalContext;
 import br.com.ubest.application.aspect.exceptions.PasswordNotFound;
+import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Usuario;
@@ -11,6 +12,7 @@ import br.com.ubest.domain.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ import org.springframework.util.Assert;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,11 +33,13 @@ public class UnidadeService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final OperadorService operadorService;
+
     private final UsuarioRepository usuarioRepository;
 
     private final UnidadeRepository unidadeRepository;
 
-    private final OperadorService operadorService;
+    private final TenantIdentifierResolver tenantIdentifierResolver;
 
     private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
 
@@ -94,7 +99,7 @@ public class UnidadeService {
                                        final LocalDateTime dataTerminoFilter,
                                        final Pageable pageable) {
 
-        final Conta conta = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername());
+        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
 
         final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 
@@ -125,7 +130,7 @@ public class UnidadeService {
     public Page<Unidade> listByFilters(final String defaultFilter, final Pageable pageable) {
 
 
-        final Conta conta = contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername());
+        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
 
         final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 
@@ -152,7 +157,7 @@ public class UnidadeService {
      */
     public boolean authenticateByUnidadeId(final long unidadeId, final String password) {
 
-        final Conta conta = this.contaRepository.findByEmailIgnoreCase(LocalContext.getCurrentUsername());
+        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
         if (conta.isAdministrador() && this.passwordEncoder.matches(password, conta.getPassword()))
             return true;
 
