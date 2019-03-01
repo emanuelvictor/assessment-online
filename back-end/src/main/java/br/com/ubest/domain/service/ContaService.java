@@ -33,7 +33,7 @@ public class ContaService implements TenantDetailsService {
 
     /**
      * @param username {String}
-     * @return {TenantDetails}
+     * @return {SessionDetails}
      */
     public TenantDetails findTenantDetailsByUsername(final String username) {
         final Conta conta = contaRepository.findByEmailIgnoreCase(username.toLowerCase());

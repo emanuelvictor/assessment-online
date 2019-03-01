@@ -1,6 +1,7 @@
 package br.com.ubest.domain.entity.usuario;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.infrastructure.session.SessionDetails;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 
@@ -17,7 +18,7 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Audited
 @Table(schema = DEFAULT_TENANT_ID)
 @lombok.EqualsAndHashCode(callSuper = true)
-public class Sessao extends AbstractEntity {
+public class Sessao extends AbstractEntity implements SessionDetails {
 
     /**
      *

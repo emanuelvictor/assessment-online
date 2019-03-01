@@ -4,7 +4,9 @@ import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.usuario.Sessao;
 import br.com.ubest.domain.repository.SessaoRepository;
 import br.com.ubest.infrastructure.org.springframework.data.domain.PageRequest;
-import br.com.ubest.infrastructure.resource.Page;
+import br.com.ubest.infrastructure.resource.PageComponent;
+import br.com.ubest.infrastructure.session.SessionDetails;
+import br.com.ubest.infrastructure.session.SessionDetailsService;
 import br.com.ubest.infrastructure.tenant.TenantDetails;
 import br.com.ubest.infrastructure.tenant.TenantDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -25,21 +27,16 @@ import java.util.List;
 import static br.com.ubest.Application.TOKEN_NAME;
 
 /**
- * Stores the {@link SecurityContext} in the
- * {@link org.springframework.web.server.WebSession}. When a {@link SecurityContext} is
- * saved, the session id is changed to prevent session fixation attacks.
  *
- * @author Rob Winch
- * @since 5.0
  */
 @Configuration
 @RequiredArgsConstructor
 public class WebSessionServerSecurityContextRepository implements ServerSecurityContextRepository {
 
     /**
-     *
+     * Armazena a paginação para os Resources Controllers
      */
-    private final SessaoRepository sessaoRepository;
+    private final PageComponent pageComponent;
 
     /**
      *
@@ -47,13 +44,21 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
     private final TenantDetailsService tenantDetailsService;
 
     /**
-     * Armazena a paginação para os Resources Controllers
+     *
      */
-    private final Page page;
+    private final SessionDetailsService sessionDetailsService;
 
+    /**
+     *
+     */
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
-    public Mono<Void> save(ServerWebExchange exchange, SecurityContext context) {
+    /**
+     * @param exchange {ServerWebExchange}
+     * @param context {SecurityContext}
+     * @return Mono<Void>
+     */
+    public Mono<Void> save(final ServerWebExchange exchange, final SecurityContext context) {
         return exchange.getSession()
                 .doOnNext(session -> {
 
@@ -61,7 +66,7 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         final Sessao sessao = new Sessao();
                         sessao.setUsername(context.getAuthentication().getName());
                         sessao.generateToken();
-                        this.sessaoRepository.save(sessao);
+                        this.sessionDetailsService.save(sessao);
 
                         exchange.getResponse().addCookie(ResponseCookie.from(TOKEN_NAME, sessao.getToken())
                                 .build());
@@ -71,15 +76,20 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                 .flatMap(WebSession::changeSessionId);
     }
 
+    /**
+     *
+     * @param exchange {ServerWebExchange}
+     * @return Mono<SecurityContext>
+     */
     @Override
-    public Mono<SecurityContext> load(ServerWebExchange exchange) {
+    public Mono<SecurityContext> load(final ServerWebExchange exchange) {
 
         return exchange.getSession()
                 .map(WebSession::getAttributes)
                 .flatMap(attrs -> {
 
                     // Populo pageable
-                    page.setPageable(PageRequest.of(exchange));
+                    pageComponent.setPageable(PageRequest.of(exchange));
 
                     final List<HttpCookie> cookies = exchange.getRequest().getCookies().get(TOKEN_NAME);
 
@@ -87,13 +97,13 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         return Mono.empty();
 
                     final String token = cookies.get(0).getValue();
-                    final Sessao sessao = sessaoRepository.findByToken(token);
+                    final SessionDetails sessionDetails = sessionDetailsService.findByToken(token);
 
-                    if (sessao == null || !sessao.validate()) {
+                    if (sessionDetails == null || !sessionDetails.validate()) {
                         return Mono.empty();
                     }
 
-                    final TenantDetails tenantDetails = tenantDetailsService.findTenantDetailsByUsername(sessao.getUsername());
+                    final TenantDetails tenantDetails = tenantDetailsService.findTenantDetailsByUsername(sessionDetails.getUsername());
 
                     if (attrs.get("schema") != null)
                         tenantIdentifierResolver.setSchema((String) attrs.get("schema"));

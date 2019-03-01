@@ -4,7 +4,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Page {
+public class PageComponent {
 
     private Pageable pageable;
 

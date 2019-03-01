@@ -6,15 +6,15 @@ import org.springframework.data.domain.Pageable;
 public abstract class AbstractResource<T> {
 
     @Autowired
-    protected Page page;
+    protected PageComponent pageComponent;
 
-    public Page getPage() {
-        return page;
+    public PageComponent getPage() {
+        return pageComponent;
     }
 
     public Pageable getPageable() {
-        if (page != null)
-            return page.getPageable();
+        if (pageComponent != null)
+            return pageComponent.getPageable();
         return null;
     }
 
