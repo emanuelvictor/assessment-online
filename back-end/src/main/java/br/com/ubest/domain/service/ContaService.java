@@ -14,6 +14,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ContaService implements TenantDetailsService {
@@ -57,12 +59,31 @@ public class ContaService implements TenantDetailsService {
     }
 
     /**
+     *
+     * @return Iterable<String>
+     */
+    @Override
+    public Iterable<String> getAllTenants() {
+        return this.contaRepository.findAll().stream().map(Conta::getEsquema).collect(Collectors.toList()); //TODO mudar para listclientes depois
+    }
+
+    /**
      * @param defaultFilter String
      * @param pageable      Pageable
      * @return Page<Conta>
      */
     public Page<Conta> listByFilters(final String defaultFilter, final Pageable pageable) {
         return contaRepository.listByFilters(defaultFilter, pageable);
+    }
+
+    /**
+     *
+     * @param defaultFilter defaultFilter
+     * @param pageable Pageable
+     * @return Page<Conta>
+     */
+    public Page<Conta> listClientesByFilters(final String defaultFilter, final Pageable pageable) {
+        return contaRepository.listClientesByFilters(defaultFilter, pageable);
     }
 
     /**

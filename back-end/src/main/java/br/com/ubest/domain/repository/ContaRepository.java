@@ -40,4 +40,30 @@ public interface ContaRepository extends JpaRepository<Conta, Long> {
     )
     Page<Conta> listByFilters(@Param("defaultFilter") final String defaultFilter, final Pageable pageable);
 
+
+    /**
+     *
+     */
+    @Query("SELECT new Conta( " +
+            "   conta.id, " +
+            "   conta.administrador, " +
+            "   conta.root,  " +
+            "   conta.esquema, " +
+            "   conta.email, " +
+            "   conta.password, " +
+            "   conta.lastLogin, " +
+            "   usuario" +
+            ") FROM Conta conta " +
+            "       LEFT OUTER JOIN Usuario usuario ON usuario.conta.id = conta.id " +
+            "   WHERE" +
+            "   (   " +
+            "       (" +
+            "           FILTER(:defaultFilter, usuario.nome, conta.email) = TRUE" +
+            "       )" +
+            "       AND conta.cliente = TRUE" +
+            "   )" +
+            "GROUP BY conta.id, usuario.id, usuario.created, usuario.updated, usuario.documento, usuario.nome"
+    )
+    Page<Conta> listClientesByFilters(@Param("defaultFilter") final String defaultFilter, final Pageable pageable);
+
 }

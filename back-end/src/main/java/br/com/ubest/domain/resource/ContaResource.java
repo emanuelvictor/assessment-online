@@ -34,8 +34,8 @@ public class ContaResource extends AbstractResource<Conta> {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ROOT_VALUE + "')")
-    Mono<Page<Conta>> listByFilters(final String defaultFilter) {
-        return Mono.just(contaService.listByFilters(defaultFilter, getPageable()));
+    Mono<Page<Conta>> listClientesByFilters(final String defaultFilter) {
+        return Mono.just(contaService.listClientesByFilters(defaultFilter, getPageable()));
     }
 
     // TODO mudar para configuração

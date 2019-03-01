@@ -35,6 +35,13 @@ public class Conta extends AbstractEntity implements TenantDetails {
     @NotNull
     private boolean administrador;
 
+
+    /**
+     *
+     */
+    @NotNull
+    private boolean cliente;
+
     /**
      *
      */

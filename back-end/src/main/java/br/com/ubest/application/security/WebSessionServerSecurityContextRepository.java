@@ -103,7 +103,7 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
 
                     final TenantDetails tenantDetails = tenantDetailsService.findTenantDetailsByUsername(sessionDetails.getUsername());
 
-                    if (attrs.get("schema") != null)
+                    if (attrs.get("schema") != null) // TODO colocar a palavra schema em outro lugar
                         tenantIdentifierResolver.setSchema((String) attrs.get("schema"));
                     else
                         tenantIdentifierResolver.setSchema(tenantDetails.getTenant());

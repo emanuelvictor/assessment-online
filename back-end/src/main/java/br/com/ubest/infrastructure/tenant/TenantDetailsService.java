@@ -6,4 +6,5 @@ public interface TenantDetailsService extends ReactiveUserDetailsService {
 
     TenantDetails findTenantDetailsByUsername(String username);
 
+    Iterable<String> getAllTenants();
 }
