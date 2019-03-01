@@ -20,7 +20,10 @@ public class SessionService implements SessionDetailsService {
     }
 
     @Override
-    public SessionDetails save(final SessionDetails sessionDetails) {
-        return sessaoRepository.save((Sessao) sessionDetails);
+    public SessionDetails createSessionByUsername(final String username) {
+        final Sessao sessao = new Sessao();
+        sessao.setUsername(username);
+        sessao.generateToken();
+        return sessaoRepository.save(sessao);
     }
 }

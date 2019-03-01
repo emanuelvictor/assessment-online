@@ -63,12 +63,10 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                 .doOnNext(session -> {
 
                     if (context != null) {
-                        final Sessao sessao = new Sessao();
-                        sessao.setUsername(context.getAuthentication().getName());
-                        sessao.generateToken();
-                        this.sessionDetailsService.save(sessao);
 
-                        exchange.getResponse().addCookie(ResponseCookie.from(TOKEN_NAME, sessao.getToken())
+                        final SessionDetails sessionDetails = this.sessionDetailsService.createSessionByUsername(context.getAuthentication().getName());
+
+                        exchange.getResponse().addCookie(ResponseCookie.from(TOKEN_NAME, sessionDetails.getToken())
                                 .build());
                     }
 
