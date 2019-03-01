@@ -1,7 +1,6 @@
 package br.com.ubest.application.handlers;
 
 
-import br.com.ubest.application.filter.DefaultFilter;
 import br.com.ubest.domain.entity.usuario.Sessao;
 import br.com.ubest.domain.repository.SessaoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,7 +16,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.logging.Logger;
 
-import static br.com.ubest.application.security.WebSessionServerSecurityContextRepository.TOKEN_NAME;
+import static br.com.ubest.Application.TOKEN_NAME;
 
 
 /**
@@ -31,11 +30,6 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
      *
      */
     private final ObjectMapper objMapper;
-
-    /**
-     *
-     */
-    private final DefaultFilter defaultFilter;
 
     /**
      *
@@ -54,10 +48,6 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
      */
     @Override
     public Mono<Void> onLogoutSuccess(final WebFilterExchange webFilterExchange, final Authentication authentication) {
-
-        // Limpa o tenant
-//        LocalContext.clearCurrentSchema();
-//        LocalContext.clearCurrentUsername();
 
         try {
             final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Logout efetuado com sucesso"));

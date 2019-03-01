@@ -5,6 +5,7 @@ import br.com.ubest.domain.entity.configuracao.Configuracao;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.service.ConfiguracaoService;
 import br.com.ubest.infrastructure.file.ImageUtils;
+import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping({"**configuracoes", "**sistema/configuracoes", "**sistema/mobile/configuracoes"})
-public class ConfiguracaoResource {
+public class ConfiguracaoResource extends AbstractResource<Configuracao> {
 
     private final ConfiguracaoService configuracaoService;
 

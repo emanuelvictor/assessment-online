@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 
 import java.io.IOException;
 
-import static br.com.ubest.application.context.LocalContext.DEFAULT_TENANT_ID;
+import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
 
 @Service
@@ -75,9 +75,6 @@ public class ConfiguracaoService {
         if (configuracao.getBackgroundImage() == null)
             configuracao.setBackgroundImage(defaultConfiguration.getBackgroundImage());
 
-//        System.out.println("cliente = " + cliente);
-//        System.out.println("LocalContext.getCurrentScheme() = " + LocalContext.getCurrentScheme());
-//        LocalContext.clearCurrentSchema(); //TODO BUGA?
         return configuracao;
     }
 

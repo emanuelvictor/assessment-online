@@ -4,6 +4,7 @@ import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.service.UsuarioService;
 import br.com.ubest.infrastructure.file.ImageUtils;
+import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.CacheControl;
@@ -21,13 +22,12 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static br.com.ubest.application.context.LocalContext.getPageable;
-import static br.com.ubest.infrastructure.util.ArrayUtil.getListFromArray;
+import static br.com.ubest.infrastructure.util.Utils.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping({"**usuarios", "**sistema/usuarios", "**sistema/mobile/usuarios"})
-public class UsuarioResource {
+public class UsuarioResource extends AbstractResource<Usuario> {
 
     private final UsuarioService usuarioService;
 

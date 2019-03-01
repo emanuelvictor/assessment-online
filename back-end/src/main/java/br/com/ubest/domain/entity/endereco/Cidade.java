@@ -11,7 +11,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-import static br.com.ubest.application.context.LocalContext.DEFAULT_TENANT_ID;
+import static br.com.ubest.Application.DEFAULT_TENANT_ID;
+
 
 /**
  * Created by Emanuel Victor on 15/03/2017.

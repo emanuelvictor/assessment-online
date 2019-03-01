@@ -3,12 +3,15 @@ package br.com.ubest.application.multitenancy;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.stereotype.Component;
 
+import static br.com.ubest.Application.DEFAULT_TENANT_ID;
+import static br.com.ubest.infrastructure.util.Utils.removeNoCache;
+
 @Component
 public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver {
 
     private String username;
 
-    private String schema = "public";
+    private String schema = DEFAULT_TENANT_ID;
 
     @Override
     public String resolveCurrentTenantIdentifier() {
@@ -20,8 +23,7 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
         return true;
     }
 
-    public void setSchema(final String schema)
-    {
+    public void setSchema(final String schema) {
         this.schema = removeNoCache(schema);
     }
 
@@ -31,12 +33,6 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
 
     public String getUsername() {
         return username;
-    }
-
-    private static String removeNoCache(final String schema) {
-        if (schema.contains("?nocache"))
-            return schema.replace(schema.substring(schema.indexOf("?nocache")), "");
-        return schema;
     }
 
 }

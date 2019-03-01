@@ -7,7 +7,7 @@ import org.hibernate.envers.RevisionTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 
-import static br.com.ubest.application.context.LocalContext.DEFAULT_TENANT_ID;
+import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
 
 /**

@@ -1,7 +1,7 @@
 package br.com.ubest.application.multitenancy;
 
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.stereotype.Component;
@@ -10,13 +10,12 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static br.com.ubest.application.context.LocalContext.DEFAULT_TENANT_ID;
+import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionProvider {
-//    private static Logger logger = LoggerFactory.getLogger(MultiTenantConnectionProvider.class.getName());
 
     private final DataSource dataSource;
 
@@ -32,7 +31,6 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
     @Override
     public Connection getConnection(final String tenantIdentifier) throws SQLException {
-//        logger.info("Get connection for tenant {}", tenantIdentifier);
         final Connection connection = getAnyConnection();
         try {
             if (tenantIdentifier != null) {
@@ -41,23 +39,19 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
                 connection.setSchema(DEFAULT_TENANT_ID);
             }
         } catch (SQLException e) {
-            throw new HibernateException(
-                    "Problem setting schema to " + tenantIdentifier,
-                    e
-            );
+            throw new HibernateException("Problem setting schema to " + tenantIdentifier, e);
         }
         return connection;
     }
 
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
-//        logger.info("Release connection for tenant {}", tenantIdentifier);
         connection.setSchema(DEFAULT_TENANT_ID);
         releaseAnyConnection(connection);
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
+    @SuppressWarnings("rawtypes")
     public boolean isUnwrappableAs(Class unwrapType) {
         return false;
     }

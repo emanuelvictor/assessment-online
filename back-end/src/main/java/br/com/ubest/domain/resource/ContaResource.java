@@ -3,6 +3,7 @@ package br.com.ubest.domain.resource;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.service.ContaService;
+import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,12 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import static br.com.ubest.application.context.LocalContext.getPageable;
-
 @RestController
 @AllArgsConstructor
 @RequestMapping({"**contas", "**sistema/contas", "**sistema/mobile/contas"})
-public class ContaResource {
+public class ContaResource extends AbstractResource<Conta> {
 
     /**
      *

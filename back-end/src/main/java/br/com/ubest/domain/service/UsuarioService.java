@@ -1,7 +1,6 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.application.aspect.exceptions.PasswordNotFound;
-import br.com.ubest.application.filter.DefaultFilter;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
@@ -32,7 +31,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static br.com.ubest.application.context.LocalContext.DEFAULT_TENANT_ID;
+import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
 
 @Service
@@ -41,7 +40,7 @@ public class UsuarioService {
 
     private final Flyway flyway;
 
-    private final DefaultFilter defaultWebFilter;
+    private final UnidadeService unidadeService;
 
     private final ContaRepository contaRepository;
 
@@ -49,19 +48,17 @@ public class UsuarioService {
 
     private final OperadorService operadorService;
 
-    private final AvaliavelService avaliavelService;
-
-    private final TipoAvaliacaoService tipoAvaliacaoService;
-
     private final EnderecoService enderecoService;
 
-    private final UnidadeService unidadeService;
-
-    private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
+    private final AvaliavelService avaliavelService;
 
     private final UsuarioRepository usuarioRepository;
 
+    private final TipoAvaliacaoService tipoAvaliacaoService;
+
     private final TenantIdentifierResolver tenantIdentifierResolver;
+
+    private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
 
     private final ServerSecurityContextRepository serverSecurityContextRepository;
 
@@ -325,7 +322,6 @@ public class UsuarioService {
     }
 
     /**
-     *
      * @param usuarioId
      * @param dataInicioFilter
      * @param dataTerminoFilter

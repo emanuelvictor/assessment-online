@@ -2,10 +2,12 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.ContaRepository;
+import br.com.ubest.infrastructure.tenant.TenantDetails;
+import br.com.ubest.infrastructure.tenant.TenantDetailsService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -13,8 +15,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Service
-@AllArgsConstructor
-public class ContaService implements ReactiveUserDetailsService {
+@RequiredArgsConstructor
+public class ContaService implements TenantDetailsService {
 
     /**
      *
@@ -27,6 +29,18 @@ public class ContaService implements ReactiveUserDetailsService {
      */
     public Mono<UserDetails> findByUsername(final String email) {
         return this.findUsuarioByEmail(email);
+    }
+
+    /**
+     * @param username {String}
+     * @return {TenantDetails}
+     */
+    public TenantDetails findTenantDetailsByUsername(final String username) {
+        final Conta conta = contaRepository.findByEmailIgnoreCase(username.toLowerCase());
+
+        Assert.notNull(conta, "Cliente não encontrado");
+
+        return contaRepository.findByEmailIgnoreCase(username.toLowerCase());
     }
 
     /**

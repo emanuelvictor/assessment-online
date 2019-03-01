@@ -3,6 +3,7 @@ package br.com.ubest.domain.resource;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.service.UnidadeService;
+import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,12 +14,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static br.com.ubest.application.context.LocalContext.getPageable;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping({"**unidades", "**sistema/unidades", "**sistema/mobile/unidades"})
-public class UnidadeResource {
+public class UnidadeResource extends AbstractResource<Unidade> {
 
     private final UnidadeService unidadeService;
 

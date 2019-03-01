@@ -3,6 +3,7 @@ package br.com.ubest.domain.resource;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
 import br.com.ubest.domain.service.AvaliavelService;
+import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,12 +12,10 @@ import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
-import static br.com.ubest.application.context.LocalContext.getPageable;
-
 @RestController
 @AllArgsConstructor
 @RequestMapping({"**avaliaveis", "**sistema/avaliaveis", "**sistema/mobile/avaliaveis"})
-public class AvaliavelResource {
+public class AvaliavelResource extends AbstractResource<Avaliavel> {
 
     private final AvaliavelService avaliavelService;
 

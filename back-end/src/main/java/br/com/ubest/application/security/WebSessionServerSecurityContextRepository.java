@@ -1,10 +1,12 @@
 package br.com.ubest.application.security;
 
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
-import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Sessao;
-import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.domain.repository.SessaoRepository;
+import br.com.ubest.infrastructure.org.springframework.data.domain.PageRequest;
+import br.com.ubest.infrastructure.resource.Page;
+import br.com.ubest.infrastructure.tenant.TenantDetails;
+import br.com.ubest.infrastructure.tenant.TenantDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpCookie;
@@ -14,12 +16,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
-import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+
+import static br.com.ubest.Application.TOKEN_NAME;
 
 /**
  * Stores the {@link SecurityContext} in the
@@ -36,33 +39,19 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
     /**
      *
      */
-    public static final String TOKEN_NAME = "ubest-token";
-    /**
-     * The default session attribute name to save and load the {@link SecurityContext}
-     */
-    private static final String DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME = "SPRING_SECURITY_CONTEXT";
+    private final SessaoRepository sessaoRepository;
+
     /**
      *
      */
-    private final SessaoRepository sessaoRepository;
-    private final ContaRepository contaRepository;
+    private final TenantDetailsService tenantDetailsService;
+
+    /**
+     * Armazena a paginação para os Resources Controllers
+     */
+    private final Page page;
 
     private final TenantIdentifierResolver tenantIdentifierResolver;
-    /**
-     *
-     */
-    private String springSecurityContextAttrName = DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME;
-
-    /**
-     * Sets the session attribute name used to save and load the {@link SecurityContext}
-     *
-     * @param springSecurityContextAttrName the session attribute name to use to save and
-     *                                      load the {@link SecurityContext}
-     */
-    public void setSpringSecurityContextAttrName(String springSecurityContextAttrName) {
-        Assert.hasText(springSecurityContextAttrName, "springSecurityContextAttrName cannot be null or empty");
-        this.springSecurityContextAttrName = springSecurityContextAttrName;
-    }
 
     public Mono<Void> save(ServerWebExchange exchange, SecurityContext context) {
         return exchange.getSession()
@@ -89,6 +78,9 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                 .map(WebSession::getAttributes)
                 .flatMap(attrs -> {
 
+                    // Populo pageable
+                    page.setPageable(PageRequest.of(exchange));
+
                     final List<HttpCookie> cookies = exchange.getRequest().getCookies().get(TOKEN_NAME);
 
                     if (cookies == null || cookies.isEmpty())
@@ -101,17 +93,17 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         return Mono.empty();
                     }
 
-                    final Conta conta = contaRepository.findByEmailIgnoreCase(sessao.getUsername());
+                    final TenantDetails tenantDetails = tenantDetailsService.findTenantDetailsByUsername(sessao.getUsername());
 
                     if (attrs.get("schema") != null)
                         tenantIdentifierResolver.setSchema((String) attrs.get("schema"));
                     else
-                        tenantIdentifierResolver.setSchema(conta.getEsquema());
+                        tenantIdentifierResolver.setSchema(tenantDetails.getTenant());
 
-                    tenantIdentifierResolver.setUsername(conta.getUsername());
+                    tenantIdentifierResolver.setUsername(tenantDetails.getUsername());
 
                     // Cria a autenticação
-                    final Authentication authentication = new UsernamePasswordAuthenticationToken(conta, conta.getPassword(), conta.getAuthorities());
+                    final Authentication authentication = new UsernamePasswordAuthenticationToken(tenantDetails, tenantDetails.getPassword(), tenantDetails.getAuthorities());
 
                     // Cria o contexto de segurança
                     final SecurityContextImpl securityContext = new SecurityContextImpl(authentication);

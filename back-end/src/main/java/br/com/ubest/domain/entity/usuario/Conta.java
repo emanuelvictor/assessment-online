@@ -1,6 +1,7 @@
 package br.com.ubest.domain.entity.usuario;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.infrastructure.tenant.TenantDetails;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,7 +19,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import static br.com.ubest.application.context.LocalContext.DEFAULT_TENANT_ID;
+import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
 
 @Data
@@ -27,7 +28,7 @@ import static br.com.ubest.application.context.LocalContext.DEFAULT_TENANT_ID;
 @Table(schema = DEFAULT_TENANT_ID)
 @lombok.EqualsAndHashCode(callSuper = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
-public class Conta extends AbstractEntity implements UserDetails {
+public class Conta extends AbstractEntity implements TenantDetails {
 
     /**
      *
@@ -78,15 +79,14 @@ public class Conta extends AbstractEntity implements UserDetails {
     }
 
     /**
-     *
-     * @param id long
+     * @param id            long
      * @param administrador boolean
-     * @param root boolean
-     * @param esquema String
-     * @param email String
-     * @param password String
-     * @param lastLogin LocalDateTime
-     * @param usuario Usuario
+     * @param root          boolean
+     * @param esquema       String
+     * @param email         String
+     * @param password      String
+     * @param lastLogin     LocalDateTime
+     * @param usuario       Usuario
      */
     public Conta(final long id, final @NotNull boolean administrador,
                  @NotNull final boolean root, @NotNull final String esquema,
@@ -204,7 +204,6 @@ public class Conta extends AbstractEntity implements UserDetails {
         this.email = email != null ? email.toLowerCase() : null;
     }
 
-
     /**
      * (non-Javadoc)
      *
@@ -233,5 +232,10 @@ public class Conta extends AbstractEntity implements UserDetails {
     @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    @Override
+    public String getTenant() {
+        return this.getEsquema();
     }
 }

@@ -3,6 +3,7 @@ package br.com.ubest.domain.resource;
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.service.UnidadeTipoAvaliacaoService;
+import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,12 +12,10 @@ import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
-import static br.com.ubest.application.context.LocalContext.getPageable;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping({"**unidade-tipos-avaliacoes", "**sistema/unidade-tipos-avaliacoes", "**sistema/mobile/unidade-tipos-avaliacoes"})
-public class UnidadeTipoAvaliacaoResource {
+public class UnidadeTipoAvaliacaoResource extends AbstractResource<UnidadeTipoAvaliacao> {
 
     private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
 

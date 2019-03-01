@@ -4,6 +4,7 @@ import br.com.ubest.domain.entity.avaliacao.Avaliacao;
 import br.com.ubest.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.service.AvaliacaoService;
+import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,13 +14,12 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static br.com.ubest.application.context.LocalContext.getPageable;
-import static br.com.ubest.infrastructure.util.ArrayUtil.getListFromArray;
+import static br.com.ubest.infrastructure.util.Utils.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping({"**avaliacoes", "**sistema/avaliacoes", "**sistema/mobile/avaliacoes"})
-public class AvaliacaoResource {
+public class AvaliacaoResource extends AbstractResource<Avaliacao> {
 
     private final AvaliacaoService avaliacaoService;
 

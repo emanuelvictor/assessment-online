@@ -30,6 +30,10 @@ public class Application extends SpringBootServletInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
+    public static final String DEFAULT_TENANT_ID = "public";
+
+    public static final String TOKEN_NAME = "ubest-token";
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
