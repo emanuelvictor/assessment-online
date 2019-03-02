@@ -64,17 +64,17 @@ public class ContaService implements TenantDetailsService {
      */
     @Override
     public Iterable<String> getAllTenants() {
-        return this.contaRepository.findAll().stream().map(Conta::getEsquema).collect(Collectors.toList()); //TODO mudar para listclientes depois
+        return this.contaRepository.listClientesByFilters(null, null).getContent().stream().map(Conta::getEsquema).collect(Collectors.toList());g
     }
 
-    /**
-     * @param defaultFilter String
-     * @param pageable      Pageable
-     * @return Page<Conta>
-     */
-    public Page<Conta> listByFilters(final String defaultFilter, final Pageable pageable) {
-        return contaRepository.listByFilters(defaultFilter, pageable);
-    }
+//    /**
+//     * @param defaultFilter String
+//     * @param pageable      Pageable
+//     * @return Page<Conta>
+//     */
+//    public Page<Conta> listByFilters(final String defaultFilter, final Pageable pageable) {
+//        return contaRepository.listByFilters(defaultFilter, pageable);
+//    }
 
     /**
      *
