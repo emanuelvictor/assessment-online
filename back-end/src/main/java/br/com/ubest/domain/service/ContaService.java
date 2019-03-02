@@ -64,7 +64,7 @@ public class ContaService implements TenantDetailsService {
      */
     @Override
     public Iterable<String> getAllTenants() {
-        return this.contaRepository.listClientesByFilters(null, null).getContent().stream().map(Conta::getEsquema).collect(Collectors.toList());g
+        return this.contaRepository.listClientesByFilters(null, null).getContent().stream().map(Conta::getEsquema).collect(Collectors.toList());
     }
 
 //    /**
