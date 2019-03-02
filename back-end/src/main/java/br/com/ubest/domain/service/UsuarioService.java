@@ -77,15 +77,21 @@ public class UsuarioService {
         // Minha conta
         if (loggedAccount.getUsuario().getId().equals(usuarioId)) {
 
-            if (passwordEncoder.matches(password, loggedAccount.getPassword())) {
+            if (password != null && passwordEncoder.matches(password, loggedAccount.getPassword())) {
+                loggedAccount.setPassword(passwordEncoder.encode(newPassword));
+                contaRepository.save(loggedAccount);
+                return usuarioRepository.findById(usuarioId).orElseGet(null);
+            } else if (password == null) {
                 loggedAccount.setPassword(passwordEncoder.encode(newPassword));
                 contaRepository.save(loggedAccount);
                 return usuarioRepository.findById(usuarioId).orElseGet(null);
             }
 
+
             throw new PasswordNotFound();
 
         }
+
         // Conta de um atendente, operador ou administrador meu
         else if (!loggedAccount.isAdministrador() && loggedAccount.getIsOperador()) {
 
