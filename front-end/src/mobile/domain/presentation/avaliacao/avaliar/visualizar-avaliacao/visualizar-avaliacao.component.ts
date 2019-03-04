@@ -67,7 +67,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
     )
       .subscribe(page => {
         if (!page.content.length) {
-          this.openSnackBar('Vincule atendnetes, itens ou quesitos á essa unidade nessa avaliação');
+          this.openSnackBar('Vincule os itens avaliáveis à uma unidade');
           this.router.navigate(['conclusao'])
         }
       });

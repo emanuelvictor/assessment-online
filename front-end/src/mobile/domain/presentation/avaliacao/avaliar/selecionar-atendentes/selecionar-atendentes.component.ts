@@ -90,7 +90,7 @@ export class SelecionarAtendentesComponent implements OnInit {
           this.avaliaveis[0].selected = true;
           this.concluir();
         } else if (!this.avaliaveis.length) {
-          this.openSnackBar('Vincule atendnetes, itens ou quesitos á essa unidade nessa avaliação');
+          this.openSnackBar('Vincule os itens avaliáveis à uma unidade');
           this.router.navigate(['conclusao'])
         }
       });
