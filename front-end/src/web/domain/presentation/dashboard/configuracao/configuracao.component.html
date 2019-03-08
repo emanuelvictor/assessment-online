@@ -127,16 +127,15 @@
                         <brand [configuracao]="{'id': configuracao.id , 'logoPath': logoPath}"></brand>
                       </div>
                       <div flex *ngIf='logoPath'>
-                        <button type='button' (click)='removeFile()' class='tc-grey-500'
-                                mat-button>
+                        <button class='tc-grey-500' mat-button
+                                type='button' (click)='removeFile()'>
                           REMOVER FOTO
                         </button>
                       </div>
                       <div flex *ngIf='!logoPath'>
-                        <td-file-upload #singleFileUpload
-                                        defaultColor='primary'
+                        <td-file-upload defaultColor='primary'
                                         (change)='fileChange($event)'
-                                        name="file"
+                                        name='file' #singleFileUpload
                                         accept='.png, .gif, .jpg, .jpeg'>
                           <span>{{ singleFileUpload?.files?.name }}</span>
                           <ng-template td-file-input-label>
@@ -208,7 +207,8 @@
 
             <mat-divider *ngIf='contaAutenticada?.root'></mat-divider>
 
-            <div *ngIf='contaAutenticada?.root' layout='column' layout-margin style='margin-top: 20px; padding-bottom: 25px'>
+            <div *ngIf='contaAutenticada?.root' layout='column' layout-margin
+                 style='margin-top: 20px; padding-bottom: 25px'>
               <div layout='row' layout-align='start center'>
                 <div layout="column" layout-margin>
                   <h2 flex [matTooltipPosition]="'below'"
