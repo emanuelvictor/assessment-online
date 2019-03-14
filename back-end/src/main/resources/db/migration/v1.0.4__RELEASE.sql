@@ -6,8 +6,6 @@ ALTER TABLE conta ADD COLUMN pessoa_id BIGINT;
 
 ALTER TABLE conta_aud ADD COLUMN pessoa_id BIGINT;
 
-
-
 ALTER TABLE pessoa ADD COLUMN conta_id BIGINT;
 
 -- Adciona a CONSTRAINT de public.conta_id na tabela de pessoa
@@ -16,6 +14,9 @@ ALTER TABLE ONLY pessoa
 
 ALTER TABLE pessoa_aud ADD COLUMN conta_id BIGINT;
 
+
+
+
 -- Dropa a CONSTRAINT da conta_id
 ALTER TABLE ONLY usuario
   DROP CONSTRAINT fkm9ew1jp3jewapkiridletuerr;
@@ -23,6 +24,18 @@ ALTER TABLE ONLY usuario
 -- Dropa a CONSTRAINT da pessoa_id (somente para recriar apontando para o public)
 ALTER TABLE ONLY usuario
   DROP CONSTRAINT fknndxavgf8rogrx6jdmxbgm6s3;
+
+-- Dropa a CONSTRAINT da avaliavel_id (somente para recriar apontando para o public)
+ALTER TABLE ONLY avaliavel
+  DROP CONSTRAINT fkp84hu90r7k1p8d7e4rt3vprsl;
+
+-- Dropa a CONSTRAINT da operador_id (somente para recriar apontando para o public)
+ALTER TABLE ONLY operador
+  DROP CONSTRAINT fkajlncx53fcqxjpepj4dsogdel;
+
+
+
+
 
 -- Adiciona novamente a CONSTRAINT de public.pessoa_id na tabela de usuário
 ALTER TABLE ONLY usuario
