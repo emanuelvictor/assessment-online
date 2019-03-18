@@ -14,3 +14,13 @@ logging.level:
   org.springframework.web: INFO
   org.springframework.context.support: INFO
   org.springframework.security: INFO
+
+# configuracoes do actuator
+management:
+  endpoint:
+    logfile:
+      external-file: /var/log/${spring.application.name}.log
+
+# configuracoes de logging
+logging:
+  file: /var/log/${spring.application.name}.log
