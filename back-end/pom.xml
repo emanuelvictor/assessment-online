@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.4.RELEASE</version>
+        <version>2.1.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -24,6 +24,10 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
+        <xml-bind.version>2.3.0</xml-bind.version>
+
+        <!--utilizado somente no processo de importação-->
+        <json-simple.version>1.1.1</json-simple.version>
     </properties>
 
     <profiles>
@@ -98,12 +102,6 @@
         <dependency>
             <groupId>org.synchronoss.cloud</groupId>
             <artifactId>nio-multipart-parser</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <!--<version>1.1.1</version>-->
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
@@ -203,6 +201,25 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
+        </dependency>
+
+        <!--jaxb for java 10 compat-->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>${xml-bind.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${xml-bind.version}</version>
+        </dependency>
+
+        <!--utilizado somente no processo de importação-->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>${json-simple.version}</version>
         </dependency>
 
     </dependencies>

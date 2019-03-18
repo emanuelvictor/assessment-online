@@ -25,8 +25,9 @@ spring:
     open-in-view: false
     properties:
       hibernate.dialect: br.com.ubest.infrastructure.hibernate.dialect.PostgreSQLDialect
+      hibernate.jdbc.lob.non_contextual_creation: true
       hibernate.id.new_generator_mappings: true
-      hibernate.cache.use_second_level_cache: truee
+      hibernate.cache.use_second_level_cache: false
       hibernate.order_by.default_null_ordering: last
       #      hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
       #      hibernate.cache.provider_class: net.sf.ehcache.hibernate.EhCacheProvider
