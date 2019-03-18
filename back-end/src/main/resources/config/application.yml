@@ -27,10 +27,12 @@ spring:
       hibernate.dialect: br.com.ubest.infrastructure.hibernate.dialect.PostgreSQLDialect
       hibernate.jdbc.lob.non_contextual_creation: true
       hibernate.id.new_generator_mappings: true
-      hibernate.cache.use_second_level_cache: false
       hibernate.order_by.default_null_ordering: last
-      #      hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
-      #      hibernate.cache.provider_class: net.sf.ehcache.hibernate.EhCacheProvider
+
+      hibernate.cache.use_second_level_cache: true
+      hibernate.cache.region.factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
+#      hibernate.cache.provider_class: net.sf.ehcache.hibernate.EhCacheProvider
+      
       hibernate.default_schema: public
       org.hibernate.envers.audit_table_suffix: _aud
       org.hibernate.envers.revision_field_name: rev
