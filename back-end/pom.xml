@@ -5,7 +5,7 @@
 
     <groupId>br.com.ubest</groupId>
     <artifactId>ubest</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.1.RELEASE</version>
     <packaging>jar</packaging>
 
     <name>UBest</name>
@@ -21,7 +21,7 @@
     <properties>
         <start-class>br.com.ubest.Application</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
         <xml-bind.version>2.3.0</xml-bind.version>
@@ -37,7 +37,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <spring.profiles.active>dev</spring.profiles.active>
+                <spring.profiles.active>ALPHA</spring.profiles.active>
             </properties>
             <dependencies>
                 <!--<dependency>-->
@@ -53,23 +53,23 @@
         </profile>
 
         <profile>
-            <id>test</id>
+            <id>BETA</id>
             <properties>
-                <spring.profiles.active>test</spring.profiles.active>
+                <spring.profiles.active>BETA</spring.profiles.active>
             </properties>
         </profile>
 
         <profile>
-            <id>homologation</id>
+            <id>RC</id>
             <properties>
-                <spring.profiles.active>homologation</spring.profiles.active>
+                <spring.profiles.active>RC</spring.profiles.active>
             </properties>
         </profile>
 
         <profile>
-            <id>production</id>
+            <id>RELEASE</id>
             <properties>
-                <spring.profiles.active>production</spring.profiles.active>
+                <spring.profiles.active>RELEASE</spring.profiles.active>
             </properties>
             <dependencies>
                 <dependency>
