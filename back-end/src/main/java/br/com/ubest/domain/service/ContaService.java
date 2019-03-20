@@ -4,7 +4,6 @@ import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.infrastructure.tenant.TenantDetails;
 import br.com.ubest.infrastructure.tenant.TenantDetailsService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

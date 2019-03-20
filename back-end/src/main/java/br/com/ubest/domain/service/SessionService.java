@@ -20,10 +20,23 @@ public class SessionService implements SessionDetailsService {
     }
 
     @Override
-    public SessionDetails createSessionByUsername(final String username) {
+    public SessionDetails createSession(final String username) {
         final Sessao sessao = new Sessao();
         sessao.setUsername(username);
         sessao.generateToken();
         return sessaoRepository.save(sessao);
+    }
+
+    @Override
+    public SessionDetails createSession(final String username, final String token) {
+        final Sessao sessao = new Sessao();
+        sessao.setUsername(username);
+        sessao.setToken(token);
+        return sessaoRepository.save(sessao);
+    }
+
+    @Override
+    public void destroySession(final String token) {
+        this.sessaoRepository.deleteSessaoByToken(token);
     }
 }

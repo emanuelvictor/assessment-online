@@ -1,5 +1,6 @@
 package br.com.ubest.application.security;
 
+import br.com.ubest.Application;
 import br.com.ubest.domain.entity.usuario.Conta;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +23,23 @@ import org.springframework.security.web.server.authentication.logout.SecurityCon
 import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
+import org.springframework.session.ReactiveMapSessionRepository;
+import org.springframework.session.ReactiveSessionRepository;
+import org.springframework.session.config.annotation.web.server.EnableSpringWebSession;
 import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.session.CookieWebSessionIdResolver;
+import org.springframework.web.server.session.WebSessionIdResolver;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableWebFluxSecurity
+@EnableSpringWebSession
+@RequiredArgsConstructor
 @EnableReactiveMethodSecurity
 public class SecurityConfiguration {
 
@@ -63,6 +72,28 @@ public class SecurityConfiguration {
      *
      */
     private final ServerSecurityContextRepository securityContextRepository;
+
+    /**
+     * @return ReactiveSessionRepository
+     */
+    @Bean
+    public ReactiveSessionRepository reactiveSessionRepository() {
+        return new ReactiveMapSessionRepository(new ConcurrentHashMap<>());
+    }
+
+    /**
+     * @return WebSessionIdResolver
+     */
+    @Bean
+    public WebSessionIdResolver webSessionIdResolver() {
+        final CookieWebSessionIdResolver resolver = new CookieWebSessionIdResolver();
+        resolver.setCookieName(Application.TOKEN_NAME);
+        resolver.addCookieInitializer(responseCookieBuilder -> {
+            responseCookieBuilder.httpOnly(false);
+            responseCookieBuilder.maxAge(Duration.ofDays(999999999));
+        });
+        return resolver;
+    }
 
     /**
      * @param mapper {ObjectMapper}

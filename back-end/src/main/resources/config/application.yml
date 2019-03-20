@@ -48,14 +48,6 @@ spring:
     baseline-on-migrate: true
     sql-migration-prefix: v
 
-#WEB CONTAINER
-server:
-  servlet:
-    context-path:
-    session:
-      persistent: true
-  compression.enabled: true
-
 #LOGGING
 logging:
   level:
@@ -89,3 +81,10 @@ info:
     name: ${spring.application.name}
     version: @project.version@
     environment: ${spring.profiles.active}
+
+server:
+  servlet:
+    session:
+      cookie:
+        name: teste
+        http-only: false

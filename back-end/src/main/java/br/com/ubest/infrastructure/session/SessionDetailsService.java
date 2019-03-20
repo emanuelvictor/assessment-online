@@ -4,5 +4,9 @@ public interface SessionDetailsService {
 
     SessionDetails findByToken(final String token);
 
-    SessionDetails createSessionByUsername(final String username);
+    void destroySession(final String token);
+
+    SessionDetails createSession(final String username);
+
+    SessionDetails createSession(final String username, final String token);
 }

@@ -34,11 +34,6 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
     /**
      *
      */
-    private final SessaoRepository sessaoRepository;
-
-    /**
-     *
-     */
     private static final Logger LOG = Logger.getLogger(LogoutSuccessHandler.class.getName());
 
     /**
@@ -54,8 +49,8 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
             webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);
 
             // Deleta a sessão da base
-            final Sessao sessao = sessaoRepository.findByToken(webFilterExchange.getExchange().getRequest().getCookies().get(TOKEN_NAME).get(0).getValue());
-            sessaoRepository.deleteById(sessao.getId());
+//            final Sessao sessao = sessaoRepository.findByToken(webFilterExchange.getExchange().getRequest().getCookies().get(TOKEN_NAME).get(0).getValue());
+//            sessaoRepository.deleteById(sessao.getId());
 
             return webFilterExchange.getExchange().getResponse().writeWith(Mono.just(buf));
         } catch (final JsonProcessingException e) {

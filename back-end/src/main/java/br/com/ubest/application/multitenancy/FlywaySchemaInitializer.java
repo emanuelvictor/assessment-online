@@ -3,7 +3,6 @@ package br.com.ubest.application.multitenancy;
 import br.com.ubest.infrastructure.tenant.TenantDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
