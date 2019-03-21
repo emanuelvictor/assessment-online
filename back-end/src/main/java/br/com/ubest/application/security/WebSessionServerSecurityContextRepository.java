@@ -64,7 +64,7 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
 //                        session.getAttributes().remove(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME);
                     }
                 })
-                .flatMap(WebSession::save);
+                .flatMap(webSession -> Mono.empty());
     }
 
     /**

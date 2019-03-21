@@ -41,7 +41,7 @@ public class ContaService implements TenantDetailsService {
 
     /**
      * @param username {String}
-     * @return {SessionDetails}
+     * @return {TenantDetails}
      */
     public TenantDetails findTenantDetailsByUsername(final String username) {
         final Conta conta = contaRepository.findByEmailIgnoreCase(username.toLowerCase());
@@ -51,10 +51,16 @@ public class ContaService implements TenantDetailsService {
         return contaRepository.findByEmailIgnoreCase(username.toLowerCase());
     }
 
+    /**
+     * @param sessionId {String}
+     * @return {TenantDetails}
+     */
     @Override
-    public TenantDetails findTenantDetailsBySessionId(String sessionId) {
-        final Sessao sessao = this.sessaoRepository.findById(sessionId).get();
+    public TenantDetails findTenantDetailsBySessionId(final String sessionId) {
+        final Sessao sessao = this.sessaoRepository.findById(sessionId).orElse(null);
+
         Assert.notNull(sessao, "Sessão não encontrada");
+
         return findTenantDetailsByUsername(sessao.getUsername());
     }
 
@@ -72,7 +78,6 @@ public class ContaService implements TenantDetailsService {
     }
 
     /**
-     *
      * @return Iterable<String>
      */
     @Override
@@ -90,9 +95,8 @@ public class ContaService implements TenantDetailsService {
 //    }
 
     /**
-     *
      * @param defaultFilter defaultFilter
-     * @param pageable Pageable
+     * @param pageable      Pageable
      * @return Page<Conta>
      */
     public Page<Conta> listClientesByFilters(final String defaultFilter, final Pageable pageable) {
