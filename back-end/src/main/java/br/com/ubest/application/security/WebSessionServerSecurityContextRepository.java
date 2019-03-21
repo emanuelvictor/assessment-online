@@ -16,7 +16,6 @@ import org.springframework.security.web.server.context.ServerSecurityContextRepo
 import org.springframework.session.ReactiveSessionRepository;
 import org.springframework.session.web.server.session.SpringSessionWebSessionStore;
 import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
 
 import static org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository.DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME;
@@ -92,8 +91,8 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
 
                         final TenantDetails tenantDetails = tenantDetailsService.findTenantDetailsBySessionId(session.getId());
 
-                        if (webSession.getAttributes().get("schema") != null) // TODO colocar a palavra schema em outro lugar
-                            tenantIdentifierResolver.setSchema((String) webSession.getAttributes().get("schema"));
+                        if (LocalMap.getInstance().getMap().get("schema") != null) // TODO colocar a palavra schema em outro lugar
+                            tenantIdentifierResolver.setSchema((String) LocalMap.getInstance().getMap().get("schema"));
                         else
                             tenantIdentifierResolver.setSchema(tenantDetails.getTenant());
 
