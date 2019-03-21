@@ -2,6 +2,7 @@ package br.com.ubest.application.security;
 
 import br.com.ubest.Application;
 import br.com.ubest.domain.entity.usuario.Conta;
+import br.com.ubest.domain.service.SessionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -73,13 +74,6 @@ public class SecurityConfiguration {
      */
     private final ServerSecurityContextRepository securityContextRepository;
 
-    /**
-     * @return ReactiveSessionRepository
-     */
-    @Bean
-    public ReactiveSessionRepository reactiveSessionRepository() {
-        return new ReactiveMapSessionRepository(new ConcurrentHashMap<>());
-    }
 
     /**
      * @return WebSessionIdResolver

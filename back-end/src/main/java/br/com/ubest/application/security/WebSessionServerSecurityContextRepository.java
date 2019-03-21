@@ -1,27 +1,24 @@
 package br.com.ubest.application.security;
 
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.domain.entity.usuario.Sessao;
 import br.com.ubest.infrastructure.org.springframework.data.domain.PageRequest;
 import br.com.ubest.infrastructure.resource.PageComponent;
-import br.com.ubest.infrastructure.session.SessionDetails;
-import br.com.ubest.infrastructure.session.SessionDetailsService;
 import br.com.ubest.infrastructure.tenant.TenantDetails;
 import br.com.ubest.infrastructure.tenant.TenantDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
+import org.springframework.session.ReactiveSessionRepository;
+import org.springframework.session.web.server.session.SpringSessionWebSessionStore;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
-import static br.com.ubest.Application.TOKEN_NAME;
 import static org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository.DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME;
 
 /**
@@ -44,7 +41,7 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
     /**
      *
      */
-    private final SessionDetailsService sessionDetailsService;
+    private final ReactiveSessionRepository<Sessao> reactiveSessionRepository;
 
     /**
      *
@@ -59,17 +56,15 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
     public Mono<Void> save(final ServerWebExchange exchange, final SecurityContext context) {
         return exchange.getSession()
                 .doOnNext(session -> {
-
-                    if (context == null) {
-                        session.getAttributes().remove(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME);
-//                        sessionDetailsService.destroySession(session.getId());
-                    } else {
+                    if (context != null) {
+                        ((Sessao) ((SpringSessionWebSessionStore.SpringSessionWebSession) session).getSession()).setUsername(context.getAuthentication().getName());
                         session.getAttributes().put(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME, context);
-                        sessionDetailsService.createSession(context.getAuthentication().getName(), session.getId());
+                    } else {
+                        ((Sessao) ((SpringSessionWebSessionStore.SpringSessionWebSession) session).getSession()).setUsername(null);
+//                        session.getAttributes().remove(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME);
                     }
-
                 })
-                .flatMap(webSession -> Mono.empty());
+                .flatMap(WebSession::save);
     }
 
     /**
@@ -80,41 +75,38 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
     public Mono<SecurityContext> load(final ServerWebExchange exchange) {
 
         return exchange.getSession()
+
                 .flatMap(webSession -> {
 
                     // Populo pageable
                     pageComponent.setPageable(PageRequest.of(exchange));
 
-                    final List<HttpCookie> cookies = exchange.getRequest().getCookies().get(TOKEN_NAME);
-//
-//                    if (cookies == null || cookies.isEmpty())
-//                        return Mono.empty();
+                    return reactiveSessionRepository.findById(webSession.getId()).flatMap(session -> {
+                        if (session == null || session.isExpired())
+                            return Mono.empty();
+                            // Se tem a sessão no banco, mas ela está sem o username (quer dizer que o cara deslogou)
+                            // Então delete a sessão do banco
+                        else if (session.getUsername() == null) {
+                            return Mono.empty();
+                        }
 
-                    System.out.println("session id " +webSession.getId());
-                    final String token = cookies.get(0).getValue();
-//                    final String token = webSession.getId();
-                    System.out.println(token);
-                    final SessionDetails sessionDetails = sessionDetailsService.findByToken(token);
+                        final TenantDetails tenantDetails = tenantDetailsService.findTenantDetailsBySessionId(session.getId());
 
-                    if (sessionDetails == null || !sessionDetails.validate())
-                        return Mono.empty();
+                        if (webSession.getAttributes().get("schema") != null) // TODO colocar a palavra schema em outro lugar
+                            tenantIdentifierResolver.setSchema((String) webSession.getAttributes().get("schema"));
+                        else
+                            tenantIdentifierResolver.setSchema(tenantDetails.getTenant());
 
-                    final TenantDetails tenantDetails = tenantDetailsService.findTenantDetailsByUsername(sessionDetails.getUsername());
+                        tenantIdentifierResolver.setUsername(tenantDetails.getUsername());
 
-                    if (webSession.getAttributes().get("schema") != null) // TODO colocar a palavra schema em outro lugar
-                        tenantIdentifierResolver.setSchema((String) webSession.getAttributes().get("schema"));
-                    else
-                        tenantIdentifierResolver.setSchema(tenantDetails.getTenant());
+                        // Cria a autenticação
+                        final Authentication authentication = new UsernamePasswordAuthenticationToken(tenantDetails, tenantDetails.getPassword(), tenantDetails.getAuthorities());
 
-                    tenantIdentifierResolver.setUsername(tenantDetails.getUsername());
+                        // Cria o contexto de segurança
+                        final SecurityContextImpl securityContext = new SecurityContextImpl(authentication);
 
-                    // Cria a autenticação
-                    final Authentication authentication = new UsernamePasswordAuthenticationToken(tenantDetails, tenantDetails.getPassword(), tenantDetails.getAuthorities());
-
-                    // Cria o contexto de segurança
-                    final SecurityContextImpl securityContext = new SecurityContextImpl(authentication);
-
-                    return Mono.just(securityContext);
+                        return Mono.just(securityContext);
+                    });
 
                 });
 

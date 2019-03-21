@@ -1,8 +1,6 @@
 package br.com.ubest.application.handlers;
 
 
-import br.com.ubest.domain.entity.usuario.Sessao;
-import br.com.ubest.domain.repository.SessaoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -16,8 +14,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.logging.Logger;
 
-import static br.com.ubest.Application.TOKEN_NAME;
-
 
 /**
  *
@@ -30,6 +26,8 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
      *
      */
     private final ObjectMapper objMapper;
+
+//    private final ReactiveSessionRepository<Sessao> reactiveSessionRepository;
 
     /**
      *
@@ -48,9 +46,9 @@ public class LogoutSuccessHandler implements ServerLogoutSuccessHandler {
             final DataBuffer buf = webFilterExchange.getExchange().getResponse().bufferFactory().wrap(objMapper.writeValueAsBytes("Logout efetuado com sucesso"));
             webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);
 
-            // Deleta a sessão da base
-//            final Sessao sessao = sessaoRepository.findByToken(webFilterExchange.getExchange().getRequest().getCookies().get(TOKEN_NAME).get(0).getValue());
-//            sessaoRepository.deleteById(sessao.getId());
+//            // Deleta a sessão da base
+//            final Session session = reactiveSessionRepository.findById(webFilterExchange.getExchange().getRequest().getCookies().get(TOKEN_NAME).get(0).getValue()).block();
+//            reactiveSessionRepository.deleteById(session.getId());
 
             return webFilterExchange.getExchange().getResponse().writeWith(Mono.just(buf));
         } catch (final JsonProcessingException e) {

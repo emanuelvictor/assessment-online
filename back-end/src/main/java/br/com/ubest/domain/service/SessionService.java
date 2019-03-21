@@ -2,41 +2,42 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.domain.entity.usuario.Sessao;
 import br.com.ubest.domain.repository.SessaoRepository;
-import br.com.ubest.infrastructure.session.SessionDetails;
-import br.com.ubest.infrastructure.session.SessionDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.session.ReactiveSessionRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 
 @Service
 @RequiredArgsConstructor
-public class SessionService implements SessionDetailsService {
+public class SessionService implements ReactiveSessionRepository<Sessao> {
 
     private final SessaoRepository sessaoRepository;
 
     @Override
-    public SessionDetails findByToken(String token) {
-        return sessaoRepository.findByToken(token);
+    public Mono<Sessao> createSession() {
+        return Mono.defer(() -> Mono.just(new Sessao()));
     }
 
     @Override
-    public SessionDetails createSession(final String username) {
-        final Sessao sessao = new Sessao();
-        sessao.setUsername(username);
-        sessao.generateToken();
-        return sessaoRepository.save(sessao);
+    public Mono<Void> save(final Sessao sessao) {
+        if (sessao.getUsername() == null)
+            return this.deleteById(sessao.getId());
+        return Mono.fromRunnable(() ->
+                this.sessaoRepository.save(sessao)
+        );
     }
 
     @Override
-    public SessionDetails createSession(final String username, final String token) {
-        final Sessao sessao = new Sessao();
-        sessao.setUsername(username);
-        sessao.setToken(token);
-        return sessaoRepository.save(sessao);
+    public Mono<Sessao> findById(final String id) {
+        return Mono.defer(() -> Mono.justOrEmpty(this.sessaoRepository.findById(id).orElse(null)));
     }
 
     @Override
-    public void destroySession(final String token) {
-        this.sessaoRepository.deleteSessaoByToken(token);
+    public Mono<Void> deleteById(final String id) {
+        return this.findById(id).flatMap(sessao -> {
+            this.sessaoRepository.deleteById(sessao.getId());
+            return Mono.empty();
+        });
     }
 }

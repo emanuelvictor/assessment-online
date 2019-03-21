@@ -1,7 +1,9 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.domain.entity.usuario.Conta;
+import br.com.ubest.domain.entity.usuario.Sessao;
 import br.com.ubest.domain.repository.ContaRepository;
+import br.com.ubest.domain.repository.SessaoRepository;
 import br.com.ubest.infrastructure.tenant.TenantDetails;
 import br.com.ubest.infrastructure.tenant.TenantDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,11 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ContaService implements TenantDetailsService {
+
+    /**
+     *
+     */
+    private final SessaoRepository sessaoRepository;
 
     /**
      *
@@ -42,6 +49,13 @@ public class ContaService implements TenantDetailsService {
         Assert.notNull(conta, "Cliente não encontrado");
 
         return contaRepository.findByEmailIgnoreCase(username.toLowerCase());
+    }
+
+    @Override
+    public TenantDetails findTenantDetailsBySessionId(String sessionId) {
+        final Sessao sessao = this.sessaoRepository.findById(sessionId).get();
+        Assert.notNull(sessao, "Sessão não encontrada");
+        return findTenantDetailsByUsername(sessao.getUsername());
     }
 
     /**
