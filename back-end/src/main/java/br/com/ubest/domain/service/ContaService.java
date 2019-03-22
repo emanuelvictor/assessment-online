@@ -1,6 +1,5 @@
 package br.com.ubest.domain.service;
 
-import br.com.ubest.application.security.LocalMap;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Sessao;
 import br.com.ubest.domain.repository.ContaRepository;
@@ -111,7 +110,6 @@ public class ContaService implements TenantDetailsService {
     public Mono<Boolean> acceptScheme(final ServerWebExchange exchange, final String schema) {
         return exchange.getSession().map(webSession -> {
             webSession.getAttributes().put("schema", schema);
-            LocalMap.getInstance().getMap().put("schema", schema);
             return true;
         });
     }
