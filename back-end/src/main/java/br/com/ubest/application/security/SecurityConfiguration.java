@@ -2,7 +2,6 @@ package br.com.ubest.application.security;
 
 import br.com.ubest.Application;
 import br.com.ubest.domain.entity.usuario.Conta;
-import br.com.ubest.domain.service.SessionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -25,9 +24,6 @@ import org.springframework.security.web.server.authentication.logout.SecurityCon
 import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
-import org.springframework.session.ReactiveMapSessionRepository;
-import org.springframework.session.ReactiveSessionRepository;
-import org.springframework.session.config.annotation.web.server.EnableSpringWebSession;
 import org.springframework.session.data.redis.config.annotation.web.server.EnableRedisWebSession;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.session.CookieWebSessionIdResolver;
@@ -36,15 +32,19 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 @Configuration
 @EnableWebFluxSecurity
-@EnableRedisWebSession
 @RequiredArgsConstructor
 @EnableReactiveMethodSecurity
+@EnableRedisWebSession(maxInactiveIntervalInSeconds = SecurityConfiguration.TIMEOUT_SESSION)
 public class SecurityConfiguration {
+
+    /**
+     *
+     */
+    static final int TIMEOUT_SESSION = 2592000;
 
     /**
      *

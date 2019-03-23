@@ -1,24 +1,13 @@
 package br.com.ubest.application.security;
 
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
-import br.com.ubest.domain.entity.usuario.Sessao;
 import br.com.ubest.infrastructure.org.springframework.data.domain.PageRequest;
 import br.com.ubest.infrastructure.resource.PageComponent;
 import br.com.ubest.infrastructure.tenant.TenantDetails;
-import br.com.ubest.infrastructure.tenant.TenantDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
-import org.springframework.session.ReactiveSessionRepository;
-import org.springframework.session.data.redis.ReactiveRedisOperationsSessionRepository;
-import org.springframework.session.web.server.session.SpringSessionWebSessionStore;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
@@ -36,16 +25,6 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
      * Armazena a paginação para os Resources Controllers
      */
     private final PageComponent pageComponent;
-
-    /**
-     *
-     */
-    private final TenantDetailsService tenantDetailsService;
-
-//    /**
-//     *
-//     */
-//    private final ReactiveRedisOperationsSessionRepository<Sessao> reactiveSessionRepository;
 
     /**
      *
@@ -96,14 +75,16 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         return Mono.empty();
                     }
 
+                    final SecurityContext securityContext = ((SecurityContext) webSession.getAttributes().get(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME));
+
                     if (webSession.getAttributes().get("schema") != null) // TODO colocar a palavra schema em outro lugar
                         tenantIdentifierResolver.setSchema((String) webSession.getAttributes().get("schema"));
                     else
-                        tenantIdentifierResolver.setSchema(((TenantDetails) ((SecurityContextImpl)  webSession.getAttributes().get(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME)).getAuthentication().getPrincipal()).getTenant());
+                        tenantIdentifierResolver.setSchema(((TenantDetails) securityContext.getAuthentication().getPrincipal()).getTenant());
 
-                    tenantIdentifierResolver.setUsername(((TenantDetails) ((SecurityContextImpl)  webSession.getAttributes().get(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME)).getAuthentication().getPrincipal()).getUsername());
+                    tenantIdentifierResolver.setUsername(securityContext.getAuthentication().getName());
 
-                    return Mono.just((SecurityContextImpl) webSession.getAttributes().get(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME));
+                    return Mono.just(securityContext);
 
                 });
 
