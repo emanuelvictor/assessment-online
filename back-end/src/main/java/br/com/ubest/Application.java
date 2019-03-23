@@ -32,6 +32,10 @@ public class Application {
 
     public static final String TOKEN_NAME = "ubest-token";
 
+    public static final String SCHEMA_NAME = "schema";
+
+    public static final int TIMEOUT_SESSION = 2592000;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

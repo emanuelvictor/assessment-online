@@ -14,9 +14,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
+import org.springframework.security.web.server.authentication.ServerAuthenticationConverter;
 import org.springframework.security.web.server.authentication.ServerAuthenticationFailureHandler;
 import org.springframework.security.web.server.authentication.ServerAuthenticationSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.LogoutWebFilter;
@@ -25,26 +26,21 @@ import org.springframework.security.web.server.authentication.logout.ServerLogou
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.session.data.redis.config.annotation.web.server.EnableRedisWebSession;
-import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.session.CookieWebSessionIdResolver;
 import org.springframework.web.server.session.WebSessionIdResolver;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.function.Function;
+
+import static br.com.ubest.Application.TIMEOUT_SESSION;
 
 @Configuration
 @EnableWebFluxSecurity
 @RequiredArgsConstructor
 @EnableReactiveMethodSecurity
-@EnableRedisWebSession(maxInactiveIntervalInSeconds = SecurityConfiguration.TIMEOUT_SESSION)
+@EnableRedisWebSession(maxInactiveIntervalInSeconds = TIMEOUT_SESSION)
 public class SecurityConfiguration {
-
-    /**
-     *
-     */
-    static final int TIMEOUT_SESSION = 2592000;
 
     /**
      *
@@ -94,7 +90,7 @@ public class SecurityConfiguration {
         resolver.setCookieName(Application.TOKEN_NAME);
         resolver.addCookieInitializer(responseCookieBuilder -> {
             responseCookieBuilder.httpOnly(false);
-            responseCookieBuilder.maxAge(Duration.ofDays(999999999));
+            responseCookieBuilder.maxAge(Duration.ofDays(TIMEOUT_SESSION));
         });
         return resolver;
     }
@@ -103,19 +99,19 @@ public class SecurityConfiguration {
      * @param mapper {ObjectMapper}
      * @return {Function<ServerWebExchange, Mono<Authentication>>}
      */
-    private static Function<ServerWebExchange, Mono<Authentication>> jsonBodyAuthenticationConverter(final ObjectMapper mapper) {
+    private static ServerAuthenticationConverter jsonBodyAuthenticationConverter(final ObjectMapper mapper) {
         return exchange -> exchange
                 .getRequest()
                 .getBody()
                 .next()
                 .flatMap(body -> {
                     try {
-                        final Conta conta = mapper.readValue(body.asInputStream(), Conta.class);
+                        final UserDetails userDetails = mapper.readValue(body.asInputStream(), Conta.class);
 
                         return Mono.just(
                                 new UsernamePasswordAuthenticationToken(
-                                        conta.getUsername(),
-                                        conta.getPassword()
+                                        userDetails.getUsername(),
+                                        userDetails.getPassword()
                                 )
                         );
                     } catch (IOException e) {
@@ -151,7 +147,7 @@ public class SecurityConfiguration {
         final AuthenticationWebFilter filter = new AuthenticationWebFilter(reactiveAuthenticationManager);
 
         filter.setSecurityContextRepository(securityContextRepository);
-        filter.setAuthenticationConverter(jsonBodyAuthenticationConverter(this.objectMapper));
+        filter.setServerAuthenticationConverter(jsonBodyAuthenticationConverter(this.objectMapper));
         filter.setAuthenticationSuccessHandler(this.serverAuthenticationSuccessHandler);
         filter.setAuthenticationFailureHandler(this.serverAuthenticationFailureHandler);
         filter.setRequiresAuthenticationMatcher(
