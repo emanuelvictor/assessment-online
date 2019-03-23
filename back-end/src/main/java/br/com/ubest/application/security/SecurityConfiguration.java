@@ -49,6 +49,21 @@ public class SecurityConfiguration {
     /**
      *
      */
+    private final ObjectMapper objectMapper;
+
+    /**
+     *
+     */
+    private final ServerLogoutSuccessHandler serverLogoutSuccessHandler;
+
+    /**
+     *
+     */
+    private final ServerSecurityContextRepository securityContextRepository;
+
+    /**
+     *
+     */
     private final ReactiveAuthenticationManager reactiveAuthenticationManager;
 
     /**
@@ -63,21 +78,8 @@ public class SecurityConfiguration {
 
     /**
      *
+     * @return LettuceConnectionFactory
      */
-    private final ServerLogoutSuccessHandler serverLogoutSuccessHandler;
-
-    /**
-     *
-     */
-    private final ObjectMapper objectMapper;
-
-    /**
-     *
-     */
-    private final ServerSecurityContextRepository securityContextRepository;
-
-
-
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory();

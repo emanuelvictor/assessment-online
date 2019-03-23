@@ -32,7 +32,7 @@ public class AuthenticationResource {
         return ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication).switchIfEmpty(Mono.empty())
                 .map(authentication -> {
                     final Conta conta = (Conta) authentication.getPrincipal();
-                    return contaRepository.findById(conta.getId());// TODO fazer mesmo essa requisição será?!
+                    return Optional.ofNullable(contaRepository.findByEmailIgnoreCase(conta.getEmail()));
                 });
     }
 }
