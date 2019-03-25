@@ -29,6 +29,7 @@ import org.springframework.web.server.ServerWebExchange;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
@@ -275,6 +276,8 @@ public class UsuarioService {
      */
     @Transactional
     public void delete(final long usuarioId) {
+
+        Assert.isTrue(!Objects.requireNonNull(this.usuarioRepository.findById(usuarioId).orElse(null)).getConta().isCliente(), "Entre em contato com os administradores para a exclusão de um cliente");
 
         // Deleta todos os operadores
         this.operadorService.delete(this.operadorService.findAllByUsuarioId(usuarioId));
