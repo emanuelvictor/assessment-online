@@ -90,7 +90,7 @@ public class SecurityConfiguration {
         resolver.setCookieName(Application.TOKEN_NAME);
         resolver.addCookieInitializer(responseCookieBuilder -> {
             responseCookieBuilder.httpOnly(false);
-            responseCookieBuilder.maxAge(Duration.ofDays(TIMEOUT_SESSION));
+            responseCookieBuilder.maxAge(Duration.ofSeconds(TIMEOUT_SESSION));
         });
         return resolver;
     }
@@ -106,6 +106,7 @@ public class SecurityConfiguration {
                 .next()
                 .flatMap(body -> {
                     try {
+
                         final UserDetails userDetails = mapper.readValue(body.asInputStream(), Conta.class);
 
                         return Mono.just(

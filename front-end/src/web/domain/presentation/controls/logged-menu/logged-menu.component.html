@@ -69,10 +69,11 @@
       </div>
     </mat-list-item>
 
-    <mat-divider class="bgc-blue-grey-300 push-top push-bottom pad-left"></mat-divider>
+    <mat-divider class="bgc-blue-grey-300 push-top push-bottom pad-left" *ngIf='authenticatedUser?.isAdministrador'></mat-divider>
 
     <mat-list-item class="push-bottom"
                    routerLink="/dashboard/configuracoes"
+                   *ngIf='authenticatedUser?.isAdministrador'
                    routerLinkActive #rlaSettings="routerLinkActive"
                    [ngClass]="{'menu-active': rlaSettings.isActive}">
       <div layout="row" flex class="pad-left">
