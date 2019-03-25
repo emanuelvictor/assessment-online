@@ -15,6 +15,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.stream.Collectors;
 
+import static br.com.ubest.Application.SCHEMA_NAME;
+
 @Service
 @RequiredArgsConstructor
 public class ContaService implements TenantDetailsService {
@@ -97,9 +99,8 @@ public class ContaService implements TenantDetailsService {
      * @return boolean
      */
     public Mono<Boolean> acceptScheme(final ServerWebExchange exchange, final String schema) {
-        return exchange.getSession().map(webSession -> {
-            webSession.getAttributes().put("schema", schema);
-            return true;
-        });
+        return exchange.getSession()
+                .doOnNext(webSession -> webSession.getAttributes().put(SCHEMA_NAME, schema))
+                .map(webSession -> true);
     }
 }

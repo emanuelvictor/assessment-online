@@ -12,6 +12,7 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
 
+import static br.com.ubest.Application.SCHEMA_NAME;
 import static org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository.DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME;
 
 /**
@@ -77,8 +78,8 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
 
                     final SecurityContext securityContext = ((SecurityContext) webSession.getAttributes().get(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME));
 
-                    if (webSession.getAttributes().get("schema") != null) // TODO colocar a palavra schema em outro lugar
-                        tenantIdentifierResolver.setSchema((String) webSession.getAttributes().get("schema"));
+                    if (webSession.getAttributes().get(SCHEMA_NAME) != null) // TODO colocar a palavra schema em outro lugar
+                        tenantIdentifierResolver.setSchema((String) webSession.getAttributes().get(SCHEMA_NAME));
                     else
                         tenantIdentifierResolver.setSchema(((TenantDetails) securityContext.getAuthentication().getPrincipal()).getTenant());
 

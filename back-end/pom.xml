@@ -41,13 +41,16 @@
             </properties>
             <dependencies>
                 <!--<dependency>-->
-                    <!--<groupId>org.springframework.boot</groupId>-->
-                    <!--<artifactId>spring-boot-starter-jetty</artifactId>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-starter-jetty</artifactId>-->
+                <!--</dependency>-->
+                <!--<dependency>-->
+                    <!--<groupId>org.springframework.boot</groupId>-->j
+                    <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
                 <!--</dependency>-->
                 <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-tomcat</artifactId>
-                <!--tomcat sem scope provided para funcionamento no jetbrains-->
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-undertow</artifactId>
                 </dependency>
             </dependencies>
         </profile>
@@ -174,8 +177,8 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.springframework.session</groupId>-->
-            <!--<artifactId>spring-session-core</artifactId>-->
+        <!--<groupId>org.springframework.session</groupId>-->
+        <!--<artifactId>spring-session-core</artifactId>-->
         <!--</dependency>-->
 
         <!--redis-->
