@@ -18,7 +18,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
+import static org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository.DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME;
 
 
 @Service
@@ -76,16 +79,16 @@ public class UsuarioService {
         final Conta loggedAccount = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
 
         // Minha conta
-        if (loggedAccount.getUsuario().getId().equals(usuarioId)) {
+        if (loggedAccount.getUsuario() != null && loggedAccount.getUsuario().getId().equals(usuarioId)) {
 
             if (password != null && passwordEncoder.matches(password, loggedAccount.getPassword())) {
                 loggedAccount.setPassword(passwordEncoder.encode(newPassword));
                 contaRepository.save(loggedAccount);
-                return usuarioRepository.findById(usuarioId).orElseGet(null);
+                return usuarioRepository.findById(usuarioId).orElse(null);
             } else if (password == null) {
                 loggedAccount.setPassword(passwordEncoder.encode(newPassword));
                 contaRepository.save(loggedAccount);
-                return usuarioRepository.findById(usuarioId).orElseGet(null);
+                return usuarioRepository.findById(usuarioId).orElse(null);
             }
 
 
@@ -113,9 +116,9 @@ public class UsuarioService {
         // Se eu for administrador, altero de quem eu quiser
         else {
 
-            final Usuario usuario = usuarioRepository.findById(usuarioId).orElseGet(null);
-            final Conta conta = contaRepository.findById(usuario.getConta().getId()).orElseGet(null);
-            conta.setPassword(passwordEncoder.encode(newPassword));
+            final Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
+            final Conta conta = contaRepository.findById(Objects.requireNonNull(usuario).getConta().getId()).orElse(null);
+            Objects.requireNonNull(conta).setPassword(passwordEncoder.encode(newPassword));
             usuario.setConta(conta);
             contaRepository.save(conta);
             return usuario;
@@ -129,16 +132,16 @@ public class UsuarioService {
      * @param usuario Usuario
      * @return Usuario
      */
-    public Usuario save(final long id, final Usuario usuario) {
+    public Usuario save(final ServerWebExchange exchange, final long id, final Usuario usuario) {
 
         Assert.isTrue(usuario.getId() != null && usuario.getId().equals(id), "Você não tem acesso á esse usuário");
 
-        final Usuario usuarioDB = usuarioRepository.findById(usuario.getId()).orElseGet(null);
+        final Usuario usuarioDB = usuarioRepository.findById(usuario.getId()).orElse(null);
 
-        // Seta novamente o password anterior
-//        usuario.getConta().setEsquema(tenantIdentifierResolver.resolveCurrentTenantIdentifier());//  TODO PQ TEM QUE SETAR DE NOVO????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+        // Se estiver atualizando a própria conta, deve atualizar a sessão. Senão o sistema quebra.
+        final boolean mustNewAuthentication = Objects.requireNonNull(usuarioDB).getConta().getUsername().equals(this.tenantIdentifierResolver.getUsername());
 
-        if (usuarioDB.getConta() != null && usuarioDB.getConta().getEmail() == null) {
+        if (Objects.requireNonNull(usuarioDB).getConta() != null && usuarioDB.getConta().getEmail() == null) {
             if (usuario.getConta().getPassword() != null)
                 usuario.getConta().setPassword(passwordEncoder.encode(usuario.getConta().getPassword()));
         } else {
@@ -150,7 +153,26 @@ public class UsuarioService {
         usuario.setThumbnail(usuarioDB.getThumbnail());
         usuario.setAvatar(usuarioDB.getAvatar());
 
-        return usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);
+
+        // Se estiver atualizando a própria conta, deve atualizar a sessão. Senão o sistema quebra.
+        if (mustNewAuthentication) {
+            // Cria o contexto de segurança
+            final SecurityContext context = createSecurityContextByUserDetails(usuario.getConta());
+            Objects.requireNonNull(exchange.getSession().block()).getAttributes().put(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME, context);
+        }
+
+        return usuario;
+    }
+
+    /**
+     * Cria o contexto de autenticação a partir do UserDetails
+     * @param userDetails {UserDetails}
+     * @return SecurityContext
+     */
+    private static SecurityContext createSecurityContextByUserDetails(final UserDetails userDetails){
+        final Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+        return new SecurityContextImpl(authentication);
     }
 
     /**
@@ -203,11 +225,8 @@ public class UsuarioService {
         flyway.setSchemas(usuario.getConta().getEsquema());
         flyway.migrate();
 
-        // Cria a autenticação
-        final Authentication authentication = new UsernamePasswordAuthenticationToken(usuario.getConta(), usuario.getConta().getPassword(), usuario.getConta().getAuthorities());
-
         // Cria o contexto de segurança
-        final SecurityContextImpl securityContext = new SecurityContextImpl(authentication);
+        final SecurityContext securityContext = createSecurityContextByUserDetails(usuario.getConta());
 
         // Insere o contexto no repositório de contexto e retorna o usuário inserido
         serverSecurityContextRepository.save(exchange, securityContext).block();
@@ -238,7 +257,7 @@ public class UsuarioService {
 
         // Unidade
         final Endereco endereo = new Endereco();
-        endereo.setCidade(this.enderecoService.find("Foz do Iguaçu", "PR").get());
+        endereo.setCidade(this.enderecoService.find("Foz do Iguaçu", "PR").orElse(null));
         final Unidade unidade = new Unidade();
         unidade.setNome("Minha primeira unidade");
         unidade.setEndereco(endereo);
@@ -331,10 +350,10 @@ public class UsuarioService {
     }
 
     /**
-     * @param usuarioId
-     * @param dataInicioFilter
-     * @param dataTerminoFilter
-     * @return
+     * @param usuarioId Long
+     * @param dataInicioFilter LocalDateTime
+     * @param dataTerminoFilter LocalDateTime
+     * @return Optional<Usuario>
      */
     public Optional<Usuario> findUsuarioById(final Long usuarioId,
                                              final LocalDateTime dataInicioFilter,
@@ -351,7 +370,7 @@ public class UsuarioService {
      * @return String
      */
     public String save(final long id, final byte[] fileInBytes) {
-        final Usuario usuario = usuarioRepository.findById(id).orElseGet(null);
+        final Usuario usuario = usuarioRepository.findById(id).orElse(null);
 
         try {
 
@@ -361,7 +380,7 @@ public class UsuarioService {
             final int thumbnailWidth = width - (int) Math.round((width * 0.75));
             final int thumbnailHeight = height - (int) Math.round((height * 0.75));
 
-            usuario.setThumbnail(ImageUtils.resizeImage(fileInBytes, thumbnailWidth, thumbnailHeight));
+            Objects.requireNonNull(usuario).setThumbnail(ImageUtils.resizeImage(fileInBytes, thumbnailWidth, thumbnailHeight));
 
             final int avatarWidth = width - (int) Math.round((width * 0.25));
             final int avatarHeight = height - (int) Math.round((height * 0.25));
@@ -384,15 +403,15 @@ public class UsuarioService {
     }
 
     public byte[] findThumbnail(final long id) {
-        return usuarioRepository.findById(id).orElseGet(null).getThumbnail();
+        return Objects.requireNonNull(usuarioRepository.findById(id).orElse(null)).getThumbnail();
     }
 
     public byte[] findAvatar(final long id) {
-        return usuarioRepository.findById(id).orElseGet(null).getAvatar();
+        return Objects.requireNonNull(usuarioRepository.findById(id).orElse(null)).getAvatar();
     }
 
     public byte[] findFoto(final long id) {
-        return usuarioRepository.findById(id).orElseGet(null).getFoto();
+        return Objects.requireNonNull(usuarioRepository.findById(id).orElse(null)).getFoto();
     }
 
     /**
@@ -401,8 +420,8 @@ public class UsuarioService {
      * @param id {long}
      */
     public void deleteFoto(long id) {
-        final Usuario usuario = usuarioRepository.findById(id).orElseGet(null);
-        usuario.setFoto(null);
+        final Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        Objects.requireNonNull(usuario).setFoto(null);
         usuario.setAvatar(null);
         usuario.setThumbnail(null);
         usuarioRepository.save(usuario);

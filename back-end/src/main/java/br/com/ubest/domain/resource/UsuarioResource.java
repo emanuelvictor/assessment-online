@@ -39,8 +39,8 @@ public class UsuarioResource extends AbstractResource<Usuario> {
 
     @PutMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    public Mono<Usuario> update(@PathVariable final long id, @RequestBody final Usuario usuario) {
-        return Mono.just(this.usuarioService.save(id, usuario));
+    public Mono<Usuario> update(final ServerWebExchange exchange, @PathVariable final long id, @RequestBody final Usuario usuario) {
+        return Mono.just(this.usuarioService.save(exchange, id, usuario));
     }
 
     @DeleteMapping("{id}")
