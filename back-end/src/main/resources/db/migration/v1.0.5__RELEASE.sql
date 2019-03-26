@@ -1,2 +1,0 @@
-DROP TABLE sessao CASCADE;
-DROP TABLE sessao_aud CASCADE;
