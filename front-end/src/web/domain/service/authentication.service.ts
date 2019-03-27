@@ -179,7 +179,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    *
    */
   public onlineCheck(): Promise<boolean> {
-    let xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     return new Promise((resolve, reject) => {
       xhr.onload = () => {
         // Set online status

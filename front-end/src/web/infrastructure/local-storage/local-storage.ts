@@ -81,4 +81,8 @@ export class LocalStorage {
     window.localStorage.removeItem(TOKEN_NAME);
   }
 
+  clear(){
+    window.localStorage.clear();
+  }
+
 }

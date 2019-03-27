@@ -91,7 +91,7 @@ export class Interceptor implements HttpInterceptor {
         this.error(res.error.message);
         // this.router.navigate(['authentication']);
       }
-
+console.log('res: ', res);
       return observableThrowError(res);
 
     };
