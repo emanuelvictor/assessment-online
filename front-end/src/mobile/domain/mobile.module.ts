@@ -45,6 +45,7 @@ import {VisualizarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/vis
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-atendentes/selecionar-atendentes.component";
 import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repository";
 import {TdLoadingService} from "@covalent/core";
+import {MatKeyboardModule} from "@ngx-material-keyboard/core";
 
 /**
  *
@@ -75,7 +76,6 @@ import {TdLoadingService} from "@covalent/core";
     OrderModule,
     BrowserAnimationsModule,
     MobileRoutingModule,
-
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

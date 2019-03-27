@@ -53,6 +53,7 @@ import {LocalStorage} from "../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import {TOKEN_NAME} from "../web/domain/presentation/controls/utils";
 import {OfflineComponent} from "../mobile/domain/presentation/avaliacao/offline/offline.component";
+import {MatKeyboardModule} from "@ngx-material-keyboard/core";
 
 /**
  *
@@ -109,7 +110,8 @@ import {OfflineComponent} from "../mobile/domain/presentation/avaliacao/offline/
     MatChipsModule,
     MatAutocompleteModule,
     MatProgressBarModule,
-    TextMaskModule
+    TextMaskModule,
+    MatKeyboardModule
   ],
   exports: [
     NoWhiteSpace,
