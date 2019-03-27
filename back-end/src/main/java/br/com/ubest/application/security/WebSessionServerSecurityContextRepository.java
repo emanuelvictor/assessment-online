@@ -48,6 +48,7 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
 //                        ((Sessao) ((SpringSessionWebSessionStore.SpringSessionWebSession) session).getSession()).setUsername(null);
 //                        session.getAttributes().remove("username");
                         session.getAttributes().remove(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME);
+                        session.getAttributes().remove(SCHEMA_NAME);
                     }
                 })
                 .flatMap(WebSession::save);

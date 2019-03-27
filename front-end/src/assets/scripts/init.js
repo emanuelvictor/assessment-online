@@ -25,6 +25,7 @@ var app = {
   // Update DOM on a Received Event
   receivedEvent: function (id) {
     console.log('Received Event: ' + id);
+    window.onPrompt = onPrompt();
     window.plugins.insomnia.keepAwake();
     window['KioskPlugin'].setAllowedKeys([0x4]);
 

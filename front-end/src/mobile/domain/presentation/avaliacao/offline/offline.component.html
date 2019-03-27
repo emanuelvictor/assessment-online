@@ -1,17 +1,33 @@
-<div layout-align="center center" layout="column">
-  <div layout="column" layout-align="center center">
+<div layout-align='center center' layout='column'>
+  <div layout='column' layout-align='center center'>
     <mat-card>
-      <mat-card-title class="push">
-        A internet não está funcionando, verifique sua conexão.
+      <mat-card-title class='push'>
+        Ops, aconteceu alguma coisa!
       </mat-card-title>
+      <mat-card-subtitle class='push'>
+        Parece que houve um problema ao se buscar o usuário logado, ou a conexão da internet não está ok!
+      </mat-card-subtitle>
+
       <mat-card-content>
+        <div>
         <button class='push-left'
                 mat-raised-button
                 flex color='accent'
-                (click)='clickHandler()'>
+                (click)='tryAgain()'>
           Tentar novamente
         </button>
+        <span flex class='push-left'>ou</span>
+        <button mat-raised-button
+                class='push-left' flex
+                (click)='logout()'>
+          Sair da aplicação
+        </button>
+        </div>
+        <div layout="row">
+          <span class='push' >Se o problema persistir entre em contato conosco: suporte@ubest.com.br</span>
+        </div>
       </mat-card-content>
+
     </mat-card>
   </div>
 </div>

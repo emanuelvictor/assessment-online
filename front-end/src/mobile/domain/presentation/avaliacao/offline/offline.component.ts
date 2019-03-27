@@ -25,7 +25,7 @@ export class OfflineComponent {
   /**
    *
    */
-  clickHandler() {
+  tryAgain() {
     this.authenticationService.onlineCheck()
       .then(result => {
         if (result)
@@ -34,6 +34,18 @@ export class OfflineComponent {
           this.openSnackBar('Sem conexão com a internet ainda')
       })
       .catch(() => this.openSnackBar('Sem conexão com a internet ainda'));
+  }
+
+  /**
+   *
+   */
+  logout() {
+    (window.navigator as any).notification.prompt(
+      'Insira uma senha administrativa para sair do aplicativo.',  // message
+      (window as any).onPrompt,                  // callback to invoke
+      'Sair do aplicativo',            // title
+      ['Ok', 'Cancelar']              // buttonLabels
+    )
   }
 
   /**
