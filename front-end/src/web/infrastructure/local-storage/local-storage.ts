@@ -85,4 +85,11 @@ export class LocalStorage {
     window.localStorage.clear();
   }
 
+  removeHashs() {
+    for (let _i = 0; _i < window.localStorage['hashs.length']; _i++) {
+      window.localStorage.removeItem(_i.toString());
+    }
+
+    window.localStorage.removeItem('hashs.length');
+  }
 }

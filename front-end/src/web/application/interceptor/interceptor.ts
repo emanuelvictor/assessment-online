@@ -5,6 +5,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from
 
 import {MatSnackBar} from "@angular/material";
 import {Router} from "@angular/router";
+import {environment} from "../../../environments/environment";
 
 /**
  *
@@ -78,20 +79,17 @@ export class Interceptor implements HttpInterceptor {
 
       this.progress.done();
 
-      if (res.status === 500) {
+      if (res.status === 500)
         this.error(res.error.message)
-      }
-
-      if (res.status === 504 || res.status === 408) {
+      else if (res.status === 401 || res.status === 403)
+        this.error(res.error.message);
+      // this.router.navigate(['authentication']);
+      // Se é problema com a conexão ou eu estou no mobile
+      else if (res.status === 504 || res.status === 408 || environment.mobile) {
         this.router.navigate(['offline']);
         this.error('Verifique sua conexão')
       }
 
-      if (res.status === 401 || res.status === 403) {
-        this.error(res.error.message);
-        // this.router.navigate(['authentication']);
-      }
-console.log('res: ', res);
       return observableThrowError(res);
 
     };

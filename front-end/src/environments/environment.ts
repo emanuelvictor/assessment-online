@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
 
-  endpoint: ''
+  endpoint: '',
+
+  mobile: false
 
 };

@@ -4,6 +4,7 @@ import {AuthenticationService} from "../../../../../web/domain/service/authentic
 import {MatSnackBar} from "@angular/material";
 import {LocalStorage} from "../../../../../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
+import {TOKEN_NAME} from "../../../../../web/domain/presentation/controls/utils";
 
 @Component({
   selector: 'offline',
@@ -29,6 +30,16 @@ export class OfflineComponent {
 
   /**
    *
+   * @param message
+   */
+  public openSnackBar(message: string) {
+    this.snackBar.open(message, "Fechar", {
+      duration: 5000
+    });
+  }
+
+  /**
+   *
    */
   tryAgain() {
     this.authenticationService.onlineCheck()
@@ -49,33 +60,72 @@ export class OfflineComponent {
     if (this.localStorage.hashs.length) {
       (window.navigator as any).notification.prompt(
         'Insira uma senha administrativa para sair do aplicativo.',  // message
-        (window as any).onPrompt,                  // callback to invoke
+        this.onPrompt,                  // callback to invoke
         'Sair do aplicativo',            // title
         ['Ok', 'Cancelar']              // buttonLabels
       );
     } else {
-      this.getOut()
+      this.innerLogout()
     }
   }
 
-  getOut() {
-    // Limpa o localstorage
-    this.localStorage.clear();
-    // Limpa os cookies
-    this.cookieService.deleteAll();
-    // Redireciona para tela de login
-    this.router.navigate(['authentication'])
+  removeHashs() {
+    this.localStorage.removeHashs()
+  }
+  onPrompt(results) {
+    if (results.buttonIndex === 2 || results.buttonIndex === 0){
+      return;
+    }
+
+    window['plugins'].toast.showWithOptions(
+      {
+        message: "Saindo do aplicativo ... aguarde",
+        duration: "long", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+        position: "bottom",
+        addPixelsY: -40  // added a negative value to move it up a bit (default 0)
+      }
+    );
+
+    const bcrypt = window['dcodeIO'].bcrypt;
+
+    // var hash = '$2a$10$Ipj9ID5eqEUELkadTfVqm.2Z42AlAARdihUlQegDBaALlaCh8sqeq';
+
+    // console.log(bcrypt.compareSync("123456", hash));
+
+    const hashs = localStorage.hashs;
+
+    for (let i = 0; i < hashs.length; i++) {
+      if (bcrypt.compareSync(results.input1, hashs[i])) {
+        this.innerLogout();
+        return;
+      }
+    }
+
+    window['plugins'].toast.showWithOptions(
+      {
+        message: "Senha incorreta",
+        duration: "long", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+        position: "bottom",
+        addPixelsY: -40  // added a negative value to move it up a bit (default 0)
+      }
+    );
+
   }
 
-  /**
-   *
-   * @param message
-   */
-  public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
-      duration: 5000
-    });
-  }
+  innerLogout() {
 
+    localStorage.removeItem(TOKEN_NAME);
+    localStorage.removeItem('unidadeId');
+    this.removeHashs();
+
+    window['cookieEmperor'].clearAll(
+      function () {
+        window.location.href = 'file:///android_asset/www/index.html';
+      },
+      function () {
+        console.log('Cookies could not be cleared');
+      });
+
+  }
 
 }
