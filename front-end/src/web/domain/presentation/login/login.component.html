@@ -31,11 +31,15 @@
             <div layout="row" layout-margin
                  flex style="margin-top: 34px;">
               <mat-form-field flex>
-                <input matInput  [matKeyboard]="'Azərbaycanca'"
-                       required name="email"
+                <!--<input matInput [matKeyboard]="'Azərbaycanca'"-->
+                       <!--required name="email"-->
+                       <!--(ngModelChange)='changed($event)'-->
+                       <!--placeholder="Acesse com seu email"-->
+                       <!--[(ngModel)]="conta.email" noWhiteSpace/>-->
+                <input matInput required name='email'
                        (ngModelChange)='changed($event)'
-                       placeholder="Acesse com seu email"
-                       [(ngModel)]="conta.email" noWhiteSpace/>
+                       placeholder='Acesse com seu email'
+                       [(ngModel)]='conta.email' noWhiteSpace/>
               </mat-form-field>
             </div>
 
@@ -47,7 +51,7 @@
                 <mat-form-field flex>
                   <input placeholder="Sua senha"
                          required name="password"
-                         type="password" matInput [matKeyboard]="'Azərbaycanca'"
+                         type="password" matInput
                          [(ngModel)]="conta.password"/>
                 </mat-form-field>
               </div>

@@ -24,11 +24,11 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    *
    * @param router
    * @param httpClient
-   * @param tokenStorage
+   * @param localStorage
    * @param cookieService
    */
   constructor(private router: Router, private httpClient: HttpClient,
-              private tokenStorage: LocalStorage, private cookieService: CookieService) {
+              private localStorage: LocalStorage, private cookieService: CookieService) {
 
     this.contaAutenticadaChanged = new EventEmitter();
 
@@ -69,11 +69,11 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | any> {
 
     if (this.cookieService.get(TOKEN_NAME)) {
-      this.tokenStorage.token = this.cookieService.get(TOKEN_NAME);
+      this.localStorage.token = this.cookieService.get(TOKEN_NAME);
     }
 
-    if (this.tokenStorage.token) {
-      this.cookieService.set(TOKEN_NAME, this.tokenStorage.token, null, '/');
+    if (this.localStorage.token) {
+      this.cookieService.set(TOKEN_NAME, this.localStorage.token, null, '/');
     }
 
     if (window['cookieEmperor']) {
@@ -99,7 +99,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
 
       }).catch((err: any) => {
         // simple logging, but you can do a lot more, see below
-        this.router.navigate(['offline']);
+        // this.router.navigate(['offline']);
         return err;
       });
 
@@ -111,7 +111,11 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
   public requestContaAutenticada(): Observable<any | Conta> {
     return this.httpClient.get<Conta>(environment.endpoint + 'principal').catch((err: any) => {
       // simple logging, but you can do a lot more, see below
-      this.router.navigate(['offline']);
+      if (this.localStorage.token) {
+        this.router.navigate(['offline']);
+      } else {
+        this.router.navigate(['authentication']);
+      }
       return err;
     });
   }
@@ -137,11 +141,11 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
         .then(result => {
 
           if (this.cookieService.get(TOKEN_NAME)) {
-            this.tokenStorage.token = this.cookieService.get(TOKEN_NAME);
+            this.localStorage.token = this.cookieService.get(TOKEN_NAME);
           }
 
-          if (this.tokenStorage.token) {
-            this.cookieService.set(TOKEN_NAME, this.tokenStorage.token, null, '/');
+          if (this.localStorage.token) {
+            this.cookieService.set(TOKEN_NAME, this.localStorage.token, null, '/');
           }
 
           resolve(result)
@@ -157,7 +161,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     return new Promise((resolve, reject) => {
       this.httpClient.get(environment.endpoint + 'logout').toPromise()
         .then(() => {
-          this.tokenStorage.removeToken();
+          this.localStorage.removeToken();
           this.cookieService.delete(TOKEN_NAME);
           resolve();
         })

@@ -5,7 +5,6 @@ import {CommonModule, registerLocaleData} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {Interceptor} from '../../web/application/interceptor/interceptor';
 import {MobileRoutingModule} from './mobile-routing.module';
 import {DateAdapter, MatRippleModule} from '@angular/material';
 import {SharedModule} from '../../shared/shared.module';
@@ -44,8 +43,7 @@ import {OrderModule} from "ngx-order-pipe";
 import {VisualizarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/visualizar-avaliacao/visualizar-avaliacao.component";
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-atendentes/selecionar-atendentes.component";
 import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repository";
-import {TdLoadingService} from "@covalent/core";
-import {MatKeyboardModule} from "@ngx-material-keyboard/core";
+import {Interceptor} from "../../web/application/interceptor/interceptor";
 
 /**
  *

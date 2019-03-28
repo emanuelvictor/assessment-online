@@ -57,75 +57,81 @@ export class OfflineComponent {
    *
    */
   logout() {
-    if (this.localStorage.hashs.length) {
+    if (window.localStorage.getItem('unidadeId')) {
       (window.navigator as any).notification.prompt(
         'Insira uma senha administrativa para sair do aplicativo.',  // message
-        this.onPrompt,                  // callback to invoke
+        onPrompt,                  // callback to invoke
         'Sair do aplicativo',            // title
         ['Ok', 'Cancelar']              // buttonLabels
       );
     } else {
-      this.innerLogout()
+      innerLogout()
     }
   }
 
-  removeHashs() {
-    this.localStorage.removeHashs()
+}
+
+export function innerLogout() {
+
+  localStorage.clear();
+
+  window['cookieEmperor'].clearAll(
+    function () {
+      window.location.href = 'file:///android_asset/www/index.html';
+    },
+    function () {
+      console.log('Cookies could not be cleared');
+    });
+
+}
+
+export function getHashs() {
+  const hashs = [];
+
+  for (let _i = 0; _i < window.localStorage['hashs.length']; _i++) {
+    hashs.push(window.localStorage[_i]);
   }
-  onPrompt(results) {
-    if (results.buttonIndex === 2 || results.buttonIndex === 0){
-      return;
+
+  return hashs;
+}
+
+export function onPrompt(results) {
+
+  if (results.buttonIndex === 2 || results.buttonIndex === 0){
+    return;
+  }
+
+  window['plugins'].toast.showWithOptions(
+    {
+      message: "Saindo do aplicativo ... aguarde",
+      duration: "long", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+      position: "bottom",
+      addPixelsY: -40  // added a negative value to move it up a bit (default 0)
     }
+  );
 
-    window['plugins'].toast.showWithOptions(
-      {
-        message: "Saindo do aplicativo ... aguarde",
-        duration: "long", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-        position: "bottom",
-        addPixelsY: -40  // added a negative value to move it up a bit (default 0)
-      }
-    );
+  const bcrypt = window['dcodeIO'].bcrypt;
 
-    const bcrypt = window['dcodeIO'].bcrypt;
+  // var hash = '$2a$10$Ipj9ID5eqEUELkadTfVqm.2Z42AlAARdihUlQegDBaALlaCh8sqeq';
 
-    // var hash = '$2a$10$Ipj9ID5eqEUELkadTfVqm.2Z42AlAARdihUlQegDBaALlaCh8sqeq';
+  // console.log(bcrypt.compareSync("123456", hash));
 
-    // console.log(bcrypt.compareSync("123456", hash));
+  const hashs = getHashs();
 
-    const hashs = localStorage.hashs;
-
-    for (let i = 0; i < hashs.length; i++) {
-      if (bcrypt.compareSync(results.input1, hashs[i])) {
-        this.innerLogout();
-        return;
-      }
+  for (let i = 0; i < hashs.length; i++) {
+    if (bcrypt.compareSync(results.input1, hashs[i])) {
+      innerLogout();
+      return
     }
-
-    window['plugins'].toast.showWithOptions(
-      {
-        message: "Senha incorreta",
-        duration: "long", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-        position: "bottom",
-        addPixelsY: -40  // added a negative value to move it up a bit (default 0)
-      }
-    );
-
   }
 
-  innerLogout() {
-
-    localStorage.removeItem(TOKEN_NAME);
-    localStorage.removeItem('unidadeId');
-    this.removeHashs();
-
-    window['cookieEmperor'].clearAll(
-      function () {
-        window.location.href = 'file:///android_asset/www/index.html';
-      },
-      function () {
-        console.log('Cookies could not be cleared');
-      });
-
-  }
+  window['plugins'].toast.showWithOptions(
+    {
+      message: "Senha incorreta",
+      duration: "long", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+      position: "bottom",
+      addPixelsY: -40  // added a negative value to move it up a bit (default 0)
+    }
+  )
 
 }

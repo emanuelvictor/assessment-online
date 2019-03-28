@@ -6,6 +6,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from
 import {MatSnackBar} from "@angular/material";
 import {Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
+import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
 
 /**
  *
@@ -19,10 +20,14 @@ export class Interceptor implements HttpInterceptor {
   progress = window['NProgress'];
 
   /**
+   *
    * @param router
    * @param snackBar
+   * @param localStorage
    */
-  constructor(private router: Router, public snackBar: MatSnackBar) {
+  constructor(private router: Router,
+              public snackBar: MatSnackBar,
+              private localStorage: LocalStorage) {
   }
 
   /**
@@ -41,11 +46,11 @@ export class Interceptor implements HttpInterceptor {
 
         this.progress.start();
 
-        if (evt instanceof HttpResponse)
+        if (evt instanceof HttpResponse) {
           this.progress.done();
-
-        else
+        } else {
           this.progress.inc(0.4);
+        }
 
       })
       .catch(this.catchErrors());
@@ -79,15 +84,19 @@ export class Interceptor implements HttpInterceptor {
 
       this.progress.done();
 
-      if (res.status === 500)
+      if (res.status === 500) {
         this.error(res.error.message)
-      else if (res.status === 401 || res.status === 403)
+      } else if (res.status === 401 || res.status === 403) {
         this.error(res.error.message);
-      // this.router.navigate(['authentication']);
+      }// this.router.navigate(['authentication']);
       // Se é problema com a conexão ou eu estou no mobile
       else if (res.status === 504 || res.status === 408 || environment.mobile) {
-        this.router.navigate(['offline']);
-        this.error('Verifique sua conexão')
+        console.log('token', this.localStorage.token);
+        if (this.localStorage.token){
+          console.log('indo para offline');
+          this.router.navigate(['offline']);
+          this.error('Verifique sua conexão')
+        }
       }
 
       return observableThrowError(res);
