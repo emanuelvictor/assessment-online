@@ -208,8 +208,10 @@ export class ConsultarAvaliacoesComponent implements OnInit {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
         this.page = result;
         this.page.content.forEach(avaliacao => {
-          avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
-          avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade;
+          if (avaliacao.avaliacoesAvaliaveis && avaliacao.avaliacoesAvaliaveis.length){
+            avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
+            avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade;
+          }
         })
       })
   }

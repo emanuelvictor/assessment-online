@@ -47,6 +47,13 @@
                 </div>
               </div>
             </div>
+            <!--options-->
+            <div layout='column' layout-align='start end' flex [@fadeInOut] *ngIf='contaAutenticada?.isRoot'>
+              <button mat-button hide-sm hide-xs class='tc-blue-grey-900' (click)='remove(avaliacao?.id)'>
+                <mat-icon>delete</mat-icon>
+                <span>Remover</span>
+              </button>
+            </div>
           </div>
 
         </mat-card-content>

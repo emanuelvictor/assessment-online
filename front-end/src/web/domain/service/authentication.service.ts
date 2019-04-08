@@ -90,6 +90,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
 
     return this.requestContaAutenticada()
       .map(auth => {
+        this.contaAutenticada = auth;
         if (isNullOrUndefined(auth)) {
           this.router.navigate(['authentication']);
           return false;
@@ -163,6 +164,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
         .then(() => {
           this.localStorage.removeToken();
           this.cookieService.delete(TOKEN_NAME);
+          this.contaAutenticada = null;
           resolve();
         })
         .catch(error => reject(error))

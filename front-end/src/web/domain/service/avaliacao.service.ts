@@ -45,30 +45,15 @@ export class AvaliacaoService {
    * @param {Avaliacao} avaliacao
    */
   public save(avaliacao: Avaliacao): PromiseLike<any> {
-    const avaliacoesAvaliaveis = avaliacao.avaliacoesAvaliaveis;
+    return this.avaliacaoRepository.save(avaliacao);
+  }
 
-    delete avaliacao.avaliacoesAvaliaveis;
-
-    return this.avaliacaoRepository.save(avaliacao)
-      .then(result => {
-
-        /**
-         * Calcula e salva média da unidade.
-         * @type {number}
-         */
-        // avaliacoesAvaliaveis[0].avaliavel.unidade.media = calcularMedia(avaliacoesAvaliaveis[0].avaliavel.unidade);
-        // this.unidadeRepository.save(avaliacoesAvaliaveis[0].avaliavel.unidade);
-
-        avaliacoesAvaliaveis.forEach(avaliacaoAvaliavel => {
-
-          avaliacaoAvaliavel.avaliacao = result;
-
-          // avaliacaoColaborador.avaliavel.usuario.media = calcularMedia(avaliacaoColaborador.avaliavel.usuario);
-          // this.usuarioRepository.save(avaliacaoColaborador.avaliavel.usuario);
-
-          this.avaliacaoAvaliavelRepository.save(avaliacaoAvaliavel);
-        })
-      });
+  /**
+   *
+   * @param id
+   */
+  public delete(id: number): Promise<void> {
+    return this.avaliacaoRepository.delete(id);
   }
 
 }

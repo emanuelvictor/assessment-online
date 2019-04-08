@@ -2,9 +2,7 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
-import br.com.ubest.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.ubest.domain.entity.usuario.Conta;
-import br.com.ubest.domain.repository.AvaliacaoAvaliavelRepository;
 import br.com.ubest.domain.repository.AvaliacaoRepository;
 import br.com.ubest.domain.repository.ContaRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,24 +26,22 @@ public class AvaliacaoService {
 
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
-    // todo REMOVER e DELETAR depois que aprender a fazer funcionar o cascade
-    private final AvaliacaoAvaliavelRepository avaliacaoAvaliavelRepository;
-
     public Optional<Avaliacao> findById(final long id) {
         return this.avaliacaoRepository.findById(id);
     }
 
-    // todo REMOVER depois que aprender a fazer funcionar o cascade
-    public AvaliacaoAvaliavel save(final AvaliacaoAvaliavel avaliacaoAvaliavel) {
-        return this.avaliacaoAvaliavelRepository.save(avaliacaoAvaliavel);
-    }
-
     public Avaliacao save(final Avaliacao avaliacao) {
+
+        avaliacao.getAvaliacoesAvaliaveis().forEach(avaliacaoAvaliavel ->
+                avaliacaoAvaliavel.setAvaliacao(avaliacao)
+        );
+
         return this.avaliacaoRepository.save(avaliacao);
     }
 
     public Avaliacao save(final long id, final Avaliacao avaliacao) {
-        Assert.isTrue(id > 0, "ID da avaliação incorreto"); //TODO fazer o validador exclusivo
+        Assert.isTrue(id > 0, "ID da avaliação incorreto");
+        Assert.isTrue(avaliacao.getId().equals(id), "Você não tem acesso á essa avaliação");
         return this.avaliacaoRepository.save(avaliacao);
     }
 

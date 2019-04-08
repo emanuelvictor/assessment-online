@@ -29,22 +29,16 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao> {
         return Mono.just(this.avaliacaoService.save(avaliacao));
     }
 
-    @PostMapping("/avaliacoes-avaliaveis") // TODO??? não vai mais existir
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    public Mono<AvaliacaoAvaliavel> save(@RequestBody final AvaliacaoAvaliavel avaliacaoAvaliavel) {
-        return Mono.just(this.avaliacaoService.save(avaliacaoAvaliavel));
-    }
-
     @PutMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Avaliacao> update(@PathVariable final long id, @RequestBody final Avaliacao avaliacao) {
         return Mono.just(this.avaliacaoService.save(id, avaliacao));
     }
 
-    @DeleteMapping
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    public Mono<Boolean> delete(@RequestParam long avaliacaoId) {
-        this.avaliacaoService.delete(avaliacaoId);
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ROOT_VALUE + "')")
+    public Mono<Boolean> delete(@PathVariable long id) {
+        this.avaliacaoService.delete(id);
         return Mono.just(true);
     }
 
