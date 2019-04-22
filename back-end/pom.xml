@@ -28,6 +28,8 @@
 
         <!--utilizado somente no processo de importação-->
         <json-simple.version>1.1.1</json-simple.version>
+
+        <stella.version>2.1.2</stella.version>
     </properties>
 
     <profiles>
@@ -239,6 +241,12 @@
             <version>${json-simple.version}</version>
         </dependency>
 
+        <!-- Validação de CPF e CNPJ -->
+        <dependency>
+            <groupId>br.com.caelum.stella</groupId>
+            <artifactId>caelum-stella-core</artifactId>
+            <version>${stella.version}</version>
+        </dependency>
 
         <!--cache-->
         <dependency>

@@ -54,14 +54,12 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    */
-  constructor(private router: Router,
-              private snackBar: MatSnackBar,
-              public mobileService: MobileService,
-              public activatedRoute: ActivatedRoute,
-              private _loadingService: TdLoadingService,
+  constructor(public activatedRoute: ActivatedRoute,
               private configuracaoService: ConfiguracaoService,
               private avaliavelRepository: AvaliavelRepository,
               private authenticationService: AuthenticationService,
+              private _loadingService: TdLoadingService, private router: Router,
+              public mobileService: MobileService, private snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
   }

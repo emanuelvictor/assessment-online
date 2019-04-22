@@ -23,7 +23,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   usuario.thumbnailPath,  " +
             "   usuario.avatarPath, " +
             "   usuario.fotoPath, " +
-            "   usuario.conta" +
+            "   usuario.conta," +
+            "   usuario.documento" +
             ") FROM Usuario usuario " +
             "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
             "   WHERE" +
@@ -41,7 +42,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "           OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
             "       )" +
             "   )" +
-            "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
+            "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath, usuario.documento"
     )
     Page<Usuario> listByFilters(
             @Param("usuarioId") final Long usuarioId,
@@ -66,7 +67,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   COUNT(av3) AS avaliacoes3," +
             "   COUNT(av4) AS avaliacoes4," +
             "   COUNT(av5) AS avaliacoes5," +
-            "   usuario.conta" +
+            "   usuario.conta," +
+            "   usuario.documento" +
             ") FROM Usuario usuario " +
             "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.usuario.id = usuario.id " +
@@ -152,7 +154,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "           OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
             "       )" +
             "   )" +
-            "GROUP BY usuario.id, usuario.nome, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
+            "GROUP BY usuario.id, usuario.nome, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath, usuario.documento"
     )
     Page<Usuario> listByFilters(
             @Param("usuarioId") final Long usuarioId,
@@ -180,7 +182,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   COUNT(av3) AS avaliacoes3," +
             "   COUNT(av4) AS avaliacoes4," +
             "   COUNT(av5) AS avaliacoes5," +
-            "   usuario.conta" +
+            "   usuario.conta," +
+            "   usuario.documento" +
             ") FROM Usuario usuario " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.usuario.id = usuario.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
@@ -220,7 +223,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       )" +
             "   )" +
             "   AND :usuarioId = usuario.id) " +
-            "GROUP BY usuario.id, usuario.nome, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
+            "GROUP BY usuario.id, usuario.nome, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath, usuario.documento"
     )
     Optional<Usuario> findUsuarioById(@Param("usuarioId") final Long usuarioId,
                                       @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
@@ -242,7 +245,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   COUNT(av3) AS avaliacoes3," +
             "   COUNT(av4) AS avaliacoes4," +
             "   COUNT(av5) AS avaliacoes5," +
-            "   usuario.conta" +
+            "   usuario.conta," +
+            "   usuario.documento" +
             ") FROM Usuario usuario " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.usuario.id = usuario.id " +
             "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.id = avaliavel.unidadeTipoAvaliacao.id " +
@@ -257,7 +261,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   ( " +
             "       usuario.id = :usuarioId" +
             "   )" +
-            "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath"
+            "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath, usuario.documento"
     )
     Usuario findUsuarioByIdAndReturnAvaliacoes(@Param("usuarioId") final Long usuarioId);
 

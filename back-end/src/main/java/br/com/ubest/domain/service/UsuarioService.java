@@ -221,6 +221,8 @@ public class UsuarioService {
         // Seta o esquema
         usuario.getConta().setEsquema(usuario.getConta().getEmail());
 
+        usuario.validateDocumento();
+
         // Cria o novo esquema
         flyway.setSchemas(usuario.getConta().getEsquema());
         flyway.migrate();

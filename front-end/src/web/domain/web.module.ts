@@ -105,6 +105,8 @@ import {ConsultarClientesComponent} from "./presentation/dashboard/cliente/consu
 import {VisualizarClienteComponent} from "./presentation/dashboard/cliente/visualizar-cliente/visualizar-cliente.component";
 import {ClienteViewComponent} from "./presentation/dashboard/cliente/cleinte-view.component";
 import {LoggedRootMenuComponent} from "./presentation/controls/logged-root-menu/logged-root-menu.component";
+import {UsuarioPessoaJuridicaFormComponent} from "./presentation/dashboard/cliente/inserir-cliente/cliente-form/pessoa-juridica/usuario-pessoa-juridica-form.component";
+import {UsuarioPessoaFisicaFormComponent} from "./presentation/dashboard/cliente/inserir-cliente/cliente-form/pessoa-fisica/usuario-pessoa-fisica-form.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -213,6 +215,8 @@ registerLocaleData(localePt, 'pt-BR');
     InserirClienteComponent,
     ClienteFormComponent,
     ConsultarClientesComponent,
+    UsuarioPessoaFisicaFormComponent,
+    UsuarioPessoaJuridicaFormComponent
   ],
   imports: [
     SharedModule,

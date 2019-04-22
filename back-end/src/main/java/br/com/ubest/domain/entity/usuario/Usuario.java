@@ -1,5 +1,9 @@
 package br.com.ubest.domain.entity.usuario;
 
+import br.com.caelum.stella.format.CNPJFormatter;
+import br.com.caelum.stella.format.CPFFormatter;
+import br.com.caelum.stella.validation.CNPJValidator;
+import br.com.caelum.stella.validation.CPFValidator;
 import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
 import br.com.ubest.domain.entity.usuario.vinculo.Operador;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,6 +15,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 @Data
 @Entity
@@ -18,12 +23,11 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class Usuario extends Pessoa {
 
-    /**
+    /*
      * -----------------------------------------------------------
-     * Foto
+     *                           Foto
      * -----------------------------------------------------------
      */
-
     @Column
     @JsonIgnore
     private byte[] foto;
@@ -82,6 +86,10 @@ public class Usuario extends Pessoa {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Conta conta;
 
+    /*-------------------------------------------------------------------
+     *						CONSTRUCTOR´S
+     *-------------------------------------------------------------------*/
+
     /**
      *
      */
@@ -99,10 +107,14 @@ public class Usuario extends Pessoa {
     /**
      *
      */
-    public Usuario(final long id, final String nome, final String thumbnailPath, final String avatarPath, final String fotoPath,
-                   final Object media, final long quantidadeAvaliacoes, final long avaliacoes1, final long avaliacoes2, final long avaliacoes3, final long avaliacoes4, final long avaliacoes5, final Conta conta) {
+    public Usuario(final long id, final String nome, final String thumbnailPath,
+                   final String avatarPath, final String fotoPath, final Object media,
+                   final long quantidadeAvaliacoes, final long avaliacoes1, final long avaliacoes2,
+                   final long avaliacoes3, final long avaliacoes4, final long avaliacoes5, final Conta conta, final String documento) {
 
         this.conta = conta;
+
+        this.documento = documento;
 
         this.id = id;
         this.nome = nome;
@@ -122,9 +134,12 @@ public class Usuario extends Pessoa {
     /**
      *
      */
-    public Usuario(final long id, final String nome, final String thumbnailPath, final String avatarPath, final String fotoPath, final Conta conta) {
+    public Usuario(final long id, final String nome, final String thumbnailPath,
+                   final String avatarPath, final String fotoPath, final Conta conta, final String documento) {
 
         this.conta = conta;
+
+        this.documento = documento;
 
         this.id = id;
         this.nome = nome;
@@ -133,6 +148,10 @@ public class Usuario extends Pessoa {
         this.fotoPath = fotoPath;
 
     }
+
+    /*-------------------------------------------------------------------
+     *						BEHAVIORS
+     *-------------------------------------------------------------------*/
 
     /**
      *
@@ -170,6 +189,109 @@ public class Usuario extends Pessoa {
     }
 
     /**
+     * Remove '.', '/' e '-'
+     *
+     * @param documento {String}
+     * @return {String}
+     */
+    public static String prepareDocumento(String documento) {
+        if (documento == null) {
+            return null;
+        }
+        if (documento.contains("@")) {
+            return documento;
+        }
+
+        documento = documento.replaceAll(Pattern.quote("."), "");
+        documento = documento.replaceAll(Pattern.quote("/"), "");
+        return documento.replaceAll(Pattern.quote("-"), "");
+    }
+
+    /**
+     * @param documento {String}
+     * @return {String}
+     */
+    public static String validateDocumento(final String documento) {
+        if (documento == null || documento.length() < 1) {
+            return null;
+        }
+        if (documento.contains("@")) {
+            return documento;
+        }
+
+        final String doc = Usuario.prepareDocumento(documento);
+
+        final CNPJValidator cnpjValidator = new CNPJValidator();
+        final CPFValidator cpfValidator = new CPFValidator();
+
+
+        if (cpfValidator.isEligible(doc)) {
+            try {
+                cpfValidator.assertValid(doc);
+            } catch (Exception e) {
+                throw new Usuario.CpfException();
+            }
+        } else if (cnpjValidator.isEligible(doc)) {
+            try {
+                cnpjValidator.assertValid(doc);
+            } catch (Exception e) {
+                throw new Usuario.CnpjException();
+            }
+        } else {
+            throw new CpfCnpjException();
+        }
+        return doc;
+    }
+
+    /**
+     * Valida o documento
+     */
+    public void validateDocumento() {
+        this.documento = validateDocumento(this.documento);
+    }
+
+
+    /**
+     * Devolve os pontos e barra ao documento
+     *
+     * @param documento {String}
+     * @return {String}
+     */
+    public static String formatDocumento(final String documento) {
+        if (documento == null || documento.length() < 1) {
+            return null;
+        }
+        if (documento.contains("@")) {
+            return documento;
+        }
+
+        final String doc = Usuario.prepareDocumento(documento);
+
+        final CNPJValidator cnpjValidator = new CNPJValidator();
+        final CPFValidator cpfValidator = new CPFValidator();
+
+
+        final CNPJFormatter cnpjFormatter = new CNPJFormatter();
+        final CPFFormatter cpfFormatter = new CPFFormatter();
+
+        if (cpfValidator.isEligible(doc)) {
+            try {
+                return cpfFormatter.format(doc);
+            } catch (Exception e) {
+                throw new Usuario.CpfException();
+            }
+        } else if (cnpjValidator.isEligible(doc)) {
+            try {
+                return cnpjFormatter.format(doc);
+            } catch (Exception e) {
+                throw new Usuario.CnpjException();
+            }
+        } else {
+            throw new CpfCnpjException();
+        }
+    }
+
+    /**
      *
      */
     @PrePersist
@@ -186,38 +308,49 @@ public class Usuario extends Pessoa {
         }
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        if (!super.equals(o)) return false;
-//
-//        Usuario usuario = (Usuario) o;
-//
-//        if (!Arrays.equals(foto, usuario.foto)) return false;
-//        if (fotoPath != null ? !fotoPath.equals(usuario.fotoPath) : usuario.fotoPath != null) return false;
-//        if (!Arrays.equals(avatar, usuario.avatar)) return false;
-//        if (avatarPath != null ? !avatarPath.equals(usuario.avatarPath) : usuario.avatarPath != null) return false;
-//        if (!Arrays.equals(thumbnail, usuario.thumbnail)) return false;
-//        if (thumbnailPath != null ? !thumbnailPath.equals(usuario.thumbnailPath) : usuario.thumbnailPath != null)
-//            return false;
-//        if (operadores != null ? !operadores.equals(usuario.operadores) : usuario.operadores != null) return false;
-//        if (avaliaveis != null ? !avaliaveis.equals(usuario.avaliaveis) : usuario.avaliaveis != null) return false;
-//        return conta != null ? conta.equals(usuario.conta) : usuario.conta == null;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        int result = super.hashCode();
-//        result = 31 * result + Arrays.hashCode(foto);
-//        result = 31 * result + (fotoPath != null ? fotoPath.hashCode() : 0);
-//        result = 31 * result + Arrays.hashCode(avatar);
-//        result = 31 * result + (avatarPath != null ? avatarPath.hashCode() : 0);
-//        result = 31 * result + Arrays.hashCode(thumbnail);
-//        result = 31 * result + (thumbnailPath != null ? thumbnailPath.hashCode() : 0);
-//        result = 31 * result + (operadores != null ? operadores.hashCode() : 0);
-////        result = 31 * result + (avaliaveis != null ? avaliaveis.hashCode() : 0);
-//        result = 31 * result + (conta != null ? conta.hashCode() : 0);
-//        return result;
-//    }
+    /*-------------------------------------------------------------------
+     *						EXCEPTIONS
+     *-------------------------------------------------------------------*/
+
+    /**
+     *
+     */
+    public static class CpfException extends RuntimeException {
+        /**
+         *
+         */
+        private static final long serialVersionUID = -5267258386816809448L;
+
+        CpfException() {
+            super("CPF inválido!");
+        }
+    }
+
+    /**
+     *
+     */
+    public static class CnpjException extends RuntimeException {
+        /**
+         *
+         */
+        private static final long serialVersionUID = -4954516819219451502L;
+
+        CnpjException() {
+            super("CNPJ inválido!");
+        }
+    }
+
+    /**
+     *
+     */
+    public static class CpfCnpjException extends RuntimeException {
+        /**
+         *
+         */
+        private static final long serialVersionUID = -4954516329219451502L;
+
+        CpfCnpjException() {
+            super("CPF ou CNPJ inválido!");
+        }
+    }
 }

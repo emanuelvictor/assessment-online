@@ -17,6 +17,9 @@
         </h1>
         <h1 flex class="mat-headline tc-blue-grey-800 no-margin">{{usuario?.nome}}</h1>
         <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">{{usuario?.conta?.email}}</h2>
+        <h2 flex *ngIf='usuario?.documento' class="mat-subheading-2 tc-blue-grey-500 no-margin">
+          {{usuario?.documento | documento}}
+        </h2>
         <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
           {{(
           (usuario?.avaliacoes1 ? usuario?.avaliacoes1 : 0) +
@@ -24,14 +27,14 @@
           (usuario?.avaliacoes3 ? usuario?.avaliacoes3 : 0) +
           (usuario?.avaliacoes4 ? usuario?.avaliacoes4 : 0) +
           (usuario?.avaliacoes5 ? usuario?.avaliacoes5 : 0)
-          )
-          === 0 ? '' :
+        )
+        === 0 ? '' :
           (
-          (usuario?.avaliacoes1 ? usuario?.avaliacoes1 : 0) +
-          (usuario?.avaliacoes2 ? usuario?.avaliacoes2 : 0) +
-          (usuario?.avaliacoes3 ? usuario?.avaliacoes3 : 0) +
-          (usuario?.avaliacoes4 ? usuario?.avaliacoes4 : 0) +
-          (usuario?.avaliacoes5 ? usuario?.avaliacoes5 : 0)
+            (usuario?.avaliacoes1 ? usuario?.avaliacoes1 : 0) +
+            (usuario?.avaliacoes2 ? usuario?.avaliacoes2 : 0) +
+            (usuario?.avaliacoes3 ? usuario?.avaliacoes3 : 0) +
+            (usuario?.avaliacoes4 ? usuario?.avaliacoes4 : 0) +
+            (usuario?.avaliacoes5 ? usuario?.avaliacoes5 : 0)
           ) + ' avaliações'}}
         </h2>
       </div>
