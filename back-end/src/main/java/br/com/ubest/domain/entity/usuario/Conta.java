@@ -108,6 +108,14 @@ public class Conta extends AbstractEntity implements TenantDetails {
     }
 
     /**
+     *
+     */
+    @PrePersist
+    public void prePersist() {
+        this.cliente = this.getEsquema().equals(this.getEmail());
+    }
+
+    /**
      * (non-Javadoc)
      *
      * @see org.springframework.security.core.userdetails.UserDetails#getUsername()

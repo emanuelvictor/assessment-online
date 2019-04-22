@@ -31,8 +31,8 @@
 
                     <mat-form-field flex-gt-sm='30'>
                       <input placeholder="CNPJ"
-                             [(ngModel)]="unidade.documento"
                              id="cnpj" name="cnpj" matInput
+                             [(ngModel)]="unidade.documento"
                              maxlength="200" formControlName="cnpj"
                              [textMask]='{mask: masks.cnpj, guide: false}'>
                       <mat-error *ngIf="form?.controls['cnpj']?.hasError('exception')">
@@ -72,14 +72,14 @@
                 <div layout-gt-xs="row" flex layout-margin>
 
                   <span flex="70"></span>
-                  <button mat-raised-button
-                          routerLink="../"
+                  <button routerLink='../'
+                          mat-raised-button
                           type="button" flex>
                     Cancelar
                   </button>
-                  <button mat-raised-button
+                  <button flex
                           color="accent"
-                          flex>
+                          mat-raised-button>
                     Salvar
                   </button>
 
