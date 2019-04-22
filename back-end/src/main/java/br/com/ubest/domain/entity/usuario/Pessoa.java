@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
@@ -29,6 +26,7 @@ public class Pessoa extends AbstractEntity implements Serializable {
     /**
      * TODO fazer unique
      */
+    @Column(unique = true)
     protected String documento;
 
     @Transient
