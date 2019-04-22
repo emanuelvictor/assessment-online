@@ -42,9 +42,10 @@ public class AvaliacaoService {
 
     public Avaliacao save(final Avaliacao avaliacao) {
 
-        avaliacao.getAvaliacoesAvaliaveis().forEach(avaliacaoAvaliavel ->
-                avaliacaoAvaliavel.setAvaliacao(avaliacao)
-        );
+        if (avaliacao.getAvaliacoesAvaliaveis() != null)
+            avaliacao.getAvaliacoesAvaliaveis().forEach(avaliacaoAvaliavel ->
+                    avaliacaoAvaliavel.setAvaliacao(avaliacao)
+            );
 
         return this.avaliacaoRepository.save(avaliacao);
     }

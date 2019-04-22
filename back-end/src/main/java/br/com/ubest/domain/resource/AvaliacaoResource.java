@@ -23,6 +23,12 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao> {
 
     private final AvaliacaoService avaliacaoService;
 
+    @PostMapping("/avaliacoes-avaliaveis") // TODO??? não vai mais existir
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    public Mono<AvaliacaoAvaliavel> save(@RequestBody final AvaliacaoAvaliavel avaliacaoAvaliavel) {
+        return Mono.just(this.avaliacaoService.save(avaliacaoAvaliavel));
+    }
+
     @PostMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Avaliacao> save(@RequestBody final Avaliacao avaliacao) {

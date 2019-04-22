@@ -20,6 +20,16 @@ export class VisualizarAvaliacaoComponent implements OnInit {
 
   /**
    *
+   */
+  timeout: any;
+
+  /**
+   *
+   */
+  time = 30000;
+
+  /**
+   *
    * @type {Configuracao}
    */
   configuracao: Configuracao;
@@ -36,6 +46,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
    * @param {ActivatedRoute} activatedRoute
+   * @param _loadingService
    * @param {ConfiguracaoService} configuracaoService
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {AuthenticationService} authenticationService
@@ -72,6 +83,11 @@ export class VisualizarAvaliacaoComponent implements OnInit {
         }
       });
 
+    this.timeout = setTimeout(() => {
+      this.mobileService.reset();
+      this.router.navigate(['/avaliar/1']);
+      this._loadingService.resolve('overlayStarSyntax');
+    }, this.time);
 
     if (this.mobileService.unidadesTiposAvaliacoes && this.mobileService.unidadesTiposAvaliacoes.length) {
 
@@ -108,19 +124,13 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    *
    */
   public avaliar(nota: number) {
+
+    clearTimeout(this.timeout);
+
     this._loadingService.register('overlayStarSyntax');
 
     this.mobileService.setNota(nota);
     this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['ordem']) + '/selecionar-atendentes']);
-  }
-
-  /**
-   *
-   */
-  public logout(): void {
-    this.mobileService.removeUnidade();
-    this.authenticationService.logout();
-    this.router.navigate(['/authentication']);
   }
 
   /**
@@ -133,4 +143,15 @@ export class VisualizarAvaliacaoComponent implements OnInit {
     });
   }
 
+
+  /**
+   *
+   */
+  public clearTimeout() {
+    clearTimeout(this.timeout);
+
+    this.timeout = setTimeout(() => {
+      this.mobileService.reset();
+    }, this.time);
+  }
 }

@@ -69,10 +69,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
                     break;
                 }
-                case "23502":
-                    LOGGER.info(detail); //TODO
+                case "23502": //violação de nulidade
+                    message = this.messageSource.getMessage("repository.fieldMustbeSet", new String[]{cause.getConstraintName()}, LocaleContextHolder.getLocale());
 
-                    LOGGER.info("Not null violation.");
                     break;
                 default:
                     message = this.messageSource.getMessage("repository.uniqueViolation", null, LocaleContextHolder.getLocale()); //message = this.messageSource.getMessage("repository.uniqueViolation", new String[]{cause.getSQLState()}, LocaleContextHolder.getLocale());
