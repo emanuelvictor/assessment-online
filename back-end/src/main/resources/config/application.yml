@@ -13,6 +13,12 @@ spring:
     username: assessment
     password: assessment
 
+  # REDIS REPOSITORY
+  data:
+    redis:
+      repositories:
+        enabled: false
+
   #JPA
   jpa:
     hibernate:
@@ -82,9 +88,3 @@ info:
     version: @project.version@
     environment: ${spring.profiles.active}
 
-server:
-  servlet:
-    session:
-      cookie:
-        name: teste
-        http-only: false

@@ -7,7 +7,7 @@ import {Configuracao} from "../../../entity/configuracao/configuracao.model";
 
 import {TdLoadingService} from '@covalent/core';
 
-import {FormBuilder, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, ValidatorFn, Validators} from "@angular/forms";
 import {ConfiguracaoService} from "../../../service/configuracao.service";
 import {FileRepository} from "../../../../infrastructure/repository/file/file.repository";
 import {ConfiguracaoRepository} from "../../../repositories/configuracao.repository";
@@ -23,7 +23,7 @@ import {AuthenticationService} from "../../../service/authentication.service";
 })
 export class ConfiguracaoComponent implements OnInit {
 
-    contaAutenticada: any = null;
+  contaAutenticada: any = null;
 
   /**
    *
@@ -69,22 +69,22 @@ export class ConfiguracaoComponent implements OnInit {
    * @type {any}
    */
   importFile = null;
-done: boolean = false;
+  done: boolean = false;
 
-    /**
-     *
-     * @param snackBar
-     * @param fileRepository
-     * @param _loadingService
-     * @param element
-     * @param configuracaoService
-     * @param renderer
-     * @param fb
-     * @param authenticationService
-     * @param configuracaoRepository
-     * @param iconRegistry
-     * @param domSanitizer
-     */
+  /**
+   *
+   * @param snackBar
+   * @param fileRepository
+   * @param _loadingService
+   * @param element
+   * @param configuracaoService
+   * @param renderer
+   * @param fb
+   * @param authenticationService
+   * @param configuracaoRepository
+   * @param iconRegistry
+   * @param domSanitizer
+   */
   constructor(private snackBar: MatSnackBar,
               private fileRepository: FileRepository,
               private _loadingService: TdLoadingService,
@@ -108,6 +108,7 @@ done: boolean = false;
       quatro: ['quatro', [Validators.required]],
       cinco: ['cinco', [Validators.required]],
       agradecimento: ['agradecimento', [Validators.required]],
+      feedbackEnunciado: ['feedbackEnunciado', [this.feedbackRequired()]],
     });
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
@@ -131,7 +132,19 @@ done: boolean = false;
 
       });
 
-      this.contaAutenticada = this.authenticationService.contaAutenticada;
+    this.contaAutenticada = this.authenticationService.contaAutenticada;
+  }
+
+  /**
+   *
+   * @param exception
+   */
+  feedbackRequired(exception?: string): ValidatorFn {
+    return (c: AbstractControl): { [key: string]: any } => {
+      if (this.configuracao.feedback && !c.value)
+        return { exception: exception ? exception : 'Campo obrigatório' };
+      else return null;
+    }
   }
 
   /**
@@ -154,8 +167,7 @@ done: boolean = false;
               controls.push(controlInner);
             }
           });
-        }
-        else {
+        } else {
           controls.push(control);
         }
       }
@@ -167,8 +179,9 @@ done: boolean = false;
         if (element && control.invalid) {
           this.renderer.invokeElementMethod(element, 'focus', []);
           valid = false;
-          if (control.errors.exception)
+          if (control.errors.exception) {
             this.error(control.errors.exception);
+          }
           break;
         }
         if (control.controls && control.invalid) {
@@ -177,8 +190,9 @@ done: boolean = false;
             if (element && controlInner.invalid) {
               this.renderer.invokeElementMethod(element, 'focus', []);
               valid = false;
-              if (controlInner.errors.exception)
+              if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception);
+              }
               break;
             }
           }

@@ -65,6 +65,17 @@ export class Configuracao extends Abstract {
   /**
    *
    */
+  public feedback: boolean;
+
+  /**
+   *
+   * @type {string}
+   */
+  public feedbackEnunciado: string;
+
+  /**
+   *
+   */
   constructor() {
     super();
     this.um = 'Péssimo';

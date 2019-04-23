@@ -5,11 +5,11 @@ import {Configuracao} from "../../../../../web/domain/entity/configuracao/config
 import {TdLoadingService} from "@covalent/core";
 
 @Component({
-  selector: 'app-conclusao',
-  templateUrl: './conclusao.component.html',
-  styleUrls: ['./conclusao.component.scss']
+  selector: 'app-feedback',
+  templateUrl: './feedback.component.html',
+  styleUrls: ['./feedback.component.scss']
 })
-export class ConclusaoComponent implements OnInit {
+export class FeedbackComponent implements OnInit {
 
   /**
    *

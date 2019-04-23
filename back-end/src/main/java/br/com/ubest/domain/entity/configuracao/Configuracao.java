@@ -76,6 +76,16 @@ public class Configuracao extends AbstractEntity {
     private String agradecimento;
 
     /**
+     *
+     */
+    private String feedbackEnunciado;
+
+    /**
+     *
+     */
+    private boolean feedback;
+
+    /**
      * @return byte[]
      */
     @JsonIgnore

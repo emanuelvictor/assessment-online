@@ -103,9 +103,8 @@ export class SelecionarAtendentesComponent implements OnInit {
   public concluir() {
     clearTimeout(this.timeout);
     this.avaliaveis.forEach(avaliavel => {
-      if (avaliavel.selected) {
+      if (avaliavel.selected)
         this.mobileService.addAvaliavel(avaliavel);
-      }
     });
 
     /**
@@ -118,9 +117,8 @@ export class SelecionarAtendentesComponent implements OnInit {
         this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['ordem'] + 1)]);
       else
         this.router.navigate(['conclusao']);
-    } else {
+    } else
       this.snackBar.open('Selecione ao menos um atendente', 'Fechar', this.mobileService.getSnackBarConfig());
-    }
   }
 
   /**
@@ -129,9 +127,7 @@ export class SelecionarAtendentesComponent implements OnInit {
   public clearTimeout() {
     clearTimeout(this.timeout);
 
-    this.timeout = setTimeout(() => {
-      this.mobileService.reset();
-    }, this.time);
+    this.timeout = setTimeout(() => this.mobileService.reset(), this.time);
   }
 
   /**

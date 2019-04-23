@@ -52,7 +52,7 @@ public class ContaService implements TenantDetailsService {
      */
     @Override
     public TenantDetails findTenantDetailsBySessionId(final String sessionId) {
-        return null;
+        throw new RuntimeException("Not Implemented");
     }
 
     /**

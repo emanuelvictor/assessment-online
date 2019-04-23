@@ -7,6 +7,7 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
@@ -21,6 +22,8 @@ public class Pessoa extends AbstractEntity implements Serializable {
      *
      */
     @NotEmpty
+    @NotNull
+    @Column(nullable = false)
     protected String nome;
 
     /**
