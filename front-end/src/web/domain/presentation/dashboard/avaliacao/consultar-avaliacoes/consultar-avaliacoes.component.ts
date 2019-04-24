@@ -62,6 +62,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     [
       'nota',
       'data',
+      'agrupador.feedback',
       'unidade.nome'
     ];
 

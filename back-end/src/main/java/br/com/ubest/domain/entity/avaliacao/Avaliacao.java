@@ -35,7 +35,7 @@ public class Avaliacao extends AbstractEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime data;
 
-    @ManyToOne(optional = false, targetEntity = Agrupador.class, cascade = CascadeType.MERGE)
+    @ManyToOne(optional = false, targetEntity = Agrupador.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "agrupador_id")
     private Agrupador agrupador;
 

@@ -43,7 +43,7 @@ export class MobileService {
   /**
    *
    */
-  private agrupador: Agrupador = new Agrupador();
+  public agrupador: Agrupador;
 
   /**
    *
@@ -116,7 +116,6 @@ export class MobileService {
    *
    */
   public reset() {
-    this.agrupador = new Agrupador();
     this.avaliacao = new Avaliacao();
     this.avaliaveis = [];
   }
@@ -208,23 +207,21 @@ export class MobileService {
       this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes5 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes5 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes5 + 1 : 1;
     }
 
-    this.avaliacao.agrupador = this.agrupador;
+    this.avaliacao.agrupador = this.agrupador && this.agrupador.id ? this.agrupador : new Agrupador();
 
     /**
      * Insere avaliação
      */
     this.avaliacaoService.save(this.avaliacao)
       .then(result => {
-        if (!this.agrupador.id) {
-          this.agrupador = result.agrupador;
-        }
-      });
+        this.agrupador = result.agrupador;
 
-    /**
-     * Reseta objeto da avaliação
-     * @type {Avaliacao}
-     */
-    this.reset();
+        /**
+         * Reseta objeto da avaliação
+         * @type {Avaliacao}
+         */
+        this.reset();
+      });
   }
 
   /**
@@ -321,6 +318,8 @@ export class MobileService {
    * @param feedback
    */
   public sendFeedback(feedback: string) {
+    this.agrupador = this.agrupador && this.agrupador.id ? this.agrupador : new Agrupador();
     this.agrupador.feedback = feedback;
+    this.avaliacaoService.sendFeedback(this.agrupador)
   }
 }

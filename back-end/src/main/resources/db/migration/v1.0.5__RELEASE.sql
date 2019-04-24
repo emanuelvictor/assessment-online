@@ -1,4 +1,5 @@
 DROP TABLE sessao CASCADE;
+DROP TABLE sessao_aud CASCADE;
 
 ALTER TABLE configuracao ADD COLUMN feedback BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE configuracao ADD COLUMN feedback_enunciado VARCHAR(255);

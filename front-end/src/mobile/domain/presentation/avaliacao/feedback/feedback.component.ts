@@ -8,6 +8,8 @@ import {MobileService} from "../../../service/mobile.service";
 import {AvaliavelRepository} from "../../../../../web/domain/repositories/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {FormBuilder} from "@angular/forms";
+import {Subject} from "rxjs";
+import {Agrupador} from "../../../../../web/domain/entity/avaliacao/agrupador.model";
 
 @Component({
   selector: 'app-feedback',
@@ -38,6 +40,12 @@ export class FeedbackComponent implements OnInit {
 
   /**
    *
+   * @type {Subject<string>}
+   */
+  private modelChanged: Subject<string> = new Subject<string>();
+
+  /**
+   *
    * @param {Router} router
    * @param fb
    * @param {MatSnackBar} snackBar
@@ -64,6 +72,11 @@ export class FeedbackComponent implements OnInit {
    */
   ngOnInit() {
 
+    this.modelChanged.debounceTime(300)
+      .subscribe(() =>
+        this.clearTimeout()
+      );
+
     this.form = this.fb.group({
       feedback: ['feedback', []],
     });
@@ -76,6 +89,8 @@ export class FeedbackComponent implements OnInit {
     });
 
     this.timeout = setTimeout(() => {
+      // Zera o agrupador
+      this.mobileService.agrupador = new Agrupador();
       this.mobileService.reset();
       this.router.navigate(['/avaliar/1']);
       this._loadingService.resolve('overlayStarSyntax');
@@ -87,11 +102,12 @@ export class FeedbackComponent implements OnInit {
    */
   public sendFeedback(feedback: string) {
     clearTimeout(this.timeout);
-    if (!feedback || !feedback.trim().length) {
-      this.router.navigate(['conclusao']);
-    } else {
+    if (feedback && feedback.trim().length) {
       this.mobileService.sendFeedback(feedback);
     }
+    // Zera o agrupador
+    this.mobileService.agrupador = new Agrupador();
+    this.router.navigate(['conclusao']);
   }
 
   /**
@@ -100,6 +116,8 @@ export class FeedbackComponent implements OnInit {
   public clearTimeout() {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
+      // Zera o agrupador
+      this.mobileService.agrupador = new Agrupador();
       this.mobileService.reset();
       this.router.navigate(['/avaliar/1']);
     }, this.time);

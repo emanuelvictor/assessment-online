@@ -21,11 +21,10 @@ import java.util.List;
 @Audited
 @NoArgsConstructor
 @lombok.EqualsAndHashCode(callSuper = true)
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
 public class Agrupador extends AbstractEntity {
 
-    @OneToMany(targetEntity = Avaliacao.class, mappedBy = "agrupador", fetch = FetchType.EAGER, orphanRemoval = true)
-    public List<Avaliacao> avaliacoes;
+//    @OneToMany(targetEntity = Avaliacao.class, mappedBy = "agrupador", fetch = FetchType.EAGER, orphanRemoval = true)
+//    public List<Avaliacao> avaliacoes;
 
     @Column(length = 300)
     private String feedback;

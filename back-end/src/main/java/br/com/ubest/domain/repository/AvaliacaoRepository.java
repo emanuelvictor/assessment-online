@@ -15,6 +15,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
 
     @Query("SELECT avaliacao FROM Avaliacao avaliacao " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliacao.id = avaliacao.id " +
+            "       LEFT OUTER JOIN Agrupador agrupador ON avaliacao.agrupador.id = agrupador.id " +
             "       LEFT OUTER JOIN Unidade unidade ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacao.unidade.id = unidade.id " +
             "       LEFT OUTER JOIN Usuario usuario ON avaliacaoAvaliavel.avaliavel.usuario.id = usuario.id " +
 //            "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
@@ -72,7 +73,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
             "       )" +
             "   )" +
-            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.nome"
+            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.nome, agrupador.feedback "
     )
     Page<Avaliacao> listByFilters(@Param("usuarioId") final Long usuarioId,
                                   @Param("perfil") final String perfil,

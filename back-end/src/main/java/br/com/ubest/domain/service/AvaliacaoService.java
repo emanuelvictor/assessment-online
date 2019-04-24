@@ -1,9 +1,11 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.domain.entity.avaliacao.Agrupador;
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
 import br.com.ubest.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.ubest.domain.entity.usuario.Conta;
+import br.com.ubest.domain.repository.AgrupadorRepository;
 import br.com.ubest.domain.repository.AvaliacaoAvaliavelRepository;
 import br.com.ubest.domain.repository.AvaliacaoRepository;
 import br.com.ubest.domain.repository.ContaRepository;
@@ -24,6 +26,8 @@ public class AvaliacaoService {
 
     private final ContaRepository contaRepository;
 
+    private final AgrupadorRepository agrupadorRepository;
+
     private final AvaliacaoRepository avaliacaoRepository;
 
     private final TenantIdentifierResolver tenantIdentifierResolver;
@@ -31,21 +35,30 @@ public class AvaliacaoService {
     // todo REMOVER e DELETAR depois que aprender a fazer funcionar o cascade
     private final AvaliacaoAvaliavelRepository avaliacaoAvaliavelRepository;
 
-    public Optional<Avaliacao> findById(final long id) {
-        return this.avaliacaoRepository.findById(id);
-    }
-
     // todo REMOVER depois que aprender a fazer funcionar o cascade
     public AvaliacaoAvaliavel save(final AvaliacaoAvaliavel avaliacaoAvaliavel) {
         return this.avaliacaoAvaliavelRepository.save(avaliacaoAvaliavel);
     }
 
+    public Optional<Avaliacao> findById(final long id) {
+        return this.avaliacaoRepository.findById(id);
+    }
+
+    public Agrupador save(final long id, final Agrupador agrupador) {
+        agrupador.setId(id);
+        return this.agrupadorRepository.save(agrupador);
+    }
+
+    @Transactional
     public Avaliacao save(final Avaliacao avaliacao) {
 
         if (avaliacao.getAvaliacoesAvaliaveis() != null)
             avaliacao.getAvaliacoesAvaliaveis().forEach(avaliacaoAvaliavel ->
                     avaliacaoAvaliavel.setAvaliacao(avaliacao)
             );
+
+        if (avaliacao.getAgrupador().getId() != null)
+            avaliacao.setAgrupador(this.agrupadorRepository.findById(avaliacao.getAgrupador().getId()).orElse(null));
 
         return this.avaliacaoRepository.save(avaliacao);
     }

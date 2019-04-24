@@ -3,6 +3,8 @@ import {Router} from '@angular/router';
 import {ConfiguracaoRepository} from "../../../../../web/domain/repositories/configuracao.repository";
 import {Configuracao} from "../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
+import {Agrupador} from "../../../../../web/domain/entity/avaliacao/agrupador.model";
+import {MobileService} from "../../../service/mobile.service";
 
 @Component({
   selector: 'app-conclusao',
@@ -19,10 +21,12 @@ export class ConclusaoComponent implements OnInit {
   /**
    *
    * @param {Router} router
+   * @param mobileService
    * @param {TdLoadingService} _loadingService
    * @param {ConfiguracaoRepository} configuracaoRepository
    */
   constructor(private router: Router,
+              private mobileService: MobileService,
               private _loadingService: TdLoadingService,
               private configuracaoRepository: ConfiguracaoRepository) {
   }
@@ -38,6 +42,8 @@ export class ConclusaoComponent implements OnInit {
     });
 
     setTimeout(() => {
+      // Zera o agrupador
+      this.mobileService.agrupador = new Agrupador();
       this.router.navigate(['/avaliar/1']);
     }, 5000);
   }

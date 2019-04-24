@@ -4,11 +4,11 @@
     <!--<mat-card-title class="push">-->
     <!--{{configuracao?.feedbackEnunciado}}-->
     <!--</mat-card-title>-->
-    <mat-card-content>
+    <mat-card-content style='margin-bottom: 0'>
       <div layout="column" layout-margin>
         <mat-form-field flex>
-          <textarea style='min-height: 100px' required
-                    (ngModelChange)='clearTimeout()' matInput
+          <textarea (keyup)='modelChanged.next()'
+                    style='min-height: 100px' matInput
                     maxlength='250' formControlName='feedback'
                     placeholder='{{configuracao?.feedbackEnunciado}}'
                     id='feedback' name='feedback' [(ngModel)]='feedback'>
@@ -16,5 +16,17 @@
         </mat-form-field>
       </div>
     </mat-card-content>
+    <mat-card-actions style='margin-top: -30px'>
+      <div layout='row' layout-align='center center' flex>
+        <div layout='column'
+             layout-margin flex
+             layout-align='center end'>
+          <button layout-align='center end'
+                  mat-button color='primary'>
+            Concluir
+          </button>
+        </div>
+      </div>
+    </mat-card-actions>
   </mat-card>
 </form>

@@ -1,5 +1,6 @@
 package br.com.ubest.domain.resource;
 
+import br.com.ubest.domain.entity.avaliacao.Agrupador;
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
 import br.com.ubest.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.ubest.domain.entity.usuario.Perfil;
@@ -27,6 +28,12 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao> {
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<AvaliacaoAvaliavel> save(@RequestBody final AvaliacaoAvaliavel avaliacaoAvaliavel) {
         return Mono.just(this.avaliacaoService.save(avaliacaoAvaliavel));
+    }
+
+    @PutMapping("/agrupador/{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    public Mono<Agrupador> save(@PathVariable final long id, @RequestBody final Agrupador agrupador) {
+        return Mono.just(this.avaliacaoService.save(id, agrupador));
     }
 
     @PostMapping

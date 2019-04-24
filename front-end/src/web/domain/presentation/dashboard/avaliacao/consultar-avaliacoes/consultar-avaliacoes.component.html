@@ -56,7 +56,8 @@
 
       <div layout='row' layout-margin style='margin-top: 15px'>
 
-        <ev-datepicker #dataInicio layout='row' flex style='margin-left: -2px'
+        <ev-datepicker style='margin-left: -2px'
+                       #dataInicio layout='row' flex
                        (dataInputChange)='listAvaliacoesByDates()'
                        [(dataInput)]='pageRequest.dataInicioFilter'>
           <mat-form-field>
@@ -152,6 +153,23 @@
                 </mat-icon>
               </div>
               <span>&nbsp;{{avaliacao?.atendentes}}</span>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='agrupador.feedback'>
+          <mat-header-cell layout-align="start center"
+                           *matHeaderCellDef mat-sort-header
+                           flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='40'>
+            <div layout-margin layout='column'>
+              Feedback
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef='let avaliacao'
+                    layout-align='start center'
+                    flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='40'>
+            <div layout-margin layout='column'>
+              {{avaliacao?.agrupador?.feedback}}
             </div>
           </mat-cell>
         </ng-container>

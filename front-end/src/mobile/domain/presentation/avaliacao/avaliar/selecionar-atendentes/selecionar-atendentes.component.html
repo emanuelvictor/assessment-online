@@ -36,20 +36,22 @@
     </mat-card-content>
     <mat-card-actions>
       <div layout='row' layout-align='center center' flex>
-        <div layout-margin
-             layout='column' flex
-             layout-align='end start' *ngIf='mobileService?.unidadesTiposAvaliacoes?.length > 1'>
+
+        <div *ngIf='mobileService?.unidadesTiposAvaliacoes?.length > 1'
+             layout='column' layout-margin flex layout-align='end start'>
+
           {{activatedRoute?.snapshot?.params['ordem'] + '/' + mobileService?.unidadesTiposAvaliacoes?.length}}
+
         </div>
 
-        <div layout-margin
-             layout='column' flex
+        <div layout='column'
+             layout-margin flex
              layout-align='center end'>
           <button mat-button
                   color='primary'
                   (click)='concluir()'
                   layout-align='center end'>
-            Concluir
+            Próximo
           </button>
         </div>
       </div>
