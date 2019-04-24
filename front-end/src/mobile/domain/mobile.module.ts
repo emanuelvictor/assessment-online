@@ -44,6 +44,7 @@ import {VisualizarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/vis
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-atendentes/selecionar-atendentes.component";
 import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repository";
 import {Interceptor} from "../../web/application/interceptor/interceptor";
+import {FeedbackComponent} from "./presentation/avaliacao/feedback/feedback.component";
 
 /**
  *
@@ -60,7 +61,7 @@ import {Interceptor} from "../../web/application/interceptor/interceptor";
     SelecionarAvaliacaoComponent,
     VisualizarAvaliacaoComponent,
     SelecionarAtendentesComponent,
-
+    FeedbackComponent,
     // Authentication
     MobileLoginComponent
   ],

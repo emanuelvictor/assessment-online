@@ -5,6 +5,8 @@ import {MobileService} from "../../../../service/mobile.service";
 import {AvaliavelRepository} from "../../../../../../web/domain/repositories/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {TdLoadingService} from "@covalent/core";
+import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/configuracao.repository";
+import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
 
 @Component({
   selector: 'selecionar-atendentes',
@@ -26,22 +28,8 @@ export class SelecionarAtendentesComponent implements OnInit {
 
   /**
    *
-   * @param {Router} router
-   * @param {MatSnackBar} snackBar
-   * @param {MobileService} mobileService
-   * @param {ActivatedRoute} activatedRoute
-   * @param {TdLoadingService} _loadingService
-   * @param {AvaliavelRepository} avaliavelRepository
-   * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
-  constructor(private router: Router,
-              private snackBar: MatSnackBar,
-              public mobileService: MobileService,
-              public activatedRoute: ActivatedRoute,
-              private _loadingService: TdLoadingService,
-              private avaliavelRepository: AvaliavelRepository,
-              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
-  }
+  configuracao: Configuracao;
 
   /**
    *
@@ -55,6 +43,27 @@ export class SelecionarAtendentesComponent implements OnInit {
 
   /**
    *
+   * @param {Router} router
+   * @param {MatSnackBar} snackBar
+   * @param {MobileService} mobileService
+   * @param {ActivatedRoute} activatedRoute
+   * @param {TdLoadingService} _loadingService
+   * @param {AvaliavelRepository} avaliavelRepository
+   * @param configuracaoRepository
+   * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
+   */
+  constructor(private router: Router,
+              private snackBar: MatSnackBar,
+              public mobileService: MobileService,
+              public activatedRoute: ActivatedRoute,
+              private _loadingService: TdLoadingService,
+              private avaliavelRepository: AvaliavelRepository,
+              private configuracaoRepository: ConfiguracaoRepository,
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
+  }
+
+  /**
+   *
    */
   ngOnInit() {
     this._loadingService.register('overlayStarSyntax');
@@ -62,13 +71,19 @@ export class SelecionarAtendentesComponent implements OnInit {
 
       const local = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
 
-      if (!local)
+      if (!local) {
         this.router.navigate(['selecionar-avaliacao']);
+      }
 
       this.unidadeTipoAvaliacaoRepository.findById(local.id)
         .subscribe(result => this.unidadeTipoAvaliacao = result)
 
     }
+
+
+    this.configuracaoRepository.configuracao.subscribe(configuracao => {
+      this.configuracao = configuracao
+    });
 
     this.timeout = setTimeout(() => {
       this.mobileService.reset();
@@ -78,7 +93,7 @@ export class SelecionarAtendentesComponent implements OnInit {
 
     this.avaliavelRepository.listByFilters(
       {
-        ativo : true,
+        ativo: true,
         unidadeTipoAvaliacaoId: this.mobileService.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params['ordem'])[0].id
       }
     )
@@ -102,9 +117,11 @@ export class SelecionarAtendentesComponent implements OnInit {
    */
   public concluir() {
     clearTimeout(this.timeout);
+
     this.avaliaveis.forEach(avaliavel => {
-      if (avaliavel.selected)
+      if (avaliavel.selected) {
         this.mobileService.addAvaliavel(avaliavel);
+      }
     });
 
     /**
@@ -113,12 +130,18 @@ export class SelecionarAtendentesComponent implements OnInit {
     if (this.mobileService.getAvaliaveis().length > 0) {
       this.mobileService.enviarAvaliacao();
 
-      if (this.mobileService.unidadesTiposAvaliacoes.length !== +this.activatedRoute.snapshot.params['ordem'])
+      if (this.mobileService.unidadesTiposAvaliacoes.length !== +this.activatedRoute.snapshot.params['ordem']) {
         this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['ordem'] + 1)]);
-      else
-        this.router.navigate(['conclusao']);
-    } else
+      } else {
+        if (this.configuracao.feedback) {
+          this.router.navigate(['feedback']);
+        } else {
+          this.router.navigate(['conclusao']);
+        }
+      }
+    } else {
       this.snackBar.open('Selecione ao menos um atendente', 'Fechar', this.mobileService.getSnackBarConfig());
+    }
   }
 
   /**

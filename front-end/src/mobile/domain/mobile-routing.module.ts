@@ -11,6 +11,7 @@ import {OfflineComponent} from "./presentation/avaliacao/offline/offline.compone
 import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/selecionar-avaliacao/selecionar-avaliacao.component";
 import {VisualizarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/visualizar-avaliacao/visualizar-avaliacao.component";
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-atendentes/selecionar-atendentes.component";
+import {FeedbackComponent} from "./presentation/avaliacao/feedback/feedback.component";
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
           {path: ':ordem/selecionar-atendentes', component: SelecionarAtendentesComponent},
         ]
       },
+      {path: 'feedback', component: FeedbackComponent},
       {path: 'conclusao', component: ConclusaoComponent},
       {path: 'logout', component: LogoutComponent},
     ]

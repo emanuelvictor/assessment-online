@@ -16,7 +16,6 @@ export class ConfiguracaoRepository extends BaseRepository<Configuracao> {
   public observerConfiguracao: Subject<Configuracao> = new Subject<Configuracao>();
 
   public observerEsquema: Subject<string> = new Subject<string>();
-;
 
   constructor(httpClient: HttpClient) {
     super(httpClient, ConfiguracaoRepository.collection);

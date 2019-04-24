@@ -10,6 +10,7 @@ import {AvaliacaoAvaliavel} from '../../../web/domain/entity/avaliacao/avaliacao
 import {UnidadeService} from '../../../web/domain/service/unidade.service';
 import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
 import {Avaliavel} from "../../../web/domain/entity/usuario/vinculo/avaliavel.model";
+import {Agrupador} from "../../../web/domain/entity/avaliacao/agrupador.model";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -38,6 +39,11 @@ export class MobileService {
    *
    */
   private avaliaveis: Avaliavel[] = [];
+
+  /**
+   *
+   */
+  private agrupador: Agrupador = new Agrupador();
 
   /**
    *
@@ -91,8 +97,9 @@ export class MobileService {
 
     const local = this.localStorage.unidadesTiposAvaliacoes;
 
-    for (let i = 0; i < local.length; i++)
+    for (let i = 0; i < local.length; i++) {
       this._unidadesTiposAvaliacoes.push(local[i]);
+    }
 
     return this._unidadesTiposAvaliacoes;
   }
@@ -109,6 +116,7 @@ export class MobileService {
    *
    */
   public reset() {
+    this.agrupador = new Agrupador();
     this.avaliacao = new Avaliacao();
     this.avaliaveis = [];
   }
@@ -154,16 +162,17 @@ export class MobileService {
       /**
        * Salva a nota da avaliação no usuário. Facilita o cálculo da média.
        */
-      if (this.avaliacao.nota === 1)
+      if (this.avaliacao.nota === 1) {
         avaliavel.usuario.avaliacoes1 = avaliavel.usuario.avaliacoes1 != null ? avaliavel.usuario.avaliacoes1 + 1 : 1;
-      else if (this.avaliacao.nota === 2)
+      } else if (this.avaliacao.nota === 2) {
         avaliavel.usuario.avaliacoes2 = avaliavel.usuario.avaliacoes2 != null ? avaliavel.usuario.avaliacoes2 + 1 : 1;
-      else if (this.avaliacao.nota === 3)
+      } else if (this.avaliacao.nota === 3) {
         avaliavel.usuario.avaliacoes3 = avaliavel.usuario.avaliacoes3 != null ? avaliavel.usuario.avaliacoes3 + 1 : 1;
-      else if (this.avaliacao.nota === 4)
+      } else if (this.avaliacao.nota === 4) {
         avaliavel.usuario.avaliacoes4 = avaliavel.usuario.avaliacoes4 != null ? avaliavel.usuario.avaliacoes4 + 1 : 1;
-      else
+      } else {
         avaliavel.usuario.avaliacoes5 = avaliavel.usuario.avaliacoes5 != null ? avaliavel.usuario.avaliacoes5 + 1 : 1;
+      }
 
       /**
        * Cria um registro tabela associativa e adiciona dentro da avaliação
@@ -187,21 +196,29 @@ export class MobileService {
     /**
      * Popula nota da _unidade
      */
-    if (this.avaliacao.nota === 1)
+    if (this.avaliacao.nota === 1) {
       this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes1 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes1 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes1 + 1 : 1;
-    else if (this.avaliacao.nota === 2)
+    } else if (this.avaliacao.nota === 2) {
       this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes2 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes2 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes2 + 1 : 1;
-    else if (this.avaliacao.nota === 3)
+    } else if (this.avaliacao.nota === 3) {
       this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes3 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes3 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes3 + 1 : 1;
-    else if (this.avaliacao.nota === 4)
+    } else if (this.avaliacao.nota === 4) {
       this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes4 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes4 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes4 + 1 : 1;
-    else
+    } else {
       this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes5 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes5 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes5 + 1 : 1;
+    }
+
+    this.avaliacao.agrupador = this.agrupador;
 
     /**
      * Insere avaliação
      */
-    this.avaliacaoService.save(this.avaliacao);
+    this.avaliacaoService.save(this.avaliacao)
+      .then(result => {
+        if (!this.agrupador.id) {
+          this.agrupador = result.agrupador;
+        }
+      });
 
     /**
      * Reseta objeto da avaliação
@@ -273,9 +290,10 @@ export class MobileService {
    * @param {number} id
    */
   private loadUnidade(id: number) {
-    if (id)
+    if (id) {
       this.unidadeService.findById(this._unidade.id)
         .subscribe(unidade => this._unidade = unidade);
+    }
   }
 
   /**
@@ -285,15 +303,24 @@ export class MobileService {
    */
   public getUnidadeTipoAvaliacaoByIndex(ordem: string): any {
 
-    if (!ordem && !this.unidadesTiposAvaliacoes.length)
+    if (!ordem && !this.unidadesTiposAvaliacoes.length) {
       return null;
+    }
 
     const unidadesTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === ordem);
 
-    if (!unidadesTiposAvaliacoes.length)
+    if (!unidadesTiposAvaliacoes.length) {
       return null;
+    }
 
     return unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === ordem)[0];
   }
 
+  /**
+   *
+   * @param feedback
+   */
+  public sendFeedback(feedback: string) {
+    this.agrupador.feedback = feedback;
+  }
 }
