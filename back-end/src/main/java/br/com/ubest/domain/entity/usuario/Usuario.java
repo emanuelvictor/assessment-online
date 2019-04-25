@@ -28,6 +28,15 @@ public class Usuario extends Pessoa {
      *                           Foto
      * -----------------------------------------------------------
      */
+    /**
+     *
+     */
+    @Transient
+    private String recap;
+
+    /**
+     *
+     */
     @Column
     @JsonIgnore
     private byte[] foto;

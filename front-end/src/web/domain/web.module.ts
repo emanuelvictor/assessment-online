@@ -107,6 +107,7 @@ import {ClienteViewComponent} from "./presentation/dashboard/cliente/cleinte-vie
 import {LoggedRootMenuComponent} from "./presentation/controls/logged-root-menu/logged-root-menu.component";
 import {UsuarioPessoaJuridicaFormComponent} from "./presentation/dashboard/cliente/inserir-cliente/cliente-form/pessoa-juridica/usuario-pessoa-juridica-form.component";
 import {UsuarioPessoaFisicaFormComponent} from "./presentation/dashboard/cliente/inserir-cliente/cliente-form/pessoa-fisica/usuario-pessoa-fisica-form.component";
+import {RecaptchaModule} from "ng-recaptcha";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -227,7 +228,8 @@ registerLocaleData(localePt, 'pt-BR');
     NgxChartsModule,
     WebRoutingModule,
     MatExpansionModule,
-    DragDropModule
+    DragDropModule,
+    RecaptchaModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent, InserirTipoAvaliacaoComponent],

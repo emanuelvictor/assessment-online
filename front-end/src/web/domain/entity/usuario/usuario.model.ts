@@ -22,4 +22,8 @@ export class Usuario extends Pessoa {
 
   public endereco: Endereco;
 
+  public siteKey: string;
+
+  public recap: string;
+
 }

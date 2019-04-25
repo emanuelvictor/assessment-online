@@ -31,6 +31,14 @@ public class UsuarioResource extends AbstractResource<Usuario> {
 
     private final UsuarioService usuarioService;
 
+    /**
+     * @return String
+     */
+    @GetMapping("sitekey")
+    public String getSiteKey() {
+        return this.usuarioService.getSiteKey();
+    }
+
     @PostMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Usuario> save(@RequestBody final Usuario usuario) {
@@ -59,8 +67,8 @@ public class UsuarioResource extends AbstractResource<Usuario> {
     @GetMapping("{id}/estatisticas")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     Mono<Optional<Usuario>> findUsuarioById(@PathVariable final long id,
-                                      @RequestParam(required = false) final LocalDateTime dataInicioFilter,
-                                      @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
+                                            @RequestParam(required = false) final LocalDateTime dataInicioFilter,
+                                            @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
         return Mono.just(usuarioService.findUsuarioById(id, dataInicioFilter, dataTerminoFilter));
     }
 

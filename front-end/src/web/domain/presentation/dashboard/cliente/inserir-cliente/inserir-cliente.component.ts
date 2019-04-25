@@ -6,6 +6,7 @@ import {ContaService} from '../../../../service/conta.service';
 import {TdLoadingService} from '@covalent/core';
 import {Conta} from '../../../../entity/usuario/conta.model';
 import {AuthenticationService} from '../../../../service/authentication.service';
+import {UsuarioRepository} from "../../../../repositories/usuario.repository";
 
 @Component({
   selector: 'inserir-cliente',
@@ -25,6 +26,7 @@ export class InserirClienteComponent implements OnInit {
   /**
    *
    * @param {ContaService} contaService
+   * @param usuarioRepository
    * @param {MatSnackBar} snackBar
    * @param {Router} router
    * @param {AuthenticationService} authenticationService
@@ -32,6 +34,7 @@ export class InserirClienteComponent implements OnInit {
    * @param {TdLoadingService} _loadingService
    */
   constructor(private contaService: ContaService,
+              private usuarioRepository: UsuarioRepository,
               private authenticationService: AuthenticationService,
               private snackBar: MatSnackBar, private router: Router,
               private activatedRoute: ActivatedRoute, private _loadingService: TdLoadingService) {
@@ -43,6 +46,9 @@ export class InserirClienteComponent implements OnInit {
   ngOnInit() {
     this.cliente = new Usuario();
     this.cliente.conta = new Conta();
+
+    this.usuarioRepository.getSiteKey()
+      .subscribe(result => this.cliente.siteKey = result);
   }
 
   /**

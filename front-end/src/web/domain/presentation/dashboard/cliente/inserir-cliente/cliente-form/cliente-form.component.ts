@@ -1,10 +1,12 @@
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer, ViewChild} from '@angular/core';
+import {MatPaginator, MatSnackBar} from '@angular/material';
 
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {confirmPassword, password} from '../../../../controls/validators/validators';
+import {HttpClient} from "@angular/common/http";
+import {RecaptchaComponent} from "ng-recaptcha";
 
 /**
  *
@@ -53,12 +55,20 @@ export class ClienteFormComponent implements OnInit {
 
   /**
    *
+   */
+  @ViewChild('reCaptcha')
+  reCaptcha: RecaptchaComponent;
+
+  /**
+   *
    * @param {Renderer} renderer
    * @param {MatSnackBar} snackBar
    * @param {FormBuilder} fb
+   * @param http
    * @param {ElementRef} element
    */
   constructor(private fb: FormBuilder,
+              private http: HttpClient,
               private renderer: Renderer,
               private snackBar: MatSnackBar,
               @Inject(ElementRef) private element: ElementRef) {
@@ -68,16 +78,31 @@ export class ClienteFormComponent implements OnInit {
    *
    */
   ngOnInit() {
-
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],
       email: ['email', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]],
       password: ['password', [Validators.required, password()]],
-      confirmacaoPassword: ['confirmacaoPassword', [Validators.required, confirmPassword()]]
+      confirmacaoPassword: ['confirmacaoPassword', [Validators.required, confirmPassword()]],
+      recaptchaReactive: ['recaptchaReactive', [Validators.required]]
     });
 
     this.fotoPath = this.cliente.fotoPath;
     this.arquivoFile = this.cliente.arquivoFile;
+  }
+
+  /**
+   *
+   * @param {string} captchaResponse
+   */
+  resolved(captchaResponse: string) {
+    this.cliente.recap = captchaResponse;
+  }
+
+  /**
+   *
+   */
+  reset() {
+    this.reCaptcha.reset();
   }
 
   /**
@@ -111,8 +136,9 @@ export class ClienteFormComponent implements OnInit {
         if (element && control.invalid) {
           this.renderer.invokeElementMethod(element, 'focus', []);
           valid = false;
-          if (control.errors.exception)
+          if (control.errors.exception) {
             this.error(control.errors.exception);
+          }
           break;
         }
         if (control.controls && control.invalid) {
@@ -121,8 +147,9 @@ export class ClienteFormComponent implements OnInit {
             if (elemento && controlInner.invalid) {
               this.renderer.invokeElementMethod(elemento, 'focus', []);
               valid = false;
-              if (controlInner.errors.exception)
+              if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception);
+              }
               break;
             }
           }
@@ -134,6 +161,7 @@ export class ClienteFormComponent implements OnInit {
       this.cliente.arquivoFile = this.arquivoFile;
       this.cliente.fotoPath = this.fotoPath;
       this.save.emit(this.cliente);
+      this.reset()
     }
   }
 

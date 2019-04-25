@@ -1,4 +1,4 @@
-<cliente-form [cliente]="cliente" (save)="save()">
+<cliente-form [cliente]="cliente" *ngIf='cliente?.siteKey' (save)="save()">
 
   <!--cabeçalho div-->
   <div layout='column' layout-margin header>

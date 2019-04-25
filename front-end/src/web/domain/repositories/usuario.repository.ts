@@ -31,4 +31,10 @@ export class UsuarioRepository extends BaseRepository<Usuario> {
     })
   }
 
+  /**
+   *
+   */
+  getSiteKey(): Observable<any> {
+    return this.httpClient.get(this.collectionName + '/sitekey', {responseType: 'text'})
+  }
 }

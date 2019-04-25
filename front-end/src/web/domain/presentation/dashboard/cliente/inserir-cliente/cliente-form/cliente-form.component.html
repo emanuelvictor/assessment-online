@@ -52,10 +52,10 @@
                   </div>
                   <div layout='row' layout-margin>
                     <mat-form-field flex>
-                      <input matInput name='email' id='email'
-                             [(ngModel)]='cliente.conta.email'
+                      <input [(ngModel)]='cliente.conta.email'
+                             placeholder='E-mail' maxlength='144'
                              type='email' formControlName='email'
-                             placeholder='E-mail' maxlength='144' required
+                             matInput name='email' id='email' required
                              pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'>
                       <mat-error *ngIf="form.controls['email'].hasError('pattern')">
                         E-mail inválido, utilize o formato 'email@email.com'
@@ -115,7 +115,12 @@
                       </mat-error>
                     </mat-form-field>
                   </div>
-
+                  <div layout='row' flex layout-margin layout-align='end center'>
+                    <re-captcha siteKey='{{cliente?.siteKey}}' id='recaptchaReactive'
+                                (resolved)='resolved($event)' layout-align='end center'
+                                required #reCaptcha style='margin-right: 6px; margin-top: -12px'>
+                    </re-captcha>
+                  </div>
                 </div>
               </div>
 
