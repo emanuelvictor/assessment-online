@@ -36,7 +36,7 @@ export class LoginComponent {
    *
    * @type {string}
    */
-  backgroundImage: string = environment.endpoint + './configuracoes/background?cliente=public';
+  backgroundImage: string = environment.endpoint + 'assets/images/banner.png';
   /**
    *
    * @type {Subject<string>}
@@ -63,7 +63,11 @@ export class LoginComponent {
 
               this.logoImage = environment.endpoint + './configuracoes/logomarca?cliente=' + this.cliente + '?nocache=' + identifier;
 
-              this.backgroundImage = environment.endpoint + './configuracoes/background?cliente=' + this.cliente + '?nocache=' + identifier;
+              if (this.cliente === 'public') {
+                this.backgroundImage = environment.endpoint + 'assets/images/banner.png';
+              } else {
+                this.backgroundImage = environment.endpoint + './configuracoes/background?cliente=' + this.cliente + '?nocache=' + identifier;
+              }
             }
           })
       );
@@ -90,8 +94,9 @@ export class LoginComponent {
    * @param {string} username
    */
   public changed(username: string) {
-    if (username && username.length)
+    if (username && username.length) {
       this.modelChanged.next(username);
+    }
   }
 
 }
