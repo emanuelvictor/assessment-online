@@ -1,19 +1,18 @@
 <search-bar>
 
-  <td-chips style='margin-left:0; margin-top: 9px;'
+  <td-chips style='margin-left:0; margin-top: 9px'
             [(ngModel)]='pageRequest.defaultFilter'
             placeholder="Pesquisar por nome ou e-mail"
             (add)="onChangeFilters()" (remove)="onChangeFilters()"
             flex-sm='30' flex-md="40" flex-gt-md="45" flex-gt-lg="50">
   </td-chips>
 
-
-  <td-chips requireMatch
-            [items]="filteredAsync"
+  <td-chips [items]="filteredAsync"
             [(ngModel)]='asyncModel'
+            requireMatch style='margin-top: 0'
             (inputChange)="filterAsync($event)"
             placeholder="Pesquisar por unidades"
-            [debounce]="500" flex="30" flex-sm='30' style="margin-top: 0px;"
+            [debounce]="500" flex="30" flex-sm='30'
             (add)="onChangeFilters()" (remove)="onChangeFilters()">
     <ng-template td-chip let-chip="chip">
       {{chip?.nome}} ({{chip?.endereco?.cidade?.nome }} - {{chip?.endereco?.cidade?.estado?.uf}})
@@ -59,17 +58,17 @@
     <div layout-align-gt-sm='start center'
          layout-gt-sm='row' layout-sm='column' flex='90'>
 
-      <div layout='row' layout-margin style='margin-top: 15px'>
+      <div layout='row' flex layout-margin style='margin-top: 15px'>
 
-        <ev-datepicker #dataInicio layout='row' flex style='margin-left: -2px'
+        <ev-datepicker #dataInicio layout='row'
+                       flex style='margin-left: -2px'
                        (dataInputChange)='listUsuariosByDates()'
                        [(dataInput)]='pageRequest.dataInicioFilter'>
           <mat-form-field>
-            <input
-                placeholder='Data da avaliação - Início'
-                [(ngModel)]='pageRequest.dataInicioFilter'
-                matInput name='dataInicio' id='dataInicio'
-                [textMask]='{mask: masks.date, guide: false}'>
+            <input placeholder='Data da avaliação - Início'
+                   [(ngModel)]='pageRequest.dataInicioFilter'
+                   matInput name='dataInicio' id='dataInicio'
+                   [textMask]='{mask: masks.date, guide: false}'>
           </mat-form-field>
         </ev-datepicker>
 
@@ -86,8 +85,24 @@
         </ev-datepicker>
 
       </div>
+      <!--<div hide-sm hide-xs flex='12'></div>-->
 
-      <div hide-sm hide-xs flex='12'></div>
+      <td-chips [debounce]='500' flex='30'
+                requireMatch style='margin-top: -16px'
+                [items]='filteredTiposAvaliacoesAsync'
+                [(ngModel)]='asyncTiposAvaliacoesModel'
+                placeholder='Pesquisar por Tipos de Avaliações'
+                (inputChange)='filterTiposAvaliacoesAsync($event)'
+                (add)="onChangeFilters()" (remove)="onChangeFilters()">
+        <ng-template td-chip let-chip="chip">
+          {{chip?.nome}}
+        </ng-template>
+        <ng-template td-autocomplete-option let-option="option">
+          <div layout="row" layout-align="start center">
+            {{option?.nome}} ({{option?.enunciado }} - {{option?.selecao}})
+          </div>
+        </ng-template>
+      </td-chips>
 
       <close-button (click)='hidePesquisaAvancada()' hide-sm hide-xs></close-button>
     </div>
@@ -256,7 +271,7 @@
             <div layout='column'
                  class='push-right'
                  layout-align='center center'>
-              {{usuario?.media > 0 ? (usuario?.media | number:'1.0-2' :'pt-BR').replace(',','.') : 0}}
+              {{usuario?.media > 0 ? (usuario?.media | number:'1.0-2' :'pt-BR').replace(',', '.') : 0}}
             </div>
           </mat-cell>
         </ng-container>

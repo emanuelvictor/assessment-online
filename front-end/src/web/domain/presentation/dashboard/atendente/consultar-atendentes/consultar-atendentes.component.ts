@@ -12,6 +12,7 @@ import 'moment/locale/pt-br';
 import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
 import {viewAnimation} from "../../../controls/utils";
+import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
 
 @Component({
   selector: 'consultar-atendentes',
@@ -99,18 +100,22 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   @ViewChild('dataTermino') dataTermino: EvDatepicker;
+  filteredTiposAvaliacoesAsync: string[];
+  asyncTiposAvaliacoesModel: string[] = [];
   filteredAsync: string[];
   asyncModel: string[] = [];
 
   /**
    *
    * @param {UsuarioService} usuarioService
+   * @param tipoAvaliacaoRepository
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    * @param {UnidadeService} unidadeService
    * @param {ConfiguracaoService} configuracaoService
    */
   constructor(private usuarioService: UsuarioService,
+              private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private unidadeService: UnidadeService, private configuracaoService: ConfiguracaoService) {
 
@@ -181,11 +186,13 @@ export class ConsultarAtendentesComponent implements OnInit {
    */
   public listUsuariosByDates() {
 
-    if (this.dataInicio.data)
+    if (this.dataInicio.data) {
       this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+    }
 
-    if (this.dataTermino.data)
+    if (this.dataTermino.data) {
       this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+    }
 
     this.listUsuariosByFilters(this.pageRequest);
 
@@ -239,6 +246,33 @@ export class ConsultarAtendentesComponent implements OnInit {
     }
   }
 
+  /**
+   *
+   * @param value
+   */
+  filterTiposAvaliacoesAsync(value: string): void {
+    this.filteredTiposAvaliacoesAsync = undefined;
+    if (value) {
+
+      const pageRequest = { // PageRequest
+        size: 20,
+        page: 0,
+        sort: null,
+        defaultFilter: [] = [value]
+      };
+
+      this.tipoAvaliacaoRepository.listLightByFilters(pageRequest)
+        .subscribe((result) => {
+          this.filteredTiposAvaliacoesAsync = result.content;
+        });
+
+    }
+  }
+
+  /**
+   *
+   * @param value
+   */
   filterAsync(value: string): void {
     this.filteredAsync = undefined;
     if (value) {

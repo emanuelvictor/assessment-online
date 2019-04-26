@@ -1,6 +1,7 @@
 package br.com.ubest.domain.resource;
 
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
+import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.service.TipoAvaliacaoService;
 import br.com.ubest.infrastructure.resource.AbstractResource;
@@ -50,5 +51,12 @@ public class TipoAvaliacaoResource extends AbstractResource<TipoAvaliacao> {
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<Page<TipoAvaliacao>> listByFilters(final String defaultFilter, final Long[] unidadesFilter) {
         return Mono.just(this.tipoAvaliacaoService.listByFilters(defaultFilter, getListFromArray(unidadesFilter), getPageable()));
+    }
+
+
+    @GetMapping("light")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    Mono<Page<TipoAvaliacao>> listByFilters(final String defaultFilter) {
+        return Mono.just(this.tipoAvaliacaoService.listByFilters(defaultFilter, getPageable()));
     }
 }

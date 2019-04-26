@@ -45,4 +45,7 @@ public class TipoAvaliacaoService {
         return this.tipoAvaliacaoRepository.listByFilters(defaultFilter, unidadesFilter, pageable);
     }
 
+    public Page<TipoAvaliacao> listByFilters(final String defaultFilter, final Pageable pageable) {
+        return this.tipoAvaliacaoRepository.listByFilters(defaultFilter, pageable);
+    }
 }

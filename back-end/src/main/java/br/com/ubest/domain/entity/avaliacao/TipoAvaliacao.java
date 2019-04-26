@@ -2,6 +2,7 @@ package br.com.ubest.domain.entity.avaliacao;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 @Data
 @Entity
 @Audited
+@NoArgsConstructor
 @lombok.EqualsAndHashCode(callSuper = true)
 public class TipoAvaliacao extends AbstractEntity {
 
@@ -32,4 +34,11 @@ public class TipoAvaliacao extends AbstractEntity {
 
     private String cinco;
 
+
+    public TipoAvaliacao(final Long id, final String nome, final String enunciado, final String selecao) {
+        super(id);
+        this.nome = nome;
+        this.enunciado = enunciado;
+        this.selecao = selecao;
+    }
 }
