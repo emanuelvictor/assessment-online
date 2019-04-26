@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer, ViewChild} from '@angular/core';
-import {MatPaginator, MatSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 
-import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {confirmPassword, password} from '../../../../controls/validators/validators';

@@ -4,7 +4,6 @@ import {HttpClient} from "@angular/common/http";
 import {Configuracao} from "../entity/configuracao/configuracao.model";
 import {Observable, Subject} from 'rxjs';
 import {environment} from "../../../environments/environment";
-import {isNullOrUndefined} from "util";
 
 /**
  */

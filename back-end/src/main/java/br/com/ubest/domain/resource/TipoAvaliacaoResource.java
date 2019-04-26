@@ -1,7 +1,6 @@
 package br.com.ubest.domain.resource;
 
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
-import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.service.TipoAvaliacaoService;
 import br.com.ubest.infrastructure.resource.AbstractResource;

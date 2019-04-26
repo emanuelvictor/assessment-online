@@ -1,21 +1,14 @@
 import {MatIconRegistry, MatPaginator, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UsuarioService} from '../../../../service/usuario.service';
-import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
-import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
-
-import * as moment from 'moment';
 import 'moment/locale/pt-br';
-import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
-import {ConfiguracaoService} from "../../../../service/configuracao.service";
 import {viewAnimation} from "../../../controls/utils";
 import {ContaService} from "../../../../service/conta.service";
 import {Conta} from "../../../../entity/usuario/conta.model";
-import {Route, Router} from "@angular/router";
-import {ConfiguracaoRepository} from "../../../../repositories/configuracao.repository";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'consultar-clientes',

@@ -1,45 +1,10 @@
 import {NgModule} from '@angular/core';
 import 'hammerjs';
 import {LoginComponent} from '../web/domain/presentation/login/login.component';
-import {
-  MAT_DATE_LOCALE,
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatCardModule,
-  MatCheckboxModule,
-  MatChipsModule,
-  MatDatepickerModule,
-  MatDialogModule,
-  MatGridListModule,
-  MatIconModule,
-  MatInputModule,
-  MatListModule,
-  MatMenuModule,
-  MatNativeDateModule,
-  MatOptionModule,
-  MatPaginatorModule,
-  MatProgressBarModule,
-  MatRadioModule,
-  MatSelectModule,
-  MatSidenavModule,
-  MatSliderModule,
-  MatSlideToggleModule,
-  MatSnackBarModule,
-  MatSortModule,
-  MatStepperModule,
-  MatTableModule,
-  MatToolbarModule,
-  MatTooltipModule
-} from '@angular/material';
+import {MAT_DATE_LOCALE, MatAutocompleteModule, MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatOptionModule, MatPaginatorModule, MatProgressBarModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatToolbarModule, MatTooltipModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
 import {CovalentMarkdownModule} from '@covalent/markdown';
-import {
-  CovalentChipsModule,
-  CovalentCommonModule,
-  CovalentFileModule,
-  CovalentLoadingModule,
-  CovalentMediaModule
-} from '@covalent/core';
+import {CovalentChipsModule, CovalentCommonModule, CovalentFileModule, CovalentLoadingModule, CovalentMediaModule} from '@covalent/core';
 import {TextMaskModule} from 'angular2-text-mask';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';

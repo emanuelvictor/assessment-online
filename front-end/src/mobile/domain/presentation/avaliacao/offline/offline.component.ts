@@ -4,7 +4,6 @@ import {AuthenticationService} from "../../../../../web/domain/service/authentic
 import {MatSnackBar} from "@angular/material";
 import {LocalStorage} from "../../../../../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
-import {TOKEN_NAME} from "../../../../../web/domain/presentation/controls/utils";
 
 @Component({
   selector: 'offline',

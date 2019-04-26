@@ -6,7 +6,6 @@ import {AuthenticationService} from '../../../service/authentication.service';
 import {ConfiguracaoRepository} from "../../../repositories/configuracao.repository";
 import {Configuracao} from "../../../entity/configuracao/configuracao.model";
 import {Conta} from "../../../entity/usuario/conta.model";
-import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'header-component',
