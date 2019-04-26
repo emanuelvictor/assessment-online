@@ -10,6 +10,7 @@ import {UnidadeTipoAvaliacao} from "../../../../../../web/domain/entity/avaliaca
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {AvaliavelRepository} from "../../../../../../web/domain/repositories/avaliavel.repository";
 import {TdLoadingService} from "@covalent/core";
+import {Agrupador} from "../../../../../../web/domain/entity/avaliacao/agrupador.model";
 
 @Component({
   selector: 'visualizar-avaliacao',
@@ -68,6 +69,18 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    *
    */
   ngOnInit() {
+
+    /**
+     * Se não tem unidade selecionada vai para tela de selação de unidade
+     */
+    if (!this.mobileService.getUnidadeId()) {
+      this.mobileService.removeUnidade();
+      this.mobileService.reset();
+      this.mobileService.agrupador = new Agrupador();
+      this.router.navigate(['selecionar-unidade']);
+      return;
+    }
+
     this._loadingService.register('overlayStarSyntax');
     this.avaliavelRepository.listByFilters(
       {
@@ -91,8 +104,9 @@ export class VisualizarAvaliacaoComponent implements OnInit {
 
       const local = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
 
-      if (!local)
+      if (!local) {
         this.router.navigate(['selecionar-avaliacao']);
+      }
 
       this.unidadeTipoAvaliacaoRepository.findById(local.id)
         .subscribe(result => this.unidadeTipoAvaliacao = result)
@@ -104,12 +118,6 @@ export class VisualizarAvaliacaoComponent implements OnInit {
     this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
-
-    /**
-     * Se não tem unidade selecionada vai para tela de selação de unidade
-     */
-    if (!this.mobileService.getUnidadeId())
-      this.router.navigate(['../selecionar-unidade']);
 
     this.configuracaoService.configuracao.subscribe(result => {
       this.configuracao = result;

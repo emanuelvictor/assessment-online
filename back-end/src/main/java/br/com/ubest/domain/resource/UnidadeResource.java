@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static br.com.ubest.infrastructure.util.Utils.getListFromArray;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping({"**unidades", "**sistema/unidades", "**sistema/mobile/unidades"})
@@ -56,10 +58,10 @@ public class UnidadeResource extends AbstractResource<Unidade> {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<Page<Unidade>> listByFilters(final String defaultFilter, final String enderecoFilter,
+    Mono<Page<Unidade>> listByFilters(final String defaultFilter, final Long[] tiposAvaliacoesFilter, final String enderecoFilter,
                                       @RequestParam(required = false) final LocalDateTime dataInicioFilter,
                                       @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
-        return Mono.just(this.unidadeService.listByFilters(defaultFilter, enderecoFilter, dataInicioFilter, dataTerminoFilter, getPageable()));
+        return Mono.just(this.unidadeService.listByFilters(defaultFilter, getListFromArray(tiposAvaliacoesFilter), enderecoFilter, dataInicioFilter, dataTerminoFilter, getPageable()));
     }
 
     /**

@@ -82,6 +82,19 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       (" +
             "           FILTER(:enderecoFilter, unidade.endereco.logradouro,unidade.endereco.complemento,unidade.endereco.bairro, unidade.endereco.cep,unidade.endereco.numero,unidade.endereco.cidade.nome,unidade.endereco.cidade.estado.nome,unidade.endereco.cidade.estado.uf,unidade.endereco.cidade.estado.pais.nome) = TRUE" +
             "       )" +
+            "       AND " +
+            "       (" +
+            "           (" +
+            "               unidade.id IN " +
+            "               (" +
+            "                   SELECT avaliavel.unidadeTipoAvaliacao.unidade.id FROM Avaliavel avaliavel WHERE " +
+            "                   (" +
+            "                       avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.id = unidadeTipoAvaliacao.tipoAvaliacao.id AND avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.id IN :tiposAvaliacoesFilter " +
+            "                   )" +
+            "               )" +
+            "           )" +
+            "           OR :tiposAvaliacoesFilter IS NULL" +
+            "       )" +
             "       AND" +
             "       (" +
             "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') " +
@@ -99,6 +112,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
     Page<Unidade> listByFilters(@Param("usuarioId") final Long usuarioId,
                                 @Param("perfil") final String perfil,
                                 @Param("defaultFilter") final String defaultFilter,
+                                @Param("tiposAvaliacoesFilter") final List<Long> tiposAvaliacoesFilter,
                                 @Param("enderecoFilter") final String enderecoFilter,
                                 @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
                                 @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,

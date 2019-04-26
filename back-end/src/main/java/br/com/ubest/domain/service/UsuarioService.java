@@ -114,7 +114,7 @@ public class UsuarioService {
         // Conta de um atendente, operador ou administrador meu
         else if (!loggedAccount.isAdministrador() && loggedAccount.getIsOperador()) {
 
-            final List<Usuario> meusUsuarios = usuarioRepository.listByFilters(loggedAccount.getUsuario().getId(), loggedAccount.getPerfil().name(), null, null, null, null, null).getContent();
+            final List<Usuario> meusUsuarios = usuarioRepository.listByFilters(loggedAccount.getUsuario().getId(), loggedAccount.getPerfil().name(), null, null, null, null, null, null).getContent();
 
             for (final Usuario meuUsuario : meusUsuarios)
                 if (meuUsuario.getId().equals(usuarioId)) {
@@ -344,13 +344,15 @@ public class UsuarioService {
     }
 
     /**
-     * @param defaultFilter  String
-     * @param unidadesFilter List<Long>
-     * @param pageable       Pageable
+     * @param defaultFilter         String
+     * @param unidadesFilter        List<Long>
+     * @param tiposAvaliacoesFilter List<Long>
+     * @param pageable              Pageable
      * @return Page<Usuario>
      */
     public Page<Usuario> listByFilters(final String defaultFilter,
                                        final List<Long> unidadesFilter,
+                                       final List<Long> tiposAvaliacoesFilter,
                                        final LocalDateTime dataInicioFilter,
                                        final LocalDateTime dataTerminoFilter,
                                        final Pageable pageable) {
@@ -364,6 +366,7 @@ public class UsuarioService {
                 usuarioId,
                 conta.getPerfil().name(),
                 defaultFilter,
+                tiposAvaliacoesFilter,
                 unidadesFilter,
                 dataInicioFilter,
                 dataTerminoFilter,

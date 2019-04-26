@@ -237,7 +237,11 @@ export class MobileService {
    * @returns {any}
    */
   getUnidadeId(): number {
-    return this._unidade.id;
+    if (this._unidade) {
+      return this._unidade.id;
+    } else {
+      return null
+    }
   }
 
   /**

@@ -120,6 +120,19 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "               (" +
             "                   SELECT avaliavel.usuario.id FROM Avaliavel avaliavel WHERE " +
             "                   (" +
+            "                       avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.id = unidadeTipoAvaliacao.tipoAvaliacao.id AND avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.id IN :tiposAvaliacoesFilter " +
+            "                   )" +
+            "               )" +
+            "           )" +
+            "           OR :tiposAvaliacoesFilter IS NULL" +
+            "       )" +
+            "       AND " +
+            "       (" +
+            "           (" +
+            "               usuario.id IN " +
+            "               (" +
+            "                   SELECT avaliavel.usuario.id FROM Avaliavel avaliavel WHERE " +
+            "                   (" +
             "                       avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id AND avaliavel.unidadeTipoAvaliacao.unidade.id IN :unidadesFilter " +
             "                   )" +
             "               )" +
@@ -160,6 +173,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             @Param("usuarioId") final Long usuarioId,
             @Param("perfil") final String perfil,
             @Param("defaultFilter") final String defaultFilter,
+            @Param("tiposAvaliacoesFilter") final List<Long> tiposAvaliacoesFilter,
             @Param("unidadesFilter") final List<Long> unidadesFilter,
             @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
             @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,

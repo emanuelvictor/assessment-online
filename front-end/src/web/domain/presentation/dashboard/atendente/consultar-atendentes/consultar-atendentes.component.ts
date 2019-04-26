@@ -48,6 +48,7 @@ export class ConsultarAtendentesComponent implements OnInit {
     page: 0,
     sort: null,
     defaultFilter: [],
+    tiposAvaliacoesFilter: [],
     unidadesFilter: [],
     dataInicioFilter: null,
     dataTerminoFilter: null
@@ -171,6 +172,8 @@ export class ConsultarAtendentesComponent implements OnInit {
 
     this.pageRequest.unidadesFilter = this.asyncModel.map((result: any) => result.id);
 
+    this.pageRequest.tiposAvaliacoesFilter = this.asyncTiposAvaliacoesModel.map((result: any) => result.id);
+
     this.usuarioService.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
@@ -204,6 +207,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    */
   public listUsuariosByFilters(pageRequest: any) {
     pageRequest.unidadesFilter.concat(this.asyncModel.map((result: any) => result.id));
+    pageRequest.tiposAvaliacoesFilter.concat(this.asyncTiposAvaliacoesModel.map((result: any) => result.id));
 
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;
@@ -227,6 +231,7 @@ export class ConsultarAtendentesComponent implements OnInit {
       page: 0,
       sort: null,
       defaultFilter: [],
+      tiposAvaliacoesFilter: [],
       unidadesFilter: [],
       dataInicioFilter: null,
       dataTerminoFilter: null

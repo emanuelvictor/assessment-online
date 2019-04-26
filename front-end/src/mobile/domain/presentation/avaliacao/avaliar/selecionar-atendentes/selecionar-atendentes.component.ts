@@ -80,35 +80,34 @@ export class SelecionarAtendentesComponent implements OnInit {
 
     }
 
-
-    this.configuracaoRepository.configuracao.subscribe(configuracao => {
-      this.configuracao = configuracao
-    });
-
     this.timeout = setTimeout(() => {
       this.mobileService.reset();
       this.router.navigate(['/avaliar/1']);
       this._loadingService.resolve('overlayStarSyntax');
     }, this.time);
 
-    this.avaliavelRepository.listByFilters(
-      {
-        ativo: true,
-        unidadeTipoAvaliacaoId: this.mobileService.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params['ordem'])[0].id
-      }
-    )
-      .subscribe(page => {
-        this.avaliaveis = page.content;
-        this._loadingService.resolve('overlayStarSyntax');
-
-        if (this.avaliaveis.length === 1) {
-          this.avaliaveis[0].selected = true;
-          this.concluir();
-        } else if (!this.avaliaveis.length) {
-          this.openSnackBar('Vincule os itens avaliáveis à uma unidade');
-          this.router.navigate(['conclusao'])
+    this.configuracaoRepository.configuracao.subscribe(configuracao => {
+      this.avaliavelRepository.listByFilters(
+        {
+          ativo: true,
+          unidadeTipoAvaliacaoId: this.mobileService.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params['ordem'])[0].id
         }
-      });
+      )
+        .subscribe(page => {
+          this.configuracao = configuracao
+
+          this.avaliaveis = page.content;
+          this._loadingService.resolve('overlayStarSyntax');
+
+          if (this.avaliaveis.length === 1) {
+            this.avaliaveis[0].selected = true;
+            this.concluir();
+          } else if (!this.avaliaveis.length) {
+            this.openSnackBar('Vincule os itens avaliáveis à uma unidade');
+            this.router.navigate(['conclusao'])
+          }
+        })
+    })
 
   }
 

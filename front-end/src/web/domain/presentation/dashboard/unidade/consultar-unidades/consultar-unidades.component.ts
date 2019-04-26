@@ -48,6 +48,7 @@ export class ConsultarUnidadesComponent implements OnInit {
     page: 0,
     sort: null,
     defaultFilter: [],
+    tiposAvaliacoesFilter: [],
     enderecoFilter: [],
     dataInicioFilter: null,
     dataTerminoFilter: null
@@ -175,6 +176,8 @@ export class ConsultarUnidadesComponent implements OnInit {
 
     this.pageRequest.page = 0;
 
+    this.pageRequest.tiposAvaliacoesFilter = this.asyncTiposAvaliacoesModel.map((result: any) => result.id);
+
     this.unidadeService.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Unidade>(result.content);
@@ -208,6 +211,8 @@ export class ConsultarUnidadesComponent implements OnInit {
    */
   public listUnidadesByFilters(pageRequest: any) {
 
+    pageRequest.tiposAvaliacoesFilter.concat(this.asyncTiposAvaliacoesModel.map((result: any) => result.id));
+
     pageRequest.size = this.paginator.pageSize;
     pageRequest.page = this.paginator.pageIndex;
 
@@ -231,6 +236,7 @@ export class ConsultarUnidadesComponent implements OnInit {
       page: 0,
       sort: null,
       defaultFilter: null,
+      tiposAvaliacoesFilter: [],
       enderecoFilter: null,
       dataInicioFilter: null,
       dataTerminoFilter: null

@@ -91,6 +91,7 @@ public class UnidadeService {
      * @return Page<Unidade>
      */
     public Page<Unidade> listByFilters(final String defaultFilter,
+                                       final List<Long> tiposAvaliacoesFilter,
                                        final String enderecoFilter,
                                        final LocalDateTime dataInicioFilter,
                                        final LocalDateTime dataTerminoFilter,
@@ -104,6 +105,7 @@ public class UnidadeService {
                 usuarioId,
                 conta.getPerfil().name(),
                 defaultFilter,
+                tiposAvaliacoesFilter,
                 enderecoFilter,
                 dataInicioFilter,
                 dataTerminoFilter,
