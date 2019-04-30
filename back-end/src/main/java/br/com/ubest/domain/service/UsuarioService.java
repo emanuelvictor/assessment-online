@@ -359,10 +359,9 @@ public class UsuarioService {
 
         final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
 
-
         final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 
-        return usuarioRepository.listByFilters(
+        final Page<Usuario> page = usuarioRepository.listByFilters(
                 usuarioId,
                 conta.getPerfil().name(),
                 defaultFilter,
@@ -372,6 +371,9 @@ public class UsuarioService {
                 dataTerminoFilter,
                 pageable);
 
+        page.getContent().forEach(usuario -> usuario.setAvaliaveis(avaliavelService.findAllByUsuarioId(usuario.getId())));
+
+        return page;
     }
 
     /**

@@ -147,6 +147,7 @@
               <span *ngIf='usuario?.documento' [@fadeInOut]
                     style='color: #607d8b'>{{usuario?.documento | documento}}</span>
               <span style='color: gray'>{{usuario?.conta?.email}}</span>
+              <span style='color: gray'>{{usuario?.avaliacoesAvaliaveis?.length}}</span>
             </div>
           </mat-cell>
         </ng-container>

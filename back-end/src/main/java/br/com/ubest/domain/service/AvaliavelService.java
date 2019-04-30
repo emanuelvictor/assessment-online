@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -49,14 +50,14 @@ public class AvaliavelService {
     }
 
     @Transactional
-    public void delete(final List<Avaliavel> avaliaveis) {
+    public void delete(final Set<Avaliavel> avaliaveis) {
 
-        final List<AvaliacaoAvaliavel> avalicoesAvaliaveis = new ArrayList<>();
+//        final List<AvaliacaoAvaliavel> avalicoesAvaliaveis = new ArrayList<>();
 
         // Deleta os avaliações avaliáveis
         avaliaveis.forEach(avaliavel -> {
                     final List<AvaliacaoAvaliavel> avalicoesAvaliaveisLocais = this.avaliacaoAvaliavelService.findAllByAvaliavelId(avaliavel.getId());
-                    avalicoesAvaliaveis.addAll(avalicoesAvaliaveisLocais);
+//                    avalicoesAvaliaveis.addAll(avalicoesAvaliaveisLocais);
                     this.avaliacaoAvaliavelService.delete(avalicoesAvaliaveisLocais);
                 }
         );
@@ -71,11 +72,11 @@ public class AvaliavelService {
     }
 
 
-    List<Avaliavel> findAllByUnidadeTipoAvaliacaoId(final Long unidadeTipoAvaliacaoId) {
+    Set<Avaliavel> findAllByUnidadeTipoAvaliacaoId(final Long unidadeTipoAvaliacaoId) {
         return this.avaliavelRepository.findAllByUnidadeTipoAvaliacaoId(unidadeTipoAvaliacaoId);
     }
 
-    List<Avaliavel> findAllByUsuarioId(final Long usuarioId) {
+    Set<Avaliavel> findAllByUsuarioId(final Long usuarioId) {
         return this.avaliavelRepository.findAllByUsuarioId(usuarioId);
     }
 }

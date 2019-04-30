@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface AvaliavelRepository extends JpaRepository<Avaliavel, Long> {
 
@@ -46,8 +47,8 @@ public interface AvaliavelRepository extends JpaRepository<Avaliavel, Long> {
                                   @Param("unidadeTipoAvaliacaoId") final Long unidadeTipoAvaliacaoId,
                                   final Pageable pageable);
 
-    List<Avaliavel> findAllByUnidadeTipoAvaliacaoId(final long avaliacaoUnidadeTipoId);
+    Set<Avaliavel> findAllByUnidadeTipoAvaliacaoId(final long avaliacaoUnidadeTipoId);
 
-    List<Avaliavel> findAllByUsuarioId(final long usuarioId);
+    Set<Avaliavel> findAllByUsuarioId(final long usuarioId);
 
 }
