@@ -86,7 +86,8 @@ export class SelecionarAtendentesComponent implements OnInit {
       this._loadingService.resolve('overlayStarSyntax');
     }, this.time);
 
-    this.configuracaoRepository.configuracao.subscribe(configuracao => {
+    this.configuracaoRepository.requestConfiguracao.subscribe(configuracao => {
+      this.configuracao = configuracao;
       this.avaliavelRepository.listByFilters(
         {
           ativo: true,
@@ -94,7 +95,6 @@ export class SelecionarAtendentesComponent implements OnInit {
         }
       )
         .subscribe(page => {
-          this.configuracao = configuracao
 
           this.avaliaveis = page.content;
           this._loadingService.resolve('overlayStarSyntax');
@@ -108,7 +108,6 @@ export class SelecionarAtendentesComponent implements OnInit {
           }
         })
     })
-
   }
 
   /**

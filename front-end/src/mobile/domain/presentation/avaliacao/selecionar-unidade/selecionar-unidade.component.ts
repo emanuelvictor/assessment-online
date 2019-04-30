@@ -58,6 +58,8 @@ export class SelecionarUnidadeComponent implements OnInit {
           this.openSnackBar('Insira unidades de atendimento pela plataforma web');
           this.router.navigate(['conclusao']);
           this._loadingService.resolve('overlayStarSyntax');
+        } else {
+          this._loadingService.resolve('overlayStarSyntax');
         }
       });
   }

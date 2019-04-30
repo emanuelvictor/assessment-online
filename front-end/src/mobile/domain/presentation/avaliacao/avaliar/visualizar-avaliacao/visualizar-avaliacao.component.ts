@@ -131,12 +131,13 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    */
   public avaliar(nota: number) {
 
-    clearTimeout(this.timeout);
-
     this._loadingService.register('overlayStarSyntax');
 
     this.mobileService.setNota(nota);
+
     this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['ordem']) + '/selecionar-atendentes']);
+
+    clearTimeout(this.timeout);
   }
 
   /**
@@ -153,7 +154,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
   /**
    *
    */
-  public clearTimeout() {
+  public restartTimeout() {
     clearTimeout(this.timeout);
 
     this.timeout = setTimeout(() => {

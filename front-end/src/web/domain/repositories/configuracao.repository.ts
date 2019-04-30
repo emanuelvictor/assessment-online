@@ -32,6 +32,13 @@ export class ConfiguracaoRepository extends BaseRepository<Configuracao> {
     return this.observerConfiguracao;
   }
 
+  /**
+   * Devolve a configuração via request
+   */
+  public get requestConfiguracao(): Observable<Configuracao> {
+    return this.httpClient.get<Configuracao>(environment.endpoint + ConfiguracaoRepository.collection)
+  }
+
   public getClienteByUsername(username: String): Observable<string> {
     return this.httpClient.get<string>(environment.endpoint + ConfiguracaoRepository.collection + '/' + username)
   }

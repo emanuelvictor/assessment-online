@@ -74,7 +74,7 @@ export class FeedbackComponent implements OnInit {
 
     this.modelChanged.debounceTime(300)
       .subscribe(() =>
-        this.clearTimeout()
+        this.restartTimeout()
       );
 
     this.form = this.fb.group({
@@ -103,17 +103,22 @@ export class FeedbackComponent implements OnInit {
   public sendFeedback(feedback: string) {
     clearTimeout(this.timeout);
     if (feedback && feedback.trim().length) {
-      this.mobileService.sendFeedback(feedback);
+      this.mobileService.sendFeedback(feedback).then(() => {
+        // Zera o agrupador
+        this.mobileService.agrupador = new Agrupador();
+        this.router.navigate(['conclusao'])
+      });
+    } else {
+      // Zera o agrupador
+      this.mobileService.agrupador = new Agrupador();
+      this.router.navigate(['conclusao'])
     }
-    // Zera o agrupador
-    this.mobileService.agrupador = new Agrupador();
-    this.router.navigate(['conclusao']);
   }
 
   /**
    *
    */
-  public clearTimeout() {
+  public restartTimeout() {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
       // Zera o agrupador

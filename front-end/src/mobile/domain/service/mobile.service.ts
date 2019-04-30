@@ -321,9 +321,9 @@ export class MobileService {
    *
    * @param feedback
    */
-  public sendFeedback(feedback: string) {
+  public sendFeedback(feedback: string): Promise<Agrupador> {
     this.agrupador = this.agrupador && this.agrupador.id ? this.agrupador : new Agrupador();
     this.agrupador.feedback = feedback;
-    this.avaliacaoService.sendFeedback(this.agrupador)
+    return this.avaliacaoService.sendFeedback(this.agrupador)
   }
 }
