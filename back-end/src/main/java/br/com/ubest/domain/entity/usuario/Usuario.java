@@ -1,9 +1,8 @@
 package br.com.ubest.domain.entity.usuario;
 
-import br.com.caelum.stella.format.CNPJFormatter;
-import br.com.caelum.stella.format.CPFFormatter;
 import br.com.caelum.stella.validation.CNPJValidator;
 import br.com.caelum.stella.validation.CPFValidator;
+import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
 import br.com.ubest.domain.entity.usuario.vinculo.Operador;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,9 +12,12 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -163,6 +165,25 @@ public class Usuario extends Pessoa {
      *-------------------------------------------------------------------*/
 
     /**
+     * @return String
+     */
+    @Transient
+    @JsonProperty
+    public String getUnidades() {
+
+        final Set<Unidade> unidades = new HashSet<>();
+
+        if (this.avaliaveis != null && !Objects.requireNonNull(this.avaliaveis).isEmpty())
+            unidades.addAll(this.avaliaveis.stream().map(avaliavel -> avaliavel.getUnidadeTipoAvaliacao().getUnidade()).collect(Collectors.toSet()));
+        if (this.operadores != null)
+            unidades.addAll(this.operadores.stream().map(Operador::getUnidade).collect(Collectors.toSet()));
+
+        if (unidades.isEmpty())
+            return null;
+        return unidades.stream().map(a -> a.nome).collect(Collectors.joining(", "));
+    }
+
+    /**
      *
      */
     public boolean isOperador() {
@@ -203,7 +224,7 @@ public class Usuario extends Pessoa {
      * @param documento {String}
      * @return {String}
      */
-    public static String prepareDocumento(String documento) {
+    private static String prepareDocumento(String documento) {
         if (documento == null) {
             return null;
         }
@@ -220,7 +241,7 @@ public class Usuario extends Pessoa {
      * @param documento {String}
      * @return {String}
      */
-    public static String validateDocumento(final String documento) {
+    private static String validateDocumento(final String documento) {
         if (documento == null || documento.length() < 1) {
             return null;
         }
@@ -260,45 +281,45 @@ public class Usuario extends Pessoa {
     }
 
 
-    /**
-     * Devolve os pontos e barra ao documento
-     *
-     * @param documento {String}
-     * @return {String}
-     */
-    public static String formatDocumento(final String documento) {
-        if (documento == null || documento.length() < 1) {
-            return null;
-        }
-        if (documento.contains("@")) {
-            return documento;
-        }
-
-        final String doc = Usuario.prepareDocumento(documento);
-
-        final CNPJValidator cnpjValidator = new CNPJValidator();
-        final CPFValidator cpfValidator = new CPFValidator();
-
-
-        final CNPJFormatter cnpjFormatter = new CNPJFormatter();
-        final CPFFormatter cpfFormatter = new CPFFormatter();
-
-        if (cpfValidator.isEligible(doc)) {
-            try {
-                return cpfFormatter.format(doc);
-            } catch (Exception e) {
-                throw new Usuario.CpfException();
-            }
-        } else if (cnpjValidator.isEligible(doc)) {
-            try {
-                return cnpjFormatter.format(doc);
-            } catch (Exception e) {
-                throw new Usuario.CnpjException();
-            }
-        } else {
-            throw new CpfCnpjException();
-        }
-    }
+//    /**
+//     * Devolve os pontos e barra ao documento
+//     *
+//     * @param documento {String}
+//     * @return {String}
+//     */
+//    public static String formatDocumento(final String documento) {
+//        if (documento == null || documento.length() < 1) {
+//            return null;
+//        }
+//        if (documento.contains("@")) {
+//            return documento;
+//        }
+//
+//        final String doc = Usuario.prepareDocumento(documento);
+//
+//        final CNPJValidator cnpjValidator = new CNPJValidator();
+//        final CPFValidator cpfValidator = new CPFValidator();
+//
+//
+//        final CNPJFormatter cnpjFormatter = new CNPJFormatter();
+//        final CPFFormatter cpfFormatter = new CPFFormatter();
+//
+//        if (cpfValidator.isEligible(doc)) {
+//            try {
+//                return cpfFormatter.format(doc);
+//            } catch (Exception e) {
+//                throw new Usuario.CpfException();
+//            }
+//        } else if (cnpjValidator.isEligible(doc)) {
+//            try {
+//                return cnpjFormatter.format(doc);
+//            } catch (Exception e) {
+//                throw new Usuario.CnpjException();
+//            }
+//        } else {
+//            throw new CpfCnpjException();
+//        }
+//    }
 
     /**
      *

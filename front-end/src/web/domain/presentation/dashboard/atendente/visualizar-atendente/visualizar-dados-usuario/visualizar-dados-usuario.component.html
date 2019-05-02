@@ -20,6 +20,9 @@
         <h2 flex *ngIf='usuario?.documento' class="mat-subheading-2 tc-blue-grey-500 no-margin">
           {{usuario?.documento | documento}}
         </h2>
+        <h2 flex *ngIf='usuario?.unidades' class="mat-subheading-2 tc-blue-grey-500 no-margin">
+          {{usuario?.unidades}}
+        </h2>
         <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
           {{(
           (usuario?.avaliacoes1 ? usuario?.avaliacoes1 : 0) +

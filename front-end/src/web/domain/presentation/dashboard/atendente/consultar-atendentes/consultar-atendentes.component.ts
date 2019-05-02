@@ -179,6 +179,12 @@ export class ConsultarAtendentesComponent implements OnInit {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
 
         this.page = result;
+
+        // this.page.content.map(itemAvaliavel => {
+        //   if (itemAvaliavel.unidades && itemAvaliavel.unidades.length) {
+        //     itemAvaliavel.unidades = itemAvaliavel.unidades.map(a => a.nome).join(', ')
+        //   }
+        // })
       })
 
   }
@@ -217,6 +223,12 @@ export class ConsultarAtendentesComponent implements OnInit {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
 
         this.page = result;
+
+        // this.page.content.map(itemAvaliavel => {
+        //   if (itemAvaliavel.unidades && itemAvaliavel.unidades.length) {
+        //     itemAvaliavel.unidades = itemAvaliavel.unidades.map(a => a.nome).join(',')
+        //   }
+        // })
       })
   }
 

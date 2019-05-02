@@ -1,6 +1,7 @@
 import {Endereco} from '../endereco/endereco.model';
 import {Pessoa} from '../abstract/pessoa.model';
 import {Conta} from './conta.model';
+import {Unidade} from "../unidade/unidade.model";
 
 export class Usuario extends Pessoa {
 
@@ -18,7 +19,7 @@ export class Usuario extends Pessoa {
   /**
    * Utilizado para paliativo em consulta de atendentes
    */
-  public unidades: string;
+  public unidades: Unidade[];
 
   public endereco: Endereco;
 
