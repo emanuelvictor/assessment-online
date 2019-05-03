@@ -30,14 +30,15 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   unidade.documento, " +
             "   unidade.endereco," +
             "   AVG(avaliacao.nota) AS media," +
-            "   COUNT(avaliacao.id) AS quantidadeAvaliacoes," +
-            "   COUNT(av1.id) AS avaliacoes1," +
-            "   COUNT(av2.id) AS avaliacoes2," +
-            "   COUNT(av3.id) AS avaliacoes3," +
-            "   COUNT(av4.id) AS avaliacoes4," +
-            "   COUNT(av5.id) AS avaliacoes5" +
+            "   COUNT(DISTINCT avaliacao.id) AS quantidadeAvaliacoes," +
+            "   COUNT(DISTINCT av1.id) AS avaliacoes1," +
+            "   COUNT(DISTINCT av2.id) AS avaliacoes2," +
+            "   COUNT(DISTINCT av3.id) AS avaliacoes3," +
+            "   COUNT(DISTINCT av4.id) AS avaliacoes4," +
+            "   COUNT(DISTINCT av5.id) AS avaliacoes5" +
             ") FROM Unidade unidade " +
             "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.unidade.id = unidade.id " +
+            "       LEFT OUTER JOIN TipoAvaliacao tipoAvaliacao ON tipoAvaliacao.id = unidadeTipoAvaliacao.tipoAvaliacao.id " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
             "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
@@ -84,15 +85,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       )" +
             "       AND " +
             "       (" +
-            "           (" +
-            "               unidade.id IN " +
-            "               (" +
-            "                   SELECT avaliavel.unidadeTipoAvaliacao.unidade.id FROM Avaliavel avaliavel WHERE " +
-            "                   (" +
-            "                       avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.id = unidadeTipoAvaliacao.tipoAvaliacao.id AND avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.id IN :tiposAvaliacoesFilter " +
-            "                   )" +
-            "               )" +
-            "           )" +
+            "           tipoAvaliacao.id IN :tiposAvaliacoesFilter" +
             "           OR :tiposAvaliacoesFilter IS NULL" +
             "       )" +
             "       AND" +

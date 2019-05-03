@@ -61,12 +61,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   usuario.fotoPath, " +
             "   AVG(avaliacao.nota) AS media," +
 //            "  (CASE WHEN AVG(avaliacao.nota) IS NULL THEN 0.0 ELSE AVG(avaliacao.nota) END) AS media," +
-            "   COUNT(avaliacao) AS quantidadeAvaliacoes," +
-            "   COUNT(av1) AS avaliacoes1," +
-            "   COUNT(av2) AS avaliacoes2," +
-            "   COUNT(av3) AS avaliacoes3," +
-            "   COUNT(av4) AS avaliacoes4," +
-            "   COUNT(av5) AS avaliacoes5," +
+            "   COUNT(avaliacao.id) AS quantidadeAvaliacoes," +
+            "   COUNT(av1.id) AS avaliacoes1," +
+            "   COUNT(av2.id) AS avaliacoes2," +
+            "   COUNT(av3.id) AS avaliacoes3," +
+            "   COUNT(av4.id) AS avaliacoes4," +
+            "   COUNT(av5.id) AS avaliacoes5," +
             "   usuario.conta," +
             "   usuario.documento" +
             ") FROM Usuario usuario " +
