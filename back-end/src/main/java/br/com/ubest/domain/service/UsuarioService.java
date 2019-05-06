@@ -4,16 +4,19 @@ import br.com.ubest.application.aspect.exceptions.PasswordNotFound;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
+import br.com.ubest.domain.entity.configuracao.Configuracao;
 import br.com.ubest.domain.entity.endereco.Endereco;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
+import br.com.ubest.domain.repository.ConfiguracaoRepository;
 import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.domain.repository.UsuarioRepository;
 import br.com.ubest.infrastructure.file.ImageUtils;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -74,6 +77,8 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
     private final TipoAvaliacaoService tipoAvaliacaoService;
+
+    private final ConfiguracaoRepository configuracaoRepository;
 
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
@@ -302,6 +307,15 @@ public class UsuarioService {
         avaliavel.setUsuario(quesito);
         avaliavel.setUnidadeTipoAvaliacao(unidadeTipoAvaliacao);
         this.avaliavelService.save(avaliavel);
+
+        final Configuracao configuracao = new Configuracao();
+        try {
+            configuracao.setBackgroundImage(IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/banner.png")));
+            configuracao.setLogo(IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/ubest1.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.configuracaoRepository.save(configuracao);
     }
 
     /**

@@ -7,10 +7,14 @@ import br.com.ubest.domain.repository.ConfiguracaoRepository;
 import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.infrastructure.file.ImageUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import reactor.core.publisher.Mono;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
@@ -105,7 +109,18 @@ public class ConfiguracaoService {
     }
 
     public byte[] findBackground(final String cliente) {
-        return getConfiguracao(cliente).getBackgroundImage();
+
+        final byte[] background = getConfiguracao(cliente).getBackgroundImage();
+
+        if (background == null) { // TODO
+            try {
+                return IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/banner.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return background;
     }
 
     public void deleteBackground() {
@@ -121,7 +136,18 @@ public class ConfiguracaoService {
     }
 
     public byte[] findLogomarca(final String cliente) {
-        return this.getConfiguracao(cliente).getLogo();
+
+        final byte[] logomarca = getConfiguracao(cliente).getLogo();
+
+        if (logomarca == null) { //TODO
+            try {
+                return IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/ubest1.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return logomarca;
     }
 
     public void deleteLogomarca() {
