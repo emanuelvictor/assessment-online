@@ -7,6 +7,8 @@ import {ConfiguracaoRepository} from "../../repositories/configuracao.repository
 import 'rxjs/add/operator/debounceTime';
 import {getIdentifier} from "../controls/utils";
 import {environment} from "../../../../environments/environment";
+import {DomSanitizer} from "@angular/platform-browser";
+import {FileRepository} from "../../../infrastructure/repository/file/file.repository";
 
 /**
  *
@@ -42,14 +44,17 @@ export class LoginComponent {
    * @type {Subject<string>}
    */
   private modelChanged: Subject<string> = new Subject<string>();
-
+  backgroundPath: string = environment.endpoint + 'assets/images/banner.png';
   /**
    *
    * @param {Router} router
+   * @param _sanitizer
+   * @param fileRepository
    * @param {AuthenticationService} authenticationService
    * @param {ConfiguracaoRepository} configuracaoRepository
    */
-  constructor(private router: Router, private authenticationService: AuthenticationService, private configuracaoRepository: ConfiguracaoRepository) {
+  constructor(private router: Router, private _sanitizer: DomSanitizer, private fileRepository: FileRepository,
+              private authenticationService: AuthenticationService, private configuracaoRepository: ConfiguracaoRepository) {
     this.modelChanged
       .debounceTime(1000)
       .distinctUntilChanged()
@@ -60,17 +65,24 @@ export class LoginComponent {
               this.cliente = result;
 
               const identifier: string = getIdentifier();
-
               this.logoImage = environment.endpoint + './configuracoes/logomarca?cliente=' + this.cliente + '?nocache=' + identifier;
 
               if (this.cliente === 'public') {
-                this.backgroundImage = environment.endpoint + 'assets/images/banner.png';
+                this.backgroundPath = environment.endpoint + 'assets/images/banner.png';
               } else {
-                this.backgroundImage = environment.endpoint + './configuracoes/background?cliente=' + this.cliente + '?nocache=' + identifier;
+                this.backgroundPath = environment.endpoint + './configuracoes/background?cliente=' + this.cliente + '?nocache=' + identifier;
               }
             }
           })
       );
+  }
+
+  /**
+   *
+   * @param image
+   */
+  getBackground(image){
+    return this._sanitizer.bypassSecurityTrustStyle(`url(${image})`);
   }
 
   /**

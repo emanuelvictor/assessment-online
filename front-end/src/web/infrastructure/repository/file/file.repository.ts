@@ -20,8 +20,8 @@ export class FileRepository {
    * @param {string} path
    * @returns {Observable<any>}
    */
-  findOne(path: string): Observable<any> {
-    return this.httpClient.get(path);
+  findOne(path: string): Promise<any> {
+    return this.httpClient.get(path, {responseType: 'blob'}).toPromise()
   }
 
   /**

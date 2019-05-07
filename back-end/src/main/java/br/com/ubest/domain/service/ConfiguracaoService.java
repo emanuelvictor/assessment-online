@@ -83,7 +83,11 @@ public class ConfiguracaoService {
     }
 
     public Configuracao getConfiguracao() {
-        return (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
+        final String oldSchema = tenantIdentifierResolver.resolveCurrentTenantIdentifier();
+        tenantIdentifierResolver.setSchema(DEFAULT_TENANT_ID);
+        final Configuracao configuracao = (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
+        tenantIdentifierResolver.setSchema(oldSchema);
+        return configuracao;
     }
 
     /**
