@@ -1,28 +1,48 @@
-<search-bar>
+<search-bar flex>
 
-  <td-chips style='margin-left:0; margin-top: 9px'
-            [(ngModel)]='pageRequest.defaultFilter'
-            placeholder="Pesquisar por nome ou e-mail"
-            (add)="onChangeFilters()" (remove)="onChangeFilters()"
-            flex-sm='30' flex-md="40" flex-gt-md="45" flex-gt-lg="50">
-  </td-chips>
+  <mat-form-field style='margin-left:0; margin-top: 32px' flex-sm='30' flex-md='40' flex-gt-md='45' flex-gt-lg='50'
+                  [ngStyle]="{'margin-top': (pageRequest?.defaultFilter?.length ? '16px' : '32px')}">
+    <mat-chip-list #defaultFilterChipList aria-label='Pesquisar por nome ou e-mail'>
 
-  <td-chips [items]="filteredAsync"
-            [(ngModel)]='asyncModel'
-            requireMatch style='margin-top: 0'
-            (inputChange)="filterAsync($event)"
-            placeholder="Pesquisar por unidades"
-            [debounce]="500" flex="30" flex-sm='30'
-            (add)="onChangeFilters()" (remove)="onChangeFilters()">
-    <ng-template td-chip let-chip="chip">
-      {{chip?.nome}} ({{chip?.endereco?.cidade?.nome }} - {{chip?.endereco?.cidade?.estado?.uf}})
-    </ng-template>
-    <ng-template td-autocomplete-option let-option="option">
-      <div layout="row" layout-align="start center">
+      <mat-chip *ngFor='let defaultFilter of pageRequest.defaultFilter'
+                (removed)='removeDefaultFilter(defaultFilter)' style='max-width: 100%'>
+        {{defaultFilter}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+
+      <input [matChipInputFor]='defaultFilterChipList'
+             (ngModelChange)='defaultFilterChanged($event)'
+             (matChipInputTokenEnd)='addDefaultFilter($event)'
+             [(ngModel)]='defaultFilter' [ngModelOptions]='{standalone: true}'
+             placeholder='Pesquisar por nome ou e-mail' [matChipInputAddOnBlur]='true'>
+
+    </mat-chip-list>
+
+  </mat-form-field>
+
+  <mat-form-field flex='30' [ngStyle]="{'margin-top': (pageRequest?.unidadesFilter?.length ? '9.5px' : '23px')}">
+    <mat-chip-list #chipList aria-label='Pesquisar por Unidades'>
+
+      <mat-chip *ngFor='let unidade of pageRequest.unidadesFilter'
+                (removed)='remove(unidade)' style='max-width: 100%'>
+        {{unidade?.nome}} ({{unidade?.endereco?.cidade?.nome }} - {{unidade?.endereco?.cidade?.estado?.uf}})
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+
+      <input (keyup)='filterUnidadesAsync(filtro)'
+             placeholder='Pesquisar por Unidades' #unidadesInput
+             [matAutocomplete]='auto' [matChipInputFor]='chipList'
+             [(ngModel)]='filtro' [ngModelOptions]='{standalone: true}'>
+
+    </mat-chip-list>
+
+    <mat-autocomplete #auto='matAutocomplete' (optionSelected)='add($event)'>
+      <mat-option [value]='option' *ngFor='let option of unidadesFilteredAsync'>
         {{option?.nome}} ({{option?.endereco?.cidade?.nome }} - {{option?.endereco?.cidade?.estado?.uf}})
-      </div>
-    </ng-template>
-  </td-chips>
+      </mat-option>
+    </mat-autocomplete>
+
+  </mat-form-field>
 
   <div flex-gt-md></div>
 
@@ -32,11 +52,10 @@
     Filtros avançados
   </button>
 
-  <button hide-gt-sm
-          color="accent"
-          mat-icon-button flex
+  <button mat-icon-button flex
+          hide-gt-sm color='accent'
           [matTooltipPosition]="'below'"
-          matTooltip="Filtros avançados"
+          matTooltip='Filtros avançados'
           style='color: #0c3e6f !important;'
           (click)="toggleShowPesquisaAvancada()">
     <mat-icon>filter_list</mat-icon>
@@ -87,22 +106,31 @@
       </div>
       <!--<div hide-sm hide-xs flex='12'></div>-->
 
-      <td-chips [debounce]='500' flex='30'
-                requireMatch style='margin-top: -16px'
-                [items]='filteredTiposAvaliacoesAsync'
-                [(ngModel)]='asyncTiposAvaliacoesModel'
-                placeholder='Pesquisar por Tipos de Avaliações'
-                (inputChange)='filterTiposAvaliacoesAsync($event)'
-                (add)="onChangeFilters()" (remove)="onChangeFilters()">
-        <ng-template td-chip let-chip="chip">
-          {{chip?.nome}}
-        </ng-template>
-        <ng-template td-autocomplete-option let-option="option">
-          <div layout="row" layout-align="start center">
+      <mat-form-field flex='30'
+                      [ngStyle]="{'margin-top': (pageRequest?.tiposAvaliacoesFilter?.length ? '-7px' : '7px')}">
+        <mat-chip-list #tiposAvaliacoesFilterChipList aria-label='Pesquisar por Tipos de Avaliações'>
+
+          <mat-chip *ngFor='let tipoAvaliacao of pageRequest.tiposAvaliacoesFilter'
+                    (removed)='removeTipoAvaliacaoFilter(tipoAvaliacao)' style='max-width: 100%'>
+            {{tipoAvaliacao?.nome}} ({{tipoAvaliacao?.enunciado }} - {{tipoAvaliacao?.selecao}})
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+
+          <input (keyup)='filterTiposAvaliacoesAsync(tiposAvaliacoesFilter)'
+                 placeholder='Pesquisar por Tipos de Avaliações' #tiposAvaliacoesInput
+                 [(ngModel)]='tiposAvaliacoesFilter' [ngModelOptions]='{standalone: true}'
+                 [matAutocomplete]='autoCompleteTiposAvaliacoes' [matChipInputFor]='tiposAvaliacoesFilterChipList'>
+
+        </mat-chip-list>
+
+        <mat-autocomplete #autoCompleteTiposAvaliacoes='matAutocomplete'
+                          (optionSelected)='addTipoAvaliacaoFilter($event)'>
+          <mat-option [value]='option' *ngFor='let option of filteredTiposAvaliacoesAsync'>
             {{option?.nome}} ({{option?.enunciado }} - {{option?.selecao}})
-          </div>
-        </ng-template>
-      </td-chips>
+          </mat-option>
+        </mat-autocomplete>
+
+      </mat-form-field>
 
       <close-button (click)='hidePesquisaAvancada()' hide-sm hide-xs></close-button>
     </div>

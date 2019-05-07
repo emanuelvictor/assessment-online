@@ -36,11 +36,6 @@ export class LoginComponent {
   logoImage: string = environment.endpoint + './configuracoes/logomarca?cliente=public';
   /**
    *
-   * @type {string}
-   */
-  backgroundImage: string = environment.endpoint + 'assets/images/banner.png';
-  /**
-   *
    * @type {Subject<string>}
    */
   private modelChanged: Subject<string> = new Subject<string>();
