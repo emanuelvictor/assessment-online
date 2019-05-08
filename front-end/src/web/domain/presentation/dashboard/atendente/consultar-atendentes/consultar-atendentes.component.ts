@@ -180,12 +180,12 @@ export class ConsultarAtendentesComponent implements OnInit {
     });
 
     /**
-     *
+     *teste
      */
     this.defaultFilterModelChanged.debounceTime(300).distinctUntilChanged().subscribe(model => {
       const pageRequest = Object.assign({}, this.pageRequest);
       pageRequest.page = 0;
-      pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); //TODO falcatruassa para os objetos internos
+      pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); // TODO falcatruassa para os objetos internos
       pageRequest.defaultFilter.push(model);
       pageRequest.unidadesFilter = this.pageRequest.unidadesFilter.map(value => value.id);
       pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
