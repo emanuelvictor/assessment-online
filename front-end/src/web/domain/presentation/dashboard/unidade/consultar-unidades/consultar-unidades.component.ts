@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {Unidade} from '../../../../entity/unidade/unidade.model';
 import {DomSanitizer} from "@angular/platform-browser";
@@ -13,6 +13,9 @@ import {ConfiguracaoService} from "../../../../service/configuracao.service";
 import {AuthenticationService} from "../../../../service/authentication.service";
 import {viewAnimation} from "../../../controls/utils";
 import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
+import {Subject} from "rxjs";
+import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
+import {Usuario} from "../../../../entity/usuario/usuario.model";
 
 @Component({
   selector: 'consultar-unidades',
@@ -102,6 +105,18 @@ export class ConsultarUnidadesComponent implements OnInit {
    *
    */
   @ViewChild('dataTermino') dataTermino: EvDatepicker;
+
+  /**
+   *
+   */
+  @ViewChild('tiposAvaliacoesInput') tiposAvaliacoesInput: ElementRef<HTMLInputElement>;
+
+  /**
+   *
+   * @type {Subject<string>}
+   */
+  private defaultFilterModelChanged: Subject<string> = new Subject<string>();
+
   filteredTiposAvaliacoesAsync: string[];
   asyncTiposAvaliacoesModel: string[] = [];
 
@@ -134,6 +149,22 @@ export class ConsultarUnidadesComponent implements OnInit {
     this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'media', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/baseline-bar_chart-24px.svg'));
+
+    /**
+     *
+     */
+    this.defaultFilterModelChanged.debounceTime(300).distinctUntilChanged().subscribe(model => {
+      const pageRequest: any = Object.assign({}, this.pageRequest);
+      pageRequest.page = 0;
+      pageRequest.defaultFilter = [model];
+      pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
+
+      this.unidadeService.listByFilters(pageRequest)
+        .subscribe((result) => {
+          this.dataSource = new MatTableDataSource<Unidade>(result.content);
+          this.page = result
+        })
+    });
   }
 
   /**
@@ -174,15 +205,14 @@ export class ConsultarUnidadesComponent implements OnInit {
    */
   public onChangeFilters() {
 
-    this.pageRequest.page = 0;
+    const pageRequest: any = Object.assign({}, this.pageRequest);
+    pageRequest.page = 0;
+    pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
 
-    this.pageRequest.tiposAvaliacoesFilter = this.asyncTiposAvaliacoesModel.map((result: any) => result.id);
-
-    this.unidadeService.listByFilters(this.pageRequest)
+    this.unidadeService.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Unidade>(result.content);
-
-        this.page = result;
+        this.page = result
       })
   }
 
@@ -274,9 +304,121 @@ export class ConsultarUnidadesComponent implements OnInit {
 
       this.tipoAvaliacaoRepository.listLightByFilters(pageRequest)
         .subscribe((result) => {
-          this.filteredTiposAvaliacoesAsync = result.content;
-        });
+          this.filteredTiposAvaliacoesAsync = result.content
+        })
 
     }
+  }
+
+  /**
+   *
+   * @param $event
+   */
+  addDefaultFilter($event: MatChipInputEvent) {
+    const input = $event.input;
+    const value = $event.value;
+
+    if ((value || '').trim()) {
+      this.pageRequest.defaultFilter.push(value);
+    }
+
+    if (input) {
+      input.value = '';
+    }
+
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param defaultFilter
+   */
+  removeDefaultFilter(defaultFilter: string) {
+    const index = this.pageRequest.defaultFilter.indexOf(defaultFilter);
+
+    if (index >= 0) {
+      this.pageRequest.defaultFilter.splice(index, 1);
+    }
+
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param {string} filter
+   */
+  public defaultFilterChanged(filter: string) {
+    if (filter && filter.length) {
+      this.defaultFilterModelChanged.next(filter);
+    }
+  }
+
+  /**
+   *
+   * @param $event
+   */
+  addEnderecoFilter($event: MatChipInputEvent) {
+    const input = $event.input;
+    const value = $event.value;
+
+    if ((value || '').trim()) {
+      this.pageRequest.enderecoFilter.push(value);
+    }
+
+    if (input) {
+      input.value = '';
+    }
+
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param defaultFilter
+   */
+  removeEnderecoFilter(defaultFilter: string) {
+    const index = this.pageRequest.enderecoFilter.indexOf(defaultFilter);
+
+    if (index >= 0) {
+      this.pageRequest.enderecoFilter.splice(index, 1);
+    }
+
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param {string} filter
+   */
+  public enderecoFilterChanged(filter: string) {
+    if (filter && filter.length) {
+      this.defaultFilterModelChanged.next(filter)
+    }
+  }
+
+  /**
+   *
+   * @param $event
+   */
+  addTipoAvaliacaoFilter($event: MatAutocompleteSelectedEvent) {
+    this.pageRequest.tiposAvaliacoesFilter.push($event.option.value);
+
+    this.tiposAvaliacoesInput.nativeElement.value = '';
+
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param tipoAvaliacao
+   */
+  removeTipoAvaliacaoFilter(tipoAvaliacao: TipoAvaliacao) {
+    const index = this.pageRequest.tiposAvaliacoesFilter.indexOf(tipoAvaliacao);
+
+    if (index >= 0) {
+      this.pageRequest.tiposAvaliacoesFilter.splice(index, 1);
+    }
+
+    this.onChangeFilters()
   }
 }

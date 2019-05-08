@@ -11,10 +11,9 @@ import * as moment from 'moment';
 import 'moment/locale/pt-br';
 import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
-import {getIdentifier, viewAnimation} from "../../../controls/utils";
+import {viewAnimation} from "../../../controls/utils";
 import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
-import {environment} from "../../../../../../environments/environment";
 import {Subject} from "rxjs";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
 

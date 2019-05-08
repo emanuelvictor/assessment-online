@@ -63,10 +63,11 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao> {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    Mono<Page<Avaliacao>> listByFilters(final Long[] unidadesFilter,
+    Mono<Page<Avaliacao>> listByFilters(final String defaultFilter,
+                                        final Long[] unidadesFilter,
                                         final Long[] usuariosFilter,
                                         @RequestParam(required = false) final LocalDateTime dataInicioFilter,
                                         @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
-        return Mono.just(this.avaliacaoService.listByFilters(getListFromArray(unidadesFilter), getListFromArray(usuariosFilter), dataInicioFilter, dataTerminoFilter, getPageable()));
+        return Mono.just(this.avaliacaoService.listByFilters(defaultFilter, getListFromArray(unidadesFilter), getListFromArray(usuariosFilter), dataInicioFilter, dataTerminoFilter, getPageable()));
     }
 }

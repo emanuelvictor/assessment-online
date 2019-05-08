@@ -1,21 +1,46 @@
 <search-bar>
 
-  <td-chips requireMatch
-            [items]="filteredAsyncUsuario"
-            [(ngModel)]='asyncModelUsuario'
-            placeholder="Pesquisar por atendentes"
-            (inputChange)="filterAsyncUsuario($event)"
-            [debounce]="500" flex="30" style="margin-left:0; margin-top: 0px;"
-            (add)="onChangeFilters()" (remove)="onChangeFilters()">
-    <ng-template td-chip let-chip="chip">
-      {{chip?.nome}}
-    </ng-template>
-    <ng-template td-autocomplete-option let-option="option">
-      <div layout="row" layout-align="start center">
+  <mat-form-field flex='30' [ngStyle]="{'margin-top': (pageRequest?.usuariosFilter?.length ? '9.5px' : '23px')}">
+    <mat-chip-list #usuariosChipList aria-label='Pesquisar por ítens avaliáveis'>
+
+      <mat-chip *ngFor='let usuario of pageRequest?.usuariosFilter'
+                (removed)='removeUsuarioFilter(usuario)' style='max-width: 100%'>
+        {{usuario?.nome}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+
+      <input (keyup)='usuarioFilterAsyncChanged(usuarioFiltro)'
+             placeholder='Pesquisar por ítens avaliáveis' #usuariosInput
+             [matAutocomplete]='auto' [matChipInputFor]='usuariosChipList'
+             [(ngModel)]='usuarioFiltro' [ngModelOptions]='{standalone: true}'>
+
+    </mat-chip-list>
+
+    <mat-autocomplete #auto='matAutocomplete' (optionSelected)='addUsuarioFilter($event)'>
+      <mat-option [value]='option' *ngFor='let option of usuariosFilteredAsync'>
         {{option?.nome}}
-      </div>
-    </ng-template>
-  </td-chips>
+      </mat-option>
+    </mat-autocomplete>
+
+  </mat-form-field>
+
+
+<!--  <td-chips requireMatch-->
+<!--            [items]="usuariosFilteredAsync"-->
+<!--            [(ngModel)]='asyncModelUsuario'-->
+<!--            placeholder="Pesquisar por atendentes"-->
+<!--            (inputChange)="filterAsyncUsuario($event)"-->
+<!--            (add)="onChangeFilters()" (remove)="onChangeFilters()"-->
+<!--            [debounce]="500" flex="30" style='margin-left:0; margin-top: 0px;'>-->
+<!--    <ng-template td-chip let-chip="chip">-->
+<!--      {{chip?.nome}}-->
+<!--    </ng-template>-->
+<!--    <ng-template td-autocomplete-option let-option="option">-->
+<!--      <div layout="row" layout-align="start center">-->
+<!--        {{option?.nome}}-->
+<!--      </div>-->
+<!--    </ng-template>-->
+<!--  </td-chips>-->
 
 
   <td-chips requireMatch

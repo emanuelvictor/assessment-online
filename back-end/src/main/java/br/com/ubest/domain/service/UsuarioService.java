@@ -349,11 +349,14 @@ public class UsuarioService {
      * @param pageable      Pageable
      * @return Page<Usuario>
      */
+    @Transactional(readOnly = true)
     public Page<Usuario> listByFilters(final String defaultFilter, final Pageable pageable) {
 
-        final Usuario usuario = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername()).getUsuario();
+        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
 
-        return usuarioRepository.listByFilters(usuario.getId(), usuario.getConta().getPerfil().name(), defaultFilter, pageable);
+        final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
+
+        return usuarioRepository.listByFilters(usuarioId, conta.getPerfil().name(), defaultFilter, pageable);
 
     }
 

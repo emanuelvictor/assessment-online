@@ -61,6 +61,10 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "           )" +
             "           OR :usuariosFilter IS NULL" +
             "       )" +
+            "       AND " +
+            "       (" +
+            "           FILTER(:defaultFilter, usuario.nome, unidade.nome) = TRUE" +
+            "       )" +
             "       AND" +
             "       (" +
             "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') " +
@@ -77,6 +81,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
     )
     Page<Avaliacao> listByFilters(@Param("usuarioId") final Long usuarioId,
                                   @Param("perfil") final String perfil,
+                                  @Param("defaultFilter") final String defaultFilter,
                                   @Param("unidadesFilter") final List<Long> unidadesFilter,
                                   @Param("usuariosFilter") final List<Long> usuariosFilter,
                                   @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,

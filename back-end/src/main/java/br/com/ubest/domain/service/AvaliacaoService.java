@@ -79,7 +79,8 @@ public class AvaliacaoService {
     }
 
     @Transactional
-    public Page<Avaliacao> listByFilters(final List<Long> unidadesFilter,
+    public Page<Avaliacao> listByFilters(final String defaultFilter,
+                                         final List<Long> unidadesFilter,
                                          final List<Long> usuariosFilter,
                                          final LocalDateTime dataInicioFilter,
                                          final LocalDateTime dataTerminoFilter,
@@ -92,6 +93,7 @@ public class AvaliacaoService {
         return this.avaliacaoRepository.listByFilters(
                 usuarioId,
                 conta.getPerfil().name(),
+                defaultFilter,
                 unidadesFilter,
                 usuariosFilter,
                 dataInicioFilter,
