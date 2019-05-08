@@ -183,9 +183,10 @@ export class ConsultarAtendentesComponent implements OnInit {
      *
      */
     this.defaultFilterModelChanged.debounceTime(300).distinctUntilChanged().subscribe(model => {
-      const pageRequest: any = Object.assign({}, this.pageRequest);
+      const pageRequest = Object.assign({}, this.pageRequest);
       pageRequest.page = 0;
-      pageRequest.defaultFilter = [model];
+      pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); //TODO falcatruassa para os objetos internos
+      pageRequest.defaultFilter.push(model);
       pageRequest.unidadesFilter = this.pageRequest.unidadesFilter.map(value => value.id);
       pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
 
@@ -363,18 +364,20 @@ export class ConsultarAtendentesComponent implements OnInit {
    * @param $event
    */
   addDefaultFilter($event: MatChipInputEvent) {
-    const input = $event.input;
-    const value = $event.value;
+    if ($event && $event.value && $event.value.length) {
+      const input = $event.input;
+      const value = $event.value;
 
-    if ((value || '').trim()) {
-      this.pageRequest.defaultFilter.push(value);
+      if ((value || '').trim()) {
+        this.pageRequest.defaultFilter.push(value);
+      }
+
+      if (input) {
+        input.value = '';
+      }
+
+      this.onChangeFilters()
     }
-
-    if (input) {
-      input.value = '';
-    }
-
-    this.onChangeFilters()
   }
 
   /**
