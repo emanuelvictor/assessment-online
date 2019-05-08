@@ -11,6 +11,23 @@ import java.util.List;
 
 public interface UnidadeTipoAvaliacaoRepository extends JpaRepository<UnidadeTipoAvaliacao, Long> {
 
+
+    @Query("SELECT unidadeTipoAvaliacao FROM UnidadeTipoAvaliacao unidadeTipoAvaliacao" +
+            "       INNER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id " +
+            " WHERE" +
+            "   (" +
+            "       FILTER(:defaultFilter, unidadeTipoAvaliacao.tipoAvaliacao.nome, unidadeTipoAvaliacao.tipoAvaliacao.enunciado) = TRUE" +
+            "       AND ( (:unidadeId IS NOT NULL AND unidadeTipoAvaliacao.unidade.id = :unidadeId) OR :unidadeId IS NULL)" +
+            "       AND ( (:tipoAvaliacaoId IS NOT NULL AND unidadeTipoAvaliacao.tipoAvaliacao.id = :tipoAvaliacaoId) OR :tipoAvaliacaoId IS NULL)" +
+            "       AND ((:ativo IS NOT NULL AND unidadeTipoAvaliacao.ativo = :ativo) OR :ativo IS NULL)" +
+            "   )"
+    )
+    Page<UnidadeTipoAvaliacao> listByFiltersAndWithAvaliaveis(@Param("defaultFilter") final String defaultFilter,
+                                                              @Param("tipoAvaliacaoId") final Long tipoAvaliacaoId,
+                                                              @Param("unidadeId") final Long unidadeId,
+                                                              @Param("ativo") final Boolean ativo,
+                                                              final Pageable pageable);
+
     @Query("SELECT unidadeTipoAvaliacao FROM UnidadeTipoAvaliacao unidadeTipoAvaliacao WHERE" +
             "   (" +
             "       FILTER(:defaultFilter, unidadeTipoAvaliacao.tipoAvaliacao.nome, unidadeTipoAvaliacao.tipoAvaliacao.enunciado) = TRUE" +
@@ -19,12 +36,11 @@ public interface UnidadeTipoAvaliacaoRepository extends JpaRepository<UnidadeTip
             "       AND ((:ativo IS NOT NULL AND unidadeTipoAvaliacao.ativo = :ativo) OR :ativo IS NULL)" +
             "   )"
     )
-    Page<UnidadeTipoAvaliacao> listByFilters(
-            @Param("defaultFilter") final String defaultFilter,
-            @Param("tipoAvaliacaoId") final Long tipoAvaliacaoId,
-            @Param("unidadeId") final Long unidadeId,
-            @Param("ativo") final Boolean ativo,
-            final Pageable pageable);
+    Page<UnidadeTipoAvaliacao> listByFilters(@Param("defaultFilter") final String defaultFilter,
+                                             @Param("tipoAvaliacaoId") final Long tipoAvaliacaoId,
+                                             @Param("unidadeId") final Long unidadeId,
+                                             @Param("ativo") final Boolean ativo,
+                                             final Pageable pageable);
 
 
     List<UnidadeTipoAvaliacao> findAllByUnidadeId(final long unidadeId);

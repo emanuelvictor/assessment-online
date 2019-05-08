@@ -2,6 +2,7 @@ package br.com.ubest.domain.resource;
 
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.usuario.Perfil;
+import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoRepository;
 import br.com.ubest.domain.service.UnidadeTipoAvaliacaoService;
 import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,8 @@ import java.util.Optional;
 public class UnidadeTipoAvaliacaoResource extends AbstractResource<UnidadeTipoAvaliacao> {
 
     private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
+
+    private final UnidadeTipoAvaliacaoRepository unidadeTipoAvaliacaoRepository;
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
@@ -48,5 +51,11 @@ public class UnidadeTipoAvaliacaoResource extends AbstractResource<UnidadeTipoAv
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     Mono<Page<UnidadeTipoAvaliacao>> listByFilters(final String defaultFilter, final Long tipoAvaliacaoId, final Long unidadeId, final Boolean ativo) {
         return Mono.just(this.unidadeTipoAvaliacaoService.listByFilters(defaultFilter, tipoAvaliacaoId, unidadeId, ativo, getPageable()));
+    }
+
+    @GetMapping("withAvaliaveis")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<Page<UnidadeTipoAvaliacao>> listByFiltersAndWithAvaliaveis(final String defaultFilter, final Long tipoAvaliacaoId, final Long unidadeId, final Boolean ativo) {
+        return Mono.just(this.unidadeTipoAvaliacaoRepository.listByFiltersAndWithAvaliaveis(defaultFilter, tipoAvaliacaoId, unidadeId, ativo, getPageable()));
     }
 }

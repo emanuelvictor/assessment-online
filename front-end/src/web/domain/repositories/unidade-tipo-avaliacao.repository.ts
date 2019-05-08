@@ -16,7 +16,7 @@ export class UnidadeTipoAvaliacaoRepository extends BaseRepository<UnidadeTipoAv
 
     const params = PageSerialize.getHttpParamsFromPageable(pageable);
 
-    return this.httpClient.get(this.collectionName, {
+    return this.httpClient.get(this.collectionName + '/withAvaliaveis', {
       params: params
     })
 
