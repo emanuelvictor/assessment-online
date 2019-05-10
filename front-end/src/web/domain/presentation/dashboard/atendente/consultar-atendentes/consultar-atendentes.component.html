@@ -25,7 +25,8 @@
 
       <mat-chip *ngFor='let unidade of pageRequest.unidadesFilter'
                 (removed)='remove(unidade)' style='max-width: 100%'>
-        {{unidade?.nome}} ({{unidade?.endereco?.cidade?.nome }} - {{unidade?.endereco?.cidade?.estado?.uf}})
+        {{unidade?.nome}}
+        <!--({{unidade?.endereco?.cidade?.nome }} - {{unidade?.endereco?.cidade?.estado?.uf}})-->
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
 
@@ -61,9 +62,9 @@
     <mat-icon>filter_list</mat-icon>
   </button>
 
-  <add-button routerLink="inserir"
+  <add-button routerLink='inserir'
               [matTooltipPosition]="'below'"
-              matTooltip="Inserir novo ítem avaliável">
+              matTooltip='Inserir novo ítem avaliável'>
   </add-button>
 
 </search-bar>
@@ -112,7 +113,8 @@
 
           <mat-chip *ngFor='let tipoAvaliacao of pageRequest.tiposAvaliacoesFilter'
                     (removed)='removeTipoAvaliacaoFilter(tipoAvaliacao)' style='max-width: 100%'>
-            {{tipoAvaliacao?.nome}} ({{tipoAvaliacao?.enunciado }} - {{tipoAvaliacao?.selecao}})
+            {{tipoAvaliacao?.nome}}
+<!--            ({{tipoAvaliacao?.enunciado }} - {{tipoAvaliacao?.selecao}})-->
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
 

@@ -15,7 +15,6 @@ import {viewAnimation} from "../../../controls/utils";
 import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
 import {Subject} from "rxjs";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
-import {Usuario} from "../../../../entity/usuario/usuario.model";
 
 @Component({
   selector: 'consultar-unidades',
@@ -117,8 +116,13 @@ export class ConsultarUnidadesComponent implements OnInit {
    */
   private defaultFilterModelChanged: Subject<string> = new Subject<string>();
 
+  /**
+   *
+   * @type {Subject<string>}
+   */
+  private enderecoFilterModelChanged: Subject<string> = new Subject<string>();
+
   filteredTiposAvaliacoesAsync: string[];
-  asyncTiposAvaliacoesModel: string[] = [];
 
   /**
    *
@@ -153,10 +157,11 @@ export class ConsultarUnidadesComponent implements OnInit {
     /**
      *
      */
-    this.defaultFilterModelChanged.debounceTime(300).distinctUntilChanged().subscribe(model => {
+    this.defaultFilterModelChanged.debounceTime(500).distinctUntilChanged().subscribe(model => {
       const pageRequest: any = Object.assign({}, this.pageRequest);
       pageRequest.page = 0;
-      pageRequest.defaultFilter = [model];
+      pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); // TODO falcatruassa para os objetos internos
+      pageRequest.defaultFilter.push(model);
       pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
 
       this.unidadeService.listByFilters(pageRequest)
@@ -165,6 +170,20 @@ export class ConsultarUnidadesComponent implements OnInit {
           this.page = result
         })
     });
+
+    this.enderecoFilterModelChanged.debounceTime(500).distinctUntilChanged().subscribe(model => {
+      const pageRequest: any = Object.assign({}, this.pageRequest);
+      pageRequest.page = 0;
+      pageRequest.enderecoFilter = Object.assign([], pageRequest.enderecoFilter); // TODO falcatruassa para os objetos internos
+      pageRequest.enderecoFilter.push(model);
+      pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
+
+      this.unidadeService.listByFilters(pageRequest)
+        .subscribe((result) => {
+          this.dataSource = new MatTableDataSource<Unidade>(result.content);
+          this.page = result
+        })
+    })
   }
 
   /**
@@ -239,9 +258,10 @@ export class ConsultarUnidadesComponent implements OnInit {
    * Consulta de unidades
    *
    */
-  public listUnidadesByFilters(pageRequest: any) {
+  public listUnidadesByFilters(pageable: any) {
 
-    pageRequest.tiposAvaliacoesFilter.concat(this.asyncTiposAvaliacoesModel.map((result: any) => result.id));
+    const pageRequest: any = Object.assign({}, pageable);
+    pageRequest.tiposAvaliacoesFilter = pageable.tiposAvaliacoesFilter.map((result: any) => result.id);
 
     pageRequest.size = this.paginator.pageSize;
     pageRequest.page = this.paginator.pageIndex;
@@ -392,7 +412,7 @@ export class ConsultarUnidadesComponent implements OnInit {
    */
   public enderecoFilterChanged(filter: string) {
     if (filter && filter.length) {
-      this.defaultFilterModelChanged.next(filter)
+      this.enderecoFilterModelChanged.next(filter)
     }
   }
 

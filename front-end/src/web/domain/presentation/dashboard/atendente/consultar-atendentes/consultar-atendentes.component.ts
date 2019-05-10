@@ -182,7 +182,7 @@ export class ConsultarAtendentesComponent implements OnInit {
     /**
      *teste
      */
-    this.defaultFilterModelChanged.debounceTime(300).distinctUntilChanged().subscribe(model => {
+    this.defaultFilterModelChanged.debounceTime(500).distinctUntilChanged().subscribe(model => {
       const pageRequest = Object.assign({}, this.pageRequest);
       pageRequest.page = 0;
       pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); // TODO falcatruassa para os objetos internos
@@ -239,10 +239,10 @@ export class ConsultarAtendentesComponent implements OnInit {
    * Consulta de usuarios
    *
    */
-  public listUsuariosByFilters(pageRequest: any) {
-    pageRequest.defaultFilter.concat(this.pageRequest.defaultFilter);
-    pageRequest.unidadesFilter.concat(this.pageRequest.unidadesFilter.map((result: any) => result.id));
-    pageRequest.tiposAvaliacoesFilter.concat(this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id));
+  public listUsuariosByFilters(pageable: any) {
+    const pageRequest: any = Object.assign({}, pageable);
+    pageRequest.unidadesFilter = pageable.unidadesFilter.map((result: any) => result.id);
+    pageRequest.tiposAvaliacoesFilter = pageable.tiposAvaliacoesFilter.map((result: any) => result.id);
 
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;

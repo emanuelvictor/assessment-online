@@ -1,24 +1,43 @@
 <search-bar>
 
-  <td-chips style='margin-left:0; margin-top: 9px;'
-            [(ngModel)]='pageRequest.defaultFilter'
-            placeholder='Pesquisar pelo nome ou enunciado'
-            (add)='onChangeFilters()' (remove)='onChangeFilters()'
-            flex-sm='90' flex-md="90" flex-gt-md="90" flex-gt-lg="90">
-  </td-chips>
+<!--  <td-chips style='margin-left:0; margin-top: 9px;'-->
+<!--            [(ngModel)]='pageRequest.defaultFilter'-->
+<!--            placeholder='Pesquisar pelo nome ou enunciado'-->
+<!--            (add)='onChangeFilters()' (remove)='onChangeFilters()'-->
+<!--            flex-sm='90' flex-md='90' flex-gt-md='90' flex-gt-lg='90'>-->
+<!--  </td-chips>-->
+
+  <mat-form-field [ngStyle]="{'margin-top': (pageRequest?.defaultFilter?.length ? '16px' : '32px')}"
+                  style='margin-left:0; margin-top: 32px' flex-sm='90' flex-md='90' flex-gt-md='90' flex-gt-lg='90'>
+    <mat-chip-list #defaultFilterChipList aria-label='Pesquisar pelo nome ou enunciado'>
+
+      <mat-chip *ngFor='let defaultFilter of pageRequest.defaultFilter'
+                (removed)='removeDefaultFilter(defaultFilter)' style='max-width: 100%'>
+        {{defaultFilter}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+
+      <input [matChipInputFor]='defaultFilterChipList'
+             (ngModelChange)='defaultFilterChanged($event)'
+             (matChipInputTokenEnd)='addDefaultFilter($event)'
+             [(ngModel)]='defaultFilter' [ngModelOptions]='{standalone: true}'
+             placeholder='Pesquisar pelo nome ou enunciado' [matChipInputAddOnBlur]='true'>
+
+    </mat-chip-list>
+
+  </mat-form-field>
 
   <div flex-gt-md></div>
 
-  <add-button routerLink="inserir"
+  <add-button routerLink='inserir'
               [matTooltipPosition]="'below'"
-              matTooltip="Inserir novo atendente">
+              matTooltip='Inserir novo atendente'>
   </add-button>
 
 </search-bar>
 
 <!--Listagem-->
-<div layout='row'
-     layout-align='center start'>
+<div layout='row' layout-align='center start'>
   <div layout='column' flex='90'>
 
     <div class='tc-grey-500 size-height-50'
@@ -30,23 +49,19 @@
 
     <div class='mat-elevation-z4'>
 
-      <mat-table matSortDisableClear
-                 matSortActive='data'
-                 matSortDirection='asc'
-                 [dataSource]='dataSource'
-                 #table matSort class='bgc-grey-50'>
+      <mat-table #table matSort class='bgc-grey-50'
+                 matSortDisableClear matSortActive='data'
+                 matSortDirection='asc' [dataSource]='dataSource'>
 
         <ng-container matColumnDef='nome'>
-          <mat-header-cell layout-align="start center"
-                           *matHeaderCellDef mat-sort-header
-                           flex-xl='30' flex-gt-md='30' flex-md='20' flex-sm='30'>
+          <mat-header-cell flex-xl='30' flex-gt-md='30' flex-md='20' flex-sm='30'
+                           layout-align='start center' *matHeaderCellDef mat-sort-header>
             <div layout-margin layout='column'>
               Nome
             </div>
           </mat-header-cell>
-          <mat-cell layout-align="start center"
-                    *matCellDef='let tipoAvaliacao'
-                    flex-xl='30' flex-gt-md='30' flex-md='30' flex-sm='30'>
+          <mat-cell flex-xl='30' flex-gt-md='30' flex-md='30' flex-sm='30'
+                    layout-align='start center' *matCellDef='let tipoAvaliacao'>
             <div layout-margin layout='column'>
               {{tipoAvaliacao?.nome}}
             </div>
@@ -54,16 +69,14 @@
         </ng-container>
 
         <ng-container matColumnDef='enunciado'>
-          <mat-header-cell layout-align="start center"
-                           *matHeaderCellDef mat-sort-header
-                           flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'>
+          <mat-header-cell flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'
+                           layout-align='start center' *matHeaderCellDef mat-sort-header>
             <div layout-margin layout='column'>
               Enunciado
             </div>
           </mat-header-cell>
-          <mat-cell layout-align="start center"
-                    *matCellDef='let tipoAvaliacao'
-                    flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'>
+          <mat-cell flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'
+                    layout-align='start center' *matCellDef='let tipoAvaliacao'>
             <div layout-margin layout='column'>
               {{tipoAvaliacao?.enunciado}}
             </div>
@@ -71,14 +84,13 @@
         </ng-container>
 
         <ng-container matColumnDef='selecao'>
-          <mat-header-cell layout-align="start center"
-                           *matHeaderCellDef mat-sort-header
-                           flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'>
+          <mat-header-cell flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'
+                           layout-align='start center' *matHeaderCellDef mat-sort-header>
             <div layout-margin layout='column'>
               Frase de seleção
             </div>
           </mat-header-cell>
-          <mat-cell layout-align="start center"
+          <mat-cell layout-align='start center'
                     *matCellDef='let tipoAvaliacao'
                     flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'>
             <div layout-margin layout='column'>
@@ -87,16 +99,16 @@
           </mat-cell>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns">
+        <mat-header-row *matHeaderRowDef='displayedColumns'>
         </mat-header-row>
 
-        <mat-row *matRowDef="let tipoAvaliacao; columns: displayedColumns"
-                 routerLink="{{tipoAvaliacao.id}}" style="cursor: pointer">
+        <mat-row *matRowDef='let tipoAvaliacao; columns: displayedColumns'
+                 routerLink='{{tipoAvaliacao.id}}' style='cursor: pointer'>
         </mat-row>
       </mat-table>
-      <mat-paginator [pageSizeOptions]="[5, 20, 50, 100]"
-                     [length]="page.totalElements" style="border-radius: 2px"
-                     (page)="listAvaliacoesByFilters(pageRequest)" class="bgc-grey-50">
+      <mat-paginator [pageSizeOptions]='[5, 20, 50, 100]'
+                     [length]='page.totalElements' style='border-radius: 2px'
+                     (page)='listAvaliacoesByFilters(pageRequest)' class='bgc-grey-50'>
       </mat-paginator>
     </div>
   </div>

@@ -1,6 +1,5 @@
-import {MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
@@ -9,6 +8,8 @@ import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
 import {UsuarioService} from "../../../../service/usuario.service";
 import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
+import {Subject} from "rxjs";
+import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
 
 @Component({
   selector: 'consultar-tipos-avaliacoes',
@@ -57,9 +58,9 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
   /**
    *
    * dataSource com os usuários
-   * @type {MatTableDataSource<Usuario>}
+   * @type {MatTableDataSource<TipoAvaliacao>}
    */
-  dataSource = new MatTableDataSource<Usuario>();
+  dataSource = new MatTableDataSource<TipoAvaliacao>();
 
   /**
    * Bind com o objeto paginator
@@ -71,7 +72,12 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
    */
   @ViewChild(MatSort) sort: MatSort;
 
-  filteredAsync: string[];
+  /**
+   *
+   * @type {Subject<string>}
+   */
+  private defaultFilterModelChanged: Subject<string> = new Subject<string>();
+
   asyncModel: string[] = [];
 
   /**
@@ -130,6 +136,22 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
       };
       this.listAvaliacoesByFilters(this.pageRequest);
     });
+
+    /**
+     *
+     */
+    this.defaultFilterModelChanged.debounceTime(500).distinctUntilChanged().subscribe(model => {
+      const pageRequest: any = Object.assign({}, this.pageRequest);
+      pageRequest.page = 0;
+      pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); // TODO falcatruassa para os objetos internos
+      pageRequest.defaultFilter.push(model);
+
+      this.tipoAvaliacaoRepository.listByFilters(pageRequest)
+        .subscribe((result) => {
+          this.dataSource = new MatTableDataSource<TipoAvaliacao>(result.content);
+          this.page = result
+        })
+    });
   }
 
   /**
@@ -140,11 +162,9 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
 
     this.pageRequest.page = 0;
 
-    this.pageRequest.unidadesFilter = this.asyncModel.map((result: any) => result.id);
-
     this.tipoAvaliacaoRepository.listByFilters(this.pageRequest)
       .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Usuario>(result.content);
+        this.dataSource = new MatTableDataSource<TipoAvaliacao>(result.content);
 
         this.page = result;
       })
@@ -157,14 +177,12 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
    */
   public listAvaliacoesByFilters(pageRequest: any) {
 
-    pageRequest.unidadesFilter.concat(this.asyncModel.map((result: any) => result.id));
-
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;
 
     this.tipoAvaliacaoRepository.listByFilters(pageRequest)
       .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Usuario>(result.content);
+        this.dataSource = new MatTableDataSource<TipoAvaliacao>(result.content);
 
         this.page = result;
       })
@@ -172,24 +190,44 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
 
   /**
    *
-   * @param value
+   * @param $event
    */
-  filterAsync(value: string): void {
-    this.filteredAsync = undefined;
-    if (value) {
+  addDefaultFilter($event: MatChipInputEvent) {
+    const input = $event.input;
+    const value = $event.value;
 
-      const pageRequest = { // PageRequest
-        size: 20,
-        page: 0,
-        sort: null,
-        defaultFilter: [] = [value]
-      };
+    if ((value || '').trim()) {
+      this.pageRequest.defaultFilter.push(value);
+    }
 
-      this.unidadeService.listLightByFilters(pageRequest)
-        .subscribe((result) => {
-          this.filteredAsync = result.content;
-        });
+    if (input) {
+      input.value = '';
+    }
 
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param defaultFilter
+   */
+  removeDefaultFilter(defaultFilter: string) {
+    const index = this.pageRequest.defaultFilter.indexOf(defaultFilter);
+
+    if (index >= 0) {
+      this.pageRequest.defaultFilter.splice(index, 1);
+    }
+
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param {string} filter
+   */
+  public defaultFilterChanged(filter: string) {
+    if (filter && filter.length) {
+      this.defaultFilterModelChanged.next(filter);
     }
   }
 }
