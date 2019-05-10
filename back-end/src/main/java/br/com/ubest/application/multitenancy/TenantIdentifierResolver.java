@@ -4,7 +4,7 @@ import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.stereotype.Component;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
-import static br.com.ubest.infrastructure.util.Utils.removeNoCache;
+import static br.com.ubest.infrastructure.suport.Utils.removeNoCache;
 
 @Component
 public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver {

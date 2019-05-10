@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static br.com.ubest.infrastructure.util.Utils.getListFromArray;
+import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor

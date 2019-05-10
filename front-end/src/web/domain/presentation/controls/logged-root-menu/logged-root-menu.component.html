@@ -33,6 +33,7 @@
     </mat-list-item>
 
     <mat-list-item class="push-bottom"
+                   *ngIf="esquema === 'public'"
                    [matTooltipPosition]="'left'"
                    routerLink='/dashboard/usuarios'
                    routerLinkActive #rlaUsuarios="routerLinkActive"
@@ -42,12 +43,24 @@
            flex layout='row'>
         <span flex="10"></span>
         <mat-icon matListAvatar flex>supervisor_account</mat-icon>
-        <h3 matLine style='color: white' flex='85'
-            *ngIf="esquema === 'public'">
-          {{'Usuários'}}
+        <h3 matLine flex='85' style='color: white'>
+          Usuários
         </h3>
-        <h3 matLine style='color: white' flex='85'
-            *ngIf="esquema !== 'public'">
+      </div>
+    </mat-list-item>
+
+    <mat-list-item class="push-bottom"
+                   *ngIf="esquema !== 'public'"
+                   [matTooltipPosition]="'left'"
+                   routerLink='/dashboard/avaliaveis'
+                   routerLinkActive #rlaUsuarios='routerLinkActive'
+                   [ngClass]="{'menu-active': rlaUsuarios.isActive}"
+                   matTooltip='Atendentes, professores, quesitos, itens de buffet, etc ...'>
+      <div class='pad-left'
+           flex layout='row'>
+        <span flex="10"></span>
+        <mat-icon matListAvatar flex>supervisor_account</mat-icon>
+        <h3 matLine style='color: white' flex='85'>
           {{authenticatedUser?.isAdministrador ? 'Itens avaliáveis' : 'Meus itens avaliáveis'}}
         </h3>
       </div>

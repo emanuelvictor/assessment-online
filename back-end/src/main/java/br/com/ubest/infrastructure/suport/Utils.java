@@ -1,4 +1,4 @@
-package br.com.ubest.infrastructure.util;
+package br.com.ubest.infrastructure.suport;
 
 import java.util.Arrays;
 import java.util.List;
