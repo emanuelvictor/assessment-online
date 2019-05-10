@@ -24,23 +24,25 @@
 
   </mat-form-field>
 
+  feedback
 
-<!--  <td-chips requireMatch-->
-<!--            [items]="usuariosFilteredAsync"-->
-<!--            [(ngModel)]='asyncModelUsuario'-->
-<!--            placeholder="Pesquisar por atendentes"-->
-<!--            (inputChange)="filterAsyncUsuario($event)"-->
-<!--            (add)="onChangeFilters()" (remove)="onChangeFilters()"-->
-<!--            [debounce]="500" flex="30" style='margin-left:0; margin-top: 0px;'>-->
-<!--    <ng-template td-chip let-chip="chip">-->
-<!--      {{chip?.nome}}-->
-<!--    </ng-template>-->
-<!--    <ng-template td-autocomplete-option let-option="option">-->
-<!--      <div layout="row" layout-align="start center">-->
-<!--        {{option?.nome}}-->
-<!--      </div>-->
-<!--    </ng-template>-->
-<!--  </td-chips>-->
+
+  <!--  <td-chips requireMatch-->
+  <!--            [items]="usuariosFilteredAsync"-->
+  <!--            [(ngModel)]='asyncModelUsuario'-->
+  <!--            placeholder="Pesquisar por atendentes"-->
+  <!--            (inputChange)="filterAsyncUsuario($event)"-->
+  <!--            (add)="onChangeFilters()" (remove)="onChangeFilters()"-->
+  <!--            [debounce]="500" flex="30" style='margin-left:0; margin-top: 0px;'>-->
+  <!--    <ng-template td-chip let-chip="chip">-->
+  <!--      {{chip?.nome}}-->
+  <!--    </ng-template>-->
+  <!--    <ng-template td-autocomplete-option let-option="option">-->
+  <!--      <div layout="row" layout-align="start center">-->
+  <!--        {{option?.nome}}-->
+  <!--      </div>-->
+  <!--    </ng-template>-->
+  <!--  </td-chips>-->
 
 
   <td-chips requireMatch
@@ -86,12 +88,10 @@
                        (dataInputChange)='listAvaliacoesByDates()'
                        [(dataInput)]='pageRequest.dataInicioFilter'>
           <mat-form-field>
-            <input
-
-                placeholder='Data da avaliação - Início'
-                [(ngModel)]='pageRequest.dataInicioFilter'
-                matInput name='dataInicio' id='dataInicio'
-                [textMask]='{mask: masks.date, guide: false}'>
+            <input placeholder='Data da avaliação - Início'
+                   [(ngModel)]='pageRequest.dataInicioFilter'
+                   matInput name='dataInicio' id='dataInicio'
+                   [textMask]='{mask: masks.date, guide: false}'>
           </mat-form-field>
         </ev-datepicker>
 
@@ -108,7 +108,7 @@
         </ev-datepicker>
 
       </div>
-
+      tipos de avaliações
       <div hide-sm hide-xs flex='12'></div>
 
       <close-button (click)='hidePesquisaAvancada()' hide-sm hide-xs></close-button>

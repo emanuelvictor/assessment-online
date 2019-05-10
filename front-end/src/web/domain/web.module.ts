@@ -108,6 +108,7 @@ import {LoggedRootMenuComponent} from "./presentation/controls/logged-root-menu/
 import {UsuarioPessoaJuridicaFormComponent} from "./presentation/dashboard/cliente/inserir-cliente/cliente-form/pessoa-juridica/usuario-pessoa-juridica-form.component";
 import {UsuarioPessoaFisicaFormComponent} from "./presentation/dashboard/cliente/inserir-cliente/cliente-form/pessoa-fisica/usuario-pessoa-fisica-form.component";
 import {RecaptchaModule} from "ng-recaptcha";
+import {ConsultarUsuariosComponent} from "./presentation/dashboard/atendente/consultar-atendentes/consultar-usuarios.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -177,6 +178,9 @@ registerLocaleData(localePt, 'pt-BR');
     EstatisticasAtendenteComponent,
     MinhasEstatisticasComponent,
     InserirClienteComponent,
+
+    // usuários
+    ConsultarUsuariosComponent,
 
     // Password
     AlterarMinhaSenhaComponent,

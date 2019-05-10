@@ -24,7 +24,8 @@
             <!--options-->
             <div layout="column" layout-align="start end" flex>
               <div layout="row">
-                <button mat-button hide-sm hide-xs class='tc-blue-grey-900' routerLink='minhas-estatisticas'>
+                <button mat-button hide-sm hide-xs *ngIf='!usuario?.conta?.root'
+                        class='tc-blue-grey-900' routerLink='minhas-estatisticas'>
                   <mat-icon>show_chart</mat-icon>
                   <span>Minhas estatísticas</span>
                 </button>
@@ -37,9 +38,9 @@
                 </button>
 
                 <mat-menu #menu="matMenu">
-                  <button hide-gt-sm
-                          mat-menu-item color="primary"
-                          routerLink='minhas-estatisticas'>
+                  <button mat-menu-item color='primary'
+                          routerLink='minhas-estatisticas'
+                          hide-gt-sm *ngIf='!usuario?.conta?.root'>
                     <mat-icon>show_chart</mat-icon>
                     <span>Minhas estatísticas</span>
                   </button>

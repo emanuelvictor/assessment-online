@@ -1,9 +1,9 @@
 <search-bar>
 
-  <td-chips placeholder='Pesquisar por e-mail'
+  <td-chips style='margin-left:0; margin-top: 9px'
             [(ngModel)]='pageRequest.defaultFilter'
-            style='margin-left:0; margin-top: 9px;' flex
-            (add)="onChangeFilters()" (remove)="onChangeFilters()">
+            placeholder='Pesquisar por e-mail' flex
+            (add)='onChangeFilters()' (remove)='onChangeFilters()'>
   </td-chips>
 
 </search-bar>
@@ -50,7 +50,7 @@
           </mat-cell>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns">
+        <mat-header-row *matHeaderRowDef='displayedColumns'>
         </mat-header-row>
 
         <mat-row *matRowDef='let conta; columns: displayedColumns'
@@ -58,9 +58,9 @@
                  matTooltip='Selecione o cliente e começe a visualizar seus dados'>
         </mat-row>
       </mat-table>
-      <mat-paginator [pageSizeOptions]="[5, 20, 50, 100]"
-                     [length]="page.totalElements" style="border-radius: 2px"
-                     (page)="listClientesByFilters(pageRequest)" class="bgc-grey-50">
+      <mat-paginator [pageSizeOptions]='[5, 20, 50, 100]'
+                     [length]='page.totalElements' style='border-radius: 2px'
+                     (page)='listClientesByFilters(pageRequest)' class='bgc-grey-50'>
       </mat-paginator>
     </div>
   </div>

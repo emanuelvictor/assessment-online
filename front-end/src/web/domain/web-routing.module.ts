@@ -33,6 +33,7 @@ import {VisualizarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-av
 import {VisualizarClienteComponent} from "./presentation/dashboard/cliente/visualizar-cliente/visualizar-cliente.component";
 import {ConsultarClientesComponent} from "./presentation/dashboard/cliente/consultar-clientes/consultar-clientes.component";
 import {ClienteViewComponent} from "./presentation/dashboard/cliente/cleinte-view.component";
+import {ConsultarUsuariosComponent} from "./presentation/dashboard/atendente/consultar-atendentes/consultar-usuarios.component";
 
 
 const routes: Routes = [
@@ -68,6 +69,16 @@ const routes: Routes = [
           path: 'avaliaveis', component: AtendenteViewComponent,
           children: [
             {path: '', component: ConsultarAtendentesComponent},
+            {path: 'inserir', component: InserirAtendenteComponent},
+            {path: ':id/alterar', component: AlterarAtendenteComponent},
+            {path: ':id', component: VisualizarAtendenteComponent},
+            {path: ':id/estatisticas', component: EstatisticasAtendenteComponent}
+          ]
+        },
+        {
+          path: 'usuarios', component: AtendenteViewComponent,
+          children: [
+            {path: '', component: ConsultarUsuariosComponent},
             {path: 'inserir', component: InserirAtendenteComponent},
             {path: ':id/alterar', component: AlterarAtendenteComponent},
             {path: ':id', component: VisualizarAtendenteComponent},
