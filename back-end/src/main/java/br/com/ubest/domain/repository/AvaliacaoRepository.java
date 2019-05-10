@@ -63,7 +63,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "       )" +
             "       AND " +
             "       (" +
-            "           FILTER(:defaultFilter, usuario.nome, unidade.nome) = TRUE" +
+            "           FILTER(:defaultFilter, avaliacao.agrupador.feedback) = TRUE" +
             "       )" +
             "       AND" +
             "       (" +

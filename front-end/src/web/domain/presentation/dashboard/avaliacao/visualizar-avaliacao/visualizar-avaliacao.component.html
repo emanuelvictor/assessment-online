@@ -29,7 +29,7 @@
                 <div layout='column' flex>
                   <div layout='row'
                        layout-align='start center'>
-                    <mat-icon style='margin-left: 3px' layout-margin [inline]="false"
+                    <mat-icon style='margin-left: 3px' layout-margin [inline]='false'
                               svgIcon="assets:{{avaliacao?.nota === 5 ? 'otimo' : (avaliacao?.nota === 4 ? 'bom' : (avaliacao?.nota === 3 ? 'regular' : (avaliacao?.nota === 2 ? 'ruim' : 'pessimo')))}}"
                               [ngStyle]="{'fill': avaliacao?.nota === 5 ? '#5ee924' : (avaliacao?.nota === 4 ? '#8fc82c' : (avaliacao?.nota === 3 ? '#d4c40d' : (avaliacao?.nota === 2 ? '#e96d01' : '#c21c1f')))}">
                     </mat-icon>
@@ -51,10 +51,13 @@
               </div>
             </div>
             <!--options-->
-            <div layout='column' layout-align='start end' flex [@fadeInOut] *ngIf='contaAutenticada?.isRoot'>
-              <button mat-button hide-sm hide-xs class='tc-blue-grey-900' (click)='remove(avaliacao?.id)'>
+            <div layout='column' layout-align='start end' flex [@fadeInOut]
+                 *ngIf='contaAutenticada?.isRoot || contaAutenticada?.isOperador || contaAutenticada?.isAdministrador'>
+              <button mat-button hide-sm hide-xs
+                      [matTooltipPosition]="'left'"
+                      matTooltip='Remover Avaliação'
+                      class='tc-blue-grey-900' (click)='remove(avaliacao?.id)'>
                 <mat-icon>delete</mat-icon>
-                <span>Remover</span>
               </button>
             </div>
           </div>

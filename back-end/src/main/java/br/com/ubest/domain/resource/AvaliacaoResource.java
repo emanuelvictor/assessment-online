@@ -49,7 +49,7 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao> {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ROOT_VALUE + "')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Boolean> delete(@PathVariable long id) {
         this.avaliacaoService.delete(id);
         return Mono.just(true);

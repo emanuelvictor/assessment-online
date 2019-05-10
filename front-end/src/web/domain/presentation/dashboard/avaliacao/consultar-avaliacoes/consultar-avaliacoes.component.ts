@@ -1,4 +1,4 @@
-import {MatAutocompleteSelectedEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -14,6 +14,9 @@ import {AvaliacaoService} from "../../../../service/avaliacao.service";
 import {UsuarioService} from "../../../../service/usuario.service";
 import {Subject} from "rxjs";
 import {Avaliacao} from "../../../../entity/avaliacao/avaliacao.model";
+import {Unidade} from "../../../../entity/unidade/unidade.model";
+import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
+import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
 
 @Component({
   selector: 'consultar-avaliacoes',
@@ -45,8 +48,10 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     size: 20,
     page: 0,
     sort: null,
+    defaultFilter: [],
     usuariosFilter: [],
     unidadesFilter: [],
+    tiposAvaliacoesFilter: [],
     dataInicioFilter: null,
     dataTerminoFilter: null
   };
@@ -112,12 +117,32 @@ export class ConsultarAvaliacoesComponent implements OnInit {
    */
   private usuarioAsyncFilterModelChanged: Subject<string> = new Subject<string>();
 
-  filteredAsync: string[];
+  /**
+   *
+   */
+  @ViewChild('unidadesInput') unidadesInput: ElementRef<HTMLInputElement>;
+
+  /**
+   *
+   */
+  @ViewChild('tiposAvaliacoesInput') tiposAvaliacoesInput: ElementRef<HTMLInputElement>;
+
+  /**
+   *
+   */
+  filteredTiposAvaliacoesAsync: TipoAvaliacao[];
+
+  /**
+   *
+   */
+  unidadesFilteredAsync: Unidade[];
+
   asyncModel: string[] = [];
   usuariosFilteredAsync: string[];
 
   /**
    *
+   * @param tipoAvaliacaoRepository
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    * @param {UsuarioService} usuarioService
@@ -125,7 +150,8 @@ export class ConsultarAvaliacoesComponent implements OnInit {
    * @param {UnidadeService} unidadeService
    * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
+  constructor(private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
+              private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private usuarioService: UsuarioService, private avaliacaoService: AvaliacaoService,
               private unidadeService: UnidadeService, private configuracaoService: ConfiguracaoService) {
 
@@ -165,7 +191,8 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     this.defaultFilterModelChanged.debounceTime(300).distinctUntilChanged().subscribe(model => {
       const pageRequest: any = Object.assign({}, this.pageRequest);
       pageRequest.page = 0;
-      pageRequest.defaultFilter = [model];
+      pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); // TODO falcatruassa para os objetos internos
+      pageRequest.defaultFilter.push(model);
       pageRequest.unidadesFilter = this.pageRequest.unidadesFilter.map(value => value.id);
       pageRequest.usuariosFilter = this.pageRequest.usuariosFilter.map(value => value.id);
       // pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
@@ -178,7 +205,9 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
           this.page.content.forEach(avaliacao => {
             avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
-            avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade
+            if (avaliacao.avaliacoesAvaliaveis[0]) {
+              avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade
+            }
           })
         })
     })
@@ -237,7 +266,9 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
         this.page.content.forEach(avaliacao => {
           avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
-          avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade;
+          if (avaliacao.avaliacoesAvaliaveis[0]) {
+            avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade
+          }
         })
       })
 
@@ -295,8 +326,10 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       size: 20,
       page: 0,
       sort: null,
+      defaultFilter: [],
       usuariosFilter: [],
       unidadesFilter: [],
+      tiposAvaliacoesFilter: [],
       dataInicioFilter: null,
       dataTerminoFilter: null
     };
@@ -315,25 +348,6 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     }
   }
 
-  filterAsync(value: string): void {
-    this.filteredAsync = undefined;
-    if (value) {
-
-      const pageRequest = { // PageRequest
-        size: 20,
-        page: 0,
-        sort: null,
-        defaultFilter: [] = [value]
-      };
-
-      this.unidadeService.listLightByFilters(pageRequest)
-        .subscribe((result) => {
-          this.filteredAsync = result.content;
-        });
-
-    }
-  }
-
   /**
    *
    * @param value
@@ -342,16 +356,6 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     console.log(value);
     if (value && value.length) {
       this.usuarioAsyncFilterModelChanged.next(value);
-    }
-  }
-
-  /**
-   *
-   * @param {string} filter
-   */
-  public usuarioFilterChanged(filter: string) {
-    if (filter && filter.length) {
-      this.defaultFilterModelChanged.next(filter);
     }
   }
 
@@ -380,4 +384,148 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
     this.onChangeFilters()
   }
+
+  /**
+   *
+   * @param value
+   */
+  filterUnidadesAsync(value: string): void {
+    this.unidadesFilteredAsync = undefined;
+    if (value) {
+
+      const pageRequest = { // PageRequest
+        size: 20,
+        page: 0,
+        sort: null,
+        defaultFilter: [] = [value]
+      };
+
+      this.unidadeService.listLightByFilters(pageRequest)
+        .subscribe((result) => {
+          this.unidadesFilteredAsync = result.content;
+        });
+
+    }
+  }
+
+  /**
+   *
+   * @param {MatAutocompleteSelectedEvent} $event
+   */
+  add($event: MatAutocompleteSelectedEvent): void {
+    this.pageRequest.unidadesFilter.push($event.option.value);
+
+    this.unidadesInput.nativeElement.value = '';
+
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param unidade
+   */
+  remove(unidade: Unidade) {
+    const index = this.pageRequest.unidadesFilter.indexOf(unidade);
+
+    if (index >= 0) {
+      this.pageRequest.unidadesFilter.splice(index, 1);
+    }
+
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param value
+   */
+  filterTiposAvaliacoesAsync(value: string): void {
+    this.filteredTiposAvaliacoesAsync = undefined;
+    if (value) {
+
+      const pageRequest = { // PageRequest
+        size: 20,
+        page: 0,
+        sort: null,
+        defaultFilter: [] = [value]
+      };
+
+      this.tipoAvaliacaoRepository.listLightByFilters(pageRequest)
+        .subscribe((result) => {
+          this.filteredTiposAvaliacoesAsync = result.content;
+        });
+
+    }
+  }
+
+  /**
+   *
+   * @param $event
+   */
+  addTipoAvaliacaoFilter($event: MatAutocompleteSelectedEvent) {
+    this.pageRequest.tiposAvaliacoesFilter.push($event.option.value);
+
+    this.tiposAvaliacoesInput.nativeElement.value = '';
+
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param tipoAvaliacao
+   */
+  removeTipoAvaliacaoFilter(tipoAvaliacao: TipoAvaliacao) {
+    const index = this.pageRequest.tiposAvaliacoesFilter.indexOf(tipoAvaliacao);
+
+    if (index >= 0) {
+      this.pageRequest.tiposAvaliacoesFilter.splice(index, 1);
+    }
+
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param $event
+   */
+  addDefaultFilter($event: MatChipInputEvent) {
+    if ($event && $event.value && $event.value.length) {
+      const input = $event.input;
+      const value = $event.value;
+
+      if ((value || '').trim()) {
+        this.pageRequest.defaultFilter.push(value);
+      }
+
+      if (input) {
+        input.value = '';
+      }
+
+      this.onChangeFilters()
+    }
+  }
+
+  /**
+   *
+   * @param defaultFilter
+   */
+  removeDefaultFilter(defaultFilter: string) {
+    const index = this.pageRequest.defaultFilter.indexOf(defaultFilter);
+
+    if (index >= 0) {
+      this.pageRequest.defaultFilter.splice(index, 1);
+    }
+
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param {string} filter
+   */
+  public defaultFilterChanged(filter: string) {
+    if (filter && filter.length) {
+      this.defaultFilterModelChanged.next(filter);
+    }
+  }
+
 }
