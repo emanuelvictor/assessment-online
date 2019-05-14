@@ -88,15 +88,15 @@
   <div layout='row'
        layout-align='center center'>
     <div layout-align-gt-sm='start center'
-         layout-gt-sm='row' layout-sm='column' flex='90'>
+         layout-gt-sm='row' layout-md='column' flex='90'>
 
-      <div layout='row' layout-margin style='margin-top: 15px'>
+      <div layout='row' flex='30' layout-margin style='margin-top: 15px'>
 
         <ev-datepicker #dataInicio layout='row'
                        flex style='margin-left: -8px'
                        (dataInputChange)='listAvaliacoesByDates()'
                        [(dataInput)]='pageRequest.dataInicioFilter'>
-          <mat-form-field>
+          <mat-form-field style='width: 100%'>
             <input placeholder='Data da avaliação - Início'
                    [(ngModel)]='pageRequest.dataInicioFilter'
                    matInput name='dataInicio' id='dataInicio'
@@ -107,9 +107,8 @@
         <ev-datepicker #dataTermino layout='row' flex
                        (dataInputChange)='listAvaliacoesByDates()'
                        [(dataInput)]='pageRequest.dataTerminoFilter'>
-          <mat-form-field>
-            <input style='width: 225px'
-                   placeholder='Data da avaliação - Término'
+          <mat-form-field style='width: 100%'>
+            <input placeholder='Data da avaliação - Término'
                    [(ngModel)]='pageRequest.dataTerminoFilter'
                    matInput name='dataTermino' id='dataTermino'
                    [textMask]='{mask: masks.date, guide: false}'>
@@ -120,7 +119,7 @@
 
       <mat-form-field flex='30'
                       [ngStyle]="{'margin-top': (pageRequest?.tiposAvaliacoesFilter?.length ? '-7px' : '7px')}">
-        <mat-chip-list #tiposAvaliacoesFilterChipList aria-label='Pesquisar por Tipos de Avaliações' >
+        <mat-chip-list #tiposAvaliacoesFilterChipList aria-label='Pesquisar por Tipos de Avaliações'>
 
           <mat-chip *ngFor='let tipoAvaliacao of pageRequest.tiposAvaliacoesFilter'
                     (removed)='removeTipoAvaliacaoFilter(tipoAvaliacao)' style='max-width: 100%'>
@@ -144,6 +143,10 @@
         </mat-autocomplete>
 
       </mat-form-field>
+
+      <mat-slide-toggle [(ngModel)]='pageRequest.hasFeedback' (change)='onChangeFilters()' layout-margin>
+        <span class='tc-grey-600'>Somente com feedback</span>
+      </mat-slide-toggle>
 
       <close-button (click)='hidePesquisaAvancada()' hide-sm hide-xs></close-button>
     </div>

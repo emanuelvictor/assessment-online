@@ -85,6 +85,7 @@ public class AvaliacaoService {
                                          final List<Long> unidadesFilter,
                                          final List<Long> usuariosFilter,
                                          final List<Long> tiposAvaliacoesFilter,
+                                         final Boolean hasFeedback,
                                          final LocalDateTime dataInicioFilter,
                                          final LocalDateTime dataTerminoFilter,
                                          final Pageable pageable) {
@@ -100,6 +101,7 @@ public class AvaliacaoService {
                 unidadesFilter,
                 usuariosFilter,
                 tiposAvaliacoesFilter,
+                hasFeedback,
                 dataInicioFilter,
                 dataTerminoFilter,
                 pageable

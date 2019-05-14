@@ -87,6 +87,11 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "       (" +
             "           FILTER(:defaultFilter, avaliacao.agrupador.feedback) = TRUE" +
             "       )" +
+            "       AND " +
+            "       (" +
+            "           (:hasFeedback IS NOT NULL AND avaliacao.agrupador.feedback IS NOT NULL)" +
+            "           OR :hasFeedback IS NULL" +
+            "       )" +
             "       AND" +
             "       (" +
             "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') " +
@@ -107,6 +112,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
                                   @Param("unidadesFilter") final List<Long> unidadesFilter,
                                   @Param("usuariosFilter") final List<Long> usuariosFilter,
                                   @Param("tiposAvaliacoesFilter") final List<Long> tiposAvaliacoesFilter,
+                                  @Param("hasFeedback") final Boolean hasFeedback,
                                   @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
                                   @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
                                   final Pageable pageable);
