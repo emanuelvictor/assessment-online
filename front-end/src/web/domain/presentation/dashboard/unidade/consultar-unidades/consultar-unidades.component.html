@@ -61,8 +61,8 @@
 </search-bar>
 
 <!--Pesquisa avançada-->
-<mat-card style='height: 95px'
-          *ngIf='showPesquisaAvancada' [@fadeInOut]
+<mat-card *ngIf='showPesquisaAvancada' [@fadeInOut]
+          style='height: 95px; border-top: 0 !important'
           class='push-none bgc-grey-50 filters-card-avanced'>
   <div layout='row'
        layout-align='center center'>
@@ -133,7 +133,8 @@
 <div layout="row" layout-align="center start">
   <div layout="column" flex="90">
 
-    <div class="tc-grey-500 size-height-50" layout="row" layout-align="start center"
+    <div class="tc-grey-500 size-height-50"
+         layout="row" layout-align="start center"
          matTooltip="Ordernar pelo nome da unidade">
       <span> Resultado da pesquisa </span>
       <div flex></div>

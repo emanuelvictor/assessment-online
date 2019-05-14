@@ -171,6 +171,9 @@ export class ConsultarUnidadesComponent implements OnInit {
         })
     });
 
+    /**
+     *
+     */
     this.enderecoFilterModelChanged.debounceTime(500).distinctUntilChanged().subscribe(model => {
       const pageRequest: any = Object.assign({}, this.pageRequest);
       pageRequest.page = 0;
@@ -215,8 +218,8 @@ export class ConsultarUnidadesComponent implements OnInit {
         'properties': this.sort.active,
         'direction': this.sort.direction
       };
-      this.listUnidadesByFilters(this.pageRequest);
-    });
+      this.listUnidadesByFilters(this.pageRequest)
+    })
   }
 
   /**
@@ -246,10 +249,10 @@ export class ConsultarUnidadesComponent implements OnInit {
     }
 
     if (this.dataTermino.data) {
-      this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+      this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY')
     }
 
-    this.listUnidadesByFilters(this.pageRequest);
+    this.listUnidadesByFilters(this.pageRequest)
 
   }
 
@@ -266,11 +269,10 @@ export class ConsultarUnidadesComponent implements OnInit {
     pageRequest.size = this.paginator.pageSize;
     pageRequest.page = this.paginator.pageIndex;
 
-    this.unidadeService.listByFilters(this.pageRequest)
+    this.unidadeService.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Unidade>(result.content);
-
-        this.page = result;
+        this.page = result
       })
   }
 
@@ -292,7 +294,7 @@ export class ConsultarUnidadesComponent implements OnInit {
       dataTerminoFilter: null
     };
 
-    this.onChangeFilters();
+    this.onChangeFilters()
 
   }
 

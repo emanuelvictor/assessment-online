@@ -17,11 +17,15 @@ import {Avaliacao} from "../../../../entity/avaliacao/avaliacao.model";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
 import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
+import {viewAnimation} from "../../../controls/utils";
 
 @Component({
   selector: 'consultar-avaliacoes',
   templateUrl: './consultar-avaliacoes.component.html',
-  styleUrls: ['./consultar-avaliacoes.component.css']
+  styleUrls: ['./consultar-avaliacoes.component.css'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class ConsultarAvaliacoesComponent implements OnInit {
 
@@ -196,7 +200,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       pageRequest.defaultFilter.push(model);
       pageRequest.unidadesFilter = this.pageRequest.unidadesFilter.map(value => value.id);
       pageRequest.usuariosFilter = this.pageRequest.usuariosFilter.map(value => value.id);
-      // pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
+      pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
 
       this.avaliacaoService.listByFilters(pageRequest)
         .subscribe((result) => {
@@ -259,7 +263,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     pageRequest.page = 0;
     pageRequest.unidadesFilter = this.pageRequest.unidadesFilter.map(value => value.id);
     pageRequest.usuariosFilter = this.pageRequest.usuariosFilter.map(value => value.id);
-    // pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
+    pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
 
     this.avaliacaoService.listByFilters(pageRequest)
       .subscribe((result) => {

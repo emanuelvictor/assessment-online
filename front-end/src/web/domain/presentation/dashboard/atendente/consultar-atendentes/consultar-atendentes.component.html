@@ -1,6 +1,7 @@
 <search-bar flex>
 
-  <mat-form-field style='margin-left:0; margin-top: 32px' flex-sm='30' flex-md='40' flex-gt-md='45' flex-gt-lg='50'
+  <mat-form-field style='margin-left:0; margin-top: 32px; border-top: 0'
+                  flex-sm='30' flex-md='40' flex-gt-md='45' flex-gt-lg='50'
                   [ngStyle]="{'margin-top': (pageRequest?.defaultFilter?.length ? '16px' : '32px')}">
     <mat-chip-list #defaultFilterChipList aria-label='Pesquisar por nome ou e-mail'>
 
@@ -70,8 +71,8 @@
 </search-bar>
 
 <!--Pesquisa avançada-->
-<mat-card style='height: 95px'
-          *ngIf='showPesquisaAvancada' [@fadeInOut]
+<mat-card *ngIf='showPesquisaAvancada' [@fadeInOut]
+          style='height: 95px; border-top: 0 !important'
           class='push-none bgc-grey-50 filters-card-avanced'>
   <div layout='row'
        layout-align='center center'>

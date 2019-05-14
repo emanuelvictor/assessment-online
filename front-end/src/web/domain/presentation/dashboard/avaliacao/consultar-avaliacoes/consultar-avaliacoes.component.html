@@ -82,8 +82,8 @@
 </search-bar>
 
 <!--Pesquisa avançada-->
-<mat-card style='height: 95px'
-          *ngIf='showPesquisaAvancada'
+<mat-card *ngIf='showPesquisaAvancada' [@fadeInOut]
+          style='height: 95px; border-top: 0 !important'
           class='push-none bgc-grey-50 filters-card-avanced'>
   <div layout='row'
        layout-align='center center'>
