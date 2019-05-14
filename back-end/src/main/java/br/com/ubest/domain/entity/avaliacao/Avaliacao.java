@@ -49,15 +49,20 @@ public class Avaliacao extends AbstractEntity {
     @Transient
     private Unidade unidade;
 
+    @Transient
+    private TipoAvaliacao tipoAvaliacao;
+
     public Avaliacao() {
     }
 
-    public Avaliacao(final long id, final String fotoPath, final @NotNull int nota, final @NotNull LocalDateTime data, final Unidade unidade) {
+    public Avaliacao(final long id, final String fotoPath, final @NotNull int nota, final @NotNull LocalDateTime data, final Agrupador agrupador, final Unidade unidade, final TipoAvaliacao tipoAvaliacao) {
         super(id);
         this.nota = nota;
         this.data = data;
         this.fotoPath = fotoPath;
         this.unidade = unidade;
+        this.tipoAvaliacao = tipoAvaliacao;
+        this.agrupador = agrupador;
     }
 
     @PrePersist

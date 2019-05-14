@@ -173,14 +173,13 @@
         <ng-container matColumnDef='unidade.nome'>
           <mat-header-cell layout-align="start center"
                            *matHeaderCellDef mat-sort-header
-                           flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='40'>
+                           flex-xl='35' flex-gt-md='35' flex-md='35' flex-sm='35'>
             <div layout-margin layout='column'>
               Unidade
             </div>
           </mat-header-cell>
-          <mat-cell *matCellDef='let avaliacao'
-                    layout-align="start center"
-                    flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='40'>
+          <mat-cell flex-xl='35' flex-gt-md='35' flex-md='35' flex-sm='35'
+                    *matCellDef='let avaliacao' layout-align='start center'>
             <div layout-margin layout='column'>
               {{avaliacao?.unidade?.nome}}
             </div>
@@ -190,16 +189,16 @@
         <ng-container matColumnDef='nota'>
           <mat-header-cell layout-align="start center"
                            [matTooltipPosition]='"left"'
-                           matTooltip='Ordernar pela nota da avaliação'
                            *matHeaderCellDef mat-sort-header
-                           flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='40'>
+                           matTooltip='Ordernar pela nota da avaliação'
+                           flex-xl='50' flex-gt-md='50' flex-md='50' flex-sm='50'>
             <div layout-margin layout='column'>
               Nota e ítens avaliáveis
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let avaliacao'
-                    layout-align="start center"
-                    flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='40'>
+                    layout-align='start center'
+                    flex-xl='50' flex-gt-md='50' flex-md='50' flex-sm='50'>
             <avatar style='margin-left: 0;margin-bottom: 3px;'
                     layout-margin class='image-cover' [size]='0.2'
                     [usuario]="{'id': avaliacao?.id , 'foto': avaliacao?.fotoPath}">
@@ -217,9 +216,8 @@
         </ng-container>
 
         <ng-container matColumnDef='agrupador.feedback'>
-          <mat-header-cell layout-align="start center"
-                           *matHeaderCellDef mat-sort-header
-                           flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='40'>
+          <mat-header-cell flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='40'
+                           layout-align='start center' *matHeaderCellDef mat-sort-header>
             <div layout-margin layout='column'>
               Feedback
             </div>
@@ -236,31 +234,49 @@
         <ng-container matColumnDef='data'>
           <mat-header-cell layout-align="start center"
                            *matHeaderCellDef mat-sort-header
-                           flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='40'>
+                           flex-xl='20' flex-gt-md='20' flex-md='20' flex-sm='20'>
             <div layout-margin layout='column'>
               Data
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let avaliacao'
                     layout-align="start center"
-                    flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='40'>
+                    flex-xl='20' flex-gt-md='20' flex-md='20' flex-sm='20'>
             <div layout-margin layout='column'>
               {{avaliacao?.data}}
             </div>
           </mat-cell>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns">
+        <ng-container matColumnDef='tipoAvaliacao.nome'>
+          <mat-header-cell layout-align='start center'
+                           *matHeaderCellDef mat-sort-header
+                           flex-xl='50' flex-gt-md='50' flex-md='50' flex-sm='50'>
+            <div layout-margin layout='column'>
+              Tipo de Avaliação
+            </div>
+          </mat-header-cell>
+          <mat-cell flex-md='50' flex-sm='50'
+                    *matCellDef='let avaliacao'
+                    layout-align='start center'
+                    flex-xl='50' flex-gt-md='50'>
+            <div layout-margin layout='column'>
+              {{avaliacao?.tipoAvaliacao?.nome + ' - ' + avaliacao?.tipoAvaliacao?.enunciado}}
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef='displayedColumns'>
         </mat-header-row>
 
-        <mat-row *matRowDef="let avaliacao; columns: displayedColumns"
-                 routerLink="{{avaliacao.id}}" style="cursor: pointer">
+        <mat-row *matRowDef='let avaliacao; columns: displayedColumns'
+                 routerLink='{{avaliacao.id}}' style='cursor: pointer'>
         </mat-row>
       </mat-table>
       <no-records-found [dataSource]='dataSource?.data'></no-records-found>
-      <mat-paginator [pageSizeOptions]="[5, 20, 50, 100]"
-                     [length]="page.totalElements" style="border-radius: 2px"
-                     (page)="listAvaliacoesByFilters(pageRequest)" class="bgc-grey-50">
+      <mat-paginator [pageSizeOptions]='[5, 20, 50, 100]'
+                     [length]='page.totalElements' style='border-radius: 2px'
+                     (page)='listAvaliacoesByFilters(pageRequest)' class='bgc-grey-50'>
       </mat-paginator>
     </div>
   </div>

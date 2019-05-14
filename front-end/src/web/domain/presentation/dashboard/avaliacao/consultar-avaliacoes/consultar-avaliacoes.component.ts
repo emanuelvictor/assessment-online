@@ -74,6 +74,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       'nota',
       'data',
       'agrupador.feedback',
+      'tipoAvaliacao.nome',
       'unidade.nome'
     ];
 
@@ -141,7 +142,6 @@ export class ConsultarAvaliacoesComponent implements OnInit {
    */
   unidadesFilteredAsync: Unidade[];
 
-  asyncModel: string[] = [];
   usuariosFilteredAsync: string[];
 
   /**

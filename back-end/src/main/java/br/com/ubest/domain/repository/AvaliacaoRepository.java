@@ -1,6 +1,8 @@
 package br.com.ubest.domain.repository;
 
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
+import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
+import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,16 +10,29 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
 
-    @Query("SELECT avaliacao FROM Avaliacao avaliacao " +
-            "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliacao.id = avaliacao.id " +
-            "       LEFT OUTER JOIN Agrupador agrupador ON avaliacao.agrupador.id = agrupador.id " +
-            "       LEFT OUTER JOIN Unidade unidade ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacao.unidade.id = unidade.id " +
-            "       LEFT OUTER JOIN Usuario usuario ON avaliacaoAvaliavel.avaliavel.usuario.id = usuario.id " +
+//    (final long id, final String fotoPath, final @NotNull int nota, final @NotNull LocalDateTime data, final Unidade unidade, final TipoAvaliacao tipoAvaliacao)
+
+    @Query("SELECT new Avaliacao (" +
+            "           avaliacao.id," +
+            "           avaliacao.fotoPath," +
+            "           avaliacao.nota," +
+            "           avaliacao.data," +
+            "           avaliacao.agrupador," +
+            "           unidade," +
+            "           tipoAvaliacao" +
+            "       ) " +
+            "   FROM Avaliacao avaliacao " +
+            "       INNER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliacao.id = avaliacao.id " +
+            "       INNER JOIN Agrupador agrupador ON avaliacao.agrupador.id = agrupador.id " +
+            "       INNER JOIN Unidade unidade ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacao.unidade.id = unidade.id " +
+            "       INNER JOIN TipoAvaliacao tipoAvaliacao ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.id = tipoAvaliacao.id " +
+            "       INNER JOIN Usuario usuario ON avaliacaoAvaliavel.avaliavel.usuario.id = usuario.id " +
 //            "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
             "   WHERE " +
             "   (   " +
@@ -63,6 +78,13 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "       )" +
             "       AND " +
             "       (" +
+            "           (" +
+            "               tipoAvaliacao.id IN :tiposAvaliacoesFilter" +
+            "           )" +
+            "           OR :tiposAvaliacoesFilter IS NULL" +
+            "       )" +
+            "       AND " +
+            "       (" +
             "           FILTER(:defaultFilter, avaliacao.agrupador.feedback) = TRUE" +
             "       )" +
             "       AND" +
@@ -77,13 +99,14 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
             "       )" +
             "   )" +
-            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.nome, agrupador.feedback "
+            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.id, unidade.nome, tipoAvaliacao.id, agrupador.feedback "
     )
     Page<Avaliacao> listByFilters(@Param("usuarioId") final Long usuarioId,
                                   @Param("perfil") final String perfil,
                                   @Param("defaultFilter") final String defaultFilter,
                                   @Param("unidadesFilter") final List<Long> unidadesFilter,
                                   @Param("usuariosFilter") final List<Long> usuariosFilter,
+                                  @Param("tiposAvaliacoesFilter") final List<Long> tiposAvaliacoesFilter,
                                   @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
                                   @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
                                   final Pageable pageable);

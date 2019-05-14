@@ -66,8 +66,9 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao> {
     Mono<Page<Avaliacao>> listByFilters(final String defaultFilter,
                                         final Long[] unidadesFilter,
                                         final Long[] usuariosFilter,
+                                        final Long[] tiposAvaliacoesFilter,
                                         @RequestParam(required = false) final LocalDateTime dataInicioFilter,
                                         @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
-        return Mono.just(this.avaliacaoService.listByFilters(defaultFilter, getListFromArray(unidadesFilter), getListFromArray(usuariosFilter), dataInicioFilter, dataTerminoFilter, getPageable()));
+        return Mono.just(this.avaliacaoService.listByFilters(defaultFilter, getListFromArray(unidadesFilter), getListFromArray(usuariosFilter), getListFromArray(tiposAvaliacoesFilter), dataInicioFilter, dataTerminoFilter, getPageable()));
     }
 }

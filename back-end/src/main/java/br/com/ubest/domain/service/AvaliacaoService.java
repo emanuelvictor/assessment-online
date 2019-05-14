@@ -20,6 +20,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
+
 @Service
 @RequiredArgsConstructor
 public class AvaliacaoService {
@@ -82,6 +84,7 @@ public class AvaliacaoService {
     public Page<Avaliacao> listByFilters(final String defaultFilter,
                                          final List<Long> unidadesFilter,
                                          final List<Long> usuariosFilter,
+                                         final List<Long> tiposAvaliacoesFilter,
                                          final LocalDateTime dataInicioFilter,
                                          final LocalDateTime dataTerminoFilter,
                                          final Pageable pageable) {
@@ -90,16 +93,21 @@ public class AvaliacaoService {
 
         final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 
-        return this.avaliacaoRepository.listByFilters(
+        final Page<Avaliacao> avaliacoes = this.avaliacaoRepository.listByFilters(
                 usuarioId,
                 conta.getPerfil().name(),
                 defaultFilter,
                 unidadesFilter,
                 usuariosFilter,
+                tiposAvaliacoesFilter,
                 dataInicioFilter,
                 dataTerminoFilter,
                 pageable
         );
+
+        avaliacoes.getContent().forEach(avaliacao -> avaliacao.setAvaliacoesAvaliaveis(this.avaliacaoAvaliavelRepository.findAllByAvaliacaoId(avaliacao.getId())));
+
+        return avaliacoes;
 
     }
 
