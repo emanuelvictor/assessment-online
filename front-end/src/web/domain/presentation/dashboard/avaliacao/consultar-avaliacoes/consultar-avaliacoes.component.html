@@ -1,7 +1,7 @@
 <search-bar>
 
-  <mat-form-field flex='30' style='margin-left: 0'
-                  [ngStyle]="{'margin-top': (pageRequest?.usuariosFilter?.length ? '9.5px' : '23px')}">
+  <mat-form-field flex flex-sm='30' flex-md='30' flex-gt-md='30' style='margin-left: 0'
+                  [ngStyle]="{'margin-top': (pageRequest?.usuariosFilter?.length ? '16px' : '32px')}">
     <mat-chip-list #usuariosChipList aria-label='Pesquisar por Ítens Avaliáveis'>
 
       <mat-chip *ngFor='let usuario of pageRequest?.usuariosFilter'
@@ -25,7 +25,8 @@
 
   </mat-form-field>
 
-  <mat-form-field flex='30' [ngStyle]="{'margin-top': (pageRequest?.unidadesFilter?.length ? '9.5px' : '23px')}">
+  <mat-form-field flex flex-sm='25' flex-md='25' flex-gt-md='25'
+                  [ngStyle]="{'margin-top': (pageRequest?.unidadesFilter?.length ? '16px' : '32px')}">
     <mat-chip-list #chipList aria-label='Pesquisar por Unidades'>
 
       <mat-chip *ngFor='let unidade of pageRequest.unidadesFilter'
@@ -37,12 +38,12 @@
 
       <input (keyup)='filterUnidadesAsync(filtro)'
              placeholder='Pesquisar por Unidades' #unidadesInput
-             [matAutocomplete]='auto' [matChipInputFor]='chipList'
+             [matAutocomplete]='autoCompleteUnidades' [matChipInputFor]='chipList'
              [(ngModel)]='filtro' [ngModelOptions]='{standalone: true}'>
 
     </mat-chip-list>
 
-    <mat-autocomplete #auto='matAutocomplete' (optionSelected)='add($event)'>
+    <mat-autocomplete #autoCompleteUnidades='matAutocomplete' (optionSelected)='add($event)'>
       <mat-option [value]='option' *ngFor='let option of unidadesFilteredAsync'>
         {{option?.nome}} ({{option?.endereco?.cidade?.nome }} - {{option?.endereco?.cidade?.estado?.uf}})
       </mat-option>
@@ -50,8 +51,8 @@
 
   </mat-form-field>
 
-  <mat-form-field style='margin-top: 32px' flex
-                  flex-sm='10' flex-md='10' flex-gt-md='10' flex-gt-lg='25'
+  <mat-form-field style='margin-top: 32px'
+                  flex flex-sm='25' flex-md='25' flex-gt-md='25'
                   [ngStyle]="{'margin-top': (pageRequest?.defaultFilter?.length ? '16px' : '32px')}">
     <mat-chip-list #defaultFilterChipList aria-label='Pesquisar pelo feedback'>
 
@@ -73,9 +74,8 @@
 
   <div flex-gt-md></div>
 
-  <button mat-raised-button
-          class="bgc-blue-grey-50 push-right"
-          (click)="toggleShowPesquisaAvancada()">
+  <button (click)='toggleShowPesquisaAvancada()'
+          mat-raised-button class='bgc-blue-grey-50'>
     Pesquisa avançada
   </button>
 
@@ -92,8 +92,8 @@
 
       <div layout='row' layout-margin style='margin-top: 15px'>
 
-        <ev-datepicker style='margin-left: -2px'
-                       #dataInicio layout='row' flex
+        <ev-datepicker #dataInicio layout='row'
+                       flex style='margin-left: -8px'
                        (dataInputChange)='listAvaliacoesByDates()'
                        [(dataInput)]='pageRequest.dataInicioFilter'>
           <mat-form-field>
@@ -120,7 +120,7 @@
 
       <mat-form-field flex='30'
                       [ngStyle]="{'margin-top': (pageRequest?.tiposAvaliacoesFilter?.length ? '-7px' : '7px')}">
-        <mat-chip-list #tiposAvaliacoesFilterChipList aria-label='Pesquisar por Tipos de Avaliações'>
+        <mat-chip-list #tiposAvaliacoesFilterChipList aria-label='Pesquisar por Tipos de Avaliações' >
 
           <mat-chip *ngFor='let tipoAvaliacao of pageRequest.tiposAvaliacoesFilter'
                     (removed)='removeTipoAvaliacaoFilter(tipoAvaliacao)' style='max-width: 100%'>
@@ -144,8 +144,6 @@
         </mat-autocomplete>
 
       </mat-form-field>
-
-      <div hide-sm hide-xs flex='12'></div>
 
       <close-button (click)='hidePesquisaAvancada()' hide-sm hide-xs></close-button>
     </div>
@@ -259,6 +257,7 @@
                  routerLink="{{avaliacao.id}}" style="cursor: pointer">
         </mat-row>
       </mat-table>
+      <no-records-found [dataSource]='dataSource?.data'></no-records-found>
       <mat-paginator [pageSizeOptions]="[5, 20, 50, 100]"
                      [length]="page.totalElements" style="border-radius: 2px"
                      (page)="listAvaliacoesByFilters(pageRequest)" class="bgc-grey-50">

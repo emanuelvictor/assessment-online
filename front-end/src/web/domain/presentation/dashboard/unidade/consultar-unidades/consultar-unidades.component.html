@@ -71,16 +71,15 @@
 
       <div layout='row' layout-margin style='margin-top: 15px'>
 
-        <ev-datepicker #dataInicio layout='row' flex style='margin-left: -2px'
+        <ev-datepicker #dataInicio layout='row'
+                       flex style='margin-left: -8px'
                        (dataInputChange)='listUnidadesByDates()'
                        [(dataInput)]='pageRequest.dataInicioFilter'>
           <mat-form-field>
-            <input
-
-                placeholder='Data da avaliação - Início'
-                [(ngModel)]='pageRequest.dataInicioFilter'
-                matInput name='dataInicio' id='dataInicio'
-                [textMask]='{mask: masks.date, guide: false}'>
+            <input placeholder='Data da avaliação - Início'
+                   [(ngModel)]='pageRequest.dataInicioFilter'
+                   matInput name='dataInicio' id='dataInicio'
+                   [textMask]='{mask: masks.date, guide: false}'>
           </mat-form-field>
         </ev-datepicker>
 
@@ -89,7 +88,6 @@
                        [(dataInput)]='pageRequest.dataTerminoFilter'>
           <mat-form-field>
             <input style='width: 225px'
-
                    placeholder='Data da avaliação - Término'
                    [(ngModel)]='pageRequest.dataTerminoFilter'
                    matInput name='dataTermino' id='dataTermino'
@@ -120,7 +118,7 @@
                           (optionSelected)='addTipoAvaliacaoFilter($event)'>
           <mat-option [value]='option' *ngFor='let option of filteredTiposAvaliacoesAsync'>
             {{option?.nome}}
-<!--            ({{option?.enunciado }} - {{option?.selecao}})-->
+            <!--            ({{option?.enunciado }} - {{option?.selecao}})-->
           </mat-option>
         </mat-autocomplete>
 
@@ -178,7 +176,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout="column" layout-align="center center">
               <mat-icon style="fill: #c21c1f" svgIcon="assets:pessimo"></mat-icon>
-              <span>{{configuracao?.um}}</span>
+              {{configuracao?.um}}
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
@@ -196,7 +194,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout="column" layout-align="center center">
               <mat-icon style="fill: #e96d01" svgIcon="assets:ruim"></mat-icon>
-              <span>{{configuracao?.dois}}</span>
+              {{configuracao?.dois}}
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
@@ -214,7 +212,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout="column" layout-align="center center">
               <mat-icon style="fill: #d4c40d" svgIcon="assets:regular"></mat-icon>
-              <span>{{configuracao?.tres}}</span>
+              {{configuracao?.tres}}
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
@@ -232,7 +230,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout="column" layout-align="center center">
               <mat-icon style="fill: #8fc82c" svgIcon="assets:bom"></mat-icon>
-              <span>{{configuracao?.quatro}}</span>
+              {{configuracao?.quatro}}
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
@@ -250,7 +248,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout="column" layout-align="center center">
               <mat-icon style="fill: #5ee924" svgIcon="assets:otimo"></mat-icon>
-              <span>{{configuracao?.cinco}}</span>
+              {{configuracao?.cinco}}
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
@@ -267,7 +265,7 @@
           <mat-header-cell layout-align='center center'
                            *matHeaderCellDef mat-sort-header>
             <div layout="column" layout-align="center center">
-              <span>Quantidade de avaliações</span>
+              Quantidade de avaliações
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let unidade'
@@ -280,34 +278,32 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="media">
+        <ng-container matColumnDef='media'>
           <mat-header-cell layout-align='center center'
                            *matHeaderCellDef mat-sort-header>
-            <div layout="column" layout-align="center center">
-              <mat-icon style="fill: #000000" svgIcon="assets:media"></mat-icon>
-              <span>Média</span>
+            <div layout='column' layout-align='center center'>
+              <mat-icon style='fill: #000000' svgIcon='assets:media'></mat-icon>
+              Média
             </div>
           </mat-header-cell>
-          <mat-cell *matCellDef='let unidade'
-                    layout-align='center center'>
-            <div layout='column'
-                 class='push-right'
-                 layout-align='center center'>
+          <mat-cell *matCellDef='let unidade' layout-align='center center'>
+            <div layout='column' class='push-right' layout-align='center center'>
               {{unidade?.media > 0 ? (unidade?.media | number:'1.0-2' :'pt-BR').replace(',', '.') : 0}}
             </div>
           </mat-cell>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns">
+        <mat-header-row *matHeaderRowDef='displayedColumns'>
         </mat-header-row>
 
-        <mat-row *matRowDef="let unidade; columns: displayedColumns"
-                 routerLink="{{unidade.id}}" style="cursor: pointer">
+        <mat-row *matRowDef='let unidade; columns: displayedColumns'
+                 routerLink='{{unidade.id}}' style='cursor: pointer'>
         </mat-row>
       </mat-table>
-      <mat-paginator (page)="listUnidadesByFilters(pageRequest)"
-                     [length]="page.totalElements"
-                     [pageSizeOptions]="[10, 20, 50, 100]">
+      <no-records-found [dataSource]='dataSource?.data'></no-records-found>
+      <mat-paginator (page)='listUnidadesByFilters(pageRequest)'
+                     [length]='page.totalElements'
+                     [pageSizeOptions]='[10, 20, 50, 100]'>
       </mat-paginator>
     </div>
   </div>

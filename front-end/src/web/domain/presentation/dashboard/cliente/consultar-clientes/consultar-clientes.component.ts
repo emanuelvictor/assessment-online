@@ -1,4 +1,4 @@
-import {MatIconRegistry, MatPaginator, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
+import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UsuarioService} from '../../../../service/usuario.service';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -9,6 +9,7 @@ import {viewAnimation} from "../../../controls/utils";
 import {ContaService} from "../../../../service/conta.service";
 import {Conta} from "../../../../entity/usuario/conta.model";
 import {Router} from "@angular/router";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'consultar-clientes',
@@ -68,6 +69,12 @@ export class ConsultarClientesComponent implements OnInit {
 
   /**
    *
+   * @type {Subject<string>}
+   */
+  private defaultFilterModelChanged: Subject<string> = new Subject<string>();
+
+  /**
+   *
    * @param router
    * @param snackBar
    * @param {UsuarioService} contaService
@@ -106,6 +113,22 @@ export class ConsultarClientesComponent implements OnInit {
       };
       this.listClientesByFilters(this.pageRequest);
     });
+
+    /**
+     *
+     */
+    this.defaultFilterModelChanged.debounceTime(500).distinctUntilChanged().subscribe(model => {
+      const pageRequest = Object.assign({}, this.pageRequest);
+      pageRequest.page = 0;
+      pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); // TODO falcatruassa para os objetos internos
+      pageRequest.defaultFilter.push(model);
+
+      this.contaService.listByFilters(pageRequest)
+        .subscribe((result) => {
+          this.dataSource = new MatTableDataSource<Conta>(result.content);
+          this.page = result
+        })
+    });
   }
 
   /**
@@ -141,6 +164,10 @@ export class ConsultarClientesComponent implements OnInit {
       })
   }
 
+  /**
+   *
+   * @param esquema
+   */
   public assumirEsquema(esquema: string): void {
     this.contaService.assumirEsquema(esquema)
       .then((result) => {
@@ -164,6 +191,51 @@ export class ConsultarClientesComponent implements OnInit {
     this.snackBar.open(message, "Fechar", {
       duration: 5000
     });
+  }
+
+  /**
+   *
+   * @param $event
+   */
+  addDefaultFilter($event: MatChipInputEvent) {
+    if ($event && $event.value && $event.value.length) {
+      const input = $event.input;
+      const value = $event.value;
+
+      if ((value || '').trim()) {
+        this.pageRequest.defaultFilter.push(value);
+      }
+
+      if (input) {
+        input.value = '';
+      }
+
+      this.onChangeFilters()
+    }
+  }
+
+  /**
+   *
+   * @param defaultFilter
+   */
+  removeDefaultFilter(defaultFilter: string) {
+    const index = this.pageRequest.defaultFilter.indexOf(defaultFilter);
+
+    if (index >= 0) {
+      this.pageRequest.defaultFilter.splice(index, 1);
+    }
+
+    this.onChangeFilters()
+  }
+
+  /**
+   *
+   * @param {string} filter
+   */
+  public defaultFilterChanged(filter: string) {
+    if (filter && filter.length) {
+      this.defaultFilterModelChanged.next(filter);
+    }
   }
 
 }

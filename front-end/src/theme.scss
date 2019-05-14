@@ -11,7 +11,7 @@
 
 $roxoclaro: rgb(96, 51, 142);
 $roxoforte: rgb(74, 33, 116);
-$verde: rgb(128, 195, 66);
+$verde: rgb(100, 147, 46);
 
 $mat-roxo: (
         50: #f3e5f5,
@@ -296,21 +296,21 @@ simple-snack-bar {
 }
 
 
-mat-table {
-  border-radius: 0 !important;
-}
-
-mat-card {
-  border-radius: 0 !important;
-}
-
-mat-paginator {
-  border-radius: 0 !important;
-}
-
-button {
-  border-radius: 0 !important;
-}
+//mat-table {
+//  border-radius: 0 !important;
+//}
+//
+//mat-card {
+//  border-radius: 0 !important;
+//}
+//
+//mat-paginator {
+//  border-radius: 0 !important;
+//}
+//
+//button {
+//  border-radius: 0 !important;
+//}
 
 // ------------------
 // Edita o scroll
@@ -335,3 +335,13 @@ button {
 //::-webkit-scrollbar-thumb:hover {
 //  background: $roxoclaro;
 //}
+
+// Coloca os labels na cor verde
+//.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-empty.mat-form-field-label {
+//  color: $verde !important;
+//}
+
+// Alteração da font do chip
+mat-chip {
+  font-size: 13px;
+}

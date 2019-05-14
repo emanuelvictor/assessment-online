@@ -179,9 +179,6 @@ export class ConsultarAtendentesComponent implements OnInit {
       this.listUsuariosByFilters(this.pageRequest);
     });
 
-    /**
-     *teste
-     */
     this.defaultFilterModelChanged.debounceTime(500).distinctUntilChanged().subscribe(model => {
       const pageRequest = Object.assign({}, this.pageRequest);
       pageRequest.page = 0;
@@ -240,6 +237,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    *
    */
   public listUsuariosByFilters(pageable: any) {
+
     const pageRequest: any = Object.assign({}, pageable);
     pageRequest.unidadesFilter = pageable.unidadesFilter.map((result: any) => result.id);
     pageRequest.tiposAvaliacoesFilter = pageable.tiposAvaliacoesFilter.map((result: any) => result.id);
@@ -250,10 +248,9 @@ export class ConsultarAtendentesComponent implements OnInit {
     this.usuarioService.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
-
         this.page = result;
-
       })
+
   }
 
   /**

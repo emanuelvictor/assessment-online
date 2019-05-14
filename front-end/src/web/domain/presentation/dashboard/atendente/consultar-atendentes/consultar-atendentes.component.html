@@ -78,10 +78,10 @@
     <div layout-align-gt-sm='start center'
          layout-gt-sm='row' layout-sm='column' flex='90'>
 
-      <div layout='row' flex layout-margin style='margin-top: 15px'>
+      <div layout='row' layout-margin style='margin-top: 15px'>
 
         <ev-datepicker #dataInicio layout='row'
-                       flex style='margin-left: -2px'
+                       flex style='margin-left: -8px'
                        (dataInputChange)='listUsuariosByDates()'
                        [(dataInput)]='pageRequest.dataInicioFilter'>
           <mat-form-field>
@@ -114,7 +114,7 @@
           <mat-chip *ngFor='let tipoAvaliacao of pageRequest.tiposAvaliacoesFilter'
                     (removed)='removeTipoAvaliacaoFilter(tipoAvaliacao)' style='max-width: 100%'>
             {{tipoAvaliacao?.nome}}
-<!--            ({{tipoAvaliacao?.enunciado }} - {{tipoAvaliacao?.selecao}})-->
+            <!--            ({{tipoAvaliacao?.enunciado }} - {{tipoAvaliacao?.selecao}})-->
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
 
@@ -160,8 +160,7 @@
                  #table matSort class='bgc-grey-50'>
 
         <ng-container matColumnDef='nome'>
-          <mat-header-cell *matHeaderCellDef
-                           [matTooltipPosition]='"left"'
+          <mat-header-cell *matHeaderCellDef [matTooltipPosition]='"left"'
                            matTooltip='Ordernar pelo nome' mat-sort-header
                            flex-xl='40' flex-gt-md='40' flex-md='40' flex-sm='40'>
             Ítem avaliável
@@ -187,7 +186,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout='column' layout-align='center center'>
               <mat-icon style='fill: #c21c1f' svgIcon='assets:pessimo'></mat-icon>
-              <span>{{configuracao?.um}}</span>
+              {{configuracao?.um}}
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
@@ -205,7 +204,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout='column' layout-align='center center'>
               <mat-icon style='fill: #e96d01' svgIcon='assets:ruim'></mat-icon>
-              <span>{{configuracao?.dois}}</span>
+              {{configuracao?.dois}}
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
@@ -223,7 +222,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout='column' layout-align='center center'>
               <mat-icon style='fill: #d4c40d' svgIcon='assets:regular'></mat-icon>
-              <span>{{configuracao?.tres}}</span>
+              {{configuracao?.tres}}
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
@@ -241,7 +240,7 @@
                            *matHeaderCellDef mat-sort-header>
             <div layout='column' layout-align='center center'>
               <mat-icon style='fill: #8fc82c' svgIcon='assets:bom'></mat-icon>
-              <span>{{configuracao?.quatro}}</span>
+              {{configuracao?.quatro}}
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
@@ -257,9 +256,9 @@
         <ng-container matColumnDef='avaliacoes5'>
           <mat-header-cell layout-align='center center'
                            *matHeaderCellDef mat-sort-header>
-            <div layout="column" layout-align="center center">
-              <mat-icon style="fill: #5ee924" svgIcon="assets:otimo"></mat-icon>
-              <span>{{configuracao?.cinco}}</span>
+            <div layout='column' layout-align='center center'>
+              <mat-icon style='fill: #5ee924' svgIcon='assets:otimo'></mat-icon>
+              {{configuracao?.cinco}}
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
@@ -276,7 +275,7 @@
           <mat-header-cell layout-align='center center'
                            *matHeaderCellDef mat-sort-header>
             <div layout="column" layout-align="center center">
-              <span>Quantidade de avaliações</span>
+              Quantidade de avaliações
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
@@ -289,19 +288,18 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="media">
+        <ng-container matColumnDef='media'>
           <mat-header-cell layout-align='center center'
                            *matHeaderCellDef mat-sort-header>
-            <div layout="column" layout-align="center center">
-              <mat-icon style="fill: #000000" svgIcon="assets:media"></mat-icon>
-              <span>Média</span>
+            <div layout='column' layout-align='center center'>
+              <mat-icon style='fill: #000000' svgIcon='assets:media'></mat-icon>
+              Média
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let usuario'
                     layout-align='center center'>
-            <div layout='column'
-                 class='push-right'
-                 layout-align='center center'>
+            <div layout-align='center center'
+                 layout='column' class='push-right'>
               {{usuario?.media > 0 ? (usuario?.media | number:'1.0-2' :'pt-BR').replace(',', '.') : 0}}
             </div>
           </mat-cell>
@@ -311,13 +309,14 @@
         <mat-header-row *matHeaderRowDef="displayedColumns">
         </mat-header-row>
 
-        <mat-row *matRowDef="let usuario; columns: displayedColumns"
-                 routerLink="{{usuario.id}}" style="cursor: pointer">
+        <mat-row *matRowDef='let usuario; columns: displayedColumns'
+                 routerLink='{{usuario.id}}' style='cursor: pointer'>
         </mat-row>
       </mat-table>
-      <mat-paginator [pageSizeOptions]="[5, 20, 50, 100]"
-                     [length]="page.totalElements" style="border-radius: 2px"
-                     (page)="listUsuariosByFilters(pageRequest)" class="bgc-grey-50">
+      <no-records-found [dataSource]='dataSource?.data'></no-records-found>
+      <mat-paginator [pageSizeOptions]='[5, 20, 50, 100]'
+                     [length]='page.totalElements' style='border-radius: 2px'
+                     (page)='listUsuariosByFilters(pageRequest)' class='bgc-grey-50'>
       </mat-paginator>
     </div>
   </div>

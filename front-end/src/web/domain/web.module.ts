@@ -109,6 +109,7 @@ import {UsuarioPessoaJuridicaFormComponent} from "./presentation/dashboard/clien
 import {UsuarioPessoaFisicaFormComponent} from "./presentation/dashboard/cliente/inserir-cliente/cliente-form/pessoa-fisica/usuario-pessoa-fisica-form.component";
 import {RecaptchaModule} from "ng-recaptcha";
 import {ConsultarUsuariosComponent} from "./presentation/dashboard/atendente/consultar-atendentes/consultar-usuarios.component";
+import {NoRecordsFoundComponent} from "./presentation/controls/no-records-found/no-records-found.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -221,7 +222,9 @@ registerLocaleData(localePt, 'pt-BR');
     ClienteFormComponent,
     ConsultarClientesComponent,
     UsuarioPessoaFisicaFormComponent,
-    UsuarioPessoaJuridicaFormComponent
+    UsuarioPessoaJuridicaFormComponent,
+
+    NoRecordsFoundComponent
   ],
   imports: [
     SharedModule,

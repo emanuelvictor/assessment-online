@@ -99,6 +99,7 @@
                  routerLink='{{tipoAvaliacao.id}}' style='cursor: pointer'>
         </mat-row>
       </mat-table>
+      <no-records-found [dataSource]='dataSource?.data'></no-records-found>
       <mat-paginator [pageSizeOptions]='[5, 20, 50, 100]'
                      [length]='page.totalElements' style='border-radius: 2px'
                      (page)='listAvaliacoesByFilters(pageRequest)' class='bgc-grey-50'>

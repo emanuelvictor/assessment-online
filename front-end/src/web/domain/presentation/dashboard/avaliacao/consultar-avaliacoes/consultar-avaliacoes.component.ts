@@ -189,6 +189,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
      *
      */
     this.defaultFilterModelChanged.debounceTime(300).distinctUntilChanged().subscribe(model => {
+
       const pageRequest: any = Object.assign({}, this.pageRequest);
       pageRequest.page = 0;
       pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); // TODO falcatruassa para os objetos internos
@@ -211,6 +212,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
           })
         })
     })
+
   }
 
   /**
@@ -242,8 +244,9 @@ export class ConsultarAvaliacoesComponent implements OnInit {
         'properties': this.sort.active,
         'direction': this.sort.direction
       };
-      this.listAvaliacoesByFilters(this.pageRequest);
-    });
+      this.listAvaliacoesByFilters(this.pageRequest)
+    })
+
   }
 
   /**
@@ -281,14 +284,14 @@ export class ConsultarAvaliacoesComponent implements OnInit {
   public listAvaliacoesByDates() {
 
     if (this.dataInicio.data) {
-      this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+      this.pageRequest.dataInicioFilter = moment(this.dataInicio.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY')
     }
 
     if (this.dataTermino.data) {
-      this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY');
+      this.pageRequest.dataTerminoFilter = moment(this.dataTermino.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY')
     }
 
-    this.listAvaliacoesByFilters(this.pageRequest);
+    this.listAvaliacoesByFilters(this.pageRequest)
 
   }
 
@@ -296,9 +299,12 @@ export class ConsultarAvaliacoesComponent implements OnInit {
    * Consulta de usuarios
    *
    */
-  public listAvaliacoesByFilters(pageRequest: any) {
+  public listAvaliacoesByFilters(pageable: any) {
 
-    pageRequest.unidadesFilter.concat(this.asyncModel.map((result: any) => result.id));
+    const pageRequest: any = Object.assign({}, pageable);
+    pageRequest.usuariosFilter = pageable.usuariosFilter.map((result: any) => result.id);
+    pageRequest.unidadesFilter = pageable.unidadesFilter.map((result: any) => result.id);
+    pageRequest.tiposAvaliacoesFilter = pageable.tiposAvaliacoesFilter.map((result: any) => result.id);
 
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;
@@ -310,7 +316,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
         this.page.content.forEach(avaliacao => {
           if (avaliacao.avaliacoesAvaliaveis && avaliacao.avaliacoesAvaliaveis.length) {
             avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
-            avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade;
+            avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade
           }
         })
       })
@@ -334,7 +340,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       dataTerminoFilter: null
     };
 
-    this.onChangeFilters();
+    this.onChangeFilters()
   }
 
   /**
@@ -344,7 +350,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     if (this.showPesquisaAvancada) {
       this.hidePesquisaAvancada();
     } else {
-      this.showPesquisaAvancada = true;
+      this.showPesquisaAvancada = true
     }
   }
 
@@ -353,9 +359,8 @@ export class ConsultarAvaliacoesComponent implements OnInit {
    * @param value
    */
   public usuarioFilterAsyncChanged(value: string): void {
-    console.log(value);
     if (value && value.length) {
-      this.usuarioAsyncFilterModelChanged.next(value);
+      this.usuarioAsyncFilterModelChanged.next(value)
     }
   }
 
@@ -401,9 +406,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       };
 
       this.unidadeService.listLightByFilters(pageRequest)
-        .subscribe((result) => {
-          this.unidadesFilteredAsync = result.content;
-        });
+        .subscribe((result) => this.unidadesFilteredAsync = result.content)
 
     }
   }
@@ -450,9 +453,9 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       };
 
       this.tipoAvaliacaoRepository.listLightByFilters(pageRequest)
-        .subscribe((result) => {
-          this.filteredTiposAvaliacoesAsync = result.content;
-        });
+        .subscribe((result) =>
+          this.filteredTiposAvaliacoesAsync = result.content
+        )
 
     }
   }
@@ -524,7 +527,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
    */
   public defaultFilterChanged(filter: string) {
     if (filter && filter.length) {
-      this.defaultFilterModelChanged.next(filter);
+      this.defaultFilterModelChanged.next(filter)
     }
   }
 
