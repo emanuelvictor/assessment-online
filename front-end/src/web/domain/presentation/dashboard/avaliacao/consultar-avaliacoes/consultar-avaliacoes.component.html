@@ -1,6 +1,6 @@
 <search-bar>
 
-  <mat-form-field flex flex-sm='30' flex-md='30' flex-gt-md='30' style='margin-left: 0'
+  <mat-form-field flex flex-sm='25' flex-md='25' flex-gt-md='25' style='margin-left: 0'
                   [ngStyle]="{'margin-top': (pageRequest?.usuariosFilter?.length ? '16px' : '32px')}">
     <mat-chip-list #usuariosChipList aria-label='Pesquisar por Ítens Avaliáveis'>
 
@@ -52,7 +52,7 @@
   </mat-form-field>
 
   <mat-form-field style='margin-top: 32px'
-                  flex flex-sm='25' flex-md='25' flex-gt-md='25'
+                  flex flex-sm='15' flex-md='10' flex-gt-md='15'
                   [ngStyle]="{'margin-top': (pageRequest?.defaultFilter?.length ? '16px' : '32px')}">
     <mat-chip-list #defaultFilterChipList aria-label='Pesquisar pelo feedback'>
 
@@ -72,11 +72,15 @@
 
   </mat-form-field>
 
-  <div flex-gt-md></div>
+  <mat-slide-toggle hide-sm [(ngModel)]='pageRequest.hasFeedback' (change)='onChangeFilters()' flex layout-margin>
+    <span class='tc-grey-600'>Somente com feedback</span>
+  </mat-slide-toggle>
 
   <button (click)='toggleShowPesquisaAvancada()'
           mat-raised-button class='bgc-blue-grey-50'>
     Pesquisa avançada
+    <!--<label hide-md>Pesquisa avançada</label>-->
+    <!--<mat-icon>filter_list</mat-icon>-->
   </button>
 
 </search-bar>
@@ -90,13 +94,13 @@
     <div layout-align-gt-sm='start center'
          layout-gt-sm='row' layout-md='column' flex='90'>
 
-      <div layout='row' flex='30' layout-margin style='margin-top: 15px'>
+      <div layout='row' layout-margin style='margin-top: 15px'>
 
         <ev-datepicker #dataInicio layout='row'
                        flex style='margin-left: -8px'
                        (dataInputChange)='listAvaliacoesByDates()'
                        [(dataInput)]='pageRequest.dataInicioFilter'>
-          <mat-form-field style='width: 100%'>
+          <mat-form-field style='width: 225px'>
             <input placeholder='Data da avaliação - Início'
                    [(ngModel)]='pageRequest.dataInicioFilter'
                    matInput name='dataInicio' id='dataInicio'
@@ -107,7 +111,7 @@
         <ev-datepicker #dataTermino layout='row' flex
                        (dataInputChange)='listAvaliacoesByDates()'
                        [(dataInput)]='pageRequest.dataTerminoFilter'>
-          <mat-form-field style='width: 100%'>
+          <mat-form-field style='width: 235px'>
             <input placeholder='Data da avaliação - Término'
                    [(ngModel)]='pageRequest.dataTerminoFilter'
                    matInput name='dataTermino' id='dataTermino'
@@ -143,10 +147,6 @@
         </mat-autocomplete>
 
       </mat-form-field>
-
-      <mat-slide-toggle [(ngModel)]='pageRequest.hasFeedback' (change)='onChangeFilters()' layout-margin>
-        <span class='tc-grey-600'>Somente com feedback</span>
-      </mat-slide-toggle>
 
       <close-button (click)='hidePesquisaAvancada()' hide-sm hide-xs></close-button>
     </div>
