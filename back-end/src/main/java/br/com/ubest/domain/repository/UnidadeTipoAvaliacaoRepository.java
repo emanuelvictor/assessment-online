@@ -13,13 +13,22 @@ public interface UnidadeTipoAvaliacaoRepository extends JpaRepository<UnidadeTip
 
 
     @Query("SELECT unidadeTipoAvaliacao FROM UnidadeTipoAvaliacao unidadeTipoAvaliacao" +
-            "       INNER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id " +
             " WHERE" +
             "   (" +
             "       FILTER(:defaultFilter, unidadeTipoAvaliacao.tipoAvaliacao.nome, unidadeTipoAvaliacao.tipoAvaliacao.enunciado) = TRUE" +
             "       AND ( (:unidadeId IS NOT NULL AND unidadeTipoAvaliacao.unidade.id = :unidadeId) OR :unidadeId IS NULL)" +
             "       AND ( (:tipoAvaliacaoId IS NOT NULL AND unidadeTipoAvaliacao.tipoAvaliacao.id = :tipoAvaliacaoId) OR :tipoAvaliacaoId IS NULL)" +
             "       AND ((:ativo IS NOT NULL AND unidadeTipoAvaliacao.ativo = :ativo) OR :ativo IS NULL)" +
+            "       AND" +
+            "       (" +
+            "           (" +
+            "               unidadeTipoAvaliacao.id IN (SELECT avaliavel.unidadeTipoAvaliacao.id FROM Avaliavel avaliavel " +
+            "                   WHERE" +
+            "                   (" +
+            "                       avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id" +
+            "                   ))" +
+            "           )" +
+            "       )" +
             "   )"
     )
     Page<UnidadeTipoAvaliacao> listByFiltersAndWithAvaliaveis(@Param("defaultFilter") final String defaultFilter,

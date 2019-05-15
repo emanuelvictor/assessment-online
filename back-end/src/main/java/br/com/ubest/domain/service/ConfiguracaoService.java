@@ -60,7 +60,10 @@ public class ConfiguracaoService {
         if (cliente == null || cliente.equals(DEFAULT_TENANT_ID))
             tenantIdentifierResolver.setSchema(DEFAULT_TENANT_ID);
 
-        final Configuracao defaultConfiguration = this.getConfiguracao();
+        final String oldSchema = tenantIdentifierResolver.resolveCurrentTenantIdentifier();
+        tenantIdentifierResolver.setSchema(DEFAULT_TENANT_ID);
+        final Configuracao defaultConfiguration = (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
+        tenantIdentifierResolver.setSchema(oldSchema);
 
         // Se o cliente é nulo ou igual ao public, retorna as configurações do public
         if (cliente != null && cliente.equals("undefined"))
@@ -80,11 +83,7 @@ public class ConfiguracaoService {
     }
 
     public Configuracao getConfiguracao() {
-        final String oldSchema = tenantIdentifierResolver.resolveCurrentTenantIdentifier();
-        tenantIdentifierResolver.setSchema(DEFAULT_TENANT_ID);
-        final Configuracao configuracao = (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
-        tenantIdentifierResolver.setSchema(oldSchema);
-        return configuracao;
+        return (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
     }
 
     /**
@@ -113,7 +112,7 @@ public class ConfiguracaoService {
 
         final byte[] background = getConfiguracao(cliente).getBackgroundImage();
 
-        if (background == null) { // TODO
+        if (background == null) {
             try {
                 return IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/banner.png"));
             } catch (IOException e) {
@@ -140,7 +139,7 @@ public class ConfiguracaoService {
 
         final byte[] logomarca = getConfiguracao(cliente).getLogo();
 
-        if (logomarca == null) { //TODO
+        if (logomarca == null) {
             try {
                 return IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/ubest1.png"));
             } catch (IOException e) {
