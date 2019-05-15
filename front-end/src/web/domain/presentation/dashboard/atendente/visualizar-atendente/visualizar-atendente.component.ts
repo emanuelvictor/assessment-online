@@ -103,7 +103,7 @@ export class VisualizarAtendenteComponent implements OnInit {
   public find(atendenteId: number) {
     this.usuarioService.findById(atendenteId).subscribe(atendente => {
 
-      this.unidadeService.listLightByFilters(null).subscribe(result => {
+      this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
         this.unidades = result.content;
 
         this.operadorRepository.listByFilters({usuarioId: atendenteId}).subscribe(page => {

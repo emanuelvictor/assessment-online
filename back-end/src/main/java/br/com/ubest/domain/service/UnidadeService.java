@@ -126,7 +126,7 @@ public class UnidadeService {
      * @param pageable      Pageable
      * @return Page<Unidade>
      */
-    public Page<Unidade> listByFilters(final String defaultFilter, final Pageable pageable) {
+    public Page<Unidade> listByFilters(final String defaultFilter, final Boolean withBondFilter, final Pageable pageable) {
 
 
         final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
@@ -137,6 +137,7 @@ public class UnidadeService {
                 usuarioId,
                 conta.getPerfil().name(),
                 defaultFilter,
+                withBondFilter,
                 pageable);
 
     }

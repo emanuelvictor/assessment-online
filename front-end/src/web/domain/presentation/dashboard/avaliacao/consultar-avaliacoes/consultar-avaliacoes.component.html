@@ -167,11 +167,11 @@
 
     <div class='mat-elevation-z4'>
 
-      <mat-table matSortDisableClear
-                 matSortActive='data'
+      <mat-table matSortActive='data'
                  matSortDirection='asc'
                  [dataSource]='dataSource'
-                 #table matSort class='bgc-grey-50'>
+                 matSortDisableClear #table
+                 matSort class='bgc-grey-50'>
 
         <ng-container matColumnDef='unidade.nome'>
           <mat-header-cell layout-align="start center"

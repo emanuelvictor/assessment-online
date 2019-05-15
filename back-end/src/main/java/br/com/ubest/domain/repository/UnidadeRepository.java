@@ -125,28 +125,43 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "           FILTER(:defaultFilter, unidade.nome, unidade.endereco.logradouro,unidade.endereco.complemento, unidade.endereco.bairro, unidade.endereco.cep,unidade.endereco.numero,unidade.endereco.cidade.nome,unidade.endereco.cidade.estado.nome,unidade.endereco.cidade.estado.uf,unidade.endereco.cidade.estado.pais.nome) = TRUE" +
             "       )" +
             "       AND" +
-            "       ((:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') AND unidade.id IN " +
             "       (" +
-            "           SELECT operador.unidade.id FROM Operador operador WHERE " +
+            "           :withBondFilter IS NOT NULL AND :withBondFilter IS TRUE AND " +
             "           (" +
-            "               operador.usuario.id = :usuarioId" +
-            "               AND " +
+            "               unidade.id IN (SELECT unidadeTipoAvaliacao.unidade.id FROM UnidadeTipoAvaliacao unidadeTipoAvaliacao " +
+            "                   WHERE" +
+            "                   (" +
+            "                       unidadeTipoAvaliacao.unidade.id = unidade.id AND unidadeTipoAvaliacao.ativo = :withBondFilter" +
+            "                   ))" +
+            "           )" +
+            "           OR :withBondFilter IS NULL " +
+            "       )" +
+            "       AND" +
+            "       (" +
+            "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') AND unidade.id IN " +
+            "           (" +
+            "               SELECT operador.unidade.id FROM Operador operador WHERE " +
             "               (" +
+            "                   operador.usuario.id = :usuarioId" +
+            "                   AND " +
             "                   (" +
-            "                       :perfil = '" + Perfil.ATENDENTE_VALUE + "'  " +
-            "                   )" +
-            "                   OR " +
-            "                   (" +
-            "                       :perfil = '" + Perfil.OPERADOR_VALUE + "' " +
+            "                       (" +
+            "                           :perfil = '" + Perfil.ATENDENTE_VALUE + "'  " +
+            "                       )" +
+            "                       OR " +
+            "                       (" +
+            "                           :perfil = '" + Perfil.OPERADOR_VALUE + "' " +
+            "                       )" +
             "                   )" +
             "               )" +
-            "           )" +
-            "       ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "'))" +
+            "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
+            "       )" +
             "   )"
     )
     Page<Unidade> listByFilters(@Param("usuarioId") final Long usuarioId,
                                 @Param("perfil") final String perfil,
                                 @Param("defaultFilter") final String defaultFilter,
+                                @Param("withBondFilter") final Boolean withBondFilter,
                                 final Pageable pageable);
 
     /**

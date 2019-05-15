@@ -13,7 +13,7 @@ import {UnidadeTipoAvaliacao} from "../../../../entity/avaliacao/unidade-tipo-av
 @Component({
   selector: 'visualizar-unidade',
   templateUrl: './visualizar-unidade.component.html',
-  styleUrls: ['./visualizar-unidade.component.css'],
+  styleUrls: ['./visualizar-unidade.component.scss'],
   animations: [
     viewAnimation
   ]
