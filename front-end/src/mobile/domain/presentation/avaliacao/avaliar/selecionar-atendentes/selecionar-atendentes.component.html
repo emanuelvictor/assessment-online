@@ -1,32 +1,24 @@
-<div layout="column" layout-align="center center"
+<div layout='column' layout-align='center center'
      *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-  <mat-card style="width: 600px">
-    <mat-card-title class='push'
-                    *ngIf='avaliaveis?.length'>
-      <div layout='column'
-           layout-align='center center'>
+  <mat-card style='width: 600px'>
+    <mat-card-title class='push' *ngIf='avaliaveis?.length'>
+      <div layout='column' layout-align='center center'>
         {{unidadeTipoAvaliacao?.tipoAvaliacao?.selecao}}
       </div>
     </mat-card-title>
-    <mat-card-content class="no-margin"
-                      style='margin-bottom: 0'
-                      *ngIf="avaliaveis?.length">
+    <mat-card-content class='no-margin' style='margin-bottom: 0' *ngIf='avaliaveis?.length'>
 
-      <mat-grid-list cols="{{avaliaveis.length > 6 ? 4 : 3}}" rowHeight="100px" *ngIf="avaliaveis.length">
-        <mat-grid-tile
-            mat-ripple
-            [colspan]="1"
-            [rowspan]="2"
-            *ngFor="let avaliavel of avaliaveis"
-            (click)='avaliavel.selected = !avaliavel.selected; clearTimeout()'
-            [ngStyle]="{'background-color': (avaliavel.selected ? 'lightblue' : '')}">
-          <div layout="column" layout-align="center center">
+      <mat-grid-list cols='{{avaliaveis.length > 6 ? 4 : 3}}' rowHeight='100px' *ngIf='avaliaveis?.length'>
+        <mat-grid-tile (click)='avaliavel.selected = !avaliavel.selected; clearTimeout()'
+                       [ngStyle]="{'background-color': (avaliavel.selected ? 'lightblue' : '')}"
+                       *ngFor='let avaliavel of avaliaveis' mat-ripple [colspan]='1' [rowspan]='2'>
+          <div layout='column' layout-align='center center'>
             <div mat-list-avatar style='width: 120px; height: 120px'>
               <avatar class='image-cover' [size]='0.6'
                       [usuario]="{'id': avaliavel?.usuario?.id , 'foto': avaliavel?.usuario?.avatarPath}">
               </avatar>
             </div>
-            <div class="text-truncate" style="max-width: 160px">
+            <div class='not-broken-line'>
               {{avaliavel?.usuario?.nome}}
             </div>
           </div>

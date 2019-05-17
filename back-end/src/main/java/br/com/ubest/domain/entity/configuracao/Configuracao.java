@@ -86,6 +86,11 @@ public class Configuracao extends AbstractEntity {
     private boolean feedback;
 
     /**
+     *
+     */
+    private boolean quebrarLinhaNaSelecaoDeItenAvaliavel;
+
+    /**
      * @return byte[]
      */
     @JsonIgnore

@@ -1,6 +1,7 @@
 mat-card-content {
   margin-bottom: 0;
   padding: 0;
+
   mat-grid-list {
     overflow: auto;
     flex-grow: 1;
@@ -24,4 +25,9 @@ button {
   height: 50px;
   width: 125px;
   font-size: 25px
+}
+
+.not-broken-line {
+  text-align: center;
+  word-break: break-word
 }
