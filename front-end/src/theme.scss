@@ -236,10 +236,6 @@ Menu da gaveta lateral
   width: auto;
 }
 
-.td-chips-wrapper .mat-form-field {
-  width: 200px;
-}
-
 .status-title {
   font-size: 14px;
   font-weight: bold;
@@ -344,4 +340,9 @@ button {
 // Alteração da font do chip
 mat-chip {
   font-size: 13px;
+  .mat-chip-list-wrapper .mat-standard-chip, .mat-chip-list-wrapper input.mat-input-element {
+    margin: 1px !important;
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+  }
 }

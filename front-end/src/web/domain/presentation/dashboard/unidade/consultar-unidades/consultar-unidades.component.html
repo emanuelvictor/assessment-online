@@ -75,7 +75,7 @@
                        flex style='margin-left: -8px'
                        (dataInputChange)='listUnidadesByDates()'
                        [(dataInput)]='pageRequest.dataInicioFilter'>
-          <mat-form-field>
+          <mat-form-field style='width: 225px'>
             <input placeholder='Data da avaliação - Início'
                    [(ngModel)]='pageRequest.dataInicioFilter'
                    matInput name='dataInicio' id='dataInicio'
@@ -86,9 +86,8 @@
         <ev-datepicker #dataTermino layout='row' flex
                        (dataInputChange)='listUnidadesByDates()'
                        [(dataInput)]='pageRequest.dataTerminoFilter'>
-          <mat-form-field>
-            <input style='width: 225px'
-                   placeholder='Data da avaliação - Término'
+          <mat-form-field style='width: 235px'>
+            <input placeholder='Data da avaliação - Término'
                    [(ngModel)]='pageRequest.dataTerminoFilter'
                    matInput name='dataTermino' id='dataTermino'
                    [textMask]='{mask: masks.date, guide: false}'>
