@@ -76,6 +76,11 @@ export class Configuracao extends Abstract {
   /**
    *
    */
+  public quebrarLinhaNaSelecaoDeItenAvaliavel: boolean;
+
+  /**
+   *
+   */
   constructor() {
     super();
     this.um = 'Péssimo';
@@ -83,5 +88,6 @@ export class Configuracao extends Abstract {
     this.tres = 'Regular';
     this.quatro = 'Bom';
     this.cinco = 'Ótimo';
+    this.quebrarLinhaNaSelecaoDeItenAvaliavel = false;
   }
 }

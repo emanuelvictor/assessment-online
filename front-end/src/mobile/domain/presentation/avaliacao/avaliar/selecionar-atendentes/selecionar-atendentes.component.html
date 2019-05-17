@@ -18,7 +18,7 @@
                       [usuario]="{'id': avaliavel?.usuario?.id , 'foto': avaliavel?.usuario?.avatarPath}">
               </avatar>
             </div>
-            <div class='not-broken-line'>
+            <div [ngClass]="{'broken-line': configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === true, 'text-truncate': configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === false}">
               {{avaliavel?.usuario?.nome}}
             </div>
           </div>

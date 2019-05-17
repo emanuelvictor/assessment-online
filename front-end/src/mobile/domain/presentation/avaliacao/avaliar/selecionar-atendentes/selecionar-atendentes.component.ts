@@ -80,11 +80,11 @@ export class SelecionarAtendentesComponent implements OnInit {
 
     }
 
-    // this.timeout = setTimeout(() => {
-    //   this.mobileService.reset();
-    //   this.router.navigate(['/avaliar/1']);
-    //   this._loadingService.resolve('overlayStarSyntax');
-    // }, this.time);
+    this.timeout = setTimeout(() => {
+      this.mobileService.reset();
+      this.router.navigate(['/avaliar/1']);
+      this._loadingService.resolve('overlayStarSyntax');
+    }, this.time);
 
     this.configuracaoRepository.requestConfiguracao.subscribe(configuracao => {
       this.configuracao = configuracao;
@@ -147,7 +147,6 @@ export class SelecionarAtendentesComponent implements OnInit {
    */
   public clearTimeout() {
     clearTimeout(this.timeout);
-
     this.timeout = setTimeout(() => this.mobileService.reset(), this.time);
   }
 
