@@ -86,9 +86,9 @@ var app = {
 
       window.plugins.toast.showWithOptions(
         {
-          message: "Saindo do aplicativo ... aguarde",
-          duration: "long", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-          position: "bottom",
+          message: 'Saindo do aplicativo ... aguarde',
+          duration: 'long', // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+          position: 'bottom',
           addPixelsY: -40  // added a negative value to move it up a bit (default 0)
         }
       );
