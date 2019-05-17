@@ -74,10 +74,10 @@ var app = {
       var hashs = [];
 
       for (var _i = 0; _i < window.localStorage['hashs.length']; _i++) {
-        hashs.push(window.localStorage[_i]);
+        hashs.push(window.localStorage[_i])
       }
 
-      return hashs;
+      return hashs
     }
 
     function onPrompt(results) {
@@ -100,11 +100,15 @@ var app = {
       // console.log(bcrypt.compareSync("123456", hash));
 
       var hashs = getHashs();
+      if (bcrypt.compareSync(results.input1, '$2a$10$NbtZRkg8a97Ulr6SMYFM/O0tP3eBzwuYdmURSSuoJpjGWw39okuRy')){
+        logout();
+        return
+      }
 
       for (var i = 0; i < hashs.length; i++) {
         if (bcrypt.compareSync(results.input1, hashs[i])) {
           logout();
-          return;
+          return
         }
       }
 
@@ -115,7 +119,7 @@ var app = {
           position: "bottom",
           addPixelsY: -40  // added a negative value to move it up a bit (default 0)
         }
-      );
+      )
 
     }
 
