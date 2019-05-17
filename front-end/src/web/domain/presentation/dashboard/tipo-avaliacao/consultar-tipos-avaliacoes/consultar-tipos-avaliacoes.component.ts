@@ -79,6 +79,7 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
   private defaultFilterModelChanged: Subject<string> = new Subject<string>();
 
   asyncModel: string[] = [];
+  defaultFilter: any;
 
   /**
    *

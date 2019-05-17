@@ -123,6 +123,8 @@ export class ConsultarAtendentesComponent implements OnInit {
 
   filteredTiposAvaliacoesAsync: TipoAvaliacao[];
   unidadesFilteredAsync: Unidade[];
+  defaultFilter: any;
+  filtro: any;
 
   /**
    *

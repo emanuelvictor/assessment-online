@@ -128,6 +128,9 @@ export class ConsultarUnidadesComponent implements OnInit {
    *
    */
   authenticatedUser: any;
+  defaultFilter: any;
+  enderecoFilter: any;
+  tiposAvaliacoesFilter: any;
 
   /**
    *

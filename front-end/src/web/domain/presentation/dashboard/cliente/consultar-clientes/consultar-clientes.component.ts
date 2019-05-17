@@ -72,6 +72,7 @@ export class ConsultarClientesComponent implements OnInit {
    * @type {Subject<string>}
    */
   private defaultFilterModelChanged: Subject<string> = new Subject<string>();
+  defaultFilter: any;
 
   /**
    *

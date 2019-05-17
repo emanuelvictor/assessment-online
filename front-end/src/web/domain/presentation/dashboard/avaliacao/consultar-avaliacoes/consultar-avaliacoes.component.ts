@@ -144,6 +144,10 @@ export class ConsultarAvaliacoesComponent implements OnInit {
   unidadesFilteredAsync: Unidade[];
 
   usuariosFilteredAsync: string[];
+  usuarioFiltro: any;
+  filtro: any;
+  defaultFilter: any;
+  tiposAvaliacoesFilter: any;
 
   /**
    *
