@@ -59,8 +59,11 @@ public class AvaliacaoService {
                     avaliacaoAvaliavel.setAvaliacao(avaliacao)
             );
 
-        if (avaliacao.getAgrupador().getId() != null)
+        if (avaliacao.getAgrupador() != null && avaliacao.getAgrupador().getId() != null)
             avaliacao.setAgrupador(this.agrupadorRepository.findById(avaliacao.getAgrupador().getId()).orElse(null));
+
+        if (avaliacao.getAgrupador() == null)
+            avaliacao.setAgrupador(new Agrupador());
 
         return this.avaliacaoRepository.save(avaliacao);
     }
@@ -68,6 +71,8 @@ public class AvaliacaoService {
     public Avaliacao save(final long id, final Avaliacao avaliacao) {
         Assert.isTrue(id > 0, "ID da avaliação incorreto");
         Assert.isTrue(avaliacao.getId().equals(id), "Você não tem acesso á essa avaliação");
+        if (avaliacao.getAgrupador() == null)
+            avaliacao.setAgrupador(new Agrupador());
         return this.avaliacaoRepository.save(avaliacao);
     }
 
