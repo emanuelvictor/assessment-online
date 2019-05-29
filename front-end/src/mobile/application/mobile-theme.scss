@@ -1,1 +1,11 @@
 @import '../../theme';
+
+mat-expansion-panel {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none;
+  .mat-expansion-panel-body {
+    background-color: aliceblue !important;
+    padding: 15px 45px 15px;
+  }
+}

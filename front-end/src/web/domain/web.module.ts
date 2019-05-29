@@ -2,7 +2,7 @@ import {CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule} from '@angular/core';
 import 'hammerjs';
 import {HeaderComponent} from './presentation/controls/header/header.component';
 import {AuthenticationService} from './service/authentication.service';
-import {DateAdapter, MatExpansionModule} from '@angular/material';
+import {DateAdapter} from '@angular/material';
 import {DashboardViewComponent} from './presentation/dashboard/dashboard-view.component';
 import {VisualizarMinhaContaComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/visualizar-minha-conta.component';
 import {AlterarMinhaContaComponent} from './presentation/dashboard/minha-conta/alterar-minha-conta/alterar-minha-conta.component';
@@ -97,7 +97,6 @@ import {TipoAvaliacaoRepository} from "./repositories/tipo-avaliacao.repository"
 import {AlterarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/alterar-tipo-avaliacao/alterar-tipo-avaliacao.component";
 import {VincularTipoAvaliacaoComponent} from "./presentation/dashboard/unidade/visualizar-unidade/vincular-tipo-avaliacao/vincular-tipo-avaliacao.component";
 import {UnidadeTipoAvaliacaoRepository} from "./repositories/unidade-tipo-avaliacao.repository";
-import {DragDropModule} from "@angular/cdk/drag-drop";
 import {AvaliavelRepository} from "./repositories/avaliavel.repository";
 import {VisualizarTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/visualizar-tipo-avaliacao/visualizar-tipo-avaliacao.component";
 import {VisualizarDadosClienteComponent} from "./presentation/dashboard/cliente/visualizar-cliente/visualizar-dados-cliente/visualizar-dados-cliente.component";
@@ -234,8 +233,6 @@ registerLocaleData(localePt, 'pt-BR');
     BrowserAnimationsModule,
     NgxChartsModule,
     WebRoutingModule,
-    MatExpansionModule,
-    DragDropModule,
     RecaptchaModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

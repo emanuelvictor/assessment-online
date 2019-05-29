@@ -4,11 +4,17 @@ import {MobileService} from '../../../service/mobile.service';
 import {UnidadeService} from '../../../../../web/domain/service/unidade.service';
 import {MatSnackBar} from "@angular/material";
 import {TdLoadingService} from "@covalent/core";
+import {viewAnimation} from "../../../../../web/domain/presentation/controls/utils";
+import {UnidadeTipoAvaliacao} from "../../../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 
 @Component({
   selector: 'selecionar-unidade',
   templateUrl: './selecionar-unidade.component.html',
-  styleUrls: ['./selecionar-unidade.component.scss']
+  styleUrls: ['./selecionar-unidade.component.scss'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class SelecionarUnidadeComponent implements OnInit {
 
@@ -33,6 +39,7 @@ export class SelecionarUnidadeComponent implements OnInit {
   constructor(private router: Router,
               private snackBar: MatSnackBar,
               private mobileService: MobileService,
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private unidadeService: UnidadeService,
               private _loadingService: TdLoadingService) {
   }
@@ -62,6 +69,22 @@ export class SelecionarUnidadeComponent implements OnInit {
           this._loadingService.resolve('overlayStarSyntax');
         }
       });
+  }
+
+  afterExpand(unidade) {
+    unidade.checked = true;
+    this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: unidade.id})
+      .subscribe(result => {
+        unidade.unidadesTiposAvaliacoes = result.content;
+        unidade.unidadesTiposAvaliacoes = unidade.unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => {
+          unidadeTipoAvaliacao.checked = true;
+          return unidadeTipoAvaliacao
+        })
+      })
+  }
+
+  afterCollapse(unidade) {
+    unidade.checked = false;
   }
 
   /**

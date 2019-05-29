@@ -1,24 +1,63 @@
-<div layout="column" layout-align="center center" *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-  <mat-card style="width: 600px">
+<div layout='column' layout-align='center center'
+     *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+  <mat-card style='width: 600px'>
     <mat-card-title class="push">
       Selecione uma unidade
     </mat-card-title>
-    <mat-card-content>
-      <div layout-margin
-           layout="column"
-           (click)="consultarUnidades()">
-        <mat-form-field flex='30'>
-          <mat-select [(ngModel)]="model"
-                      placeholder="Unidade de atendimento"
-                      flex name="unidade" class="mat-select-mobile">
-            <mat-option class="mat-option-mobile"
-                        *ngFor="let unidade of unidades"
-                        [value]="unidade.nome" (click)="selecionar(unidade)">
-              {{ unidade.nome }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+    <mat-card-content style='height: 400px; padding: 0'>
+
+      <mat-accordion [multi]='true' style='height: 400px; width: 600px; position: fixed !important; overflow: auto'>
+        <mat-expansion-panel style='width: 100%'
+                             [expanded]='unidade?.checked'
+                             *ngFor='let unidade of unidades'
+                             (afterExpand)='afterExpand(unidade)'
+                             (afterCollapse)='afterCollapse(unidade)'>
+          <!--
+          (opened)='changeAvaliavel(unidade)'
+          (closed)='changeAvaliavel(unidade)'-->
+          <mat-expansion-panel-header>
+            <mat-panel-title flex layout='column'>
+              <mat-checkbox [(ngModel)]='unidade.checked' style='padding: 0'>
+                {{unidade?.nome}}
+                <!--<h2 flex class="mat-headline tc-blue-grey-800 no-margin">{{unidade?.nome}}</h2>-->
+                <h3 style='margin-top: -8px' *ngIf='unidade.checked && unidade?.endereco?.cidade?.nome'
+                    flex class='mat-subheading-2 tc-blue-grey-500 no-margin text-truncate' [@fadeInOut]>
+                  {{unidade?.endereco?.logradouro ? unidade?.endereco?.logradouro + ', ' : ''}}
+                  {{unidade?.endereco?.numero ? unidade?.endereco?.numero + ', ' : ''}}
+                  {{unidade?.endereco?.bairro ? unidade?.endereco?.bairro + ', ' : ''}}
+                  {{unidade?.endereco?.cidade?.nome + ' - '}}{{unidade?.endereco?.cidade?.estado?.uf}}
+                </h3>
+              </mat-checkbox>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <section *ngIf='unidade?.unidadesTiposAvaliacoes?.length' layout='column'>
+            <mat-checkbox style='margin-left: 10px; padding: 5px; background-color: aliceblue'
+                          [(ngModel)]='unidadeTipoAvaliacao.checked'
+                          (ngModelChange)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'
+                          *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes'>
+              {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
+            </mat-checkbox>
+          </section>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <!--<div layout-margin-->
+      <!--layout="column"-->
+      <!--(click)="consultarUnidades()">-->
+      <!--<mat-form-field flex='30'>-->
+      <!--<mat-select [(ngModel)]="model"-->
+      <!--placeholder="Unidade de atendimento"-->
+      <!--flex name="unidade" class="mat-select-mobile">-->
+      <!--<mat-option class="mat-option-mobile"-->
+      <!--*ngFor="let unidade of unidades"-->
+      <!--[value]="unidade.nome" (click)="selecionar(unidade)">-->
+      <!--{{ unidade.nome }}-->
+      <!--</mat-option>-->
+      <!--</mat-select>-->
+      <!--</mat-form-field>-->
+      <!--</div>-->
     </mat-card-content>
   </mat-card>
 </div>
