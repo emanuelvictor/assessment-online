@@ -71,20 +71,29 @@ export class SelecionarUnidadeComponent implements OnInit {
       });
   }
 
+  /**
+   *
+   * @param unidade
+   */
   afterExpand(unidade) {
     unidade.checked = true;
     this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: unidade.id})
       .subscribe(result => {
-        unidade.unidadesTiposAvaliacoes = result.content;
-        unidade.unidadesTiposAvaliacoes = unidade.unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => {
+        result.content = result.content.map(unidadeTipoAvaliacao => {
           unidadeTipoAvaliacao.checked = true;
           return unidadeTipoAvaliacao
-        })
+        });
+        unidade.unidadesTiposAvaliacoes = result.content
       })
   }
 
+  /**
+   *
+   * @param unidade
+   */
   afterCollapse(unidade) {
     unidade.checked = false;
+    unidade.unidadesTiposAvaliacoes = []
   }
 
   /**

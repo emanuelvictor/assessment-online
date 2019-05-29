@@ -7,20 +7,20 @@
     <mat-card-content style='height: 400px; padding: 0'>
 
       <mat-accordion [multi]='true' style='height: 400px; width: 600px; position: fixed !important; overflow: auto'>
-        <mat-expansion-panel style='width: 100%'
-                             [expanded]='unidade?.checked'
+        <mat-expansion-panel [expanded]='unidade?.checked'
                              *ngFor='let unidade of unidades'
                              (afterExpand)='afterExpand(unidade)'
+                             style='width: 100%; box-shadow: none; padding-left: 0'
                              (afterCollapse)='afterCollapse(unidade)'>
           <!--
           (opened)='changeAvaliavel(unidade)'
           (closed)='changeAvaliavel(unidade)'-->
-          <mat-expansion-panel-header>
+          <mat-expansion-panel-header style='padding: 0 19px !important;'>
             <mat-panel-title flex layout='column'>
-              <mat-checkbox [(ngModel)]='unidade.checked' style='padding: 0'>
+              <mat-checkbox [(ngModel)]='unidade.checked' style='padding: 12px'>
                 {{unidade?.nome}}
                 <!--<h2 flex class="mat-headline tc-blue-grey-800 no-margin">{{unidade?.nome}}</h2>-->
-                <h3 style='margin-top: -8px' *ngIf='unidade.checked && unidade?.endereco?.cidade?.nome'
+                <h3 style='margin-top: -8px' *ngIf='unidade?.endereco?.cidade?.nome'
                     flex class='mat-subheading-2 tc-blue-grey-500 no-margin text-truncate' [@fadeInOut]>
                   {{unidade?.endereco?.logradouro ? unidade?.endereco?.logradouro + ', ' : ''}}
                   {{unidade?.endereco?.numero ? unidade?.endereco?.numero + ', ' : ''}}
