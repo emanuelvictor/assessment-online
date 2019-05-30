@@ -40,17 +40,17 @@ export class SelecionarAvaliacaoComponent {
    */
   listByUnidadeId() {
 
-    this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.mobileService.unidade.id, ativo: true})
-      .subscribe(result => {
-
-        this.unidadesTiposAvaliacoes = result.content;
-
-        if (this.unidadesTiposAvaliacoes.length === 1) {
-          this.unidadesTiposAvaliacoes[0].ordem = 1;
-          this.continue()
-        }
-
-      });
+    // this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.mobileService.unidade.id, ativo: true}) TODO
+    //   .subscribe(result => {
+    //
+    //     this.unidadesTiposAvaliacoes = result.content;
+    //
+    //     if (this.unidadesTiposAvaliacoes.length === 1) {
+    //       this.unidadesTiposAvaliacoes[0].ordem = 1;
+    //       this.continue()
+    //     }
+    //
+    //   });
 
   }
 

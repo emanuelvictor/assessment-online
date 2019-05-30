@@ -11,6 +11,7 @@ import {UnidadeService} from '../../../web/domain/service/unidade.service';
 import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
 import {Avaliavel} from "../../../web/domain/entity/usuario/vinculo/avaliavel.model";
 import {Agrupador} from "../../../web/domain/entity/avaliacao/agrupador.model";
+import {Observable} from "rxjs";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -28,7 +29,7 @@ export class MobileService {
   /**
    *
    */
-  private _unidade: Unidade = new Unidade();
+  private _unidades: Unidade[] = [];
 
   /**
    *
@@ -64,27 +65,19 @@ export class MobileService {
      * Pega a key da _unidade do localStorage
      * @type {string}
      */
-    this._unidade.id = this.localStorage.unidadeId;
+    this.localStorage.unidades.subscribe(unidades => this._unidades = unidades);
 
-    /**
-     * Popula restante dos dados da _unidade,
-     * Desta forma as avaliacoes da _unidade não ficam zeradas
-     */
-    this.loadUnidade(this._unidade.id);
+    // /**
+    //  * Popula restante dos dados da _unidade,
+    //  * Desta forma as avaliacoes da _unidade não ficam zeradas
+    //  */
+    // this.loadUnidade(this._unidade.id);
 
     /**
      * Seta a duração default da snackbar
      * @type {number}
      */
     this.mdSnackBarConfig.duration = 5000;
-  }
-
-  /**
-   *
-   * @returns {Unidade}
-   */
-  get unidade(): Unidade {
-    return this._unidade;
   }
 
   /**
@@ -156,7 +149,7 @@ export class MobileService {
        * Seta no avaliavel a _unidade correta
        * @type {Unidade}
        */
-      avaliavel.unidadeTipoAvaliacao.unidade = this._unidade;
+      avaliavel.unidadeTipoAvaliacao.unidade = this._unidades.filter( unidade => unidade.id === avaliavel.unidadeTipoAvaliacao.unidade.id)[0];
 
       /**
        * Salva a nota da avaliação no usuário. Facilita o cálculo da média.
@@ -234,37 +227,26 @@ export class MobileService {
 
   /**
    *
-   * @returns {any}
+   * @returns {Unidade[]}
    */
-  getUnidadeId(): number {
-    if (this._unidade) {
-      return this._unidade.id;
-    } else {
-      return null
-    }
+  get unidades(): any {
+    return this.localStorage.unidades
   }
 
   /**
    *
-   * @param {number} id
+   * @param {Unidade} unidades
    */
-  setUnidadeId(id: number) {
-
-    this.localStorage.removeUnidade();
-
-    this.localStorage.unidadeId = id;
-
-    this._unidade.id = id;
-
-    this.loadUnidade(id);
+  set unidades(unidades: any) {
+    this.localStorage.unidades = unidades;
   }
 
   /**
    *
    */
-  removeUnidade() {
-    this._unidade = new Unidade();
-    this.localStorage.removeUnidade();
+  removeUnidades() {
+    this._unidades = [];
+    this.localStorage.removeUnidades();
   }
 
   /**
@@ -279,23 +261,28 @@ export class MobileService {
    *
    * @param id
    */
-  public setHashsByUnidadeId(id: number) {
-    this.unidadeService.getHashsByUnidadeId(id)
-      .subscribe(hashs => {
-        this.localStorage.hashs = hashs;
-      });
+  public setHashsByUnidadeId(id: number): Observable<any> {
+    return new Observable(observer => {
+      this.unidadeService.getHashsByUnidadeId(id)
+        .subscribe(hashs => {
+          this.localStorage.hashs = hashs;
+          observer.next(this.localStorage.hashs);
+          observer.complete()
+        });
+    });
   }
 
-  /**
-   * Carrega demais dados da _unidade
-   * @param {number} id
-   */
-  private loadUnidade(id: number) {
-    if (id) {
-      this.unidadeService.findById(this._unidade.id)
-        .subscribe(unidade => this._unidade = unidade);
-    }
-  }
+  //
+  // /**
+  //  * Carrega demais dados da _unidade
+  //  * @param {number} id
+  //  */
+  // private loadUnidade(id: number) {
+  //   if (id) {
+  //     this.unidadeService.findById(this._unidade.id)
+  //       .subscribe(unidade => this._unidade = unidade);
+  //   }
+  // }
 
   /**
    *

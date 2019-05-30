@@ -1,11 +1,30 @@
 @import '../../theme';
 
-mat-expansion-panel {
-  margin: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none;
-  .mat-expansion-panel-body {
-    background-color: aliceblue !important;
-    padding: 15px 45px 15px;
+selecionar-unidade {
+  mat-expansion-panel {
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none;
+
+    .mat-expansion-panel-body {
+      background-color: aliceblue !important;
+      padding: 15px 45px 15px;
+    }
   }
+
+  section {
+    mat-checkbox {
+      width: 100%;
+
+      .mat-checkbox-layout {
+        width: 100%;
+
+        .mat-checkbox-label {
+          width: 100%;
+        }
+      }
+    }
+  }
+
 }
+

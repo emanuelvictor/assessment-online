@@ -71,10 +71,10 @@ export class VisualizarAvaliacaoComponent implements OnInit {
   ngOnInit() {
 
     /**
-     * Se não tem unidade selecionada vai para tela de selação de unidade
+     * Se não tem unidades selecionadas vai para tela de selação de unidades
      */
-    if (!this.mobileService.getUnidadeId()) {
-      this.mobileService.removeUnidade();
+    if (!this.mobileService.unidades || this.mobileService.unidades.length) {
+      this.mobileService.removeUnidades();
       this.mobileService.reset();
       this.mobileService.agrupador = new Agrupador();
       this.router.navigate(['selecionar-unidade']);

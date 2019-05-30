@@ -4,14 +4,14 @@
     <mat-card-title class="push">
       Selecione uma unidade
     </mat-card-title>
-    <mat-card-content style='height: 400px; padding: 0'>
+    <mat-card-content style='height: 400px; padding: 0; margin-bottom: 0'>
 
       <mat-accordion [multi]='true' style='height: 400px; width: 600px; position: fixed !important; overflow: auto'>
         <mat-expansion-panel [expanded]='unidade?.checked'
                              *ngFor='let unidade of unidades'
                              (afterExpand)='afterExpand(unidade)'
-                             style='width: 100%; box-shadow: none; padding-left: 0'
-                             (afterCollapse)='afterCollapse(unidade)'>
+                             (afterCollapse)='afterCollapse(unidade)'
+                             style='width: 100%; box-shadow: none; padding-left: 0'>
           <!--
           (opened)='changeAvaliavel(unidade)'
           (closed)='changeAvaliavel(unidade)'-->
@@ -31,33 +31,33 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <section *ngIf='unidade?.unidadesTiposAvaliacoes?.length' layout='column'>
-            <mat-checkbox style='margin-left: 10px; padding: 5px; background-color: aliceblue'
-                          [(ngModel)]='unidadeTipoAvaliacao.checked'
+          <section *ngIf='unidade?.unidadesTiposAvaliacoes?.length' layout='column' layout-align='start start'>
+            <mat-checkbox [(ngModel)]='unidadeTipoAvaliacao.checked'
                           (ngModelChange)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'
-                          *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes'>
-              {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
+                          *ngFor="let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes | orderBy:'ordem'"
+                          style='margin-left: 10px; padding: 5px; background-color: aliceblue'>
+              {{unidadeTipoAvaliacao?.ordem ? unidadeTipoAvaliacao?.ordem + ' - ' : ''}}
+              {{ unidadeTipoAvaliacao?.tipoAvaliacao?.nome + ': ' + unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado }}
             </mat-checkbox>
           </section>
 
         </mat-expansion-panel>
       </mat-accordion>
-
-      <!--<div layout-margin-->
-      <!--layout="column"-->
-      <!--(click)="consultarUnidades()">-->
-      <!--<mat-form-field flex='30'>-->
-      <!--<mat-select [(ngModel)]="model"-->
-      <!--placeholder="Unidade de atendimento"-->
-      <!--flex name="unidade" class="mat-select-mobile">-->
-      <!--<mat-option class="mat-option-mobile"-->
-      <!--*ngFor="let unidade of unidades"-->
-      <!--[value]="unidade.nome" (click)="selecionar(unidade)">-->
-      <!--{{ unidade.nome }}-->
-      <!--</mat-option>-->
-      <!--</mat-select>-->
-      <!--</mat-form-field>-->
-      <!--</div>-->
     </mat-card-content>
+
+    <mat-card-actions>
+      <div layout='row' layout-align='center center' flex>
+        <div layout='column'
+             layout-margin flex
+             layout-align='center end'>
+          <button mat-button
+                  color='primary'
+                  (click)='proximo(unidades)'
+                  layout-align='center end'>
+            Próximo
+          </button>
+        </div>
+      </div>
+    </mat-card-actions>
   </mat-card>
 </div>

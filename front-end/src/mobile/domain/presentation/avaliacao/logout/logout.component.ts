@@ -41,19 +41,19 @@ export class LogoutComponent {
    *
    */
   public logout(): void {
-    this.authenticationService.authenticateByUnidade(this.mobileService.getUnidadeId(), this.password)
-      .then(() => {
-
-        this.mobileService.removeUnidade();
-        this.mobileService.reset();
-
-        this.authenticationService.logout()
-          .then(() => {
-            clearTimeout(this.timeout);
-            this.router.navigate(['authentication']);
-          });
-
-      })
+    // this.authenticationService.authenticateByUnidade(this.mobileService.unidades, this.password) TODO
+    //   .then(() => {
+    //
+    //     this.mobileService.removeUnidades();
+    //     this.mobileService.reset();
+    //
+    //     this.authenticationService.logout()
+    //       .then(() => {
+    //         clearTimeout(this.timeout);
+    //         this.router.navigate(['authentication']);
+    //       });
+    //
+    //   })
   }
 
 }

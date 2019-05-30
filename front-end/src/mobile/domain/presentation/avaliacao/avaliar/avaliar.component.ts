@@ -45,8 +45,8 @@ export class AvaliarComponent implements OnInit {
     /**
      * Se não tem unidade selecionada vai para tela de selação de unidade
      */
-    if (!this.mobileService.getUnidadeId()) {
-      this.mobileService.removeUnidade();
+    if (!this.mobileService.unidades || this.mobileService.unidades.length) {
+      this.mobileService.removeUnidades();
       this.mobileService.reset();
       this.mobileService.agrupador = new Agrupador();
       this.router.navigate(['selecionar-unidade']);
@@ -74,7 +74,7 @@ export class AvaliarComponent implements OnInit {
    *
    */
   public logout(): void {
-    this.mobileService.removeUnidade();
+    this.mobileService.removeUnidades();
     this.authenticationService.logout();
     this.router.navigate(['/authentication']);
   }
