@@ -132,8 +132,21 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param unidades
    */
   public proximo(unidades: any) {
+
+    const unidadesTiposAvaliacoes = [];
+
+    unidades.filter(unidade => unidade.checked).map(unidade => unidade.unidadesTiposAvaliacoes).forEach(a => {
+      a.forEach(b => {
+        if (b.checked) {
+          unidadesTiposAvaliacoes.push(b)
+        }
+      })
+    });
+
+    this.mobileService.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
     this.mobileService.unidades = unidades.filter(unidade => unidade.checked);
     this.mobileService.unidades.subscribe(unidadess => {
+      console.log(unidadess);
       for (let i = 0; i < unidadess.length; i++) {
         this.setHashsByUnidade(unidadess[i]).subscribe(() => {
           if (i === unidadess.length - 1) {

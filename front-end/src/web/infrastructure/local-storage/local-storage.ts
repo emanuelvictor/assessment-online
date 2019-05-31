@@ -67,7 +67,7 @@ export class LocalStorage {
     window.localStorage['unidadesTiposAvaliacoes.length'] = unidadesTiposAvaliacoes.length;
 
     for (let _i = 0; _i < unidadesTiposAvaliacoes.length; _i++) {
-      window.localStorage['unidadeTipoAvaliacao' + (_i)] = unidadesTiposAvaliacoes[_i].id + '=' + unidadesTiposAvaliacoes[_i].ordem;
+      window.localStorage['unidadeTipoAvaliacao' + (_i)] = unidadesTiposAvaliacoes[_i].id + '=' + unidadesTiposAvaliacoes[_i].ordem + '=' + unidadesTiposAvaliacoes[_i].unidade.id;
     }
 
   }
@@ -79,7 +79,7 @@ export class LocalStorage {
       for (let _i = 0; _i < window.localStorage['unidades.length']; _i++) {
         const unidade: Unidade = new Unidade();
 
-        unidade.id = window.localStorage['unidade' + (_i)];
+        unidade.id = window.localStorage['unidade=' + (_i)];
 
         unidades.push(unidade);
       }
@@ -107,13 +107,13 @@ export class LocalStorage {
     window.localStorage['unidades.length'] = unidades.length;
 
     for (let _i = 0; _i < unidades.length; _i++) {
-      window.localStorage['unidade' + (_i)] = unidades[_i].id;
+      window.localStorage['unidade=' + (_i)] = unidades[_i].id;
     }
   }
 
   removeUnidades() {
     for (let _i = 0; _i < window.localStorage['unidades.length']; _i++) {
-      window.localStorage.removeItem('unidade' + _i.toString());
+      window.localStorage.removeItem('unidade=' + _i.toString());
     }
 
     window.localStorage.removeItem('unidades.length');
