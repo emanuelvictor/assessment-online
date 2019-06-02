@@ -9,4 +9,9 @@ export class Estado extends Abstract {
 
   public pais: Pais;
 
+
+  constructor() {
+    super();
+    this.pais = new Pais()
+  }
 }

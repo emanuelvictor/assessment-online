@@ -9,14 +9,14 @@ import {UnidadeTipoAvaliacaoRepository} from "../../../../../web/domain/reposito
 import {Observable} from "rxjs";
 
 @Component({
-  selector: 'selecionar-unidade',
-  templateUrl: './selecionar-unidade.component.html',
-  styleUrls: ['./selecionar-unidade.component.scss'],
+  selector: 'configurar-unidades-e-avaliacoes',
+  templateUrl: './configurar-unidades-e-avaliacoes.component.html',
+  styleUrls: ['./configurar-unidades-e-avaliacoes.component.scss'],
   animations: [
     viewAnimation
   ]
 })
-export class SelecionarUnidadeComponent implements OnInit {
+export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
   /**
    *
@@ -55,11 +55,20 @@ export class SelecionarUnidadeComponent implements OnInit {
    *
    */
   consultarUnidades() {
-    this.unidadeService.listLightByFilters(null)
+    this.unidadeService.listLightByFilters({withAvaliaveisFilter: true})
       .subscribe(result => {
         this.unidades = result.content;
         if (this.unidades.length === 1) {
-          this.setHashsByUnidade(this.unidades[0]);
+          this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[0].id, ativo: true})
+            .subscribe( resulted => {
+              if (resulted.content.length === 1){
+                 this.unidades[0].checked = true;
+                 resulted.content[0].checked = true;
+                 this.unidades[0].unidadesTiposAvaliacoes = resulted.content;
+                 this.proximo(this.unidades)
+              }
+              this._loadingService.resolve('overlayStarSyntax');
+            })
         } else if (!this.unidades.length) {
           this.openSnackBar('Insira unidades de atendimento pela plataforma web');
           this.router.navigate(['conclusao']);
@@ -75,9 +84,14 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param unidade
    */
   afterExpand(unidade) {
-    unidade.checked = true;
-    this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: unidade.id})
+    this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: unidade.id, ativo: true})
       .subscribe(result => {
+        if (!result.content.length){
+          this.openSnackBar('Vincule Ítens Avaliáveis á esses Tipos de Avaliações');
+          unidade.checked = false;
+          return
+        }
+        unidade.checked = true;
         for (let i = 0; i < result.content.length; i++) {
           result.content[i].unidade = unidade;
           result.content[i].checked = true;
@@ -101,7 +115,7 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param unidadeTipoAvaliacao
    */
   changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao) {
-    unidadeTipoAvaliacao.unidade.checked = unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes && (unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliaca => unidadeTipoAvaliaca.checked).length > 0)
+    unidadeTipoAvaliacao.unidade.checked = unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes && (unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliaca => unidadeTipoAvaliaca.checked).length > 0);
 
     if (unidadeTipoAvaliacao.ordem) {
 
@@ -132,7 +146,7 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param unidades
    */
   public proximo(unidades: any) {
-
+    this._loadingService.register('overlayStarSyntax');
     const unidadesTiposAvaliacoes = [];
 
     unidades.filter(unidade => unidade.checked).map(unidade => unidade.unidadesTiposAvaliacoes).forEach(a => {
@@ -146,7 +160,6 @@ export class SelecionarUnidadeComponent implements OnInit {
     this.mobileService.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
     this.mobileService.unidades = unidades.filter(unidade => unidade.checked);
     this.mobileService.unidades.subscribe(unidadess => {
-      console.log(unidadess);
       for (let i = 0; i < unidadess.length; i++) {
         this.setHashsByUnidade(unidadess[i]).subscribe(() => {
           if (i === unidadess.length - 1) {

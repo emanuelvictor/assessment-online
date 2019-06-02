@@ -6,4 +6,10 @@ export class Cidade extends Abstract {
   public nome: string;
 
   public estado: Estado = new Estado();
+
+
+  constructor() {
+    super();
+    this.estado = new Estado()
+  }
 }

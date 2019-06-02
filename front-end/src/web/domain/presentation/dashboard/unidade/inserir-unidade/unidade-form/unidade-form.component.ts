@@ -90,8 +90,9 @@ export class UnidadeFormComponent implements OnInit {
         if (element && control.invalid) {
           this.renderer.invokeElementMethod(element, 'focus', []);
           valid = false;
-          if (control.errors.exception)
+          if (control.errors.exception) {
             this.error(control.errors.exception);
+          }
           break;
         }
         if (control.controls && control.invalid) {
@@ -100,8 +101,9 @@ export class UnidadeFormComponent implements OnInit {
             if (element && controlInner.invalid) {
               this.renderer.invokeElementMethod(element, 'focus', []);
               valid = false;
-              if (controlInner.errors.exception)
+              if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception);
+              }
               break;
             }
           }
@@ -110,7 +112,14 @@ export class UnidadeFormComponent implements OnInit {
     }
 
     if (valid) {
-      this.save.emit(this.unidade);
+      const unidade = Object.assign({}, this.unidade);
+      unidade.endereco = Object.assign({}, this.unidade.endereco);
+      unidade.endereco.cidade = Object.assign({}, this.unidade.endereco.cidade);
+      unidade.endereco.cidade.estado = Object.assign({}, this.unidade.endereco.cidade.estado);
+      unidade.endereco.cidade.estado.pais = Object.assign({}, this.unidade.endereco.cidade.estado.pais);
+      if (unidade.endereco.cidade && (!unidade.endereco.cidade.nome || !unidade.endereco.cidade.nome.length))
+        unidade.endereco.cidade = null;
+      this.save.emit(unidade);
     }
   }
 

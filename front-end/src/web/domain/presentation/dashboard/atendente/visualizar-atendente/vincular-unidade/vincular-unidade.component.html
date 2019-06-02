@@ -7,7 +7,7 @@
         {{unidade?.endereco?.logradouro ? unidade?.endereco?.logradouro + ', ' : ''}}
         {{unidade?.endereco?.numero ? unidade?.endereco?.numero + ', ' : ''}}
         {{unidade?.endereco?.bairro ? unidade?.endereco?.bairro + ', ' : ''}}
-        {{unidade?.endereco?.cidade?.nome + ' - '}}{{unidade?.endereco?.cidade?.estado?.uf}}
+        {{unidade?.endereco?.cidade ? (unidade?.endereco?.cidade?.nome + ' - ' + unidade?.endereco?.cidade?.estado?.uf) : ''}}
       </p>
 
       <mat-slide-toggle layout-margin

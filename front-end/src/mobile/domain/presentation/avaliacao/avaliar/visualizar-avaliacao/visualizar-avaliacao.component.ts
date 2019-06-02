@@ -77,7 +77,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
       this.mobileService.removeUnidades();
       this.mobileService.reset();
       this.mobileService.agrupador = new Agrupador();
-      this.router.navigate(['selecionar-unidade']);
+      this.router.navigate(['configurar-unidades-e-avaliacoes']);
       return;
     }
 

@@ -78,8 +78,8 @@ public class UnidadeResource extends AbstractResource<Unidade> {
 
     @GetMapping("light")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<Page<Unidade>> listByFilters(final String defaultFilter, final Boolean withBondFilter) {
-        return Mono.just(this.unidadeService.listByFilters(defaultFilter, withBondFilter, getPageable()));
+    Mono<Page<Unidade>> listByFilters(final String defaultFilter, final Boolean withBondFilter, final Boolean withAvaliaveisFilter) {
+        return Mono.just(this.unidadeService.listByFilters(defaultFilter, withBondFilter, withAvaliaveisFilter, getPageable()));
     }
 
     @GetMapping("authenticate/{unidadeId}")

@@ -3,7 +3,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from "../../web/domain/presentation/login/login.component";
 import {ConclusaoComponent} from "./presentation/avaliacao/conclusao/conclusao.component";
 import {AvaliarComponent} from "./presentation/avaliacao/avaliar/avaliar.component";
-import {SelecionarUnidadeComponent} from "./presentation/avaliacao/selecionar-unidade/selecionar-unidade.component";
 import {AvaliacaoComponent} from "./presentation/avaliacao/avaliacao.component";
 import {AuthenticationService} from "../../web/domain/service/authentication.service";
 import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component";
@@ -12,6 +11,7 @@ import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/selecionar-
 import {VisualizarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/visualizar-avaliacao/visualizar-avaliacao.component";
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-atendentes/selecionar-atendentes.component";
 import {FeedbackComponent} from "./presentation/avaliacao/feedback/feedback.component";
+import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 
 
 const routes: Routes = [
@@ -20,7 +20,7 @@ const routes: Routes = [
   {
     path: '', component: AvaliacaoComponent, canActivate: [AuthenticationService],
     children: [
-      {path: 'selecionar-unidade', component: SelecionarUnidadeComponent},
+      {path: 'configurar-unidades-e-avaliacoes', component: ConfigurarUnidadesEAvaliacoesComponent},
       {path: 'selecionar-avaliacao', component: SelecionarAvaliacaoComponent},
       {
         path: 'avaliar', component: AvaliarComponent,

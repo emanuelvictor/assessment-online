@@ -48,7 +48,7 @@ var app = {
       if (window.location.hash === '#/authentication')
         window['KioskPlugin'].exitKiosk();
 
-      else if ((window.location.hash.includes('#/avaliar') && !window.location.hash.includes('selecionar-atendentes')) || window.location.hash === '#/selecionar-unidade' || window.location.hash === '#/selecionar-avaliacao') {
+      else if ((window.location.hash.includes('#/avaliar') && !window.location.hash.includes('selecionar-atendentes')) || window.location.hash === '#/configurar-unidades-e-avaliacoes' || window.location.hash === '#/selecionar-avaliacao') {
         if (localStorage.getItem(UNIDADE_ID) != null)
           navigator.notification.prompt(
             'Insira uma senha administrativa para sair do aplicativo.',  // message

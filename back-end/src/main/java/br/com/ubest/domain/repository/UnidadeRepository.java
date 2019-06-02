@@ -28,7 +28,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   unidade.id, " +
             "   unidade.nome, " +
             "   unidade.documento, " +
-            "   unidade.endereco," +
+            "   endereco," +
             "   AVG(avaliacao.nota) AS media," +
             "   COUNT(DISTINCT avaliacao.id) AS quantidadeAvaliacoes," +
             "   COUNT(DISTINCT av1.id) AS avaliacoes1," +
@@ -37,6 +37,10 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   COUNT(DISTINCT av4.id) AS avaliacoes4," +
             "   COUNT(DISTINCT av5.id) AS avaliacoes5" +
             ") FROM Unidade unidade " +
+            "       LEFT OUTER JOIN Endereco endereco ON unidade.endereco.id = endereco.id " +
+            "       LEFT OUTER JOIN Cidade cidade ON cidade.id = endereco.cidade.id " +
+            "       LEFT OUTER JOIN Estado estado ON estado.id = cidade.estado.id " +
+            "       LEFT OUTER JOIN Pais pais ON pais.id = estado.pais.id " +
             "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.unidade.id = unidade.id " +
             "       LEFT OUTER JOIN TipoAvaliacao tipoAvaliacao ON tipoAvaliacao.id = unidadeTipoAvaliacao.tipoAvaliacao.id " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id " +
@@ -77,11 +81,11 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       )" +
             "       AND " +
             "       (" +
-            "           FILTER(:defaultFilter, unidade.nome, unidade.endereco.logradouro,unidade.endereco.complemento,unidade.endereco.bairro, unidade.endereco.cep,unidade.endereco.numero,unidade.endereco.cidade.nome,unidade.endereco.cidade.estado.nome,unidade.endereco.cidade.estado.uf,unidade.endereco.cidade.estado.pais.nome) = TRUE" +
+            "           FILTER(:defaultFilter, unidade.nome, endereco.logradouro,endereco.complemento,endereco.bairro, endereco.cep,endereco.numero,cidade.nome,estado.nome,estado.uf,pais.nome) = TRUE" +
             "       )" +
             "       AND " +
             "       (" +
-            "           FILTER(:enderecoFilter, unidade.endereco.logradouro,unidade.endereco.complemento,unidade.endereco.bairro, unidade.endereco.cep,unidade.endereco.numero,unidade.endereco.cidade.nome,unidade.endereco.cidade.estado.nome,unidade.endereco.cidade.estado.uf,unidade.endereco.cidade.estado.pais.nome) = TRUE" +
+            "           FILTER(:enderecoFilter, endereco.logradouro,endereco.complemento,endereco.bairro, endereco.cep,endereco.numero,cidade.nome,estado.nome,estado.uf,pais.nome) = TRUE" +
             "       )" +
             "       AND " +
             "       (" +
@@ -100,7 +104,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
             "       )" +
             "   )" +
-            "GROUP BY unidade.id, unidade.nome, unidade.documento"
+            "GROUP BY unidade.id, unidade.nome, unidade.documento, endereco.id, cidade.id, estado.id, pais.id"
     )
     Page<Unidade> listByFilters(@Param("usuarioId") final Long usuarioId,
                                 @Param("perfil") final String perfil,
@@ -118,11 +122,20 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
      * @param pageable      Pageable
      * @return Page<Unidade>
      */
-    @Query("FROM Unidade unidade " +
+    @Query("SELECT new Unidade(" +
+            "   unidade.id, " +
+            "   unidade.nome, " +
+            "   unidade.documento, " +
+            "   endereco" +
+            ") FROM Unidade unidade " +
+            "       LEFT OUTER JOIN Endereco endereco ON unidade.endereco.id = endereco.id " +
+            "       LEFT OUTER JOIN Cidade cidade ON cidade.id = endereco.cidade.id " +
+            "       LEFT OUTER JOIN Estado estado ON estado.id = cidade.estado.id " +
+            "       LEFT OUTER JOIN Pais pais ON pais.id = estado.pais.id " +
             "   WHERE " +
             "   (   " +
             "       (" +
-            "           FILTER(:defaultFilter, unidade.nome, unidade.endereco.logradouro,unidade.endereco.complemento, unidade.endereco.bairro, unidade.endereco.cep,unidade.endereco.numero,unidade.endereco.cidade.nome,unidade.endereco.cidade.estado.nome,unidade.endereco.cidade.estado.uf,unidade.endereco.cidade.estado.pais.nome) = TRUE" +
+            "           FILTER(:defaultFilter, unidade.nome, endereco.logradouro, endereco.complemento, endereco.bairro, endereco.cep, endereco.numero, cidade.nome, estado.nome, estado.uf, pais.nome) = TRUE" +
             "       )" +
             "       AND" +
             "       (" +
@@ -132,9 +145,23 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "                   WHERE" +
             "                   (" +
             "                       unidadeTipoAvaliacao.unidade.id = unidade.id AND unidadeTipoAvaliacao.ativo = :withBondFilter" +
-            "                   ))" +
+            "                   )" +
+            "               )" +
             "           )" +
             "           OR :withBondFilter IS NULL " +
+            "       )" +
+            "       AND" +
+            "       (" +
+            "           :withAvaliaveisFilter IS NOT NULL AND :withAvaliaveisFilter IS TRUE AND " +
+            "           (" +
+            "               unidade.id IN (SELECT unidadeTipoAvaliacao.unidade.id FROM UnidadeTipoAvaliacao unidadeTipoAvaliacao " +
+            "                   WHERE" +
+            "                   (" +
+            "                       unidadeTipoAvaliacao.unidade.id = unidade.id AND unidadeTipoAvaliacao.id IN (SELECT avaliavel.unidadeTipoAvaliacao.id FROM Avaliavel avaliavel WHERE (avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id AND avaliavel.ativo IS TRUE))" +
+            "                   )" +
+            "               )" +
+            "           )" +
+            "           OR :withAvaliaveisFilter IS NULL " +
             "       )" +
             "       AND" +
             "       (" +
@@ -157,11 +184,13 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
             "       )" +
             "   )"
+//           + "GROUP BY unidade.id, unidade.created, unidade.updated, unidade.documento, unidade.nome, unidade.documento, endereco.id, cidade.id, estado.id, pais.id"
     )
     Page<Unidade> listByFilters(@Param("usuarioId") final Long usuarioId,
                                 @Param("perfil") final String perfil,
                                 @Param("defaultFilter") final String defaultFilter,
                                 @Param("withBondFilter") final Boolean withBondFilter,
+                                @Param("withAvaliaveisFilter") final Boolean withAvaliaveisFilter,
                                 final Pageable pageable);
 
     /**
@@ -171,7 +200,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   unidade.id, " +
             "   unidade.nome, " +
             "   unidade.documento, " +
-            "   unidade.endereco," +
+            "   endereco," +
             "   AVG(avaliacao.nota) AS media," +
             "   COUNT(avaliacao.id) AS quantidadeAvaliacoes," +
             "   COUNT(av1.id) AS avaliacoes1," +
@@ -180,6 +209,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   COUNT(av4.id) AS avaliacoes4," +
             "   COUNT(av5.id) AS avaliacoes5" +
             ") FROM Unidade unidade " +
+            "       LEFT OUTER JOIN Endereco endereco ON unidade.endereco.id = endereco.id " +
             "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.unidade.id = unidade.id " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
@@ -219,7 +249,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       )" +
             "   )" +
             "   AND :unidadeId = unidade.id) " +
-            "GROUP BY unidade.id, unidade.documento, unidade.nome"
+            "GROUP BY unidade.id, unidade.documento, unidade.nome, endereco.id"
     )
     Optional<Unidade> findUnidadeById(@Param("unidadeId") final Long unidadeId,
                                       @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
@@ -233,7 +263,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   unidade.id, " +
             "   unidade.nome, " +
             "   unidade.documento, " +
-            "   unidade.endereco," +
+            "   endereco," +
             "   AVG(CASE WHEN avaliacao.nota IS NULL THEN 0 ELSE avaliacao.nota END) AS media," +
             "   COUNT(avaliacao) AS quantidadeAvaliacoes," +
             "   COUNT(av1) AS avaliacoes1," +
@@ -242,6 +272,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   COUNT(av4) AS avaliacoes4," +
             "   COUNT(av5) AS avaliacoes5" +
             ") FROM Unidade unidade " +
+            "       LEFT OUTER JOIN Endereco endereco ON unidade.endereco.id = endereco.id " +
             "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.unidade.id = unidade.id " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
@@ -255,7 +286,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   ( " +
             "       unidade.id = :unidadeId" +
             "   )" +
-            "GROUP BY unidade.id, unidade.nome, unidade.documento"
+            "GROUP BY unidade.id, unidade.nome, unidade.documento, endereco.id"
     )
     Unidade findUnidadeByIdAndReturnAvaliacoes(@Param("unidadeId") final Long unidadeId);
 

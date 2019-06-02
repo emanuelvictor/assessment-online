@@ -1,63 +1,55 @@
-<div [formGroup]="form.controls.endereco">
+<div [formGroup]='form.controls.endereco'>
 
-  <div layout-gt-xs="row" layout-margin>
-    <mat-form-field flex *ngIf="endereco">
-      <input
-          (blur)="getAdressByCep(endereco?.cep)"
-          [textMask]="{mask: masks.cep, guide: false}"
-          [ngModelOptions]="{standalone: true}"
-          placeholder="CEP" [(ngModel)]="endereco.cep"
-          noSubmit matInput id="cep" name="cep">
+  <div layout-gt-xs='row' layout-margin>
+    <mat-form-field flex *ngIf='endereco'>
+      <input [ngModelOptions]='{standalone: true}'
+             noSubmit matInput id='cep' name='cep'
+             (blur)='getAdressByCep(endereco?.cep)'
+             [textMask]='{mask: masks.cep, guide: false}'
+             placeholder='CEP' [(ngModel)]='endereco.cep'>
     </mat-form-field>
-    <mat-form-field flex *ngIf="endereco">
-      <input matInput placeholder="Logradouro (rua, avenida, linha, etc ...)"
-             [(ngModel)]="endereco.logradouro"
-             maxlength="45" formControlName="logradouro"
-             id="logradouro" name="logradouro" required>
+    <mat-form-field flex *ngIf='endereco'>
+      <input placeholder='Logradouro (rua, avenida, linha, etc ...)'
+             [(ngModel)]='endereco.logradouro' matInput maxlength='45'
+             formControlName='logradouro' id='logradouro' name='logradouro'>
       <mat-error *ngIf="form.controls.endereco.controls['logradouro'].hasError('required')">
         Esse campo é obrigatório
       </mat-error>
     </mat-form-field>
-    <mat-form-field flex *ngIf="endereco">
-      <input matInput placeholder="Número"
-             id="numero" name="numero"
-             [textMask]="{mask: masks.streetNumber, guide: false}"
-             [(ngModel)]="endereco.numero" required
-             formControlName="numero">
+    <mat-form-field flex *ngIf='endereco'>
+      <input [textMask]='{mask: masks.streetNumber, guide: false}'
+             [(ngModel)]='endereco.numero' formControlName='numero'
+             matInput placeholder='Número' id='numero' name='numero'>
       <mat-error *ngIf="form.controls.endereco.controls['numero'].hasError('required')">
         Esse campo é obrigatório
       </mat-error>
     </mat-form-field>
-    <mat-form-field flex *ngIf="endereco">
-      <input matInput placeholder="Bairro"
-             id="bairro" name="bairro"
-             formControlName="bairro"
-             [(ngModel)]="endereco.bairro"
-             maxlength="45" required>
+    <mat-form-field flex *ngIf='endereco'>
+      <input placeholder='Bairro' matInput
+             id='bairro' name='bairro' maxlength='45'
+             formControlName='bairro' [(ngModel)]='endereco.bairro'>
       <mat-error *ngIf="form.controls.endereco.controls['bairro'].hasError('required')">
         Esse campo é obrigatório
       </mat-error>
     </mat-form-field>
   </div>
 
-  <div layout-gt-xs="row" layout-margin>
-    <mat-form-field flex *ngIf="endereco">
-      <input matInput placeholder="Complemento"
-             maxlength="45" id="complemento"
-             name="complemento"
-             [ngModelOptions]="{standalone: true}"
-             [(ngModel)]="endereco.complemento">
-      <mat-hint align="end">{{endereco.complemento ? endereco.complemento.length: 0}} / 45</mat-hint>
+  <div layout-gt-xs='row' layout-margin>
+    <mat-form-field flex *ngIf='endereco'>
+      <input [(ngModel)]='endereco.complemento'
+             [ngModelOptions]='{standalone: true}'
+             matInput maxlength='45' id='complemento'
+             placeholder='Complemento' name='complemento'>
+      <mat-hint align='end'>{{endereco.complemento ? endereco.complemento.length : 0}} / 45</mat-hint>
     </mat-form-field>
   </div>
 
-  <div layout-gt-xs="row" layout-margin>
-    <mat-form-field flex="80">
-      <input somenteLetras matInput placeholder="Cidade"
-             (blur)="findCidadeByNomeAndEstadoUf(endereco?.cidade?.nome, endereco?.cidade?.estado?.uf)"
-             [(ngModel)]="endereco.cidade.nome"
-             required id="cidade" name="cidade"
-             formControlName="cidade">
+  <div layout-gt-xs='row' layout-margin>
+    <mat-form-field flex='80'>
+      <input somenteLetras matInput placeholder='Cidade'
+             id='cidade' name='cidade' formControlName='cidade'
+             [(ngModel)]='endereco.cidade.nome' (ngModelChange)='validateEstado()'
+             (blur)='findCidadeByNomeAndEstadoUf(endereco?.cidade?.nome, endereco?.cidade?.estado?.uf)'>
       <mat-error *ngIf="form?.controls?.endereco?.controls['cidade']?.hasError('exception')">
         {{form?.controls?.endereco?.controls['cidade']?.errors.exception}}
       </mat-error>
@@ -65,14 +57,13 @@
         Esse campo é obrigatório
       </mat-error>
     </mat-form-field>
-    <mat-form-field flex="20">
-      <input somenteLetras matInput placeholder="Estado"
-             (blur)="findCidadeByNomeAndEstadoUf(endereco?.cidade?.nome, endereco?.cidade?.estado?.uf)"
-             [(ngModel)]="endereco.cidade.estado.uf"
-             required id="estado" name="estado"
-             formControlName="estado">
-      <mat-error *ngIf="form.controls.endereco.controls['estado'].hasError('required')">
-        Esse campo é obrigatório
+    <mat-form-field flex='20'>
+      <input [(ngModel)]='endereco.cidade.estado.uf'
+             somenteLetras matInput placeholder='Estado'
+             id='estado' name='estado' formControlName='estado'
+             (blur)='findCidadeByNomeAndEstadoUf(endereco?.cidade?.nome, endereco?.cidade?.estado?.uf)'>
+      <mat-error *ngIf="form.controls.endereco.controls['estado'].hasError('exception')">
+        Estado é obrigatório
       </mat-error>
     </mat-form-field>
   </div>

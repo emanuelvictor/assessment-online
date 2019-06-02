@@ -15,7 +15,6 @@ import {UnidadeService} from '../../web/domain/service/unidade.service';
 import {AvaliarComponent} from './presentation/avaliacao/avaliar/avaliar.component';
 import {AvaliacaoComponent} from './presentation/avaliacao/avaliacao.component';
 import {ConclusaoComponent} from './presentation/avaliacao/conclusao/conclusao.component';
-import {SelecionarUnidadeComponent} from './presentation/avaliacao/selecionar-unidade/selecionar-unidade.component';
 import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
 import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
 import {MatGridListModule} from '@angular/material/grid-list';
@@ -45,6 +44,7 @@ import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/se
 import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repository";
 import {Interceptor} from "../../web/application/interceptor/interceptor";
 import {FeedbackComponent} from "./presentation/avaliacao/feedback/feedback.component";
+import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 
 /**
  *
@@ -57,7 +57,7 @@ import {FeedbackComponent} from "./presentation/avaliacao/feedback/feedback.comp
     AvaliarComponent,
     ConclusaoComponent,
     AvaliacaoComponent,
-    SelecionarUnidadeComponent,
+    ConfigurarUnidadesEAvaliacoesComponent,
     SelecionarAvaliacaoComponent,
     VisualizarAvaliacaoComponent,
     SelecionarAtendentesComponent,

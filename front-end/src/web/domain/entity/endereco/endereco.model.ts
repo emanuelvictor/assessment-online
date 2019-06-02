@@ -19,7 +19,7 @@ export class Endereco extends Abstract {
 
   public longitude: number;
 
-  constructor(logradouro: string, complemento: string, bairro: string, cep: string, numero: string, cidade: Cidade, latitude: number, longitude: number) {
+  constructor(logradouro?: string, complemento?: string, bairro?: string, cep?: string, numero?: string, cidade?: Cidade, latitude?: number, longitude?: number) {
     super();
     this.logradouro = logradouro;
     this.complemento = complemento;

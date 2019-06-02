@@ -25,7 +25,7 @@ public interface UnidadeTipoAvaliacaoRepository extends JpaRepository<UnidadeTip
             "               unidadeTipoAvaliacao.id IN (SELECT avaliavel.unidadeTipoAvaliacao.id FROM Avaliavel avaliavel " +
             "               WHERE" +
             "               (" +
-            "                   avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id" +
+            "                   avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id AND avaliavel.ativo IS TRUE" +
             "               ))" +
             "           )" +
             "       )" +

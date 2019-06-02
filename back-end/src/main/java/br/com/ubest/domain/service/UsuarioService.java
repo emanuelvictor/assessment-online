@@ -283,11 +283,8 @@ public class UsuarioService {
         this.tipoAvaliacaoService.save(tipoAvaliacao);
 
         // Unidade
-        final Endereco endereo = new Endereco();
-        endereo.setCidade(this.enderecoService.find("Foz do Iguaçu", "PR").orElse(null));
         final Unidade unidade = new Unidade();
         unidade.setNome("Minha primeira unidade");
-        unidade.setEndereco(endereo);
         this.unidadeService.save(unidade);
 
         // Vínculo entre unidade e tipo de avaliação

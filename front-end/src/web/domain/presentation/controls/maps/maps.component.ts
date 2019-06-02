@@ -3,7 +3,7 @@ import {AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnInit, View
 import {Endereco} from '../../../entity/endereco/endereco.model';
 import {textMasks} from '../text-masks/text-masks';
 import {AuthenticationService} from '../../../service/authentication.service';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {EnderecoService} from '../../../service/endereco.service';
 import {Cidade} from '../../../entity/endereco/cidade.model';
 
@@ -92,12 +92,19 @@ export class MapsComponent implements OnInit, AfterViewInit {
    *
    */
   ngOnInit(): void {
+
+    if (!this.endereco)
+      this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
+
+    if (!this.endereco.cidade)
+      this.endereco.cidade = new Cidade();
+
     const formGroup = new FormGroup({
-      logradouro: new FormControl('logradouro', Validators.required),
-      numero: new FormControl('numero', Validators.required),
-      bairro: new FormControl('bairro', Validators.required),
-      cidade: new FormControl('cidade', [Validators.required]),
-      estado: new FormControl('estado', Validators.required)
+      logradouro: new FormControl('logradouro'),
+      numero: new FormControl('numero'),
+      bairro: new FormControl('bairro'),
+      cidade: new FormControl('cidade', []),
+      estado: new FormControl('estado', this.estadoObrigatorio())
     });
 
     if (!this.form) {
@@ -106,20 +113,26 @@ export class MapsComponent implements OnInit, AfterViewInit {
 
     this.form.addControl('endereco', formGroup);
 
-    /**
-     *
-     * Popula endereço inicialmente com dados do paraná
-     */
-    if (!this.endereco.numero)
-      this.findCidadeByNomeAndEstadoUf('Foz Do Iguaçu', 'PR');
   }
+
+  /**
+   *
+   */
+  private estadoObrigatorio(): ValidatorFn {
+    return (c: AbstractControl): { [key: string]: any } => {
+      if (this.endereco.cidade.nome && !c.value ) return {
+        exception: 'Estado obrigatório'
+      };
+    }
+  }
+
 
   /**
    *
    */
   ngAfterViewInit() {
     this.viewLoaded = true;
-    this.changeDetectionRef.detectChanges();
+    this.changeDetectionRef.detectChanges()
   }
 
   /**
@@ -135,6 +148,13 @@ export class MapsComponent implements OnInit, AfterViewInit {
           this.cidadeAux = result.cidade;
           this.findCidadeByNomeAndEstadoUf(result.cidade, result.estado)
         });
+  }
+
+  /**
+   *
+   */
+  public validateEstado() {
+    (this.form.controls.endereco.controls['estado'] as FormControl).updateValueAndValidity()
   }
 
   /**

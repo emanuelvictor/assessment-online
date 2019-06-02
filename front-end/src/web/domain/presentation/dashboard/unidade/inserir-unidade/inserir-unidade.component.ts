@@ -8,6 +8,7 @@ import {UnidadeService} from "../../../../service/unidade.service";
 import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacao} from "../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repositories/unidade-tipo-avaliacao.repository";
+import {Cidade} from "../../../../entity/endereco/cidade.model";
 
 
 /**
@@ -64,16 +65,18 @@ export class InserirUnidadeComponent {
   /**
    *
    */
-  public save(): void {
+  public save(unidade): void {
     const test = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ativo);
-    if (!test || !test.length)
+    if (!test || !test.length) {
       this.openSnackBar('Selecione ao menos uma avaliação');
+      return
+    }
 
-    this.unidadeService.save(this.unidade).then(unidade => {
+    this.unidadeService.save(unidade).then(saved => {
 
       this.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
 
-        unidadeTipoAvaliacao.unidade = unidade;
+        unidadeTipoAvaliacao.unidade = saved;
 
         if (unidadeTipoAvaliacao.ativo)
           this.unidadeTipoAvaliacaoRepository.save(unidadeTipoAvaliacao)

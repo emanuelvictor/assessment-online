@@ -1,4 +1,4 @@
-<unidade-form [unidade]="unidade" (save)="save()">
+<unidade-form [unidade]="unidade" (save)="save($event)">
   <!--cabeçalho div-->
   <button class="mat-headline tc-grey-500" type="button" color="primary" routerLink="../" mat-icon-button>
     <mat-icon>arrow_back</mat-icon>
@@ -17,8 +17,7 @@
   </mat-divider>
 
   <vincular-tipo-avaliacao [(tiposAvaliacoes)]='tiposAvaliacoes'
-                           [unidade]='unidade' unidadesTiposAvaliacoes
-                           [matTooltipPosition]="'above'"
+                           unidadesTiposAvaliacoes [matTooltipPosition]="'above'"
                            matTooltip='Vincule a unidade á ao menos uma avaliação'
                            (saveUnidadeTipoAvaliacao)='saveUnidadeTipoAvaliacao($event)'>
   </vincular-tipo-avaliacao>

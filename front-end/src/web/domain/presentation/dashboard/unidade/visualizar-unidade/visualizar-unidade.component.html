@@ -94,10 +94,9 @@
            [@fadeInOut] *ngIf='tiposAvaliacoes?.length'>
 
         <mat-form-field flex style='margin-bottom: 0'>
-          <input maxlength="200"
-                 id="filter" name="filter" matInput
+          <input id="filter" name="filter" matInput
                  [ngModelOptions]='{standalone: true}'
-                 [(ngModel)]="filter.nome"
+                 maxlength="200" [(ngModel)]="filter.nome"
                  placeholder="Filtre as avaliações pelo nome">
         </mat-form-field>
 
@@ -106,9 +105,8 @@
       <mat-accordion [@fadeInOut] *ngIf='tiposAvaliacoes?.length'>
         <mat-expansion-panel class='bgc-grey-50' [expanded]='true'>
 
-          <vincular-tipo-avaliacao [filter]='filter' [unidade]='unidade'
-                                   [(tiposAvaliacoes)]='tiposAvaliacoes' *ngIf='unidade?.id'
-                                   (saveUnidadeTipoAvaliacao)='saveUnidadeTipoAvaliacao($event)'>
+          <vincular-tipo-avaliacao (saveUnidadeTipoAvaliacao)='saveUnidadeTipoAvaliacao($event)'
+                                   [filter]='filter' [(tiposAvaliacoes)]='tiposAvaliacoes' *ngIf='unidade?.id'>
           </vincular-tipo-avaliacao>
 
         </mat-expansion-panel>

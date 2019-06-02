@@ -18,7 +18,7 @@ public class Unidade extends Pessoa {
     /**
      *
      */
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Endereco endereco;
 
     /**
@@ -30,6 +30,19 @@ public class Unidade extends Pessoa {
      *
      */
     public Unidade() {
+    }
+
+    /**
+     *
+     */
+    public Unidade(final long id, final String nome, final String documento, final Endereco endereco) {
+
+        this.id = id;
+        this.nome = nome;
+        this.documento = documento;
+
+        this.endereco = endereco;
+
     }
 
     /**
