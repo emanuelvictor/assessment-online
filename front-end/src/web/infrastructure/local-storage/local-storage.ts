@@ -84,15 +84,20 @@ export class LocalStorage {
         unidades.push(unidade);
       }
 
+      const unidadesReturn: Unidade[] = [];
       for (let _i = 0; _i < unidades.length; _i++) {
-        this.unidadeRepository.findById(unidades[_i].id)
-          .subscribe(unidade => {
+
+        this.unidadeRepository.findById(unidades[_i].id).subscribe(unidade => {
+            unidadesReturn.push(unidade);
+
             if (_i === (unidades.length - 1)) {
-              unidades.push(unidade);
-              observer.next(unidades);
+              observer.next(unidadesReturn);
+
               observer.complete()
             }
+
           })
+
       }
     })
   }

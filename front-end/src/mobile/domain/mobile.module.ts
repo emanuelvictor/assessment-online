@@ -36,7 +36,6 @@ import {LocalStorage} from "../../web/infrastructure/local-storage/local-storage
 import {CookieService} from "ngx-cookie-service";
 import localePt from "@angular/common/locales/pt";
 import {OperadorRepository} from "../../web/domain/repositories/operador.repository";
-import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/selecionar-avaliacao/selecionar-avaliacao.component";
 import {UnidadeTipoAvaliacaoRepository} from "../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {OrderModule} from "ngx-order-pipe";
 import {VisualizarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/visualizar-avaliacao/visualizar-avaliacao.component";
@@ -45,6 +44,7 @@ import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repos
 import {Interceptor} from "../../web/application/interceptor/interceptor";
 import {FeedbackComponent} from "./presentation/avaliacao/feedback/feedback.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
+import {SelecionarUnidadeComponent} from "./presentation/avaliacao/selecionar-unidade/selecionar-unidade.component";
 
 /**
  *
@@ -57,10 +57,10 @@ import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/c
     AvaliarComponent,
     ConclusaoComponent,
     AvaliacaoComponent,
-    ConfigurarUnidadesEAvaliacoesComponent,
-    SelecionarAvaliacaoComponent,
+    SelecionarUnidadeComponent,
     VisualizarAvaliacaoComponent,
     SelecionarAtendentesComponent,
+    ConfigurarUnidadesEAvaliacoesComponent,
     FeedbackComponent,
     // Authentication
     MobileLoginComponent

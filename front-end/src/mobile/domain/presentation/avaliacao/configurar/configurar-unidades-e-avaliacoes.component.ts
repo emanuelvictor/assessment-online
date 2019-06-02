@@ -163,7 +163,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
       for (let i = 0; i < unidadess.length; i++) {
         this.setHashsByUnidade(unidadess[i]).subscribe(() => {
           if (i === unidadess.length - 1) {
-            this.router.navigate(['selecionar-avaliacao']);
+            this.router.navigate(['selecionar-unidade']);
             this._loadingService.resolve('overlayStarSyntax');
           }
         })

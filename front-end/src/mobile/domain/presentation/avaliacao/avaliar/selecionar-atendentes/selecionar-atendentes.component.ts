@@ -72,7 +72,7 @@ export class SelecionarAtendentesComponent implements OnInit {
       const local = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
 
       if (!local) {
-        this.router.navigate(['selecionar-avaliacao']);
+        this.router.navigate(['selecionar-unidade']);
       }
 
       this.unidadeTipoAvaliacaoRepository.findById(local.id)
