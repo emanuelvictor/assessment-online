@@ -58,15 +58,34 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     this.unidadeService.listLightByFilters({withAvaliaveisFilter: true})
       .subscribe(result => {
         this.unidades = result.content;
+
+        // Se só houver uma unidade.
         if (this.unidades.length === 1) {
+          // Se só houver uma unidade, seleciona a primeira.
+          this.unidades[0].checked = true;
           this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[0].id, ativo: true})
-            .subscribe( resulted => {
-              if (resulted.content.length === 1){
-                 this.unidades[0].checked = true;
-                 resulted.content[0].checked = true;
-                 this.unidades[0].unidadesTiposAvaliacoes = resulted.content;
-                 this.proximo(this.unidades)
+            .subscribe(resulted => {
+
+              // Assinala todos os tipos de avaliações como checkes, ou seja, marcados no checkbox.
+              // Define as ordens dos tipos de avaliações
+              for (let i = 0; i < resulted.content.length; i++) {
+                resulted.content[i].checked = true;
+                resulted.content[i].ordem = i + 1;
               }
+
+              // Popula lista do model.
+              this.unidades[0].unidadesTiposAvaliacoes = resulted.content;
+
+              // Se só houver somente um tipo de avaliação.
+              if (resulted.content.length === 1) {
+                // Vai para o próximo passo.
+                this.proximo(this.unidades);
+                // Encerra o loading.
+                this._loadingService.resolve('overlayStarSyntax');
+                return
+              }
+
+              // Encerra o loading
               this._loadingService.resolve('overlayStarSyntax');
             })
         } else if (!this.unidades.length) {
@@ -86,7 +105,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   afterExpand(unidade) {
     this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: unidade.id, ativo: true})
       .subscribe(result => {
-        if (!result.content.length){
+        if (!result.content.length) {
           this.openSnackBar('Vincule Ítens Avaliáveis á esses Tipos de Avaliações');
           unidade.checked = false;
           return

@@ -76,6 +76,12 @@ export class LocalStorage {
     return new Observable(observer => {
       const unidades: Unidade[] = [];
 
+      if (!window.localStorage['unidades.length']){
+        observer.next(unidades);
+        observer.complete()
+      }
+
+
       for (let _i = 0; _i < window.localStorage['unidades.length']; _i++) {
         const unidade: Unidade = new Unidade();
 
@@ -92,7 +98,6 @@ export class LocalStorage {
 
             if (_i === (unidades.length - 1)) {
               observer.next(unidadesReturn);
-
               observer.complete()
             }
 
