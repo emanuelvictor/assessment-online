@@ -72,6 +72,10 @@ export class SelecionarUnidadeComponent implements OnInit {
 
   }
 
+  public proximo(unidade: Unidade){
+
+  }
+
   /**
    *
    * @param message
