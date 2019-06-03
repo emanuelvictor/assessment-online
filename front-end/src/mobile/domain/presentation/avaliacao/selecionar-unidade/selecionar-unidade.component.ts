@@ -50,15 +50,15 @@ export class SelecionarUnidadeComponent implements OnInit {
         this.unidades = unidades;
 
         // Se não tem unidades selecionadas, vai para tela de seleção de unidades
-        if (!this.unidades.length){
+        if (!this.unidades.length) {
           this.router.navigate(['/configurar-unidades-e-avaliacoes']);
           this._loadingService.resolve('overlayStarSyntax');
           return;
         }
 
         // Se só tem uma unidade selecionada, passa direito e vai pra tela de avaliação
-        if (this.unidades.length === 1){
-          this.router.navigate(['/avaliar/1']); //TODO alterar e colocar os id's
+        if (this.unidades.length === 1) {
+          this.router.navigate(['/avaliar/1'], {queryParams: {unidadeId: this.unidades[0].id}});
           this._loadingService.resolve('overlayStarSyntax');
           return;
         }
@@ -72,8 +72,14 @@ export class SelecionarUnidadeComponent implements OnInit {
 
   }
 
-  public proximo(unidade: Unidade){
-
+  /**
+   *
+   * @param unidade
+   */
+  public proximo(unidade: Unidade) {
+    setTimeout(() => {
+      this.router.navigate(['/avaliar/1'], {queryParams: {unidadeId: unidade.id}});
+    }, 300);
   }
 
   /**
