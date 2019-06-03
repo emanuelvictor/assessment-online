@@ -10,14 +10,13 @@ import {UnidadeTipoAvaliacao} from "../../../../../../web/domain/entity/avaliaca
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {AvaliavelRepository} from "../../../../../../web/domain/repositories/avaliavel.repository";
 import {TdLoadingService} from "@covalent/core";
-import {Agrupador} from "../../../../../../web/domain/entity/avaliacao/agrupador.model";
 
 @Component({
-  selector: 'visualizar-avaliacao',
-  templateUrl: './visualizar-avaliacao.component.html',
-  styleUrls: ['./visualizar-avaliacao.component.scss']
+  selector: 'selecionar-avaliacao',
+  templateUrl: './selecionar-avaliacao.component.html',
+  styleUrls: ['./selecionar-avaliacao.component.scss']
 })
-export class VisualizarAvaliacaoComponent implements OnInit {
+export class SelecionarAvaliacaoComponent implements OnInit {
 
   /**
    *
@@ -70,48 +69,50 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    */
   ngOnInit() {
 
-    /**
-     * Se não tem unidades selecionadas vai para tela de selação de unidades
-     */
-    if (!this.mobileService.unidades || this.mobileService.unidades.length) {
-      this.mobileService.removeUnidades();
-      this.mobileService.reset();
-      this.mobileService.agrupador = new Agrupador();
+    // Registra o loading
+    this._loadingService.register('overlayStarSyntax');
+
+    // Se não tem unidades selecionadas vai para tela de selação de unidades
+    if (!this.mobileService.unidades || !this.mobileService.unidades.length || !this.mobileService.unidadesTiposAvaliacoes || !this.mobileService.unidadesTiposAvaliacoes.length) {
       this.router.navigate(['configurar-unidades-e-avaliacoes']);
+      this._loadingService.resolve('overlayStarSyntax');
       return;
     }
 
-    this._loadingService.register('overlayStarSyntax');
-    this.avaliavelRepository.listByFilters(
-      {
-        unidadeTipoAvaliacaoId: this.mobileService.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params['ordem'])[0].id
-      }
-    )
-      .subscribe(page => {
-        if (!page.content.length) {
-          this.openSnackBar('Vincule os itens avaliáveis à uma unidade');
-          this.router.navigate(['conclusao'])
-        }
-      });
-
-    this.timeout = setTimeout(() => {
-      this.mobileService.reset();
-      this.router.navigate(['/avaliar/1']);
+    // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
+    if (!this.activatedRoute.snapshot.params['ordem']) {
+      this.router.navigate(['configurar-unidades-e-avaliacoes']);
       this._loadingService.resolve('overlayStarSyntax');
-    }, this.time);
-
-    if (this.mobileService.unidadesTiposAvaliacoes && this.mobileService.unidadesTiposAvaliacoes.length) {
-
-      const local = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
-
-      if (!local) {
-        this.router.navigate(['selecionar-unidade']);
-      }
-
-      this.unidadeTipoAvaliacaoRepository.findById(local.id)
-        .subscribe(result => this.unidadeTipoAvaliacao = result)
-
+      return;
     }
+
+
+    // Se não tem unidadeId, então retorna para seleção de unidade.
+    if (!(this.activatedRoute.queryParams as any).value || !(this.activatedRoute.queryParams as any).value.unidadeId) {
+      this.router.navigate(['selecionar-unidade']);
+      this._loadingService.resolve('overlayStarSyntax');
+      return;
+    }
+
+    // this.avaliavelRepository.listByFilters(
+    //   {
+    //     unidadeTipoAvaliacaoId: this.mobileService.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params['ordem'] && unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params['unidadeId'])[0].id
+    //   }
+    // )
+    //   .subscribe(page => {
+    //     if (!page.content.length) {
+    //       this.openSnackBar('Vincule os itens avaliáveis à uma unidade');
+    //       this.router.navigate(['conclusao'])
+    //     }
+    //   });
+
+    // this.timeout = setTimeout(() => {
+    //   this.mobileService.reset();
+    //   this.router.navigate(['/avaliar/1']);
+    //   this._loadingService.resolve('overlayStarSyntax');
+    // }, this.time);
+
+    this.unidadeTipoAvaliacao = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem'], (this.activatedRoute.queryParams as any).value.unidadeId);
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
@@ -119,6 +120,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
     this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
 
+    /// O carregamento das avaliações deve ser antes de tudo TODO
     this.configuracaoService.configuracao.subscribe(result => {
       this.configuracao = result;
       this._loadingService.resolve('overlayStarSyntax');

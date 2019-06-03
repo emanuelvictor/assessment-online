@@ -7,11 +7,12 @@ import {AvaliacaoComponent} from "./presentation/avaliacao/avaliacao.component";
 import {AuthenticationService} from "../../web/domain/service/authentication.service";
 import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component";
 import {OfflineComponent} from "./presentation/avaliacao/offline/offline.component";
-import {VisualizarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/visualizar-avaliacao/visualizar-avaliacao.component";
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-atendentes/selecionar-atendentes.component";
 import {FeedbackComponent} from "./presentation/avaliacao/feedback/feedback.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/selecionar-unidade/selecionar-unidade.component";
+import {VisualizarAvaliacaoComponent} from "../../web/domain/presentation/dashboard/avaliacao/visualizar-avaliacao/visualizar-avaliacao.component";
+import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/selecionar-avaliacao/selecionar-avaliacao.component";
 
 
 const routes: Routes = [
@@ -25,7 +26,7 @@ const routes: Routes = [
       {
         path: 'avaliar', component: AvaliarComponent,
         children: [
-          {path: ':ordem', component: VisualizarAvaliacaoComponent},
+          {path: ':ordem', component: SelecionarAvaliacaoComponent},
           {path: ':ordem/selecionar-atendentes', component: SelecionarAtendentesComponent},
         ]
       },

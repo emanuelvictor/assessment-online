@@ -43,9 +43,15 @@ export class SelecionarUnidadeComponent implements OnInit {
    *
    */
   ngOnInit() {
+
+    // Registra o loading.
     this._loadingService.register('overlayStarSyntax');
+
+    // Requisita configuração.
     this.configuracaoRepository.requestConfiguracao.subscribe(configuracao => {
       this.configuracao = configuracao;
+
+      // Pega  configuração.
       this.mobileService.unidades.subscribe(unidades => {
         this.unidades = unidades;
 

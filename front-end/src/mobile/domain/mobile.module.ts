@@ -38,13 +38,14 @@ import localePt from "@angular/common/locales/pt";
 import {OperadorRepository} from "../../web/domain/repositories/operador.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {OrderModule} from "ngx-order-pipe";
-import {VisualizarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/visualizar-avaliacao/visualizar-avaliacao.component";
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-atendentes/selecionar-atendentes.component";
 import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repository";
 import {Interceptor} from "../../web/application/interceptor/interceptor";
 import {FeedbackComponent} from "./presentation/avaliacao/feedback/feedback.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/selecionar-unidade/selecionar-unidade.component";
+import {VisualizarAvaliacaoComponent} from "../../web/domain/presentation/dashboard/avaliacao/visualizar-avaliacao/visualizar-avaliacao.component";
+import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/selecionar-avaliacao/selecionar-avaliacao.component";
 
 /**
  *
@@ -58,7 +59,7 @@ import {SelecionarUnidadeComponent} from "./presentation/avaliacao/selecionar-un
     ConclusaoComponent,
     AvaliacaoComponent,
     SelecionarUnidadeComponent,
-    VisualizarAvaliacaoComponent,
+    SelecionarAvaliacaoComponent,
     SelecionarAtendentesComponent,
     ConfigurarUnidadesEAvaliacoesComponent,
     FeedbackComponent,

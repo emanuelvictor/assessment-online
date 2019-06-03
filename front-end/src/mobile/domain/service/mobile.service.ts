@@ -81,7 +81,7 @@ export class MobileService {
   }
 
   /**
-   *
+   * TODO puxar as unidades tipos avaliações inteiros direoto do storage
    * @returns {any}
    */
   get unidadesTiposAvaliacoes(): any {
@@ -287,15 +287,16 @@ export class MobileService {
   /**
    *
    * @param {number} ordem
+   * @param unidadeId
    * @returns {any}
    */
-  public getUnidadeTipoAvaliacaoByIndex(ordem: string): any {
+  public getUnidadeTipoAvaliacaoByIndex(ordem: string, unidadeId): any {
 
     if (!ordem && !this.unidadesTiposAvaliacoes.length) {
       return null;
     }
 
-    const unidadesTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === ordem);
+    const unidadesTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === ordem && unidadeTipoAvaliacao.unidade.id === unidadeId);
 
     if (!unidadesTiposAvaliacoes.length) {
       return null;
