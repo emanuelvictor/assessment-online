@@ -180,12 +180,12 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     this.mobileService.unidades = unidades.filter(unidade => unidade.checked);
     this.mobileService.unidades.subscribe(unidadess => {
       for (let i = 0; i < unidadess.length; i++) {
-        this.setHashsByUnidade(unidadess[i]).subscribe(() => {
-          if (i === unidadess.length - 1) {
-            this.router.navigate(['selecionar-unidade']);
-            this._loadingService.resolve('overlayStarSyntax');
-          }
-        })
+        // TODO procedimento funcionado assíncrono, inserindo os hashs assíncronamente com a mudança de tela.
+        this.setHashsByUnidade(unidadess[i]);
+        if (i === unidadess.length - 1) {
+          this.router.navigate(['selecionar-unidade']);
+          this._loadingService.resolve('overlayStarSyntax');
+        }
       }
     })
 

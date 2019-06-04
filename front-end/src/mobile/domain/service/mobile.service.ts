@@ -34,12 +34,7 @@ export class MobileService {
   /**
    *
    */
-  private _unidadesTiposAvaliacoes: any;
-
-  /**
-   *
-   */
-  private avaliaveis: Avaliavel[] = [];
+  private _avaliaveis: Avaliavel[] = [];
 
   /**
    *
@@ -113,10 +108,17 @@ export class MobileService {
 
   /**
    *
-   * @param avaliavel
+   * @param avaliaveis
    */
-  public addAvaliavel(avaliavel) {
-    this.avaliaveis.push(avaliavel);
+  public set avaliaveis(avaliaveis) {
+    this._avaliaveis = avaliaveis;
+  }
+
+  /**
+   *
+   */
+  public get avaliaveis(): any {
+    return this._avaliaveis;
   }
 
   /**
@@ -140,21 +142,6 @@ export class MobileService {
        * @type {Unidade}
        */
       avaliavel.unidadeTipoAvaliacao.unidade = this._unidades.filter(unidade => unidade.id === avaliavel.unidadeTipoAvaliacao.unidade.id)[0];
-
-      /**
-       * Salva a nota da avaliação no usuário. Facilita o cálculo da média.
-       */
-      if (this.avaliacao.nota === 1) {
-        avaliavel.usuario.avaliacoes1 = avaliavel.usuario.avaliacoes1 != null ? avaliavel.usuario.avaliacoes1 + 1 : 1;
-      } else if (this.avaliacao.nota === 2) {
-        avaliavel.usuario.avaliacoes2 = avaliavel.usuario.avaliacoes2 != null ? avaliavel.usuario.avaliacoes2 + 1 : 1;
-      } else if (this.avaliacao.nota === 3) {
-        avaliavel.usuario.avaliacoes3 = avaliavel.usuario.avaliacoes3 != null ? avaliavel.usuario.avaliacoes3 + 1 : 1;
-      } else if (this.avaliacao.nota === 4) {
-        avaliavel.usuario.avaliacoes4 = avaliavel.usuario.avaliacoes4 != null ? avaliavel.usuario.avaliacoes4 + 1 : 1;
-      } else {
-        avaliavel.usuario.avaliacoes5 = avaliavel.usuario.avaliacoes5 != null ? avaliavel.usuario.avaliacoes5 + 1 : 1;
-      }
 
       /**
        * Cria um registro tabela associativa e adiciona dentro da avaliação

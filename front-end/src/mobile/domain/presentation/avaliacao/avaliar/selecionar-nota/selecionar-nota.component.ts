@@ -20,16 +20,6 @@ export class SelecionarNotaComponent implements OnInit {
 
   /**
    *
-   */
-  timeout: any;
-
-  /**
-   *
-   */
-  time = 30000;
-
-  /**
-   *
    * @type {Configuracao}
    */
   configuracao: Configuracao;
@@ -89,15 +79,15 @@ export class SelecionarNotaComponent implements OnInit {
             return;
           }
 
-          // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
-          if (!this.activatedRoute.snapshot.params['unidadeId']) {
+          // Se não tem unidadeId, então retorna para seleção de unidade.
+          if (!(this.activatedRoute.queryParams as any).value || !(this.activatedRoute.queryParams as any).value.ordem) {
             this.router.navigate(['configurar-unidades-e-avaliacoes']);
             this._loadingService.resolve('overlayStarSyntax');
             return;
           }
 
-          // Se não tem unidadeId, então retorna para seleção de unidade.
-          if (!(this.activatedRoute.queryParams as any).value || !(this.activatedRoute.queryParams as any).value.ordem) {
+          // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
+          if (!this.activatedRoute.snapshot.params['unidadeId']) {
             this.router.navigate(['selecionar-unidade']);
             this._loadingService.resolve('overlayStarSyntax');
             return;
@@ -116,26 +106,6 @@ export class SelecionarNotaComponent implements OnInit {
 
     });
 
-
-    // this.avaliavelRepository.listByFilters(
-    //   {
-    //     unidadeTipoAvaliacaoId: this.mobileService.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params['ordem'] && unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params['unidadeId'])[0].id
-    //   }
-    // )
-    //   .subscribe(page => {
-    //     if (!page.content.length) {
-    //       this.openSnackBar('Vincule os itens avaliáveis à uma unidade');
-    //       this.router.navigate(['conclusao'])
-    //     }
-    //   });
-
-    // this.timeout = setTimeout(() => {
-    //   this.mobileService.reset();
-    //   this.router.navigate(['/avaliar/1']);
-    //   this._loadingService.resolve('overlayStarSyntax');
-    // }, this.time);
-
-
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
@@ -153,9 +123,8 @@ export class SelecionarNotaComponent implements OnInit {
 
     this.mobileService.setNota(nota);
 
-    this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['unidadeId']) + '/selecionar-atendentes'], {queryParams: {ordem: (this.activatedRoute.queryParams as any).value.ordem + 1}});
+    this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['unidadeId']) + '/selecionar-atendentes'], {queryParams: {ordem: (this.activatedRoute.queryParams as any).value.ordem}});
 
-    clearTimeout(this.timeout);
   }
 
   /**
@@ -168,15 +137,4 @@ export class SelecionarNotaComponent implements OnInit {
     });
   }
 
-
-  /**
-   *
-   */
-  public restartTimeout() {
-    clearTimeout(this.timeout);
-
-    this.timeout = setTimeout(() => {
-      this.mobileService.reset();
-    }, this.time);
-  }
 }
