@@ -4,11 +4,13 @@ import {UnidadeTipoAvaliacao} from "../../domain/entity/avaliacao/unidade-tipo-a
 import {Unidade} from "../../domain/entity/unidade/unidade.model";
 import {UnidadeRepository} from "../../domain/repositories/unidade.repository";
 import {Observable} from "rxjs";
+import {UnidadeTipoAvaliacaoRepository} from "../../domain/repositories/unidade-tipo-avaliacao.repository";
 
 @Injectable()
 export class LocalStorage {
 
-  constructor(private unidadeRepository: UnidadeRepository) {
+  constructor(private unidadeRepository: UnidadeRepository,
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
 
   }
 
@@ -42,27 +44,51 @@ export class LocalStorage {
 
   }
 
-  get unidadesTiposAvaliacoes(): UnidadeTipoAvaliacao[] {
+  get unidadesTiposAvaliacoes(): any {
 
-    const unidadesTiposAvaliacoes: UnidadeTipoAvaliacao[] = [];
+    return new Observable(observer => {
+      const unidadesTiposAvaliacoes: UnidadeTipoAvaliacao[] = [];
 
-    for (let _i = 0; _i < window.localStorage['unidadesTiposAvaliacoes.length']; _i++) {
-      const unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
+      if (!window.localStorage['unidadesTiposAvaliacoes.length']){
+        observer.next(unidadesTiposAvaliacoes);
+        observer.complete()
+      }
 
-      unidadeTipoAvaliacao.id = window.localStorage['unidadeTipoAvaliacao' + (_i)]
-        .substring(0, window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('='));
+      for (let _i = 0; _i < window.localStorage['unidadesTiposAvaliacoes.length']; _i++) {
+        const unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
 
-      unidadeTipoAvaliacao.ordem = window.localStorage['unidadeTipoAvaliacao' + (_i)]
-        .substring(window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('=') + 1, window.localStorage['unidadeTipoAvaliacao' + _i].length);
+        unidadeTipoAvaliacao.id = window.localStorage['unidadeTipoAvaliacao' + (_i)]
+          .substring(0, window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('='));
 
-      unidadesTiposAvaliacoes.push(unidadeTipoAvaliacao);
-    }
+        unidadeTipoAvaliacao.ordem = window.localStorage['unidadeTipoAvaliacao' + (_i)]
+          .substring(window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('=') + 1, window.localStorage['unidadeTipoAvaliacao' + _i].length);
 
-    return unidadesTiposAvaliacoes;
+        unidadesTiposAvaliacoes.push(unidadeTipoAvaliacao);
+      }
 
+      const unidadesTiposAvaliacoesReturn: UnidadeTipoAvaliacao[] = [];
+      for (let _i = 0; _i < unidadesTiposAvaliacoes.length; _i++) {
+
+        this.unidadeTipoAvaliacaoRepository.findById(unidadesTiposAvaliacoes[_i].id).subscribe(unidadeTipoAvaliacao => {
+          unidadesTiposAvaliacoesReturn.push(unidadeTipoAvaliacao);
+
+          if (_i === (unidadesTiposAvaliacoesReturn.length - 1)) {
+            observer.next(unidadesTiposAvaliacoesReturn);
+            observer.complete()
+          }
+
+        })
+
+      }
+    })
   }
 
-  set unidadesTiposAvaliacoes(unidadesTiposAvaliacoes: UnidadeTipoAvaliacao[]) {
+  set unidadesTiposAvaliacoes(unidadesTiposAvaliacoes: any) {
+
+    this.removeUnidadesTiposAvaliacoes();
+
+    if (!unidadesTiposAvaliacoes.length)
+      return;
 
     window.localStorage['unidadesTiposAvaliacoes.length'] = unidadesTiposAvaliacoes.length;
 
@@ -70,6 +96,14 @@ export class LocalStorage {
       window.localStorage['unidadeTipoAvaliacao' + (_i)] = unidadesTiposAvaliacoes[_i].id + '=' + unidadesTiposAvaliacoes[_i].ordem + '=' + unidadesTiposAvaliacoes[_i].unidade.id;
     }
 
+  }
+
+  removeUnidadesTiposAvaliacoes() {
+    for (let _i = 0; _i < window.localStorage['unidadesTiposAvaliacoes.length']; _i++) {
+      window.localStorage.removeItem('unidadesTiposAvaliacoes=' + _i.toString());
+    }
+
+    window.localStorage.removeItem('unidadesTiposAvaliacoes.length');
   }
 
   get unidades(): any {

@@ -69,7 +69,7 @@ export class SelecionarAtendentesComponent implements OnInit {
     this._loadingService.register('overlayStarSyntax');
     if (this.mobileService.unidadesTiposAvaliacoes && this.mobileService.unidadesTiposAvaliacoes.length) {
 
-      const local = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem']);
+      const local = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem'], (this.activatedRoute.queryParams as any).value.unidadeId);
 
       if (!local) {
         this.router.navigate(['selecionar-unidade']);

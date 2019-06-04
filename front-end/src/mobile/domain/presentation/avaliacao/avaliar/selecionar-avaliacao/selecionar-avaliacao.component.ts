@@ -16,7 +16,7 @@ import {TdLoadingService} from "@covalent/core";
   templateUrl: './selecionar-avaliacao.component.html',
   styleUrls: ['./selecionar-avaliacao.component.scss']
 })
-export class SelecionarAvaliacaoComponent implements OnInit {
+export class SelecionarAvaliacaoComponent implements OnInit { // TODO MUDAR NOME DE SELECIONAR AVALIAÇÃO PARA SELECIONAR NOTA
 
   /**
    *
@@ -72,27 +72,44 @@ export class SelecionarAvaliacaoComponent implements OnInit {
     // Registra o loading
     this._loadingService.register('overlayStarSyntax');
 
-    // Se não tem unidades selecionadas vai para tela de selação de unidades
-    if (!this.mobileService.unidades || !this.mobileService.unidades.length || !this.mobileService.unidadesTiposAvaliacoes || !this.mobileService.unidadesTiposAvaliacoes.length) {
-      this.router.navigate(['configurar-unidades-e-avaliacoes']);
-      this._loadingService.resolve('overlayStarSyntax');
-      return;
-    }
+    // Requisita configuração.
+    this.configuracaoService.configuracao.subscribe(result => {
+      this.configuracao = result;
 
-    // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
-    if (!this.activatedRoute.snapshot.params['ordem']) {
-      this.router.navigate(['configurar-unidades-e-avaliacoes']);
-      this._loadingService.resolve('overlayStarSyntax');
-      return;
-    }
+      // Requisita unidades.
+      this.mobileService.unidades.subscribe(unidades => {
 
+        // Requisita unidadesTiposAvaliacoes.
+        this.mobileService.unidadesTiposAvaliacoes.subscribe(unidadesTiposAvaliacoes => {
 
-    // Se não tem unidadeId, então retorna para seleção de unidade.
-    if (!(this.activatedRoute.queryParams as any).value || !(this.activatedRoute.queryParams as any).value.unidadeId) {
-      this.router.navigate(['selecionar-unidade']);
-      this._loadingService.resolve('overlayStarSyntax');
-      return;
-    }
+          // Se não tem unidades selecionadas vai para tela de selação de unidades
+          if (!unidades || !unidades.length || !unidadesTiposAvaliacoes || !unidadesTiposAvaliacoes.length) {
+            this.router.navigate(['configurar-unidades-e-avaliacoes']);
+            this._loadingService.resolve('overlayStarSyntax');
+            return;
+          }
+
+          // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
+          if (!this.activatedRoute.snapshot.params['ordem']) {
+            this.router.navigate(['configurar-unidades-e-avaliacoes']);
+            this._loadingService.resolve('overlayStarSyntax');
+            return;
+          }
+
+          // Se não tem unidadeId, então retorna para seleção de unidade.
+          if (!(this.activatedRoute.queryParams as any).value || !(this.activatedRoute.queryParams as any).value.unidadeId) {
+            this.router.navigate(['selecionar-unidade']);
+            this._loadingService.resolve('overlayStarSyntax');
+            return;
+          }
+
+          this.unidadeTipoAvaliacao = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem'], (this.activatedRoute.queryParams as any).value.unidadeId); // TODO MUDAR ORDEM, PRIMEIRO VAI PRA UNIDADE ID, DEPOIS A ORDEM.
+          this._loadingService.resolve('overlayStarSyntax');
+        })
+      });
+
+    });
+
 
     // this.avaliavelRepository.listByFilters(
     //   {
@@ -112,19 +129,12 @@ export class SelecionarAvaliacaoComponent implements OnInit {
     //   this._loadingService.resolve('overlayStarSyntax');
     // }, this.time);
 
-    this.unidadeTipoAvaliacao = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem'], (this.activatedRoute.queryParams as any).value.unidadeId);
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
-
-    /// O carregamento das avaliações deve ser antes de tudo TODO
-    this.configuracaoService.configuracao.subscribe(result => {
-      this.configuracao = result;
-      this._loadingService.resolve('overlayStarSyntax');
-    })
 
   }
 

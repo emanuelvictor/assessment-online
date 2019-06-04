@@ -81,28 +81,18 @@ export class MobileService {
   }
 
   /**
-   * TODO puxar as unidades tipos avaliações inteiros direoto do storage
    * @returns {any}
    */
   get unidadesTiposAvaliacoes(): any {
-
-    this._unidadesTiposAvaliacoes = [];
-
-    const local = this.localStorage.unidadesTiposAvaliacoes;
-
-    for (let i = 0; i < local.length; i++) {
-      this._unidadesTiposAvaliacoes.push(local[i]);
-    }
-
-    return this._unidadesTiposAvaliacoes;
+    return this.localStorage.unidadesTiposAvaliacoes;
   }
 
   /**
    *
-   * @param value
+   * @param unidadesTiposAvaliacoes
    */
-  set unidadesTiposAvaliacoes(value: any) {
-    this.localStorage.unidadesTiposAvaliacoes = value
+  set unidadesTiposAvaliacoes(unidadesTiposAvaliacoes: any) {
+    this.localStorage.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes
   }
 
   /**
@@ -149,7 +139,7 @@ export class MobileService {
        * Seta no avaliavel a _unidade correta
        * @type {Unidade}
        */
-      avaliavel.unidadeTipoAvaliacao.unidade = this._unidades.filter( unidade => unidade.id === avaliavel.unidadeTipoAvaliacao.unidade.id)[0];
+      avaliavel.unidadeTipoAvaliacao.unidade = this._unidades.filter(unidade => unidade.id === avaliavel.unidadeTipoAvaliacao.unidade.id)[0];
 
       /**
        * Salva a nota da avaliação no usuário. Facilita o cálculo da média.
