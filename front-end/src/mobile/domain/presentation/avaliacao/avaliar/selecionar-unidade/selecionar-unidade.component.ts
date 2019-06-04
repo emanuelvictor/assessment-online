@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {MobileService} from '../../../service/mobile.service';
+import {MobileService} from '../../../../service/mobile.service';
 import {MatSnackBar} from "@angular/material";
-import {Configuracao} from "../../../../../web/domain/entity/configuracao/configuracao.model";
+import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
-import {Unidade} from "../../../../../web/domain/entity/unidade/unidade.model";
-import {ConfiguracaoRepository} from "../../../../../web/domain/repositories/configuracao.repository";
+import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/configuracao.repository";
+import {Unidade} from "../../../../../../web/domain/entity/unidade/unidade.model";
 
 @Component({
   selector: 'selecionar-unidade',
@@ -64,7 +64,7 @@ export class SelecionarUnidadeComponent implements OnInit {
 
         // Se só tem uma unidade selecionada, passa direito e vai pra tela de avaliação
         if (this.unidades.length === 1) {
-          this.router.navigate(['/avaliar/1'], {queryParams: {unidadeId: this.unidades[0].id}});
+          this.router.navigate(['/avaliar/' + this.unidades[0].id], {queryParams: {ordem: 1}});
           this._loadingService.resolve('overlayStarSyntax');
           return;
         }
@@ -74,6 +74,7 @@ export class SelecionarUnidadeComponent implements OnInit {
         this._loadingService.resolve('overlayStarSyntax');
 
       });
+
     });
 
   }
@@ -84,7 +85,7 @@ export class SelecionarUnidadeComponent implements OnInit {
    */
   public proximo(unidade: Unidade) {
     setTimeout(() => {
-      this.router.navigate(['/avaliar/1'], {queryParams: {unidadeId: unidade.id}});
+      this.router.navigate(['/avaliar/' + (+unidade.id)], {queryParams: {ordem: 1}});
     }, 300);
   }
 

@@ -12,11 +12,11 @@ import {AvaliavelRepository} from "../../../../../../web/domain/repositories/ava
 import {TdLoadingService} from "@covalent/core";
 
 @Component({
-  selector: 'selecionar-avaliacao',
-  templateUrl: './selecionar-avaliacao.component.html',
-  styleUrls: ['./selecionar-avaliacao.component.scss']
+  selector: 'selecionar-nota',
+  templateUrl: './selecionar-nota.component.html',
+  styleUrls: ['./selecionar-nota.component.scss']
 })
-export class SelecionarAvaliacaoComponent implements OnInit { // TODO MUDAR NOME DE SELECIONAR AVALIAÇÃO PARA SELECIONAR NOTA
+export class SelecionarNotaComponent implements OnInit {
 
   /**
    *
@@ -90,23 +90,29 @@ export class SelecionarAvaliacaoComponent implements OnInit { // TODO MUDAR NOME
           }
 
           // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
-          if (!this.activatedRoute.snapshot.params['ordem']) {
+          if (!this.activatedRoute.snapshot.params['unidadeId']) {
             this.router.navigate(['configurar-unidades-e-avaliacoes']);
             this._loadingService.resolve('overlayStarSyntax');
             return;
           }
 
           // Se não tem unidadeId, então retorna para seleção de unidade.
-          if (!(this.activatedRoute.queryParams as any).value || !(this.activatedRoute.queryParams as any).value.unidadeId) {
+          if (!(this.activatedRoute.queryParams as any).value || !(this.activatedRoute.queryParams as any).value.ordem) {
             this.router.navigate(['selecionar-unidade']);
             this._loadingService.resolve('overlayStarSyntax');
             return;
           }
 
-          this.unidadeTipoAvaliacao = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem'], (this.activatedRoute.queryParams as any).value.unidadeId); // TODO MUDAR ORDEM, PRIMEIRO VAI PRA UNIDADE ID, DEPOIS A ORDEM.
-          this._loadingService.resolve('overlayStarSyntax');
+          // Pega a unidade filtrada pela ordem e pela unidade
+          this.mobileService.getUnidadeTipoAvaliacaoByUnidadeAndOrdem(this.activatedRoute.snapshot.params['unidadeId'], (this.activatedRoute.queryParams as any).value.ordem)
+            .subscribe(unidadeTipoAvaliacao => {
+              this.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+              this._loadingService.resolve('overlayStarSyntax')
+            })
+
         })
-      });
+
+      })
 
     });
 
@@ -147,7 +153,7 @@ export class SelecionarAvaliacaoComponent implements OnInit { // TODO MUDAR NOME
 
     this.mobileService.setNota(nota);
 
-    this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['ordem']) + '/selecionar-atendentes']);
+    this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['unidadeId']) + '/selecionar-atendentes'], {queryParams: {ordem: (this.activatedRoute.queryParams as any).value.ordem + 1}});
 
     clearTimeout(this.timeout);
   }

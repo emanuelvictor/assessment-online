@@ -262,37 +262,35 @@ export class MobileService {
     });
   }
 
-  //
-  // /**
-  //  * Carrega demais dados da _unidade
-  //  * @param {number} id
-  //  */
-  // private loadUnidade(id: number) {
-  //   if (id) {
-  //     this.unidadeService.findById(this._unidade.id)
-  //       .subscribe(unidade => this._unidade = unidade);
-  //   }
-  // }
-
   /**
    *
-   * @param {number} ordem
-   * @param unidadeId
+   * @param {string} ordem
+   * @param {number} unidadeId
    * @returns {any}
    */
-  public getUnidadeTipoAvaliacaoByIndex(ordem: string, unidadeId): any {
+  public getUnidadeTipoAvaliacaoByUnidadeAndOrdem(unidadeId: number, ordem: string): Observable<any> {
+    return new Observable(observer => {
+      this.unidadesTiposAvaliacoes.subscribe(unidadesTiposAvaliacoes => {
 
-    if (!ordem && !this.unidadesTiposAvaliacoes.length) {
-      return null;
-    }
+        if (!ordem && !unidadesTiposAvaliacoes.length) {
+          observer.next([]);
+          observer.complete()
+        }
 
-    const unidadesTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === ordem && unidadeTipoAvaliacao.unidade.id === unidadeId);
+        unidadesTiposAvaliacoes = unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => {
+          return unidadeTipoAvaliacao.ordem === ordem && unidadeTipoAvaliacao.unidade.id.toString() === unidadeId
+        });
 
-    if (!unidadesTiposAvaliacoes.length) {
-      return null;
-    }
+        if (!unidadesTiposAvaliacoes.length) {
+          observer.next([]);
+          observer.complete()
+        }
 
-    return unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === ordem)[0];
+        observer.next(unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === ordem)[0]);
+        observer.complete()
+
+      })
+    })
   }
 
   /**

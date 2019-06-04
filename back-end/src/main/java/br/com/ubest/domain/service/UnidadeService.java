@@ -168,7 +168,6 @@ public class UnidadeService {
                 return true;
 
         throw new PasswordNotFound();
-
     }
 
     /**
@@ -189,7 +188,7 @@ public class UnidadeService {
             return "sem-senha";
         }).collect(Collectors.toList()));
 
-        return hashs;
+        return hashs.isEmpty() ? new ArrayList<>() : hashs;
     }
 
     List<Unidade> findByNome(final String nome) {

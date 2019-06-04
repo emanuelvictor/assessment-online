@@ -10,9 +10,8 @@ import {OfflineComponent} from "./presentation/avaliacao/offline/offline.compone
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-atendentes/selecionar-atendentes.component";
 import {FeedbackComponent} from "./presentation/avaliacao/feedback/feedback.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
-import {SelecionarUnidadeComponent} from "./presentation/avaliacao/selecionar-unidade/selecionar-unidade.component";
-import {VisualizarAvaliacaoComponent} from "../../web/domain/presentation/dashboard/avaliacao/visualizar-avaliacao/visualizar-avaliacao.component";
-import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/selecionar-avaliacao/selecionar-avaliacao.component";
+import {SelecionarUnidadeComponent} from "./presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component";
+import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/selecionar-nota/selecionar-nota.component";
 
 
 const routes: Routes = [
@@ -26,8 +25,8 @@ const routes: Routes = [
       {
         path: 'avaliar', component: AvaliarComponent,
         children: [
-          {path: ':ordem', component: SelecionarAvaliacaoComponent},
-          {path: ':ordem/selecionar-atendentes', component: SelecionarAtendentesComponent},
+          {path: ':unidadeId', component: SelecionarNotaComponent},
+          {path: ':unidadeId/selecionar-atendentes', component: SelecionarAtendentesComponent},
         ]
       },
       {path: 'feedback', component: FeedbackComponent},

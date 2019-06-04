@@ -43,9 +43,8 @@ import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repos
 import {Interceptor} from "../../web/application/interceptor/interceptor";
 import {FeedbackComponent} from "./presentation/avaliacao/feedback/feedback.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
-import {SelecionarUnidadeComponent} from "./presentation/avaliacao/selecionar-unidade/selecionar-unidade.component";
-import {VisualizarAvaliacaoComponent} from "../../web/domain/presentation/dashboard/avaliacao/visualizar-avaliacao/visualizar-avaliacao.component";
-import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/selecionar-avaliacao/selecionar-avaliacao.component";
+import {SelecionarUnidadeComponent} from "./presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component";
+import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/selecionar-nota/selecionar-nota.component";
 
 /**
  *
@@ -59,7 +58,7 @@ import {SelecionarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/sel
     ConclusaoComponent,
     AvaliacaoComponent,
     SelecionarUnidadeComponent,
-    SelecionarAvaliacaoComponent,
+    SelecionarNotaComponent,
     SelecionarAtendentesComponent,
     ConfigurarUnidadesEAvaliacoesComponent,
     FeedbackComponent,

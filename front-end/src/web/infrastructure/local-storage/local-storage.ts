@@ -63,21 +63,17 @@ export class LocalStorage {
         unidadeTipoAvaliacao.ordem = window.localStorage['unidadeTipoAvaliacao' + (_i)]
           .substring(window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('=') + 1, window.localStorage['unidadeTipoAvaliacao' + _i].length);
 
-        unidadesTiposAvaliacoes.push(unidadeTipoAvaliacao);
-      }
+        this.unidadeTipoAvaliacaoRepository.findById(unidadeTipoAvaliacao.id).subscribe(unidadeTipoAvaliacaoResulted => {
+          unidadeTipoAvaliacaoResulted.ordem = unidadeTipoAvaliacao.ordem;
 
-      const unidadesTiposAvaliacoesReturn: UnidadeTipoAvaliacao[] = [];
-      for (let _i = 0; _i < unidadesTiposAvaliacoes.length; _i++) {
+          unidadesTiposAvaliacoes.push(unidadeTipoAvaliacaoResulted);
 
-        this.unidadeTipoAvaliacaoRepository.findById(unidadesTiposAvaliacoes[_i].id).subscribe(unidadeTipoAvaliacao => {
-          unidadesTiposAvaliacoesReturn.push(unidadeTipoAvaliacao);
-
-          if (_i === (unidadesTiposAvaliacoesReturn.length - 1)) {
-            observer.next(unidadesTiposAvaliacoesReturn);
+          if (_i === (window.localStorage['unidadesTiposAvaliacoes.length'] - 1)) {
+            observer.next(unidadesTiposAvaliacoes);
             observer.complete()
           }
 
-        })
+        });
 
       }
     })
@@ -93,7 +89,7 @@ export class LocalStorage {
     window.localStorage['unidadesTiposAvaliacoes.length'] = unidadesTiposAvaliacoes.length;
 
     for (let _i = 0; _i < unidadesTiposAvaliacoes.length; _i++) {
-      window.localStorage['unidadeTipoAvaliacao' + (_i)] = unidadesTiposAvaliacoes[_i].id + '=' + unidadesTiposAvaliacoes[_i].ordem + '=' + unidadesTiposAvaliacoes[_i].unidade.id;
+      window.localStorage['unidadeTipoAvaliacao' + (_i)] = unidadesTiposAvaliacoes[_i].id + '=' + unidadesTiposAvaliacoes[_i].ordem /*+ '=' + unidadesTiposAvaliacoes[_i].unidade.id*/;
     }
 
   }

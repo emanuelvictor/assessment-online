@@ -69,14 +69,14 @@ export class SelecionarAtendentesComponent implements OnInit {
     this._loadingService.register('overlayStarSyntax');
     if (this.mobileService.unidadesTiposAvaliacoes && this.mobileService.unidadesTiposAvaliacoes.length) {
 
-      const local = this.mobileService.getUnidadeTipoAvaliacaoByIndex(this.activatedRoute.snapshot.params['ordem'], (this.activatedRoute.queryParams as any).value.unidadeId);
+      const local = this.mobileService.getUnidadeTipoAvaliacaoByUnidadeAndOrdem(this.activatedRoute.snapshot.params['unidadeId'], (this.activatedRoute.queryParams as any).value.ordem);
 
       if (!local) {
         this.router.navigate(['selecionar-unidade']);
       }
 
-      this.unidadeTipoAvaliacaoRepository.findById(local.id)
-        .subscribe(result => this.unidadeTipoAvaliacao = result)
+      // this.unidadeTipoAvaliacaoRepository.findById(local.id)
+      //   .subscribe(result => this.unidadeTipoAvaliacao = result)
 
     }
 
@@ -91,7 +91,9 @@ export class SelecionarAtendentesComponent implements OnInit {
       this.avaliavelRepository.listByFilters(
         {
           ativo: true,
-          unidadeTipoAvaliacaoId: this.mobileService.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params['ordem'])[0].id
+          unidadeTipoAvaliacaoId: this.mobileService.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => {
+            return unidadeTipoAvaliacao.ordem === (this.activatedRoute.queryParams as any).value.ordem && unidadeTipoAvaliacao.unidade.id.toString() === this.activatedRoute.snapshot.params['unidadeId']
+          })[0].id
         }
       )
         .subscribe(page => {
