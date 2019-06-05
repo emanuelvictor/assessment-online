@@ -10,6 +10,7 @@ import {UnidadeTipoAvaliacao} from "../../../../../../web/domain/entity/avaliaca
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {AvaliavelRepository} from "../../../../../../web/domain/repositories/avaliavel.repository";
 import {TdLoadingService} from "@covalent/core";
+import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/configuracao.repository";
 
 @Component({
   selector: 'selecionar-nota',
@@ -37,7 +38,7 @@ export class SelecionarNotaComponent implements OnInit {
    * @param {MobileService} mobileService
    * @param {ActivatedRoute} activatedRoute
    * @param _loadingService
-   * @param {ConfiguracaoService} configuracaoService
+   * @param {ConfiguracaoRepository} configuracaoRepository
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {AuthenticationService} authenticationService
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
@@ -45,9 +46,9 @@ export class SelecionarNotaComponent implements OnInit {
    * @param {DomSanitizer} domSanitizer
    */
   constructor(public activatedRoute: ActivatedRoute,
-              private configuracaoService: ConfiguracaoService,
               private avaliavelRepository: AvaliavelRepository,
               private authenticationService: AuthenticationService,
+              private configuracaoRepository: ConfiguracaoRepository,
               private _loadingService: TdLoadingService, private router: Router,
               public mobileService: MobileService, private snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
@@ -63,7 +64,7 @@ export class SelecionarNotaComponent implements OnInit {
     this._loadingService.register('overlayStarSyntax');
 
     // Requisita configuração.
-    this.configuracaoService.configuracao.subscribe(result => {
+    this.configuracaoRepository.requestConfiguracao.subscribe(result => {
       this.configuracao = result;
 
       // Requisita unidades.
@@ -96,7 +97,15 @@ export class SelecionarNotaComponent implements OnInit {
           // Pega a unidade filtrada pela ordem e pela unidade
           this.mobileService.getUnidadeTipoAvaliacaoByUnidadeAndOrdem(this.activatedRoute.snapshot.params['unidadeId'], (this.activatedRoute.queryParams as any).value.ordem)
             .subscribe(unidadeTipoAvaliacao => {
+              console.log('vaii');
               this.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+
+              this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
+              this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
+              this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
+              this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
+              this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
+
               this._loadingService.resolve('overlayStarSyntax')
             })
 
@@ -105,12 +114,6 @@ export class SelecionarNotaComponent implements OnInit {
       })
 
     });
-
-    this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
 
   }
 
