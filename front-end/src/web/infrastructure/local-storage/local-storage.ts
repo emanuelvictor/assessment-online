@@ -49,7 +49,7 @@ export class LocalStorage {
     return new Observable(observer => {
       const unidadesTiposAvaliacoes: UnidadeTipoAvaliacao[] = [];
 
-      if (!window.localStorage['unidadesTiposAvaliacoes.length']){
+      if (!window.localStorage['unidadesTiposAvaliacoes.length']) {
         observer.next(unidadesTiposAvaliacoes);
         observer.complete()
       }
@@ -68,7 +68,7 @@ export class LocalStorage {
 
           unidadesTiposAvaliacoes.push(unidadeTipoAvaliacaoResulted);
 
-          if (_i === (window.localStorage['unidadesTiposAvaliacoes.length'] - 1)) {
+          if (unidadesTiposAvaliacoes.length === +window.localStorage['unidadesTiposAvaliacoes.length']) {
             observer.next(unidadesTiposAvaliacoes);
             observer.complete()
           }
@@ -83,8 +83,9 @@ export class LocalStorage {
 
     this.removeUnidadesTiposAvaliacoes();
 
-    if (!unidadesTiposAvaliacoes.length)
+    if (!unidadesTiposAvaliacoes.length) {
       return;
+    }
 
     window.localStorage['unidadesTiposAvaliacoes.length'] = unidadesTiposAvaliacoes.length;
 
@@ -106,11 +107,10 @@ export class LocalStorage {
     return new Observable(observer => {
       const unidades: Unidade[] = [];
 
-      if (!window.localStorage['unidades.length']){
+      if (!window.localStorage['unidades.length']) {
         observer.next(unidades);
         observer.complete()
       }
-
 
       for (let _i = 0; _i < window.localStorage['unidades.length']; _i++) {
         const unidade: Unidade = new Unidade();
@@ -124,14 +124,14 @@ export class LocalStorage {
       for (let _i = 0; _i < unidades.length; _i++) {
 
         this.unidadeRepository.findById(unidades[_i].id).subscribe(unidade => {
-            unidadesReturn.push(unidade);
+          unidadesReturn.push(unidade);
 
-            if (_i === (unidades.length - 1)) {
-              observer.next(unidadesReturn);
-              observer.complete()
-            }
+          if (unidadesReturn.length === +window.localStorage['unidades.length']) {
+            observer.next(unidadesReturn);
+            observer.complete()
+          }
 
-          })
+        })
 
       }
     })
@@ -141,8 +141,9 @@ export class LocalStorage {
 
     this.removeUnidades();
 
-    if (!unidades.length)
+    if (!unidades.length) {
       return;
+    }
 
     window.localStorage['unidades.length'] = unidades.length;
 

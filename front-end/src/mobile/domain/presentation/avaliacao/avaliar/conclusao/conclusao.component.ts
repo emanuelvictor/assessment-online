@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/configuracao.repository";
 import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
@@ -22,11 +22,13 @@ export class ConclusaoComponent implements OnInit {
    *
    * @param {Router} router
    * @param mobileService
+   * @param activatedRoute
    * @param {TdLoadingService} _loadingService
    * @param {ConfiguracaoRepository} configuracaoRepository
    */
   constructor(private router: Router,
               private mobileService: MobileService,
+              private activatedRoute: ActivatedRoute,
               private _loadingService: TdLoadingService,
               private configuracaoRepository: ConfiguracaoRepository) {
   }
@@ -36,7 +38,7 @@ export class ConclusaoComponent implements OnInit {
    */
   ngOnInit() {
     this._loadingService.register('overlayStarSyntax');
-    this.configuracaoRepository.configuracao.subscribe(configuracao => {
+    this.configuracaoRepository.requestConfiguracao.subscribe(configuracao => {
       this.configuracao = configuracao;
       this._loadingService.resolve('overlayStarSyntax');
     });
@@ -44,7 +46,7 @@ export class ConclusaoComponent implements OnInit {
     setTimeout(() => {
       // Zera o agrupador
       this.mobileService.agrupador = new Agrupador();
-      this.router.navigate(['/avaliar/1']);
+      this.router.navigate(['/avaliar']);
     }, 5000);
   }
 

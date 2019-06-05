@@ -64,6 +64,7 @@ export class SelecionarAtendentesComponent implements OnInit {
    *
    */
   ngOnInit() {
+
     // Registra o loading
     this._loadingService.register('overlayStarSyntax');
 
@@ -88,50 +89,47 @@ export class SelecionarAtendentesComponent implements OnInit {
           }
 
           // Se não tem unidadeId, então retorna para seleção de unidade.
-          if (!(this.activatedRoute.queryParams as any).value || !(this.activatedRoute.queryParams as any).value.ordem) {
+          if (!this.activatedRoute.snapshot.params.ordem) {
             this.router.navigate(['configurar-unidades-e-avaliacoes']);
             this._loadingService.resolve('overlayStarSyntax');
             return;
           }
 
           // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
-          if (!this.activatedRoute.snapshot.params['unidadeId']) {
+          if (!this.activatedRoute.parent.snapshot.params['unidadeId']) {
             this.router.navigate(['selecionar-unidade']);
             this._loadingService.resolve('overlayStarSyntax');
             return;
           }
 
           // Pega a unidade filtrada pela ordem e pela unidade
-          this.mobileService.getUnidadeTipoAvaliacaoByUnidadeAndOrdem(this.activatedRoute.snapshot.params['unidadeId'], (this.activatedRoute.queryParams as any).value.ordem)
-            .subscribe(unidadeTipoAvaliacao => {
-              this.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+          this.unidadeTipoAvaliacao = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId)[0];
 
-              // Requisita os avaliáveis de acordo com o tipo de avaliação.
-              this.avaliavelRepository.listByFilters({ativo: true, unidadeTipoAvaliacaoId: this.unidadeTipoAvaliacao.id})
-                .subscribe(page => {
+          // Requisita os avaliáveis de acordo com o tipo de avaliação.
+          this.avaliavelRepository.listByFilters({ativo: true, unidadeTipoAvaliacaoId: this.unidadeTipoAvaliacao.id})
+            .subscribe(page => {
 
-                  this.avaliaveis = page.content;
-                  this._loadingService.resolve('overlayStarSyntax');
+              this.avaliaveis = page.content;
+              this._loadingService.resolve('overlayStarSyntax');
 
-                  // Se tem apenas um avaliável
-                  if (this.avaliaveis.length === 1) {
+              // Se tem apenas um avaliável
+              if (this.avaliaveis.length === 1) {
 
-                    // Seleciona o mesmo
-                    this.avaliaveis[0].selected = true;
-                    // Conclui a avaliação
-                    this.concluir();
+                // Seleciona o mesmo
+                this.avaliaveis[0].selected = true;
+                // Conclui a avaliação
+                this.concluir();
 
-                    // Se não tem avaliáveis, esta errado, pois deve ter avaliáveis.
-                  } else if (!this.avaliaveis.length) {
+                // Se não tem avaliáveis, esta errado, pois deve ter avaliáveis.
+              } else if (!this.avaliaveis.length) {
 
-                    // Então vai para a tela de erro para instruir o usuário
-                    this.router.navigate(['offline'])
-                  }
-                });
+                // Então vai para a tela de erro para instruir o usuário
+                this.router.navigate(['offline'])
+              }
             })
-        });
-      });
-    });
+        })
+      })
+    })
   }
 
   /**
@@ -140,7 +138,7 @@ export class SelecionarAtendentesComponent implements OnInit {
   public concluir() {
 
     // Adiciona os avaliáveis selecionados TODO mudar forma de inserir isso no mobile service
-    this.mobileService.avaliaveis = this.avaliaveis.filter( avaliavel => avaliavel.selected);
+    this.mobileService.avaliaveis = this.avaliaveis.filter(avaliavel => avaliavel.selected);
 
     // Se nenhum avaliável foi selecionado, exibe mensagem para seleção.
     if (this.mobileService.getAvaliaveis().length > 0) {
@@ -149,27 +147,27 @@ export class SelecionarAtendentesComponent implements OnInit {
       this.mobileService.enviarAvaliacao();
 
       // Se a quantidade de unidades tipos avaliações for diferente que a ordem, então as avaliações não chegaram no fim.
-      if (this.unidadesTiposAvaliacoes.length !== +(this.activatedRoute.queryParams as any).value.ordem) {
+      if (this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId).length !== +this.activatedRoute.snapshot.params.ordem) {
 
         // Incrementa a ordem, e vai para proxima avaliação
-        this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['unidadeId']) ], {queryParams: {ordem: (this.activatedRoute.queryParams as any).value.ordem + 1}});
+        this.router.navigate(['avaliar/' + (+this.activatedRoute.parent.snapshot.params['unidadeId']) + '/' + (Number(this.activatedRoute.snapshot.params.ordem) + 1)]);
 
-      // Se a quantidade de unidades tipos avaliações for igual a ordem, então....
+        // Se a quantidade de unidades tipos avaliações for igual a ordem, então....
       } else {
 
         // Se o sistema foi configurado para exigir feedback
         if (this.configuracao.feedback) {
 
           // Vai para feedback
-          this.router.navigate(['feedback']);
+          this.router.navigate(['avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/feedback']);
         } else {
 
           // Senão, conclui e agradece
-          this.router.navigate(['conclusao']);
+          this.router.navigate(['avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/conclusao'])
         }
       }
     } else {
-      this.snackBar.open('Selecione ao menos um atendente', 'Fechar', this.mobileService.getSnackBarConfig());
+      this.snackBar.open('Selecione ao menos um atendente', 'Fechar', this.mobileService.getSnackBarConfig())
     }
   }
 

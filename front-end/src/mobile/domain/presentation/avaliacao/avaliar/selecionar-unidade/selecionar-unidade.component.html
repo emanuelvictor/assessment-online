@@ -13,7 +13,7 @@
         <mat-grid-tile style='border: 3px solid aliceblue; border-radius: 5px;'
                        (click)='unidade.selected = !unidade.selected; proximo(unidade);'
                        [ngStyle]="{'background-color': (unidade.selected ? 'lightblue' : '')}"
-                       *ngFor='let unidade of unidades' mat-ripple [colspan]='1' [rowspan]='2'>
+                       *ngFor="let unidade of unidades | orderBy: 'nome'" mat-ripple [colspan]='1' [rowspan]='2'>
           <div layout='column' layout-align='center center'>
             <div style='text-align: center; text-align: -webkit-center; padding: 10px; font-size: x-large'
                 [ngClass]="{'broken-line': configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === true, 'text-truncate': configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === false}">

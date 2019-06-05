@@ -183,7 +183,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
         // TODO procedimento funcionado assíncrono, inserindo os hashs assíncronamente com a mudança de tela.
         this.setHashsByUnidade(unidadess[i]);
         if (i === unidadess.length - 1) {
-          this.router.navigate(['selecionar-unidade']);
+          this.router.navigate(['avaliar']);
           this._loadingService.resolve('overlayStarSyntax');
         }
       }

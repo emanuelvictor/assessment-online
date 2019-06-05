@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Configuracao} from "../../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {MobileService} from "../../../../../service/mobile.service";
-import {ConfiguracaoService} from "../../../../../../../web/domain/service/configuracao.service";
 import {AuthenticationService} from "../../../../../../../web/domain/service/authentication.service";
 import {MatIconRegistry, MatSnackBar} from "@angular/material";
 import {DomSanitizer} from "@angular/platform-browser";
@@ -30,6 +29,11 @@ export class SelecionarNotaComponent implements OnInit {
    * @type {UnidadeTipoAvaliacao}
    */
   unidadeTipoAvaliacao: UnidadeTipoAvaliacao = null;
+
+  /**
+   *
+   */
+  unidadesTiposAvaliacoes: any;
 
   /**
    *
@@ -73,6 +77,8 @@ export class SelecionarNotaComponent implements OnInit {
         // Requisita unidadesTiposAvaliacoes.
         this.mobileService.unidadesTiposAvaliacoes.subscribe(unidadesTiposAvaliacoes => {
 
+          this.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
+
           // Se não tem unidades selecionadas vai para tela de selação de unidades
           if (!unidades || !unidades.length || !unidadesTiposAvaliacoes || !unidadesTiposAvaliacoes.length) {
             this.router.navigate(['configurar-unidades-e-avaliacoes']);
@@ -81,39 +87,37 @@ export class SelecionarNotaComponent implements OnInit {
           }
 
           // Se não tem unidadeId, então retorna para seleção de unidade.
-          if (!(this.activatedRoute.queryParams as any).value || !(this.activatedRoute.queryParams as any).value.ordem) {
+          if (!this.activatedRoute.snapshot.params.ordem) {
             this.router.navigate(['configurar-unidades-e-avaliacoes']);
             this._loadingService.resolve('overlayStarSyntax');
             return;
           }
 
           // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
-          if (!this.activatedRoute.snapshot.params['unidadeId']) {
+          if (!this.activatedRoute.parent.snapshot.params.unidadeId) {
             this.router.navigate(['selecionar-unidade']);
             this._loadingService.resolve('overlayStarSyntax');
             return;
           }
 
+          // console.log(this.unidadesTiposAvaliacoes);
           // Pega a unidade filtrada pela ordem e pela unidade
-          this.mobileService.getUnidadeTipoAvaliacaoByUnidadeAndOrdem(this.activatedRoute.snapshot.params['unidadeId'], (this.activatedRoute.queryParams as any).value.ordem)
-            .subscribe(unidadeTipoAvaliacao => {
-              console.log('vaii');
-              this.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+          this.unidadeTipoAvaliacao = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId)[0];
+          // console.log(this.unidadeTipoAvaliacao);
 
-              this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
-              this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
-              this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
-              this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
-              this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
+          this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
+          this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
+          this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
+          this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
+          this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
 
-              this._loadingService.resolve('overlayStarSyntax')
-            })
+          this._loadingService.resolve('overlayStarSyntax')
 
         })
 
       })
 
-    });
+    })
 
   }
 
@@ -126,7 +130,7 @@ export class SelecionarNotaComponent implements OnInit {
 
     this.mobileService.setNota(nota);
 
-    this.router.navigate(['avaliar/' + (+this.activatedRoute.snapshot.params['unidadeId']) + '/selecionar-atendentes'], {queryParams: {ordem: (this.activatedRoute.queryParams as any).value.ordem}});
+    this.router.navigate(['avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/selecionar-atendentes']);
 
   }
 

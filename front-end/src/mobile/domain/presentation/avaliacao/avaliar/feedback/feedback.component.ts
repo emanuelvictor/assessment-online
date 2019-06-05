@@ -72,6 +72,9 @@ export class FeedbackComponent implements OnInit {
    */
   ngOnInit() {
 
+    // Registra o loading.
+    this._loadingService.register('overlayStarSyntax');
+
     this.modelChanged.debounceTime(300)
       .subscribe(() =>
         this.restartTimeout()
@@ -81,9 +84,7 @@ export class FeedbackComponent implements OnInit {
       feedback: ['feedback', []],
     });
 
-    this._loadingService.register('overlayStarSyntax');
-
-    this.configuracaoRepository.configuracao.subscribe(configuracao => {
+    this.configuracaoRepository.requestConfiguracao.subscribe(configuracao => {
       this._loadingService.resolve('overlayStarSyntax');
       this.configuracao = configuracao
     });
@@ -107,7 +108,7 @@ export class FeedbackComponent implements OnInit {
         // Zera o agrupador
         this.mobileService.agrupador = new Agrupador();
         this.router.navigate(['conclusao'])
-      });
+      })
     } else {
       // Zera o agrupador
       this.mobileService.agrupador = new Agrupador();
