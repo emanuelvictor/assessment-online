@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {ConfiguracaoRepository} from "../../../../../web/domain/repositories/configuracao.repository";
-import {Configuracao} from "../../../../../web/domain/entity/configuracao/configuracao.model";
+import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/configuracao.repository";
+import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
-import {Agrupador} from "../../../../../web/domain/entity/avaliacao/agrupador.model";
-import {MobileService} from "../../../service/mobile.service";
+import {Agrupador} from "../../../../../../web/domain/entity/avaliacao/agrupador.model";
+import {MobileService} from "../../../../service/mobile.service";
 
 @Component({
   selector: 'app-conclusao',

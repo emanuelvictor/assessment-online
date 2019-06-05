@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
-import {MobileService} from "../../../../service/mobile.service";
-import {ConfiguracaoService} from "../../../../../../web/domain/service/configuracao.service";
-import {AuthenticationService} from "../../../../../../web/domain/service/authentication.service";
+import {Configuracao} from "../../../../../../../web/domain/entity/configuracao/configuracao.model";
+import {MobileService} from "../../../../../service/mobile.service";
+import {ConfiguracaoService} from "../../../../../../../web/domain/service/configuracao.service";
+import {AuthenticationService} from "../../../../../../../web/domain/service/authentication.service";
 import {MatIconRegistry, MatSnackBar} from "@angular/material";
 import {DomSanitizer} from "@angular/platform-browser";
-import {UnidadeTipoAvaliacao} from "../../../../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
-import {AvaliavelRepository} from "../../../../../../web/domain/repositories/avaliavel.repository";
+import {UnidadeTipoAvaliacao} from "../../../../../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
+import {AvaliavelRepository} from "../../../../../../../web/domain/repositories/avaliavel.repository";
 import {TdLoadingService} from "@covalent/core";
-import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/configuracao.repository";
+import {ConfiguracaoRepository} from "../../../../../../../web/domain/repositories/configuracao.repository";
 
 @Component({
   selector: 'selecionar-nota',

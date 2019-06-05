@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
-import {MobileService} from "../../../../service/mobile.service";
-import {AvaliavelRepository} from "../../../../../../web/domain/repositories/avaliavel.repository";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
+import {MobileService} from "../../../../../service/mobile.service";
+import {AvaliavelRepository} from "../../../../../../../web/domain/repositories/avaliavel.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {TdLoadingService} from "@covalent/core";
-import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/configuracao.repository";
-import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
-import {ConfiguracaoService} from "../../../../../../web/domain/service/configuracao.service";
+import {ConfiguracaoRepository} from "../../../../../../../web/domain/repositories/configuracao.repository";
+import {Configuracao} from "../../../../../../../web/domain/entity/configuracao/configuracao.model";
+import {ConfiguracaoService} from "../../../../../../../web/domain/service/configuracao.service";
 
 @Component({
   selector: 'selecionar-atendentes',

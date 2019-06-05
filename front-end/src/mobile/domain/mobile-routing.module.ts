@@ -1,17 +1,17 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from "../../web/domain/presentation/login/login.component";
-import {ConclusaoComponent} from "./presentation/avaliacao/conclusao/conclusao.component";
+import {ConclusaoComponent} from "./presentation/avaliacao/avaliar/conclusao/conclusao.component";
 import {AvaliarComponent} from "./presentation/avaliacao/avaliar/avaliar.component";
 import {AvaliacaoComponent} from "./presentation/avaliacao/avaliacao.component";
 import {AuthenticationService} from "../../web/domain/service/authentication.service";
-import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component";
 import {OfflineComponent} from "./presentation/avaliacao/offline/offline.component";
-import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-atendentes/selecionar-atendentes.component";
-import {FeedbackComponent} from "./presentation/avaliacao/feedback/feedback.component";
+import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-nota-e-avaliaveis/selecionar-atendentes/selecionar-atendentes.component";
+import {FeedbackComponent} from "./presentation/avaliacao/avaliar/feedback/feedback.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component";
-import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/selecionar-nota/selecionar-nota.component";
+import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/selecionar-nota-e-avaliaveis/selecionar-nota/selecionar-nota.component";
+import {SelecionarNotaEAvaliaveisComponent} from "./presentation/avaliacao/avaliar/selecionar-nota-e-avaliaveis/selecionar-nota-e-avaliaveis.component";
 
 
 const routes: Routes = [
@@ -21,17 +21,21 @@ const routes: Routes = [
     path: '', component: AvaliacaoComponent, canActivate: [AuthenticationService],
     children: [
       {path: 'configurar-unidades-e-avaliacoes', component: ConfigurarUnidadesEAvaliacoesComponent},
-      {path: 'selecionar-unidade', component: SelecionarUnidadeComponent},
       {
         path: 'avaliar', component: AvaliarComponent,
         children: [
-          {path: ':unidadeId', component: SelecionarNotaComponent},
-          {path: ':unidadeId/selecionar-atendentes', component: SelecionarAtendentesComponent},
+          {path: '', component: SelecionarUnidadeComponent},
+          {
+            path: ':unidadeId', component: SelecionarNotaEAvaliaveisComponent,
+            children: [
+              {path: ':ordem', component: SelecionarNotaComponent},
+              {path: ':ordem/selecionar-atendentes', component: SelecionarAtendentesComponent},
+            ]
+          },
+          {path: 'feedback', component: FeedbackComponent},
+          {path: 'conclusao', component: ConclusaoComponent},
         ]
       },
-      {path: 'feedback', component: FeedbackComponent},
-      {path: 'conclusao', component: ConclusaoComponent},
-      {path: 'logout', component: LogoutComponent},
     ]
   },
   {path: 'offline', component: OfflineComponent}

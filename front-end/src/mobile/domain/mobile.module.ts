@@ -14,7 +14,7 @@ import {UsuarioService} from '../../web/domain/service/usuario.service';
 import {UnidadeService} from '../../web/domain/service/unidade.service';
 import {AvaliarComponent} from './presentation/avaliacao/avaliar/avaliar.component';
 import {AvaliacaoComponent} from './presentation/avaliacao/avaliacao.component';
-import {ConclusaoComponent} from './presentation/avaliacao/conclusao/conclusao.component';
+import {ConclusaoComponent} from './presentation/avaliacao/avaliar/conclusao/conclusao.component';
 import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
 import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
 import {MatGridListModule} from '@angular/material/grid-list';
@@ -31,20 +31,20 @@ import {MobileService} from "./service/mobile.service";
 import {MobileLoginComponent} from './presentation/login/web-login/mobile-login.component';
 import {ConfiguracaoRepository} from "../../web/domain/repositories/configuracao.repository";
 import {ConfiguracaoService} from "../../web/domain/service/configuracao.service";
-import {LogoutComponent} from "./presentation/avaliacao/logout/logout.component";
 import {LocalStorage} from "../../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import localePt from "@angular/common/locales/pt";
 import {OperadorRepository} from "../../web/domain/repositories/operador.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {OrderModule} from "ngx-order-pipe";
-import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-atendentes/selecionar-atendentes.component";
+import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-nota-e-avaliaveis/selecionar-atendentes/selecionar-atendentes.component";
 import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repository";
 import {Interceptor} from "../../web/application/interceptor/interceptor";
-import {FeedbackComponent} from "./presentation/avaliacao/feedback/feedback.component";
+import {FeedbackComponent} from "./presentation/avaliacao/avaliar/feedback/feedback.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component";
-import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/selecionar-nota/selecionar-nota.component";
+import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/selecionar-nota-e-avaliaveis/selecionar-nota/selecionar-nota.component";
+import {SelecionarNotaEAvaliaveisComponent} from "./presentation/avaliacao/avaliar/selecionar-nota-e-avaliaveis/selecionar-nota-e-avaliaveis.component";
 
 /**
  *
@@ -52,7 +52,6 @@ import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/selecion
 @NgModule({
   declarations: [
 
-    LogoutComponent,
     MobileComponent,
     AvaliarComponent,
     ConclusaoComponent,
@@ -60,6 +59,7 @@ import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/selecion
     SelecionarUnidadeComponent,
     SelecionarNotaComponent,
     SelecionarAtendentesComponent,
+    SelecionarNotaEAvaliaveisComponent,
     ConfigurarUnidadesEAvaliacoesComponent,
     FeedbackComponent,
     // Authentication
