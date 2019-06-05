@@ -3,7 +3,6 @@ import {TOKEN_NAME} from "../../domain/presentation/controls/utils";
 import {UnidadeTipoAvaliacao} from "../../domain/entity/avaliacao/unidade-tipo-avaliacao.model";
 import {Unidade} from "../../domain/entity/unidade/unidade.model";
 import {UnidadeRepository} from "../../domain/repositories/unidade.repository";
-import {Observable} from "rxjs";
 import {UnidadeTipoAvaliacaoRepository} from "../../domain/repositories/unidade-tipo-avaliacao.repository";
 
 @Injectable()
@@ -11,7 +10,6 @@ export class LocalStorage {
 
   constructor(private unidadeRepository: UnidadeRepository,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
-
   }
 
   get token() {
@@ -44,42 +42,7 @@ export class LocalStorage {
 
   }
 
-  get unidadesTiposAvaliacoes(): any {
-
-    return new Observable(observer => {
-      const unidadesTiposAvaliacoes: UnidadeTipoAvaliacao[] = [];
-
-      if (!window.localStorage['unidadesTiposAvaliacoes.length']) {
-        observer.next(unidadesTiposAvaliacoes);
-        observer.complete()
-      }
-
-      for (let _i = 0; _i < window.localStorage['unidadesTiposAvaliacoes.length']; _i++) {
-        const unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
-
-        unidadeTipoAvaliacao.id = window.localStorage['unidadeTipoAvaliacao' + (_i)]
-          .substring(0, window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('='));
-
-        unidadeTipoAvaliacao.ordem = window.localStorage['unidadeTipoAvaliacao' + (_i)]
-          .substring(window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('=') + 1, window.localStorage['unidadeTipoAvaliacao' + _i].length);
-
-        this.unidadeTipoAvaliacaoRepository.findById(unidadeTipoAvaliacao.id).subscribe(unidadeTipoAvaliacaoResulted => {
-          unidadeTipoAvaliacaoResulted.ordem = unidadeTipoAvaliacao.ordem;
-
-          unidadesTiposAvaliacoes.push(unidadeTipoAvaliacaoResulted);
-
-          if (unidadesTiposAvaliacoes.length === +window.localStorage['unidadesTiposAvaliacoes.length']) {
-            observer.next(unidadesTiposAvaliacoes);
-            observer.complete()
-          }
-
-        });
-
-      }
-    })
-  }
-
-  set unidadesTiposAvaliacoes(unidadesTiposAvaliacoes: any) {
+  set unidadesTiposAvaliacoes(unidadesTiposAvaliacoes: UnidadeTipoAvaliacao[]) {
 
     this.removeUnidadesTiposAvaliacoes();
 
@@ -90,9 +53,31 @@ export class LocalStorage {
     window.localStorage['unidadesTiposAvaliacoes.length'] = unidadesTiposAvaliacoes.length;
 
     for (let _i = 0; _i < unidadesTiposAvaliacoes.length; _i++) {
-      window.localStorage['unidadeTipoAvaliacao' + (_i)] = unidadesTiposAvaliacoes[_i].id + '=' + unidadesTiposAvaliacoes[_i].ordem /*+ '=' + unidadesTiposAvaliacoes[_i].unidade.id*/;
+      window.localStorage['unidadeTipoAvaliacao' + (_i)] = unidadesTiposAvaliacoes[_i].id + '=' + unidadesTiposAvaliacoes[_i].ordem;
+    }
+  }
+
+  get unidadesTiposAvaliacoes(): UnidadeTipoAvaliacao[] {
+
+    const unidadesTiposAvaliacoes: UnidadeTipoAvaliacao[] = [];
+
+    if (!window.localStorage['unidadesTiposAvaliacoes.length']) {
+      return unidadesTiposAvaliacoes
     }
 
+    for (let _i = 0; _i < window.localStorage['unidadesTiposAvaliacoes.length']; _i++) {
+      const unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
+
+      unidadeTipoAvaliacao.id = window.localStorage['unidadeTipoAvaliacao' + (_i)].substring(0, window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('='));
+
+      unidadeTipoAvaliacao.ordem = window.localStorage['unidadeTipoAvaliacao' + (_i)].substring(window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('=') + 1, window.localStorage['unidadeTipoAvaliacao' + _i].length);
+
+      unidadesTiposAvaliacoes.push(unidadeTipoAvaliacao);
+
+      if (unidadesTiposAvaliacoes.length === +window.localStorage['unidadesTiposAvaliacoes.length']) {
+        return unidadesTiposAvaliacoes
+      }
+    }
   }
 
   removeUnidadesTiposAvaliacoes() {
@@ -103,13 +88,84 @@ export class LocalStorage {
     window.localStorage.removeItem('unidadesTiposAvaliacoes.length');
   }
 
-  get unidades(): any {
-    return new Observable(observer => {
+  requestUnidadesTiposAvaliacoes(): Promise<UnidadeTipoAvaliacao[]> {
+
+    return new Promise((resolve) => {
+      const unidadesTiposAvaliacoes: UnidadeTipoAvaliacao[] = [];
+
+      if (!window.localStorage['unidadesTiposAvaliacoes.length']) {
+        resolve(unidadesTiposAvaliacoes);
+      }
+
+      for (let _i = 0; _i < window.localStorage['unidadesTiposAvaliacoes.length']; _i++) {
+        const unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
+
+        unidadeTipoAvaliacao.id = window.localStorage['unidadeTipoAvaliacao' + (_i)].substring(0, window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('='));
+
+        unidadeTipoAvaliacao.ordem = window.localStorage['unidadeTipoAvaliacao' + (_i)].substring(window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('=') + 1, window.localStorage['unidadeTipoAvaliacao' + _i].length);
+
+        this.unidadeTipoAvaliacaoRepository.findById(unidadeTipoAvaliacao.id).subscribe(unidadeTipoAvaliacaoResulted => {
+          unidadeTipoAvaliacaoResulted.ordem = unidadeTipoAvaliacao.ordem;
+
+          unidadesTiposAvaliacoes.push(unidadeTipoAvaliacaoResulted);
+
+          if (unidadesTiposAvaliacoes.length === +window.localStorage['unidadesTiposAvaliacoes.length']) {
+            resolve(unidadesTiposAvaliacoes);
+          }
+        })
+      }
+    })
+  }
+
+  set unidades(unidades: Unidade[]) {
+
+    this.removeUnidades();
+
+    if (!unidades.length) {
+      return;
+    }
+
+    window.localStorage['unidades.length'] = unidades.length;
+
+    for (let _i = 0; _i < unidades.length; _i++) {
+      window.localStorage['unidade=' + (_i)] = unidades[_i].id;
+    }
+  }
+
+  get unidades(): Unidade[] {
+    const unidades: Unidade[] = [];
+
+    if (!window.localStorage['unidades.length']) {
+      return unidades;
+    }
+
+    for (let _i = 0; _i < window.localStorage['unidades.length']; _i++) {
+      const unidade: Unidade = new Unidade();
+
+      unidade.id = window.localStorage['unidade=' + (_i)];
+
+      unidades.push(unidade);
+
+      if (unidades.length === +window.localStorage['unidades.length']) {
+        return unidades
+      }
+    }
+  }
+
+  removeUnidades() {
+    for (let _i = 0; _i < window.localStorage['unidades.length']; _i++) {
+      window.localStorage.removeItem('unidade=' + _i.toString());
+    }
+
+    window.localStorage.removeItem('unidades.length');
+  }
+
+  requestUnidades(): Promise<Unidade[]> {
+    return new Promise((resolve) => {
       const unidades: Unidade[] = [];
 
       if (!window.localStorage['unidades.length']) {
-        observer.next(unidades);
-        observer.complete()
+        resolve(unidades);
       }
 
       for (let _i = 0; _i < window.localStorage['unidades.length']; _i++) {
@@ -127,37 +183,13 @@ export class LocalStorage {
           unidadesReturn.push(unidade);
 
           if (unidadesReturn.length === +window.localStorage['unidades.length']) {
-            observer.next(unidadesReturn);
-            observer.complete()
+            resolve(unidadesReturn);
           }
 
         })
 
       }
     })
-  }
-
-  set unidades(unidades: any) {
-
-    this.removeUnidades();
-
-    if (!unidades.length) {
-      return;
-    }
-
-    window.localStorage['unidades.length'] = unidades.length;
-
-    for (let _i = 0; _i < unidades.length; _i++) {
-      window.localStorage['unidade=' + (_i)] = unidades[_i].id;
-    }
-  }
-
-  removeUnidades() {
-    for (let _i = 0; _i < window.localStorage['unidades.length']; _i++) {
-      window.localStorage.removeItem('unidade=' + _i.toString());
-    }
-
-    window.localStorage.removeItem('unidades.length');
   }
 
   removeToken() {

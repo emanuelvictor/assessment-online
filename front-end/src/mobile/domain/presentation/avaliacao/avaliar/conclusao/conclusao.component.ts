@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/configuracao.repository";
 import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
-import {Agrupador} from "../../../../../../web/domain/entity/avaliacao/agrupador.model";
 import {MobileService} from "../../../../service/mobile.service";
 
 @Component({
@@ -26,11 +25,10 @@ export class ConclusaoComponent implements OnInit {
    * @param {TdLoadingService} _loadingService
    * @param {ConfiguracaoRepository} configuracaoRepository
    */
-  constructor(private router: Router,
-              private mobileService: MobileService,
-              private activatedRoute: ActivatedRoute,
+  constructor(private activatedRoute: ActivatedRoute,
               private _loadingService: TdLoadingService,
-              private configuracaoRepository: ConfiguracaoRepository) {
+              private configuracaoRepository: ConfiguracaoRepository,
+              private router: Router, private mobileService: MobileService) {
   }
 
   /**
@@ -43,11 +41,11 @@ export class ConclusaoComponent implements OnInit {
       this._loadingService.resolve('overlayStarSyntax');
     });
 
-    setTimeout(() => {
-      // Zera o agrupador
-      this.mobileService.agrupador = new Agrupador();
-      this.router.navigate(['/avaliar']);
-    }, 5000);
+    // setTimeout(() => {
+    //   // Zera o agrupador
+    //   this.mobileService.agrupador = new Agrupador();
+    //   this.router.navigate(['/avaliar']);
+    // }, 5000);
   }
 
 }

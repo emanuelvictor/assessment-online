@@ -178,7 +178,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
     this.mobileService.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
     this.mobileService.unidades = unidades.filter(unidade => unidade.checked);
-    this.mobileService.unidades.subscribe(unidadess => {
+    this.mobileService.requestUnidades().then(unidadess => {
       for (let i = 0; i < unidadess.length; i++) {
         // TODO procedimento funcionado assíncrono, inserindo os hashs assíncronamente com a mudança de tela.
         this.setHashsByUnidade(unidadess[i]);

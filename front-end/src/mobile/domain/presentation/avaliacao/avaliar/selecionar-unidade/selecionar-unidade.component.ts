@@ -52,7 +52,7 @@ export class SelecionarUnidadeComponent implements OnInit {
       this.configuracao = configuracao;
 
       // Pega  configuração.
-      this.mobileService.unidades.subscribe(unidades => {
+      this.mobileService.requestUnidades().then(unidades => {
         this.unidades = unidades;
 
         // Se não tem unidades selecionadas, vai para tela de seleção de unidades

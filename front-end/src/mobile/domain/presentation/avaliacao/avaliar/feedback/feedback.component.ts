@@ -56,15 +56,12 @@ export class FeedbackComponent implements OnInit {
    * @param configuracaoRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
-  constructor(private router: Router,
-              private fb: FormBuilder,
-              private snackBar: MatSnackBar,
-              public mobileService: MobileService,
-              public activatedRoute: ActivatedRoute,
-              private _loadingService: TdLoadingService,
+  constructor(private _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
               private configuracaoRepository: ConfiguracaoRepository,
-              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
+              public mobileService: MobileService, public activatedRoute: ActivatedRoute,
+              private router: Router, private fb: FormBuilder, private snackBar: MatSnackBar) {
   }
 
   /**
@@ -75,13 +72,10 @@ export class FeedbackComponent implements OnInit {
     // Registra o loading.
     this._loadingService.register('overlayStarSyntax');
 
-    this.modelChanged.debounceTime(300)
-      .subscribe(() =>
-        this.restartTimeout()
-      );
+    this.modelChanged.debounceTime(300).subscribe(() => this.restartTimeout());
 
     this.form = this.fb.group({
-      feedback: ['feedback', []],
+      feedback: ['feedback', []]
     });
 
     this.configuracaoRepository.requestConfiguracao.subscribe(configuracao => {
@@ -94,8 +88,8 @@ export class FeedbackComponent implements OnInit {
       this.mobileService.agrupador = new Agrupador();
       this.mobileService.reset();
       this.router.navigate(['/avaliar/1']);
-      this._loadingService.resolve('overlayStarSyntax');
-    }, this.time);
+      this._loadingService.resolve('overlayStarSyntax')
+    }, this.time)
   }
 
   /**
@@ -125,8 +119,8 @@ export class FeedbackComponent implements OnInit {
       // Zera o agrupador
       this.mobileService.agrupador = new Agrupador();
       this.mobileService.reset();
-      this.router.navigate(['/avaliar/1']);
-    }, this.time);
+      this.router.navigate(['/avaliar/1'])
+    }, this.time)
   }
 
   /**
@@ -136,6 +130,6 @@ export class FeedbackComponent implements OnInit {
   public openSnackBar(message: string) {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
-    });
+    })
   }
 }

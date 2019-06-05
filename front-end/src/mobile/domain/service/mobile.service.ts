@@ -12,6 +12,7 @@ import {LocalStorage} from "../../../web/infrastructure/local-storage/local-stor
 import {Avaliavel} from "../../../web/domain/entity/usuario/vinculo/avaliavel.model";
 import {Agrupador} from "../../../web/domain/entity/avaliacao/agrupador.model";
 import {Observable} from "rxjs";
+import {UnidadeTipoAvaliacao} from "../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -60,34 +61,74 @@ export class MobileService {
      * Pega a key da _unidade do localStorage
      * @type {string}
      */
-    this.localStorage.unidades.subscribe(unidades => this._unidades = unidades);
-
-    // /**
-    //  * Popula restante dos dados da _unidade,
-    //  * Desta forma as avaliacoes da _unidade não ficam zeradas
-    //  */
-    // this.loadUnidade(this._unidade.id);
+    this.localStorage.requestUnidades().then(unidades => this._unidades = unidades);
 
     /**
      * Seta a duração default da snackbar
      * @type {number}
      */
-    this.mdSnackBarConfig.duration = 5000;
+    this.mdSnackBarConfig.duration = 5000
   }
+
+  /**
+   *
+   * @param avaliaveis
+   */
+  public set avaliaveis(avaliaveis: Avaliavel[]) {
+    this._avaliaveis = avaliaveis
+  }
+
+  /**
+   *
+   */
+  public get avaliaveis(): Avaliavel[] {
+    return this._avaliaveis
+  }
+
 
   /**
    * @returns {any}
    */
-  get unidadesTiposAvaliacoes(): any {
-    return this.localStorage.unidadesTiposAvaliacoes;
+  get unidadesTiposAvaliacoes(): UnidadeTipoAvaliacao[] {
+    return this.localStorage.unidadesTiposAvaliacoes
   }
 
   /**
    *
    * @param unidadesTiposAvaliacoes
    */
-  set unidadesTiposAvaliacoes(unidadesTiposAvaliacoes: any) {
+  set unidadesTiposAvaliacoes(unidadesTiposAvaliacoes: UnidadeTipoAvaliacao[]) {
     this.localStorage.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes
+  }
+
+  /**
+   *
+   */
+  public requestUnidadesTiposAvaliacoes(): Promise<UnidadeTipoAvaliacao[]> {
+    return this.localStorage.requestUnidadesTiposAvaliacoes()
+  }
+
+  /**
+   *
+   * @returns {Unidade[]}
+   */
+  get unidades(): any {
+    return this.localStorage.unidades
+  }
+
+  /**
+   *
+   * @param {Unidade} unidades
+   */
+  set unidades(unidades: any) {
+    this.localStorage.unidades = unidades;
+  }
+
+  /**
+   *
+   */
+  public requestUnidades(): Promise<Unidade[]>{
+    return this.localStorage.requestUnidades()
   }
 
   /**
@@ -102,23 +143,8 @@ export class MobileService {
    *
    * @param nota
    */
-  public setNota(nota) {
+  public set nota(nota) {
     this.avaliacao.nota = nota;
-  }
-
-  /**
-   *
-   * @param avaliaveis
-   */
-  public set avaliaveis(avaliaveis) {
-    this._avaliaveis = avaliaveis;
-  }
-
-  /**
-   *
-   */
-  public get avaliaveis(): any {
-    return this._avaliaveis;
   }
 
   /**
@@ -162,21 +188,6 @@ export class MobileService {
       this.avaliacao.avaliacoesAvaliaveis.push(avaliacaoAvaliavel);
     });
 
-    /**
-     * Popula nota da _unidade
-     */
-    if (this.avaliacao.nota === 1) {
-      this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes1 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes1 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes1 + 1 : 1;
-    } else if (this.avaliacao.nota === 2) {
-      this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes2 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes2 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes2 + 1 : 1;
-    } else if (this.avaliacao.nota === 3) {
-      this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes3 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes3 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes3 + 1 : 1;
-    } else if (this.avaliacao.nota === 4) {
-      this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes4 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes4 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes4 + 1 : 1;
-    } else {
-      this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes5 = this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes5 != null ? this.avaliaveis[0].unidadeTipoAvaliacao.unidade.avaliacoes5 + 1 : 1;
-    }
-
     this.avaliacao.agrupador = this.agrupador && this.agrupador.id ? this.agrupador : new Agrupador();
 
     /**
@@ -192,38 +203,6 @@ export class MobileService {
          */
         this.reset();
       });
-  }
-
-  /**
-   *
-   * @returns {Array}
-   */
-  getAvaliaveis() {
-    return this.avaliaveis;
-  }
-
-  /**
-   *
-   * @returns {Unidade[]}
-   */
-  get unidades(): any {
-    return this.localStorage.unidades
-  }
-
-  /**
-   *
-   * @param {Unidade} unidades
-   */
-  set unidades(unidades: any) {
-    this.localStorage.unidades = unidades;
-  }
-
-  /**
-   *
-   */
-  removeUnidades() {
-    this._unidades = [];
-    this.localStorage.removeUnidades();
   }
 
   /**
@@ -249,36 +228,36 @@ export class MobileService {
     });
   }
 
-  /**
-   *
-   * @param {string} ordem
-   * @param {number} unidadeId
-   * @returns {any}
-   */
-  public getUnidadeTipoAvaliacaoByUnidadeAndOrdem(unidadeId: number, ordem: string): Observable<any> {
-    return new Observable(observer => {
-      this.unidadesTiposAvaliacoes.subscribe(unidadesTiposAvaliacoes => {
-
-        if (!ordem && !unidadesTiposAvaliacoes.length) {
-          observer.next([]);
-          observer.complete()
-        }
-
-        unidadesTiposAvaliacoes = unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => {
-          return unidadeTipoAvaliacao.ordem === ordem && unidadeTipoAvaliacao.unidade.id.toString() === unidadeId
-        });
-
-        if (!unidadesTiposAvaliacoes.length) {
-          observer.next([]);
-          observer.complete()
-        }
-
-        observer.next(unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === ordem)[0]);
-        observer.complete()
-
-      })
-    })
-  }
+  // /**
+  //  *
+  //  * @param {string} ordem
+  //  * @param {number} unidadeId
+  //  * @returns {any}
+  //  */
+  // public getUnidadeTipoAvaliacaoByUnidadeAndOrdem(unidadeId: number, ordem: string): Observable<any> {
+  //   return new Observable(observer => {
+  //     this.unidadesTiposAvaliacoes.subscribe(unidadesTiposAvaliacoes => {
+  //
+  //       if (!ordem && !unidadesTiposAvaliacoes.length) {
+  //         observer.next([]);
+  //         observer.complete()
+  //       }
+  //
+  //       unidadesTiposAvaliacoes = unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => {
+  //         return unidadeTipoAvaliacao.ordem === ordem && unidadeTipoAvaliacao.unidade.id.toString() === unidadeId
+  //       });
+  //
+  //       if (!unidadesTiposAvaliacoes.length) {
+  //         observer.next([]);
+  //         observer.complete()
+  //       }
+  //
+  //       observer.next(unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === ordem)[0]);
+  //       observer.complete()
+  //
+  //     })
+  //   })
+  // }
 
   /**
    *
