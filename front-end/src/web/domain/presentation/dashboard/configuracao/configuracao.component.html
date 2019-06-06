@@ -165,31 +165,60 @@
                       </div>
 
                       <div layout='row' flex>
-                        <mat-checkbox [ngModelOptions]='{standalone: true}'
-                                      style='padding: 15px; padding-left: 0'
-                                      [(ngModel)]='configuracao.feedback' flex
-                                      name='feedback' flex-xl='30' flex-lg='40'>
-                          Solicitar feedback
-                        </mat-checkbox>
-
-                        <mat-form-field *ngIf='configuracao.feedback' flex style='margin-top: -3px'>
-                          <input formControlName='feedbackEnunciado' matInput
-                                 [(ngModel)]='configuracao.feedbackEnunciado'
-                                 name='feedbackEnunciado' id='feedbackEnunciado'
-                                 placeholder='Enunciado para o feedback' maxlength='144'>
-                          <mat-error>
-                            Campo obrigatório
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-
-                      <div layout='row' flex>
                         <mat-checkbox flex-xl='30' flex-lg='40' flex
                                       [ngModelOptions]='{standalone: true}'
                                       style='padding: 15px; padding-left: 0'
                                       [(ngModel)]='configuracao.quebrarLinhaNaSelecaoDeItenAvaliavel'>
                           Quebrar linha durante a seleção de ítens avaliáveis (no aplicativo móvel).
                         </mat-checkbox>
+                      </div>
+
+                      <div layout='column' flex>
+                        <div layout='row' flex>
+                          <mat-checkbox [ngModelOptions]='{standalone: true}'
+                                        style='padding: 15px; padding-left: 0'
+                                        [(ngModel)]='configuracao.feedback' flex
+                                        name='feedback' flex-xl='30' flex-lg='40'>
+                            Solicitar feedback
+                          </mat-checkbox>
+
+                          <mat-form-field *ngIf='configuracao.feedback' flex style='margin-top: -3px'>
+                            <input formControlName='feedbackEnunciado' matInput
+                                   [(ngModel)]='configuracao.feedbackEnunciado'
+                                   name='feedbackEnunciado' id='feedbackEnunciado'
+                                   placeholder='Enunciado para o feedback' maxlength='144'>
+                            <mat-error>
+                              Campo obrigatório
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div layout='row' flex *ngIf='configuracao.feedback'>
+                          <mat-checkbox [ngModelOptions]='{standalone: true}'
+                                        [(ngModel)]='configuracao.feedbackObrigatorio' flex
+                                        name='feedbackObrigatorio' flex-xl='30' flex-lg='40'
+                                        style='padding: 15px; padding-left: 0; margin-right: 60px'>
+                            Tornar feedback obrigatório
+                          </mat-checkbox>
+
+                          <mat-form-field  flex style='margin-top: -3px'>
+                            <mat-select [ngModelOptions]='{standalone: true}'
+                                        placeholder='Tipo do campo de Feedback'
+                                        [(ngModel)]='configuracao.tipoFeedback'>
+                              <mat-option [value]="0">
+                                Texto
+                              </mat-option>
+                              <mat-option [value]="1">
+                                E-mail
+                              </mat-option>
+                              <mat-option [value]="2">
+                                CPF
+                              </mat-option>
+                              <mat-option [value]="3">
+                                Telefone
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
                       </div>
 
                     </div>

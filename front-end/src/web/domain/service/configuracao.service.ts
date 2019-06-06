@@ -31,6 +31,14 @@ export class ConfiguracaoService {
 
   /**
    *
+   * @returns {Observable<Configuracao>}
+   */
+  public get requestConfiguracao(): Observable<Configuracao> {
+    return this.configuracaoRepository.configuracao;
+  }
+
+  /**
+   *
    * @param {Configuracao} configuracao
    * @returns {Promise<Configuracao>}
    */

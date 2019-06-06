@@ -149,7 +149,7 @@ export class ConsultarUsuariosComponent implements OnInit {
     /**
      * Carrega configurações
      */
-    this.configuracaoService.configuracao.subscribe(result => this.configuracao = result);
+    this.configuracaoService.requestConfiguracao.subscribe(result => this.configuracao = result);
 
     /**
      * Seta o size do pageRequest no size do paginator

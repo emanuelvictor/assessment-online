@@ -141,7 +141,7 @@ export class MinhasEstatisticasComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.configuracaoService.configuracao.subscribe(configuracao => {
+    this.configuracaoService.requestConfiguracao.subscribe(configuracao => {
       this.configuracao = configuracao;
       this.listUsuariosByFilters(this.pageRequest);
     });

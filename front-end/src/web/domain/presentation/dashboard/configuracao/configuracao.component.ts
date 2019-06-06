@@ -12,6 +12,7 @@ import {ConfiguracaoService} from "../../../service/configuracao.service";
 import {FileRepository} from "../../../../infrastructure/repository/file/file.repository";
 import {ConfiguracaoRepository} from "../../../repositories/configuracao.repository";
 import {AuthenticationService} from "../../../service/authentication.service";
+import {TipoFeedback} from "../../../entity/configuracao/tipo-feedback.enum";
 
 /**
  *
@@ -23,6 +24,9 @@ import {AuthenticationService} from "../../../service/authentication.service";
 })
 export class ConfiguracaoComponent implements OnInit {
 
+  /**
+   *
+   */
   contaAutenticada: any = null;
 
   /**
@@ -69,7 +73,7 @@ export class ConfiguracaoComponent implements OnInit {
    * @type {any}
    */
   importFile = null;
-  done: boolean = false;
+  done = false;
 
   /**
    *
@@ -117,20 +121,23 @@ export class ConfiguracaoComponent implements OnInit {
     this.iconRegistry.addSvgIconInNamespace('assets', 'bacana', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'top-da-balada', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
 
-    this.configuracaoService.configuracao
-      .subscribe(result => {
+    this.configuracaoService.requestConfiguracao.subscribe(result => {
 
-        this.configuracao = result;
+      this.configuracao = result;
 
-        this.logoPath = this.configuracao.logoPath;
-        this.arquivoFile = this.configuracao.logoFile;
+      if (!this.configuracao.tipoFeedback) {
+        this.configuracao.tipoFeedback = TipoFeedback.TEXTO;
+      }
 
-        this.backgroundPath = this.configuracao.backgroundImagePath;
-        this.backgroundArquivoFile = this.configuracao.backgroundImageFile;
+      this.logoPath = this.configuracao.logoPath;
+      this.arquivoFile = this.configuracao.logoFile;
 
-        this.done = true;
+      this.backgroundPath = this.configuracao.backgroundImagePath;
+      this.backgroundArquivoFile = this.configuracao.backgroundImageFile;
 
-      });
+      this.done = true;
+
+    });
 
     this.contaAutenticada = this.authenticationService.contaAutenticada;
   }
@@ -141,9 +148,11 @@ export class ConfiguracaoComponent implements OnInit {
    */
   feedbackRequired(exception?: string): ValidatorFn {
     return (c: AbstractControl): { [key: string]: any } => {
-      if (this.configuracao.feedback && !c.value)
-        return { exception: exception ? exception : 'Campo obrigatório' };
-      else return null;
+      if (this.configuracao.feedback && !c.value) {
+        return {exception: exception ? exception : 'Campo obrigatório'};
+      } else {
+        return null;
+      }
     }
   }
 
@@ -152,18 +161,17 @@ export class ConfiguracaoComponent implements OnInit {
    */
   public save(form): void {
 
-    // TODO provisório
     let valid = true;
-    let controls: any = [];
+    const controls: any = [];
     Object.keys(form.controls).map(function (key) {
       if (form.controls[key].invalid) {
-        let control = form.controls[key];
+        const control = form.controls[key];
         control.key = '#' + key;
         if (control.controls) {
-          Object.keys(control.controls).map(function (key) {
-            if (control.controls[key].invalid) {
-              let controlInner = control.controls[key];
-              controlInner.key = '#' + key;
+          Object.keys(control.controls).map(function (key2) {
+            if (control.controls[key2].invalid) {
+              const controlInner = control.controls[key2];
+              controlInner.key = '#' + key2;
               controls.push(controlInner);
             }
           });
@@ -173,7 +181,7 @@ export class ConfiguracaoComponent implements OnInit {
       }
     });
 
-    for (let control of controls) {
+    for (const control of controls) {
       if (control) {
         const element = this.element.nativeElement.querySelector(control.key);
         if (element && control.invalid) {
@@ -185,10 +193,10 @@ export class ConfiguracaoComponent implements OnInit {
           break;
         }
         if (control.controls && control.invalid) {
-          for (let controlInner of control.controls) {
-            const element = this.element.nativeElement.querySelector(controlInner.key);
-            if (element && controlInner.invalid) {
-              this.renderer.invokeElementMethod(element, 'focus', []);
+          for (const controlInner of control.controls) {
+            const elementt = this.element.nativeElement.querySelector(controlInner.key);
+            if (elementt && controlInner.invalid) {
+              this.renderer.invokeElementMethod(elementt, 'focus', []);
               valid = false;
               if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception);
@@ -318,6 +326,9 @@ export class ConfiguracaoComponent implements OnInit {
     this.importFile = null;
   }
 
+  /**
+   *
+   */
   public importt() {
     this.fileRepository.importt(this.importFile);
   }

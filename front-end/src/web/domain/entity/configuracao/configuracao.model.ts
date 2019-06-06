@@ -1,4 +1,5 @@
 import {Abstract} from "../abstract/abstract.model";
+import {TipoFeedback} from "./tipo-feedback.enum";
 
 export class Configuracao extends Abstract {
   /**
@@ -69,6 +70,15 @@ export class Configuracao extends Abstract {
 
   /**
    *
+   */
+  public feedbackObrigatorio: boolean;
+
+  /**
+   *
+   */
+  public tipoFeedback: TipoFeedback = TipoFeedback.TEXTO;
+  /**
+   *
    * @type {string}
    */
   public feedbackEnunciado: string;
@@ -95,5 +105,6 @@ export class Configuracao extends Abstract {
     this.cinco = 'Ótimo';
     this.quebrarLinhaNaSelecaoDeItenAvaliavel = false;
     this.time = 30000;
+    this.tipoFeedback = TipoFeedback.TEXTO
   }
 }

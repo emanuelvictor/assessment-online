@@ -102,7 +102,7 @@ export class EstatisticasAtendenteComponent implements OnInit {
    *
    */
   ngOnInit() {
-    this.configuracaoService.configuracao.subscribe(configuracao => {
+    this.configuracaoService.requestConfiguracao.subscribe(configuracao => {
 
       this.configuracao = configuracao;
 
