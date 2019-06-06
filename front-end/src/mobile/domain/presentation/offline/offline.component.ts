@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../../../../../web/domain/service/authentication.service";
 import {MatSnackBar} from "@angular/material";
-import {LocalStorage} from "../../../../../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
+import {LocalStorage} from "../../../../web/infrastructure/local-storage/local-storage";
+import {AuthenticationService} from "../../../../web/domain/service/authentication.service";
 
 @Component({
   selector: 'offline',

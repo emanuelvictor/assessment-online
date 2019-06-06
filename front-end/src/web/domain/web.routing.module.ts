@@ -24,7 +24,7 @@ import {ConfiguracaoComponent} from "./presentation/dashboard/configuracao/confi
 import {AvaliacaoViewComponent} from "./presentation/dashboard/avaliacao/avaliacao-view.component";
 import {ConsultarAvaliacoesComponent} from "./presentation/dashboard/avaliacao/consultar-avaliacoes/consultar-avaliacoes.component";
 import {VisualizarAvaliacaoComponent} from "./presentation/dashboard/avaliacao/visualizar-avaliacao/visualizar-avaliacao.component";
-import {OfflineComponent} from "../../mobile/domain/presentation/avaliacao/offline/offline.component";
+import {OfflineComponent} from "../../mobile/domain/presentation/offline/offline.component";
 import {TipoAvaliacaoViewComponent} from "./presentation/dashboard/tipo-avaliacao/tipo-avaliacao-view.component";
 import {ConsultarTiposAvaliacoesComponent} from "./presentation/dashboard/tipo-avaliacao/consultar-tipos-avaliacoes/consultar-tipos-avaliacoes.component";
 import {InserirTipoAvaliacaoComponent} from "./presentation/dashboard/tipo-avaliacao/inserir-tipo-avaliacao/inserir-tipo-avaliacao.component";

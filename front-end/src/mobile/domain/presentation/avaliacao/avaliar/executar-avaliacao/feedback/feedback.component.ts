@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/configuracao.repository";
-import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
+import {ConfiguracaoRepository} from "../../../../../../../web/domain/repositories/configuracao.repository";
+import {Configuracao} from "../../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
 import {MatSnackBar} from "@angular/material";
-import {MobileService} from "../../../../service/mobile.service";
-import {AvaliavelRepository} from "../../../../../../web/domain/repositories/avaliavel.repository";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
+import {MobileService} from "../../../../../service/mobile.service";
+import {AvaliavelRepository} from "../../../../../../../web/domain/repositories/avaliavel.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {FormBuilder} from "@angular/forms";
 import {Subject} from "rxjs";
-import {Agrupador} from "../../../../../../web/domain/entity/avaliacao/agrupador.model";
-import {AbstractComponent} from "../../abstract/abstract.component";
+import {Agrupador} from "../../../../../../../web/domain/entity/avaliacao/agrupador.model";
+import {AbstractComponent} from "../abstract/abstract.component";
 
 @Component({
   selector: 'app-feedback',

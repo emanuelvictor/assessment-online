@@ -1,8 +1,8 @@
 import {OnDestroy} from "@angular/core";
 import {TdLoadingService} from "@covalent/core";
-import {MobileService} from "../../../service/mobile.service";
+import {MobileService} from "../../../../../service/mobile.service";
 import {MatSnackBar} from "@angular/material";
-import {Configuracao} from "../../../../../web/domain/entity/configuracao/configuracao.model";
+import {Configuracao} from "../../../../../../../web/domain/entity/configuracao/configuracao.model";
 
 export abstract class AbstractComponent implements OnDestroy {
 

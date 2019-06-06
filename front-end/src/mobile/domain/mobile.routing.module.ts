@@ -4,14 +4,14 @@ import {LoginComponent} from "../../web/domain/presentation/login/login.componen
 import {AvaliarComponent} from "./presentation/avaliacao/avaliar/avaliar.component";
 import {AvaliacaoComponent} from "./presentation/avaliacao/avaliacao.component";
 import {AuthenticationService} from "../../web/domain/service/authentication.service";
-import {OfflineComponent} from "./presentation/avaliacao/offline/offline.component";
-import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/selecionar-nota-e-avaliaveis/selecionar-atendentes/selecionar-atendentes.component";
+import {OfflineComponent} from "./presentation/offline/offline.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component";
-import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/selecionar-nota-e-avaliaveis/selecionar-nota/selecionar-nota.component";
-import {SelecionarNotaEAvaliaveisComponent} from "./presentation/avaliacao/avaliar/selecionar-nota-e-avaliaveis/selecionar-nota-e-avaliaveis.component";
-import {ConclusaoComponent} from "./presentation/avaliacao/avaliar/conclusao/conclusao.component";
-import {FeedbackComponent} from "./presentation/avaliacao/avaliar/feedback/feedback.component";
+import {ConclusaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao.component";
+import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/feedback/feedback.component";
+import {SelecionarNotaEAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-avaliaveis.component";
+import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota/selecionar-nota.component";
+import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-atendentes/selecionar-atendentes.component";
 
 
 const routes: Routes = [

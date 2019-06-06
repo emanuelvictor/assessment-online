@@ -5,7 +5,7 @@ import {MobileService} from "../../../../../service/mobile.service";
 import {AvaliavelRepository} from "../../../../../../../web/domain/repositories/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {TdLoadingService} from "@covalent/core";
-import {AbstractComponent} from "../../../abstract/abstract.component";
+import {AbstractComponent} from "../abstract/abstract.component";
 
 @Component({
   selector: 'selecionar-atendentes',

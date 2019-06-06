@@ -17,7 +17,7 @@ import {NoWhiteSpace} from '../web/domain/presentation/controls/patterns/no-whit
 import {LocalStorage} from "../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import {TOKEN_NAME} from "../web/domain/presentation/controls/utils";
-import {OfflineComponent} from "../mobile/domain/presentation/avaliacao/offline/offline.component";
+import {OfflineComponent} from "../mobile/domain/presentation/offline/offline.component";
 import {MatKeyboardModule} from "@ngx-material-keyboard/core";
 
 /**

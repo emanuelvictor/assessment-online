@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/configuracao.repository";
+import {ConfiguracaoRepository} from "../../../../../../../web/domain/repositories/configuracao.repository";
 import {TdLoadingService} from "@covalent/core";
-import {MobileService} from "../../../../service/mobile.service";
-import {AbstractComponent} from "../../abstract/abstract.component";
+import {MobileService} from "../../../../../service/mobile.service";
+import {AbstractComponent} from "../abstract/abstract.component";
 import {MatSnackBar} from "@angular/material";
 
 @Component({
