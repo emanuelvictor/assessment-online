@@ -21,12 +21,6 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
 
   /**
    *
-   * @type {Configuracao}
-   */
-  configuracao: Configuracao;
-
-  /**
-   *
    * @type {UnidadeTipoAvaliacao}
    */
   unidadeTipoAvaliacao: UnidadeTipoAvaliacao = null;
@@ -53,12 +47,12 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
   constructor(public _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
               private authenticationService: AuthenticationService,
-              private configuracaoRepository: ConfiguracaoRepository,
+              public configuracaoRepository: ConfiguracaoRepository,
               public activatedRoute: ActivatedRoute, private router: Router,
               public mobileService: MobileService, public snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
-    super(snackBar, mobileService, _loadingService)
+    super(snackBar, mobileService, _loadingService, configuracaoRepository)
   }
 
   /**
@@ -66,47 +60,42 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
    */
   ngOnInit() {
 
-    // Requisita configuração.
-    this.configuracaoRepository.requestConfiguracao.subscribe(result => {
-      this.configuracao = result;
+    // Requisita unidades.
+    this.mobileService.requestUnidades().then(unidades => {
 
-      // Requisita unidades.
-      this.mobileService.requestUnidades().then(unidades => {
+      // Requisita unidadesTiposAvaliacoes.
+      this.mobileService.requestUnidadesTiposAvaliacoes().then(unidadesTiposAvaliacoes => {
 
-        // Requisita unidadesTiposAvaliacoes.
-        this.mobileService.requestUnidadesTiposAvaliacoes().then(unidadesTiposAvaliacoes => {
+        this.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
 
-          this.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
+        // Se não tem unidades selecionadas vai para tela de selação de unidades
+        if (!unidades || !unidades.length || !unidadesTiposAvaliacoes || !unidadesTiposAvaliacoes.length) {
+          this.router.navigate(['configurar-unidades-e-avaliacoes']);
+          this._loadingService.resolve('overlayStarSyntax');
+          return
+        }
 
-          // Se não tem unidades selecionadas vai para tela de selação de unidades
-          if (!unidades || !unidades.length || !unidadesTiposAvaliacoes || !unidadesTiposAvaliacoes.length) {
-            this.router.navigate(['configurar-unidades-e-avaliacoes']);
-            this._loadingService.resolve('overlayStarSyntax');
-            return
-          }
+        // Se não tem unidadeId, então retorna para seleção de unidade.
+        if (!this.activatedRoute.snapshot.params.ordem) {
+          this.router.navigate(['configurar-unidades-e-avaliacoes']);
+          this._loadingService.resolve('overlayStarSyntax');
+          return
+        }
 
-          // Se não tem unidadeId, então retorna para seleção de unidade.
-          if (!this.activatedRoute.snapshot.params.ordem) {
-            this.router.navigate(['configurar-unidades-e-avaliacoes']);
-            this._loadingService.resolve('overlayStarSyntax');
-            return
-          }
+        // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
+        if (!this.activatedRoute.parent.snapshot.params.unidadeId) {
+          this.router.navigate(['selecionar-unidade']);
+          this._loadingService.resolve('overlayStarSyntax');
+          return
+        }
 
-          // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
-          if (!this.activatedRoute.parent.snapshot.params.unidadeId) {
-            this.router.navigate(['selecionar-unidade']);
-            this._loadingService.resolve('overlayStarSyntax');
-            return
-          }
+        // Pega a unidade filtrada pela ordem e pela unidade
+        this.unidadeTipoAvaliacao = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => {
+          return unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId && unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params.ordem
+        })[0];
 
-          // Pega a unidade filtrada pela ordem e pela unidade
-          this.unidadeTipoAvaliacao = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => {
-            return unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId && unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params.ordem
-          })[0];
-
-          // Resolve o loading.
-          this._loadingService.resolve('overlayStarSyntax')
-        })
+        // Resolve o loading.
+        this._loadingService.resolve('overlayStarSyntax')
       })
     });
 

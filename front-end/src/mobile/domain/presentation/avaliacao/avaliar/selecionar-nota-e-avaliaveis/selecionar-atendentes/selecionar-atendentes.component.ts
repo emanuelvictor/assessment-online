@@ -6,7 +6,6 @@ import {AvaliavelRepository} from "../../../../../../../web/domain/repositories/
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {TdLoadingService} from "@covalent/core";
 import {ConfiguracaoRepository} from "../../../../../../../web/domain/repositories/configuracao.repository";
-import {Configuracao} from "../../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {AbstractComponent} from "../../../abstract/abstract.component";
 
 @Component({
@@ -34,11 +33,6 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
 
   /**
    *
-   */
-  configuracao: Configuracao;
-
-  /**
-   *
    * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
@@ -50,11 +44,11 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
    */
   constructor(public _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
-              private configuracaoRepository: ConfiguracaoRepository,
+              public configuracaoRepository: ConfiguracaoRepository,
               public mobileService: MobileService, private router: Router,
               public activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
-    super(snackBar, mobileService, _loadingService)
+    super(snackBar, mobileService, _loadingService, configuracaoRepository)
   }
 
   /**
@@ -62,68 +56,63 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
    */
   ngOnInit() {
 
-    // Requisita configuração.
-    this.configuracaoRepository.requestConfiguracao.subscribe(result => {
-      this.configuracao = result;
+    // Requisita unidades.
+    this.mobileService.requestUnidades().then(unidades => {
 
-      // Requisita unidades.
-      this.mobileService.requestUnidades().then(unidades => {
+      // Requisita unidadesTiposAvaliacoes.
+      this.mobileService.requestUnidadesTiposAvaliacoes().then(unidadesTiposAvaliacoes => {
 
-        // Requisita unidadesTiposAvaliacoes.
-        this.mobileService.requestUnidadesTiposAvaliacoes().then(unidadesTiposAvaliacoes => {
+        // Popula variável de unidadesTiposAvalicoes, esta variável será utilizada na conclusão da avaliação.
+        this.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
 
-          // Popula variável de unidadesTiposAvalicoes, esta variável será utilizada na conclusão da avaliação.
-          this.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
+        // Se não tem unidades selecionadas vai para tela de selação de unidades
+        if (!unidades || !unidades.length || !unidadesTiposAvaliacoes || !unidadesTiposAvaliacoes.length) {
+          this.router.navigate(['configurar-unidades-e-avaliacoes']);
+          this._loadingService.resolve('overlayStarSyntax');
+          return
+        }
 
-          // Se não tem unidades selecionadas vai para tela de selação de unidades
-          if (!unidades || !unidades.length || !unidadesTiposAvaliacoes || !unidadesTiposAvaliacoes.length) {
-            this.router.navigate(['configurar-unidades-e-avaliacoes']);
-            this._loadingService.resolve('overlayStarSyntax');
-            return
+        // Se não tem unidadeId, então retorna para seleção de unidade.
+        if (!this.activatedRoute.snapshot.params.ordem) {
+          this.router.navigate(['configurar-unidades-e-avaliacoes']);
+          this._loadingService.resolve('overlayStarSyntax');
+          return
+        }
+
+        // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
+        if (!this.activatedRoute.parent.snapshot.params['unidadeId']) {
+          this.router.navigate(['selecionar-unidade']);
+          this._loadingService.resolve('overlayStarSyntax');
+          return
+        }
+
+        // Pega a unidade filtrada pela ordem e pela unidade
+        this.unidadeTipoAvaliacao = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => {
+          return unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId && unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params.ordem
+        })[0];
+
+        // Requisita os avaliáveis de acordo com o tipo de avaliação.
+        this.avaliavelRepository.listByFilters({ativo: true, unidadeTipoAvaliacaoId: this.unidadeTipoAvaliacao.id}).subscribe(resultt => {
+          this.avaliaveis = resultt.content;
+
+          // Se tem apenas um avaliável
+          if (this.avaliaveis.length === 1) {
+
+            // Seleciona o mesmo
+            this.avaliaveis[0].selected = true;
+
+            // Conclui a avaliação
+            this.concluir();
+
+            // Se não tem avaliáveis, esta errado, pois deve ter avaliáveis.
+          } else if (!this.avaliaveis.length) {
+
+            // Então vai para a tela de erro para instruir o usuário
+            this.router.navigate(['offline'])
           }
 
-          // Se não tem unidadeId, então retorna para seleção de unidade.
-          if (!this.activatedRoute.snapshot.params.ordem) {
-            this.router.navigate(['configurar-unidades-e-avaliacoes']);
-            this._loadingService.resolve('overlayStarSyntax');
-            return
-          }
-
-          // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
-          if (!this.activatedRoute.parent.snapshot.params['unidadeId']) {
-            this.router.navigate(['selecionar-unidade']);
-            this._loadingService.resolve('overlayStarSyntax');
-            return
-          }
-
-          // Pega a unidade filtrada pela ordem e pela unidade
-          this.unidadeTipoAvaliacao = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => {
-            return unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId && unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params.ordem
-          })[0];
-
-          // Requisita os avaliáveis de acordo com o tipo de avaliação.
-          this.avaliavelRepository.listByFilters({ativo: true, unidadeTipoAvaliacaoId: this.unidadeTipoAvaliacao.id}).subscribe(resultt => {
-            this.avaliaveis = resultt.content;
-
-            // Se tem apenas um avaliável
-            if (this.avaliaveis.length === 1) {
-
-              // Seleciona o mesmo
-              this.avaliaveis[0].selected = true;
-
-              // Conclui a avaliação
-              this.concluir();
-
-              // Se não tem avaliáveis, esta errado, pois deve ter avaliáveis.
-            } else if (!this.avaliaveis.length) {
-
-              // Então vai para a tela de erro para instruir o usuário
-              this.router.navigate(['offline'])
-            }
-
-            // Resolve loading.
-            this._loadingService.resolve('overlayStarSyntax');
-          })
+          // Resolve loading.
+          this._loadingService.resolve('overlayStarSyntax');
         })
       })
     })
@@ -133,6 +122,9 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
    *
    */
   public concluir() {
+
+    // Restarta o timeout
+    this.restartTimeout();
 
     // Adiciona os avaliáveis selecionados
     this.mobileService.avaliaveis = this.avaliaveis.filter(avaliavel => avaliavel.selected);

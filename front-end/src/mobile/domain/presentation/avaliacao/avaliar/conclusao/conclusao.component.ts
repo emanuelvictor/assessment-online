@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/configuracao.repository";
-import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
 import {MobileService} from "../../../../service/mobile.service";
 import {AbstractComponent} from "../../abstract/abstract.component";
@@ -16,11 +15,6 @@ export class ConclusaoComponent extends AbstractComponent implements OnInit {
 
   /**
    *
-   */
-  configuracao: Configuracao;
-
-  /**
-   *
    * @param snackBar
    * @param {Router} router
    * @param mobileService
@@ -31,20 +25,21 @@ export class ConclusaoComponent extends AbstractComponent implements OnInit {
   constructor(public snackBar: MatSnackBar,
               private activatedRoute: ActivatedRoute,
               public _loadingService: TdLoadingService,
-              private configuracaoRepository: ConfiguracaoRepository,
+              public configuracaoRepository: ConfiguracaoRepository,
               private router: Router, public mobileService: MobileService) {
-    super(snackBar, mobileService, _loadingService)
+    super(snackBar, mobileService, _loadingService, configuracaoRepository)
   }
 
   /**
    *
    */
   ngOnInit() {
-    // Requisita configuração para exibição de mensagem de agradecimento
-    this.configuracaoRepository.requestConfiguracao.subscribe(configuracao => {
-      this.configuracao = configuracao;
-      this._loadingService.resolve('overlayStarSyntax');
-    });
+    // Workarround
+    // Tempo de espera padrão para concluir o timeout.
+    // Isso se reflete na experiência do usuário
+    setTimeout(() => {
+      this._loadingService.resolve('overlayStarSyntax')
+    }, 300)
   }
 
 }

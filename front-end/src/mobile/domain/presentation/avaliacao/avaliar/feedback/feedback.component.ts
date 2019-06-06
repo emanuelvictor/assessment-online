@@ -22,7 +22,7 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
   /**
    *
    */
-  configuracao: Configuracao;
+  configuracao: Configuracao = new Configuracao();
 
   /**
    *
@@ -49,11 +49,11 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
    */
   constructor(public _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
-              private configuracaoRepository: ConfiguracaoRepository,
+              public configuracaoRepository: ConfiguracaoRepository,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               public mobileService: MobileService, public activatedRoute: ActivatedRoute,
               private router: Router, private fb: FormBuilder, public snackBar: MatSnackBar) {
-    super(snackBar, mobileService, _loadingService)
+    super(snackBar, mobileService, _loadingService, configuracaoRepository)
   }
 
   /**
@@ -71,11 +71,12 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
       feedback: ['feedback', []]
     });
 
-    // Requisita configuração
-    this.configuracaoRepository.requestConfiguracao.subscribe(configuracao => {
-      this._loadingService.resolve('overlayStarSyntax');
-      this.configuracao = configuracao
-    });
+    // Workarround
+    // Tempo de espera padrão para concluir o timeout.
+    // Isso se reflete na experiência do usuário
+    setTimeout(() => {
+      this._loadingService.resolve('overlayStarSyntax')
+    }, 300)
   }
 
   /**
@@ -83,6 +84,7 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
    */
   public sendFeedback(feedback: string) {
 
+    // Restarta o timeout
     this.restartTimeout();
 
     if (feedback && feedback.trim().length) {

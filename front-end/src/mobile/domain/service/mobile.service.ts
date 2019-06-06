@@ -83,7 +83,7 @@ export class MobileService {
    * @param fun
    */
   public createTimeout(fun: () => {}): number {
-    this._timeout = setTimeout(fun, this.mdSnackBarConfig.duration);
+    this._timeout = setTimeout(fun, 30000);
     return this._timeout
   }
 
@@ -105,7 +105,7 @@ export class MobileService {
       return 5000
     });
 
-    ///
+    //
     return this._timeout
   }
 

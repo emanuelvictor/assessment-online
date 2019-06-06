@@ -81,6 +81,11 @@ export class Configuracao extends Abstract {
   /**
    *
    */
+  public time: number;
+
+  /**
+   *
+   */
   constructor() {
     super();
     this.um = 'Péssimo';
@@ -89,5 +94,6 @@ export class Configuracao extends Abstract {
     this.quatro = 'Bom';
     this.cinco = 'Ótimo';
     this.quebrarLinhaNaSelecaoDeItenAvaliavel = false;
+    this.time = 300;
   }
 }
