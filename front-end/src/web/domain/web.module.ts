@@ -31,7 +31,7 @@ import {ConfirmDialogComponent} from './presentation/controls/confirm-dialog/con
 import {CnpjValidator, CpfValidator, DataNascimentoValidator} from './presentation/controls/validators/validators';
 import {SomenteNumerosPositivos} from './presentation/controls/patterns/somente-numeros-positivos';
 import {Interceptor} from '../application/interceptor/interceptor';
-import {WebRoutingModule} from './web-routing.module';
+import {WebRoutingModule} from './web.routing.module';
 import {WebComponent} from './presentation/web.component';
 import {SharedModule} from '../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';

@@ -44,19 +44,15 @@ export class SelecionarAtendentesComponent implements OnInit {
    * @param {MobileService} mobileService
    * @param {ActivatedRoute} activatedRoute
    * @param {TdLoadingService} _loadingService
-   * @param configuracaoService
    * @param {AvaliavelRepository} avaliavelRepository
    * @param configuracaoRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
-  constructor(private router: Router,
-              private snackBar: MatSnackBar,
-              public mobileService: MobileService,
-              public activatedRoute: ActivatedRoute,
-              private _loadingService: TdLoadingService,
-              private configuracaoService: ConfiguracaoService,
+  constructor(private _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
               private configuracaoRepository: ConfiguracaoRepository,
+              public mobileService: MobileService, private router: Router,
+              public activatedRoute: ActivatedRoute, private snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
   }
 
@@ -69,7 +65,7 @@ export class SelecionarAtendentesComponent implements OnInit {
     this._loadingService.register('overlayStarSyntax');
 
     // Requisita configuração.
-    this.configuracaoService.configuracao.subscribe(result => {
+    this.configuracaoRepository.requestConfiguracao.subscribe(result => {
       this.configuracao = result;
 
       // Requisita unidades.
@@ -87,7 +83,6 @@ export class SelecionarAtendentesComponent implements OnInit {
             this._loadingService.resolve('overlayStarSyntax');
             return
           }
-          console.log(this.activatedRoute.snapshot.params.ordem);
 
           // Se não tem unidadeId, então retorna para seleção de unidade.
           if (!this.activatedRoute.snapshot.params.ordem) {
@@ -109,16 +104,15 @@ export class SelecionarAtendentesComponent implements OnInit {
           })[0];
 
           // Requisita os avaliáveis de acordo com o tipo de avaliação.
-          this.avaliavelRepository.listByFilters({ativo: true, unidadeTipoAvaliacaoId: this.unidadeTipoAvaliacao.id}).subscribe(page => {
-
-            this.avaliaveis = page.content;
-            this._loadingService.resolve('overlayStarSyntax');
+          this.avaliavelRepository.listByFilters({ativo: true, unidadeTipoAvaliacaoId: this.unidadeTipoAvaliacao.id}).subscribe(result => {
+            this.avaliaveis = result.content;
 
             // Se tem apenas um avaliável
             if (this.avaliaveis.length === 1) {
 
               // Seleciona o mesmo
               this.avaliaveis[0].selected = true;
+
               // Conclui a avaliação
               this.concluir();
 
@@ -128,6 +122,9 @@ export class SelecionarAtendentesComponent implements OnInit {
               // Então vai para a tela de erro para instruir o usuário
               this.router.navigate(['offline'])
             }
+
+            // Resolve loading.
+            this._loadingService.resolve('overlayStarSyntax');
           })
         })
       })
@@ -147,7 +144,7 @@ export class SelecionarAtendentesComponent implements OnInit {
 
       // // Envia a avaliação
       this.mobileService.enviarAvaliacao();
-      console.log(this.activatedRoute.snapshot.params.ordem);
+
       // Se a quantidade de unidades tipos avaliações for diferente que a ordem, então as avaliações não chegaram no fim.
       if (this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId).length !== +this.activatedRoute.snapshot.params.ordem) {
 
@@ -168,6 +165,7 @@ export class SelecionarAtendentesComponent implements OnInit {
           this.router.navigate(['/avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/conclusao'])
         }
       }
+
     } else {
       this.snackBar.open('Selecione ao menos um atendente', 'Fechar', this.mobileService.getSnackBarConfig())
     }

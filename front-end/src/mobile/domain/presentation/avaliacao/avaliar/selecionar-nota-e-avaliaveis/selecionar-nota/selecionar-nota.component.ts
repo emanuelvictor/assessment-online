@@ -49,11 +49,11 @@ export class SelecionarNotaComponent implements OnInit {
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    */
-  constructor(public activatedRoute: ActivatedRoute,
+  constructor(private _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
               private authenticationService: AuthenticationService,
               private configuracaoRepository: ConfiguracaoRepository,
-              private _loadingService: TdLoadingService, private router: Router,
+              public activatedRoute: ActivatedRoute, private router: Router,
               public mobileService: MobileService, private snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
@@ -66,7 +66,7 @@ export class SelecionarNotaComponent implements OnInit {
 
     // Registra o loading
     this._loadingService.register('overlayStarSyntax');
-    console.log(this.unidadeTipoAvaliacao);
+
     // Requisita configuração.
     this.configuracaoRepository.requestConfiguracao.subscribe(result => {
       this.configuracao = result;
@@ -105,20 +105,17 @@ export class SelecionarNotaComponent implements OnInit {
             return unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId && unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params.ordem
           })[0];
 
-          this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
-          this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
-          this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
-          this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
-          this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
-
+          // Resolve o loading.
           this._loadingService.resolve('overlayStarSyntax')
-
         })
-
       })
+    });
 
-    })
-
+    this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'))
   }
 
   /**

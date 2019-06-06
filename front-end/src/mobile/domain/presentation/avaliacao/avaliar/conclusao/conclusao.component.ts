@@ -4,6 +4,7 @@ import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/
 import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
 import {MobileService} from "../../../../service/mobile.service";
+import {Agrupador} from "../../../../../../web/domain/entity/avaliacao/agrupador.model";
 
 @Component({
   selector: 'app-conclusao',
@@ -41,11 +42,11 @@ export class ConclusaoComponent implements OnInit {
       this._loadingService.resolve('overlayStarSyntax');
     });
 
-    // setTimeout(() => {
-    //   // Zera o agrupador
-    //   this.mobileService.agrupador = new Agrupador();
-    //   this.router.navigate(['/avaliar']);
-    // }, 5000);
+    setTimeout(() => {
+      // Zera o agrupador
+      this.mobileService.agrupador = new Agrupador();
+      this.router.navigate(['/avaliar']);
+    }, 5000);
   }
 
 }

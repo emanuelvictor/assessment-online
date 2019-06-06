@@ -72,11 +72,8 @@ export class SelecionarUnidadeComponent implements OnInit {
         // Caso tenha unidades a selecionar, e a quantidade seja maior que 1
         // Remove loading
         this._loadingService.resolve('overlayStarSyntax')
-
       })
-
     })
-
   }
 
   /**
@@ -84,7 +81,7 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param unidade
    */
   public proximo(unidade: Unidade) {
-    this.router.navigate(['/avaliar/' + unidade.id + '/1']);
+    this.router.navigate(['/avaliar/' + unidade.id + '/1'])
   }
 
   /**
@@ -94,7 +91,7 @@ export class SelecionarUnidadeComponent implements OnInit {
   public openSnackBar(message: string) {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
-    });
+    })
   }
 
 }

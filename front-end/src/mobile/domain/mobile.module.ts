@@ -5,7 +5,7 @@ import {CommonModule, registerLocaleData} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {MobileRoutingModule} from './mobile-routing.module';
+import {MobileRoutingModule} from './mobile.routing.module';
 import {DateAdapter, MatRippleModule} from '@angular/material';
 import {SharedModule} from '../../shared/shared.module';
 import {AuthenticationService} from '../../web/domain/service/authentication.service';
