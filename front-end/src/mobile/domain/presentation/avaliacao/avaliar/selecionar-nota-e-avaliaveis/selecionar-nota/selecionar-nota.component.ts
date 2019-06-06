@@ -10,13 +10,14 @@ import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/re
 import {AvaliavelRepository} from "../../../../../../../web/domain/repositories/avaliavel.repository";
 import {TdLoadingService} from "@covalent/core";
 import {ConfiguracaoRepository} from "../../../../../../../web/domain/repositories/configuracao.repository";
+import {AbstractComponent} from "../../../abstract/abstract.component";
 
 @Component({
   selector: 'selecionar-nota',
   templateUrl: './selecionar-nota.component.html',
   styleUrls: ['./selecionar-nota.component.scss']
 })
-export class SelecionarNotaComponent implements OnInit {
+export class SelecionarNotaComponent extends AbstractComponent implements OnInit {
 
   /**
    *
@@ -49,23 +50,21 @@ export class SelecionarNotaComponent implements OnInit {
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    */
-  constructor(private _loadingService: TdLoadingService,
+  constructor(public _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
               private authenticationService: AuthenticationService,
               private configuracaoRepository: ConfiguracaoRepository,
               public activatedRoute: ActivatedRoute, private router: Router,
-              public mobileService: MobileService, private snackBar: MatSnackBar,
+              public mobileService: MobileService, public snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+    super(snackBar, mobileService, _loadingService)
   }
 
   /**
    *
    */
   ngOnInit() {
-
-    // Registra o loading
-    this._loadingService.register('overlayStarSyntax');
 
     // Requisita configuração.
     this.configuracaoRepository.requestConfiguracao.subscribe(result => {
@@ -116,6 +115,7 @@ export class SelecionarNotaComponent implements OnInit {
     this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'))
+
   }
 
   /**
@@ -127,16 +127,6 @@ export class SelecionarNotaComponent implements OnInit {
 
     this.router.navigate(['avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/selecionar-atendentes']);
 
-  }
-
-  /**
-   *
-   * @param message
-   */
-  public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 5000
-    });
   }
 
 }

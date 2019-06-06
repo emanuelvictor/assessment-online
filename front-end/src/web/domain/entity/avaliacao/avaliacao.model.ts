@@ -16,4 +16,9 @@ export class Avaliacao extends Abstract {
 
   public agrupador: Agrupador;
 
+
+  constructor() {
+    super();
+    this.agrupador = new Agrupador()
+  }
 }

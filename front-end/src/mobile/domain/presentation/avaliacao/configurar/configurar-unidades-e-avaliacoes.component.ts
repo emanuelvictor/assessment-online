@@ -176,6 +176,9 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
       })
     });
 
+    /**
+     *
+     */
     this.mobileService.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
     this.mobileService.unidades = unidades.filter(unidade => unidade.checked);
     this.mobileService.requestUnidades().then(unidadess => {

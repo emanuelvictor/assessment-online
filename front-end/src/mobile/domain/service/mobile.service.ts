@@ -13,6 +13,8 @@ import {Avaliavel} from "../../../web/domain/entity/usuario/vinculo/avaliavel.mo
 import {Agrupador} from "../../../web/domain/entity/avaliacao/agrupador.model";
 import {Observable} from "rxjs";
 import {UnidadeTipoAvaliacao} from "../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
+import {Router} from "@angular/router";
+import {TdLoadingService} from "@covalent/core";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -44,30 +46,76 @@ export class MobileService {
 
   /**
    *
+   */
+  private _timeout: number;
+
+  /**
+   *
    * @type {MatSnackBarConfig}
    */
   private mdSnackBarConfig: MatSnackBarConfig = new MatSnackBarConfig();
 
   /**
+   * @param router
    * @param {LocalStorage} localStorage
    * @param {UnidadeService} unidadeService
+   * @param _loadingService
    * @param {AvaliacaoService} avaliacaoService
    */
-  constructor(private localStorage: LocalStorage,
+  constructor(private router: Router,
+              private localStorage: LocalStorage,
               private unidadeService: UnidadeService,
+              private _loadingService: TdLoadingService,
               private avaliacaoService: AvaliacaoService) {
 
-    /**
-     * Pega a key da _unidade do localStorage
-     * @type {string}
-     */
+    //  Pega a key da _unidade do localStorage
     this.localStorage.requestUnidades().then(unidades => this._unidades = unidades);
 
-    /**
-     * Seta a duração default da snackbar
-     * @type {number}
-     */
-    this.mdSnackBarConfig.duration = 5000
+    // Seta a duração default da snackbar
+    this.mdSnackBarConfig.duration = 5000;
+
+    // Cria o timeout
+    this.restartTimeout()
+  }
+
+  /**
+   *
+   * @param fun
+   */
+  public createTimeout(fun: () => {}): number {
+    this._timeout = setTimeout(fun, this.mdSnackBarConfig.duration);
+    return this._timeout
+  }
+
+  /**
+   * Zera o timeout, e volta para tela inicial
+   */
+  public restartTimeout(): number {
+
+    // Limpa o timeout
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+    }
+
+    // Cria um novo timeout
+    this._timeout = this.createTimeout(() => {
+      this.resetDomain();
+      this.router.navigate(['/avaliar']);
+      this._loadingService.resolve('overlayStarSyntax');
+      return 5000
+    });
+
+    ///
+    return this._timeout
+  }
+
+  /**
+   * Zera as entidades de domínio da aplicação.
+   * Bastante utilizado para reiniciar avaliaçẽos
+   */
+  public resetDomain() {
+    this.avaliacao = new Avaliacao();
+    this.avaliaveis = [];
   }
 
   /**
@@ -127,23 +175,15 @@ export class MobileService {
   /**
    *
    */
-  public requestUnidades(): Promise<Unidade[]>{
+  public requestUnidades(): Promise<Unidade[]> {
     return this.localStorage.requestUnidades()
-  }
-
-  /**
-   *
-   */
-  public reset() {
-    this.avaliacao = new Avaliacao();
-    this.avaliaveis = [];
   }
 
   /**
    *
    * @param nota
    */
-  public set nota(nota) {
+  public set nota(nota: number) {
     this.avaliacao.nota = nota;
   }
 
@@ -152,32 +192,19 @@ export class MobileService {
    */
   public enviarAvaliacao() {
 
-    /**
-     * Instancia o array de tabela associativa
-     * @type {Array}
-     */
+    // Instancia o array de tabela associativa
     this.avaliacao.avaliacoesAvaliaveis = [];
 
-    /**
-     * Percorre os colaboradores
-     */
+    // Percorre os colaboradores
     this.avaliaveis.forEach(avaliavel => {
 
-      /**
-       * Seta no avaliavel a _unidade correta
-       * @type {Unidade}
-       */
+      // Seta no avaliavel a _unidade correta
       avaliavel.unidadeTipoAvaliacao.unidade = this._unidades.filter(unidade => unidade.id === avaliavel.unidadeTipoAvaliacao.unidade.id)[0];
 
-      /**
-       * Cria um registro tabela associativa e adiciona dentro da avaliação
-       */
+      // Cria um registro tabela associativa e adiciona dentro da avaliação
       const avaliacaoAvaliavel: AvaliacaoAvaliavel = new AvaliacaoAvaliavel();
 
-      /**
-       *
-       * @type {Avaliacao}
-       */
+      //
       const avaliacaoAux: Avaliacao = new Avaliacao();
       avaliacaoAux.nota = this.avaliacao.nota;
       avaliacaoAux.id = this.avaliacao.id;
@@ -190,19 +217,13 @@ export class MobileService {
 
     this.avaliacao.agrupador = this.agrupador && this.agrupador.id ? this.agrupador : new Agrupador();
 
-    /**
-     * Insere avaliação
-     */
-    this.avaliacaoService.save(this.avaliacao)
-      .then(result => {
-        this.agrupador = result.agrupador;
+    // Insere avaliação
+    this.avaliacaoService.save(this.avaliacao).then(result => {
+      this.agrupador = result.agrupador;
 
-        /**
-         * Reseta objeto da avaliação
-         * @type {Avaliacao}
-         */
-        this.reset();
-      });
+      // Reseta objeto da avaliação
+      this.resetDomain()
+    })
   }
 
   /**
@@ -227,37 +248,6 @@ export class MobileService {
         });
     });
   }
-
-  // /**
-  //  *
-  //  * @param {string} ordem
-  //  * @param {number} unidadeId
-  //  * @returns {any}
-  //  */
-  // public getUnidadeTipoAvaliacaoByUnidadeAndOrdem(unidadeId: number, ordem: string): Observable<any> {
-  //   return new Observable(observer => {
-  //     this.unidadesTiposAvaliacoes.subscribe(unidadesTiposAvaliacoes => {
-  //
-  //       if (!ordem && !unidadesTiposAvaliacoes.length) {
-  //         observer.next([]);
-  //         observer.complete()
-  //       }
-  //
-  //       unidadesTiposAvaliacoes = unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => {
-  //         return unidadeTipoAvaliacao.ordem === ordem && unidadeTipoAvaliacao.unidade.id.toString() === unidadeId
-  //       });
-  //
-  //       if (!unidadesTiposAvaliacoes.length) {
-  //         observer.next([]);
-  //         observer.complete()
-  //       }
-  //
-  //       observer.next(unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.ordem === ordem)[0]);
-  //       observer.complete()
-  //
-  //     })
-  //   })
-  // }
 
   /**
    *

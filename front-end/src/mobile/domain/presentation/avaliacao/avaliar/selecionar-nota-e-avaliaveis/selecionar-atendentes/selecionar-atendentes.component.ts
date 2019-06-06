@@ -7,14 +7,14 @@ import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/re
 import {TdLoadingService} from "@covalent/core";
 import {ConfiguracaoRepository} from "../../../../../../../web/domain/repositories/configuracao.repository";
 import {Configuracao} from "../../../../../../../web/domain/entity/configuracao/configuracao.model";
-import {ConfiguracaoService} from "../../../../../../../web/domain/service/configuracao.service";
+import {AbstractComponent} from "../../../abstract/abstract.component";
 
 @Component({
   selector: 'selecionar-atendentes',
   templateUrl: './selecionar-atendentes.component.html',
   styleUrls: ['./selecionar-atendentes.component.scss']
 })
-export class SelecionarAtendentesComponent implements OnInit {
+export class SelecionarAtendentesComponent extends AbstractComponent implements OnInit {
 
   /**
    *
@@ -48,21 +48,19 @@ export class SelecionarAtendentesComponent implements OnInit {
    * @param configuracaoRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
-  constructor(private _loadingService: TdLoadingService,
+  constructor(public _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
               private configuracaoRepository: ConfiguracaoRepository,
               public mobileService: MobileService, private router: Router,
-              public activatedRoute: ActivatedRoute, private snackBar: MatSnackBar,
+              public activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
+    super(snackBar, mobileService, _loadingService)
   }
 
   /**
    *
    */
   ngOnInit() {
-
-    // Registra o loading
-    this._loadingService.register('overlayStarSyntax');
 
     // Requisita configuração.
     this.configuracaoRepository.requestConfiguracao.subscribe(result => {
@@ -104,8 +102,8 @@ export class SelecionarAtendentesComponent implements OnInit {
           })[0];
 
           // Requisita os avaliáveis de acordo com o tipo de avaliação.
-          this.avaliavelRepository.listByFilters({ativo: true, unidadeTipoAvaliacaoId: this.unidadeTipoAvaliacao.id}).subscribe(result => {
-            this.avaliaveis = result.content;
+          this.avaliavelRepository.listByFilters({ativo: true, unidadeTipoAvaliacaoId: this.unidadeTipoAvaliacao.id}).subscribe(resultt => {
+            this.avaliaveis = resultt.content;
 
             // Se tem apenas um avaliável
             if (this.avaliaveis.length === 1) {
@@ -169,15 +167,5 @@ export class SelecionarAtendentesComponent implements OnInit {
     } else {
       this.snackBar.open('Selecione ao menos um atendente', 'Fechar', this.mobileService.getSnackBarConfig())
     }
-  }
-
-  /**
-   *
-   * @param message
-   */
-  public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 5000
-    });
   }
 }

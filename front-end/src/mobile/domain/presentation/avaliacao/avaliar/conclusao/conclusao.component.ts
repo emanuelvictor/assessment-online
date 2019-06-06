@@ -4,14 +4,15 @@ import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/
 import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
 import {MobileService} from "../../../../service/mobile.service";
-import {Agrupador} from "../../../../../../web/domain/entity/avaliacao/agrupador.model";
+import {AbstractComponent} from "../../abstract/abstract.component";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-conclusao',
   templateUrl: './conclusao.component.html',
   styleUrls: ['./conclusao.component.scss']
 })
-export class ConclusaoComponent implements OnInit {
+export class ConclusaoComponent extends AbstractComponent implements OnInit {
 
   /**
    *
@@ -20,33 +21,30 @@ export class ConclusaoComponent implements OnInit {
 
   /**
    *
+   * @param snackBar
    * @param {Router} router
    * @param mobileService
    * @param activatedRoute
    * @param {TdLoadingService} _loadingService
    * @param {ConfiguracaoRepository} configuracaoRepository
    */
-  constructor(private activatedRoute: ActivatedRoute,
-              private _loadingService: TdLoadingService,
+  constructor(public snackBar: MatSnackBar,
+              private activatedRoute: ActivatedRoute,
+              public _loadingService: TdLoadingService,
               private configuracaoRepository: ConfiguracaoRepository,
-              private router: Router, private mobileService: MobileService) {
+              private router: Router, public mobileService: MobileService) {
+    super(snackBar, mobileService, _loadingService)
   }
 
   /**
    *
    */
   ngOnInit() {
-    this._loadingService.register('overlayStarSyntax');
+    // Requisita configuração para exibição de mensagem de agradecimento
     this.configuracaoRepository.requestConfiguracao.subscribe(configuracao => {
       this.configuracao = configuracao;
       this._loadingService.resolve('overlayStarSyntax');
     });
-
-    setTimeout(() => {
-      // Zera o agrupador
-      this.mobileService.agrupador = new Agrupador();
-      this.router.navigate(['/avaliar']);
-    }, 5000);
   }
 
 }

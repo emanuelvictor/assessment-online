@@ -10,28 +10,19 @@ import {UnidadeTipoAvaliacaoRepository} from "../../../../../../web/domain/repos
 import {FormBuilder} from "@angular/forms";
 import {Subject} from "rxjs";
 import {Agrupador} from "../../../../../../web/domain/entity/avaliacao/agrupador.model";
+import {AbstractComponent} from "../../abstract/abstract.component";
 
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.scss']
 })
-export class FeedbackComponent implements OnInit {
+export class FeedbackComponent extends AbstractComponent implements OnInit {
 
   /**
    *
    */
   configuracao: Configuracao;
-
-  /**
-   *
-   */
-  timeout: any;
-
-  /**
-   *
-   */
-  time = 30000;
 
   /**
    *
@@ -56,12 +47,13 @@ export class FeedbackComponent implements OnInit {
    * @param configuracaoRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
-  constructor(private _loadingService: TdLoadingService,
+  constructor(public _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
               private configuracaoRepository: ConfiguracaoRepository,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               public mobileService: MobileService, public activatedRoute: ActivatedRoute,
-              private router: Router, private fb: FormBuilder, private snackBar: MatSnackBar) {
+              private router: Router, private fb: FormBuilder, public snackBar: MatSnackBar) {
+    super(snackBar, mobileService, _loadingService)
   }
 
   /**
@@ -69,67 +61,39 @@ export class FeedbackComponent implements OnInit {
    */
   ngOnInit() {
 
-    // Registra o loading.
-    this._loadingService.register('overlayStarSyntax');
-
-    this.modelChanged.debounceTime(300).subscribe(() => this.restartTimeout());
+    // Debounce da digitação, toda vez que o usuário digita alguma coisa, depois de 300 milisegundos ele executa isso.
+    this.modelChanged.debounceTime(300).subscribe(() => {
+      // Restarta o timeout
+      this.restartTimeout()
+    });
 
     this.form = this.fb.group({
       feedback: ['feedback', []]
     });
 
+    // Requisita configuração
     this.configuracaoRepository.requestConfiguracao.subscribe(configuracao => {
       this._loadingService.resolve('overlayStarSyntax');
       this.configuracao = configuracao
     });
-
-    this.timeout = setTimeout(() => {
-      // Zera o agrupador
-      this.mobileService.agrupador = new Agrupador();
-      this.mobileService.reset();
-      this.router.navigate(['/avaliar/1']);
-      this._loadingService.resolve('overlayStarSyntax')
-    }, this.time)
   }
 
   /**
    *
    */
   public sendFeedback(feedback: string) {
-    clearTimeout(this.timeout);
+
+    this.restartTimeout();
+
     if (feedback && feedback.trim().length) {
       this.mobileService.sendFeedback(feedback).then(() => {
         // Zera o agrupador
         this.mobileService.agrupador = new Agrupador();
-        this.router.navigate(['conclusao'])
+        this.router.navigate(['/avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/conclusao'])
       })
     } else {
-      // Zera o agrupador
       this.mobileService.agrupador = new Agrupador();
-      this.router.navigate(['conclusao'])
+      this.router.navigate(['/avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/conclusao'])
     }
-  }
-
-  /**
-   *
-   */
-  public restartTimeout() {
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
-      // Zera o agrupador
-      this.mobileService.agrupador = new Agrupador();
-      this.mobileService.reset();
-      this.router.navigate(['/avaliar/1'])
-    }, this.time)
-  }
-
-  /**
-   *
-   * @param message
-   */
-  public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 5000
-    })
   }
 }
