@@ -94,6 +94,6 @@ export class Configuracao extends Abstract {
     this.quatro = 'Bom';
     this.cinco = 'Ótimo';
     this.quebrarLinhaNaSelecaoDeItenAvaliavel = false;
-    this.time = 300;
+    this.time = 30000;
   }
 }

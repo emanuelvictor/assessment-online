@@ -15,6 +15,8 @@ import {Observable} from "rxjs";
 import {UnidadeTipoAvaliacao} from "../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
 import {Router} from "@angular/router";
 import {TdLoadingService} from "@covalent/core";
+import {ConfiguracaoRepository} from "../../../web/domain/repositories/configuracao.repository";
+import {Configuracao} from "../../../web/domain/entity/configuracao/configuracao.model";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -56,6 +58,7 @@ export class MobileService {
   private mdSnackBarConfig: MatSnackBarConfig = new MatSnackBarConfig();
 
   /**
+   * @param configuracaRepository
    * @param router
    * @param {LocalStorage} localStorage
    * @param {UnidadeService} unidadeService
@@ -66,35 +69,34 @@ export class MobileService {
               private localStorage: LocalStorage,
               private unidadeService: UnidadeService,
               private _loadingService: TdLoadingService,
-              private avaliacaoService: AvaliacaoService) {
+              private avaliacaoService: AvaliacaoService,
+              private configuracaRepository: ConfiguracaoRepository) {
 
     //  Pega a key da _unidade do localStorage
     this.localStorage.requestUnidades().then(unidades => this._unidades = unidades);
 
     // Seta a duração default da snackbar
     this.mdSnackBarConfig.duration = 5000;
-
-    // Cria o timeout
-    this.restartTimeout()
   }
 
   /**
    *
    * @param fun
+   * @param time
    */
-  public createTimeout(fun: () => {}): number {
-    this._timeout = setTimeout(fun, 30000);
+  public createTimeout(fun: () => {}, time?: number): number {
+    this._timeout = setTimeout(fun, time ? time : 30000);
     return this._timeout
   }
 
   /**
    * Zera o timeout, e volta para tela inicial
    */
-  public restartTimeout(): number {
+  public restartTimeout(time?: number): number {
 
     // Limpa o timeout
     if (this._timeout) {
-      clearTimeout(this._timeout);
+      this.clearTimeout();
     }
 
     // Cria um novo timeout
@@ -102,11 +104,18 @@ export class MobileService {
       this.resetDomain();
       this.router.navigate(['/avaliar']);
       this._loadingService.resolve('overlayStarSyntax');
-      return 5000
-    });
+      return time
+    }, time ? time : 30000);
 
     //
     return this._timeout
+  }
+
+  /**
+   * Mata o timeout
+   */
+  public clearTimeout(): void {
+    clearTimeout(this._timeout);
   }
 
   /**
@@ -177,6 +186,14 @@ export class MobileService {
    */
   public requestUnidades(): Promise<Unidade[]> {
     return this.localStorage.requestUnidades()
+  }
+
+
+  /**
+   *
+   */
+  public get requestConfiguracao(): Promise<Configuracao> {
+    return this.configuracaRepository.requestConfiguracao
   }
 
   /**

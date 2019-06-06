@@ -5,7 +5,6 @@ import {MobileService} from "../../../../../service/mobile.service";
 import {AvaliavelRepository} from "../../../../../../../web/domain/repositories/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {TdLoadingService} from "@covalent/core";
-import {ConfiguracaoRepository} from "../../../../../../../web/domain/repositories/configuracao.repository";
 import {AbstractComponent} from "../../../abstract/abstract.component";
 
 @Component({
@@ -39,16 +38,14 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
    * @param {ActivatedRoute} activatedRoute
    * @param {TdLoadingService} _loadingService
    * @param {AvaliavelRepository} avaliavelRepository
-   * @param configuracaoRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
   constructor(public _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
-              public configuracaoRepository: ConfiguracaoRepository,
               public mobileService: MobileService, private router: Router,
               public activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
-    super(snackBar, mobileService, _loadingService, configuracaoRepository)
+    super(snackBar, mobileService, _loadingService)
   }
 
   /**

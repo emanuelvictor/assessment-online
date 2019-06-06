@@ -47,8 +47,14 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    */
   ngOnInit() {
+    // Inicia o loading
     this._loadingService.register('overlayStarSyntax');
-    this.consultarUnidades();
+
+    // Mata o timeout se houver (Aqui não precisa de timeout)
+    this.mobileService.clearTimeout();
+
+    // Inicia o carregamento das unidades
+    this.consultarUnidades()
   }
 
   /**
@@ -61,8 +67,10 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
         // Se só houver uma unidade.
         if (this.unidades.length === 1) {
+
           // Se só houver uma unidade, seleciona a primeira.
           this.unidades[0].checked = true;
+
           this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[0].id, ativo: true})
             .subscribe(resulted => {
 

@@ -44,16 +44,14 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
    * @param {ActivatedRoute} activatedRoute
    * @param {TdLoadingService} _loadingService
    * @param {AvaliavelRepository} avaliavelRepository
-   * @param configuracaoRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
   constructor(public _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
-              public configuracaoRepository: ConfiguracaoRepository,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               public mobileService: MobileService, public activatedRoute: ActivatedRoute,
               private router: Router, private fb: FormBuilder, public snackBar: MatSnackBar) {
-    super(snackBar, mobileService, _loadingService, configuracaoRepository)
+    super(snackBar, mobileService, _loadingService)
   }
 
   /**

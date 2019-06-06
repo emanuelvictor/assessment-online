@@ -3,7 +3,6 @@ import {TdLoadingService} from "@covalent/core";
 import {MobileService} from "../../../service/mobile.service";
 import {MatSnackBar} from "@angular/material";
 import {Configuracao} from "../../../../../web/domain/entity/configuracao/configuracao.model";
-import {ConfiguracaoRepository} from "../../../../../web/domain/repositories/configuracao.repository";
 
 export abstract class AbstractComponent implements OnDestroy {
 
@@ -11,35 +10,35 @@ export abstract class AbstractComponent implements OnDestroy {
   /**
    *
    */
-  public configuracao: Configuracao;
+  protected configuracao: Configuracao;
 
   /**
    * @param snackBar
    * @param mobileService
    * @param {TdLoadingService} _loadingService
-   * @param configuracaoRepository
    */
   protected constructor(public snackBar: MatSnackBar,
                         public mobileService: MobileService,
-                        public _loadingService: TdLoadingService,
-                        public configuracaoRepository: ConfiguracaoRepository) {
+                        public _loadingService: TdLoadingService) {
 
     // Registra o loading.
     this._loadingService.register('overlayStarSyntax');
 
-    // Entrei na view, restarto o timeout
-    this.restartTimeout();
-
     // Requisita configuração.
-    this.configuracaoRepository.requestConfiguracao.subscribe(result => this.configuracao = result)
+    this.mobileService.requestConfiguracao.then(result => {
+      this.configuracao = result;
+
+      // Entrei na view, requisitei a configuração, restarto o timeout
+      this.restartTimeout(this.configuracao.time)
+    })
   }
 
 
   /**
    *
    */
-  protected restartTimeout() {
-    this.mobileService.restartTimeout()
+  protected restartTimeout(time?: number) {
+    this.mobileService.restartTimeout(time)
   }
 
   /**
@@ -52,6 +51,9 @@ export abstract class AbstractComponent implements OnDestroy {
     })
   }
 
+  /**
+   *
+   */
   ngOnDestroy(): void {
     // Registra o loading.
     this._loadingService.resolve('overlayStarSyntax')

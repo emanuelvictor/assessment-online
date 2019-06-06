@@ -30,12 +30,10 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
    * @param _loadingService
-   * @param configuracaoRepository
    */
   constructor(private mobileService: MobileService,
               private _loadingService: TdLoadingService,
-              private router: Router, private snackBar: MatSnackBar,
-              private configuracaoRepository: ConfiguracaoRepository) {
+              private router: Router, private snackBar: MatSnackBar) {
 
   }
 
@@ -44,11 +42,14 @@ export class SelecionarUnidadeComponent implements OnInit {
    */
   ngOnInit() {
 
+    // Mata o timeout se houver (Aqui não precisa de timeout)
+    this.mobileService.clearTimeout();
+
     // Registra o loading.
     this._loadingService.register('overlayStarSyntax');
 
     // Requisita configuração.
-    this.configuracaoRepository.requestConfiguracao.subscribe(configuracao => {
+    this.mobileService.requestConfiguracao.then(configuracao => {
       this.configuracao = configuracao;
 
       // Pega  configuração.

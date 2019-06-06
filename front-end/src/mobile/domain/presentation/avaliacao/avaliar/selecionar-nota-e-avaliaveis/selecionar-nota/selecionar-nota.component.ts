@@ -37,7 +37,6 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
    * @param {MobileService} mobileService
    * @param {ActivatedRoute} activatedRoute
    * @param _loadingService
-   * @param {ConfiguracaoRepository} configuracaoRepository
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {AuthenticationService} authenticationService
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
@@ -47,12 +46,11 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
   constructor(public _loadingService: TdLoadingService,
               private avaliavelRepository: AvaliavelRepository,
               private authenticationService: AuthenticationService,
-              public configuracaoRepository: ConfiguracaoRepository,
               public activatedRoute: ActivatedRoute, private router: Router,
               public mobileService: MobileService, public snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
-    super(snackBar, mobileService, _loadingService, configuracaoRepository)
+    super(snackBar, mobileService, _loadingService)
   }
 
   /**
@@ -80,6 +78,13 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
           this.router.navigate(['configurar-unidades-e-avaliacoes']);
           this._loadingService.resolve('overlayStarSyntax');
           return
+        }
+
+        // Se só tem uma unidade selecionada, e a ordem da avaliação é 1, então reseta o timeout.
+        // Pois não há necessidade de zerá-lo, uma vez que não há mais de uma unidade para ser selecionada.
+        // Isso auxilia na experiência de usuário, a tela não fica piscando
+        if (unidades.length === 1 && +this.activatedRoute.snapshot.params.ordem === 1) {
+          this.mobileService.clearTimeout()
         }
 
         // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.

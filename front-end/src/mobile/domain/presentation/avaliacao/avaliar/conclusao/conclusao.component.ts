@@ -20,14 +20,12 @@ export class ConclusaoComponent extends AbstractComponent implements OnInit {
    * @param mobileService
    * @param activatedRoute
    * @param {TdLoadingService} _loadingService
-   * @param {ConfiguracaoRepository} configuracaoRepository
    */
   constructor(public snackBar: MatSnackBar,
               private activatedRoute: ActivatedRoute,
               public _loadingService: TdLoadingService,
-              public configuracaoRepository: ConfiguracaoRepository,
               private router: Router, public mobileService: MobileService) {
-    super(snackBar, mobileService, _loadingService, configuracaoRepository)
+    super(snackBar, mobileService, _loadingService)
   }
 
   /**
