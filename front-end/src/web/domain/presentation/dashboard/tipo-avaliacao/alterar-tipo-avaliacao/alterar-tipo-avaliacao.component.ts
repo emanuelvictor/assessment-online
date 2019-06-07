@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {DomSanitizer} from "@angular/platform-browser";
-import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
+import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
 
 @Component({

@@ -1,6 +1,7 @@
 package br.com.ubest.domain.entity.avaliacao;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.domain.entity.generic.EntityIdResolver;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -25,6 +26,10 @@ public class Avaliacao extends AbstractEntity {
     @OneToMany(targetEntity = AvaliacaoAvaliavel.class, mappedBy = "avaliacao", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     public List<AvaliacaoAvaliavel> avaliacoesAvaliaveis;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "agrupador_id")
+    private Agrupador agrupador;
+
     @NotNull
     @Column(nullable = false, columnDefinition = "NUMERIC(19,0)")
     private int nota;
@@ -34,10 +39,6 @@ public class Avaliacao extends AbstractEntity {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime data;
-
-    @ManyToOne(optional = false, targetEntity = Agrupador.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "agrupador_id")
-    private Agrupador agrupador;
 
     @Column
     @JsonIgnore

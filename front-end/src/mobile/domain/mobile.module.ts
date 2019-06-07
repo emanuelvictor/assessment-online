@@ -19,25 +19,25 @@ import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
 import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {EllipsisModule} from 'ngx-ellipsis';
-import {AvaliacaoRepository} from '../../web/domain/repositories/avaliacao.repository';
-import {UsuarioRepository} from '../../web/domain/repositories/usuario.repository';
-import {AvaliacaoAvaliavelRepository} from '../../web/domain/repositories/avaliacao-avaliavel-repository.service';
-import {EnderecoRepository} from '../../web/domain/repositories/endereco.repository';
-import {UnidadeRepository} from '../../web/domain/repositories/unidade.repository';
-import {ContaRepository} from '../../web/domain/repositories/conta.repository';
+import {AvaliacaoRepository} from '../../web/domain/repository/avaliacao.repository';
+import {UsuarioRepository} from '../../web/domain/repository/usuario.repository';
+import {AvaliacaoAvaliavelRepository} from '../../web/domain/repository/avaliacao-avaliavel-repository.service';
+import {EnderecoRepository} from '../../web/domain/repository/endereco.repository';
+import {UnidadeRepository} from '../../web/domain/repository/unidade.repository';
+import {ContaRepository} from '../../web/domain/repository/conta.repository';
 import {ContaService} from '../../web/domain/service/conta.service';
 import {PageSerialize} from '../../web/infrastructure/page-serialize/page-serialize';
 import {MobileService} from "./service/mobile.service";
 import {MobileLoginComponent} from './presentation/login/web-login/mobile-login.component';
-import {ConfiguracaoRepository} from "../../web/domain/repositories/configuracao.repository";
+import {ConfiguracaoRepository} from "../../web/domain/repository/configuracao.repository";
 import {ConfiguracaoService} from "../../web/domain/service/configuracao.service";
 import {LocalStorage} from "../../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import localePt from "@angular/common/locales/pt";
-import {OperadorRepository} from "../../web/domain/repositories/operador.repository";
-import {UnidadeTipoAvaliacaoRepository} from "../../web/domain/repositories/unidade-tipo-avaliacao.repository";
+import {OperadorRepository} from "../../web/domain/repository/operador.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../web/domain/repository/unidade-tipo-avaliacao.repository";
 import {OrderModule} from "ngx-order-pipe";
-import {AvaliavelRepository} from "../../web/domain/repositories/avaliavel.repository";
+import {AvaliavelRepository} from "../../web/domain/repository/avaliavel.repository";
 import {Interceptor} from "../../web/application/interceptor/interceptor";
 import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/feedback/feedback.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
@@ -45,6 +45,7 @@ import {SelecionarUnidadeComponent} from "./presentation/avaliacao/avaliar/selec
 import {SelecionarNotaEAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-avaliaveis.component";
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-atendentes/selecionar-atendentes.component";
 import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota/selecionar-nota.component";
+import {AgrupadorRepository} from "./repository/agrupador.repository";
 
 /**
  *
@@ -84,12 +85,13 @@ import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/executar
     ConfiguracaoRepository,
     AvaliavelRepository,
     AvaliacaoRepository,
+    AgrupadorRepository,
     OperadorRepository,
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
-    FileRepository,
     ContaRepository,
+    FileRepository,
 
     AuthenticationService,
     ConfiguracaoService,

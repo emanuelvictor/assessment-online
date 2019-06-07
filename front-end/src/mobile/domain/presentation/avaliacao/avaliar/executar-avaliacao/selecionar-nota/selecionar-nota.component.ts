@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Configuracao} from "../../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {MobileService} from "../../../../../service/mobile.service";
 import {AuthenticationService} from "../../../../../../../web/domain/service/authentication.service";
 import {MatIconRegistry, MatSnackBar} from "@angular/material";
 import {DomSanitizer} from "@angular/platform-browser";
 import {UnidadeTipoAvaliacao} from "../../../../../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
-import {AvaliavelRepository} from "../../../../../../../web/domain/repositories/avaliavel.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
+import {AvaliavelRepository} from "../../../../../../../web/domain/repository/avaliavel.repository";
 import {TdLoadingService} from "@covalent/core";
-import {ConfiguracaoRepository} from "../../../../../../../web/domain/repositories/configuracao.repository";
 import {AbstractComponent} from "../abstract/abstract.component";
+import {Avaliacao} from "../../../../../../../web/domain/entity/avaliacao/avaliacao.model";
+import {Agrupador} from "../../../../../../../web/domain/entity/avaliacao/agrupador.model";
 
 @Component({
   selector: 'selecionar-nota',
@@ -29,6 +29,11 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
    *
    */
   unidadesTiposAvaliacoes: any;
+
+  /**
+   *
+   */
+  countTiposAvaliacoes: number;
 
   /**
    *
@@ -65,6 +70,12 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
       this.mobileService.requestUnidadesTiposAvaliacoes().then(unidadesTiposAvaliacoes => {
 
         this.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
+
+        // Popula variável de unidadesTiposAvalicoes, esta variável será utilizada na conclusão da avaliação.
+        this.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
+
+        // Conta a quantidade de avaliações, utilizado para criar contador na tela.
+        this.countTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId).length;
 
         // Se não tem unidades selecionadas vai para tela de selação de unidades
         if (!unidades || !unidades.length || !unidadesTiposAvaliacoes || !unidadesTiposAvaliacoes.length) {
@@ -117,7 +128,11 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
    */
   public avaliar(nota: number) {
 
-    this.mobileService.nota = nota;
+    const avaliacao: Avaliacao = new Avaliacao();
+    avaliacao.nota = nota;
+    avaliacao.agrupador = new Agrupador();
+
+    this.mobileService.avaliacoes.push(avaliacao);
 
     this.router.navigate(['avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/selecionar-atendentes']);
 

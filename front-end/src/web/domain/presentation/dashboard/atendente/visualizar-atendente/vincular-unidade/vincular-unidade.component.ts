@@ -2,8 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
 import {Operador} from "../../../../../entity/usuario/vinculo/operador.model";
-import {AvaliavelRepository} from "../../../../../repositories/avaliavel.repository";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../../repositories/unidade-tipo-avaliacao.repository";
+import {AvaliavelRepository} from "../../../../../repository/avaliavel.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../../repository/unidade-tipo-avaliacao.repository";
 import {Avaliavel} from "../../../../../entity/usuario/vinculo/avaliavel.model";
 
 @Component({

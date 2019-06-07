@@ -30,6 +30,12 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao> {
         return Mono.just(this.avaliacaoService.save(avaliacaoAvaliavel));
     }
 
+    @PostMapping("/agrupador")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    public Mono<Agrupador> save(@RequestBody final Agrupador agrupador) {
+        return Mono.just(this.avaliacaoService.save(agrupador));
+    }
+
     @PutMapping("/agrupador/{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Agrupador> save(@PathVariable final long id, @RequestBody final Agrupador agrupador) {

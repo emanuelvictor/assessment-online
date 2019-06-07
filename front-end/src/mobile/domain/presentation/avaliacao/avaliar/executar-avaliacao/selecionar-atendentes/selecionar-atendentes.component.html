@@ -18,7 +18,8 @@
                       [usuario]="{'id': avaliavel?.usuario?.id , 'foto': avaliavel?.usuario?.avatarPath}">
               </avatar>
             </div>
-            <div [ngClass]="{'broken-line': configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === true, 'text-truncate': configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === false}">
+            <div
+                [ngClass]="{'broken-line': configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === true, 'text-truncate': configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === false}">
               {{avaliavel?.usuario?.nome}}
             </div>
           </div>
@@ -26,26 +27,20 @@
       </mat-grid-list>
 
     </mat-card-content>
+
     <mat-card-actions>
       <div layout='row' layout-align='center center' flex>
 
-        <div *ngIf='mobileService?.unidadesTiposAvaliacoes?.length > 1'
-             layout='column' layout-margin flex layout-align='end start'>
-
-          {{activatedRoute?.snapshot?.params['ordem'] + '/' + mobileService?.unidadesTiposAvaliacoes?.length}}
-
+        <div *ngIf='countTiposAvaliacoes > 1' layout='column' layout-margin flex layout-align='end start'>
+          {{activatedRoute?.snapshot?.params['ordem'] + '/' + countTiposAvaliacoes}}
         </div>
 
-        <div layout='column'
-             layout-margin flex
-             layout-align='center end'>
-          <button mat-button
-                  color='primary'
-                  (click)='concluir()'
-                  layout-align='center end'>
+        <div layout='column' layout-margin flex layout-align='center end'>
+          <button mat-button color='primary' (click)='proximo()' layout-align='center end'>
             Próximo
           </button>
         </div>
+
       </div>
     </mat-card-actions>
   </mat-card>

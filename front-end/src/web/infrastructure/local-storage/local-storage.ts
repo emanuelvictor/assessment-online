@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {TOKEN_NAME} from "../../domain/presentation/controls/utils";
 import {UnidadeTipoAvaliacao} from "../../domain/entity/avaliacao/unidade-tipo-avaliacao.model";
 import {Unidade} from "../../domain/entity/unidade/unidade.model";
-import {UnidadeRepository} from "../../domain/repositories/unidade.repository";
-import {UnidadeTipoAvaliacaoRepository} from "../../domain/repositories/unidade-tipo-avaliacao.repository";
+import {UnidadeRepository} from "../../domain/repository/unidade.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../domain/repository/unidade-tipo-avaliacao.repository";
 
 @Injectable()
 export class LocalStorage {

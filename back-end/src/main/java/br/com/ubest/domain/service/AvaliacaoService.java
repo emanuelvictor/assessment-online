@@ -46,6 +46,26 @@ public class AvaliacaoService {
         return this.avaliacaoRepository.findById(id);
     }
 
+    // TODO método falcatruado pq ainda não consegui resolver o B.O da recursividade
+    @Transactional
+    public Agrupador save(final Agrupador agrupador) {
+
+        // Popula recursividade removida
+        agrupador.getAvaliacoes().forEach(avaliacao -> {
+                    avaliacao.setAgrupador(agrupador);
+                    avaliacao.getAvaliacoesAvaliaveis().forEach(avaliacaoAvaliavel -> avaliacaoAvaliavel.setAvaliacao(avaliacao));
+                }
+        );
+
+        this.agrupadorRepository.save(agrupador);
+
+        agrupador.getAvaliacoes().forEach(avaliacao -> avaliacao.setAgrupador(agrupador));
+
+        agrupador.getAvaliacoes().forEach(this.avaliacaoRepository::save);
+
+        return agrupador;
+    }
+
     public Agrupador save(final long id, final Agrupador agrupador) {
         agrupador.setId(id);
         return this.agrupadorRepository.save(agrupador);

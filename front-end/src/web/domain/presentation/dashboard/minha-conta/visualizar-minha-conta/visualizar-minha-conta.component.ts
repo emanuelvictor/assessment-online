@@ -6,11 +6,11 @@ import {AuthenticationService} from '../../../../service/authentication.service'
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {Subscription} from 'rxjs';
 import {UnidadeService} from "../../../../service/unidade.service";
-import {OperadorRepository} from "../../../../repositories/operador.repository";
-import {AvaliavelRepository} from "../../../../repositories/avaliavel.repository";
+import {OperadorRepository} from "../../../../repository/operador.repository";
+import {AvaliavelRepository} from "../../../../repository/avaliavel.repository";
 import {viewAnimation} from "../../../controls/utils";
 import {ContaService} from "../../../../service/conta.service";
-import {ConfiguracaoRepository} from "../../../../repositories/configuracao.repository";
+import {ConfiguracaoRepository} from "../../../../repository/configuracao.repository";
 import {Router} from "@angular/router";
 
 @Component({

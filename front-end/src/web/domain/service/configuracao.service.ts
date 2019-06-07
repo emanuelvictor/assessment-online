@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {Configuracao} from '../entity/configuracao/configuracao.model';
-import {ConfiguracaoRepository} from "../repositories/configuracao.repository";
+import {ConfiguracaoRepository} from "../repository/configuracao.repository";
 import {FileRepository} from "../../infrastructure/repository/file/file.repository";
 import {environment} from "../../../environments/environment";
 

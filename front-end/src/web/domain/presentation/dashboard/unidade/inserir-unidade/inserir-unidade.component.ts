@@ -5,9 +5,9 @@ import {textMasks} from "../../../controls/text-masks/text-masks";
 import {Router} from "@angular/router";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {UnidadeService} from "../../../../service/unidade.service";
-import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
+import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacao} from "../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../repositories/unidade-tipo-avaliacao.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
 import {Cidade} from "../../../../entity/endereco/cidade.model";
 
 

@@ -4,7 +4,7 @@ import {MobileService} from '../../../../service/mobile.service';
 import {MatSnackBar} from "@angular/material";
 import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
-import {ConfiguracaoRepository} from "../../../../../../web/domain/repositories/configuracao.repository";
+import {ConfiguracaoRepository} from "../../../../../../web/domain/repository/configuracao.repository";
 import {Unidade} from "../../../../../../web/domain/entity/unidade/unidade.model";
 
 @Component({

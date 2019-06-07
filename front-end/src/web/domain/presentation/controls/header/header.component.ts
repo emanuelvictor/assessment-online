@@ -3,7 +3,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {AuthenticationService} from '../../../service/authentication.service';
-import {ConfiguracaoRepository} from "../../../repositories/configuracao.repository";
+import {ConfiguracaoRepository} from "../../../repository/configuracao.repository";
 import {Configuracao} from "../../../entity/configuracao/configuracao.model";
 import {Conta} from "../../../entity/usuario/conta.model";
 

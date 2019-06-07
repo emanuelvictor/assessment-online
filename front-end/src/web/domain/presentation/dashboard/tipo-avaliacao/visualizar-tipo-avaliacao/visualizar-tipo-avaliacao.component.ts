@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {Avaliacao} from "../../../../entity/avaliacao/avaliacao.model";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
-import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
+import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {ConfirmDialogComponent} from "../../../controls/confirm-dialog/confirm-dialog.component";
 
 @Component({

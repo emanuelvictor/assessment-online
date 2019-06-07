@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
 import {Conta} from '../../entity/usuario/conta.model';
-import {ConfiguracaoRepository} from "../../repositories/configuracao.repository";
+import {ConfiguracaoRepository} from "../../repository/configuracao.repository";
 import 'rxjs/add/operator/debounceTime';
 import {getIdentifier} from "../controls/utils";
 import {environment} from "../../../../environments/environment";

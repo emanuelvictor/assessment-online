@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Usuario} from '../entity/usuario/usuario.model';
 import {FileRepository} from '../../infrastructure/repository/file/file.repository';
-import {ContaRepository} from '../repositories/conta.repository';
+import {ContaRepository} from '../repository/conta.repository';
 import {Conta} from '../entity/usuario/conta.model';
 import {environment} from "../../../environments/environment";
-import {ConfiguracaoRepository} from "../repositories/configuracao.repository";
+import {ConfiguracaoRepository} from "../repository/configuracao.repository";
 
 /**
  *

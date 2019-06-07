@@ -7,9 +7,9 @@ import {UsuarioService} from '../../../../service/usuario.service';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {AuthenticationService} from '../../../../service/authentication.service';
-import {OperadorRepository} from "../../../../repositories/operador.repository";
+import {OperadorRepository} from "../../../../repository/operador.repository";
 import {viewAnimation} from "../../../controls/utils";
-import {AvaliavelRepository} from "../../../../repositories/avaliavel.repository";
+import {AvaliavelRepository} from "../../../../repository/avaliavel.repository";
 import {Avaliavel} from "../../../../entity/usuario/vinculo/avaliavel.model";
 
 @Component({

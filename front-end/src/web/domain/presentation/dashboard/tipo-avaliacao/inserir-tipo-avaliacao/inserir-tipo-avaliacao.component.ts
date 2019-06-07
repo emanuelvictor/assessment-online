@@ -5,7 +5,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry, MatSnackBar} from "@angular/material";
 
 import {FormBuilder} from "@angular/forms";
-import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
+import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
 import {ActivatedRoute, Router} from "@angular/router";
 

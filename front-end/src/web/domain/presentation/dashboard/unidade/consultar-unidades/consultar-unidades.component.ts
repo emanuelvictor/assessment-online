@@ -12,7 +12,7 @@ import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
 import {AuthenticationService} from "../../../../service/authentication.service";
 import {viewAnimation} from "../../../controls/utils";
-import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
+import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {Subject} from "rxjs";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
 

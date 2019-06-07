@@ -1,21 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ConfiguracaoRepository} from "../../../../../../../web/domain/repositories/configuracao.repository";
 import {Configuracao} from "../../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
 import {MatSnackBar} from "@angular/material";
 import {MobileService} from "../../../../../service/mobile.service";
-import {AvaliavelRepository} from "../../../../../../../web/domain/repositories/avaliavel.repository";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
 import {FormBuilder} from "@angular/forms";
 import {Subject} from "rxjs";
-import {Agrupador} from "../../../../../../../web/domain/entity/avaliacao/agrupador.model";
 import {AbstractComponent} from "../abstract/abstract.component";
+import {viewAnimation} from "../../../../../../../web/domain/presentation/controls/utils";
+import {AvaliavelRepository} from "../../../../../../../web/domain/repository/avaliavel.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
 
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback.component.scss']
+  styleUrls: ['./feedback.component.scss'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class FeedbackComponent extends AbstractComponent implements OnInit {
 
@@ -33,7 +35,7 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
    *
    * @type {Subject<string>}
    */
-  private modelChanged: Subject<string> = new Subject<string>();
+  public modelChanged: Subject<any> = new Subject<any>();
 
   /**
    *
@@ -46,11 +48,11 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
-  constructor(public _loadingService: TdLoadingService,
-              private avaliavelRepository: AvaliavelRepository,
+  constructor(private avaliavelRepository: AvaliavelRepository,
+              private fb: FormBuilder, public snackBar: MatSnackBar,
+              public _loadingService: TdLoadingService, private router: Router,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
-              public mobileService: MobileService, public activatedRoute: ActivatedRoute,
-              private router: Router, private fb: FormBuilder, public snackBar: MatSnackBar) {
+              public mobileService: MobileService, public activatedRoute: ActivatedRoute) {
     super(snackBar, mobileService, _loadingService)
   }
 
@@ -69,7 +71,7 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
       feedback: ['feedback', []]
     });
 
-    // Workarround
+    // Workaround
     // Tempo de espera padrão para concluir o timeout.
     // Isso se reflete na experiência do usuário
     setTimeout(() => {
@@ -80,20 +82,11 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
   /**
    *
    */
-  public sendFeedback(feedback: string) {
+  public proximo() {
 
     // Restarta o timeout
     this.restartTimeout();
 
-    if (feedback && feedback.trim().length) {
-      this.mobileService.sendFeedback(feedback).then(() => {
-        // Zera o agrupador
-        this.mobileService.agrupador = new Agrupador();
-        this.router.navigate(['/avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/conclusao'])
-      })
-    } else {
-      this.mobileService.agrupador = new Agrupador();
-      this.router.navigate(['/avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/conclusao'])
-    }
+    this.router.navigate(['/avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/conclusao'])
   }
 }

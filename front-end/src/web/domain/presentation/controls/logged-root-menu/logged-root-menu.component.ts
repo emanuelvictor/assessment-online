@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {AuthenticationService} from '../../../service/authentication.service';
 import {Subscription} from 'rxjs';
 import {UsuarioService} from '../../../service/usuario.service';
-import {ConfiguracaoRepository} from "../../../repositories/configuracao.repository";
+import {ConfiguracaoRepository} from "../../../repository/configuracao.repository";
 
 @Component({
   selector: 'logged-root-menu',

@@ -33,7 +33,6 @@ export abstract class AbstractComponent implements OnDestroy {
     })
   }
 
-
   /**
    *
    */

@@ -23,7 +23,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "           avaliacao.fotoPath," +
             "           avaliacao.nota," +
             "           avaliacao.data," +
-            "           avaliacao.agrupador," +
+            "           agrupador," +
             "           unidade," +
             "           tipoAvaliacao" +
             "       ) " +
@@ -104,7 +104,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
             "       )" +
             "   )" +
-            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.id, unidade.nome, tipoAvaliacao.id, agrupador.feedback "
+            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.id, unidade.nome, tipoAvaliacao.id, agrupador.id, agrupador.feedback "
     )
     Page<Avaliacao> listByFilters(@Param("usuarioId") final Long usuarioId,
                                   @Param("perfil") final String perfil,

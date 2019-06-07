@@ -8,4 +8,9 @@ export class AvaliacaoAvaliavel extends Abstract {
 
   public avaliacao: Avaliacao;
 
+  constructor(avaliavel?: Avaliavel, avaliacao?: Avaliacao) {
+    super();
+    this.avaliavel = avaliavel;
+    this.avaliacao = avaliacao;
+  }
 }

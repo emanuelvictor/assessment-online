@@ -2,9 +2,8 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Avaliacao} from '../entity/avaliacao/avaliacao.model';
 import 'rxjs/Rx';
-import {AvaliacaoRepository} from '../repositories/avaliacao.repository';
-import {AvaliacaoAvaliavelRepository} from '../repositories/avaliacao-avaliavel-repository.service';
-import {Agrupador} from "../entity/avaliacao/agrupador.model";
+import {AvaliacaoRepository} from '../repository/avaliacao.repository';
+import {AvaliacaoAvaliavelRepository} from '../repository/avaliacao-avaliavel-repository.service';
 
 @Injectable()
 export class AvaliacaoService {
@@ -85,13 +84,5 @@ export class AvaliacaoService {
    */
   public delete(id: number): Promise<void> {
     return this.avaliacaoRepository.delete(id);
-  }
-
-  /**
-   *
-   * @param agrupador
-   */
-  public sendFeedback(agrupador: Agrupador): Promise<Agrupador> {
-    return this.avaliacaoRepository.sendFeedback(agrupador);
   }
 }

@@ -5,8 +5,8 @@ import {MatSnackBar} from '@angular/material';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {Conta} from '../../../../entity/usuario/conta.model';
 import {UnidadeService} from "../../../../service/unidade.service";
-import {OperadorRepository} from "../../../../repositories/operador.repository";
-import {AvaliavelRepository} from "../../../../repositories/avaliavel.repository";
+import {OperadorRepository} from "../../../../repository/operador.repository";
+import {AvaliavelRepository} from "../../../../repository/avaliavel.repository";
 
 @Component({
   selector: 'inserir-atendente',

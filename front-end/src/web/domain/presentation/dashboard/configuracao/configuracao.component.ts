@@ -10,7 +10,7 @@ import {TdLoadingService} from '@covalent/core';
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from "@angular/forms";
 import {ConfiguracaoService} from "../../../service/configuracao.service";
 import {FileRepository} from "../../../../infrastructure/repository/file/file.repository";
-import {ConfiguracaoRepository} from "../../../repositories/configuracao.repository";
+import {ConfiguracaoRepository} from "../../../repository/configuracao.repository";
 import {AuthenticationService} from "../../../service/authentication.service";
 import {TipoFeedback} from "../../../entity/configuracao/tipo-feedback.enum";
 import {enumToArrayString, viewAnimation} from "../../controls/utils";

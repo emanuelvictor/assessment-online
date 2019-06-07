@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Usuario} from '../entity/usuario/usuario.model';
 import {FileRepository} from '../../infrastructure/repository/file/file.repository';
 import {MatSnackBar} from '@angular/material';
-import {UsuarioRepository} from '../repositories/usuario.repository';
+import {UsuarioRepository} from '../repository/usuario.repository';
 import {FotoLoadingComponent} from '../presentation/controls/foto-loading/foto-loading.component';
 import {environment} from "../../../environments/environment";
 

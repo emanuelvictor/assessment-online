@@ -22,15 +22,15 @@ public class AvaliacaoAvaliavel extends AbstractEntity {
      */
 //    @NotNull
     @ManyToOne(optional = false)
-    private Avaliavel avaliavel;
+    @JoinColumn(name = "avaliacao_id")
+    private Avaliacao avaliacao;
 
     /**
      *
      */
 //    @NotNull
     @ManyToOne(optional = false)
-    @JoinColumn(name = "avaliacao_id")
-    private Avaliacao avaliacao;
+    private Avaliavel avaliavel;
 
     /**
      * @param id          long

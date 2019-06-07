@@ -2,10 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {MobileService} from "../../../../../service/mobile.service";
-import {AvaliavelRepository} from "../../../../../../../web/domain/repositories/avaliavel.repository";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
+import {AvaliavelRepository} from "../../../../../../../web/domain/repository/avaliavel.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
 import {TdLoadingService} from "@covalent/core";
 import {AbstractComponent} from "../abstract/abstract.component";
+import {AvaliacaoAvaliavel} from "../../../../../../../web/domain/entity/avaliacao/avaliacao-avaliavel.model";
 
 @Component({
   selector: 'selecionar-atendentes',
@@ -29,6 +30,11 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
    *
    */
   unidadeTipoAvaliacao: any;
+
+  /**
+   *
+   */
+  countTiposAvaliacoes: number;
 
   /**
    *
@@ -61,6 +67,9 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
 
         // Popula variável de unidadesTiposAvalicoes, esta variável será utilizada na conclusão da avaliação.
         this.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
+
+        // Conta a quantidade de avaliações, utilizado para criar contador na tela.
+        this.countTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId).length;
 
         // Se não tem unidades selecionadas vai para tela de selação de unidades
         if (!unidades || !unidades.length || !unidadesTiposAvaliacoes || !unidadesTiposAvaliacoes.length) {
@@ -99,7 +108,7 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
             this.avaliaveis[0].selected = true;
 
             // Conclui a avaliação
-            this.concluir();
+            this.proximo()
 
             // Se não tem avaliáveis, esta errado, pois deve ter avaliáveis.
           } else if (!this.avaliaveis.length) {
@@ -118,19 +127,16 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
   /**
    *
    */
-  public concluir() {
+  public proximo() {
 
     // Restarta o timeout
     this.restartTimeout();
 
-    // Adiciona os avaliáveis selecionados
-    this.mobileService.avaliaveis = this.avaliaveis.filter(avaliavel => avaliavel.selected);
+    // Adiciona avaliação TODO
+    this.mobileService.avaliacoes[+this.activatedRoute.snapshot.params.ordem - 1].avaliacoesAvaliaveis = this.avaliaveis.filter(avaliavel => avaliavel.selected).map(value => new AvaliacaoAvaliavel(value, this.mobileService.avaliacoes[+this.activatedRoute.snapshot.params.ordem - 1]));
 
     // Se nenhum avaliável foi selecionado, exibe mensagem para seleção.
-    if (this.mobileService.avaliaveis.length > 0) {
-
-      // // Envia a avaliação
-      this.mobileService.enviarAvaliacao();
+    if (this.mobileService.avaliacoes[+this.activatedRoute.snapshot.params.ordem - 1].avaliacoesAvaliaveis.length > 0) {
 
       // Se a quantidade de unidades tipos avaliações for diferente que a ordem, então as avaliações não chegaram no fim.
       if (this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId).length !== +this.activatedRoute.snapshot.params.ordem) {
@@ -154,7 +160,7 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
       }
 
     } else {
-      this.snackBar.open('Selecione ao menos um atendente', 'Fechar', this.mobileService.getSnackBarConfig())
+      this.snackBar.open('Selecione ao menos um atendente', 'Fechar', MobileService.matSnackBarConfig)
     }
   }
 }

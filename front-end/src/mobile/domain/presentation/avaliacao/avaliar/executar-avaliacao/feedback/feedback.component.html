@@ -1,28 +1,26 @@
-<form *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'"
-      [formGroup]='form' (ngSubmit)='sendFeedback(feedback)' novalidate layout='column' layout-align='center center'>
-  <mat-card style="width: 600px">
+<form [formGroup]='form' (ngSubmit)='proximo()' [@fadeInOut]
+      layout='column' layout-align='center center' novalidate
+      *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+  <mat-card style='width: 600px'>
     <!--<mat-card-title class="push">-->
     <!--{{configuracao?.feedbackEnunciado}}-->
     <!--</mat-card-title>-->
     <mat-card-content style='margin-bottom: 0'>
       <div layout="column" layout-margin>
         <mat-form-field flex>
-          <textarea (keyup)='modelChanged.next()'
-                    style='min-height: 100px' matInput
-                    maxlength='250' formControlName='feedback'
-                    placeholder='{{configuracao?.feedbackEnunciado}}'
-                    id='feedback' name='feedback' [(ngModel)]='feedback'>
+          <textarea maxlength='250' matInput id='feedback' name='feedback'
+                    (keyup)='modelChanged.next()' formControlName='feedback'
+                    placeholder='{{configuracao?.feedbackEnunciado}}' style='min-height: 100px'
+                    *ngIf='mobileService?.avaliacoes[+this.activatedRoute?.snapshot?.params?.ordem - 1]?.agrupador'
+                    [(ngModel)]='mobileService.avaliacoes[+this.activatedRoute.snapshot.params.ordem - 1].agrupador.feedback'>
           </textarea>
         </mat-form-field>
       </div>
     </mat-card-content>
     <mat-card-actions style='margin-top: -30px'>
       <div layout='row' layout-align='center center' flex>
-        <div layout='column'
-             layout-margin flex
-             layout-align='center end'>
-          <button layout-align='center end'
-                  mat-button color='primary'>
+        <div layout='column' layout-margin layout-align='center end' flex>
+          <button layout-align='center end' mat-button color='primary'>
             Concluir
           </button>
         </div>

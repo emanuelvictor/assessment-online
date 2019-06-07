@@ -5,7 +5,7 @@ import {UnidadeService} from '../../../../../web/domain/service/unidade.service'
 import {MatSnackBar} from "@angular/material";
 import {TdLoadingService} from "@covalent/core";
 import {viewAnimation} from "../../../../../web/domain/presentation/controls/utils";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../../web/domain/repositories/unidade-tipo-avaliacao.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
 import {Observable} from "rxjs";
 
 @Component({

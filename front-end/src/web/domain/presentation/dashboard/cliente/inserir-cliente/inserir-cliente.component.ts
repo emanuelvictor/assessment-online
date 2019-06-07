@@ -6,7 +6,7 @@ import {ContaService} from '../../../../service/conta.service';
 import {TdLoadingService} from '@covalent/core';
 import {Conta} from '../../../../entity/usuario/conta.model';
 import {AuthenticationService} from '../../../../service/authentication.service';
-import {UsuarioRepository} from "../../../../repositories/usuario.repository";
+import {UsuarioRepository} from "../../../../repository/usuario.repository";
 
 @Component({
   selector: 'inserir-cliente',

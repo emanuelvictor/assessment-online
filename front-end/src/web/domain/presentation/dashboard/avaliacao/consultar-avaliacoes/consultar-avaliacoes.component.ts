@@ -16,7 +16,7 @@ import {Subject} from "rxjs";
 import {Avaliacao} from "../../../../entity/avaliacao/avaliacao.model";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
-import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
+import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {viewAnimation} from "../../../controls/utils";
 
 @Component({

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Unidade} from '../entity/unidade/unidade.model';
-import {UnidadeRepository} from '../repositories/unidade.repository';
+import {UnidadeRepository} from '../repository/unidade.repository';
 
 /**
  *

@@ -5,8 +5,8 @@ import {Unidade} from '../../../../entity/unidade/unidade.model';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
 import {AuthenticationService} from "../../../../service/authentication.service";
-import {TipoAvaliacaoRepository} from "../../../../repositories/tipo-avaliacao.repository";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../repositories/unidade-tipo-avaliacao.repository";
+import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
 import {viewAnimation} from "../../../controls/utils";
 import {UnidadeTipoAvaliacao} from "../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
 
