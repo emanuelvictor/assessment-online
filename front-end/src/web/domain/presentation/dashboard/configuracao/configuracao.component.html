@@ -182,7 +182,7 @@
                             Solicitar feedback
                           </mat-checkbox>
 
-                          <mat-form-field *ngIf='configuracao.feedback' flex style='margin-top: -3px'>
+                          <mat-form-field [@fadeInOut] *ngIf='configuracao?.feedback' flex style='margin-top: -3px'>
                             <input formControlName='feedbackEnunciado' matInput
                                    [(ngModel)]='configuracao.feedbackEnunciado'
                                    name='feedbackEnunciado' id='feedbackEnunciado'
@@ -192,7 +192,7 @@
                             </mat-error>
                           </mat-form-field>
                         </div>
-                        <div layout='row' flex *ngIf='configuracao.feedback'>
+                        <div [@fadeInOut] layout='row' flex *ngIf='configuracao?.feedback'>
                           <mat-checkbox [ngModelOptions]='{standalone: true}'
                                         [(ngModel)]='configuracao.feedbackObrigatorio' flex
                                         name='feedbackObrigatorio' flex-xl='30' flex-lg='40'
@@ -200,21 +200,12 @@
                             Tornar feedback obrigatório
                           </mat-checkbox>
 
-                          <mat-form-field  flex style='margin-top: -3px'>
-                            <mat-select [ngModelOptions]='{standalone: true}'
-                                        placeholder='Tipo do campo de Feedback'
-                                        [(ngModel)]='configuracao.tipoFeedback'>
-                              <mat-option [value]="0">
-                                Texto
-                              </mat-option>
-                              <mat-option [value]="1">
-                                E-mail
-                              </mat-option>
-                              <mat-option [value]="2">
-                                CPF
-                              </mat-option>
-                              <mat-option [value]="3">
-                                Telefone
+                          <mat-form-field flex style='margin-top: -3px'>
+                            <mat-select [(value)]='configuracao.tipoFeedback'
+                                        placeholder='Tipo do campo de Feedback'>
+                              <mat-option [value]='tipoFeedback'
+                                          *ngFor='let tipoFeedback of tiposFeedbacks'>
+                                {{tipoFeedback}}
                               </mat-option>
                             </mat-select>
                           </mat-form-field>
@@ -270,9 +261,9 @@
               </div>
             </div>
 
-            <mat-divider *ngIf='contaAutenticada?.root'></mat-divider>
+            <mat-divider [@fadeInOut] *ngIf='contaAutenticada?.root'></mat-divider>
 
-            <div style='margin-top: 20px; padding-bottom: 25px'
+            <div [@fadeInOut] style='margin-top: 20px; padding-bottom: 25px'
                  *ngIf='contaAutenticada?.root' layout='column' layout-margin>
               <div layout='row' layout-align='start center'>
                 <div layout='column' layout-margin>
@@ -285,12 +276,12 @@
               </div>
               <div layout='row' layout-align='center center' class='push-left'>
                 <div style='margin-left: 30px' layout='column' flex='50' layout-align='center start'>
-                  <div flex *ngIf='importFilePath'>
+                  <div [@fadeInOut] flex *ngIf='importFilePath'>
                     <button class='tc-grey-500' type='button' mat-button (click)='removeImportFile()'>
                       REMOVER ARQUIVO
                     </button>
                   </div>
-                  <div flex *ngIf='!importFilePath'>
+                  <div [@fadeInOut] flex *ngIf='!importFilePath'>
                     <td-file-upload #importFileUpload
                                     defaultColor='primary'
                                     accept='.json' name='file'

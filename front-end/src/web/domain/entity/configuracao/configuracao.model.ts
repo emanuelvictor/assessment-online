@@ -65,6 +65,12 @@ export class Configuracao extends Abstract {
 
   /**
    *
+   * @type {string}
+   */
+  public feedbackEnunciado: string;
+
+  /**
+   *
    */
   public feedback: boolean;
 
@@ -77,11 +83,6 @@ export class Configuracao extends Abstract {
    *
    */
   public tipoFeedback: TipoFeedback = TipoFeedback.TEXTO;
-  /**
-   *
-   * @type {string}
-   */
-  public feedbackEnunciado: string;
 
   /**
    *

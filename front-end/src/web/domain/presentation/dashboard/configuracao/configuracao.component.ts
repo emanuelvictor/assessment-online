@@ -13,6 +13,7 @@ import {FileRepository} from "../../../../infrastructure/repository/file/file.re
 import {ConfiguracaoRepository} from "../../../repositories/configuracao.repository";
 import {AuthenticationService} from "../../../service/authentication.service";
 import {TipoFeedback} from "../../../entity/configuracao/tipo-feedback.enum";
+import {enumToArrayString, viewAnimation} from "../../controls/utils";
 
 /**
  *
@@ -20,7 +21,10 @@ import {TipoFeedback} from "../../../entity/configuracao/tipo-feedback.enum";
 @Component({
   selector: 'configuracao',
   templateUrl: './configuracao.component.html',
-  styleUrls: ['./configuracao.component.scss']
+  styleUrls: ['./configuracao.component.scss'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class ConfiguracaoComponent implements OnInit {
 
@@ -75,6 +79,8 @@ export class ConfiguracaoComponent implements OnInit {
   importFile = null;
   done = false;
 
+  tiposFeedbacks: any;
+
   /**
    *
    * @param snackBar
@@ -104,6 +110,8 @@ export class ConfiguracaoComponent implements OnInit {
    *
    */
   ngOnInit(): void {
+
+    this.tiposFeedbacks = enumToArrayString(TipoFeedback);
 
     this.form = this.fb.group({
       um: ['um', [Validators.required]],
@@ -220,6 +228,7 @@ export class ConfiguracaoComponent implements OnInit {
       this.configuracaoService.save(this.configuracao)
         .then(result => {
           this.configuracao = result;
+
           this._loadingService.resolve('overlayStarSyntax');
           this.success('Configuração atualizada com sucesso');
 

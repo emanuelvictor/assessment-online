@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 /**
  * Created by Emanuel Victor on 15/03/2017.
@@ -84,6 +86,17 @@ public class Configuracao extends AbstractEntity {
      *
      */
     private boolean feedback;
+
+    /**
+     *
+     */
+    public Boolean feedbackObrigatorio;
+
+    /**
+     *
+     */
+    @Enumerated(EnumType.ORDINAL)
+    public TipoFeedback tipoFeedback = TipoFeedback.TEXTO;
 
     /**
      *

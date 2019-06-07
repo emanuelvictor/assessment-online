@@ -1,6 +1,14 @@
 import {Configuracao} from "../../entity/configuracao/configuracao.model";
 import {animate, query, style, transition, trigger} from "@angular/animations";
 
+/**
+ *
+ * @param enumerator
+ */
+export function  enumToArrayString(enumerator): any {
+  return Object.keys(enumerator).map(key => enumerator[key]).filter(value => typeof value === 'string') as string[]
+}
+
 export const single = [
   {
     "name": new Configuracao().um,
