@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Configuracao} from "../../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
 import {MatSnackBar} from "@angular/material";
 import {MobileService} from "../../../../../service/mobile.service";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {Subject} from "rxjs";
 import {AbstractComponent} from "../abstract/abstract.component";
 import {viewAnimation} from "../../../../../../../web/domain/presentation/controls/utils";
@@ -20,11 +19,6 @@ import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/re
   ]
 })
 export class FeedbackComponent extends AbstractComponent implements OnInit {
-
-  /**
-   *
-   */
-  configuracao: Configuracao = new Configuracao();
 
   /**
    *
@@ -53,21 +47,22 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
               public _loadingService: TdLoadingService, private router: Router,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               public mobileService: MobileService, public activatedRoute: ActivatedRoute) {
-    super(snackBar, mobileService, _loadingService)
+    super(snackBar, mobileService, _loadingService);
   }
 
   /**
    *
    */
   ngOnInit() {
-
     // Debounce da digitação, toda vez que o usuário digita alguma coisa, depois de 300 milisegundos ele executa isso.
     this.modelChanged.debounceTime(300).subscribe(() => {
       // Restarta o timeout
       this.restartTimeout()
     });
 
-    this.form = this.fb.group({
+    this.form = this.mobileService.configuracao.feedbackObrigatorio ? this.fb.group({
+      feedback: ['feedback', [Validators.required]]
+    }) : this.fb.group({
       feedback: ['feedback', []]
     });
 
@@ -86,6 +81,11 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
 
     // Restarta o timeout
     this.restartTimeout();
+
+    // Valida o formulário
+    if (!this.form.valid) {
+      return;
+    }
 
     this.router.navigate(['/avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/conclusao'])
   }

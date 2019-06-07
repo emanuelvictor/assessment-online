@@ -7,13 +7,46 @@
     <!--</mat-card-title>-->
     <mat-card-content style='margin-bottom: 0'>
       <div layout="column" layout-margin>
-        <mat-form-field flex>
+        <mat-form-field *ngIf="mobileService?.configuracao?.tipoFeedback === 'TEXTO'" flex>
           <textarea maxlength='250' matInput id='feedback' name='feedback'
                     (keyup)='modelChanged.next()' formControlName='feedback'
-                    placeholder='{{configuracao?.feedbackEnunciado}}' style='min-height: 100px'
-                    *ngIf='mobileService?.avaliacoes[+this.activatedRoute?.snapshot?.params?.ordem - 1]?.agrupador'
-                    [(ngModel)]='mobileService.avaliacoes[+this.activatedRoute.snapshot.params.ordem - 1].agrupador.feedback'>
+                    placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}' style='min-height: 100px'
+                    *ngIf='mobileService?.avaliacoes[+activatedRoute?.snapshot?.params?.ordem - 1]?.agrupador'
+                    [(ngModel)]='mobileService.avaliacoes[+activatedRoute.snapshot.params.ordem - 1].agrupador.feedback'>
           </textarea>
+          <mat-error>
+            Campo obrigatório
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="mobileService?.configuracao?.tipoFeedback === 'EMAIL'" flex>
+          <input maxlength='250' matInput id='feedback' name='feedback'
+                 placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}'
+                 (keyup)='modelChanged.next()' formControlName='feedback' style='min-height: 100px'
+                 *ngIf='mobileService?.avaliacoes[+activatedRoute?.snapshot?.params?.ordem - 1]?.agrupador'
+                 [(ngModel)]='mobileService.avaliacoes[+activatedRoute.snapshot.params.ordem - 1].agrupador.feedback'/>
+          <mat-error>
+            Campo obrigatório
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="mobileService?.configuracao?.tipoFeedback === 'EMAIL'" flex>
+          <input maxlength='250' matInput id='feedback' name='feedback'
+                 placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}'
+                 (keyup)='modelChanged.next()' formControlName='feedback' style='min-height: 100px'
+                 *ngIf='mobileService?.avaliacoes[+activatedRoute?.snapshot?.params?.ordem - 1]?.agrupador'
+                 [(ngModel)]='mobileService.avaliacoes[+activatedRoute.snapshot.params.ordem - 1].agrupador.feedback'/>
+          <mat-error>
+            Campo obrigatório
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="mobileService?.configuracao?.tipoFeedback === 'CPF'" flex>
+          <input maxlength='250' matInput id='feedback' name='feedback'
+                 placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}'
+                 (keyup)='modelChanged.next()' formControlName='feedback' style='min-height: 100px'
+                 *ngIf='mobileService?.avaliacoes[+activatedRoute?.snapshot?.params?.ordem - 1]?.agrupador'
+                 [(ngModel)]='mobileService.avaliacoes[+activatedRoute.snapshot.params.ordem - 1].agrupador.feedback'/>
+          <mat-error>
+            Campo obrigatório
+          </mat-error>
         </mat-form-field>
       </div>
     </mat-card-content>

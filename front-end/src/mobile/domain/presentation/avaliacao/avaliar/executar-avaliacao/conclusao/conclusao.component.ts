@@ -50,8 +50,6 @@ export class ConclusaoComponent extends AbstractComponent implements OnInit {
       })
     });
 
-    console.log(agrupador);
-
     // Salva o agrupador, e as avaliações com seus avaliaveis por cascade.
     this.agrupadorRepository.save(agrupador).then(() => {
       this._loadingService.resolve('overlayStarSyntax')

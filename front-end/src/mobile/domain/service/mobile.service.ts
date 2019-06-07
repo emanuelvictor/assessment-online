@@ -178,42 +178,9 @@ export class MobileService {
     return this.configuracaRepository.requestConfiguracao.then(result => this._configuracao = result)
   }
 
-  /**
-   * Envia avaliacao
-   */
-  public enviarAvaliacao(avaliacao) {
 
-    // // Instancia o array de tabela associativa
-    // avaliacao.avaliacoesAvaliaveis = [];
-    //
-    // // Percorre os colaboradores
-    // this.avaliaveis.forEach(avaliavel => {
-    //
-    //   // Seta no avaliavel a _unidade correta
-    //   avaliavel.unidadeTipoAvaliacao.unidade = this._unidades.filter(unidade => unidade.id === avaliavel.unidadeTipoAvaliacao.unidade.id)[0];
-    //
-    //   // Cria um registro tabela associativa e adiciona dentro da avaliação
-    //   const avaliacaoAvaliavel: AvaliacaoAvaliavel = new AvaliacaoAvaliavel();
-    //
-    //   //
-    //   const avaliacaoAux: Avaliacao = new Avaliacao();
-    //   avaliacaoAux.nota = avaliacao.nota;
-    //   avaliacaoAux.id = avaliacao.id;
-    //
-    //   avaliacaoAvaliavel.avaliacao = avaliacaoAux;
-    //   avaliacaoAvaliavel.avaliavel = avaliavel;
-    //
-    //   avaliacao.avaliacoesAvaliaveis.push(avaliacaoAvaliavel);
-    // });
-
-    this._avaliacoes.push(avaliacao)
-//     // Insere avaliação
-//     this.avaliacaoService.save(this._avaliacao).then(result => {
-//       this._avaliacao = result;
-// console.log(this._avaliacao);
-//       // Reseta objeto da avaliação
-//       this.resetDomain()
-//     })
+  get configuracao(): Configuracao {
+    return this._configuracao;
   }
 
   /**
