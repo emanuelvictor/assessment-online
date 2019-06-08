@@ -9,6 +9,9 @@ import {AbstractComponent} from "../abstract/abstract.component";
 import {viewAnimation} from "../../../../../../../web/domain/presentation/controls/utils";
 import {AvaliavelRepository} from "../../../../../../../web/domain/repository/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
+import {TipoFeedback} from "../../../../../../../web/domain/entity/configuracao/tipo-feedback.enum";
+import {cpfValidator, obrigatorio} from "../../../../../../../web/domain/presentation/controls/validators/validators";
+import {textMasks} from "../../../../../../../web/domain/presentation/controls/text-masks/text-masks";
 
 @Component({
   selector: 'app-feedback',
@@ -24,6 +27,11 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
    *
    */
   form: any;
+
+  /**
+   *
+   */
+  masks = textMasks;
 
   /**
    *
@@ -60,12 +68,37 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
       this.restartTimeout()
     });
 
-    this.form = this.mobileService.configuracao.feedbackObrigatorio ? this.fb.group({
-      feedback: ['feedback', [Validators.required]]
-    }) : this.fb.group({
-      feedback: ['feedback', []]
-    });
+    if (this.mobileService.configuracao.tipoFeedback === <any>TipoFeedback[TipoFeedback.TEXTO]) {
+      this.form = this.mobileService.configuracao.feedbackObrigatorio ? this.fb.group({
+        feedback: ['feedback', [obrigatorio()]]
+      }) : this.fb.group({
+        feedback: ['feedback', []]
+      })
+    }
 
+    if (this.mobileService.configuracao.tipoFeedback === <any>TipoFeedback[TipoFeedback.EMAIL]) {
+      this.form = this.mobileService.configuracao.feedbackObrigatorio ? this.fb.group({
+        feedback: ['feedback', [obrigatorio(), Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
+      }) : this.fb.group({
+        feedback: ['feedback', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
+      })
+    }
+
+    if (this.mobileService.configuracao.tipoFeedback === <any>TipoFeedback[TipoFeedback.CPF]) {
+      this.form = this.mobileService.configuracao.feedbackObrigatorio ? this.fb.group({
+        feedback: ['feedback', [obrigatorio(), cpfValidator()]]
+      }) : this.fb.group({
+        feedback: ['feedback', [cpfValidator()]]
+      })
+    }
+
+    if (this.mobileService.configuracao.tipoFeedback === <any>TipoFeedback[TipoFeedback.TELEFONE]) {
+      this.form = this.mobileService.configuracao.feedbackObrigatorio ? this.fb.group({
+        feedback: ['feedback', [obrigatorio()]]
+      }) : this.fb.group({
+        feedback: ['feedback', []]
+      })
+    }
     // Workaround
     // Tempo de espera padrão para concluir o timeout.
     // Isso se reflete na experiência do usuário
