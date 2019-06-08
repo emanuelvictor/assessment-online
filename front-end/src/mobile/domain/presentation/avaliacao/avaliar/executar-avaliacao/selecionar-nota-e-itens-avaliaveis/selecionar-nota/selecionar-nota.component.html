@@ -8,31 +8,31 @@
     </mat-card-title>
     <mat-card-content style='margin-bottom: 0'>
       <div layout-gt-xs='row' layout-xs='column' layout-margin>
-        <button mat-button (click)='avaliar(1)'>
+        <button mat-button (click)='proximo(1)'>
           <div layout='column' layout-align='center center'>
             <mat-icon style='fill: #c21c1f' svgIcon='assets:pessimo'></mat-icon>
             <span>{{configuracao?.um}}</span>
           </div>
         </button>
-        <button mat-button (click)='avaliar(2)'>
+        <button mat-button (click)='proximo(2)'>
           <div layout='column' layout-align='center center'>
             <mat-icon style='fill: #e96d01' svgIcon='assets:ruim'></mat-icon>
             <span>{{configuracao?.dois}}</span>
           </div>
         </button>
-        <button mat-button (click)='avaliar(3)'>
+        <button mat-button (click)='proximo(3)'>
           <div layout='column' layout-align='center center'>
             <mat-icon style='fill: #d4c40d' svgIcon='assets:regular'></mat-icon>
             <span>{{configuracao?.tres}}</span>
           </div>
         </button>
-        <button mat-button (click)='avaliar(4)'>
+        <button mat-button (click)='proximo(4)'>
           <div layout='column' layout-align='center center'>
             <mat-icon style='fill: #8fc82c' svgIcon='assets:bom'></mat-icon>
             <span>{{configuracao?.quatro}}</span>
           </div>
         </button>
-        <button mat-button (click)='avaliar(5)'>
+        <button mat-button (click)='proximo(5)'>
           <div layout='column' layout-align='center center'>
             <mat-icon style='fill: #5ee924' svgIcon='assets:otimo'></mat-icon>
             <span>{{configuracao?.cinco}}</span>
@@ -48,7 +48,7 @@
              layout-margin flex
              style='font-size: 25px'
              layout-align='end start'>
-          {{activatedRoute?.snapshot?.params['ordem'] + '/' + countTiposAvaliacoes}}
+          {{activatedRoute?.parent?.snapshot?.params['ordem'] + '/' + countTiposAvaliacoes}}
         </div>
       </div>
     </mat-card-actions>

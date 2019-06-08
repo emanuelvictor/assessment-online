@@ -32,7 +32,7 @@
       <div layout='row' layout-align='center center' flex>
 
         <div *ngIf='countTiposAvaliacoes > 1' layout='column' layout-margin flex layout-align='end start'>
-          {{activatedRoute?.snapshot?.params['ordem'] + '/' + countTiposAvaliacoes}}
+          {{activatedRoute?.parent?.snapshot?.params?.ordem + '/' + countTiposAvaliacoes}}
         </div>
 
         <div layout='column' layout-margin flex layout-align='center end'>

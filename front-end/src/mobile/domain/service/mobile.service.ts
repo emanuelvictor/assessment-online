@@ -2,7 +2,6 @@
  * Created by emanuel on 13/06/17.
  */
 import {Injectable} from '@angular/core';
-import {Avaliacao} from '../../../web/domain/entity/avaliacao/avaliacao.model';
 import {Unidade} from '../../../web/domain/entity/unidade/unidade.model';
 import {MatSnackBarConfig} from '@angular/material';
 import {AvaliacaoService} from '../../../web/domain/service/avaliacao.service';
@@ -14,6 +13,7 @@ import {Router} from "@angular/router";
 import {TdLoadingService} from "@covalent/core";
 import {ConfiguracaoRepository} from "../../../web/domain/repository/configuracao.repository";
 import {Configuracao} from "../../../web/domain/entity/configuracao/configuracao.model";
+import {Agrupador} from "../../../web/domain/entity/avaliacao/agrupador.model";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -31,7 +31,7 @@ export class MobileService {
   /**
    *
    */
-  private _avaliacoes: Avaliacao[] = [];
+  private _agrupador: Agrupador = new Agrupador();
 
   /**
    *
@@ -42,6 +42,7 @@ export class MobileService {
    *
    */
   private _timeout: number;
+
 
   /**
    * @param configuracaRepository
@@ -59,8 +60,7 @@ export class MobileService {
               private configuracaRepository: ConfiguracaoRepository) {
 
     //  Pega a key da _unidade do localStorage
-    this.localStorage.requestUnidades().then(unidades => this._unidades = unidades);
-
+    this.localStorage.requestUnidades().then(unidades => this._unidades = unidades)
   }
 
   /**
@@ -93,7 +93,7 @@ export class MobileService {
       // }
 
       // Reseta os objetos de domínio
-      this.avaliacoes = [];
+      this.agrupador = new Agrupador();
       this.router.navigate(['/avaliar']);
       this._loadingService.resolve('overlayStarSyntax');
       return time
@@ -107,7 +107,7 @@ export class MobileService {
    * Mata o timeout
    */
   public clearTimeout(): void {
-    clearTimeout(this._timeout);
+    clearTimeout(this._timeout)
   }
 
   /**
@@ -135,16 +135,16 @@ export class MobileService {
   /**
    *
    */
-  get avaliacoes(): Avaliacao[] {
-    return this._avaliacoes;
+  get agrupador(): Agrupador {
+    return this._agrupador
   }
 
   /**
    *
    * @param value
    */
-  set avaliacoes(value: Avaliacao[]) {
-    this._avaliacoes = value;
+  set agrupador(value: Agrupador) {
+    this._agrupador = value
   }
 
   /**
@@ -160,7 +160,7 @@ export class MobileService {
    * @param {Unidade} unidades
    */
   set unidades(unidades: any) {
-    this.localStorage.unidades = unidades;
+    this.localStorage.unidades = unidades
   }
 
   /**
@@ -180,7 +180,7 @@ export class MobileService {
 
 
   get configuracao(): Configuracao {
-    return this._configuracao;
+    return this._configuracao
   }
 
   /**
@@ -204,8 +204,8 @@ export class MobileService {
           this.localStorage.hashs = hashs;
           observer.next(this.localStorage.hashs);
           observer.complete()
-        });
-    });
+        })
+    })
   }
 
 }

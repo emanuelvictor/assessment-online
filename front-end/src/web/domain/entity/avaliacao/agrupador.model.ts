@@ -7,4 +7,9 @@ export class Agrupador extends Abstract {
 
   public feedback: string;
 
+
+  constructor() {
+    super();
+    this.avaliacoes = [];
+  }
 }

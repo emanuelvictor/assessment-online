@@ -192,7 +192,7 @@
                             </mat-error>
                           </mat-form-field>
                         </div>
-                        <div [@fadeInOut] layout='row' flex *ngIf='configuracao?.feedback'>
+                        <div [@fadeInOut] layout='row' *ngIf='configuracao?.feedback' flex style='margin-top: 15px'>
                           <mat-checkbox [ngModelOptions]='{standalone: true}'
                                         [(ngModel)]='configuracao.feedbackObrigatorio' flex
                                         name='feedbackObrigatorio' flex-xl='30' flex-lg='40'
@@ -208,6 +208,16 @@
                                 {{tipoFeedback}}
                               </mat-option>
                             </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div layout='row' flex style='margin-top: 15px'>
+                          <mat-form-field flex style='margin-top: -3px'>
+                            <input placeholder='Tempod e retorno das avaliações (Em segundos)'
+                                   formControlName='time' [(ngModel)]='configuracao.time'
+                                   matInput type='number' name='time' id='time' maxlength='144'>
+                            <mat-error>
+                              Campo obrigatório
+                            </mat-error>
                           </mat-form-field>
                         </div>
                       </div>
@@ -239,8 +249,7 @@
                     </brand>
                   </div>
                   <div flex *ngIf='backgroundPath'>
-                    <button type='button' (click)='removeBackgroundFile()' class='tc-grey-500'
-                            mat-button>
+                    <button type='button' (click)='removeBackgroundFile()' class='tc-grey-500' mat-button>
                       REMOVER FOTO
                     </button>
                   </div>

@@ -36,17 +36,17 @@ export class ConclusaoComponent extends AbstractComponent implements OnInit {
    *
    */
   ngOnInit() {
-    const agrupador: Agrupador = Object.assign({}, this.mobileService.avaliacoes[+this.activatedRoute.snapshot.params.ordem - 1].agrupador);
+    const agrupador: Agrupador = Object.assign({}, this.mobileService.agrupador);
 
-    this.mobileService.avaliacoes.forEach(value => value.agrupador = null);
+    this.mobileService.agrupador.avaliacoes.forEach(value => value.agrupador = null);
 
-    agrupador.avaliacoes = this.mobileService.avaliacoes;
+    agrupador.avaliacoes = this.mobileService.agrupador.avaliacoes;
 
     agrupador.avaliacoes.forEach(avaliacao => {
       const copy: Avaliacao = Object.assign({}, avaliacao);
       copy.avaliacoesAvaliaveis = [];
       avaliacao.avaliacoesAvaliaveis.forEach(avaliacaoAvaliavel => {
-        avaliacaoAvaliavel.avaliacao = copy;
+        avaliacaoAvaliavel.avaliacao = copy
       })
     });
 

@@ -119,6 +119,7 @@ export class ConfiguracaoComponent implements OnInit {
       tres: ['tres', [Validators.required]],
       quatro: ['quatro', [Validators.required]],
       cinco: ['cinco', [Validators.required]],
+      time: ['time', [Validators.required]],
       agradecimento: ['agradecimento', [Validators.required]],
       feedbackEnunciado: ['feedbackEnunciado', [this.feedbackRequired()]],
     });

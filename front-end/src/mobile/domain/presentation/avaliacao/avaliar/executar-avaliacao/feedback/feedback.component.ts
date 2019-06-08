@@ -62,8 +62,10 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
    *
    */
   ngOnInit() {
+
     // Debounce da digitação, toda vez que o usuário digita alguma coisa, depois de 300 milisegundos ele executa isso.
     this.modelChanged.debounceTime(300).subscribe(() => {
+
       // Restarta o timeout
       this.restartTimeout()
     });
@@ -99,6 +101,7 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
         feedback: ['feedback', []]
       })
     }
+
     // Workaround
     // Tempo de espera padrão para concluir o timeout.
     // Isso se reflete na experiência do usuário
@@ -120,6 +123,6 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
       return;
     }
 
-    this.router.navigate(['/avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/conclusao'])
+    this.router.navigate(['/avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/conclusao'])
   }
 }

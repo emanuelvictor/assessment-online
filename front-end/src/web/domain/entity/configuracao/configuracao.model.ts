@@ -97,6 +97,11 @@ export class Configuracao extends Abstract {
   /**
    *
    */
+  public timeInMiliseconds: number;
+
+  /**
+   *
+   */
   constructor() {
     super();
     this.um = 'Péssimo';
@@ -105,7 +110,8 @@ export class Configuracao extends Abstract {
     this.quatro = 'Bom';
     this.cinco = 'Ótimo';
     this.quebrarLinhaNaSelecaoDeItenAvaliavel = false;
-    this.time = 30000;
-    this.tipoFeedback = TipoFeedback.TEXTO
+    this.tipoFeedback = TipoFeedback.TEXTO;
+    this.time = 30;
+    this.timeInMiliseconds = this.time * 1000
   }
 }

@@ -1,16 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MobileService} from "../../../../../service/mobile.service";
-import {AuthenticationService} from "../../../../../../../web/domain/service/authentication.service";
+import {MobileService} from "../../../../../../service/mobile.service";
+import {AuthenticationService} from "../../../../../../../../web/domain/service/authentication.service";
 import {MatIconRegistry, MatSnackBar} from "@angular/material";
 import {DomSanitizer} from "@angular/platform-browser";
-import {UnidadeTipoAvaliacao} from "../../../../../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
-import {AvaliavelRepository} from "../../../../../../../web/domain/repository/avaliavel.repository";
+import {UnidadeTipoAvaliacao} from "../../../../../../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
+import {AvaliavelRepository} from "../../../../../../../../web/domain/repository/avaliavel.repository";
 import {TdLoadingService} from "@covalent/core";
-import {AbstractComponent} from "../abstract/abstract.component";
-import {Avaliacao} from "../../../../../../../web/domain/entity/avaliacao/avaliacao.model";
-import {Agrupador} from "../../../../../../../web/domain/entity/avaliacao/agrupador.model";
+import {AbstractComponent} from "../../abstract/abstract.component";
+import {Avaliacao} from "../../../../../../../../web/domain/entity/avaliacao/avaliacao.model";
 
 @Component({
   selector: 'selecionar-nota',
@@ -66,48 +65,53 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
     // Requisita unidades.
     this.mobileService.requestUnidades().then(unidades => {
 
+      // Se não tem unidades selecionadas vai para tela de selação de unidades
+      if (!unidades || !unidades.length) {
+        this.router.navigate(['configurar-unidades-e-avaliacoes']);
+        this._loadingService.resolve('overlayStarSyntax');
+        return
+      }
+
       // Requisita unidadesTiposAvaliacoes.
       this.mobileService.requestUnidadesTiposAvaliacoes().then(unidadesTiposAvaliacoes => {
-
-        this.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
 
         // Popula variável de unidadesTiposAvalicoes, esta variável será utilizada na conclusão da avaliação.
         this.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
 
-        // Conta a quantidade de avaliações, utilizado para criar contador na tela.
-        this.countTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId).length;
-
         // Se não tem unidades selecionadas vai para tela de selação de unidades
-        if (!unidades || !unidades.length || !unidadesTiposAvaliacoes || !unidadesTiposAvaliacoes.length) {
+        if (!unidadesTiposAvaliacoes || !unidadesTiposAvaliacoes.length) {
           this.router.navigate(['configurar-unidades-e-avaliacoes']);
           this._loadingService.resolve('overlayStarSyntax');
           return
         }
 
         // Se não tem unidadeId, então retorna para seleção de unidade.
-        if (!this.activatedRoute.snapshot.params.ordem) {
+        if (!this.activatedRoute.parent.snapshot.params.ordem) {
           this.router.navigate(['configurar-unidades-e-avaliacoes']);
           this._loadingService.resolve('overlayStarSyntax');
           return
         }
 
+        // Conta a quantidade de avaliações, utilizado para criar contador na tela.
+        this.countTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.parent.snapshot.params.unidadeId).length;
+
         // Se só tem uma unidade selecionada, e a ordem da avaliação é 1, então reseta o timeout.
         // Pois não há necessidade de zerá-lo, uma vez que não há mais de uma unidade para ser selecionada.
         // Isso auxilia na experiência de usuário, a tela não fica piscando
-        if (unidades.length === 1 && +this.activatedRoute.snapshot.params.ordem === 1) {
+        if (unidades.length === 1 && +this.activatedRoute.parent.snapshot.params.ordem === 1) {
           this.mobileService.clearTimeout()
         }
 
         // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
-        if (!this.activatedRoute.parent.snapshot.params.unidadeId) {
-          this.router.navigate(['selecionar-unidade']);
+        if (!this.activatedRoute.parent.parent.snapshot.params.unidadeId) {
+          this.router.navigate(['avaliar']);
           this._loadingService.resolve('overlayStarSyntax');
           return
         }
 
         // Pega a unidade filtrada pela ordem e pela unidade
         this.unidadeTipoAvaliacao = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => {
-          return unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.snapshot.params.unidadeId && unidadeTipoAvaliacao.ordem === this.activatedRoute.snapshot.params.ordem
+          return unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.parent.snapshot.params.unidadeId && unidadeTipoAvaliacao.ordem === this.activatedRoute.parent.snapshot.params.ordem
         })[0];
 
         // Resolve o loading.
@@ -126,15 +130,14 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
   /**
    *
    */
-  public avaliar(nota: number) {
+  public proximo(nota: number) {
 
     const avaliacao: Avaliacao = new Avaliacao();
     avaliacao.nota = nota;
-    avaliacao.agrupador = new Agrupador();
 
-    this.mobileService.avaliacoes.push(avaliacao);
+    this.mobileService.agrupador.avaliacoes.push(avaliacao);
 
-    this.router.navigate(['avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/' + this.activatedRoute.snapshot.params.ordem + '/selecionar-atendentes']);
+    this.router.navigate(['avaliar/' + (+this.activatedRoute.parent.parent.snapshot.params.unidadeId) + '/ordem/' + this.activatedRoute.parent.snapshot.params.ordem + '/selecionar-atendentes']);
 
   }
 

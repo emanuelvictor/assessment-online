@@ -9,9 +9,10 @@ import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/c
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component";
 import {ConclusaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao.component";
 import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/feedback/feedback.component";
-import {SelecionarNotaEAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-avaliaveis.component";
-import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota/selecionar-nota.component";
-import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-atendentes/selecionar-atendentes.component";
+import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota/selecionar-nota.component";
+import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-atendentes/selecionar-atendentes.component";
+import {SelecionarNotaEItensAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota-e-itens-avaliaveis.component";
+import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component";
 
 
 const routes: Routes = [
@@ -26,12 +27,17 @@ const routes: Routes = [
         children: [
           {path: '', component: SelecionarUnidadeComponent},
           {
-            path: ':unidadeId', component: SelecionarNotaEAvaliaveisComponent,
+            path: ':unidadeId', component: ExecutarAvaliacaoComponent,
             children: [
-              {path: ':ordem', component: SelecionarNotaComponent},
-              {path: ':ordem/selecionar-atendentes', component: SelecionarAtendentesComponent},
-              {path: ':ordem/conclusao', component: ConclusaoComponent},
-              {path: ':ordem/feedback', component: FeedbackComponent},
+              {
+                path: 'ordem/:ordem', component: SelecionarNotaEItensAvaliaveisComponent,
+                children: [
+                  {path: '', component: SelecionarNotaComponent},
+                  {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
+                ]
+              },
+              {path: 'conclusao', component: ConclusaoComponent},
+              {path: 'feedback', component: FeedbackComponent},
             ]
           },
         ]
