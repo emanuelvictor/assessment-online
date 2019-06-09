@@ -26,11 +26,6 @@ export class MobileService {
   /**
    *
    */
-  private _unidades: Unidade[] = [];
-
-  /**
-   *
-   */
   private _agrupador: Agrupador = new Agrupador();
 
   /**
@@ -58,9 +53,6 @@ export class MobileService {
               private _loadingService: TdLoadingService,
               private avaliacaoService: AvaliacaoService,
               private configuracaRepository: ConfiguracaoRepository) {
-
-    //  Pega a key da _unidade do localStorage
-    this.localStorage.requestUnidades().then(unidades => this._unidades = unidades)
   }
 
   /**
@@ -69,7 +61,7 @@ export class MobileService {
    * @param time
    */
   public createTimeout(fun: () => {}, time?: number): number {
-    this._timeout = setTimeout(fun, time ? time : 30000);
+    this._timeout = setTimeout(fun, time ? time : this._configuracao.timeInMilis);
     return this._timeout
   }
 
@@ -96,8 +88,9 @@ export class MobileService {
       this.agrupador = new Agrupador();
       this.router.navigate(['/avaliar']);
       this._loadingService.resolve('overlayStarSyntax');
-      return time
-    }, time ? time : 30000);
+      console.log(this._configuracao.timeInMilis);
+      return time ? time : this._configuracao.timeInMilis
+    }, time ? time : this._configuracao.timeInMilis);
 
     //
     return this._timeout

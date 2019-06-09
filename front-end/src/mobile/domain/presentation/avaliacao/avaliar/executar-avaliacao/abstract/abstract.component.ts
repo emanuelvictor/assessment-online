@@ -29,7 +29,7 @@ export abstract class AbstractComponent implements OnDestroy {
       this.configuracao = result;
 
       // Entrei na view, requisitei a configuração, restarto o timeout
-      this.restartTimeout(this.configuracao.time)
+      this.restartTimeout(this.configuracao.timeInMilis ? this.configuracao.timeInMilis : 30000)
     })
   }
 

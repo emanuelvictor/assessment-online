@@ -119,7 +119,7 @@ export class ConfiguracaoComponent implements OnInit {
       tres: ['tres', [Validators.required]],
       quatro: ['quatro', [Validators.required]],
       cinco: ['cinco', [Validators.required]],
-      time: ['time', [Validators.required]],
+      time: ['time', [Validators.required, this.timeoutValidator()]],
       agradecimento: ['agradecimento', [Validators.required]],
       feedbackEnunciado: ['feedbackEnunciado', [this.feedbackRequired()]],
     });
@@ -149,6 +149,22 @@ export class ConfiguracaoComponent implements OnInit {
     });
 
     this.contaAutenticada = this.authenticationService.contaAutenticada;
+  }
+
+  /**
+   *
+   * @param exception
+   */
+  timeoutValidator(exception?: string): ValidatorFn {
+    return (c: AbstractControl): { [key: string]: any } => {
+      if (c.value || c.value === 0) {
+        if (c.value < 5) {
+          return {exception: exception ? exception : 'O tempo deve ultrapassar 5 segundos'};
+        } else if (c.value > 600) {
+          return {exception: exception ? exception : 'O tempo não deve ultrapassar 10 minutos (600 segundos)'};
+        }
+      }
+    }
   }
 
   /**

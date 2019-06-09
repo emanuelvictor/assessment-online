@@ -6,9 +6,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Emanuel Victor on 15/03/2017.
@@ -104,6 +109,15 @@ public class Configuracao extends AbstractEntity {
     private boolean quebrarLinhaNaSelecaoDeItenAvaliavel;
 
     /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
+    @Min(value = 5, message = "O mínimo são 5 segundos")
+    @Max(value = 600, message = "O máximo são 10 minutos (600 segundos)")
+    private short time;
+
+    /**
      * @return byte[]
      */
     @JsonIgnore
@@ -177,5 +191,13 @@ public class Configuracao extends AbstractEntity {
      */
     public String getCinco() {
         return cinco == null ? "Ótimo" : cinco;
+    }
+
+    /**
+     *
+     * @return int
+     */
+    public int getTimeInMilis() {
+        return time * 1000;
     }
 }

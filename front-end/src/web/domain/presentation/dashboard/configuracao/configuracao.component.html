@@ -212,10 +212,13 @@
                         </div>
                         <div layout='row' flex style='margin-top: 15px'>
                           <mat-form-field flex style='margin-top: -3px'>
-                            <input placeholder='Tempod e retorno das avaliações (Em segundos)'
+                            <input placeholder='Tempo de retorno das avaliações (Em segundos)'
                                    formControlName='time' [(ngModel)]='configuracao.time'
-                                   matInput type='number' name='time' id='time' maxlength='144'>
-                            <mat-error>
+                                   matInput type='number' name='time' id='time'>
+                            <mat-error *ngIf="form.controls['time']?.hasError('exception')">
+                              {{form?.controls['time']?.errors.exception}}
+                            </mat-error>
+                            <mat-error *ngIf="form?.controls['time']?.hasError('required')">
                               Campo obrigatório
                             </mat-error>
                           </mat-form-field>
