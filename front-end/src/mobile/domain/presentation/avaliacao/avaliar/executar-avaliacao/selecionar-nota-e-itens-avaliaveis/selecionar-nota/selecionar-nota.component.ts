@@ -62,6 +62,11 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
    */
   ngOnInit() {
 
+    // Se não tem avaliações, ou seja, deu F5, então vai pra tela inicial.
+    if (!this.mobileService.agrupador.avaliacoes || (this.mobileService.agrupador.avaliacoes.length !== ((+this.activatedRoute.parent.snapshot.params.ordem) - 1))) {
+      this.router.navigate(['avaliar']);
+    }
+
     // Requisita unidades.
     this.mobileService.requestUnidades().then(unidades => {
 

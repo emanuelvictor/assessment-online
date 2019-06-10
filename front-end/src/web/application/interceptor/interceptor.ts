@@ -92,7 +92,7 @@ export class Interceptor implements HttpInterceptor {
       // Se é problema com a conexão ou eu estou no mobile
       else if (res.status === 504 || res.status === 408 || environment.mobile) {
         if (this.localStorage.token) {
-          this.router.navigate(['offline']);
+          this.router.navigate(['error']);
           this.error('Verifique sua conexão')
         }
       }

@@ -63,6 +63,17 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
    */
   ngOnInit() {
 
+    this.form = this.fb.group({
+      feedback: ['feedback', []]
+    });
+
+    if (!this.mobileService.configuracao || !this.mobileService.configuracao.tipoFeedback)
+    // Se não tem configuração requisitada, vai para a tela de avaliação.
+    {
+      this.router.navigate(['avaliar']);
+      return
+    }
+
     // Debounce da digitação, toda vez que o usuário digita alguma coisa, depois de 300 milisegundos ele executa isso.
     this.modelChanged.debounceTime(300).subscribe(() => {
 
@@ -102,12 +113,8 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
       })
     }
 
-    // Workaround
-    // Tempo de espera padrão para concluir o timeout.
-    // Isso se reflete na experiência do usuário
-    setTimeout(() => {
-      this._loadingService.resolve('overlayStarSyntax')
-    }, 300)
+    // Retirar o loading
+    this._loadingService.resolve('overlayStarSyntax')
   }
 
   /**

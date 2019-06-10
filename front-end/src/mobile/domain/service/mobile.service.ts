@@ -78,17 +78,10 @@ export class MobileService {
     // Cria um novo timeout
     this._timeout = this.createTimeout(() => {
 
-      // // Se o feedback for obrigatório, e não houver o mesmo .. então o remove, removendo as avaliações;
-      // if (this._configuracao.feedbackObrigatorio && (!this._avaliacao.agrupador.feedback || !this._avaliacao.agrupador.feedback.trim().length)) {
-      //   console.log('Removendo agrupador');
-      //   this.avaliacaoService.deleteAgrupador(this._avaliacao.agrupador.id)
-      // }
-
       // Reseta os objetos de domínio
       this.agrupador = new Agrupador();
       this.router.navigate(['/avaliar']);
       this._loadingService.resolve('overlayStarSyntax');
-      console.log(this._configuracao.timeInMilis);
       return time ? time : this._configuracao.timeInMilis
     }, time ? time : this._configuracao.timeInMilis);
 

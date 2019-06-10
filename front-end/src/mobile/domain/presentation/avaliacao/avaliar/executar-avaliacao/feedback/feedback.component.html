@@ -1,7 +1,7 @@
 <form [formGroup]='form' (ngSubmit)='proximo()' [@fadeInOut]
       layout='column' layout-align='center center' novalidate
       *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-  <mat-card style='width: 600px'>
+  <mat-card style='width: 600px' *ngIf='mobileService?.configuracao?.tipoFeedback'>
     <!--<mat-card-title class="push">-->
     <!--{{configuracao?.feedbackEnunciado}}-->
     <!--</mat-card-title>-->
@@ -47,11 +47,12 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field *ngIf="mobileService?.configuracao?.tipoFeedback === 'TELEFONE'" flex>
-          <input maxlength='250' matInput id='feedback' name='feedback'
+          <input *ngIf='mobileService?.agrupador'
+                 [(ngModel)]='mobileService.agrupador.feedback'
+                 maxlength='250' matInput id='feedback' name='feedback'
                  placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}'
                  (keyup)='modelChanged.next()' formControlName='feedback' style='min-height: 100px'
-                 *ngIf='mobileService?.agrupador'
-                 [(ngModel)]='mobileService.agrupador.feedback'>
+                 [textMask]='{mask: (this.mobileService.agrupador.feedback && (this.mobileService.agrupador.feedback.length === 15) ?  masks.phone8 : masks.phone9 ), guide: false}'>
           <mat-error>
             Campo obrigatório
           </mat-error>

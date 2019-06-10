@@ -17,8 +17,8 @@ import {NoWhiteSpace} from '../web/domain/presentation/controls/patterns/no-whit
 import {LocalStorage} from "../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import {TOKEN_NAME} from "../web/domain/presentation/controls/utils";
-import {OfflineComponent} from "../mobile/domain/presentation/offline/offline.component";
 import {MatKeyboardModule} from "@ngx-material-keyboard/core";
+import {ErrorComponent} from "../mobile/domain/presentation/error/error.component";
 
 /**
  *
@@ -31,10 +31,12 @@ import {MatKeyboardModule} from "@ngx-material-keyboard/core";
     VirgulaPipe,
     NoWhiteSpace,
     AvatarComponent,
-    OfflineComponent,
 
     // Authentication
     LoginComponent,
+
+    // Erro
+    ErrorComponent
   ],
   imports: [
     CommonModule,
@@ -88,6 +90,9 @@ import {MatKeyboardModule} from "@ngx-material-keyboard/core";
     VirgulaPipe,
     LoginComponent,
 
+    // Erro
+    ErrorComponent,
+
     CommonModule,
     ReactiveFormsModule,
     CovalentLoadingModule,
@@ -140,11 +145,13 @@ export class SharedModule {
 
   constructor(private tokenStorage: LocalStorage, private cookieService: CookieService) {
 
-    if (this.cookieService.get(TOKEN_NAME))
+    if (this.cookieService.get(TOKEN_NAME)) {
       this.tokenStorage.token = this.cookieService.get(TOKEN_NAME);
+    }
 
-    if (this.tokenStorage.token)
+    if (this.tokenStorage.token) {
       this.cookieService.set(TOKEN_NAME, this.tokenStorage.token, null, '/');
+    }
 
   }
 

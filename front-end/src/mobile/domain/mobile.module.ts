@@ -39,7 +39,6 @@ import {UnidadeTipoAvaliacaoRepository} from "../../web/domain/repository/unidad
 import {OrderModule} from "ngx-order-pipe";
 import {AvaliavelRepository} from "../../web/domain/repository/avaliavel.repository";
 import {Interceptor} from "../../web/application/interceptor/interceptor";
-import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/feedback/feedback.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component";
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-atendentes/selecionar-atendentes.component";
@@ -47,13 +46,13 @@ import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/executar
 import {AgrupadorRepository} from "./repository/agrupador.repository";
 import {SelecionarNotaEItensAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota-e-itens-avaliaveis.component";
 import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component";
+import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/feedback/feedback.component";
 
 /**
  *
  */
 @NgModule({
   declarations: [
-
     MobileComponent,
     AvaliarComponent,
     ConclusaoComponent,
@@ -64,8 +63,8 @@ import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/execu
     SelecionarAtendentesComponent,
     ConfigurarUnidadesEAvaliacoesComponent,
     SelecionarNotaEItensAvaliaveisComponent,
-    FeedbackComponent,
-    MobileLoginComponent
+    MobileLoginComponent,
+    FeedbackComponent
   ],
   imports: [
     EllipsisModule,

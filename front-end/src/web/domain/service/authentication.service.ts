@@ -100,7 +100,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
 
       }).catch((err: any) => {
         // simple logging, but you can do a lot more, see below
-        // this.router.navigate(['offline']);
+        // this.router.navigate(['error']);
         return err;
       });
 
@@ -113,7 +113,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     return this.httpClient.get<Conta>(environment.endpoint + 'principal').catch((err: any) => {
       // simple logging, but you can do a lot more, see below
       if (this.localStorage.token) {
-        this.router.navigate(['offline']);
+        this.router.navigate(['error']);
       } else {
         this.router.navigate(['authentication']);
       }

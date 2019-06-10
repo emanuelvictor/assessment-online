@@ -4,7 +4,6 @@ import {LoginComponent} from "../../web/domain/presentation/login/login.componen
 import {AvaliarComponent} from "./presentation/avaliacao/avaliar/avaliar.component";
 import {AvaliacaoComponent} from "./presentation/avaliacao/avaliacao.component";
 import {AuthenticationService} from "../../web/domain/service/authentication.service";
-import {OfflineComponent} from "./presentation/offline/offline.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component";
 import {ConclusaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao.component";
@@ -13,6 +12,7 @@ import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/executar
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-atendentes/selecionar-atendentes.component";
 import {SelecionarNotaEItensAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota-e-itens-avaliaveis.component";
 import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component";
+import {ErrorComponent} from "./presentation/error/error.component";
 
 
 const routes: Routes = [
@@ -44,7 +44,7 @@ const routes: Routes = [
       },
     ]
   },
-  {path: 'offline', component: OfflineComponent}
+  {path: 'error', component: ErrorComponent}
 ];
 
 /**

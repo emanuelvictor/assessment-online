@@ -59,6 +59,11 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
    */
   ngOnInit() {
 
+    // Se não tem avaliações, ou seja, deu F5, então vai pra tela inicial.
+    if (!this.mobileService.agrupador.avaliacoes || !this.mobileService.agrupador.avaliacoes.length || this.mobileService.agrupador.avaliacoes.length !== +this.activatedRoute.parent.snapshot.params.ordem) {
+      this.router.navigate(['avaliar']);
+    }
+
     // Requisita unidades.
     this.mobileService.requestUnidades().then(unidades => {
 
@@ -121,7 +126,7 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
           } else if (!this.avaliaveis.length) {
 
             // Então vai para a tela de erro para instruir o usuário
-            this.router.navigate(['offline'])
+            this.router.navigate(['error'])
           }
 
           // Resolve loading.
