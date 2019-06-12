@@ -36,7 +36,7 @@ export class VisualizarUnidadeComponent implements OnInit {
   authenticatedUser: any;
 
   /**
-   * 
+   *
    * @type {{nome: any; enunciado: any}}
    */
   public filter: any = {
@@ -61,8 +61,8 @@ export class VisualizarUnidadeComponent implements OnInit {
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
 
     this.authenticationService.requestContaAutenticada().subscribe(result => {
-      this.authenticatedUser = result;
-    });
+      this.authenticatedUser = result
+    })
   }
 
   /**
@@ -78,12 +78,15 @@ export class VisualizarUnidadeComponent implements OnInit {
 
         this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidadeId}).subscribe(page => {
           this.unidadesTiposAvaliacoes = page.content;
-          for (let k = 0; k < this.unidadesTiposAvaliacoes.length; k++)
-            for (let i = 0; i < this.tiposAvaliacoes.length; i++)
-              if (this.tiposAvaliacoes[i].id === this.unidadesTiposAvaliacoes[k].tipoAvaliacao.id)
-                this.tiposAvaliacoes[i].ativo = this.unidadesTiposAvaliacoes[k].ativo;
-        });
-      });
+          for (let k = 0; k < this.unidadesTiposAvaliacoes.length; k++) {
+            for (let i = 0; i < this.tiposAvaliacoes.length; i++) {
+              if (this.tiposAvaliacoes[i].id === this.unidadesTiposAvaliacoes[k].tipoAvaliacao.id) {
+                this.tiposAvaliacoes[i].ativo = this.unidadesTiposAvaliacoes[k].ativo
+              }
+            }
+          }
+        })
+      })
   }
 
   /**
@@ -91,8 +94,7 @@ export class VisualizarUnidadeComponent implements OnInit {
    * @param {number} id
    */
   public findById(id: number) {
-    this.unidadeService.findById(id)
-      .subscribe(result => this.unidade = result)
+    this.unidadeService.findById(id).subscribe(result => this.unidade = result)
   }
 
   /**
@@ -116,10 +118,10 @@ export class VisualizarUnidadeComponent implements OnInit {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
             this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {
               duration: 3000
-            });
+            })
           })
       }
-    });
+    })
   }
 
   /**
@@ -133,23 +135,26 @@ export class VisualizarUnidadeComponent implements OnInit {
     unidadeTipoAvaliacao.unidade = this.unidade;
     unidadeTipoAvaliacao.ativo = tipoAvaliacao.ativo;
 
-    for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++)
-      if (tipoAvaliacao.id === this.unidadesTiposAvaliacoes[i].tipoAvaliacao.id)
+    for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++) {
+      if (tipoAvaliacao.id === this.unidadesTiposAvaliacoes[i].tipoAvaliacao.id) {
         unidadeTipoAvaliacao.id = this.unidadesTiposAvaliacoes[i].id;
+      }
+    }
 
     this.unidadeTipoAvaliacaoRepository.save(unidadeTipoAvaliacao)
       .then(result => {
         this.openSnackBar(result.ativo ? 'Vínculo criado com sucesso' : 'Vínculo removido');
 
-        for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++)
+        for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++) {
           if (result.id === this.unidadesTiposAvaliacoes[i].id) {
             this.unidadesTiposAvaliacoes[i] = result;
-            return;
+            return
           }
+        }
 
-        this.unidadesTiposAvaliacoes.push(result);
+        this.unidadesTiposAvaliacoes.push(result)
 
-      });
+      })
   }
 
   /**
@@ -159,7 +164,7 @@ export class VisualizarUnidadeComponent implements OnInit {
   public openSnackBar(message: string) {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
-    });
+    })
   }
 
 }
