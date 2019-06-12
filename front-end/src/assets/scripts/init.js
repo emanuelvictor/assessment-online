@@ -40,7 +40,7 @@ var app = {
         document.getElementById('page').style.height = 100 + '%';//device  100% height
       }, 100);
     });
-q
+
     console.log('Received Event: ' + id);
     window.plugins.insomnia.keepAwake();
     window['KioskPlugin'].setAllowedKeys([0x4]);
