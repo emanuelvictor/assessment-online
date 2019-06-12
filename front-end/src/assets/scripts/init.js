@@ -24,6 +24,23 @@ var app = {
 
   // Update DOM on a Received Event
   receivedEvent: function (id) {
+
+    window.addEventListener('native.keyboardshow', function (e) {
+      console.log('native.keyboardshow');
+      var deviceHeight = window.innerHeight;
+      var keyboardHeight = e.keyboardHeight;
+      var deviceHeightAdjusted = deviceHeight - keyboardHeight;//device height adjusted
+      deviceHeightAdjusted = deviceHeightAdjusted < 0 ? (deviceHeightAdjusted * -1) : deviceHeightAdjusted;//only positive number
+      document.getElementById('page').style.height = deviceHeightAdjusted + 'px';//set page height
+      document.getElementById('page').setAttribute('keyBoardHeight', keyboardHeight);//save keyboard height
+    });
+
+    window.addEventListener('native.keyboardhide', function (e) {
+      setTimeout(function () {
+        document.getElementById('page').style.height = 100 + '%';//device  100% height
+      }, 100);
+    });
+q
     console.log('Received Event: ' + id);
     window.plugins.insomnia.keepAwake();
     window['KioskPlugin'].setAllowedKeys([0x4]);
