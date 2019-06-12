@@ -29,12 +29,19 @@ public interface UnidadeTipoAvaliacaoRepository extends JpaRepository<UnidadeTip
             "               ))" +
             "           )" +
             "       )" +
+            "       AND" +
+            "       (" +
+            "           (" +
+            "               unidadeTipoAvaliacao.id IN :idsFilter" +
+            "           ) OR :idsFilter IS NULL" +
+            "       )" +
             "   )"
     )
     Page<UnidadeTipoAvaliacao> listByFiltersAndWithAvaliaveis(@Param("defaultFilter") final String defaultFilter,
                                                               @Param("tipoAvaliacaoId") final Long tipoAvaliacaoId,
                                                               @Param("unidadeId") final Long unidadeId,
                                                               @Param("ativo") final Boolean ativo,
+                                                              @Param("idsFilter") final List<Long> idsFilter,
                                                               final Pageable pageable);
 
     @Query("SELECT unidadeTipoAvaliacao FROM UnidadeTipoAvaliacao unidadeTipoAvaliacao WHERE" +

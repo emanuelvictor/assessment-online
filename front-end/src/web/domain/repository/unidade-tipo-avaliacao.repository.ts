@@ -22,4 +22,11 @@ export class UnidadeTipoAvaliacaoRepository extends BaseRepository<UnidadeTipoAv
 
   }
 
+  listByIds(pageable: any): Observable<any> {
+    const params = PageSerialize.getHttpParamsFromPageable(pageable);
+
+    return this.httpClient.get(this.collectionName + '/withAvaliaveis', {
+      params: params
+    })
+  }
 }

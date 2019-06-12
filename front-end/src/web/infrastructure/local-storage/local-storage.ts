@@ -4,11 +4,13 @@ import {UnidadeTipoAvaliacao} from "../../domain/entity/avaliacao/unidade-tipo-a
 import {Unidade} from "../../domain/entity/unidade/unidade.model";
 import {UnidadeRepository} from "../../domain/repository/unidade.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../domain/repository/unidade-tipo-avaliacao.repository";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class LocalStorage {
 
-  constructor(private unidadeRepository: UnidadeRepository,
+  constructor(private router: Router,
+              private unidadeRepository: UnidadeRepository,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
   }
 
@@ -100,20 +102,35 @@ export class LocalStorage {
       for (let _i = 0; _i < window.localStorage['unidadesTiposAvaliacoes.length']; _i++) {
         const unidadeTipoAvaliacao: UnidadeTipoAvaliacao = new UnidadeTipoAvaliacao();
 
-        unidadeTipoAvaliacao.id = window.localStorage['unidadeTipoAvaliacao' + (_i)].substring(0, window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('='));
+        unidadeTipoAvaliacao.id = +window.localStorage['unidadeTipoAvaliacao' + (_i)].substring(0, window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('='));
 
         unidadeTipoAvaliacao.ordem = window.localStorage['unidadeTipoAvaliacao' + (_i)].substring(window.localStorage['unidadeTipoAvaliacao' + (_i)].indexOf('=') + 1, window.localStorage['unidadeTipoAvaliacao' + _i].length);
 
-        this.unidadeTipoAvaliacaoRepository.findById(unidadeTipoAvaliacao.id).subscribe(unidadeTipoAvaliacaoResulted => {
-          unidadeTipoAvaliacaoResulted.ordem = unidadeTipoAvaliacao.ordem;
+        unidadesTiposAvaliacoes.push(unidadeTipoAvaliacao);
 
-          unidadesTiposAvaliacoes.push(unidadeTipoAvaliacaoResulted);
-
-          if (unidadesTiposAvaliacoes.length === +window.localStorage['unidadesTiposAvaliacoes.length']) {
-            resolve(unidadesTiposAvaliacoes);
-          }
-        })
       }
+
+      this.unidadeTipoAvaliacaoRepository.listByIds({idsFilter: unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => unidadeTipoAvaliacao.id), ativo: true})
+        .subscribe(unidadesTiposAvaliacoesResulteds => {
+
+          if (unidadesTiposAvaliacoesResulteds.content.length !== unidadesTiposAvaliacoes.length) {
+            const ubestToken = this.token;
+            this.clear();
+            this.token = ubestToken;
+            this.router.navigate(['configurar-unidades-e-avaliacoes']);
+            return
+          }
+
+          for (let _i = 0; _i < unidadesTiposAvaliacoesResulteds.content.length; _i++) {
+            for (let _k = 0; _k < unidadesTiposAvaliacoes.length; _k++) {
+              if (unidadesTiposAvaliacoesResulteds.content[_i].id === (+unidadesTiposAvaliacoes[_k].id)) {
+                unidadesTiposAvaliacoesResulteds.content[_i].ordem = unidadesTiposAvaliacoes[_k].ordem;
+              }
+            }
+          }
+
+          resolve(unidadesTiposAvaliacoesResulteds.content)
+        })
     })
   }
 
