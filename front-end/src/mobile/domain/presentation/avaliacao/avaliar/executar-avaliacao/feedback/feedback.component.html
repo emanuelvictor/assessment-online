@@ -8,23 +8,23 @@
     <mat-card-content style='margin-bottom: 0'>
       <div layout="column" layout-margin>
         <mat-form-field *ngIf="mobileService?.configuracao?.tipoFeedback === 'TEXTO'" flex>
-          <textarea maxlength='250' matInput id='feedback' name='feedback'
+          <textarea [(ngModel)]='mobileService.agrupador.feedback'
+                    maxlength='250' matInput id='feedback' name='feedback'
                     (keyup)='modelChanged.next()' formControlName='feedback'
-                    placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}' style='min-height: 100px'
-                    *ngIf='mobileService?.agrupador'
-                    [(ngModel)]='mobileService.agrupador.feedback'>
+                    *ngIf='mobileService?.agrupador' style='min-height: 100px'
+                    placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}'>
           </textarea>
           <mat-error>
             Campo obrigatório
           </mat-error>
         </mat-form-field>
         <mat-form-field *ngIf="mobileService?.configuracao?.tipoFeedback === 'EMAIL'" flex>
-          <input maxlength='250' matInput id='feedback' name='feedback'
+          <input *ngIf='mobileService?.agrupador'
+                 [(ngModel)]='mobileService.agrupador.feedback'
+                 maxlength='250' matInput id='feedback' name='feedback'
                  pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'
                  placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}'
-                 (keyup)='modelChanged.next()' formControlName='feedback' style='min-height: 100px'
-                 *ngIf='mobileService?.agrupador'
-                 [(ngModel)]='mobileService.agrupador.feedback'>
+                 (keyup)='modelChanged.next()' formControlName='feedback' style='min-height: 100px'>
           <mat-error *ngIf="form.controls['feedback'].hasError('pattern')">
             E-mail inválido, utilize o formato 'email@email.com'
           </mat-error>
@@ -33,12 +33,12 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field *ngIf="mobileService?.configuracao?.tipoFeedback === 'CPF'" flex>
-          <input [textMask]='{mask: masks.cpf, guide: false}'
+          <input *ngIf='mobileService?.agrupador'
+                 [textMask]='{mask: masks.cpf, guide: false}'
+                 [(ngModel)]='mobileService.agrupador.feedback'
                  maxlength='250' matInput id='feedback' name='feedback'
                  placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}'
-                 (keyup)='modelChanged.next()' formControlName='feedback' style='min-height: 100px'
-                 *ngIf='mobileService?.agrupador'
-                 [(ngModel)]='mobileService.agrupador.feedback'>
+                 (keyup)='modelChanged.next()' formControlName='feedback' style='min-height: 100px'>
           <mat-error *ngIf="form?.controls['feedback']?.hasError('exception')">
             {{form?.controls['feedback']?.errors?.exception}}
           </mat-error>
