@@ -11,6 +11,7 @@ import br.com.ubest.domain.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -126,7 +127,7 @@ public class UnidadeService {
      * @param pageable      Pageable
      * @return Page<Unidade>
      */
-    public Page<Unidade> listByFilters(final String defaultFilter, final Boolean withBondFilter, final Boolean withAvaliaveisFilter, final Pageable pageable) {
+    public Page<Unidade> listByFilters(final String defaultFilter, final Boolean withBondFilter, final Boolean withAvaliaveisFilter, final Boolean withUnidadesTiposAvaliacoesAtivasFilter, final List<Long> idsFilter, final Pageable pageable) {
 
         final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
 
@@ -138,6 +139,8 @@ public class UnidadeService {
                 defaultFilter,
                 withBondFilter,
                 withAvaliaveisFilter,
+                withUnidadesTiposAvaliacoesAtivasFilter,
+                idsFilter,
                 pageable);
 
     }

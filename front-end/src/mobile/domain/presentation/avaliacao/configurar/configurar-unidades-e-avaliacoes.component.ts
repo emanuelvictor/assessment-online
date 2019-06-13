@@ -61,7 +61,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    */
   consultarUnidades() {
-    this.unidadeService.listLightByFilters({withAvaliaveisFilter: true})
+    this.unidadeService.listLightByFilters({withAvaliaveisFilter: true, withUnidadesTiposAvaliacoesAtivasFilter: true})
       .subscribe(result => {
         this.unidades = result.content;
 

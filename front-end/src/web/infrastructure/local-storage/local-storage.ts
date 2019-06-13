@@ -123,8 +123,16 @@ export class LocalStorage {
 
           for (let _i = 0; _i < unidadesTiposAvaliacoesResulteds.content.length; _i++) {
             for (let _k = 0; _k < unidadesTiposAvaliacoes.length; _k++) {
-              if (unidadesTiposAvaliacoesResulteds.content[_i].id === (+unidadesTiposAvaliacoes[_k].id)) {
-                unidadesTiposAvaliacoesResulteds.content[_i].ordem = unidadesTiposAvaliacoes[_k].ordem;
+              if (unidadesTiposAvaliacoesResulteds.content.filter(a => a.id === (+unidadesTiposAvaliacoes[_k].id))) {
+                if (unidadesTiposAvaliacoesResulteds.content[_i].id === (+unidadesTiposAvaliacoes[_k].id)) {
+                  unidadesTiposAvaliacoesResulteds.content[_i].ordem = unidadesTiposAvaliacoes[_k].ordem;
+                }
+              } else {
+                const ubestToken = this.token;
+                this.clear();
+                this.token = ubestToken;
+                this.router.navigate(['configurar-unidades-e-avaliacoes']);
+                return
               }
             }
           }
@@ -193,19 +201,31 @@ export class LocalStorage {
         unidades.push(unidade);
       }
 
-      const unidadesReturn: Unidade[] = [];
-      for (let _i = 0; _i < unidades.length; _i++) {
+      this.unidadeRepository.listLightByFilters({idsFilter: unidades.map(u => u.id), withUnidadesTiposAvaliacoesAtivasFilter: true})
+        .subscribe(result => {
 
-        this.unidadeRepository.findById(unidades[_i].id).subscribe(unidade => {
-          unidadesReturn.push(unidade);
-
-          if (unidadesReturn.length === +window.localStorage['unidades.length']) {
-            resolve(unidadesReturn);
+          if (result.content.length !== unidades.length) {
+            const ubestToken = this.token;
+            this.clear();
+            this.token = ubestToken;
+            this.router.navigate(['configurar-unidades-e-avaliacoes']);
+            return
           }
 
-        })
+          for (let _i = 0; _i < result.content.length; _i++) {
+            for (let _k = 0; _k < unidades.length; _k++) {
+              if (!result.content.filter(a => a.id === (+unidades[_k].id))) {
+                const ubestToken = this.token;
+                this.clear();
+                this.token = ubestToken;
+                this.router.navigate(['configurar-unidades-e-avaliacoes']);
+                return
+              }
+            }
+          }
 
-      }
+          resolve(result.content)
+        })
     })
   }
 

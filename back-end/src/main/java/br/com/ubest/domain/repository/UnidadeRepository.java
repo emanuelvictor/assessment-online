@@ -165,6 +165,25 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       )" +
             "       AND" +
             "       (" +
+            "           :withUnidadesTiposAvaliacoesAtivasFilter IS NOT NULL AND " +
+            "           (" +
+            "               unidade.id IN (SELECT unidadeTipoAvaliacao.unidade.id FROM UnidadeTipoAvaliacao unidadeTipoAvaliacao " +
+            "                   WHERE" +
+            "                   (" +
+            "                       unidadeTipoAvaliacao.unidade.id = unidade.id AND unidadeTipoAvaliacao.ativo = :withUnidadesTiposAvaliacoesAtivasFilter " +
+            "                   )" +
+            "               )" +
+            "           )" +
+            "           OR :withUnidadesTiposAvaliacoesAtivasFilter IS NULL " +
+            "       )" +
+            "       AND" +
+            "       (" +
+            "           (" +
+            "               unidade.id IN :idsFilter" +
+            "           ) OR :idsFilter IS NULL" +
+            "       )" +
+            "       AND" +
+            "       (" +
             "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') AND unidade.id IN " +
             "           (" +
             "               SELECT operador.unidade.id FROM Operador operador WHERE " +
@@ -191,6 +210,8 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
                                 @Param("defaultFilter") final String defaultFilter,
                                 @Param("withBondFilter") final Boolean withBondFilter,
                                 @Param("withAvaliaveisFilter") final Boolean withAvaliaveisFilter,
+                                @Param("withUnidadesTiposAvaliacoesAtivasFilter") final Boolean withUnidadesTiposAvaliacoesAtivasFilter,
+                                @Param("idsFilter") final List<Long> idsFilter,
                                 final Pageable pageable);
 
     /**
