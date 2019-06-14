@@ -6,7 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {MobileRoutingModule} from './mobile.routing.module';
-import {DateAdapter, MatRippleModule} from '@angular/material';
+import {DateAdapter, MatBottomSheetModule, MatRippleModule} from '@angular/material';
 import {SharedModule} from '../../shared/shared.module';
 import {AuthenticationService} from '../../web/domain/service/authentication.service';
 import {EnderecoService} from '../../web/domain/service/endereco.service';
@@ -47,6 +47,7 @@ import {AgrupadorRepository} from "./repository/agrupador.repository";
 import {SelecionarNotaEItensAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota-e-itens-avaliaveis.component";
 import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component";
 import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/feedback/feedback.component";
+import {OpcoesDeConfiguracaoComponent} from "./presentation/controls/opcoes-de-configuracao/opcoes-de-configuracao.component";
 
 /**
  *
@@ -64,7 +65,8 @@ import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avali
     ConfigurarUnidadesEAvaliacoesComponent,
     SelecionarNotaEItensAvaliaveisComponent,
     MobileLoginComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    OpcoesDeConfiguracaoComponent
   ],
   imports: [
     EllipsisModule,
@@ -76,6 +78,10 @@ import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avali
     OrderModule,
     BrowserAnimationsModule,
     MobileRoutingModule,
+    MatBottomSheetModule
+  ],
+  entryComponents: [
+    OpcoesDeConfiguracaoComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
@@ -104,7 +110,6 @@ import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avali
     MobileService,
     LocalStorage,
     ContaService,
-
 
     {provide: LOCALE_ID, useValue: 'pt-BR'},
 

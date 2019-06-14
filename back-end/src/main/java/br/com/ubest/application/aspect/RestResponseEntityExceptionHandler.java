@@ -3,6 +3,7 @@ package br.com.ubest.application.aspect;
 import br.com.ubest.application.aspect.exceptions.PasswordNotFound;
 import br.com.ubest.application.aspect.handler.ResponseEntityExceptionHandler;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.postgresql.util.PSQLException;
 import org.springframework.context.MessageSource;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.ConstraintViolation;
 import java.util.logging.Logger;
@@ -84,23 +86,21 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(new Exception(message), error, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    /**
-     * Trata exceções geradas pelo Hibernate antes de enviar para o banco
-     */
-    @ExceptionHandler(javax.validation.ConstraintViolationException.class)
-    public ResponseEntity<Object> handleException(final javax.validation.ConstraintViolationException exception) {
-        final StringBuilder message = new StringBuilder();
-        for (ConstraintViolation<?> constraint : exception.getConstraintViolations()) {
-            final String annotationType = constraint.getConstraintDescriptor().getAnnotation().annotationType().getName();
 
-            //Verifica o tipo da exceção
-            if (annotationType.equals("javax.validation.constraints.NotNull") || annotationType.equals("org.hibernate.validator.constraints.NotEmpty")) {
-                message.append("\nO campo ").append(constraint.getPropertyPath()).append(" deve ser setado.");
-            } else message.append("\n").append(constraint.getMessage());
-        }
-
-        return handleExceptionInternal(new Exception(message.toString()), new Error(message.toString()), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @Deprecated @ExceptionHandler(javax.validation.ConstraintViolationException.class)
+//    public ResponseEntity<Object> handleException(final javax.validation.ConstraintViolationException exception) {
+//        final StringBuilder message = new StringBuilder();
+//        for (ConstraintViolation<?> constraint : exception.getConstraintViolations()) {
+//            final String annotationType = constraint.getConstraintDescriptor().getAnnotation().annotationType().getName();
+//
+//            //Verifica o tipo da exceção
+//            if (annotationType.equals("javax.validation.constraints.NotNull") || annotationType.equals("org.hibernate.validator.constraints.NotEmpty")) {
+//                message.append("\nO campo ").append(constraint.getPropertyPath()).append(" deve ser setado.");
+//            } else message.append("\n").append(constraint.getMessage());
+//        }
+//
+//        return handleExceptionInternal(new Exception(message.toString()), new Error(message.toString()), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     /**
      *
@@ -133,4 +133,54 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(exception, new Error(this.messageSource.getMessage("security.passwordNotFound", null, LocaleContextHolder.getLocale())), new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
 
+    /**
+     * Trata exceções geradas pelo Hibernate antes de enviar para o banco
+     */
+    @ExceptionHandler(javax.validation.ConstraintViolationException.class)
+    public ResponseEntity<Object> handleException(final javax.validation.ConstraintViolationException exception, final WebRequest request) {
+        final StringBuilder message = new StringBuilder();
+        //for (ConstraintViolation<?> constraint : exception.getConstraintViolations()) {
+        ConstraintViolation<?> constraint = exception.getConstraintViolations().iterator().next();
+        final String annotationType = constraint.getConstraintDescriptor().getAnnotation().annotationType().getName();
+
+        /*
+         * Dependendo da versão do spring a validação pode estar no pacote
+         * "javax.validation.constraints.*" ou "org.hibernate.validator.constraints.*"
+         */
+        if (annotationType.equals("javax.validation.constraints.NotNull")
+                || annotationType.equals("javax.validation.constraints.NotEmpty")
+                || annotationType.equals("org.hibernate.validator.constraints.NotEmpty")
+                || annotationType.equals("org.hibernate.validator.constraints.NotBlank")
+                || annotationType.equals("javax.validation.constraints.NotBlank")) {
+
+            //converte camel case para legivel
+            message.append("\nO campo ").append(camelCaseToHumanReadable(constraint.getPropertyPath().toString())).append(" deve ser informado.");
+        } else if (annotationType.equals("org.hibernate.validator.constraints.Length")) {
+            message.append("\n").append("Campo ").append(camelCaseToHumanReadable(constraint.getPropertyPath().toString())).append(": ").append(constraint.getMessage());
+        } else {
+            message.append("\n").append(constraint.getMessage());
+        }
+
+        //}
+
+        return handleExceptionInternal(exception, new Error(message.toString()), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Converte de camel case para legível/literal
+     */
+    private String camelCaseToHumanReadable(String phrase) {
+        final String[] words = StringUtils.splitByCharacterTypeCamelCase(phrase);
+
+        return (words.length == 1) ? phrase : StringUtils.capitalize(StringUtils.join(words, " "));
+    }
+
+    /**
+     * Converte de snake case para legível/literal
+     */
+    private String snakeCaseToHumanReadable(String phrase) {
+        final String[] words = StringUtils.splitByWholeSeparator(phrase, "_");
+
+        return (words.length == 1) ? phrase : StringUtils.capitalize(StringUtils.join(words, " "));
+    }
 }

@@ -1,8 +1,13 @@
-<main class="background-avaliacao" *ngIf='backgroundImage'
-      layout-align="center center" layout="column"
+<main layout-align='center center' layout='column'
+      class='background-avaliacao' *ngIf='backgroundImage'
       [style.background-image]="'url(' + backgroundImage + ')'">
 
   <router-outlet></router-outlet>
 
 </main>
+
+<button mat-icon-button color='primary' (click)='openOpcoesDeConfiguracao()'
+        style='z-index: 1000; margin-top: -36px; background: white; position: fixed;margin-left: 49%; border-radius: 25px 25px 0 0!important'>
+  <mat-icon>keyboard_arrow_up</mat-icon>
+</button>
 

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 
 import {FormBuilder, Validators} from '@angular/forms';
@@ -14,7 +14,7 @@ import {AuthenticationService} from '../../../../../service/authentication.servi
   templateUrl: './usuario-form.component.html',
   styleUrls: ['./usuario-form.component.css']
 })
-export class AtendenteFormComponent implements OnInit, AfterViewInit {
+export class AtendenteFormComponent implements OnInit {
 
   /**
    *
@@ -76,8 +76,7 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit {
 
     this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.usuarioLogado = result;
-    });
-
+    })
   }
 
   /**
@@ -85,8 +84,9 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit {
    */
   ngOnInit() {
 
-    if (!this.usuario.conta || !this.usuario.conta.email || !this.usuario.conta.email.length)
+    if (!this.usuario.conta || !this.usuario.conta.email || !this.usuario.conta.email.length) {
       this.showPassword = true;
+    }
 
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],
@@ -95,10 +95,6 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit {
 
     this.fotoPath = this.usuario.fotoPath;
     this.arquivoFile = this.usuario.arquivoFile;
-  }
-
-  ngAfterViewInit() {
-
   }
 
   /**
@@ -132,8 +128,9 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit {
         if (element && control.invalid) {
           this.renderer.invokeElementMethod(element, 'focus', []);
           valid = false;
-          if (control.errors.exception)
+          if (control.errors.exception) {
             this.error(control.errors.exception);
+          }
           break;
         }
         if (control.controls && control.invalid) {
@@ -142,8 +139,9 @@ export class AtendenteFormComponent implements OnInit, AfterViewInit {
             if (elemento && controlInner.invalid) {
               this.renderer.invokeElementMethod(elemento, 'focus', []);
               valid = false;
-              if (controlInner.errors.exception)
+              if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception);
+              }
               break;
             }
           }
