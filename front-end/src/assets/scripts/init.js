@@ -26,18 +26,27 @@ var app = {
   receivedEvent: function (id) {
 
     window.addEventListener('native.keyboardshow', function (e) {
+
       console.log('native.keyboardshow');
       var deviceHeight = window.innerHeight;
       var keyboardHeight = e.keyboardHeight;
       var deviceHeightAdjusted = deviceHeight - keyboardHeight;//device height adjusted
       deviceHeightAdjusted = deviceHeightAdjusted < 0 ? (deviceHeightAdjusted * -1) : deviceHeightAdjusted;//only positive number
+
+      document.getElementsByTagName('mat-bottom-sheet-container').style.height = deviceHeightAdjusted + 'px';
+      document.getElementsByTagName('mat-bottom-sheet-container').setAttribute('keyBoardHeight', keyboardHeight);
+
       document.getElementById('page').style.height = deviceHeightAdjusted + 'px';//set page height
       document.getElementById('page').setAttribute('keyBoardHeight', keyboardHeight);//save keyboard height
+
     });
 
     window.addEventListener('native.keyboardhide', function (e) {
       setTimeout(function () {
+
         document.getElementById('page').style.height = 100 + '%';//device  100% height
+        document.getElementsByTagName('mat-bottom-sheet-container').style.height = 100 + '%';//device  100% height
+
       }, 100);
     });
 
