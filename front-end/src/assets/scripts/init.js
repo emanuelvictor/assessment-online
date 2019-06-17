@@ -34,8 +34,8 @@ var app = {
       deviceHeightAdjusted = deviceHeightAdjusted < 0 ? (deviceHeightAdjusted * -1) : deviceHeightAdjusted;//only positive number
 
       if (document.getElementsByTagName('mat-bottom-sheet-container').length) {
-        document.getElementsByTagName('mat-bottom-sheet-container').style.height = deviceHeightAdjusted + 'px';
-        document.getElementsByTagName('mat-bottom-sheet-container').setAttribute('keyBoardHeight', keyboardHeight);
+        document.getElementsByTagName('mat-bottom-sheet-container')[0].style.height = deviceHeightAdjusted + 'px';
+        document.getElementsByTagName('mat-bottom-sheet-container')[0].setAttribute('keyBoardHeight', keyboardHeight);
       }
 
       document.getElementById('page').style.height = deviceHeightAdjusted + 'px';//set page height
@@ -49,7 +49,7 @@ var app = {
         document.getElementById('page').style.height = 100 + '%';//device  100% height
 
         if (document.getElementsByTagName('mat-bottom-sheet-container').length) {
-          document.getElementsByTagName('mat-bottom-sheet-container').style.height = 100 + '%';//device  100% height
+          document.getElementsByTagName('mat-bottom-sheet-container')[0].style.height = 100 + '%';//device  100% height
         }
 
       }, 100);
