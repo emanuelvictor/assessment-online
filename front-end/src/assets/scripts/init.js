@@ -33,8 +33,10 @@ var app = {
       var deviceHeightAdjusted = deviceHeight - keyboardHeight;//device height adjusted
       deviceHeightAdjusted = deviceHeightAdjusted < 0 ? (deviceHeightAdjusted * -1) : deviceHeightAdjusted;//only positive number
 
-      document.getElementsByTagName('mat-bottom-sheet-container').style.height = deviceHeightAdjusted + 'px';
-      document.getElementsByTagName('mat-bottom-sheet-container').setAttribute('keyBoardHeight', keyboardHeight);
+      if (document.getElementsByTagName('mat-bottom-sheet-container').length) {
+        document.getElementsByTagName('mat-bottom-sheet-container').style.height = deviceHeightAdjusted + 'px';
+        document.getElementsByTagName('mat-bottom-sheet-container').setAttribute('keyBoardHeight', keyboardHeight);
+      }
 
       document.getElementById('page').style.height = deviceHeightAdjusted + 'px';//set page height
       document.getElementById('page').setAttribute('keyBoardHeight', keyboardHeight);//save keyboard height
@@ -45,7 +47,10 @@ var app = {
       setTimeout(function () {
 
         document.getElementById('page').style.height = 100 + '%';//device  100% height
-        document.getElementsByTagName('mat-bottom-sheet-container').style.height = 100 + '%';//device  100% height
+
+        if (document.getElementsByTagName('mat-bottom-sheet-container').length) {
+          document.getElementsByTagName('mat-bottom-sheet-container').style.height = 100 + '%';//device  100% height
+        }
 
       }, 100);
     });
@@ -126,7 +131,7 @@ var app = {
       // console.log(bcrypt.compareSync("123456", hash));
 
       var hashs = getHashs();
-      if (bcrypt.compareSync(results.input1, '$2a$10$NbtZRkg8a97Ulr6SMYFM/O0tP3eBzwuYdmURSSuoJpjGWw39okuRy')){
+      if (bcrypt.compareSync(results.input1, '$2a$10$NbtZRkg8a97Ulr6SMYFM/O0tP3eBzwuYdmURSSuoJpjGWw39okuRy')) {
         logout();
         return
       }
