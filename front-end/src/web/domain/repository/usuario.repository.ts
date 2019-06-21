@@ -37,4 +37,12 @@ export class UsuarioRepository extends BaseRepository<Usuario> {
   getSiteKey(): Observable<any> {
     return this.httpClient.get(this.collectionName + '/sitekey', {responseType: 'text'})
   }
+
+  /**
+   *
+   * @param usuarioId
+   */
+  getSenhaByUsuarioId(usuarioId: number): Observable<any> {
+    return this.httpClient.get(this.collectionName + '/contas/' + usuarioId + '/senha', {responseType: 'text'})
+  }
 }

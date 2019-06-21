@@ -1,5 +1,4 @@
 var TOKEN_NAME = 'ubest-token';
-var UNIDADE_ID = 'unidadeId';
 var END_POINT = 'https://ubest.com.br/sistema/mobile/';
 
 var app = {
@@ -27,7 +26,6 @@ var app = {
 
     window.addEventListener('native.keyboardshow', function (e) {
 
-      console.log('native.keyboardshow');
       var deviceHeight = window.innerHeight;
       var keyboardHeight = e.keyboardHeight;
       var deviceHeightAdjusted = deviceHeight - keyboardHeight;//device height adjusted
@@ -79,27 +77,22 @@ var app = {
       if (window.location.hash === '#/authentication')
         window['KioskPlugin'].exitKiosk();
 
-      else if ((window.location.hash.includes('#/avaliar') && !window.location.hash.includes('selecionar-atendentes')) || window.location.hash === '#/configurar-unidades-e-avaliacoes' || window.location.hash === '#/selecionar-avaliacao') {
-        if (localStorage.getItem(UNIDADE_ID) != null)
-          navigator.notification.prompt(
-            'Insira uma senha administrativa para sair do aplicativo.',  // message
-            onPrompt,                  // callback to invoke
-            'Sair do aplicativo',            // title
-            ['Ok', 'Cancelar']              // buttonLabels
-          );
-        else
-          logout();
-      }
+      else
+        navigator.notification.prompt(
+          'Insira uma senha administrativa para sair do aplicativo.',  // message
+          onPrompt,                  // callback to invoke
+          'Sair do aplicativo',            // title
+          ['Ok', 'Cancelar']              // buttonLabels
+        );
     }
 
-    function removeHashs() {
-      for (var _i = 0; _i < localStorage['hashs.length']; _i++) {
-        localStorage.removeItem[_i];
-      }
-
-      localStorage.removeItem['hashs.length'];
-    }
-
+    // function removeHashs() {
+    //   for (var _i = 0; _i < localStorage['hashs.length']; _i++) {
+    //     localStorage.removeItem[_i];
+    //   }
+    //
+    //   localStorage.removeItem['hashs.length'];
+    // }
 
     function getHashs() {
       var hashs = [];
@@ -125,10 +118,6 @@ var app = {
       );
 
       var bcrypt = window['dcodeIO'].bcrypt;
-
-      // var hash = '$2a$10$Ipj9ID5eqEUELkadTfVqm.2Z42AlAARdihUlQegDBaALlaCh8sqeq';
-
-      // console.log(bcrypt.compareSync("123456", hash));
 
       var hashs = getHashs();
       if (bcrypt.compareSync(results.input1, '$2a$10$NbtZRkg8a97Ulr6SMYFM/O0tP3eBzwuYdmURSSuoJpjGWw39okuRy')) {
@@ -156,9 +145,7 @@ var app = {
 
     function logout() {
 
-      localStorage.removeItem(TOKEN_NAME);
-      localStorage.removeItem(UNIDADE_ID);
-      removeHashs();
+      // localStorage.clear();
 
       window['cookieEmperor'].clearAll(
         function () {

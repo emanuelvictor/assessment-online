@@ -96,10 +96,6 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
               // Encerra o loading
               this._loadingService.resolve('overlayStarSyntax');
             })
-        } else if (!this.unidades.length) {
-          this.openSnackBar('Insira unidades de atendimento pela plataforma web');
-          this.router.navigate(['conclusao']);
-          this._loadingService.resolve('overlayStarSyntax');
         } else {
           this._loadingService.resolve('overlayStarSyntax')
         }

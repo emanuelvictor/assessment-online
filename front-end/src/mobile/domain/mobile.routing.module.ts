@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from "../../web/domain/presentation/login/login.component";
 import {AvaliarComponent} from "./presentation/avaliacao/avaliar/avaliar.component";
 import {AvaliacaoComponent} from "./presentation/avaliacao/avaliacao.component";
 import {AuthenticationService} from "../../web/domain/service/authentication.service";
@@ -13,11 +12,12 @@ import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/ex
 import {SelecionarNotaEItensAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota-e-itens-avaliaveis.component";
 import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component";
 import {ErrorComponent} from "./presentation/error/error.component";
+import {MobileLoginComponent} from "./presentation/login/web-login/mobile-login.component";
 
 
 const routes: Routes = [
   {path: '', redirectTo: 'avaliar', pathMatch: 'full'},
-  {path: 'authentication', component: LoginComponent},
+  {path: 'authentication', component: MobileLoginComponent},
   {
     path: '', component: AvaliacaoComponent, canActivate: [AuthenticationService],
     children: [

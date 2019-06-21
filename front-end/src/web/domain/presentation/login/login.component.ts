@@ -1,5 +1,5 @@
 import {Subject} from 'rxjs/Subject';
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
 import {Conta} from '../../entity/usuario/conta.model';
@@ -29,17 +29,25 @@ export class LoginComponent {
    *
    */
   public cliente: string = 'public';
+
+  /**
+   *
+   */
+  @Output() loginSuccess = new EventEmitter();
+
   /**
    *
    * @type {string}
    */
   logoImage: string = environment.endpoint + './configuracoes/logomarca?cliente=public';
+
   /**
    *
    * @type {Subject<string>}
    */
   private modelChanged: Subject<string> = new Subject<string>();
   backgroundPath: string = environment.endpoint + 'assets/images/banner.png';
+
   /**
    *
    * @param {Router} router
@@ -76,7 +84,7 @@ export class LoginComponent {
    *
    * @param image
    */
-  getBackground(image){
+  getBackground(image) {
     return this._sanitizer.bypassSecurityTrustStyle(`url(${image})`);
   }
 
@@ -85,14 +93,11 @@ export class LoginComponent {
    */
   public login() {
 
-    /**
-     * Remove os espaços do usuário
-     * @type {string}
-     */
+    // Remove os espaços do usuário
     this.conta.email = this.conta.email.trim();
     this.authenticationService.login(this.conta)
-      .then(() => {
-        this.router.navigate(['/']);
+      .then(result => {
+        this.loginSuccess.emit(result)
       })
   }
 

@@ -31,15 +31,6 @@ export class WebLoginComponent {
    *
    */
   public login() {
-
-    /**
-     * Remove os espaços do usuário
-     * @type {string}
-     */
-    this.conta.email = this.conta.email.trim();
-    this.authenticationService.login(this.conta)
-      .then(() => {
-        this.router.navigate(['/']);
-      })
+    this.router.navigate(['/']);
   }
 }

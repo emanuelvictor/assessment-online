@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {Conta} from '../../../../../web/domain/entity/usuario/conta.model';
 import {AuthenticationService} from '../../../../../web/domain/service/authentication.service';
+import {UsuarioRepository} from "../../../../../web/domain/repository/usuario.repository";
+import {LocalStorage} from "../../../../../web/infrastructure/local-storage/local-storage";
 
 /**
  *
@@ -21,25 +23,23 @@ export class MobileLoginComponent {
   /**
    *
    * @param {Router} router
+   * @param localStorage
+   * @param usuarioRepository
    * @param {} authenticationService
    */
   constructor(private router: Router,
+              private localStorage: LocalStorage,
+              private usuarioRepository: UsuarioRepository,
               private authenticationService: AuthenticationService) {
   }
 
   /**
    *
    */
-  public login() {
-
-    /**
-     * Remove os espaços do usuário
-     * @type {string}
-     */
-    this.conta.email = this.conta.email.trim();
-    this.authenticationService.login(this.conta)
-      .then(() => {
-        this.router.navigate(['/']);
-      })
+  public login($event) {
+    this.usuarioRepository.getSenhaByUsuarioId($event.usuario.id).subscribe( result => {
+      this.localStorage.hashs = [result];
+      this.router.navigate(['/'])
+    })
   }
 }

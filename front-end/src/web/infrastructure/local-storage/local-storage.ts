@@ -35,7 +35,6 @@ export class LocalStorage {
   }
 
   set hashs(hashs: string[]) {
-
     window.localStorage['hashs.length'] = hashs.length;
 
     for (let _i = 0; _i < hashs.length; _i++) {
@@ -97,6 +96,7 @@ export class LocalStorage {
 
       if (!window.localStorage['unidadesTiposAvaliacoes.length']) {
         resolve(unidadesTiposAvaliacoes);
+        return
       }
 
       for (let _i = 0; _i < window.localStorage['unidadesTiposAvaliacoes.length']; _i++) {
@@ -191,6 +191,7 @@ export class LocalStorage {
 
       if (!window.localStorage['unidades.length']) {
         resolve(unidades);
+        return
       }
 
       for (let _i = 0; _i < window.localStorage['unidades.length']; _i++) {

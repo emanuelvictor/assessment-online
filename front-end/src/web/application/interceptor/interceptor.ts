@@ -6,7 +6,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from
 import {MatSnackBar} from "@angular/material";
 import {Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
-import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
+import {LocalStorage} from "../../infrastructure/local-storage/local-storage";
 
 /**
  *

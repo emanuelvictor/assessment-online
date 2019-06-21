@@ -2,6 +2,7 @@ package br.com.ubest.domain.resource;
 
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.entity.usuario.Usuario;
+import br.com.ubest.domain.repository.UsuarioRepository;
 import br.com.ubest.domain.service.UsuarioService;
 import br.com.ubest.infrastructure.file.ImageUtils;
 import br.com.ubest.infrastructure.resource.AbstractResource;
@@ -30,6 +31,8 @@ import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 public class UsuarioResource extends AbstractResource<Usuario> {
 
     private final UsuarioService usuarioService;
+
+    private final UsuarioRepository usuarioRepository;
 
     /**
      * @return String
@@ -154,4 +157,14 @@ public class UsuarioResource extends AbstractResource<Usuario> {
         return Mono.just(this.usuarioService.changePassword(usuarioId, password, newPassword));
     }
 
+    /**
+     * Retorna o password criptografado do usuário, para armazenamento offline
+     * @param usuarioId Long
+     * @return String
+     */
+    @GetMapping("contas/{usuarioId}/senha")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<String> getSenhaByUsuarioId(@PathVariable final long usuarioId) {
+        return Mono.just(this.usuarioRepository.findById(usuarioId).orElseGet(Usuario::new).getConta().getPassword());
+    }
 }
