@@ -40,9 +40,9 @@ export class MobileService {
 
 
   /**
+   * @param _localStorage
    * @param configuracaRepository
    * @param router
-   * @param {LocalStorage} localStorage
    * @param {UnidadeService} unidadeService
    * @param _loadingService
    * @param {AvaliacaoService} avaliacaoService
@@ -189,13 +189,22 @@ export class MobileService {
    *
    * @param id
    */
-  public setHashsByUnidadeId(id: number): Observable<any> {
-    return new Observable(observer => {
+  public setHashsByUnidadeId(id: number): Promise<any> {
+    return new Promise((resolve) => {
       this.unidadeService.getHashsByUnidadeId(id)
         .subscribe(hashs => {
-          this._localStorage.hashs = hashs;
-          observer.next(this._localStorage.hashs);
-          observer.complete()
+
+          if (hashs && hashs.length) {
+            const localHashs = this._localStorage.hashs;
+
+            for (let _i = 0; _i < hashs.length; _i++) {
+              localHashs.push(hashs[_i]);
+            }
+
+            this._localStorage.hashs = localHashs
+          }
+
+          resolve(this._localStorage.hashs);
         })
     })
   }

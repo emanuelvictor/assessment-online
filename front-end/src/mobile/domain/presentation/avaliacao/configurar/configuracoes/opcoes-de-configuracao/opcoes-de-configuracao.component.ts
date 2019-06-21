@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, Renderer} from "@angular/core";
+import {Component, ElementRef, Inject, OnInit, Renderer} from "@angular/core";
 import {MatSnackBar} from "@angular/material";
 import {MobileService} from "../../../../../service/mobile.service";
 import {AuthenticationService} from "../../../../../../../web/domain/service/authentication.service";
@@ -10,7 +10,7 @@ import {FormBuilder} from "@angular/forms";
   templateUrl: './opcoes-de-configuracao.component.html',
   styleUrls: ['./opcoes-de-configuracao.component.scss']
 })
-export class OpcoesDeConfiguracaoComponent {
+export class OpcoesDeConfiguracaoComponent implements OnInit {
 
   /**
    *
@@ -32,10 +32,18 @@ export class OpcoesDeConfiguracaoComponent {
   /**
    *
    */
+  ngOnInit(): void {
+    // Requisita configuração
+    this.mobileService.requestConfiguracao.then(() => {
+      this.mobileService.restartTimeout()
+    })
+  }
+
+  /**
+   *
+   */
   cancelar() {
-
     this.router.navigate(['/avaliar'])
-
   }
 
   /**
@@ -52,6 +60,9 @@ export class OpcoesDeConfiguracaoComponent {
 
   }
 
+  /**
+   *
+   */
   logout() {
 
     // Limpa

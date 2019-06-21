@@ -5,6 +5,7 @@ import {AuthenticationService} from "../../../../../../../web/domain/service/aut
 import {Router} from "@angular/router";
 import {Agrupador} from "../../../../../../../web/domain/entity/avaliacao/agrupador.model";
 import {FormBuilder, Validators} from "@angular/forms";
+import {TdLoadingService} from "@covalent/core";
 
 @Component({
   selector: 'authenticate',
@@ -27,6 +28,7 @@ export class AuthenticateComponent implements OnInit {
    *
    * @param fb
    * @param {MobileService} mobileService
+   * @param _loadingService
    * @param element
    * @param renderer
    * @param snackBar
@@ -34,6 +36,7 @@ export class AuthenticateComponent implements OnInit {
    * @param {Router} router
    */
   constructor(private mobileService: MobileService,
+              private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
               private router: Router, private renderer: Renderer,
               private authenticationService: AuthenticationService,
@@ -44,13 +47,40 @@ export class AuthenticateComponent implements OnInit {
    *
    */
   ngOnInit(): void {
+    // Registra o loading.
+    this._loadingService.register('overlayStarSyntax');
 
-    this.form = this.fb.group({
-      password: ['password', [Validators.required]]
+    // Requisita as unidades
+    this.mobileService.requestUnidades().then(unidades => {
+
+      // Se não tem unidades selecionadas
+      if (!unidades || !unidades.length) {
+        this.router.navigate(['/configuracoes/opcoes-de-configuracao']);
+        this._loadingService.resolve('overlayStarSyntax');
+        return
+      }
+
+      // Se não tem unidades unidadesTiposAvaliacoes
+      this.mobileService.requestUnidadesTiposAvaliacoes().then(unidadesTiposAvaliacoes => {
+
+        // Se não tem unidadesTiposAvaliacoes selecionadas
+        if (!unidadesTiposAvaliacoes || !unidadesTiposAvaliacoes.length) {
+          this._loadingService.resolve('overlayStarSyntax');
+          this.router.navigate(['/configuracoes/opcoes-de-configuracao']);
+          return
+        }
+
+        // Requisita configuração
+        this.mobileService.requestConfiguracao.then(() => {
+          this._loadingService.resolve('overlayStarSyntax');
+          this.mobileService.restartTimeout()
+        })
+      })
     });
 
-    this.mobileService.requestConfiguracao.then(() => {
-      this.mobileService.restartTimeout()
+    //
+    this.form = this.fb.group({
+      password: ['password', [Validators.required]]
     })
   }
 
@@ -59,14 +89,16 @@ export class AuthenticateComponent implements OnInit {
    */
   public authenticatePromise(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.mobileService.unidades.forEach(unidade => {
-        this.authenticationService.authenticateByUnidade(unidade.id, this.password)
-          .then(() => {
+      if (this.mobileService.unidades.length) {
+        this.mobileService.unidades.forEach(unidade => {
+          this.authenticationService.authenticateByUnidade(unidade.id, this.password)
+            .then(() => {
 
-            resolve(true)
+              resolve(true)
 
-          }).catch(() => reject(false))
-      })
+            }).catch(() => reject(false))
+        })
+      }
     })
   }
 

@@ -2,8 +2,7 @@ import {Component} from '@angular/core';
 import {getIdentifier} from "../../../../web/domain/presentation/controls/utils";
 import {environment} from "../../../../environments/environment";
 import {AuthenticationService} from "../../../../web/domain/service/authentication.service";
-import {Route, Router} from "@angular/router";
-import {OpcoesDeConfiguracaoComponent} from "./configurar/configuracoes/opcoes-de-configuracao/opcoes-de-configuracao.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-avaliacao',
@@ -32,15 +31,6 @@ export class AvaliacaoComponent {
           }
         }
       )
-    // this.router.events.subscribe((val) => {
-    //   this.authenticationService.requestContaAutenticada()
-    //     .subscribe(conta => {
-    //         if (conta && conta.esquema) {
-    //           this.backgroundImage = environment.endpoint + './configuracoes/background?cliente=' + conta.esquema + '?nocache=' + getIdentifier()
-    //         }
-    //       }
-    //     )
-    // })
   }
 
 }

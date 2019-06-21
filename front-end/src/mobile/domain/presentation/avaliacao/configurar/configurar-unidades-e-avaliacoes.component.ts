@@ -6,7 +6,6 @@ import {MatSnackBar} from "@angular/material";
 import {TdLoadingService} from "@covalent/core";
 import {viewAnimation} from "../../../../../web/domain/presentation/controls/utils";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'configurar-unidades-e-avaliacoes',
@@ -82,7 +81,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
               }
 
               // Popula lista do model.
-              this.unidades[0].unidadesTiposAvaliacoes = resulted.content;
+              this.mobileService.unidadesTiposAvaliacoes = resulted.content;
 
               // Se só houver somente um tipo de avaliação.
               if (resulted.content.length === 1) {
@@ -183,25 +182,29 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     //
     this.mobileService.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
     this.mobileService.unidades = unidades.filter(unidade => unidade.checked);
+
+    //
+    if (!this.mobileService.unidadesTiposAvaliacoes.length || !this.mobileService.unidades.length) {
+      this._loadingService.resolve('overlayStarSyntax');
+      return
+    }
+
+    // Zera os hashs
+    this.mobileService.localStorage.removeHashs();
+
+    //
     this.mobileService.requestUnidades().then(unidadess => {
       for (let i = 0; i < unidadess.length; i++) {
-        // TODO procedimento funcionado assíncrono, inserindo os hashs assíncronamente com a mudança de tela.
-        this.setHashsByUnidade(unidadess[i]);
-        if (i === unidadess.length - 1) {
-          this.router.navigate(['avaliar']);
-          this._loadingService.resolve('overlayStarSyntax')
-        }
+
+        this.mobileService.setHashsByUnidadeId(unidadess[i].id).then(() => {
+          if (i === unidadess.length - 1) {
+            this.router.navigate(['avaliar']);
+            this._loadingService.resolve('overlayStarSyntax')
+          }
+        })
       }
     })
 
-  }
-
-  /**
-   *
-   * @param unidade
-   */
-  private setHashsByUnidade(unidade): Observable<any> {
-    return this.mobileService.setHashsByUnidadeId(unidade.id)
   }
 
   /**
@@ -213,5 +216,4 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
       duration: 5000
     })
   }
-
 }
