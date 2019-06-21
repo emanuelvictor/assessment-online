@@ -81,7 +81,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
               }
 
               // Popula lista do model.
-              this.mobileService.unidadesTiposAvaliacoes = resulted.content;
+              this.unidades[0].unidadesTiposAvaliacoes = resulted.content;
 
               // Se só houver somente um tipo de avaliação.
               if (resulted.content.length === 1) {
