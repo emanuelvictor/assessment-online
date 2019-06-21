@@ -115,7 +115,7 @@ public class Configuracao extends AbstractEntity {
     @Column(nullable = false)
     @Min(value = 5, message = "O mínimo são 5 segundos")
     @Max(value = 600, message = "O máximo são 10 minutos (600 segundos)")
-    private short time;
+    private short time = 30;
 
     /**
      * @return byte[]
