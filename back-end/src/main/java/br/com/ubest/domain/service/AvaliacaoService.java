@@ -20,8 +20,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
-
 @Service
 @RequiredArgsConstructor
 public class AvaliacaoService {
@@ -53,7 +51,8 @@ public class AvaliacaoService {
         // Popula recursividade removida
         agrupador.getAvaliacoes().forEach(avaliacao -> {
                     avaliacao.setAgrupador(agrupador);
-                    avaliacao.getAvaliacoesAvaliaveis().forEach(avaliacaoAvaliavel -> avaliacaoAvaliavel.setAvaliacao(avaliacao));
+                    if (avaliacao.getAvaliacoesAvaliaveis() != null && !avaliacao.getAvaliacoesAvaliaveis().isEmpty())
+                        avaliacao.getAvaliacoesAvaliaveis().forEach(avaliacaoAvaliavel -> avaliacaoAvaliavel.setAvaliacao(avaliacao));
                 }
         );
 
@@ -82,10 +81,13 @@ public class AvaliacaoService {
         if (avaliacao.getAgrupador() != null && avaliacao.getAgrupador().getId() != null)
             avaliacao.setAgrupador(this.agrupadorRepository.findById(avaliacao.getAgrupador().getId()).orElse(null));
 
-        if (avaliacao.getAgrupador() == null)
-            avaliacao.setAgrupador(new Agrupador());
+        if (avaliacao.getAgrupador() == null) {
+            var agrupador = new Agrupador();
+            agrupador.setAvaliacoes(List.of(avaliacao));
+            avaliacao.setAgrupador(agrupador);
+        }
 
-        return this.avaliacaoRepository.save(avaliacao);
+        return this.save(avaliacao.getAgrupador()).getAvaliacoes().get(0);
     }
 
     public Avaliacao save(final long id, final Avaliacao avaliacao) {
