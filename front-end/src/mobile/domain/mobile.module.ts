@@ -28,7 +28,7 @@ import {ContaRepository} from '../../web/domain/repository/conta.repository';
 import {ContaService} from '../../web/domain/service/conta.service';
 import {PageSerialize} from '../../web/infrastructure/page-serialize/page-serialize';
 import {MobileService} from "./service/mobile.service";
-import {MobileLoginComponent} from './presentation/login/web-login/mobile-login.component';
+import {MobileLoginComponent} from './presentation/login/mobile-login/mobile-login.component';
 import {ConfiguracaoRepository} from "../../web/domain/repository/configuracao.repository";
 import {ConfiguracaoService} from "../../web/domain/service/configuracao.service";
 import {LocalStorage} from "../../web/infrastructure/local-storage/local-storage";

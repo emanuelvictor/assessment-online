@@ -12,7 +12,7 @@ import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/ex
 import {SelecionarNotaEItensAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota-e-itens-avaliaveis.component";
 import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component";
 import {ErrorComponent} from "./presentation/error/error.component";
-import {MobileLoginComponent} from "./presentation/login/web-login/mobile-login.component";
+import {MobileLoginComponent} from "./presentation/login/mobile-login/mobile-login.component";
 import {AuthenticateComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate/authenticate.component";
 import {OpcoesDeConfiguracaoComponent} from "./presentation/avaliacao/configurar/configuracoes/opcoes-de-configuracao/opcoes-de-configuracao.component";
 import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
