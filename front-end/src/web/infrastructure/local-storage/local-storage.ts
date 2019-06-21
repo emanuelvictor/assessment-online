@@ -83,7 +83,7 @@ export class LocalStorage {
 
   removeUnidadesTiposAvaliacoes() {
     for (let _i = 0; _i < window.localStorage['unidadesTiposAvaliacoes.length']; _i++) {
-      window.localStorage.removeItem('unidadesTiposAvaliacoes=' + _i.toString());
+      window.localStorage.removeItem('unidadeTipoAvaliacao' + _i.toString());
     }
 
     window.localStorage.removeItem('unidadesTiposAvaliacoes.length');

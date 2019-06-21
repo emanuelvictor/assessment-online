@@ -118,7 +118,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
         for (let i = 0; i < result.content.length; i++) {
           result.content[i].unidade = unidade;
           result.content[i].checked = true;
-          result.content[i].ordem = i + 1;
+          result.content[i].ordem = i + 1
         }
         unidade.unidadesTiposAvaliacoes = result.content
       })
@@ -150,18 +150,18 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
       unidadeTipoAvaliacao.ordem = null;
 
-      return;
+      return
     }
 
     let aux = 0;
 
     for (let i = 0; i < unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes.length; i++) {
       if (unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes[i].ordem && unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes[i].ordem > aux) {
-        aux = unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes[i].ordem;
+        aux = unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes[i].ordem
       }
     }
 
-    unidadeTipoAvaliacao.ordem = aux + 1;
+    unidadeTipoAvaliacao.ordem = aux + 1
   }
 
   /**
@@ -180,9 +180,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
       })
     });
 
-    /**
-     *
-     */
+    //
     this.mobileService.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
     this.mobileService.unidades = unidades.filter(unidade => unidade.checked);
     this.mobileService.requestUnidades().then(unidadess => {
@@ -191,7 +189,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
         this.setHashsByUnidade(unidadess[i]);
         if (i === unidadess.length - 1) {
           this.router.navigate(['avaliar']);
-          this._loadingService.resolve('overlayStarSyntax');
+          this._loadingService.resolve('overlayStarSyntax')
         }
       }
     })
@@ -213,7 +211,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   public openSnackBar(message: string) {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
-    });
+    })
   }
 
 }

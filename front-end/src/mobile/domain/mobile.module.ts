@@ -6,7 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {MobileRoutingModule} from './mobile.routing.module';
-import {DateAdapter, MatBottomSheetModule, MatRippleModule} from '@angular/material';
+import {DateAdapter, MatRippleModule} from '@angular/material';
 import {SharedModule} from '../../shared/shared.module';
 import {AuthenticationService} from '../../web/domain/service/authentication.service';
 import {EnderecoService} from '../../web/domain/service/endereco.service';
@@ -47,7 +47,9 @@ import {AgrupadorRepository} from "./repository/agrupador.repository";
 import {SelecionarNotaEItensAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota-e-itens-avaliaveis.component";
 import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component";
 import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/feedback/feedback.component";
-import {OpcoesDeConfiguracaoComponent} from "./presentation/controls/opcoes-de-configuracao/opcoes-de-configuracao.component";
+import {AuthenticateComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate/authenticate.component";
+import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
+import {OpcoesDeConfiguracaoComponent} from "./presentation/avaliacao/configurar/configuracoes/opcoes-de-configuracao/opcoes-de-configuracao.component";
 
 /**
  *
@@ -66,6 +68,8 @@ import {OpcoesDeConfiguracaoComponent} from "./presentation/controls/opcoes-de-c
     SelecionarNotaEItensAvaliaveisComponent,
     MobileLoginComponent,
     FeedbackComponent,
+    AuthenticateComponent,
+    ConfiguracoesComponent,
     OpcoesDeConfiguracaoComponent
   ],
   imports: [
@@ -77,12 +81,9 @@ import {OpcoesDeConfiguracaoComponent} from "./presentation/controls/opcoes-de-c
     BrowserModule,
     OrderModule,
     BrowserAnimationsModule,
-    MobileRoutingModule,
-    MatBottomSheetModule
+    MobileRoutingModule
   ],
-  entryComponents: [
-    OpcoesDeConfiguracaoComponent
-  ],
+  entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     PageSerialize,

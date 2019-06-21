@@ -13,11 +13,20 @@ import {SelecionarNotaEItensAvaliaveisComponent} from "./presentation/avaliacao/
 import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component";
 import {ErrorComponent} from "./presentation/error/error.component";
 import {MobileLoginComponent} from "./presentation/login/web-login/mobile-login.component";
+import {AuthenticateComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate/authenticate.component";
+import {OpcoesDeConfiguracaoComponent} from "./presentation/avaliacao/configurar/configuracoes/opcoes-de-configuracao/opcoes-de-configuracao.component";
+import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
 
 
 const routes: Routes = [
   {path: '', redirectTo: 'avaliar', pathMatch: 'full'},
   {path: 'authentication', component: MobileLoginComponent},
+  {path: 'configuracoes', component: ConfiguracoesComponent,
+    children: [
+      {path: '', component: AuthenticateComponent},
+      {path: 'opcoes-de-configuracao', component: OpcoesDeConfiguracaoComponent},
+    ]
+  },
   {
     path: '', component: AvaliacaoComponent, canActivate: [AuthenticationService],
     children: [

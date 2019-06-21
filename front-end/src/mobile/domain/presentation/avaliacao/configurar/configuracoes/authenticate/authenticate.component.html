@@ -1,0 +1,35 @@
+<div layout='column'>
+  <mat-card>
+    <form [formGroup]='form' (ngSubmit)='authenticate(form)' novalidate>
+      <div layout='column' layout-margin>
+
+        <label flex>
+          Insira uma senha administrativa
+        </label>
+
+        <div flex layout='row'>
+          <mat-form-field flex='50'>
+            <input [(ngModel)]='password' matInput
+                   type='password' id='password' name='password'
+                   placeholder='Sua senha' formControlName='password'/>
+            <mat-error>
+              Insira a senha
+            </mat-error>
+          </mat-form-field>
+
+          <button flex mat-raised-button
+                  class='push-left' color='accent'
+                  style='height: 40px;margin-top: 6px'>
+            Enviar
+          </button>
+          <button flex mat-button class='push-left'
+                  type='button' (click)='cancelar()'
+                  style='height: 40px;margin-top: 6px'>
+            Cancelar
+          </button>
+        </div>
+
+      </div>
+    </form>
+  </mat-card>
+</div>

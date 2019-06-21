@@ -48,7 +48,7 @@ export class MobileService {
    * @param {AvaliacaoService} avaliacaoService
    */
   constructor(private router: Router,
-              private localStorage: LocalStorage,
+              private _localStorage: LocalStorage,
               private unidadeService: UnidadeService,
               private _loadingService: TdLoadingService,
               private avaliacaoService: AvaliacaoService,
@@ -100,7 +100,7 @@ export class MobileService {
    * @returns {any}
    */
   get unidadesTiposAvaliacoes(): UnidadeTipoAvaliacao[] {
-    return this.localStorage.unidadesTiposAvaliacoes
+    return this._localStorage.unidadesTiposAvaliacoes
   }
 
   /**
@@ -108,14 +108,14 @@ export class MobileService {
    * @param unidadesTiposAvaliacoes
    */
   set unidadesTiposAvaliacoes(unidadesTiposAvaliacoes: UnidadeTipoAvaliacao[]) {
-    this.localStorage.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes
+    this._localStorage.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes
   }
 
   /**
    *
    */
   public requestUnidadesTiposAvaliacoes(): Promise<UnidadeTipoAvaliacao[]> {
-    return this.localStorage.requestUnidadesTiposAvaliacoes()
+    return this._localStorage.requestUnidadesTiposAvaliacoes()
   }
 
   /**
@@ -138,7 +138,7 @@ export class MobileService {
    * @returns {Unidade[]}
    */
   get unidades(): any {
-    return this.localStorage.unidades
+    return this._localStorage.unidades
   }
 
   /**
@@ -146,16 +146,22 @@ export class MobileService {
    * @param {Unidade} unidades
    */
   set unidades(unidades: any) {
-    this.localStorage.unidades = unidades
+    this._localStorage.unidades = unidades
   }
 
   /**
    *
    */
   public requestUnidades(): Promise<Unidade[]> {
-    return this.localStorage.requestUnidades()
+    return this._localStorage.requestUnidades()
   }
 
+  /**
+   *
+   */
+  get localStorage(): LocalStorage {
+    return this._localStorage;
+  }
 
   /**
    *
@@ -187,8 +193,8 @@ export class MobileService {
     return new Observable(observer => {
       this.unidadeService.getHashsByUnidadeId(id)
         .subscribe(hashs => {
-          this.localStorage.hashs = hashs;
-          observer.next(this.localStorage.hashs);
+          this._localStorage.hashs = hashs;
+          observer.next(this._localStorage.hashs);
           observer.complete()
         })
     })

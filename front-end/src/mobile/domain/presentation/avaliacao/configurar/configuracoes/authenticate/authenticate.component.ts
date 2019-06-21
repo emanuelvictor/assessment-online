@@ -1,17 +1,17 @@
 import {Component, ElementRef, Inject, OnInit, Renderer} from "@angular/core";
-import {MatBottomSheetRef, MatSnackBar} from "@angular/material";
-import {MobileService} from "../../../service/mobile.service";
-import {AuthenticationService} from "../../../../../web/domain/service/authentication.service";
+import {MatSnackBar} from "@angular/material";
+import {MobileService} from "../../../../../service/mobile.service";
+import {AuthenticationService} from "../../../../../../../web/domain/service/authentication.service";
 import {Router} from "@angular/router";
-import {Agrupador} from "../../../../../web/domain/entity/avaliacao/agrupador.model";
+import {Agrupador} from "../../../../../../../web/domain/entity/avaliacao/agrupador.model";
 import {FormBuilder, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'opcoes-de-configuracao',
-  templateUrl: './opcoes-de-configuracao.component.html',
-  styleUrls: ['./opcoes-de-configuracao.component.scss']
+  selector: 'authenticate',
+  templateUrl: './authenticate.component.html',
+  styleUrls: ['./authenticate.component.scss']
 })
-export class OpcoesDeConfiguracaoComponent implements OnInit {
+export class AuthenticateComponent implements OnInit {
 
   /**
    *
@@ -32,29 +32,32 @@ export class OpcoesDeConfiguracaoComponent implements OnInit {
    * @param snackBar
    * @param {AuthenticationService} authenticationService
    * @param {Router} router
-   * @param _bottomSheetRef
    */
   constructor(private mobileService: MobileService,
               @Inject(ElementRef) private element: ElementRef,
               private router: Router, private renderer: Renderer,
               private authenticationService: AuthenticationService,
-              private snackBar: MatSnackBar, private fb: FormBuilder,
-              private _bottomSheetRef: MatBottomSheetRef<OpcoesDeConfiguracaoComponent>) {
+              private snackBar: MatSnackBar, private fb: FormBuilder) {
   }
 
   /**
    *
    */
   ngOnInit(): void {
+
     this.form = this.fb.group({
       password: ['password', [Validators.required]]
     });
+
+    this.mobileService.requestConfiguracao.then(() => {
+      this.mobileService.restartTimeout()
+    })
   }
 
   /**
    *
    */
-  public authenticate(): Promise<boolean> {
+  public authenticatePromise(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.mobileService.unidades.forEach(unidade => {
         this.authenticationService.authenticateByUnidade(unidade.id, this.password)
@@ -70,7 +73,7 @@ export class OpcoesDeConfiguracaoComponent implements OnInit {
   /**
    *
    */
-  public logout(form: any): void {
+  public authenticate(form: any): void {
     // TODO provisório
     let valid = true;
     const controls: any = [];
@@ -120,21 +123,23 @@ export class OpcoesDeConfiguracaoComponent implements OnInit {
     }
 
     if (valid) {
-      this.authenticate().then(() => {
-        this.authenticationService.logout().then(() => {
+      this.authenticatePromise().then(() => {
 
-          this._bottomSheetRef.dismiss();
-          this.mobileService.agrupador = new Agrupador();
-          this.mobileService.restartTimeout();
+        this.mobileService.agrupador = new Agrupador();
 
-          this.router.navigate(['authentication'])
+        this.router.navigate(['/configuracoes/opcoes-de-configuracao'])
 
-        })
       })
     }
   }
 
-
+  /**
+   *
+   */
+  cancelar() {
+    this.mobileService.agrupador = new Agrupador();
+    this.router.navigate(['/avaliar'])
+  }
 
   /**
    *

@@ -33,8 +33,8 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     this.contaAutenticadaChanged = new EventEmitter();
 
     this.requestContaAutenticada().subscribe(result => {
-      this.contaAutenticada = result;
-    });
+      this.contaAutenticada = result
+    })
 
   }
 
@@ -48,7 +48,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {Conta}
    */
   get contaAutenticada(): any | Conta {
-    return this._contaAutenticada;
+    return this._contaAutenticada
   }
 
   /**
@@ -57,7 +57,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    */
   set contaAutenticada(contaAutenticada: any | Conta) {
     this._contaAutenticada = contaAutenticada;
-    this.contaAutenticadaChanged.emit(this.requestContaAutenticada());
+    this.contaAutenticadaChanged.emit(this.requestContaAutenticada())
   }
 
   /**
@@ -69,23 +69,23 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | any> {
 
     if (this.cookieService.get(TOKEN_NAME)) {
-      this.localStorage.token = this.cookieService.get(TOKEN_NAME);
+      this.localStorage.token = this.cookieService.get(TOKEN_NAME)
     }
 
     if (this.localStorage.token) {
-      this.cookieService.set(TOKEN_NAME, this.localStorage.token, null, '/');
+      this.cookieService.set(TOKEN_NAME, this.localStorage.token, null, '/')
     }
 
     if (window['cookieEmperor']) {
       window['cookieEmperor'].getCookie(environment.endpoint, TOKEN_NAME, function (data) {
         localStorage.setItem(TOKEN_NAME, data.cookieValue);
         console.log('token em cookies ', data.cookieValue);
-        console.log('token em localstorage ', localStorage.getItem(TOKEN_NAME));
+        console.log('token em localstorage ', localStorage.getItem(TOKEN_NAME))
       }, function (error) {
         if (error) {
-          console.log('error: ' + error);
+          console.log('error: ' + error)
         }
-      });
+      })
     }
 
     return this.requestContaAutenticada()
@@ -93,16 +93,16 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
         this.contaAutenticada = auth;
         if (isNullOrUndefined(auth)) {
           this.router.navigate(['authentication']);
-          return false;
+          return false
         } else {
-          return true;
+          return true
         }
 
       }).catch((err: any) => {
         // simple logging, but you can do a lot more, see below
         // this.router.navigate(['error']);
-        return err;
-      });
+        return err
+      })
 
   }
 
@@ -113,12 +113,12 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     return this.httpClient.get<Conta>(environment.endpoint + 'principal').catch((err: any) => {
       // simple logging, but you can do a lot more, see below
       if (this.localStorage.token) {
-        this.router.navigate(['error']);
+        this.router.navigate(['error'])
       } else {
-        this.router.navigate(['authentication']);
+        this.router.navigate(['authentication'])
       }
-      return err;
-    });
+      return err
+    })
   }
 
   /**
@@ -128,7 +128,7 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    * @returns {boolean}
    */
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.canActivate(route, state);
+    return this.canActivate(route, state)
   }
 
   /**
@@ -198,8 +198,8 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
         reject(false);
       };
       xhr.open('GET', this.baseUrl, true);
-      xhr.send();
-    });
+      xhr.send()
+    })
   }
 
 }
