@@ -102,7 +102,7 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
                 for (let k = 0; k < this.operadores.length; k++) {
                   if (this.operadores[k].unidade.id === this.unidades[i].id) {
                     this.unidades[i].operadorValue = true;
-                    this.unidades[i].operador = this.operadores[k];
+                    this.unidades[i].operador = this.operadores[k]
                   }
                 }
               }
@@ -113,19 +113,19 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
             this.avaliaveis = page.content;
             for (let i = 0; i < this.unidades.length; i++) {
               if (!this.unidades[i].unidadesTiposAvaliacoes) {
-                this.unidades[i].unidadesTiposAvaliacoes = [];
+                this.unidades[i].unidadesTiposAvaliacoes = []
               }
               for (let k = 0; k < this.avaliaveis.length; k++) {
                 if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
                   this.unidades[i].avaliavelValue = this.avaliaveis[k].ativo;
                   this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
-                  this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao);
+                  this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao)
                 }
               }
             }
-          });
+          })
 
-        });
+        })
       } else {
         this.message = 'Volte ao acesso administrativo para visualizar seus dados';
       }

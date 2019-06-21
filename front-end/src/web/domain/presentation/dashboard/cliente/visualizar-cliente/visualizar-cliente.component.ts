@@ -108,33 +108,37 @@ export class VisualizarClienteComponent implements OnInit {
         this.operadorRepository.listByFilters({usuarioId: atendenteId}).subscribe(page => {
           this.operadores = page.content;
 
-          if (this.operadores.length)
-            for (let i = 0; i < this.unidades.length; i++)
-              for (let k = 0; k < this.operadores.length; k++)
+          if (this.operadores.length) {
+            for (let i = 0; i < this.unidades.length; i++) {
+              for (let k = 0; k < this.operadores.length; k++) {
                 if (this.operadores[k].unidade.id === this.unidades[i].id) {
                   this.unidades[i].operadorValue = true;
-                  this.unidades[i].operador = this.operadores[k];
+                  this.unidades[i].operador = this.operadores[k]
                 }
+              }
+            }
+          }
         });
 
         this.avaliavelRepository.listByFilters({usuarioId: atendenteId}).subscribe(page => {
           this.avaliaveis = page.content;
           for (let i = 0; i < this.unidades.length; i++) {
-            if (!this.unidades[i].unidadesTiposAvaliacoes)
-              this.unidades[i].unidadesTiposAvaliacoes = [];
-            for (let k = 0; k < this.avaliaveis.length; k++)
-
+            if (!this.unidades[i].unidadesTiposAvaliacoes) {
+              this.unidades[i].unidadesTiposAvaliacoes = []
+            }
+            for (let k = 0; k < this.avaliaveis.length; k++) {
               if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
                 this.unidades[i].avaliavelValue = this.avaliaveis[k].ativo;
                 this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
-                this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao);
+                this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao)
               }
+            }
           }
         });
 
-        this.atendente = atendente;
+        this.atendente = atendente
 
-      });
+      })
 
     })
   }
@@ -154,15 +158,16 @@ export class VisualizarClienteComponent implements OnInit {
     );
 
     dialogRef.afterClosed().subscribe(remover => {
-      if (remover)
+      if (remover) {
         this.usuarioService.remove(this.atendente)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
             this.snackBar.open('Excluído com sucesso', 'Fechar', {
               duration: 3000
-            });
+            })
           })
-    });
+      }
+    })
   }
 
   /**
@@ -170,7 +175,7 @@ export class VisualizarClienteComponent implements OnInit {
    * @param message
    */
   public error(message: string) {
-    this.openSnackBar(message);
+    this.openSnackBar(message)
   }
 
   /**
@@ -180,7 +185,7 @@ export class VisualizarClienteComponent implements OnInit {
   public openSnackBar(message: string) {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
-    });
+    })
   }
 
   /**
@@ -192,11 +197,13 @@ export class VisualizarClienteComponent implements OnInit {
       .then(result => {
         operador = result;
 
-        for (let i = 0; i < this.unidades.length; i++)
-          if (this.unidades[i].id === operador.unidade.id)
-            this.unidades[i].operador = operador;
+        for (let i = 0; i < this.unidades.length; i++) {
+          if (this.unidades[i].id === operador.unidade.id) {
+            this.unidades[i].operador = operador
+          }
+        }
 
-        this.openSnackBar('Vínculo salvo com sucesso!');
+        this.openSnackBar('Vínculo salvo com sucesso!')
       })
   }
 
@@ -236,8 +243,8 @@ export class VisualizarClienteComponent implements OnInit {
         }
 
         // Se tiver avaliaveis
-        else
-          for (let i = 0; i < this.avaliaveis.length; i++)
+        else {
+          for (let i = 0; i < this.avaliaveis.length; i++) {
             if (this.avaliaveis[i].id === avaliavel.id) {
               this.avaliaveis[i] = avaliavel;
               return;
@@ -248,6 +255,8 @@ export class VisualizarClienteComponent implements OnInit {
               this.avaliaveis.push(avaliavel);
               return;
             }
+          }
+        }
 
       })
   }
@@ -274,23 +283,24 @@ export class VisualizarClienteComponent implements OnInit {
         // Se não tiiver nenhum avaliavel na lista
         if (!this.avaliaveis || !this.avaliaveis.length) {
           this.avaliaveis = [];
-          this.avaliaveis.push(this.avaliaveis);
+          this.avaliaveis.push(this.avaliaveis)
         }
 
         // Se tiver avaliáveis
-        else
-          for (let i = 0; i < this.avaliaveis.length; i++)
+        else {
+          for (let i = 0; i < this.avaliaveis.length; i++) {
             if (this.avaliaveis[i].id === avaliavel.id) {
               this.avaliaveis[i] = avaliavel;
-              return;
+              return
             }
 
             // Não encontrou no array coloca no último
             else if (i === this.avaliaveis.length - 1) {
               this.avaliaveis.push(avaliavel);
-              return;
+              return
             }
-
+          }
+        }
       })
   }
 
