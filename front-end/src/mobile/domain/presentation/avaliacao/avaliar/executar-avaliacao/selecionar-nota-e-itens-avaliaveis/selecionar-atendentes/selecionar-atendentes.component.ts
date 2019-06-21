@@ -7,11 +7,15 @@ import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../../web/domain
 import {TdLoadingService} from "@covalent/core";
 import {AbstractComponent} from "../../abstract/abstract.component";
 import {AvaliacaoAvaliavel} from "../../../../../../../../web/domain/entity/avaliacao/avaliacao-avaliavel.model";
+import {viewAnimation} from "../../../../../../../../web/domain/presentation/controls/utils";
 
 @Component({
   selector: 'selecionar-atendentes',
   templateUrl: './selecionar-atendentes.component.html',
-  styleUrls: ['./selecionar-atendentes.component.scss']
+  styleUrls: ['./selecionar-atendentes.component.scss'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class SelecionarAtendentesComponent extends AbstractComponent implements OnInit {
 

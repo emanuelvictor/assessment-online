@@ -5,11 +5,15 @@ import {MatSnackBar} from "@angular/material";
 import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
 import {TdLoadingService} from "@covalent/core";
 import {Unidade} from "../../../../../../web/domain/entity/unidade/unidade.model";
+import {viewAnimation} from "../../../../../../web/domain/presentation/controls/utils";
 
 @Component({
   selector: 'selecionar-unidade',
   templateUrl: './selecionar-unidade.component.html',
-  styleUrls: ['./selecionar-unidade.component.scss']
+  styleUrls: ['./selecionar-unidade.component.scss'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class SelecionarUnidadeComponent implements OnInit {
 

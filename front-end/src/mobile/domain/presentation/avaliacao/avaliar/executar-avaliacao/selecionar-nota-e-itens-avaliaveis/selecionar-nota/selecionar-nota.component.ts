@@ -10,11 +10,15 @@ import {AvaliavelRepository} from "../../../../../../../../web/domain/repository
 import {TdLoadingService} from "@covalent/core";
 import {AbstractComponent} from "../../abstract/abstract.component";
 import {Avaliacao} from "../../../../../../../../web/domain/entity/avaliacao/avaliacao.model";
+import {viewAnimation} from "../../../../../../../../web/domain/presentation/controls/utils";
 
 @Component({
   selector: 'selecionar-nota',
   templateUrl: './selecionar-nota.component.html',
-  styleUrls: ['./selecionar-nota.component.scss']
+  styleUrls: ['./selecionar-nota.component.scss'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class SelecionarNotaComponent extends AbstractComponent implements OnInit {
 

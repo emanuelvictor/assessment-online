@@ -3,7 +3,7 @@ import {AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnInit, View
 import {Endereco} from '../../../entity/endereco/endereco.model';
 import {textMasks} from '../text-masks/text-masks';
 import {AuthenticationService} from '../../../service/authentication.service';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 import {EnderecoService} from '../../../service/endereco.service';
 import {Cidade} from '../../../entity/endereco/cidade.model';
 

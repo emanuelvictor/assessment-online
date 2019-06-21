@@ -8,7 +8,6 @@ import {UnidadeService} from "../../../../service/unidade.service";
 import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacao} from "../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
-import {Cidade} from "../../../../entity/endereco/cidade.model";
 
 
 /**

@@ -4,13 +4,22 @@ import {MobileService} from "../../../../../service/mobile.service";
 import {AuthenticationService} from "../../../../../../../web/domain/service/authentication.service";
 import {Router} from "@angular/router";
 import {FormBuilder} from "@angular/forms";
+import {viewAnimation} from "../../../../../../../web/domain/presentation/controls/utils";
 
 @Component({
   selector: 'opcoes-de-configuracao',
   templateUrl: './opcoes-de-configuracao.component.html',
-  styleUrls: ['./opcoes-de-configuracao.component.scss']
+  styleUrls: ['./opcoes-de-configuracao.component.scss'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class OpcoesDeConfiguracaoComponent implements OnInit {
+
+  /**
+   *
+   */
+  public done = false;
 
   /**
    *
@@ -35,6 +44,7 @@ export class OpcoesDeConfiguracaoComponent implements OnInit {
   ngOnInit(): void {
     // Requisita configuração
     this.mobileService.requestConfiguracao.then(() => {
+      this.done = true;
       this.mobileService.restartTimeout()
     })
   }

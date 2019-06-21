@@ -127,7 +127,7 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
 
     // Valida o formulário
     if (!this.form.valid) {
-      return;
+      return
     }
 
     this.router.navigate(['/avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/conclusao'])

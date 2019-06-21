@@ -6,11 +6,16 @@ import {Router} from "@angular/router";
 import {Agrupador} from "../../../../../../../web/domain/entity/avaliacao/agrupador.model";
 import {FormBuilder, Validators} from "@angular/forms";
 import {TdLoadingService} from "@covalent/core";
+import {Subject} from "rxjs";
+import {viewAnimation} from "../../../../../../../web/domain/presentation/controls/utils";
 
 @Component({
   selector: 'authenticate',
   templateUrl: './authenticate.component.html',
-  styleUrls: ['./authenticate.component.scss']
+  styleUrls: ['./authenticate.component.scss'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class AuthenticateComponent implements OnInit {
 
@@ -23,6 +28,12 @@ export class AuthenticateComponent implements OnInit {
    *
    */
   form: any;
+
+  /**
+   *
+   * @type {Subject<string>}
+   */
+  public modelChanged: Subject<any> = new Subject<any>();
 
   /**
    *
@@ -78,6 +89,14 @@ export class AuthenticateComponent implements OnInit {
       })
     });
 
+
+    // Debounce da digitação, toda vez que o usuário digita alguma coisa, depois de 300 milisegundos ele executa isso.
+    this.modelChanged.debounceTime(300).subscribe(() => {
+
+      // Restarta o timeout
+      this.mobileService.restartTimeout()
+    });
+
     //
     this.form = this.fb.group({
       password: ['password', [Validators.required]]
@@ -89,16 +108,14 @@ export class AuthenticateComponent implements OnInit {
    */
   public authenticatePromise(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      if (this.mobileService.unidades.length) {
-        this.mobileService.unidades.forEach(unidade => {
-          this.authenticationService.authenticateByUnidade(unidade.id, this.password)
-            .then(() => {
+      this.mobileService.unidades.forEach(unidade => {
+        this.authenticationService.authenticateByUnidade(unidade.id, this.password)
+          .then(() => {
 
-              resolve(true)
+            resolve(true)
 
-            }).catch(() => reject(false))
-        })
-      }
+          }).catch(() => reject(false))
+      })
     })
   }
 

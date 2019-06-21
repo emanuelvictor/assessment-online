@@ -1,4 +1,5 @@
-<mat-card *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+<mat-card [@fadeInOut]
+          *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
   <form [formGroup]='form' (ngSubmit)='authenticate(form)' novalidate>
     <div layout='column' layout-margin>
 
@@ -8,7 +9,8 @@
 
       <div flex layout='row'>
         <mat-form-field flex='50'>
-          <input [(ngModel)]='password' matInput
+          <input (keyup)='modelChanged.next()'
+                 [(ngModel)]='password' matInput
                  type='password' id='password' name='password'
                  placeholder='Sua senha' formControlName='password'/>
           <mat-error>

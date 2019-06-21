@@ -7,11 +7,15 @@ import {MatSnackBar} from "@angular/material";
 import {AgrupadorRepository} from "../../../../../repository/agrupador.repository";
 import {Agrupador} from "../../../../../../../web/domain/entity/avaliacao/agrupador.model";
 import {Avaliacao} from "../../../../../../../web/domain/entity/avaliacao/avaliacao.model";
+import {viewAnimation} from "../../../../../../../web/domain/presentation/controls/utils";
 
 @Component({
   selector: 'app-conclusao',
   templateUrl: './conclusao.component.html',
-  styleUrls: ['./conclusao.component.scss']
+  styleUrls: ['./conclusao.component.scss'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class ConclusaoComponent extends AbstractComponent implements OnInit {
 

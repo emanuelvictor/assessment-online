@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf='done' [@fadeInOut]>
   <div layout='column' layout-margin>
     <button (click)='reconfig()'
             class='push-left' color='primary'

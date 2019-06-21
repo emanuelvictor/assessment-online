@@ -7,7 +7,6 @@ import {MatSnackBarConfig} from '@angular/material';
 import {AvaliacaoService} from '../../../web/domain/service/avaliacao.service';
 import {UnidadeService} from '../../../web/domain/service/unidade.service';
 import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
-import {Observable} from "rxjs";
 import {UnidadeTipoAvaliacao} from "../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
 import {Router} from "@angular/router";
 import {TdLoadingService} from "@covalent/core";
