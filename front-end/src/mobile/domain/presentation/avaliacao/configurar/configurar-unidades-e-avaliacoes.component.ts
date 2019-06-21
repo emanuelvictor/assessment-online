@@ -6,6 +6,7 @@ import {MatSnackBar} from "@angular/material";
 import {TdLoadingService} from "@covalent/core";
 import {viewAnimation} from "../../../../../web/domain/presentation/controls/utils";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
+import {Agrupador} from "../../../../../web/domain/entity/avaliacao/agrupador.model";
 
 @Component({
   selector: 'configurar-unidades-e-avaliacoes',
@@ -51,6 +52,9 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
     // Mata o timeout se houver (Aqui não precisa de timeout)
     this.mobileService.clearTimeout();
+
+    // Zera o model
+    this.mobileService.agrupador = new Agrupador();
 
     // Inicia o carregamento das unidades
     this.consultarUnidades()
