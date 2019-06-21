@@ -64,45 +64,45 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    */
   consultarUnidades() {
-    this.unidadeService.listLightByFilters({withAvaliaveisFilter: true, withUnidadesTiposAvaliacoesAtivasFilter: true})
-      .subscribe(result => {
-        this.unidades = result.content;
 
-        // Se só houver uma unidade.
-        if (this.unidades.length === 1) {
+    this.unidadeService.listLightByFilters({withAvaliaveisFilter: true, withUnidadesTiposAvaliacoesAtivasFilter: true}).subscribe(result => {
+      this.unidades = result.content;
 
-          // Se só houver uma unidade, seleciona a primeira.
-          this.unidades[0].checked = true;
+      // Se só houver uma unidade.
+      if (this.unidades.length === 1) {
 
-          this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[0].id, ativo: true})
-            .subscribe(resulted => {
+        // Se só houver uma unidade, seleciona a primeira.
+        this.unidades[0].checked = true;
 
-              // Assinala todos os tipos de avaliações como checkes, ou seja, marcados no checkbox.
-              // Define as ordens dos tipos de avaliações
-              for (let i = 0; i < resulted.content.length; i++) {
-                resulted.content[i].checked = true;
-                resulted.content[i].ordem = i + 1;
-              }
+        this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[0].id, ativo: true})
+          .subscribe(resulted => {
 
-              // Popula lista do model.
-              this.unidades[0].unidadesTiposAvaliacoes = resulted.content;
+            // Assinala todos os tipos de avaliações como checkes, ou seja, marcados no checkbox.
+            // Define as ordens dos tipos de avaliações
+            for (let i = 0; i < resulted.content.length; i++) {
+              resulted.content[i].checked = true;
+              resulted.content[i].ordem = i + 1;
+            }
 
-              // Se só houver somente um tipo de avaliação.
-              if (resulted.content.length === 1) {
-                // Vai para o próximo passo.
-                this.proximo(this.unidades);
-                // Encerra o loading.
-                this._loadingService.resolve('overlayStarSyntax');
-                return
-              }
+            // Popula lista do model.
+            this.unidades[0].unidadesTiposAvaliacoes = resulted.content;
 
-              // Encerra o loading
+            // Se só houver somente um tipo de avaliação.
+            if (resulted.content.length === 1) {
+              // Vai para o próximo passo.
+              this.proximo(this.unidades);
+              // Encerra o loading.
               this._loadingService.resolve('overlayStarSyntax');
-            })
-        } else {
-          this._loadingService.resolve('overlayStarSyntax')
-        }
-      })
+              return
+            }
+
+            // Encerra o loading
+            this._loadingService.resolve('overlayStarSyntax');
+          })
+      } else {
+        this._loadingService.resolve('overlayStarSyntax')
+      }
+    })
   }
 
   /**
