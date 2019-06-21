@@ -121,7 +121,7 @@ export class VisualizarClienteComponent implements OnInit {
           this.avaliaveis = page.content;
           for (let i = 0; i < this.unidades.length; i++) {
             if (!this.unidades[i].unidadesTiposAvaliacoes)
-              LocalStorage.unidadesTiposAvaliacoes = [];
+              this.unidades[i].unidadesTiposAvaliacoes = [];
             for (let k = 0; k < this.avaliaveis.length; k++)
 
               if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
