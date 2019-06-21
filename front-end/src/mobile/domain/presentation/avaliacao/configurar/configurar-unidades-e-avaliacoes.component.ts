@@ -110,21 +110,26 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    * @param unidade
    */
   afterExpand(unidade) {
-    this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: unidade.id, ativo: true})
-      .subscribe(result => {
-        if (!result.content.length) {
-          this.openSnackBar('Vincule Ítens Avaliáveis á esses Tipos de Avaliações');
-          unidade.checked = false;
-          return
-        }
-        unidade.checked = true;
-        for (let i = 0; i < result.content.length; i++) {
-          result.content[i].unidade = unidade;
-          result.content[i].checked = true;
-          result.content[i].ordem = i + 1
-        }
-        unidade.unidadesTiposAvaliacoes = result.content
-      })
+
+    this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: unidade.id, ativo: true}).subscribe(result => {
+
+      if (!result.content.length) {
+        this.openSnackBar('Vincule Ítens Avaliáveis á esses Tipos de Avaliações');
+        unidade.checked = false;
+        return
+      }
+
+      unidade.checked = true;
+
+      for (let i = 0; i < result.content.length; i++) {
+        result.content[i].unidade = unidade;
+        result.content[i].checked = true;
+        result.content[i].ordem = i + 1
+      }
+
+      unidade.unidadesTiposAvaliacoes = result.content
+
+    })
   }
 
   /**
