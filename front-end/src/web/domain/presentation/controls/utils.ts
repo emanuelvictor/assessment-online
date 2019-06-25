@@ -110,22 +110,3 @@ export const routerAnimation = trigger('routerAnimation', [
     )
   ])
 ]);
-
-
-/**
- * Obtém os filtros de acordo com a entidade agregadora
- * @param filters
- * @param aggr
- */
-export function getLocalStorage(filters, aggr) {
-  return JSON.parse(localStorage.getItem(`${aggr}.filters`))
-}
-
-/**
- * Define os filtros de acordo com a entidade agregadora
- * @param filters
- * @param aggr
- */
-export function setLocalStorage(filters, aggr) {
-  localStorage.setItem(`${aggr}.filters`, JSON.stringify(filters))
-}

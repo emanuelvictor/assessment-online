@@ -2,7 +2,6 @@ import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatIconRegistry, MatPag
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
-import {UnidadeService} from '../../../../service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
 
@@ -18,6 +17,9 @@ import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
 import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {viewAnimation} from "../../../controls/utils";
+import {ActivatedRoute} from "@angular/router";
+import {UnidadeRepository} from "../../../../repository/unidade.repository";
+import {LocalStorage} from "../../../../../infrastructure/local-storage/local-storage";
 
 @Component({
   selector: 'consultar-avaliacoes',
@@ -151,18 +153,22 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
   /**
    *
+   * @param localStorage
+   * @param activatedRoute
    * @param tipoAvaliacaoRepository
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    * @param {UsuarioService} usuarioService
    * @param {AvaliacaoService} avaliacaoService
-   * @param {UnidadeService} unidadeService
+   * @param unidadeRepository
    * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
+  constructor(private localStorage: LocalStorage,
+              private activatedRoute: ActivatedRoute,
+              private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private usuarioService: UsuarioService, private avaliacaoService: AvaliacaoService,
-              private unidadeService: UnidadeService, private configuracaoService: ConfiguracaoService) {
+              private unidadeRepository: UnidadeRepository, private configuracaoService: ConfiguracaoService) {
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
@@ -227,7 +233,27 @@ export class ConsultarAvaliacoesComponent implements OnInit {
   /**
    *
    */
-  ngOnInit() {
+  async ngOnInit() {
+
+    // Pega do storage
+    this.pageRequest = this.localStorage.getLocalStorage(this.pageRequest, this.activatedRoute.component['name']);
+
+    if (this.pageRequest.usuariosFilter.length) {
+      this.pageRequest.usuariosFilter = (await this.usuarioService.listLightByFilters({idsFilter: this.pageRequest.usuariosFilter}).toPromise()).content;
+    }
+
+    if (this.pageRequest.unidadesFilter.length) {
+      this.pageRequest.unidadesFilter = (await this.unidadeRepository.listLightByFilters({idsFilter: this.pageRequest.unidadesFilter}).toPromise()).content;
+    }
+
+    if (this.pageRequest.tiposAvaliacoesFilter.length) {
+      this.pageRequest.tiposAvaliacoesFilter = (await this.tipoAvaliacaoRepository.listLightByFilters({idsFilter: this.pageRequest.tiposAvaliacoesFilter}).toPromise()).content;
+    }
+
+    //
+    if (this.pageRequest.dataInicioFilter || this.pageRequest.dataTerminoFilter || this.pageRequest.tiposAvaliacoesFilter.length) {
+      this.showPesquisaAvancada = true;
+    }
 
     /**
      * Carrega configurações
@@ -270,19 +296,23 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     pageRequest.usuariosFilter = this.pageRequest.usuariosFilter.map(value => value.id);
     pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
 
-    this.avaliacaoService.listByFilters(pageRequest)
-      .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Avaliacao>(result.content);
+    this.avaliacaoService.listByFilters(pageRequest).subscribe((result) => {
 
-        this.page = result;
+      // Coloca no storage
+      this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
 
-        this.page.content.forEach(avaliacao => {
-          avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
-          if (avaliacao.avaliacoesAvaliaveis[0]) {
-            avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade
-          }
-        })
+      this.dataSource = new MatTableDataSource<Avaliacao>(result.content);
+
+      this.page = result;
+
+      this.page.content.forEach(avaliacao => {
+        avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
+        if (avaliacao.avaliacoesAvaliaveis[0]) {
+          avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade
+        }
       })
+
+    })
 
   }
 
@@ -318,17 +348,22 @@ export class ConsultarAvaliacoesComponent implements OnInit {
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;
 
-    this.avaliacaoService.listByFilters(pageRequest)
-      .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Avaliacao>(result.content);
-        this.page = result;
-        this.page.content.forEach(avaliacao => {
-          if (avaliacao.avaliacoesAvaliaveis && avaliacao.avaliacoesAvaliaveis.length) {
-            avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
-            avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade
-          }
-        })
+    this.avaliacaoService.listByFilters(pageRequest).subscribe((result) => {
+
+      // Coloca no storage
+      this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
+
+      this.dataSource = new MatTableDataSource<Avaliacao>(result.content);
+      this.page = result;
+      this.page.content.forEach(avaliacao => {
+        if (avaliacao.avaliacoesAvaliaveis && avaliacao.avaliacoesAvaliaveis.length) {
+          avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
+          avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade
+        }
       })
+
+    })
+
   }
 
   /**
@@ -337,18 +372,9 @@ export class ConsultarAvaliacoesComponent implements OnInit {
   public hidePesquisaAvancada() {
     this.showPesquisaAvancada = false;
 
-    this.pageRequest = { // PageRequest
-      size: 20,
-      page: 0,
-      sort: null,
-      hasFeedback: null,
-      defaultFilter: [],
-      usuariosFilter: [],
-      unidadesFilter: [],
-      tiposAvaliacoesFilter: [],
-      dataInicioFilter: null,
-      dataTerminoFilter: null
-    };
+    this.pageRequest.dataInicioFilter = null;
+    this.pageRequest.dataTerminoFilter = null;
+    this.pageRequest.tiposAvaliacoesFilter = [];
 
     this.onChangeFilters()
   }
@@ -415,7 +441,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
         defaultFilter: [] = [value]
       };
 
-      this.unidadeService.listLightByFilters(pageRequest)
+      this.unidadeRepository.listLightByFilters(pageRequest)
         .subscribe((result) => this.unidadesFilteredAsync = result.content)
 
     }

@@ -35,6 +35,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       AND " +
             "       (" +
             "           (" +
+            "               usuario.id IN :idsFilter" +
+            "           ) OR :idsFilter IS NULL" +
+            "       )" +
+            "       AND " +
+            "       (" +
+            "           (" +
             "               (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "')" +
             "               AND " +
             "               operador.usuario.id = :usuarioId " +
@@ -48,6 +54,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             @Param("usuarioId") final Long usuarioId,
             @Param("perfil") final String perfil,
             @Param("defaultFilter") final String defaultFilter,
+            @Param("idsFilter") final List<Long> idsFilter,
             final Pageable pageable);
 
     /**

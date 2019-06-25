@@ -347,13 +347,13 @@ public class UsuarioService {
      * @return Page<Usuario>
      */
     @Transactional(readOnly = true)
-    public Page<Usuario> listByFilters(final String defaultFilter, final Pageable pageable) {
+    public Page<Usuario> listByFilters(final String defaultFilter, final List<Long> idsFilter, final Pageable pageable) {
 
         final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
 
         final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 
-        return usuarioRepository.listByFilters(usuarioId, conta.getPerfil().name(), defaultFilter, pageable);
+        return usuarioRepository.listByFilters(usuarioId, conta.getPerfil().name(), defaultFilter, idsFilter, pageable);
 
     }
 

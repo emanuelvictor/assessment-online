@@ -15,6 +15,8 @@ import {viewAnimation} from "../../../controls/utils";
 import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {Subject} from "rxjs";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
+import {ActivatedRoute} from "@angular/router";
+import {LocalStorage} from "../../../../../infrastructure/local-storage/local-storage";
 
 @Component({
   selector: 'consultar-unidades',
@@ -134,6 +136,8 @@ export class ConsultarUnidadesComponent implements OnInit {
 
   /**
    *
+   * @param localStorage
+   * @param activatedRoute
    * @param authenticationService
    * @param tipoAvaliacaoRepository
    * @param iconRegistry
@@ -141,13 +145,15 @@ export class ConsultarUnidadesComponent implements OnInit {
    * @param unidadeService
    * @param configuracaoService
    */
-  constructor(private authenticationService: AuthenticationService,
+  constructor(private localStorage: LocalStorage,
+              private activatedRoute: ActivatedRoute,
+              private authenticationService: AuthenticationService,
               private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private unidadeService: UnidadeService, private configuracaoService: ConfiguracaoService) {
 
     this.authenticationService.requestContaAutenticada().subscribe(result => {
-      this.authenticatedUser = result;
+      this.authenticatedUser = result
     });
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
@@ -195,7 +201,19 @@ export class ConsultarUnidadesComponent implements OnInit {
   /**
    *
    */
-  ngOnInit() {
+  async ngOnInit() {
+
+    // Coloca no storage
+    this.pageRequest = this.localStorage.getLocalStorage(this.pageRequest, this.activatedRoute.component['name']);
+
+    if (this.pageRequest.tiposAvaliacoesFilter.length) {
+      this.pageRequest.tiposAvaliacoesFilter = (await this.tipoAvaliacaoRepository.listLightByFilters({idsFilter: this.pageRequest.tiposAvaliacoesFilter}).toPromise()).content;
+    }
+
+    //
+    if (this.pageRequest.dataInicioFilter || this.pageRequest.dataTerminoFilter || this.pageRequest.tiposAvaliacoesFilter.length) {
+      this.showPesquisaAvancada = true;
+    }
 
     /**
      * Carrega configurações
@@ -233,6 +251,9 @@ export class ConsultarUnidadesComponent implements OnInit {
     const pageRequest: any = Object.assign({}, this.pageRequest);
     pageRequest.page = 0;
     pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
+
+    // Coloca no storage
+    this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
 
     this.unidadeService.listByFilters(pageRequest)
       .subscribe((result) => {
@@ -272,6 +293,9 @@ export class ConsultarUnidadesComponent implements OnInit {
     pageRequest.size = this.paginator.pageSize;
     pageRequest.page = this.paginator.pageIndex;
 
+    // Coloca no storage
+    this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
+
     this.unidadeService.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Unidade>(result.content);
@@ -286,16 +310,9 @@ export class ConsultarUnidadesComponent implements OnInit {
 
     this.showPesquisaAvancada = false;
 
-    this.pageRequest = { // PageRequest
-      size: 20,
-      page: 0,
-      sort: null,
-      defaultFilter: null,
-      tiposAvaliacoesFilter: [],
-      enderecoFilter: null,
-      dataInicioFilter: null,
-      dataTerminoFilter: null
-    };
+    this.pageRequest.dataInicioFilter = null;
+    this.pageRequest.dataTerminoFilter = null;
+    this.pageRequest.tiposAvaliacoesFilter = [];
 
     this.onChangeFilters()
 

@@ -245,4 +245,38 @@ export class LocalStorage {
 
     window.localStorage.removeItem('hashs.length');
   }
+
+  /*********************************
+   * Controle Web de filtros
+   * ******************************/
+
+  /**
+   * Obtém os filtros de acordo com a entidade agregadora
+   * @param filters
+   * @param aggr
+   */
+  getLocalStorage(filters, aggr) {
+    if (localStorage.getItem(`${aggr}.filters`)) {
+      return JSON.parse(localStorage.getItem(`${aggr}.filters`))
+    } else {
+      return filters;
+    }
+  }
+
+  /**
+   * Define os filtros de acordo com a entidade agregadora
+   * @param filters
+   * @param aggr
+   */
+  setLocalStorage(filters, aggr) {
+    localStorage.setItem(`${aggr}.filters`, JSON.stringify(filters))
+  }
+
+  /**
+   * Remove os filtros inseridos no localstorage
+   */
+  removeFilter(aggr) {
+    localStorage.removeItem(`${aggr}.filters`)
+  }
+
 }

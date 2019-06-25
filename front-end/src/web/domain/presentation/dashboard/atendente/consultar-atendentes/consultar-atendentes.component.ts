@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import 'moment/locale/pt-br';
 import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
-import {getLocalStorage, setLocalStorage, viewAnimation} from "../../../controls/utils";
+import {viewAnimation} from "../../../controls/utils";
 import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {Subject} from "rxjs";
@@ -18,6 +18,7 @@ import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UsuarioRepository} from "../../../../repository/usuario.repository";
 import {UnidadeRepository} from "../../../../repository/unidade.repository";
+import {LocalStorage} from "../../../../../infrastructure/local-storage/local-storage";
 
 @Component({
   selector: 'consultar-atendentes',
@@ -69,15 +70,15 @@ export class ConsultarAtendentesComponent implements OnInit {
    * @type {[string , string , string , string , string , string , string , string , string , string]}
    */
   public displayedColumns: string[] = [
-      'nome',
-      'avaliacoes1',
-      'avaliacoes2',
-      'avaliacoes3',
-      'avaliacoes4',
-      'avaliacoes5',
-      'quantidadeAvaliacoes',
-      'media'
-    ];
+    'nome',
+    'avaliacoes1',
+    'avaliacoes2',
+    'avaliacoes3',
+    'avaliacoes4',
+    'avaliacoes5',
+    'quantidadeAvaliacoes',
+    'media'
+  ];
 
   /**
    *
@@ -129,6 +130,7 @@ export class ConsultarAtendentesComponent implements OnInit {
 
   /**
    *
+   * @param localStorage
    * @param usuarioRepository
    * @param unidadeRepository
    * @param tipoAvaliacaoRepository
@@ -139,7 +141,8 @@ export class ConsultarAtendentesComponent implements OnInit {
    * @param {UnidadeService} unidadeService
    * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private usuarioRepository: UsuarioRepository,
+  constructor(private localStorage: LocalStorage,
+              private usuarioRepository: UsuarioRepository,
               private unidadeRepository: UnidadeRepository,
               private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
               private router: Router, private activatedRoute: ActivatedRoute,
@@ -160,8 +163,8 @@ export class ConsultarAtendentesComponent implements OnInit {
    */
   async ngOnInit() {
 
-    // Coloca no storage
-    this.pageRequest = getLocalStorage(this.pageRequest, this.activatedRoute.component['name']);
+    // Pega no storage
+    this.pageRequest = this.localStorage.getLocalStorage(this.pageRequest, this.activatedRoute.component['name']);
 
     if (this.pageRequest.unidadesFilter.length) {
       this.pageRequest.unidadesFilter = (await this.unidadeRepository.listLightByFilters({idsFilter: this.pageRequest.unidadesFilter}).toPromise()).content;
@@ -223,7 +226,7 @@ export class ConsultarAtendentesComponent implements OnInit {
     pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
 
     // Coloca no storage
-    setLocalStorage(pageRequest, this.activatedRoute.component['name']);
+    this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
 
     this.usuarioRepository.listByFilters(pageRequest)
       .subscribe((result) => {
@@ -265,7 +268,7 @@ export class ConsultarAtendentesComponent implements OnInit {
     pageRequest.size = this.paginator.pageSize;
 
     // Coloca no storage
-    setLocalStorage(pageRequest, this.activatedRoute.component['name']);
+    this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
 
     this.usuarioRepository.listByFilters(pageRequest)
       .subscribe((result) => {

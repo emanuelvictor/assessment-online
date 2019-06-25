@@ -10,6 +10,7 @@ import {ContaService} from "../../../../service/conta.service";
 import {Conta} from "../../../../entity/usuario/conta.model";
 import {Router} from "@angular/router";
 import {Subject} from "rxjs";
+import {LocalStorage} from "../../../../../infrastructure/local-storage/local-storage";
 
 @Component({
   selector: 'consultar-clientes',
@@ -76,6 +77,7 @@ export class ConsultarClientesComponent implements OnInit {
 
   /**
    *
+   * @param localStorage
    * @param router
    * @param snackBar
    * @param {UsuarioService} contaService
@@ -83,7 +85,8 @@ export class ConsultarClientesComponent implements OnInit {
    * @param {DomSanitizer} domSanitizer
    * @param {UnidadeService} unidadeService
    */
-  constructor(private router: Router, private snackBar: MatSnackBar,
+  constructor(private localStorage: LocalStorage,
+              private router: Router, private snackBar: MatSnackBar,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private contaService: ContaService, private unidadeService: UnidadeService) {
   }
@@ -170,6 +173,9 @@ export class ConsultarClientesComponent implements OnInit {
    * @param esquema
    */
   public assumirEsquema(esquema: string): void {
+    this.localStorage.removeFilter('ConsultarAtendentesComponent');
+    this.localStorage.removeFilter('ConsultarUnidadesComponent');
+    this.localStorage.removeFilter('ConsultarAvaliacoesComponent');
     this.contaService.assumirEsquema(esquema)
       .then((result) => {
         if (result) {
