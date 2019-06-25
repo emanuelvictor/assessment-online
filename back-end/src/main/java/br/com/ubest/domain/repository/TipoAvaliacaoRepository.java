@@ -32,11 +32,18 @@ public interface TipoAvaliacaoRepository extends JpaRepository<TipoAvaliacao, Lo
 
 
     @Query("SELECT new TipoAvaliacao(id, nome, enunciado, selecao) FROM TipoAvaliacao tipoAvaliacao " +
-            "   WHERE(FILTER(:defaultFilter, tipoAvaliacao.nome, tipoAvaliacao.enunciado, tipoAvaliacao.selecao) = TRUE)" +
+            "   WHERE" +
+            "   (" +
+            "       FILTER(:defaultFilter, tipoAvaliacao.nome, tipoAvaliacao.enunciado, tipoAvaliacao.selecao) = TRUE" +
+            "       AND " +
+            "       (" +
+            "           (" +
+            "               tipoAvaliacao.id IN :idsFilter" +
+            "           ) OR :idsFilter IS NULL" +
+            "       )" +
+            "   )" +
             "GROUP BY tipoAvaliacao.id, tipoAvaliacao.nome, tipoAvaliacao.enunciado, tipoAvaliacao.selecao"
     )
-    Page<TipoAvaliacao> listByFilters(@Param("defaultFilter") final String defaultFilter,
-                                      final Pageable pageable);
-
+    Page<TipoAvaliacao> listLightByFilters(@Param("defaultFilter") final String defaultFilter, @Param("idsFilter") final List<Long> idsFilter, final Pageable pageable);
 
 }

@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
 import {Observable} from "rxjs";
 import {PageSerialize} from "../../infrastructure/page-serialize/page-serialize";
+import {Router} from "@angular/router";
 
 
 @Injectable()
@@ -12,9 +13,10 @@ export class UsuarioRepository extends BaseRepository<Usuario> {
   /**
    *
    * @param httpClient
+   * @param router
    */
-  constructor(httpClient: HttpClient) {
-    super(httpClient, 'usuarios');
+  constructor(httpClient: HttpClient, router: Router) {
+    super(httpClient, 'usuarios', router);
   }
 
   /**

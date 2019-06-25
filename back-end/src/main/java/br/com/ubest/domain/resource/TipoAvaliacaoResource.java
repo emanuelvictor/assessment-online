@@ -1,7 +1,9 @@
 package br.com.ubest.domain.resource;
 
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
+import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.usuario.Perfil;
+import br.com.ubest.domain.repository.TipoAvaliacaoRepository;
 import br.com.ubest.domain.service.TipoAvaliacaoService;
 import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
@@ -52,10 +54,9 @@ public class TipoAvaliacaoResource extends AbstractResource<TipoAvaliacao> {
         return Mono.just(this.tipoAvaliacaoService.listByFilters(defaultFilter, getListFromArray(unidadesFilter), getPageable()));
     }
 
-
     @GetMapping("light")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    Mono<Page<TipoAvaliacao>> listByFilters(final String defaultFilter) {
-        return Mono.just(this.tipoAvaliacaoService.listByFilters(defaultFilter, getPageable()));
+    Mono<Page<TipoAvaliacao>> listLightByFilters(final String defaultFilter, final Long[] idsFilter) {
+        return Mono.just(this.tipoAvaliacaoService.listLightByFilters(defaultFilter, getListFromArray(idsFilter), getPageable()));
     }
 }

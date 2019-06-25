@@ -1,6 +1,5 @@
 import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {UsuarioService} from '../../../../service/usuario.service';
 import {Usuario} from '../../../../entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
 import {UnidadeService} from '../../../../service/unidade.service';
@@ -11,11 +10,14 @@ import * as moment from 'moment';
 import 'moment/locale/pt-br';
 import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
-import {viewAnimation} from "../../../controls/utils";
+import {getLocalStorage, setLocalStorage, viewAnimation} from "../../../controls/utils";
 import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {Subject} from "rxjs";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
+import {ActivatedRoute, Router} from "@angular/router";
+import {UsuarioRepository} from "../../../../repository/usuario.repository";
+import {UnidadeRepository} from "../../../../repository/unidade.repository";
 
 @Component({
   selector: 'consultar-atendentes',
@@ -46,7 +48,7 @@ export class ConsultarAtendentesComponent implements OnInit {
   /**
    *
    */
-  public pageRequest = { // PageRequest
+  public pageRequest: any = { // PageRequest
     size: 20,
     page: 0,
     sort: null,
@@ -66,8 +68,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    * Serve para armazenar as colunas que serão exibidas na tabela
    * @type {[string , string , string , string , string , string , string , string , string , string]}
    */
-  public displayedColumns: string[] =
-    [
+  public displayedColumns: string[] = [
       'nome',
       'avaliacoes1',
       'avaliacoes2',
@@ -128,15 +129,20 @@ export class ConsultarAtendentesComponent implements OnInit {
 
   /**
    *
-   * @param {UsuarioService} usuarioService
+   * @param usuarioRepository
+   * @param unidadeRepository
    * @param tipoAvaliacaoRepository
+   * @param router
+   * @param activatedRoute
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    * @param {UnidadeService} unidadeService
    * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private usuarioService: UsuarioService,
+  constructor(private usuarioRepository: UsuarioRepository,
+              private unidadeRepository: UnidadeRepository,
               private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
+              private router: Router, private activatedRoute: ActivatedRoute,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private unidadeService: UnidadeService, private configuracaoService: ConfiguracaoService) {
 
@@ -152,35 +158,43 @@ export class ConsultarAtendentesComponent implements OnInit {
   /**
    *
    */
-  ngOnInit() {
+  async ngOnInit() {
 
-    /**
-     * Carrega configurações
-     */
+    // Coloca no storage
+    this.pageRequest = getLocalStorage(this.pageRequest, this.activatedRoute.component['name']);
+
+    if (this.pageRequest.unidadesFilter.length) {
+      this.pageRequest.unidadesFilter = (await this.unidadeRepository.listLightByFilters({idsFilter: this.pageRequest.unidadesFilter}).toPromise()).content;
+    }
+
+    if (this.pageRequest.tiposAvaliacoesFilter.length) {
+      this.pageRequest.tiposAvaliacoesFilter = (await this.tipoAvaliacaoRepository.listLightByFilters({idsFilter: this.pageRequest.tiposAvaliacoesFilter}).toPromise()).content;
+    }
+
+    //
+    if (this.pageRequest.dataInicioFilter || this.pageRequest.dataTerminoFilter || this.pageRequest.tiposAvaliacoesFilter.length) {
+      this.showPesquisaAvancada = true;
+    }
+
+    // Carrega configurações
     this.configuracaoService.requestConfiguracao.subscribe(result => this.configuracao = result);
 
-    /**
-     * Seta o size do pageRequest no size do paginator
-     * @type {number}
-     */
+    // Seta o size do pageRequest no size do paginator
     this.paginator.pageSize = this.pageRequest.size;
 
-    /**
-     * Listagem inicial
-     */
+    // Listagem inicial
     this.listUsuariosByFilters(this.pageRequest);
 
-    /**
-     * Sobrescreve o sortChange do sort bindado
-     */
+    // Sobrescreve o sortChange do sort bindado
     this.sort.sortChange.subscribe(() => {
       this.pageRequest.sort = {
         'properties': this.sort.active,
         'direction': this.sort.direction
       };
-      this.listUsuariosByFilters(this.pageRequest);
+      this.listUsuariosByFilters(this.pageRequest)
     });
 
+    //
     this.defaultFilterModelChanged.debounceTime(500).distinctUntilChanged().subscribe(model => {
       const pageRequest = Object.assign({}, this.pageRequest);
       pageRequest.page = 0;
@@ -189,12 +203,12 @@ export class ConsultarAtendentesComponent implements OnInit {
       pageRequest.unidadesFilter = this.pageRequest.unidadesFilter.map(value => value.id);
       pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
 
-      this.usuarioService.listByFilters(pageRequest)
+      this.usuarioRepository.listByFilters(pageRequest)
         .subscribe((result) => {
           this.dataSource = new MatTableDataSource<Usuario>(result.content);
           this.page = result
         })
-    });
+    })
   }
 
   /**
@@ -208,7 +222,10 @@ export class ConsultarAtendentesComponent implements OnInit {
     pageRequest.unidadesFilter = this.pageRequest.unidadesFilter.map(value => value.id);
     pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
 
-    this.usuarioService.listByFilters(pageRequest)
+    // Coloca no storage
+    setLocalStorage(pageRequest, this.activatedRoute.component['name']);
+
+    this.usuarioRepository.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
         this.page = result
@@ -247,10 +264,13 @@ export class ConsultarAtendentesComponent implements OnInit {
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;
 
-    this.usuarioService.listByFilters(pageRequest)
+    // Coloca no storage
+    setLocalStorage(pageRequest, this.activatedRoute.component['name']);
+
+    this.usuarioRepository.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Usuario>(result.content);
-        this.page = result;
+        this.page = result
       })
 
   }
@@ -261,18 +281,11 @@ export class ConsultarAtendentesComponent implements OnInit {
   public hidePesquisaAvancada() {
     this.showPesquisaAvancada = false;
 
-    this.pageRequest = { // PageRequest
-      size: 20,
-      page: 0,
-      sort: null,
-      defaultFilter: [],
-      tiposAvaliacoesFilter: [],
-      unidadesFilter: [],
-      dataInicioFilter: null,
-      dataTerminoFilter: null
-    };
+    this.pageRequest.dataInicioFilter = null;
+    this.pageRequest.dataTerminoFilter = null;
+    this.pageRequest.tiposAvaliacoesFilter = [];
 
-    this.onChangeFilters();
+    this.onChangeFilters()
   }
 
   /**
@@ -280,9 +293,9 @@ export class ConsultarAtendentesComponent implements OnInit {
    */
   public toggleShowPesquisaAvancada() {
     if (this.showPesquisaAvancada) {
-      this.hidePesquisaAvancada();
+      this.hidePesquisaAvancada()
     } else {
-      this.showPesquisaAvancada = true;
+      this.showPesquisaAvancada = true
     }
   }
 
@@ -303,8 +316,8 @@ export class ConsultarAtendentesComponent implements OnInit {
 
       this.tipoAvaliacaoRepository.listLightByFilters(pageRequest)
         .subscribe((result) => {
-          this.filteredTiposAvaliacoesAsync = result.content;
-        });
+          this.filteredTiposAvaliacoesAsync = result.content
+        })
 
     }
   }
@@ -326,8 +339,8 @@ export class ConsultarAtendentesComponent implements OnInit {
 
       this.unidadeService.listLightByFilters(pageRequest)
         .subscribe((result) => {
-          this.unidadesFilteredAsync = result.content;
-        });
+          this.unidadesFilteredAsync = result.content
+        })
 
     }
   }
@@ -352,7 +365,7 @@ export class ConsultarAtendentesComponent implements OnInit {
     const index = this.pageRequest.unidadesFilter.indexOf(unidade);
 
     if (index >= 0) {
-      this.pageRequest.unidadesFilter.splice(index, 1);
+      this.pageRequest.unidadesFilter.splice(index, 1)
     }
 
     this.onChangeFilters()
@@ -368,11 +381,11 @@ export class ConsultarAtendentesComponent implements OnInit {
       const value = $event.value;
 
       if ((value || '').trim()) {
-        this.pageRequest.defaultFilter.push(value);
+        this.pageRequest.defaultFilter.push(value)
       }
 
       if (input) {
-        input.value = '';
+        input.value = ''
       }
 
       this.onChangeFilters()
@@ -387,7 +400,7 @@ export class ConsultarAtendentesComponent implements OnInit {
     const index = this.pageRequest.defaultFilter.indexOf(defaultFilter);
 
     if (index >= 0) {
-      this.pageRequest.defaultFilter.splice(index, 1);
+      this.pageRequest.defaultFilter.splice(index, 1)
     }
 
     this.onChangeFilters()
@@ -399,7 +412,7 @@ export class ConsultarAtendentesComponent implements OnInit {
    */
   public defaultFilterChanged(filter: string) {
     if (filter && filter.length) {
-      this.defaultFilterModelChanged.next(filter);
+      this.defaultFilterModelChanged.next(filter)
     }
   }
 
@@ -423,7 +436,7 @@ export class ConsultarAtendentesComponent implements OnInit {
     const index = this.pageRequest.tiposAvaliacoesFilter.indexOf(tipoAvaliacao);
 
     if (index >= 0) {
-      this.pageRequest.tiposAvaliacoesFilter.splice(index, 1);
+      this.pageRequest.tiposAvaliacoesFilter.splice(index, 1)
     }
 
     this.onChangeFilters()

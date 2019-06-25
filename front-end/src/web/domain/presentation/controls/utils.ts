@@ -5,7 +5,7 @@ import {animate, query, style, transition, trigger} from "@angular/animations";
  *
  * @param enumerator
  */
-export function  enumToArrayString(enumerator): any {
+export function enumToArrayString(enumerator): any {
   return Object.keys(enumerator).map(key => enumerator[key]).filter(value => typeof value === 'string') as string[]
 }
 
@@ -110,3 +110,22 @@ export const routerAnimation = trigger('routerAnimation', [
     )
   ])
 ]);
+
+
+/**
+ * Obtém os filtros de acordo com a entidade agregadora
+ * @param filters
+ * @param aggr
+ */
+export function getLocalStorage(filters, aggr) {
+  return JSON.parse(localStorage.getItem(`${aggr}.filters`))
+}
+
+/**
+ * Define os filtros de acordo com a entidade agregadora
+ * @param filters
+ * @param aggr
+ */
+export function setLocalStorage(filters, aggr) {
+  localStorage.setItem(`${aggr}.filters`, JSON.stringify(filters))
+}

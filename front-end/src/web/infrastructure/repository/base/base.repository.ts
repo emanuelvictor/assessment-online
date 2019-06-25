@@ -4,23 +4,26 @@ import {HttpClient} from '@angular/common/http';
 import {PageSerialize} from '../../page-serialize/page-serialize';
 import {Observable} from 'rxjs';
 import {environment} from "../../../../environments/environment";
+import {Router} from "@angular/router";
 
 
 export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
 
   protected collectionName: string = environment.endpoint;
 
-  constructor(public httpClient: HttpClient, public collection: string) {
-    if (collection)
+  constructor(public httpClient: HttpClient, public collection: string, private router?: Router) {
+    if (collection) {
       this.collectionName = this.collectionName + collection;
-    else
+    } else {
       this.collectionName = this.collectionName + this.constructor.name.replace('Repository', '').toLowerCase() + 's';
+    }
   }
 
   async save(item: T): Promise<T> {
     const aux: any = item;
-    if (aux.id)
+    if (aux.id) {
       return this.update(aux.id, item);
+    }
     return this.httpClient.post<T>(this.collectionName, item).toPromise();
   }
 
@@ -40,10 +43,30 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
 
     const params = PageSerialize.getHttpParamsFromPageable(pageable);
 
+    // if (this.router) {
+    //
+    //   const queryParams = Object.assign({}, pageable);
+    //   if (params.getAll('sort')) {
+    //     queryParams.sort = params.getAll('sort').join();
+    //   }
+    //
+    //   // Coloca na rota
+    //   this.router.navigate([], {queryParams: queryParams})
+    // }
+
     return this.httpClient.get(this.collectionName, {
       params: params
     })
 
+  }
+
+  listByIds(pageable: any): Observable<any> {
+
+    const params = PageSerialize.getHttpParamsFromPageable(pageable);
+
+    return this.httpClient.get(this.collectionName, {
+      params: params
+    })
   }
 
   findAll(): Observable<T[]> {
