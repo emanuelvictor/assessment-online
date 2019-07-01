@@ -159,7 +159,7 @@ public class UsuarioService {
         final Usuario usuarioDB = usuarioRepository.findById(usuario.getId()).orElse(null);
 
         // Se estiver atualizando a própria conta, deve atualizar a sessão. Senão o sistema quebra.
-        final boolean mustNewAuthentication = Objects.requireNonNull(usuarioDB).getConta().getUsername().equals(this.tenantIdentifierResolver.getUsername());
+        final boolean mustNewAuthentication = Objects.requireNonNull(usuarioDB).getConta().getUsername() != null && Objects.requireNonNull(usuarioDB).getConta().getUsername().equals(this.tenantIdentifierResolver.getUsername());
 
         if (Objects.requireNonNull(usuarioDB).getConta() != null && usuarioDB.getConta().getEmail() == null) {
             if (usuario.getConta().getPassword() != null)
