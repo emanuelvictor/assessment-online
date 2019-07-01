@@ -158,9 +158,6 @@ public class UsuarioService {
 
         final Usuario usuarioDB = usuarioRepository.findById(usuario.getId()).orElse(null);
 
-        // Se estiver atualizando a própria conta, deve atualizar a sessão. Senão o sistema quebra.
-        final boolean mustNewAuthentication = Objects.requireNonNull(usuarioDB).getConta().getUsername() != null && Objects.requireNonNull(usuarioDB).getConta().getUsername().equals(this.tenantIdentifierResolver.getUsername());
-
         if (Objects.requireNonNull(usuarioDB).getConta() != null && usuarioDB.getConta().getEmail() == null) {
             if (usuario.getConta().getPassword() != null)
                 usuario.getConta().setPassword(passwordEncoder.encode(usuario.getConta().getPassword()));
@@ -176,7 +173,7 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
 
         // Se estiver atualizando a própria conta, deve atualizar a sessão. Senão o sistema quebra.
-        if (mustNewAuthentication) {
+        if (Objects.requireNonNull(usuarioDB).getConta().getUsername() != null && Objects.requireNonNull(usuarioDB).getConta().getUsername().equals(this.tenantIdentifierResolver.getUsername())) {
             // Cria o contexto de segurança
             final SecurityContext context = createSecurityContextByUserDetails(usuario.getConta());
             Objects.requireNonNull(exchange.getSession().block()).getAttributes().put(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME, context);
