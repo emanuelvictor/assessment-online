@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -27,7 +28,9 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Table(schema = DEFAULT_TENANT_ID)
 @lombok.EqualsAndHashCode(callSuper = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
-public class Conta extends AbstractEntity implements TenantDetails {
+public class Conta extends AbstractEntity implements TenantDetails, Serializable {
+
+    private static final long serialVersionUID = 8321156549256137046L;
 
     /**
      *
