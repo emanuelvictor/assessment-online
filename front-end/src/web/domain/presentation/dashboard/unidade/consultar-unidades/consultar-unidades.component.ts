@@ -203,8 +203,8 @@ export class ConsultarUnidadesComponent implements OnInit {
    */
   async ngOnInit() {
 
-    // Coloca no storage
-    this.pageRequest = this.localStorage.getLocalStorage(this.pageRequest, this.activatedRoute.component['name']);
+    // // Coloca no storage
+    // this.pageRequest = this.localStorage.getLocalStorage(this.pageRequest, this.activatedRoute.component['name']);
 
     if (this.pageRequest.tiposAvaliacoesFilter.length) {
       this.pageRequest.tiposAvaliacoesFilter = (await this.tipoAvaliacaoRepository.listLightByFilters({idsFilter: this.pageRequest.tiposAvaliacoesFilter}).toPromise()).content;
@@ -252,8 +252,8 @@ export class ConsultarUnidadesComponent implements OnInit {
     pageRequest.page = 0;
     pageRequest.tiposAvaliacoesFilter = this.pageRequest.tiposAvaliacoesFilter.map((result: any) => result.id);
 
-    // Coloca no storage
-    this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
+    // // Coloca no storage
+    // this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
 
     this.unidadeService.listByFilters(pageRequest)
       .subscribe((result) => {
@@ -293,8 +293,8 @@ export class ConsultarUnidadesComponent implements OnInit {
     pageRequest.size = this.paginator.pageSize;
     pageRequest.page = this.paginator.pageIndex;
 
-    // Coloca no storage
-    this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
+    // // Coloca no storage
+    // this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
 
     this.unidadeService.listByFilters(pageRequest)
       .subscribe((result) => {

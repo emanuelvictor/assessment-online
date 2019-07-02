@@ -235,23 +235,23 @@ export class ConsultarAvaliacoesComponent implements OnInit {
    */
   async ngOnInit() {
 
-    // Pega do storage
-    this.pageRequest = this.localStorage.getLocalStorage(this.pageRequest, this.activatedRoute.component['name']);
+    // // Pega do storage
+    // this.pageRequest = this.localStorage.getLocalStorage(this.pageRequest, this.activatedRoute.component['name']);
 
-    if (this.pageRequest.usuariosFilter.length) {
+    if (this.pageRequest.usuariosFilter && this.pageRequest.usuariosFilter.length) {
       this.pageRequest.usuariosFilter = (await this.usuarioService.listLightByFilters({idsFilter: this.pageRequest.usuariosFilter}).toPromise()).content;
     }
 
-    if (this.pageRequest.unidadesFilter.length) {
+    if (this.pageRequest.unidadesFilter && this.pageRequest.unidadesFilter.length) {
       this.pageRequest.unidadesFilter = (await this.unidadeRepository.listLightByFilters({idsFilter: this.pageRequest.unidadesFilter}).toPromise()).content;
     }
 
-    if (this.pageRequest.tiposAvaliacoesFilter.length) {
+    if (this.pageRequest.tiposAvaliacoesFilter && this.pageRequest.tiposAvaliacoesFilter.length) {
       this.pageRequest.tiposAvaliacoesFilter = (await this.tipoAvaliacaoRepository.listLightByFilters({idsFilter: this.pageRequest.tiposAvaliacoesFilter}).toPromise()).content;
     }
 
     //
-    if (this.pageRequest.dataInicioFilter || this.pageRequest.dataTerminoFilter || this.pageRequest.tiposAvaliacoesFilter.length) {
+    if (this.pageRequest.dataInicioFilter || this.pageRequest.dataTerminoFilter || (this.pageRequest.tiposAvaliacoesFilter && this.pageRequest.tiposAvaliacoesFilter.length)) {
       this.showPesquisaAvancada = true;
     }
 
@@ -298,8 +298,8 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
     this.avaliacaoService.listByFilters(pageRequest).subscribe((result) => {
 
-      // Coloca no storage
-      this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
+      // // Coloca no storage
+      // this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
 
       this.dataSource = new MatTableDataSource<Avaliacao>(result.content);
 
@@ -350,8 +350,8 @@ export class ConsultarAvaliacoesComponent implements OnInit {
 
     this.avaliacaoService.listByFilters(pageRequest).subscribe((result) => {
 
-      // Coloca no storage
-      this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
+      // // Coloca no storage
+      // this.localStorage.setLocalStorage(pageRequest, this.activatedRoute.component['name']);
 
       this.dataSource = new MatTableDataSource<Avaliacao>(result.content);
       this.page = result;
