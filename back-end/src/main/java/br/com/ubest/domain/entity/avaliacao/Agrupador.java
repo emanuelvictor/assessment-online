@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -16,7 +17,10 @@ import java.util.List;
 @Audited
 @NoArgsConstructor
 @lombok.EqualsAndHashCode(callSuper = true)
-public class Agrupador extends AbstractEntity {
+public class Agrupador extends AbstractEntity implements Serializable {
+
+    private static final long serialVersionUID = -2224100332065317651L;
+
 
     // todo NÃO ROLOU, muitos dados
     @Transient

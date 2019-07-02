@@ -7,13 +7,16 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Audited
 @NoArgsConstructor
 @lombok.EqualsAndHashCode(callSuper = true)
-public class TipoAvaliacao extends AbstractEntity {
+public class TipoAvaliacao extends AbstractEntity implements Serializable {
+
+    private static final long serialVersionUID = -2224100382065317162L;
 
     @Column(nullable = false, unique = true)
     private String nome;

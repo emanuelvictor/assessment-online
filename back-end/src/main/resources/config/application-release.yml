@@ -1,7 +1,13 @@
 #Configuração destinada ao ambiente de desenvolvimento, os demais perfis hedarão deste
 spring:
 
-#JPA
+  # REDIS REPOSITORY
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+  #JPA
   jpa:
     hibernate:
       ddl-auto: validate

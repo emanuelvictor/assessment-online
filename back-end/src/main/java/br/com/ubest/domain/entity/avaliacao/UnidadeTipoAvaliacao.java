@@ -7,6 +7,7 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
 @Entity
@@ -16,7 +17,9 @@ import javax.validation.constraints.NotNull;
         @UniqueConstraint(columnNames = {"tipo_avaliacao_id", "unidade_id"}),
         @UniqueConstraint(columnNames = {"unidade_id", "ordem"})
 })
-public class UnidadeTipoAvaliacao extends AbstractEntity {
+public class UnidadeTipoAvaliacao extends AbstractEntity implements Serializable {
+
+    private static final long serialVersionUID = -12345682065951632L;
 
     /**
      * Ordem em que a avaliação será exibida no tablet

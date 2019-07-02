@@ -8,6 +8,7 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
 @Entity
@@ -16,7 +17,9 @@ import javax.validation.constraints.NotNull;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"usuario_id", "unidade_tipo_avaliacao_id"})
 })
-public class Avaliavel extends AbstractEntity {
+public class Avaliavel extends AbstractEntity  implements Serializable {
+
+    private static final long serialVersionUID = -12345665456328951L;
 
     /**
      *

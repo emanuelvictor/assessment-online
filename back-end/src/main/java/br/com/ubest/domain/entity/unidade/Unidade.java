@@ -8,12 +8,15 @@ import org.hibernate.envers.Audited;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
-public class Unidade extends Pessoa {
+public class Unidade extends Pessoa implements Serializable {
+
+    private static final long serialVersionUID = -12345665123456789L;
 
     /**
      *

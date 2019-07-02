@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
 @Entity
@@ -19,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"usuario_id", "unidade_id"})
 })
-public class Operador extends AbstractEntity {
+public class Operador extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -963123951512387123L;
 
