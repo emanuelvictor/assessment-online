@@ -109,6 +109,13 @@ import {UsuarioPessoaFisicaFormComponent} from "./presentation/dashboard/cliente
 import {RecaptchaModule} from "ng-recaptcha";
 import {ConsultarUsuariosComponent} from "./presentation/dashboard/atendente/consultar-atendentes/consultar-usuarios.component";
 import {NoRecordsFoundComponent} from "./presentation/controls/no-records-found/no-records-found.component";
+import {QuestionarioRepository} from "./repository/questionario.repository";
+import {QuestionarioViewComponent} from "./presentation/dashboard/questionario/questionario-view.component";
+import {VisualizarQuestionarioComponent} from "./presentation/dashboard/questionario/visualizar-questionario/visualizar-questionario.component";
+import {InserirQuestionarioComponent} from "./presentation/dashboard/questionario/inserir-questionario/inserir-questionario.component";
+import {QuestionarioFormComponent} from "./presentation/dashboard/questionario/inserir-questionario/questionario-form/questionario-form.component";
+import {ConsultarQuestionariosComponent} from "./presentation/dashboard/questionario/consultar-questionarios/consultar-questionarios.component";
+import {AlterarQuestionarioComponent} from "./presentation/dashboard/questionario/alterar-questionario/alterar-questionario.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -211,6 +218,14 @@ registerLocaleData(localePt, 'pt-BR');
     VisualizarTipoAvaliacaoComponent,
     ConsultarTiposAvaliacoesComponent,
 
+    // Questionários
+    QuestionarioViewComponent,
+    VisualizarQuestionarioComponent,
+    InserirQuestionarioComponent,
+    QuestionarioFormComponent,
+    ConsultarQuestionariosComponent,
+    AlterarQuestionarioComponent,
+
     // Cliente
     InserirClienteComponent,
     ClienteFormComponent,
@@ -245,6 +260,7 @@ registerLocaleData(localePt, 'pt-BR');
     AvaliacaoAvaliavelRepository,
     TipoAvaliacaoRepository,
     ConfiguracaoRepository,
+    QuestionarioRepository,
     AvaliavelRepository,
     AvaliacaoRepository,
     OperadorRepository,

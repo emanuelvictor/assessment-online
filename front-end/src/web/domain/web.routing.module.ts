@@ -34,6 +34,11 @@ import {ConsultarClientesComponent} from "./presentation/dashboard/cliente/consu
 import {ClienteViewComponent} from "./presentation/dashboard/cliente/cleinte-view.component";
 import {ConsultarUsuariosComponent} from "./presentation/dashboard/atendente/consultar-atendentes/consultar-usuarios.component";
 import {ErrorComponent} from "../../mobile/domain/presentation/error/error.component";
+import {QuestionarioViewComponent} from "./presentation/dashboard/questionario/questionario-view.component";
+import {ConsultarQuestionariosComponent} from "./presentation/dashboard/questionario/consultar-questionarios/consultar-questionarios.component";
+import {InserirQuestionarioComponent} from "./presentation/dashboard/questionario/inserir-questionario/inserir-questionario.component";
+import {VisualizarQuestionarioComponent} from "./presentation/dashboard/questionario/visualizar-questionario/visualizar-questionario.component";
+import {AlterarQuestionarioComponent} from "./presentation/dashboard/questionario/alterar-questionario/alterar-questionario.component";
 
 
 const routes: Routes = [
@@ -102,6 +107,15 @@ const routes: Routes = [
             {path: 'inserir', component: InserirTipoAvaliacaoComponent},
             {path: ':id', component: VisualizarTipoAvaliacaoComponent},
             {path: ':id/alterar', component: AlterarTipoAvaliacaoComponent}
+          ]
+        },
+        {
+          path: 'dispositivos', component: QuestionarioViewComponent,
+          children: [
+            {path: '', component: ConsultarQuestionariosComponent},
+            {path: 'inserir', component: InserirQuestionarioComponent},
+            {path: ':id', component: VisualizarQuestionarioComponent},
+            {path: ':id/alterar', component: AlterarQuestionarioComponent}
           ]
         },
         {

@@ -58,6 +58,18 @@
       </div>
     </mat-list-item>
 
+    <mat-list-item class='push-bottom'
+                   routerLink='/dashboard/dispositivos'
+                   *ngIf='authenticatedUser?.isAdministrador'
+                   routerLinkActive #rlaDispositivos='routerLinkActive'
+                   [ngClass]="{'menu-active': rlaDispositivos.isActive}">
+      <div layout='row' flex class='pad-left'>
+        <span flex='10'></span>
+        <mat-icon matListAvatar flex>devices</mat-icon>
+        <h3 matLine style='color: white' flex='85'> Dispositivos </h3>
+      </div>
+    </mat-list-item>
+
     <mat-list-item class="push-bottom"
                    routerLink="/dashboard/resultados"
                    routerLinkActive #rlaResultados="routerLinkActive"
