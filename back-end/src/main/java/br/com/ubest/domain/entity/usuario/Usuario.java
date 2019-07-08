@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +24,9 @@ import java.util.stream.Collectors;
 @Entity
 @Audited
 @EqualsAndHashCode(callSuper = true)
-public class Usuario extends Pessoa {
+public class Usuario extends Pessoa implements Serializable {
+
+    private static final long serialVersionUID = -54871266869107167L;
 
     /*
      * -----------------------------------------------------------

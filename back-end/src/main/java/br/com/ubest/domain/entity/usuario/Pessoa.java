@@ -18,6 +18,8 @@ import java.io.Serializable;
 @JsonIgnoreProperties({"authorities", "avaliaveis", "operadores"})
 public class Pessoa extends AbstractEntity implements Serializable {
 
+    private static final long serialVersionUID = -112345695623456789L;
+
     /**
      *
      */

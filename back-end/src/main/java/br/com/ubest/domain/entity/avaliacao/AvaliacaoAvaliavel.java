@@ -7,6 +7,7 @@ import lombok.Data;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
@@ -15,7 +16,9 @@ import javax.persistence.*;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"avaliavel_id", "avaliacao_id"})
 })
-public class AvaliacaoAvaliavel extends AbstractEntity {
+public class AvaliacaoAvaliavel extends AbstractEntity implements Serializable {
+    private static final long serialVersionUID = -12345682065317162L;
+
 
     /**
      *

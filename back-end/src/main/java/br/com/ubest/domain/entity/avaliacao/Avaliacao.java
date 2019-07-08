@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,7 +22,9 @@ import java.util.List;
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
-public class Avaliacao extends AbstractEntity {
+public class Avaliacao extends AbstractEntity implements Serializable {
+
+    private static final long serialVersionUID = -951100332065317651L;
 
     @OneToMany(targetEntity = AvaliacaoAvaliavel.class, mappedBy = "avaliacao", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     public List<AvaliacaoAvaliavel> avaliacoesAvaliaveis;

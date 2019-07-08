@@ -14,6 +14,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * Created by Emanuel Victor on 15/03/2017.
@@ -22,7 +23,9 @@ import javax.validation.constraints.Size;
 @Entity
 @Audited
 @EqualsAndHashCode(callSuper = true)
-public class Configuracao extends AbstractEntity {
+public class Configuracao extends AbstractEntity  implements Serializable {
+
+    private static final long serialVersionUID = -12345665432751632L;
 
     /*
      * --------------------------------------------------------------
