@@ -87,4 +87,11 @@ export class InserirDispositivoComponent implements OnInit {
     });
   }
 
+  /**
+   *
+   * @param $event
+   */
+  add($event: any) {
+    console.log($event)
+  }
 }

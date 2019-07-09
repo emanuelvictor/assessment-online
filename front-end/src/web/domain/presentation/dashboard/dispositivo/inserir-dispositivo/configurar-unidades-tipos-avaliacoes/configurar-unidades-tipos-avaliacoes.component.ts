@@ -1,10 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {MatSnackBar} from "@angular/material";
 import {TdLoadingService} from "@covalent/core";
 import {viewAnimation} from "../../../../controls/utils";
 import {UnidadeService} from "../../../../../service/unidade.service";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repository/unidade-tipo-avaliacao.repository";
+import {UnidadeTipoAvaliacaoDispositivo} from "../../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
 
 @Component({
   selector: 'configurar-unidades-tipos-avaliacoes',
@@ -26,6 +27,13 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
    */
   unidades: any;
 
+
+  /**
+   *
+   */
+  @Output()
+  unidadesTiposAvaliacoesDispositivoChange: EventEmitter<any> = new EventEmitter();
+
   /**
    *
    * @type {Unidade}
@@ -43,9 +51,9 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
    * @param _loadingService
    * @param unidadeTipoAvaliacaoRepository
    */
-  constructor(private _loadingService: TdLoadingService,
-              private unidadeService: UnidadeService, private router: Router,
-              private snackBar: MatSnackBar,
+  constructor(private unidadeService: UnidadeService,
+              private _loadingService: TdLoadingService,
+              private snackBar: MatSnackBar, private router: Router,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
   }
 
@@ -65,7 +73,10 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
    */
   consultarUnidades() {
 
-    this.unidadeService.listLightByFilters({withAvaliaveisFilter: true, withUnidadesTiposAvaliacoesAtivasFilter: true}).subscribe(result => {
+    this.unidadeService.listLightByFilters({
+      withAvaliaveisFilter: true,
+      withUnidadesTiposAvaliacoesAtivasFilter: true
+    }).subscribe(result => {
       this.unidades = result.content;
 
       // Se só houver uma unidade.
@@ -89,8 +100,6 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
 
             // Se só houver somente um tipo de avaliação.
             if (resulted.content.length === 1) {
-              // Vai para o próximo passo.
-              this.proximo(this.unidades);
               // Encerra o loading.
               this._loadingService.resolve('overlayStarSyntax');
               return
@@ -127,8 +136,9 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
         result.content[i].ordem = i + 1
       }
 
-      unidade.unidadesTiposAvaliacoes = result.content
+      unidade.unidadesTiposAvaliacoes = result.content;
 
+      this.unidadesTiposAvaliacoesDispositivoChange.emit(this.populateRetorno());
     })
   }
 
@@ -138,7 +148,8 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
    */
   afterCollapse(unidade) {
     unidade.checked = false;
-    unidade.unidadesTiposAvaliacoes = []
+    unidade.unidadesTiposAvaliacoes = [];
+    this.unidadesTiposAvaliacoesDispositivoChange.emit(this.populateRetorno());
   }
 
   /**
@@ -158,6 +169,8 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
 
       unidadeTipoAvaliacao.ordem = null;
 
+      this.unidadesTiposAvaliacoesDispositivoChange.emit(this.populateRetorno());
+
       return
     }
 
@@ -169,51 +182,30 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
       }
     }
 
-    unidadeTipoAvaliacao.ordem = aux + 1
+    unidadeTipoAvaliacao.ordem = aux + 1;
+
+    this.unidadesTiposAvaliacoesDispositivoChange.emit(this.populateRetorno())
   }
 
   /**
    *
-   * @param unidades
    */
-  public proximo(unidades: any) {
-    this._loadingService.register('overlayStarSyntax');
-    const unidadesTiposAvaliacoes = [];
+  private populateRetorno() {
+    const retorno = [];
+    if (this.unidades && this.unidades.length)
+      for (let i = 0; i < this.unidades.length; i++) {
+        if (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length)
+          for (let j = 0; j < this.unidades[i].unidadesTiposAvaliacoes.length; j++) {
+            if (this.unidades[i].unidadesTiposAvaliacoes[j].checked) {
+              const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+              unidadeTipoAvaliacaoDispositivo.ordem = this.unidades[i].unidadesTiposAvaliacoes[j].ordem;
+              unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = this.unidades[i].unidadesTiposAvaliacoes[j];
+              retorno.push(unidadeTipoAvaliacaoDispositivo)
+            }
+          }
+      }
 
-    unidades.filter(unidade => unidade.checked).map(unidade => unidade.unidadesTiposAvaliacoes).forEach(a => {
-      a.forEach(b => {
-        if (b.checked) {
-          unidadesTiposAvaliacoes.push(b)
-        }
-      })
-    });
-
-    // //
-    // this.mobileService.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
-    // this.mobileService.unidades = unidades.filter(unidade => unidade.checked);
-    //
-    // //
-    // if (!this.mobileService.unidadesTiposAvaliacoes.length || !this.mobileService.unidades.length) {
-    //   this._loadingService.resolve('overlayStarSyntax');
-    //   return
-    // }
-    //
-    // // Zera os hashs
-    // this.mobileService.localStorage.removeHashs();
-    //
-    // //
-    // this.mobileService.requestUnidades().then(unidadess => {
-    //   for (let i = 0; i < unidadess.length; i++) {
-    //
-    //     this.mobileService.setHashsByUnidadeId(unidadess[i].id).then(() => {
-    //       if (i === unidadess.length - 1) {
-    //         this.router.navigate(['avaliar']);
-    //         this._loadingService.resolve('overlayStarSyntax')
-    //       }
-    //     })
-    //   }
-    // })
-
+    return retorno;
   }
 
   /**
