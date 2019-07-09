@@ -1,8 +1,8 @@
 import {Abstract} from '../abstract/abstract.model';
 import {UnidadeTipoAvaliacao} from "./unidade-tipo-avaliacao.model";
-import {Questionario} from "./questionario.model";
+import {Dispositivo} from "./dispositivo.model";
 
-export class Ordem extends Abstract {
+export class UnidadeTipoAvaliacaoDispositivo extends Abstract {
 
   /**
    *
@@ -22,6 +22,6 @@ export class Ordem extends Abstract {
   /**
    *
    */
-  public questionario: Questionario;
+  public dispositivo: Dispositivo;
 
 }

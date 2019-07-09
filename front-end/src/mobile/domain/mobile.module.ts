@@ -36,10 +36,8 @@ import {CookieService} from "ngx-cookie-service";
 import localePt from "@angular/common/locales/pt";
 import {OperadorRepository} from "../../web/domain/repository/operador.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../web/domain/repository/unidade-tipo-avaliacao.repository";
-import {OrderModule} from "ngx-order-pipe";
 import {AvaliavelRepository} from "../../web/domain/repository/avaliavel.repository";
 import {Interceptor} from "../../web/application/interceptor/interceptor";
-import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component";
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-atendentes/selecionar-atendentes.component";
 import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota/selecionar-nota.component";
@@ -50,6 +48,9 @@ import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avali
 import {AuthenticateComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate/authenticate.component";
 import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
 import {OpcoesDeConfiguracaoComponent} from "./presentation/avaliacao/configurar/configuracoes/opcoes-de-configuracao/opcoes-de-configuracao.component";
+import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
+import {OrderModule} from "ngx-order-pipe";
+
 
 /**
  *
@@ -64,13 +65,13 @@ import {OpcoesDeConfiguracaoComponent} from "./presentation/avaliacao/configurar
     ExecutarAvaliacaoComponent,
     SelecionarUnidadeComponent,
     SelecionarAtendentesComponent,
-    ConfigurarUnidadesEAvaliacoesComponent,
     SelecionarNotaEItensAvaliaveisComponent,
     MobileLoginComponent,
     FeedbackComponent,
     AuthenticateComponent,
     ConfiguracoesComponent,
-    OpcoesDeConfiguracaoComponent
+    OpcoesDeConfiguracaoComponent,
+    ConfigurarUnidadesEAvaliacoesComponent
   ],
   imports: [
     EllipsisModule,
@@ -79,9 +80,9 @@ import {OpcoesDeConfiguracaoComponent} from "./presentation/avaliacao/configurar
     SharedModule,
     CommonModule,
     BrowserModule,
-    OrderModule,
     BrowserAnimationsModule,
-    MobileRoutingModule
+    MobileRoutingModule,
+    OrderModule
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

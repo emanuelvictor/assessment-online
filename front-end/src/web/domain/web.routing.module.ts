@@ -34,11 +34,11 @@ import {ConsultarClientesComponent} from "./presentation/dashboard/cliente/consu
 import {ClienteViewComponent} from "./presentation/dashboard/cliente/cleinte-view.component";
 import {ConsultarUsuariosComponent} from "./presentation/dashboard/atendente/consultar-atendentes/consultar-usuarios.component";
 import {ErrorComponent} from "../../mobile/domain/presentation/error/error.component";
-import {QuestionarioViewComponent} from "./presentation/dashboard/questionario/questionario-view.component";
-import {ConsultarQuestionariosComponent} from "./presentation/dashboard/questionario/consultar-questionarios/consultar-questionarios.component";
-import {InserirQuestionarioComponent} from "./presentation/dashboard/questionario/inserir-questionario/inserir-questionario.component";
-import {VisualizarQuestionarioComponent} from "./presentation/dashboard/questionario/visualizar-questionario/visualizar-questionario.component";
-import {AlterarQuestionarioComponent} from "./presentation/dashboard/questionario/alterar-questionario/alterar-questionario.component";
+import {DispositivoViewComponent} from "./presentation/dashboard/dispositivo/dispositivo-view.component";
+import {ConsultarDispositivosComponent} from "./presentation/dashboard/dispositivo/consultar-dispositivos/consultar-dispositivos.component";
+import {InserirDispositivoComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/inserir-dispositivo.component";
+import {VisualizarDispositivoComponent} from "./presentation/dashboard/dispositivo/visualizar-dispositivo/visualizar-dispositivo.component";
+import {AlterarDispositivoComponent} from "./presentation/dashboard/dispositivo/alterar-dispositivo/alterar-dispositivo.component";
 
 
 const routes: Routes = [
@@ -110,12 +110,12 @@ const routes: Routes = [
           ]
         },
         {
-          path: 'dispositivos', component: QuestionarioViewComponent,
+          path: 'dispositivos', component: DispositivoViewComponent,
           children: [
-            {path: '', component: ConsultarQuestionariosComponent},
-            {path: 'inserir', component: InserirQuestionarioComponent},
-            {path: ':id', component: VisualizarQuestionarioComponent},
-            {path: ':id/alterar', component: AlterarQuestionarioComponent}
+            {path: '', component: ConsultarDispositivosComponent},
+            {path: 'inserir', component: InserirDispositivoComponent},
+            {path: ':id', component: VisualizarDispositivoComponent},
+            {path: ':id/alterar', component: AlterarDispositivoComponent}
           ]
         },
         {

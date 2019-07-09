@@ -1,0 +1,42 @@
+<mat-nav-list *ngIf='unidades?.length'>
+  <div *ngFor='let unidade of unidades | filter:filter.unidade'
+       [ngStyle]="{'background-color': unidade.checked ? 'aliceblue' : '#fafafa' }">
+    <mat-list-item disableRipple layout='row' layout-margin
+                   (click)='unidade.checked = !unidade.checked'>
+
+      <h3 matLine>{{unidade?.nome}}</h3>
+      <p matLine>
+        {{unidade?.endereco?.logradouro ? unidade?.endereco?.logradouro + ', ' : ''}}
+        {{unidade?.endereco?.numero ? unidade?.endereco?.numero + ', ' : ''}}
+        {{unidade?.endereco?.bairro ? unidade?.endereco?.bairro + ', ' : ''}}
+        {{unidade?.endereco?.cidade ? (unidade?.endereco?.cidade?.nome + ' - ' + unidade?.endereco?.cidade?.estado?.uf) : ''}}
+      </p>
+
+      <mat-slide-toggle [(ngModel)]='unidade.checked' [disabled]='true'
+                        style='opacity: 1 !important; cursor: pointer; margin-right: 17px'>
+      </mat-slide-toggle>
+
+    </mat-list-item>
+
+    <mat-accordion [multi]='true'>
+      <mat-expansion-panel [expanded]='unidade?.checked'
+                           style='background-color: aliceblue'
+                           (afterExpand)='afterExpand(unidade)'
+                           (afterCollapse)='afterCollapse(unidade)'>
+
+        <section style='padding: 16px'
+                 layout='column' layout-align='start start'
+                 *ngIf='unidade?.unidadesTiposAvaliacoes?.length'>
+          <mat-checkbox [(ngModel)]='unidadeTipoAvaliacao.checked'
+                        (ngModelChange)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'
+                        *ngFor="let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes | orderBy:'ordem'"
+                        style='margin-left: 10px; padding: 5px; background-color: aliceblue'>
+            {{unidadeTipoAvaliacao?.ordem ? unidadeTipoAvaliacao?.ordem + ' - ' : ''}}
+            {{ unidadeTipoAvaliacao?.tipoAvaliacao?.nome + ': ' + unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado }}
+          </mat-checkbox>
+        </section>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</mat-nav-list>

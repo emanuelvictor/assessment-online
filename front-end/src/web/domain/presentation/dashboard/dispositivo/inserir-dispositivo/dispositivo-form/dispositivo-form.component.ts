@@ -6,17 +6,17 @@ import {MatIconRegistry, MatSnackBar} from "@angular/material";
 
 import {FormBuilder, Validators} from "@angular/forms";
 import {FileRepository} from "../../../../../../infrastructure/repository/file/file.repository";
-import {Questionario} from "../../../../../entity/avaliacao/questionario.model";
+import {Dispositivo} from "../../../../../entity/avaliacao/dispositivo.model";
 
 /**
  *
  */
 @Component({
-  selector: 'questionario-form',
-  templateUrl: './questionario-form.component.html',
-  styleUrls: ['./questionario-form.component.scss']
+  selector: 'dispositivo-form',
+  templateUrl: './dispositivo-form.component.html',
+  styleUrls: ['./dispositivo-form.component.scss']
 })
-export class QuestionarioFormComponent implements OnInit {
+export class DispositivoFormComponent implements OnInit {
 
   /**
    *
@@ -31,10 +31,10 @@ export class QuestionarioFormComponent implements OnInit {
 
   /**
    *
-   * @type {Questionario}
+   * @type {Dispositivo}
    */
   @Input()
-  public questionario: Questionario;
+  public dispositivo: Dispositivo;
 
   /**
    *
@@ -59,16 +59,8 @@ export class QuestionarioFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      nome: ['nome', [Validators.required]],
-      selecao: ['selecao', [Validators.required]],
-      enunciado: ['enunciado', [Validators.required]]
-    });
-
-    this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'meia-boca', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'bacana', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'top-da-balada', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
+      codigo: ['codigo', [Validators.required]]
+    })
 
   }
 
@@ -124,7 +116,7 @@ export class QuestionarioFormComponent implements OnInit {
     }
 
     if (valid) {
-      this.save.emit(this.questionario);
+      this.save.emit(this.dispositivo);
     }
   }
 

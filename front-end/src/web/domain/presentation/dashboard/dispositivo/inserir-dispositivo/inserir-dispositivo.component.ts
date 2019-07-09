@@ -5,30 +5,30 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry, MatSnackBar} from "@angular/material";
 
 import {FormBuilder} from "@angular/forms";
-import {QuestionarioRepository} from "../../../../repository/questionario.repository";
-import {Questionario} from "../../../../entity/avaliacao/questionario.model";
+import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
+import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
 import {ActivatedRoute, Router} from "@angular/router";
 
 /**
  *
  */
 @Component({
-  selector: 'inserir-questionario',
-  templateUrl: './inserir-questionario.component.html',
-  styleUrls: ['./inserir-questionario.component.scss']
+  selector: 'inserir-dispositivo',
+  templateUrl: './inserir-dispositivo.component.html',
+  styleUrls: ['./inserir-dispositivo.component.scss']
 })
-export class InserirQuestionarioComponent implements OnInit {
+export class InserirDispositivoComponent implements OnInit {
 
   /**
    *
    */
-  public questionario: Questionario = new Questionario();
+  public dispositivo: Dispositivo = new Dispositivo();
 
   /**
    *
    * @param {MatSnackBar} snackBar
    * @param {ElementRef} element
-   * @param {QuestionarioRepository} questionarioRepository
+   * @param {DispositivoRepository} dispositivoRepository
    * @param {Renderer} renderer
    * @param {FormBuilder} fb
    * @param {MatIconRegistry} iconRegistry
@@ -37,7 +37,7 @@ export class InserirQuestionarioComponent implements OnInit {
    * @param {ActivatedRoute} activatedRoute
    */
   constructor(@Inject(ElementRef) private element: ElementRef,
-              private questionarioRepository: QuestionarioRepository,
+              private dispositivoRepository: DispositivoRepository,
               private activatedRoute: ActivatedRoute, private router: Router,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private snackBar: MatSnackBar, private renderer: Renderer, private fb: FormBuilder) {
@@ -53,9 +53,9 @@ export class InserirQuestionarioComponent implements OnInit {
    *
    */
   public save(): void {
-    this.questionarioRepository.save(this.questionario)
+    this.dispositivoRepository.save(this.dispositivo)
       .then(result => {
-        this.questionario = result;
+        this.dispositivo = result;
         this.success('Tipo de avaliação inserida com sucesso');
       });
   }

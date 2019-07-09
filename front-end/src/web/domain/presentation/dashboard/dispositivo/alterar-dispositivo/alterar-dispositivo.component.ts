@@ -3,15 +3,15 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {DomSanitizer} from "@angular/platform-browser";
-import {Questionario} from "../../../../entity/avaliacao/questionario.model";
-import {QuestionarioRepository} from "../../../../repository/questionario.repository";
+import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
+import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
 
 @Component({
-  selector: 'alterar-questionario',
-  templateUrl: './alterar-questionario.component.html',
-  styleUrls: ['./alterar-questionario.component.scss']
+  selector: 'alterar-dispositivo',
+  templateUrl: './alterar-dispositivo.component.html',
+  styleUrls: ['./alterar-dispositivo.component.scss']
 })
-export class AlterarQuestionarioComponent implements OnInit {
+export class AlterarDispositivoComponent implements OnInit {
 
   /**
    *
@@ -20,21 +20,21 @@ export class AlterarQuestionarioComponent implements OnInit {
 
   /**
    *
-   * @type {Questionario}
+   * @type {Dispositivo}
    */
-  questionario: Questionario = new Questionario();
+  dispositivo: Dispositivo = new Dispositivo();
 
   /**
    *
    * @param {MatSnackBar} snackBar
    * @param {ActivatedRoute} activatedRoute
-   * @param {QuestionarioRepository} questionarioRepository
+   * @param {DispositivoRepository} dispositivoRepository
    * @param {DomSanitizer} domSanitizer
    * @param {Router} router
    */
   constructor(private snackBar: MatSnackBar,
               private domSanitizer: DomSanitizer,
-              private questionarioRepository: QuestionarioRepository,
+              private dispositivoRepository: DispositivoRepository,
               private activatedRoute: ActivatedRoute, private router: Router) {
 
   }
@@ -51,12 +51,11 @@ export class AlterarQuestionarioComponent implements OnInit {
    *
    */
   public save(): void {
-    this.questionarioRepository.save(this.questionario)
+    this.dispositivoRepository.save(this.dispositivo)
       .then(result => {
-        this.questionario = result;
-
-        this.success('Tipo de avaliação inserida com sucesso');
-      });
+        this.dispositivo = result;
+        this.success('Tipo de avaliação inserida com sucesso')
+      })
   }
 
   /**
@@ -73,9 +72,9 @@ export class AlterarQuestionarioComponent implements OnInit {
    * @param {number} avaliacaoId
    */
   public find(avaliacaoId: number) {
-    this.questionarioRepository.findById(avaliacaoId)
-      .subscribe((questionario: Questionario) => {
-          this.questionario = questionario;
+    this.dispositivoRepository.findById(avaliacaoId)
+      .subscribe((dispositivo: Dispositivo) => {
+          this.dispositivo = dispositivo
         }
       )
   }

@@ -66,7 +66,6 @@ import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/
 import {SearchBarComponent} from './presentation/controls/search-bar/search-bar.component';
 import {FilterPipe} from './presentation/controls/filter-pipe/filter';
 import {AutofocusDirective} from './presentation/controls/autofocus/autofocus';
-import {OrderModule} from 'ngx-order-pipe';
 import {UsuarioRepository} from './repository/usuario.repository';
 import {UnidadeRepository} from './repository/unidade.repository';
 import {EnderecoRepository} from './repository/endereco.repository';
@@ -109,13 +108,15 @@ import {UsuarioPessoaFisicaFormComponent} from "./presentation/dashboard/cliente
 import {RecaptchaModule} from "ng-recaptcha";
 import {ConsultarUsuariosComponent} from "./presentation/dashboard/atendente/consultar-atendentes/consultar-usuarios.component";
 import {NoRecordsFoundComponent} from "./presentation/controls/no-records-found/no-records-found.component";
-import {QuestionarioRepository} from "./repository/questionario.repository";
-import {QuestionarioViewComponent} from "./presentation/dashboard/questionario/questionario-view.component";
-import {VisualizarQuestionarioComponent} from "./presentation/dashboard/questionario/visualizar-questionario/visualizar-questionario.component";
-import {InserirQuestionarioComponent} from "./presentation/dashboard/questionario/inserir-questionario/inserir-questionario.component";
-import {QuestionarioFormComponent} from "./presentation/dashboard/questionario/inserir-questionario/questionario-form/questionario-form.component";
-import {ConsultarQuestionariosComponent} from "./presentation/dashboard/questionario/consultar-questionarios/consultar-questionarios.component";
-import {AlterarQuestionarioComponent} from "./presentation/dashboard/questionario/alterar-questionario/alterar-questionario.component";
+import {DispositivoRepository} from "./repository/dispositivo.repository";
+import {DispositivoViewComponent} from "./presentation/dashboard/dispositivo/dispositivo-view.component";
+import {VisualizarDispositivoComponent} from "./presentation/dashboard/dispositivo/visualizar-dispositivo/visualizar-dispositivo.component";
+import {InserirDispositivoComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/inserir-dispositivo.component";
+import {DispositivoFormComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/dispositivo-form/dispositivo-form.component";
+import {ConsultarDispositivosComponent} from "./presentation/dashboard/dispositivo/consultar-dispositivos/consultar-dispositivos.component";
+import {AlterarDispositivoComponent} from "./presentation/dashboard/dispositivo/alterar-dispositivo/alterar-dispositivo.component";
+import {OrderModule} from "ngx-order-pipe";
+import {ConfigurarUnidadesTiposAvaliacoesComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/configurar-unidades-tipos-avaliacoes/configurar-unidades-tipos-avaliacoes.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -218,13 +219,14 @@ registerLocaleData(localePt, 'pt-BR');
     VisualizarTipoAvaliacaoComponent,
     ConsultarTiposAvaliacoesComponent,
 
-    // Questionários
-    QuestionarioViewComponent,
-    VisualizarQuestionarioComponent,
-    InserirQuestionarioComponent,
-    QuestionarioFormComponent,
-    ConsultarQuestionariosComponent,
-    AlterarQuestionarioComponent,
+    // Dispositivos
+    DispositivoViewComponent,
+    VisualizarDispositivoComponent,
+    InserirDispositivoComponent,
+    DispositivoFormComponent,
+    ConsultarDispositivosComponent,
+    AlterarDispositivoComponent,
+    ConfigurarUnidadesTiposAvaliacoesComponent,
 
     // Cliente
     InserirClienteComponent,
@@ -260,7 +262,7 @@ registerLocaleData(localePt, 'pt-BR');
     AvaliacaoAvaliavelRepository,
     TipoAvaliacaoRepository,
     ConfiguracaoRepository,
-    QuestionarioRepository,
+    DispositivoRepository,
     AvaliavelRepository,
     AvaliacaoRepository,
     OperadorRepository,

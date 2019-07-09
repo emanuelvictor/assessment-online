@@ -1,0 +1,50 @@
+<dispositivo-form [dispositivo]='dispositivo' (save)='save()'>
+
+  <!--cabeçalho div-->
+  <div layout='column' layout-margin header>
+    <div layout='row' layout-align='start center'>
+
+      <button type='button' routerLink='../'
+              color='primary' mat-icon-button
+              class='mat-headline tc-grey-500'>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <div layout='row' layout-margin>
+        <h1 class='mat-headline tc-grey-500' flex> Inserir dispositivo</h1>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider [inset]='true' divider
+               style='margin-top: 8px; margin-left: -25px; margin-right: -25px; margin-bottom: 8px; position: inherit;width: auto'>
+  </mat-divider>
+
+  <configurar-unidades-tipos-avaliacoes configurarUnidadesTiposAvaliacoes></configurar-unidades-tipos-avaliacoes>
+
+  <mat-divider [inset]='true' divider2
+               style='margin-top: 8px; margin-left: -25px; margin-right: -25px; margin-bottom: 14px; position: inherit;width: auto'>
+  </mat-divider>
+
+  <!--actions div-->
+  <div flex layout-margin actions>
+
+    <div layout-gt-xs='row' flex layout-margin>
+
+      <span flex='70'></span>
+
+      <button routerLink='../'
+              mat-raised-button
+              flex type='button'>
+        Cancelar
+      </button>
+      <button mat-raised-button
+              flex color='accent'
+              style='margin-right: 0'>
+        Salvar
+      </button>
+
+    </div>
+  </div>
+
+</dispositivo-form>

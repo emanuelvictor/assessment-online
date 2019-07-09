@@ -1,12 +1,18 @@
 @import '../../theme';
 
-visualizar-atendente, visualizar-minha-conta, visualizar-unidade {
+visualizar-atendente, visualizar-minha-conta, visualizar-unidade, configurar-unidades-tipos-avaliacoes {
   .mat-expansion-panel-body {
     padding: 0 !important;
+
+    padding-left: 30px !important;
   }
 
   mat-list-item {
     margin: 0 !important;
+
+    .mat-list-item-content {
+      margin-left: 30px;
+    }
   }
 }
 
@@ -61,7 +67,7 @@ router-outlet ~ * {
   width: 100%;
 }
 
-inserir-unidade {
+inserir-unidade, configurar-unidades-tipos-avaliacoes {
   mat-nav-list {
     margin-left: -24px !important;
     margin-right: -24px !important;

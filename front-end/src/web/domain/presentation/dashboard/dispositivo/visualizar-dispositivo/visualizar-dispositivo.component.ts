@@ -2,22 +2,22 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {Avaliacao} from "../../../../entity/avaliacao/avaliacao.model";
-import {Questionario} from "../../../../entity/avaliacao/questionario.model";
-import {QuestionarioRepository} from "../../../../repository/questionario.repository";
+import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
+import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
 import {ConfirmDialogComponent} from "../../../controls/confirm-dialog/confirm-dialog.component";
 
 @Component({
-  selector: 'visualizar-questionario',
-  templateUrl: './visualizar-questionario.component.html',
-  styleUrls: ['./visualizar-questionario.component.scss']
+  selector: 'visualizar-dispositivo',
+  templateUrl: './visualizar-dispositivo.component.html',
+  styleUrls: ['./visualizar-dispositivo.component.scss']
 })
-export class VisualizarQuestionarioComponent implements OnInit {
+export class VisualizarDispositivoComponent implements OnInit {
 
   /**
    *
    * @type {Avaliacao}
    */
-  questionario: Questionario = new Questionario();
+  dispositivo: Dispositivo = new Dispositivo();
 
   /**
    *
@@ -25,30 +25,30 @@ export class VisualizarQuestionarioComponent implements OnInit {
    * @param activatedRoute {ActivatedRoute}
    * @param router {Router}
    * @param dialog {MatDialog}
-   * @param questionarioRepository {QuestionarioRepository}
+   * @param dispositivoRepository {DispositivoRepository}
    */
   constructor(private snackBar: MatSnackBar,
               public activatedRoute: ActivatedRoute,
               private router: Router, private dialog: MatDialog,
-              private questionarioRepository: QuestionarioRepository) {
+              private dispositivoRepository: DispositivoRepository) {
   }
 
   /**
    *
    */
   ngOnInit() {
-    const questionarioId: number = this.activatedRoute.snapshot.params['id'];
-    this.find(questionarioId)
+    const dispositivoId: number = this.activatedRoute.snapshot.params['id'];
+    this.find(dispositivoId)
   }
 
   /**
    *
-   * @param {number} questionarioId
+   * @param {number} dispositivoId
    */
-  public find(questionarioId: number) {
-    this.questionarioRepository.findById(questionarioId)
-      .subscribe((questionario: Questionario) =>{
-        this.questionario = questionario}
+  public find(dispositivoId: number) {
+    this.dispositivoRepository.findById(dispositivoId)
+      .subscribe((dispositivo: Dispositivo) =>{
+        this.dispositivo = dispositivo}
       )
   }
 
@@ -68,7 +68,7 @@ export class VisualizarQuestionarioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(remover => {
       if (remover) {
-        this.questionarioRepository.delete(this.questionario.id)
+        this.dispositivoRepository.delete(this.dispositivo.id)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
             this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {

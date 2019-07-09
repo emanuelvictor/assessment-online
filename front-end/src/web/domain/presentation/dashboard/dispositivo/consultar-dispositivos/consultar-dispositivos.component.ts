@@ -8,15 +8,15 @@ import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
 import {UsuarioService} from "../../../../service/usuario.service";
 import {Subject} from "rxjs";
-import {Questionario} from "../../../../entity/avaliacao/questionario.model";
-import {QuestionarioRepository} from "../../../../repository/questionario.repository";
+import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
+import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
 
 @Component({
-  selector: 'consultar-questionarios',
-  templateUrl: './consultar-questionarios.component.html',
-  styleUrls: ['./consultar-questionarios.component.css']
+  selector: 'consultar-dispositivos',
+  templateUrl: './consultar-dispositivos.component.html',
+  styleUrls: ['./consultar-dispositivos.component.css']
 })
-export class ConsultarQuestionariosComponent implements OnInit {
+export class ConsultarDispositivosComponent implements OnInit {
 
   /**
    *
@@ -58,9 +58,9 @@ export class ConsultarQuestionariosComponent implements OnInit {
   /**
    *
    * dataSource com os usuários
-   * @type {MatTableDataSource<Questionario>}
+   * @type {MatTableDataSource<Dispositivo>}
    */
-  dataSource = new MatTableDataSource<Questionario>();
+  dataSource = new MatTableDataSource<Dispositivo>();
 
   /**
    * Bind com o objeto paginator
@@ -87,14 +87,14 @@ export class ConsultarQuestionariosComponent implements OnInit {
    * @param {UsuarioService} usuarioService
    * @param {UnidadeService} unidadeService
    * @param {ConfiguracaoService} configuracaoService
-   * @param {questionarioRepository} questionarioRepository
+   * @param {dispositivoRepository} dispositivoRepository
    */
   constructor(private domSanitizer: DomSanitizer,
               private iconRegistry: MatIconRegistry,
               private usuarioService: UsuarioService,
               private unidadeService: UnidadeService,
               private configuracaoService: ConfiguracaoService,
-              private questionarioRepository: QuestionarioRepository) {
+              private dispositivoRepository: DispositivoRepository) {
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
@@ -146,9 +146,9 @@ export class ConsultarQuestionariosComponent implements OnInit {
       pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); // TODO falcatruassa para os objetos internos
       pageRequest.defaultFilter.push(model);
 
-      this.questionarioRepository.listByFilters(pageRequest)
+      this.dispositivoRepository.listByFilters(pageRequest)
         .subscribe((result) => {
-          this.dataSource = new MatTableDataSource<Questionario>(result.content);
+          this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
           this.page = result
         })
     });
@@ -162,9 +162,9 @@ export class ConsultarQuestionariosComponent implements OnInit {
 
     this.pageRequest.page = 0;
 
-    this.questionarioRepository.listByFilters(this.pageRequest)
+    this.dispositivoRepository.listByFilters(this.pageRequest)
       .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Questionario>(result.content);
+        this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
 
         this.page = result;
       })
@@ -180,9 +180,9 @@ export class ConsultarQuestionariosComponent implements OnInit {
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;
 
-    this.questionarioRepository.listByFilters(pageRequest)
+    this.dispositivoRepository.listByFilters(pageRequest)
       .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Questionario>(result.content);
+        this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
 
         this.page = result;
       })
