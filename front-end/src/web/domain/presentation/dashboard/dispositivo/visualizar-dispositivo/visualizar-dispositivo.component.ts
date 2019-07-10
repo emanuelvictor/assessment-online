@@ -7,6 +7,8 @@ import {DispositivoRepository} from "../../../../repository/dispositivo.reposito
 import {ConfirmDialogComponent} from "../../../controls/confirm-dialog/confirm-dialog.component";
 import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
 import {viewAnimation} from "../../../controls/utils";
+import {UnidadeRepository} from "../../../../repository/unidade.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
 
 @Component({
   selector: 'visualizar-dispositivo',
@@ -35,6 +37,7 @@ export class VisualizarDispositivoComponent implements OnInit {
 
   /**
    *
+   * @param unidadeTipoAvaliacaoRepository
    * @param snackBar {MatSnackBar}
    * @param activatedRoute {ActivatedRoute}
    * @param router {Router}
@@ -42,7 +45,8 @@ export class VisualizarDispositivoComponent implements OnInit {
    * @param dispositivoRepository {DispositivoRepository}
    * @param unidadeTipoAvaliacaoDispositivoRepository
    */
-  constructor(private dialog: MatDialog, private dispositivoRepository: DispositivoRepository,
+  constructor(private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
+              private dispositivoRepository: DispositivoRepository, private dialog: MatDialog,
               private snackBar: MatSnackBar, public activatedRoute: ActivatedRoute, private router: Router,
               private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository) {
   }
@@ -61,7 +65,37 @@ export class VisualizarDispositivoComponent implements OnInit {
    */
   public find(dispositivoId: number) {
     this.dispositivoRepository.findById(dispositivoId)
-      .subscribe((dispositivo: Dispositivo) => this.dispositivo = dispositivo)
+      .subscribe((dispositivo: Dispositivo) => {
+        this.dispositivo = dispositivo;
+
+        // this.unidadeRepository.listLightByFilters({
+        //   withAvaliaveisFilter: true,
+        //   withUnidadesTiposAvaliacoesAtivasFilter: true
+        // }).subscribe(result => {
+        //   this.unidades = result.content;
+        //
+        //   for (let k = 0; k < this.unidades.length; k++) {
+        //
+        //     this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[k].id, ativo: true})
+        //       .subscribe(resulted => {
+        //
+        //         this.unidades[k].unidadesTiposAvaliacoes = resulted.content;
+        //
+        //         if (this.unidadesTiposAvaliacoesDispositivo && this.unidadesTiposAvaliacoesDispositivo.length)
+        //           for (let i = 0; i < this.unidadesTiposAvaliacoesDispositivo.length; i++) {
+        //             if (this.unidades[k].id === this.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.unidade.id) {
+        //               this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
+        //                 if (unidadeTipoAvaliacao.id === this.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id) {
+        //                   this.unidades[k].checked = true;
+        //                   unidadeTipoAvaliacao.checked = true;
+        //                 }
+        //               })
+        //             }
+        //           }
+        //       })
+        //   }
+        // })
+      });
   }
 
   /**

@@ -72,18 +72,6 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
    *
    */
   ngOnInit() {
-    // Inicia o loading
-    this._loadingService.register('overlayStarSyntax');
-
-    // Inicia o carregamento das unidades
-    this.consultarUnidades()
-  }
-
-  /**
-   *
-   */
-  consultarUnidades() {
-
     this.unidadeService.listLightByFilters({
       withAvaliaveisFilter: true,
       withUnidadesTiposAvaliacoesAtivasFilter: true
@@ -97,16 +85,17 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
 
             this.unidades[k].unidadesTiposAvaliacoes = resulted.content;
 
-            for (let i = 0; i < this.unidadesTiposAvaliacoesDispositivo.length; i++) {
-              if (this.unidades[k].id === this.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.unidade.id) {
-                this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
-                  if (unidadeTipoAvaliacao.id === this.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id) {
-                    this.unidades[k].checked = true;
-                    unidadeTipoAvaliacao.checked = true;
-                  }
-                })
+            if (this.unidadesTiposAvaliacoesDispositivo && this.unidadesTiposAvaliacoesDispositivo.length)
+              for (let i = 0; i < this.unidadesTiposAvaliacoesDispositivo.length; i++) {
+                if (this.unidades[k].id === this.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.unidade.id) {
+                  this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
+                    if (unidadeTipoAvaliacao.id === this.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id) {
+                      this.unidades[k].checked = true;
+                      unidadeTipoAvaliacao.checked = true;
+                    }
+                  })
+                }
               }
-            }
           })
       }
     })

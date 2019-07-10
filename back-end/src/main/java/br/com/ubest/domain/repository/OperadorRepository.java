@@ -39,8 +39,6 @@ public interface OperadorRepository extends JpaRepository<Operador, Long> {
 
     List<Operador> findAllByUnidadeId(final long unidadeId);
 
-    o
-
     List<Operador> findAllByUsuarioId(final long usuarioId);
 
 }
