@@ -46,48 +46,32 @@
                  matSortDisableClear matSortActive='data'
                  matSortDirection='asc' [dataSource]='dataSource'>
 
-        <ng-container matColumnDef='nome'>
+        <ng-container matColumnDef='codigo'>
           <mat-header-cell flex-xl='30' flex-gt-md='30' flex-md='20' flex-sm='30'
                            layout-align='start center' *matHeaderCellDef mat-sort-header>
             <div layout-margin layout='column'>
-              Nome
+              Código
             </div>
           </mat-header-cell>
           <mat-cell flex-xl='30' flex-gt-md='30' flex-md='30' flex-sm='30'
-                    layout-align='start center' *matCellDef='let tipoAvaliacao'>
+                    layout-align='start center' *matCellDef='let dispositivo'>
             <div layout-margin layout='column'>
-              {{tipoAvaliacao?.nome}}
+              {{dispositivo?.codigo}}
             </div>
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef='enunciado'>
+        <ng-container matColumnDef='publico'>
           <mat-header-cell flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'
                            layout-align='start center' *matHeaderCellDef mat-sort-header>
             <div layout-margin layout='column'>
-              Enunciado
+              Público
             </div>
           </mat-header-cell>
           <mat-cell flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'
-                    layout-align='start center' *matCellDef='let tipoAvaliacao'>
+                    layout-align='start center' *matCellDef='let dispositivo'>
             <div layout-margin layout='column'>
-              {{tipoAvaliacao?.enunciado}}
-            </div>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef='selecao'>
-          <mat-header-cell flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'
-                           layout-align='start center' *matHeaderCellDef mat-sort-header>
-            <div layout-margin layout='column'>
-              Frase de seleção
-            </div>
-          </mat-header-cell>
-          <mat-cell layout-align='start center'
-                    *matCellDef='let tipoAvaliacao'
-                    flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'>
-            <div layout-margin layout='column'>
-              {{tipoAvaliacao?.selecao}}
+              {{dispositivo?.publico ? 'Sim' : 'Não'}}
             </div>
           </mat-cell>
         </ng-container>
@@ -95,14 +79,14 @@
         <mat-header-row *matHeaderRowDef='displayedColumns'>
         </mat-header-row>
 
-        <mat-row *matRowDef='let tipoAvaliacao; columns: displayedColumns'
-                 routerLink='{{tipoAvaliacao.id}}' style='cursor: pointer'>
+        <mat-row *matRowDef='let dispositivo; columns: displayedColumns'
+                 routerLink='{{dispositivo.id}}' style='cursor: pointer'>
         </mat-row>
       </mat-table>
       <no-records-found [dataSource]='dataSource?.data'></no-records-found>
       <mat-paginator [pageSizeOptions]='[5, 20, 50, 100]'
                      [length]='page.totalElements' style='border-radius: 2px'
-                     (page)='listAvaliacoesByFilters(pageRequest)' class='bgc-grey-50'>
+                     (page)='listDispositivosByFilters(pageRequest)' class='bgc-grey-50'>
       </mat-paginator>
     </div>
   </div>

@@ -8,7 +8,7 @@ import {UnidadeTipoAvaliacaoDispositivo} from "../entity/avaliacao/unidade-tipo-
 export class UnidadeTipoAvaliacaoDispositivoRepository extends BaseRepository<UnidadeTipoAvaliacaoDispositivo> {
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, 'unidade-tipo-avaliacao-dispositivo');
+    super(httpClient, 'unidades-tipos-avaliacoes-dispositivo');
   }
 
 }

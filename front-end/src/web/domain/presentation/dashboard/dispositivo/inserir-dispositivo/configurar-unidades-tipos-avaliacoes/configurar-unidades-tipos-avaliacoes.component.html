@@ -12,8 +12,8 @@
         {{unidade?.endereco?.cidade ? (unidade?.endereco?.cidade?.nome + ' - ' + unidade?.endereco?.cidade?.estado?.uf) : ''}}
       </p>
 
-      <mat-slide-toggle [(ngModel)]='unidade.checked' [disabled]='true'
-                        style='opacity: 1 !important; cursor: pointer; margin-right: 17px'>
+      <mat-slide-toggle style='opacity: 1 !important; cursor: pointer'
+                        [(ngModel)]='unidade.checked' [disabled]='true'>
       </mat-slide-toggle>
 
     </mat-list-item>

@@ -5,11 +5,16 @@ import {Avaliacao} from "../../../../entity/avaliacao/avaliacao.model";
 import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
 import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
 import {ConfirmDialogComponent} from "../../../controls/confirm-dialog/confirm-dialog.component";
+import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
+import {viewAnimation} from "../../../controls/utils";
 
 @Component({
   selector: 'visualizar-dispositivo',
   templateUrl: './visualizar-dispositivo.component.html',
-  styleUrls: ['./visualizar-dispositivo.component.scss']
+  styleUrls: ['./visualizar-dispositivo.component.scss'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class VisualizarDispositivoComponent implements OnInit {
 
@@ -21,16 +26,25 @@ export class VisualizarDispositivoComponent implements OnInit {
 
   /**
    *
+   * @type {{unidade: {}}}
+   */
+  public filter: any = {
+    unidade: {}
+  };
+
+
+  /**
+   *
    * @param snackBar {MatSnackBar}
    * @param activatedRoute {ActivatedRoute}
    * @param router {Router}
    * @param dialog {MatDialog}
    * @param dispositivoRepository {DispositivoRepository}
+   * @param unidadeTipoAvaliacaoDispositivoRepository
    */
-  constructor(private snackBar: MatSnackBar,
-              public activatedRoute: ActivatedRoute,
-              private router: Router, private dialog: MatDialog,
-              private dispositivoRepository: DispositivoRepository) {
+  constructor(private dialog: MatDialog, private dispositivoRepository: DispositivoRepository,
+              private snackBar: MatSnackBar, public activatedRoute: ActivatedRoute, private router: Router,
+              private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository) {
   }
 
   /**
@@ -47,9 +61,7 @@ export class VisualizarDispositivoComponent implements OnInit {
    */
   public find(dispositivoId: number) {
     this.dispositivoRepository.findById(dispositivoId)
-      .subscribe((dispositivo: Dispositivo) =>{
-        this.dispositivo = dispositivo}
-      )
+      .subscribe((dispositivo: Dispositivo) => this.dispositivo = dispositivo)
   }
 
   /**
@@ -77,6 +89,27 @@ export class VisualizarDispositivoComponent implements OnInit {
           })
       }
     })
+  }
+
+  /**
+   *
+   * @param $event
+   */
+  addUnidadeTipoAvaliacaoDispositivo($event: any) {
+    this.dispositivo.unidadesTiposAvaliacoesDispositivo.push($event);
+    this.unidadeTipoAvaliacaoDispositivoRepository.save($event)
+  }
+
+  /**
+   *
+   * @param $event
+   */
+  removeUnidadeTipoAvaliacaoDispositivo($event: any) {
+    for (let i = 0; i < this.dispositivo.unidadesTiposAvaliacoesDispositivo.length; i++) {
+      if (this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id === $event.unidadeTipoAvaliacao.id)
+        this.dispositivo.unidadesTiposAvaliacoesDispositivo.splice(i, 1);
+    }
+    this.unidadeTipoAvaliacaoDispositivoRepository.delete($event.id)
   }
 
   /**

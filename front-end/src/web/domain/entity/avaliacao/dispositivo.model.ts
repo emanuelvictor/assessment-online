@@ -16,6 +16,6 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
-  public unidadesTiposAvaliacoesDispositivos: UnidadeTipoAvaliacaoDispositivo[] = [];
+  public unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[] = [];
 
 }

@@ -27,6 +27,11 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
    */
   unidades: any;
 
+  /**
+   * 
+   */
+  @Input()
+  unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[];
 
   /**
    *

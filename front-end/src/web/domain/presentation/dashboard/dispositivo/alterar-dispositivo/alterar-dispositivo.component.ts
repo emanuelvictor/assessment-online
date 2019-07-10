@@ -35,8 +35,8 @@ export class AlterarDispositivoComponent implements OnInit {
    * @param {Router} router
    */
   constructor(private domSanitizer: DomSanitizer, private snackBar: MatSnackBar, private router: Router,
-              private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository,
-              private dispositivoRepository: DispositivoRepository, private activatedRoute: ActivatedRoute,) {
+              private dispositivoRepository: DispositivoRepository, private activatedRoute: ActivatedRoute,
+              private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository) {
 
   }
 
@@ -73,7 +73,7 @@ export class AlterarDispositivoComponent implements OnInit {
    */
   add($event: any) {
     this.unidadeTipoAvaliacaoDispositivoRepository.save($event);
-    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivos.length)
+    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivo.length)
   }
 
   /**
@@ -82,7 +82,7 @@ export class AlterarDispositivoComponent implements OnInit {
    */
   remove($event: any) {
     this.unidadeTipoAvaliacaoDispositivoRepository.delete($event.id);
-    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivos.length)
+    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivo.length)
   }
 
   /**

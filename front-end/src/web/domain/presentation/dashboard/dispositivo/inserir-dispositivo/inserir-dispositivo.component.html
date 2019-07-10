@@ -11,20 +11,17 @@
       </button>
 
       <div layout='row' layout-margin>
-        <h1 class='mat-headline tc-grey-500' flex> Inserir dispositivo</h1>
+        <h1 class='mat-headline tc-grey-500' flex> Inserir Dispositivo</h1>
       </div>
     </div>
   </div>
-
-  {{dispositivo?.unidadesTiposAvaliacoesDispositivos?.length}}
 
   <mat-divider [inset]='true' divider
                style='margin-top: 8px; margin-left: -25px; margin-right: -25px; margin-bottom: 8px; position: inherit;width: auto'>
   </mat-divider>
 
-  <configurar-unidades-tipos-avaliacoes (add)='add($event)'
-                                        (remove)='remove($event)'
-                                        configurarUnidadesTiposAvaliacoes>
+  <configurar-unidades-tipos-avaliacoes configurarUnidadesTiposAvaliacoes
+                                        (add)='add($event)' (remove)='remove($event)'>
   </configurar-unidades-tipos-avaliacoes>
 
   <mat-divider [inset]='true' divider2

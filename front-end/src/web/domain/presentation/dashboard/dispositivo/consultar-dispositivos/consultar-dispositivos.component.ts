@@ -4,7 +4,6 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {UnidadeService} from '../../../../service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import 'moment/locale/pt-br';
-import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
 import {UsuarioService} from "../../../../service/usuario.service";
 import {Subject} from "rxjs";
@@ -20,12 +19,6 @@ export class ConsultarDispositivosComponent implements OnInit {
 
   /**
    *
-   * @type {Configuracao}
-   */
-  configuracao: Configuracao;
-
-  /**
-   *
    */
   masks = textMasks;
 
@@ -36,8 +29,7 @@ export class ConsultarDispositivosComponent implements OnInit {
     size: 20,
     page: 0,
     sort: null,
-    defaultFilter: [],
-    unidadesFilter: [],
+    defaultFilter: []
   };
 
   /**
@@ -48,12 +40,10 @@ export class ConsultarDispositivosComponent implements OnInit {
   /**
    * Serve para armazenar as colunas que serão exibidas na tabela
    */
-  public displayedColumns: string[] =
-    [
-      'nome',
-      'enunciado',
-      'selecao'
-    ];
+  public displayedColumns: string[] = [
+    'codigo',
+    'publico'
+  ];
 
   /**
    *
@@ -96,24 +86,12 @@ export class ConsultarDispositivosComponent implements OnInit {
               private configuracaoService: ConfiguracaoService,
               private dispositivoRepository: DispositivoRepository) {
 
-    this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'media', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/baseline-bar_chart-24px.svg'));
-
   }
 
   /**
    *
    */
   ngOnInit() {
-
-    /**
-     * Carrega configurações
-     */
-    this.configuracaoService.requestConfiguracao.subscribe(result => this.configuracao = result);
 
     /**
      * Seta o size do pageRequest no size do paginator
@@ -124,7 +102,7 @@ export class ConsultarDispositivosComponent implements OnInit {
     /**
      * Listagem inicial
      */
-    this.listAvaliacoesByFilters(this.pageRequest);
+    this.listDispositivosByFilters(this.pageRequest);
 
     /**
      * Sobrescreve o sortChange do sort bindado
@@ -134,7 +112,7 @@ export class ConsultarDispositivosComponent implements OnInit {
         'properties': this.sort.active,
         'direction': this.sort.direction
       };
-      this.listAvaliacoesByFilters(this.pageRequest);
+      this.listDispositivosByFilters(this.pageRequest);
     });
 
     /**
@@ -151,7 +129,7 @@ export class ConsultarDispositivosComponent implements OnInit {
           this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
           this.page = result
         })
-    });
+    })
   }
 
   /**
@@ -165,17 +143,15 @@ export class ConsultarDispositivosComponent implements OnInit {
     this.dispositivoRepository.listByFilters(this.pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
-
-        this.page = result;
+        this.page = result
       })
-
   }
 
   /**
    * Consulta de usuarios
    *
    */
-  public listAvaliacoesByFilters(pageRequest: any) {
+  public listDispositivosByFilters(pageRequest: any) {
 
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;
@@ -183,8 +159,7 @@ export class ConsultarDispositivosComponent implements OnInit {
     this.dispositivoRepository.listByFilters(pageRequest)
       .subscribe((result) => {
         this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
-
-        this.page = result;
+        this.page = result
       })
   }
 

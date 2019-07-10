@@ -1,0 +1,54 @@
+package br.com.ubest.domain.resource;
+
+import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
+import br.com.ubest.domain.entity.usuario.Perfil;
+import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
+import br.com.ubest.infrastructure.resource.AbstractResource;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
+
+import java.util.Optional;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping({"**unidades-tipos-avaliacoes-dispositivo", "**sistema/unidades-tipos-avaliacoes-dispositivo", "**sistema/mobile/unidades-tipos-avaliacoes-dispositivo"})
+public class UnidadeTipoAvaliacaoDispositivoResource extends AbstractResource<UnidadeTipoAvaliacaoDispositivo> {
+
+    private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
+
+    @PostMapping
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    public Mono<UnidadeTipoAvaliacaoDispositivo> save(@RequestBody final UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo) {
+        return Mono.just(this.unidadeTipoAvaliacaoDispositivoRepository.save(unidadeTipoAvaliacaoDispositivo));
+    }
+
+    @PutMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    public Mono<UnidadeTipoAvaliacaoDispositivo> update(@PathVariable final long id, @RequestBody final UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo) {
+        unidadeTipoAvaliacaoDispositivo.setId(id);
+        return Mono.just(this.unidadeTipoAvaliacaoDispositivoRepository.save(unidadeTipoAvaliacaoDispositivo));
+    }
+
+    @DeleteMapping
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    public Mono<Boolean> delete(@RequestParam long unidadeTipoAvaliacaoDispositivoId) {
+        this.unidadeTipoAvaliacaoDispositivoRepository.deleteById(unidadeTipoAvaliacaoDispositivoId);
+        return Mono.just(true);
+    }
+
+    @GetMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    public Mono<Optional<UnidadeTipoAvaliacaoDispositivo>> findById(@PathVariable final long id) {
+        return Mono.just(this.unidadeTipoAvaliacaoDispositivoRepository.findById(id));
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<Page<UnidadeTipoAvaliacaoDispositivo>> listByFilters() {
+        return Mono.just(this.unidadeTipoAvaliacaoDispositivoRepository.findAll(getPageable()));
+    }
+
+}

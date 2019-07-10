@@ -54,7 +54,6 @@ export class VincularUnidadeComponent implements OnInit {
 
   /**
    *
-   * @type {Unidade}
    */
   @Input()
   public filter: any = {
