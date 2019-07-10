@@ -100,11 +100,11 @@ export class InserirUnidadeComponent {
     for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++) {
       if (this.unidadesTiposAvaliacoes[i].tipoAvaliacao.id === unidadeTipoAvaliacao.tipoAvaliacao.id) {
         this.unidadesTiposAvaliacoes[i] = unidadeTipoAvaliacao;
-        return;
+        return
       }
     }
 
-    this.unidadesTiposAvaliacoes.push(unidadeTipoAvaliacao);
+    this.unidadesTiposAvaliacoes.push(unidadeTipoAvaliacao)
   }
 
   /**

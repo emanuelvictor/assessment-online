@@ -32,7 +32,13 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
    *
    */
   @Output()
-  unidadesTiposAvaliacoesDispositivoChange: EventEmitter<any> = new EventEmitter();
+  add: EventEmitter<any> = new EventEmitter();
+
+  /**
+   *
+   */
+  @Output()
+  remove: EventEmitter<any> = new EventEmitter();
 
   /**
    *
@@ -138,7 +144,12 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
 
       unidade.unidadesTiposAvaliacoes = result.content;
 
-      this.unidadesTiposAvaliacoesDispositivoChange.emit(this.populateRetorno());
+      unidade.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
+        const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+        unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
+        unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+        this.add.emit(unidadeTipoAvaliacaoDispositivo)
+      })
     })
   }
 
@@ -147,9 +158,14 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
    * @param unidade
    */
   afterCollapse(unidade) {
+    unidade.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
+      const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+      unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
+      unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+      this.remove.emit(unidadeTipoAvaliacaoDispositivo)
+    });
     unidade.checked = false;
-    unidade.unidadesTiposAvaliacoes = [];
-    this.unidadesTiposAvaliacoesDispositivoChange.emit(this.populateRetorno());
+    unidade.unidadesTiposAvaliacoes = []
   }
 
   /**
@@ -169,7 +185,11 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
 
       unidadeTipoAvaliacao.ordem = null;
 
-      this.unidadesTiposAvaliacoesDispositivoChange.emit(this.populateRetorno());
+
+      const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+      unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
+      unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+      this.remove.emit(unidadeTipoAvaliacaoDispositivo);
 
       return
     }
@@ -184,29 +204,32 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
 
     unidadeTipoAvaliacao.ordem = aux + 1;
 
-    this.unidadesTiposAvaliacoesDispositivoChange.emit(this.populateRetorno())
+    const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+    unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
+    unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+    this.add.emit(unidadeTipoAvaliacaoDispositivo)
   }
 
-  /**
-   *
-   */
-  private populateRetorno() {
-    const retorno = [];
-    if (this.unidades && this.unidades.length)
-      for (let i = 0; i < this.unidades.length; i++) {
-        if (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length)
-          for (let j = 0; j < this.unidades[i].unidadesTiposAvaliacoes.length; j++) {
-            if (this.unidades[i].unidadesTiposAvaliacoes[j].checked) {
-              const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
-              unidadeTipoAvaliacaoDispositivo.ordem = this.unidades[i].unidadesTiposAvaliacoes[j].ordem;
-              unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = this.unidades[i].unidadesTiposAvaliacoes[j];
-              retorno.push(unidadeTipoAvaliacaoDispositivo)
-            }
-          }
-      }
-
-    return retorno;
-  }
+  // /**
+  //  *
+  //  */
+  // private populateRetorno() {
+  //   const retorno = [];
+  //   if (this.unidades && this.unidades.length)
+  //     for (let i = 0; i < this.unidades.length; i++) {
+  //       if (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length)
+  //         for (let j = 0; j < this.unidades[i].unidadesTiposAvaliacoes.length; j++) {
+  //           if (this.unidades[i].unidadesTiposAvaliacoes[j].checked) {
+  //             const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+  //             unidadeTipoAvaliacaoDispositivo.ordem = this.unidades[i].unidadesTiposAvaliacoes[j].ordem;
+  //             unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = this.unidades[i].unidadesTiposAvaliacoes[j];
+  //             retorno.push(unidadeTipoAvaliacaoDispositivo)
+  //           }
+  //         }
+  //     }
+  //
+  //   return retorno;
+  // }
 
   /**
    *

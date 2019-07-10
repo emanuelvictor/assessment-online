@@ -56,8 +56,8 @@ export class InserirDispositivoComponent implements OnInit {
     this.dispositivoRepository.save(this.dispositivo)
       .then(result => {
         this.dispositivo = result;
-        this.success('Tipo de avaliação inserida com sucesso');
-      });
+        this.success('Tipo de avaliação inserida com sucesso')
+      })
   }
 
   /**
@@ -66,7 +66,7 @@ export class InserirDispositivoComponent implements OnInit {
    */
   public success(message: string) {
     this.openSnackBar(message);
-    this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+    this.router.navigate(['../'], {relativeTo: this.activatedRoute})
   }
 
   /**
@@ -74,7 +74,7 @@ export class InserirDispositivoComponent implements OnInit {
    * @param message
    */
   public error(message: string) {
-    this.openSnackBar(message);
+    this.openSnackBar(message)
   }
 
   /**
@@ -84,7 +84,7 @@ export class InserirDispositivoComponent implements OnInit {
   public openSnackBar(message: string) {
     this.snackBar.open(message, "Fechar", {
       duration: 5000
-    });
+    })
   }
 
   /**
@@ -92,6 +92,19 @@ export class InserirDispositivoComponent implements OnInit {
    * @param $event
    */
   add($event: any) {
-    console.log($event)
+    this.dispositivo.unidadesTiposAvaliacoesDispositivos.push($event);
+    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivos.length)
+  }
+
+  /**
+   *
+   * @param $event
+   */
+  remove($event: any) {
+    for (let i = 0; i < this.dispositivo.unidadesTiposAvaliacoesDispositivos.length; i++) {
+      if (this.dispositivo.unidadesTiposAvaliacoesDispositivos[i].unidadeTipoAvaliacao.id === $event.unidadeTipoAvaliacao.id)
+        this.dispositivo.unidadesTiposAvaliacoesDispositivos.splice(i, 1);
+    }
+    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivos.length)
   }
 }
