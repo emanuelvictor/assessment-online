@@ -5,6 +5,7 @@ import {textMasks} from '../../../controls/text-masks/text-masks';
 import {DomSanitizer} from "@angular/platform-browser";
 import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
 import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
+import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
 
 @Component({
   selector: 'alterar-dispositivo',
@@ -27,15 +28,15 @@ export class AlterarDispositivoComponent implements OnInit {
   /**
    *
    * @param {MatSnackBar} snackBar
+   * @param unidadeTipoAvaliacaoDispositivoRepository
    * @param {ActivatedRoute} activatedRoute
    * @param {DispositivoRepository} dispositivoRepository
    * @param {DomSanitizer} domSanitizer
    * @param {Router} router
    */
-  constructor(private snackBar: MatSnackBar,
-              private domSanitizer: DomSanitizer,
-              private dispositivoRepository: DispositivoRepository,
-              private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private domSanitizer: DomSanitizer, private snackBar: MatSnackBar, private router: Router,
+              private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository,
+              private dispositivoRepository: DispositivoRepository, private activatedRoute: ActivatedRoute,) {
 
   }
 
@@ -43,8 +44,16 @@ export class AlterarDispositivoComponent implements OnInit {
    *
    */
   ngOnInit() {
-    const avaliacaoId: number = this.activatedRoute.snapshot.params['id'];
-    this.find(avaliacaoId);
+    const dispositivoId: number = this.activatedRoute.snapshot.params['id'];
+    this.find(dispositivoId)
+  }
+
+  /**
+   *
+   * @param {number} dispositivoId
+   */
+  public find(dispositivoId: number) {
+    this.dispositivoRepository.findById(dispositivoId).subscribe((dispositivo: Dispositivo) => this.dispositivo = dispositivo)
   }
 
   /**
@@ -54,8 +63,26 @@ export class AlterarDispositivoComponent implements OnInit {
     this.dispositivoRepository.save(this.dispositivo)
       .then(result => {
         this.dispositivo = result;
-        this.success('Tipo de avaliação inserida com sucesso')
+        this.success('Dispositivo inserido com sucesso')
       })
+  }
+
+  /**
+   *
+   * @param $event
+   */
+  add($event: any) {
+    this.unidadeTipoAvaliacaoDispositivoRepository.save($event);
+    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivos.length)
+  }
+
+  /**
+   *
+   * @param $event
+   */
+  remove($event: any) {
+    this.unidadeTipoAvaliacaoDispositivoRepository.delete($event.id);
+    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivos.length)
   }
 
   /**
@@ -64,19 +91,7 @@ export class AlterarDispositivoComponent implements OnInit {
    */
   public success(message: string) {
     this.openSnackBar(message);
-    this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-  }
-
-  /**
-   *
-   * @param {number} avaliacaoId
-   */
-  public find(avaliacaoId: number) {
-    this.dispositivoRepository.findById(avaliacaoId)
-      .subscribe((dispositivo: Dispositivo) => {
-          this.dispositivo = dispositivo
-        }
-      )
+    this.router.navigate(['../'], {relativeTo: this.activatedRoute})
   }
 
   /**
@@ -84,7 +99,7 @@ export class AlterarDispositivoComponent implements OnInit {
    * @param message
    */
   public error(message: string) {
-    this.openSnackBar(message);
+    this.openSnackBar(message)
   }
 
   /**
@@ -94,6 +109,6 @@ export class AlterarDispositivoComponent implements OnInit {
   public openSnackBar(message: string) {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
-    });
+    })
   }
 }

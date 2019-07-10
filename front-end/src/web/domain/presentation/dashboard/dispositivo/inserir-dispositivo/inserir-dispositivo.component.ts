@@ -60,6 +60,28 @@ export class InserirDispositivoComponent implements OnInit {
       })
   }
 
+
+  /**
+   *
+   * @param $event
+   */
+  add($event: any) {
+    this.dispositivo.unidadesTiposAvaliacoesDispositivos.push($event);
+    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivos.length)
+  }
+
+  /**
+   *
+   * @param $event
+   */
+  remove($event: any) {
+    for (let i = 0; i < this.dispositivo.unidadesTiposAvaliacoesDispositivos.length; i++) {
+      if (this.dispositivo.unidadesTiposAvaliacoesDispositivos[i].unidadeTipoAvaliacao.id === $event.unidadeTipoAvaliacao.id)
+        this.dispositivo.unidadesTiposAvaliacoesDispositivos.splice(i, 1);
+    }
+    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivos.length)
+  }
+
   /**
    *
    * @param message
@@ -85,26 +107,5 @@ export class InserirDispositivoComponent implements OnInit {
     this.snackBar.open(message, "Fechar", {
       duration: 5000
     })
-  }
-
-  /**
-   *
-   * @param $event
-   */
-  add($event: any) {
-    this.dispositivo.unidadesTiposAvaliacoesDispositivos.push($event);
-    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivos.length)
-  }
-
-  /**
-   *
-   * @param $event
-   */
-  remove($event: any) {
-    for (let i = 0; i < this.dispositivo.unidadesTiposAvaliacoesDispositivos.length; i++) {
-      if (this.dispositivo.unidadesTiposAvaliacoesDispositivos[i].unidadeTipoAvaliacao.id === $event.unidadeTipoAvaliacao.id)
-        this.dispositivo.unidadesTiposAvaliacoesDispositivos.splice(i, 1);
-    }
-    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivos.length)
   }
 }

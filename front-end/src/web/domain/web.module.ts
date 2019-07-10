@@ -117,6 +117,7 @@ import {ConsultarDispositivosComponent} from "./presentation/dashboard/dispositi
 import {AlterarDispositivoComponent} from "./presentation/dashboard/dispositivo/alterar-dispositivo/alterar-dispositivo.component";
 import {OrderModule} from "ngx-order-pipe";
 import {ConfigurarUnidadesTiposAvaliacoesComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/configurar-unidades-tipos-avaliacoes/configurar-unidades-tipos-avaliacoes.component";
+import {UnidadeTipoAvaliacaoDispositivoRepository} from "./repository/unidade-tipo-avaliacao-dispositivo.repository";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -258,6 +259,7 @@ registerLocaleData(localePt, 'pt-BR');
 
     PageSerialize,
 
+    UnidadeTipoAvaliacaoDispositivoRepository,
     UnidadeTipoAvaliacaoRepository,
     AvaliacaoAvaliavelRepository,
     TipoAvaliacaoRepository,

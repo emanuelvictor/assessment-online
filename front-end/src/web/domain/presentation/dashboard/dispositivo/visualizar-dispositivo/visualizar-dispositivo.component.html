@@ -16,25 +16,19 @@
             <div layout='column' layout-gt-xs="row"
                  layout-align="start center" flex-gt-xs="100">
 
-              <div layout="row"
+              <div layout='row'
                    layout-margin
-                   flex flex-gt-xs="80"
+                   flex flex-gt-xs='80'
                    style='margin-top: 0'
-                   layout-align="start center">
+                   layout-align='start center'>
 
                 <div layout='column' flex>
                   <div layout='row'
                        layout-align='start center'>
                     <h1 flex='100' class="mat-headline tc-blue-grey-800 no-margin">
-                      {{tipoAvaliacao?.nome}}
+                      {{dispositivo?.codigo}}
                     </h1>
                   </div>
-                  <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
-                    Enunciado: {{tipoAvaliacao?.enunciado}}
-                  </h2>
-                  <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
-                    Frase para seleção de itens: "{{tipoAvaliacao?.selecao}}"
-                  </h2>
                 </div>
               </div>
             </div>
@@ -53,11 +47,15 @@
                     <mat-icon>more_vert</mat-icon>
                   </button>
                   <mat-menu #menu='matMenu'>
-                    <button mat-menu-item
-                            color='primary'
-                            (click)='remove()'>
+                    <button (click)='remove()'
+                            mat-menu-item color='primary'>
                       <mat-icon>delete</mat-icon>
                       <span>Remover</span>
+                    </button>
+                    <button (click)='publish()'
+                            mat-menu-item color='primary'>
+                      <mat-icon>delete</mat-icon>
+                      <span>Publicar</span>
                     </button>
                   </mat-menu>
                 </div>
