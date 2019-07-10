@@ -28,7 +28,7 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
   unidades: any;
 
   /**
-   * 
+   *
    */
   @Input()
   unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[];
@@ -90,37 +90,24 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
     }).subscribe(result => {
       this.unidades = result.content;
 
-      // Se só houver uma unidade.
-      if (this.unidades.length === 1) {
+      for (let k = 0; k < this.unidades.length; k++) {
 
-        // Se só houver uma unidade, seleciona a primeira.
-        this.unidades[0].checked = true;
-
-        this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[0].id, ativo: true})
+        this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[k].id, ativo: true})
           .subscribe(resulted => {
 
-            // Assinala todos os tipos de avaliações como checkes, ou seja, marcados no checkbox.
-            // Define as ordens dos tipos de avaliações
-            for (let i = 0; i < resulted.content.length; i++) {
-              resulted.content[i].checked = true;
-              resulted.content[i].ordem = i + 1;
+            this.unidades[k].unidadesTiposAvaliacoes = resulted.content;
+
+            for (let i = 0; i < this.unidadesTiposAvaliacoesDispositivo.length; i++) {
+              if (this.unidades[k].id === this.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.unidade.id) {
+                this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
+                  if (unidadeTipoAvaliacao.id === this.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id) {
+                    this.unidades[k].checked = true;
+                    unidadeTipoAvaliacao.checked = true;
+                  }
+                })
+              }
             }
-
-            // Popula lista do model.
-            this.unidades[0].unidadesTiposAvaliacoes = resulted.content;
-
-            // Se só houver somente um tipo de avaliação.
-            if (resulted.content.length === 1) {
-              // Encerra o loading.
-              this._loadingService.resolve('overlayStarSyntax');
-              return
-            }
-
-            // Encerra o loading
-            this._loadingService.resolve('overlayStarSyntax');
           })
-      } else {
-        this._loadingService.resolve('overlayStarSyntax')
       }
     })
   }
