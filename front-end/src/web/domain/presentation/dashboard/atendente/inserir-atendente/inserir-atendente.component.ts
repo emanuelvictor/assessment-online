@@ -93,7 +93,7 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
             this.avaliavelRepository.save(avaliavel)
           });
 
-          this.success('Atendente inserido com sucesso');
+          this.success('Ítem Avaliável inserido com sucesso');
         });
     }
   }

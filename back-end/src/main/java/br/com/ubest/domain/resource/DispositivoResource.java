@@ -33,10 +33,10 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
         return Mono.just(this.dispositivoRepository.save(dispositivo));
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    public Mono<Boolean> delete(@RequestParam long dispositivoId) {
-        this.dispositivoRepository.deleteById(dispositivoId);
+    public Mono<Boolean> delete(@PathVariable long id) {
+        this.dispositivoRepository.deleteById(id);
         return Mono.just(true);
     }
 

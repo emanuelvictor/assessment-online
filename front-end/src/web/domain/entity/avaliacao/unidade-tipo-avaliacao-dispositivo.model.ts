@@ -7,7 +7,7 @@ export class UnidadeTipoAvaliacaoDispositivo extends Abstract {
   /**
    *
    */
-  public nivel: number;
+  public ativo: boolean = true;
 
   /**
    *

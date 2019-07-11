@@ -56,11 +56,11 @@
                       <mat-icon>delete</mat-icon>
                       <span>Remover</span>
                     </button>
-                    <button (click)='publish()'
-                            mat-menu-item color='primary'>
-                      <mat-icon>delete</mat-icon>
-                      <span>Publicar</span>
-                    </button>
+                    <!--<button (click)='publish()'-->
+                            <!--mat-menu-item color='primary'>-->
+                      <!--<mat-icon>delete</mat-icon>-->
+                      <!--<span>Publicar</span>-->
+                    <!--</button>-->
                   </mat-menu>
                 </div>
               </div>
@@ -87,7 +87,7 @@
 
       <mat-card class='bgc-grey-50' style='width: 100%'>
         <mat-card-content style='padding: 0'>
-          <configurar-unidades-tipos-avaliacoes (remove)='removeUnidadeTipoAvaliacaoDispositivo($event)'
+          <configurar-unidades-tipos-avaliacoes *ngIf='unidades.length' [unidades]='unidades' (remove)='removeUnidadeTipoAvaliacaoDispositivo($event)'
                                                 (add)='addUnidadeTipoAvaliacaoDispositivo($event)' [filter]='filter'
                                                 [unidadesTiposAvaliacoesDispositivo]='dispositivo.unidadesTiposAvaliacoesDispositivo'>
           </configurar-unidades-tipos-avaliacoes>

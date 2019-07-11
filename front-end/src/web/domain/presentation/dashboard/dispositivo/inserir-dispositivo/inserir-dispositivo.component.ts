@@ -9,6 +9,8 @@ import {DispositivoRepository} from "../../../../repository/dispositivo.reposito
 import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {viewAnimation} from "../../../controls/utils";
+import {UnidadeRepository} from "../../../../repository/unidade.repository";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
 
 /**
  *
@@ -28,21 +30,27 @@ export class InserirDispositivoComponent implements OnInit {
    */
   public dispositivo: Dispositivo = new Dispositivo();
 
+  unidades: any[] = [];
+
   /**
    *
+   * @param unidadeRepository
    * @param {MatSnackBar} snackBar
    * @param {ElementRef} element
    * @param {DispositivoRepository} dispositivoRepository
    * @param {Renderer} renderer
+   * @param unidadeTipoAvaliacaoRepository
    * @param {FormBuilder} fb
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    * @param {Router} router
    * @param {ActivatedRoute} activatedRoute
    */
-  constructor(@Inject(ElementRef) private element: ElementRef,
+  constructor(private unidadeRepository: UnidadeRepository,
+              @Inject(ElementRef) private element: ElementRef,
               private dispositivoRepository: DispositivoRepository,
               private activatedRoute: ActivatedRoute, private router: Router,
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private snackBar: MatSnackBar, private renderer: Renderer, private fb: FormBuilder) {
   }
@@ -51,6 +59,32 @@ export class InserirDispositivoComponent implements OnInit {
    *
    */
   ngOnInit(): void {
+    this.unidadeRepository.listLightByFilters({
+      withUnidadesTiposAvaliacoesAtivasFilter: true
+    }).subscribe(result => {
+      this.unidades = result.content;
+
+      for (let k = 0; k < this.unidades.length; k++) {
+
+        this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[k].id, ativo: true})
+          .subscribe(resulted => {
+
+            this.unidades[k].unidadesTiposAvaliacoes = resulted.content;
+
+            if (this.dispositivo.unidadesTiposAvaliacoesDispositivo && this.dispositivo.unidadesTiposAvaliacoesDispositivo.length)
+              for (let i = 0; i < this.dispositivo.unidadesTiposAvaliacoesDispositivo.length; i++) {
+                if (this.unidades[k].id === this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.unidade.id) {
+                  this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
+                    if (unidadeTipoAvaliacao.id === this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id) {
+                      this.unidades[k].checked = true;
+                      unidadeTipoAvaliacao.checked = true;
+                    }
+                  })
+                }
+              }
+          })
+      }
+    })
   }
 
   /**

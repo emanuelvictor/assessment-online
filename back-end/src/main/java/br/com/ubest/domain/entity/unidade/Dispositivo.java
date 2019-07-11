@@ -42,7 +42,6 @@ public class Dispositivo extends AbstractEntity implements Serializable {
      *
      */
     @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     @OneToMany(targetEntity = UnidadeTipoAvaliacaoDispositivo.class, mappedBy = "dispositivo", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UnidadeTipoAvaliacaoDispositivo> unidadesTiposAvaliacoesDispositivo;
 

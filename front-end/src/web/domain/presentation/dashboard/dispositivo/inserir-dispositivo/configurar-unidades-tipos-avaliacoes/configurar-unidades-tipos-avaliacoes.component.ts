@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {MatSnackBar} from "@angular/material";
 import {TdLoadingService} from "@covalent/core";
@@ -15,7 +15,7 @@ import {UnidadeTipoAvaliacaoDispositivo} from "../../../../../entity/avaliacao/u
     viewAnimation
   ]
 })
-export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
+export class ConfigurarUnidadesTiposAvaliacoesComponent {
 
   /**
    *
@@ -25,13 +25,14 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
   /**
    *
    */
+  @Input()
   unidades: any;
 
   /**
    *
    */
   @Input()
-  unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[];
+  unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[] = [];
 
   /**
    *
@@ -70,42 +71,10 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
 
   /**
    *
-   */
-  ngOnInit() {
-    this.unidadeService.listLightByFilters({
-      withAvaliaveisFilter: true,
-      withUnidadesTiposAvaliacoesAtivasFilter: true
-    }).subscribe(result => {
-      this.unidades = result.content;
-
-      for (let k = 0; k < this.unidades.length; k++) {
-
-        this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[k].id, ativo: true})
-          .subscribe(resulted => {
-
-            this.unidades[k].unidadesTiposAvaliacoes = resulted.content;
-
-            if (this.unidadesTiposAvaliacoesDispositivo && this.unidadesTiposAvaliacoesDispositivo.length)
-              for (let i = 0; i < this.unidadesTiposAvaliacoesDispositivo.length; i++) {
-                if (this.unidades[k].id === this.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.unidade.id) {
-                  this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
-                    if (unidadeTipoAvaliacao.id === this.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id) {
-                      this.unidades[k].checked = true;
-                      unidadeTipoAvaliacao.checked = true;
-                    }
-                  })
-                }
-              }
-          })
-      }
-    })
-  }
-
-  /**
-   *
    * @param unidade
    */
   afterExpand(unidade) {
+    console.log('afterExpand');
 
     this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: unidade.id, ativo: true}).subscribe(result => {
 
@@ -115,13 +84,32 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
         return
       }
 
+      let has: boolean;
+
       unidade.checked = true;
 
       for (let i = 0; i < result.content.length; i++) {
         result.content[i].unidade = unidade;
-        result.content[i].checked = true;
-        result.content[i].ordem = i + 1
+
+        if (this.unidadesTiposAvaliacoesDispositivo
+          .filter(unidadeTipoAvaliacaoDispositivo =>
+            unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id === result.content[i].id
+          ).length && this.unidadesTiposAvaliacoesDispositivo
+          .filter(unidadeTipoAvaliacaoDispositivo =>
+            unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id === result.content[i].id
+          )[0].ativo) {
+          has = true;
+          result.content[i].checked = true;
+          result.content[i].ordem = i + 1
+        }
       }
+
+      if (!has)
+        for (let i = 0; i < result.content.length; i++) {
+          result.content[i].unidade = unidade;
+          result.content[i].checked = true;
+          result.content[i].ordem = i + 1
+        }
 
       unidade.unidadesTiposAvaliacoes = result.content;
 
@@ -129,7 +117,9 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
         const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
         unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
         unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
-        this.add.emit(unidadeTipoAvaliacaoDispositivo)
+
+        if (!has)
+          this.add.emit(unidadeTipoAvaliacaoDispositivo)
       })
     })
   }
@@ -139,12 +129,14 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
    * @param unidade
    */
   afterCollapse(unidade) {
+
     unidade.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
       const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
       unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
       unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
       this.remove.emit(unidadeTipoAvaliacaoDispositivo)
     });
+
     unidade.checked = false;
     unidade.unidadesTiposAvaliacoes = []
   }
@@ -154,6 +146,7 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
    * @param unidadeTipoAvaliacao
    */
   changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao) {
+    console.log('changeUnidadeTipoAvaliacao');
     unidadeTipoAvaliacao.unidade.checked = unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes && (unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliaca => unidadeTipoAvaliaca.checked).length > 0);
 
     if (unidadeTipoAvaliacao.ordem) {
@@ -166,11 +159,18 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
 
       unidadeTipoAvaliacao.ordem = null;
 
+      const unidadeTipoAvaliacaoDispositivo = this.unidadesTiposAvaliacoesDispositivo
+        .filter(unidadeTipoAvaliacaoDispositivo =>
+          unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id
+        )[0];
 
-      const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
-      unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
-      unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
-      this.remove.emit(unidadeTipoAvaliacaoDispositivo);
+      if (unidadeTipoAvaliacaoDispositivo) {
+        unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
+        unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+
+        if (unidadeTipoAvaliacaoDispositivo && unidadeTipoAvaliacaoDispositivo.id)
+          this.remove.emit(unidadeTipoAvaliacaoDispositivo);
+      }
 
       return
     }
@@ -185,10 +185,18 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent implements OnInit {
 
     unidadeTipoAvaliacao.ordem = aux + 1;
 
-    const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+    let unidadeTipoAvaliacaoDispositivo = this.unidadesTiposAvaliacoesDispositivo
+      .filter(unidadeTipoAvaliacaoDispositivo =>
+        unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id
+      )[0];
+
+    if (!unidadeTipoAvaliacaoDispositivo)
+      unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
     unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
     unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+
     this.add.emit(unidadeTipoAvaliacaoDispositivo)
+
   }
 
   // /**

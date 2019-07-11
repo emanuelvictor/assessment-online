@@ -32,10 +32,10 @@ public class UnidadeTipoAvaliacaoDispositivoResource extends AbstractResource<Un
         return Mono.just(this.unidadeTipoAvaliacaoDispositivoRepository.save(unidadeTipoAvaliacaoDispositivo));
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    public Mono<Boolean> delete(@RequestParam long unidadeTipoAvaliacaoDispositivoId) {
-        this.unidadeTipoAvaliacaoDispositivoRepository.deleteById(unidadeTipoAvaliacaoDispositivoId);
+    public Mono<Boolean> delete(@PathVariable final long id) {
+        this.unidadeTipoAvaliacaoDispositivoRepository.deleteById(id);
         return Mono.just(true);
     }
 
