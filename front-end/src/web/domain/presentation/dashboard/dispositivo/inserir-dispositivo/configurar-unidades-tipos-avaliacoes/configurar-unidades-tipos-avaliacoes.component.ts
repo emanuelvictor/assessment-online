@@ -114,7 +114,14 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent {
       unidade.unidadesTiposAvaliacoes = result.content;
 
       unidade.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
-        const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+
+        let unidadeTipoAvaliacaoDispositivo = this.unidadesTiposAvaliacoesDispositivo.filter(unidadeTipoAvaliacaoDispositivo =>
+            unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id
+          )[0];
+
+        if (!unidadeTipoAvaliacaoDispositivo)
+          unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+
         unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
         unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
 
@@ -131,9 +138,20 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent {
   afterCollapse(unidade) {
 
     unidade.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
-      const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+      // const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+      // unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
+      // unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+
+      let unidadeTipoAvaliacaoDispositivo = this.unidadesTiposAvaliacoesDispositivo.filter(unidadeTipoAvaliacaoDispositivo =>
+        unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id
+      )[0];
+
+      if (!unidadeTipoAvaliacaoDispositivo)
+        unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+
       unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
       unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+
       this.remove.emit(unidadeTipoAvaliacaoDispositivo)
     });
 
@@ -192,6 +210,7 @@ export class ConfigurarUnidadesTiposAvaliacoesComponent {
 
     if (!unidadeTipoAvaliacaoDispositivo)
       unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+
     unidadeTipoAvaliacaoDispositivo.ordem = unidadeTipoAvaliacao.ordem;
     unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
 

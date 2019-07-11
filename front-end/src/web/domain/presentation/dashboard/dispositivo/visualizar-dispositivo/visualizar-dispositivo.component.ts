@@ -142,6 +142,7 @@ export class VisualizarDispositivoComponent implements OnInit {
     const toSave = Object.assign({}, $event);
     console.log(toSave);
     toSave.dispositivo = {id: this.dispositivo.id};
+    toSave.unidadeTipoAvaliacao.unidade = Object.assign({}, $event.unidade);
     toSave.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes = Object.assign([], toSave.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes);
     toSave.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
       unidadeTipoAvaliacao.unidade = Object.assign({}, {id: unidadeTipoAvaliacao.unidade.id})
@@ -162,6 +163,7 @@ export class VisualizarDispositivoComponent implements OnInit {
 
     const toSave = Object.assign({}, $event);
     toSave.dispositivo = {id: this.dispositivo.id};
+    toSave.unidadeTipoAvaliacao.unidade = Object.assign({}, $event.unidade);
     toSave.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes = Object.assign([], toSave.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes);
     toSave.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
       unidadeTipoAvaliacao.unidade = Object.assign({}, {id: unidadeTipoAvaliacao.unidade.id})
