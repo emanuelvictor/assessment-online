@@ -47,8 +47,8 @@ public class UnidadeTipoAvaliacaoDispositivoResource extends AbstractResource<Un
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<Page<UnidadeTipoAvaliacaoDispositivo>> listByFilters() {
-        return Mono.just(this.unidadeTipoAvaliacaoDispositivoRepository.findAll(getPageable()));
+    Mono<Page<UnidadeTipoAvaliacaoDispositivo>> listByFilters(final String defaultFilter, final Long dispositivoId) {
+        return Mono.just(this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters(defaultFilter, dispositivoId, getPageable()));
     }
 
 }

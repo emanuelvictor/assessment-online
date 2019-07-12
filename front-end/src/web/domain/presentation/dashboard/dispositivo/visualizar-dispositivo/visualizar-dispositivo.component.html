@@ -57,9 +57,9 @@
                       <span>Remover</span>
                     </button>
                     <!--<button (click)='publish()'-->
-                            <!--mat-menu-item color='primary'>-->
-                      <!--<mat-icon>delete</mat-icon>-->
-                      <!--<span>Publicar</span>-->
+                    <!--mat-menu-item color='primary'>-->
+                    <!--<mat-icon>delete</mat-icon>-->
+                    <!--<span>Publicar</span>-->
                     <!--</button>-->
                   </mat-menu>
                 </div>
@@ -72,9 +72,9 @@
       </mat-card>
 
       <div style='width: 100%'
+           *ngIf='unidades?.length'
            layout-align='center center'
-           layout='row' flex [@fadeInOut]
-           *ngIf='activatedRoute?.snapshot?.params?.id'>
+           layout='row' flex [@fadeInOut]>
 
         <mat-form-field flex style='margin-bottom: 0'>
           <input id='filter' name='filter' matInput
@@ -82,16 +82,21 @@
                  placeholder='Filtre as unidades por nome'
                  [(ngModel)]='filter.unidade.nome' maxlength='200'>
         </mat-form-field>
-
       </div>
 
-      <mat-card class='bgc-grey-50' style='width: 100%'>
-        <mat-card-content style='padding: 0'>
-          <configurar-unidades-tipos-avaliacoes *ngIf='unidades.length' [unidades]='unidades' (remove)='removeUnidadeTipoAvaliacaoDispositivo($event)'
-                                                (add)='addUnidadeTipoAvaliacaoDispositivo($event)' [filter]='filter'
-                                                [unidadesTiposAvaliacoesDispositivo]='dispositivo.unidadesTiposAvaliacoesDispositivo'>
-          </configurar-unidades-tipos-avaliacoes>
-        </mat-card-content>
+      <mat-card class='bgc-grey-50'
+                style='width: 100%'
+                *ngIf='unidades?.length'>
+
+        <vincular-unidade-tipo-avaliacao [filter]='filter'
+                                         *ngIf='dispositivo?.id'
+                                         [(unidades)]='unidades'
+                                         [(unidadesTiposAvaliacoesDispositivo)]='unidadesTiposAvaliacoesDispositivo'
+                                         [dispositivo]='dispositivo'
+                                         (saveUnidadeTipoAvaliacaoDispositivo)='saveUnidadeTipoAvaliacaoDispositivo($event)'
+                                         (removeUnidadeTipoAvaliacaoDispositivo)='removeUnidadeTipoAvaliacaoDispositivo($event)'>
+        </vincular-unidade-tipo-avaliacao>
+
       </mat-card>
 
     </div>

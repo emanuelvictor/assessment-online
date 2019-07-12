@@ -10,6 +10,8 @@ import {viewAnimation} from "../../../controls/utils";
 import {UnidadeRepository} from "../../../../repository/unidade.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
+import {Avaliavel} from "../../../../entity/usuario/vinculo/avaliavel.model";
+import {UnidadeTipoAvaliacaoDispositivo} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
 
 @Component({
   selector: 'visualizar-dispositivo',
@@ -29,6 +31,8 @@ export class VisualizarDispositivoComponent implements OnInit {
 
   unidades: any[] = [];
 
+  unidadesTiposAvaliacoesDispositivo: any[] = [];
+
   // unidadesTiposAvaliacoesDispositivo: any[] = [];
 
   /**
@@ -42,6 +46,7 @@ export class VisualizarDispositivoComponent implements OnInit {
 
   /**
    *
+   * @param unidadeRepository
    * @param unidadeTipoAvaliacaoRepository
    * @param snackBar {MatSnackBar}
    * @param activatedRoute {ActivatedRoute}
@@ -71,34 +76,31 @@ export class VisualizarDispositivoComponent implements OnInit {
    * @param {number} dispositivoId
    */
   public find(dispositivoId: number) {
-    this.dispositivoRepository.findById(dispositivoId).subscribe((dispositivo: Dispositivo) => {
-      this.dispositivo = dispositivo;
 
-      this.unidadeRepository.listLightByFilters({
-        withUnidadesTiposAvaliacoesAtivasFilter: true
-      }).subscribe(result => {
+    this.dispositivoRepository.findById(dispositivoId).subscribe((dispositivo: Dispositivo) => {
+      this.unidadeRepository.listLightByFilters({withUnidadesTiposAvaliacoesAtivasFilter: true}).subscribe(result => {
         this.unidades = result.content;
 
-        for (let k = 0; k < this.unidades.length; k++) {
+        this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters({dispositivoId: dispositivoId}).subscribe(page => {
+          this.unidadesTiposAvaliacoesDispositivo = page.content;
 
-          this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[k].id, ativo: true})
-            .subscribe(resulted => {
+          for (let i = 0; i < this.unidades.length; i++) {
 
-              this.unidades[k].unidadesTiposAvaliacoes = resulted.content;
+            if (!this.unidades[i].unidadesTiposAvaliacoes)
+              this.unidades[i].unidadesTiposAvaliacoes = [];
 
-              if (this.dispositivo.unidadesTiposAvaliacoesDispositivo && this.dispositivo.unidadesTiposAvaliacoesDispositivo.length)
-                for (let i = 0; i < this.dispositivo.unidadesTiposAvaliacoesDispositivo.length; i++) {
-                  if (this.unidades[k].id === this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.unidade.id) {
-                    this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
-                      if (unidadeTipoAvaliacao.id === this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id) {
-                        this.unidades[k].checked = true;
-                        unidadeTipoAvaliacao.checked = this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].ativo
-                      }
-                    })
-                  }
-                }
-            })
-        }
+            for (let k = 0; k < this.unidadesTiposAvaliacoesDispositivo.length; k++)
+              if (this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+                this.unidades[i].unidadeTipoAvaliacaoDispositivoValue = this.unidadesTiposAvaliacoesDispositivo[k].ativo;
+                this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo = (this.unidadesTiposAvaliacoesDispositivo[k]);
+                console.log(this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao);
+                this.unidades[i].unidadesTiposAvaliacoes.push(this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao);
+              }
+
+          }
+        });
+
+        this.dispositivo = dispositivo
       })
     })
   }
@@ -134,43 +136,81 @@ export class VisualizarDispositivoComponent implements OnInit {
    *
    * @param $event
    */
-  addUnidadeTipoAvaliacaoDispositivo($event: any) {
-    console.log($event.id);
-    $event.ativo = true;
-    // delete $event.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes;
+  public saveUnidadeTipoAvaliacaoDispositivo($event): void {
 
-    const toSave = Object.assign({}, $event);
-    console.log(toSave);
-    toSave.dispositivo = {id: this.dispositivo.id};
-    toSave.unidadeTipoAvaliacao.unidade = Object.assign({}, $event.unidade);
-    toSave.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes = Object.assign([], toSave.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes);
-    toSave.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
-      unidadeTipoAvaliacao.unidade = Object.assign({}, {id: unidadeTipoAvaliacao.unidade.id})
-    });
-    if (!toSave.id)
-      this.dispositivo.unidadesTiposAvaliacoesDispositivo.push(toSave);
-    this.unidadeTipoAvaliacaoDispositivoRepository.save(toSave)
+    const aux = new UnidadeTipoAvaliacaoDispositivo();
+    aux.unidadeTipoAvaliacao = $event.unidadeTipoAvaliacao;
+    aux.dispositivo = $event.dispositivo;
+    aux.id = $event.id;
+    aux.ativo = $event.ativo;
+    delete (aux.unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo;
+
+    this.unidadeTipoAvaliacaoDispositivoRepository.save(aux)
+      .then(result => {
+        $event = result;
+        this.openSnackBar('Vínculo salvo com sucesso!');
+
+        // Se não tiiver nenhum unidadeTipoAvaliacaoDispositivo na lista
+        if (!this.unidadesTiposAvaliacoesDispositivo || !this.unidadesTiposAvaliacoesDispositivo.length) {
+          this.unidadesTiposAvaliacoesDispositivo = [];
+          this.unidadesTiposAvaliacoesDispositivo.push(this.unidadesTiposAvaliacoesDispositivo)
+        }
+
+        // Se tiver avaliaveis
+        else
+          for (let i = 0; i < this.unidadesTiposAvaliacoesDispositivo.length; i++)
+            if (this.unidadesTiposAvaliacoesDispositivo[i].id === $event.id) {
+              this.unidadesTiposAvaliacoesDispositivo[i] = $event;
+              return
+            }
+
+            // Não encontrou no array coloca no último
+            else if (i === this.unidadesTiposAvaliacoesDispositivo.length - 1) {
+              this.unidadesTiposAvaliacoesDispositivo.push($event);
+              return
+            }
+      })
   }
 
   /**
    *
    * @param $event
    */
-  removeUnidadeTipoAvaliacaoDispositivo($event: any) {
-    console.log($event.id);
-    $event.ativo = false;
-    // delete $event.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes;
+  public removeUnidadeTipoAvaliacaoDispositivo($event: any): void {
 
-    const toSave = Object.assign({}, $event);
-    toSave.dispositivo = {id: this.dispositivo.id};
-    toSave.unidadeTipoAvaliacao.unidade = Object.assign({}, $event.unidade);
-    toSave.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes = Object.assign([], toSave.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes);
-    toSave.unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
-      unidadeTipoAvaliacao.unidade = Object.assign({}, {id: unidadeTipoAvaliacao.unidade.id})
-    });
-    if (!toSave.id)
-      this.dispositivo.unidadesTiposAvaliacoesDispositivo.push(toSave);
-    this.unidadeTipoAvaliacaoDispositivoRepository.save(toSave)
+    const aux = new UnidadeTipoAvaliacaoDispositivo();
+    aux.unidadeTipoAvaliacao = $event.unidadeTipoAvaliacao;
+    aux.dispositivo = $event.dispositivo;
+    aux.id = $event.id;
+    aux.ativo = $event.ativo;
+    delete (aux.unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo;
+
+    this.unidadeTipoAvaliacaoDispositivoRepository.save(aux)
+      .then(result => {
+        this.openSnackBar('Vínculo removido com sucesso!');
+
+        $event = result;
+
+        // Se não tiiver nenhum unidadeTipoAvaliacaoDispositivo na lista
+        if (!this.unidadesTiposAvaliacoesDispositivo || !this.unidadesTiposAvaliacoesDispositivo.length) {
+          this.unidadesTiposAvaliacoesDispositivo = [];
+          this.unidadesTiposAvaliacoesDispositivo.push(this.unidadesTiposAvaliacoesDispositivo);
+        }
+
+        // Se tiver avaliáveis
+        else
+          for (let i = 0; i < this.unidadesTiposAvaliacoesDispositivo.length; i++)
+            if (this.unidadesTiposAvaliacoesDispositivo[i].id === $event.id) {
+              this.unidadesTiposAvaliacoesDispositivo[i] = $event;
+              return
+            }
+
+            // Não encontrou no array coloca no último
+            else if (i === this.unidadesTiposAvaliacoesDispositivo.length - 1) {
+              this.unidadesTiposAvaliacoesDispositivo.push($event);
+              return
+            }
+      })
   }
 
   /**
