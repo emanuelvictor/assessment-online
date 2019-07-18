@@ -1,5 +1,5 @@
 <mat-nav-list *ngIf='unidades?.length'>
-  <div *ngFor='let unidade of unidades | filter:filter.unidade'
+  <div *ngFor='let unidade of unidades | filter:filter.unidade' (click)='changeUnidadeTipoAvaliacaoFromClick(unidade)'
        [ngStyle]="{'background-color': unidade.unidadeTipoAvaliacaoDispositivoValue ? 'aliceblue' : '#fafafa' }">
     <mat-list-item disableRipple layout='row' layout-margin
                    (click)='unidade.unidadeTipoAvaliacaoDispositivoValue = !unidade.unidadeTipoAvaliacaoDispositivoValue'>
@@ -24,17 +24,18 @@
                            (closed)='changeUnidadeTipoAvaliacao(unidade)'
                            [expanded]='unidade.unidadeTipoAvaliacaoDispositivoValue'>
 
-          <section style='padding: 16px'
-                   layout='column' layout-align='start start'
-                   *ngIf='unidade?.unidadesTiposAvaliacoes?.length'>
-            <mat-checkbox [(ngModel)]='unidadeTipoAvaliacao.checked'
-                          style='margin-left: 10px; padding: 5px; background-color: aliceblue'
-                          (ngModelChange)='changeUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacao)'
-                          *ngFor="let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes | orderBy:'unidadeTipoAvaliacaoDispositivo.ordem'">
-              {{unidadeTipoAvaliacao?.unidadeTipoAvaliacaoDispositivo?.ordem ? unidadeTipoAvaliacao?.unidadeTipoAvaliacaoDispositivo?.ordem + ' - ' : ''}}
-              {{ unidadeTipoAvaliacao?.tipoAvaliacao?.nome + ': ' + unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado }}
-            </mat-checkbox>
-          </section>
+        <section style='padding: 16px'
+                 layout='column' layout-align='start start'
+                 *ngIf='unidade?.unidadesTiposAvaliacoes?.length'>
+          <mat-checkbox [(ngModel)]='unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ativo'
+                        style='margin-left: 10px; padding: 5px; background-color: aliceblue'
+                        (ngModelChange)='changeUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacao, unidade)'
+                        *ngFor="let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes | orderBy:'unidadeTipoAvaliacaoDispositivo.ordem'">
+            {{unidadeTipoAvaliacao?.unidadeTipoAvaliacaoDispositivo?.ordem ? unidadeTipoAvaliacao?.unidadeTipoAvaliacaoDispositivo?.ordem + ' - ' : ''}}
+            {{unidadeTipoAvaliacao?.ordem ? unidadeTipoAvaliacao?.ordem + ' - ' : ''}}
+            {{ unidadeTipoAvaliacao?.tipoAvaliacao?.nome + ': ' + unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado }}
+          </mat-checkbox>
+        </section>
 
       </mat-expansion-panel>
     </mat-accordion>

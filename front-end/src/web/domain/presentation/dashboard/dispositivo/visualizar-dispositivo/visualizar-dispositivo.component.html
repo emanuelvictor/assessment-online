@@ -77,22 +77,18 @@
            layout='row' flex [@fadeInOut]>
 
         <mat-form-field flex style='margin-bottom: 0'>
-          <input id='filter' name='filter' matInput
-                 [ngModelOptions]='{standalone: true}'
+          <input [ngModelOptions]='{standalone: true}'
+                 id='filter' name='filter' maxlength='200'
                  placeholder='Filtre as unidades por nome'
-                 [(ngModel)]='filter.unidade.nome' maxlength='200'>
+                 [(ngModel)]='filter.unidade.nome' matInput>
         </mat-form-field>
       </div>
 
-      <mat-card class='bgc-grey-50'
-                style='width: 100%'
-                *ngIf='unidades?.length'>
+      <mat-card class='bgc-grey-50' style='width: 100%' *ngIf='unidades?.length'>
 
-        <vincular-unidade-tipo-avaliacao [filter]='filter'
-                                         *ngIf='dispositivo?.id'
-                                         [(unidades)]='unidades'
+        <vincular-unidade-tipo-avaliacao *ngIf='dispositivo?.id' [filter]='filter'
+                                         [(unidades)]='unidades' [dispositivo]='dispositivo'
                                          [(unidadesTiposAvaliacoesDispositivo)]='unidadesTiposAvaliacoesDispositivo'
-                                         [dispositivo]='dispositivo'
                                          (saveUnidadeTipoAvaliacaoDispositivo)='saveUnidadeTipoAvaliacaoDispositivo($event)'
                                          (removeUnidadeTipoAvaliacaoDispositivo)='removeUnidadeTipoAvaliacaoDispositivo($event)'>
         </vincular-unidade-tipo-avaliacao>

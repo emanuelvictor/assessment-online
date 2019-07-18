@@ -93,7 +93,6 @@ export class VisualizarDispositivoComponent implements OnInit {
               if (this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
                 this.unidades[i].unidadeTipoAvaliacaoDispositivoValue = this.unidadesTiposAvaliacoesDispositivo[k].ativo;
                 this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo = (this.unidadesTiposAvaliacoesDispositivo[k]);
-                console.log(this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao);
                 this.unidades[i].unidadesTiposAvaliacoes.push(this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao);
               }
 
@@ -139,21 +138,26 @@ export class VisualizarDispositivoComponent implements OnInit {
   public saveUnidadeTipoAvaliacaoDispositivo($event): void {
 
     const aux = new UnidadeTipoAvaliacaoDispositivo();
-    aux.unidadeTipoAvaliacao = $event.unidadeTipoAvaliacao;
+    aux.id = $event.id;
+
+    aux.unidadeTipoAvaliacao = Object.assign({}, $event.unidadeTipoAvaliacao);
+    delete (aux.unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo;
+
     aux.dispositivo = $event.dispositivo;
     aux.id = $event.id;
     aux.ativo = $event.ativo;
-    delete (aux.unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo;
+    aux.ordem = $event.ordem;
 
     this.unidadeTipoAvaliacaoDispositivoRepository.save(aux)
       .then(result => {
+        this.openSnackBar('Vínculo removido com sucesso!');
+
         $event = result;
-        this.openSnackBar('Vínculo salvo com sucesso!');
 
         // Se não tiiver nenhum unidadeTipoAvaliacaoDispositivo na lista
         if (!this.unidadesTiposAvaliacoesDispositivo || !this.unidadesTiposAvaliacoesDispositivo.length) {
           this.unidadesTiposAvaliacoesDispositivo = [];
-          this.unidadesTiposAvaliacoesDispositivo.push(this.unidadesTiposAvaliacoesDispositivo)
+          this.unidadesTiposAvaliacoesDispositivo.push(result)
         }
 
         // Se tiver avaliaveis
@@ -179,11 +183,14 @@ export class VisualizarDispositivoComponent implements OnInit {
   public removeUnidadeTipoAvaliacaoDispositivo($event: any): void {
 
     const aux = new UnidadeTipoAvaliacaoDispositivo();
-    aux.unidadeTipoAvaliacao = $event.unidadeTipoAvaliacao;
+    aux.id = $event.id;
+
+    aux.unidadeTipoAvaliacao = Object.assign({}, $event.unidadeTipoAvaliacao);
+    delete (aux.unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo;
+
     aux.dispositivo = $event.dispositivo;
     aux.id = $event.id;
     aux.ativo = $event.ativo;
-    delete (aux.unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo;
 
     this.unidadeTipoAvaliacaoDispositivoRepository.save(aux)
       .then(result => {

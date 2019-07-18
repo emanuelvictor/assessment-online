@@ -74,6 +74,26 @@ export class VincularUnidadeTipoAvaliacaoComponent {
    *
    * @param unidade
    */
+  public changeUnidadeTipoAvaliacaoFromClick(unidade) {
+console.log('changeUnidadeTipoAvaliacaoFromClick')
+    // this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidade.id, ativo: true}).subscribe(page => {
+    //
+    //   for (let k = 0; k < page.content.length; k++) {
+    //     page.content[k].unidadeTipoAvaliacaoDispositivo = {unidadeTipoAvaliacao: page.content[k]};
+    //     for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++) {
+    //       if (unidade.unidadesTiposAvaliacoes[i].id === page.content[k].id)
+    //         page.content[k] = unidade.unidadesTiposAvaliacoes[i];
+    //     }
+    //   }
+    //
+    //   unidade.unidadesTiposAvaliacoes = page.content;
+    // })
+  }
+
+  /**
+   *
+   * @param unidade
+   */
   public changeUnidadeTipoAvaliacao(unidade) {
 
     if (unidade.unidadeTipoAvaliacaoDispositivoValue)
@@ -81,31 +101,55 @@ export class VincularUnidadeTipoAvaliacaoComponent {
 
     else if (unidade.unidadesTiposAvaliacoes && unidade.unidadesTiposAvaliacoes.length)
       for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
-        unidade.unidadesTiposAvaliacoes[k].checked = false;
-        this.changeUnidadeTipoAvaliacaoDispositivo(unidade.unidadesTiposAvaliacoes[k])
+        // if (!unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDipositivo)
+        //   unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDipositivo = new UnidadeTipoAvaliacaoDispositivo();
+        // unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDipositivo.ativo = false;
+        this.changeUnidadeTipoAvaliacaoDispositivo(unidade.unidadesTiposAvaliacoes[k], unidade)
       }
   }
 
   /**
    *
    * @param unidadeTipoAvaliacao
+   * @param unidade
    */
-  public changeUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacao) {
+  public changeUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacao, unidade) {
 
-    let unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
-    unidadeTipoAvaliacaoDispositivo.dispositivo = this.dispositivo;
-    unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+    if (!unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo) {
+      let unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+      unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+      unidadeTipoAvaliacaoDispositivo.ativo = true; /*(unidadeTipoAvaliacao as any).checked*/
+      unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo = unidadeTipoAvaliacaoDispositivo;
+    }
 
-    for (let i = 0; i < this.unidadesTiposAvaliacoesDispositivo.length; i++)
-      if (this.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id)
-        unidadeTipoAvaliacaoDispositivo = this.unidadesTiposAvaliacoesDispositivo[i];
+    unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.dispositivo = this.dispositivo;
 
-    unidadeTipoAvaliacaoDispositivo.ativo = (unidadeTipoAvaliacao as any).checked;
+    if (unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ordem) {
 
-    if (!(unidadeTipoAvaliacao as any).checked)
-      this.removeUnidadeTipoAvaliacaoDispositivo.emit(unidadeTipoAvaliacaoDispositivo);
-    else
-      this.saveUnidadeTipoAvaliacaoDispositivo.emit(unidadeTipoAvaliacaoDispositivo)
+      for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++) {
+        if (unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem > unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ordem) {
+          unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem = unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem - 1;
+        }
+      }
+
+      unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ordem = null;
+
+      this.removeUnidadeTipoAvaliacaoDispositivo.emit(unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo);
+
+      return
+    }
+
+    let aux = 0;
+
+    for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++) {
+      if (unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo && unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem && unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem > aux) {
+        aux = unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem
+      }
+    }
+
+    unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ordem = aux + 1;
+
+    this.saveUnidadeTipoAvaliacaoDispositivo.emit(unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo)
   }
 
   /**
@@ -113,21 +157,17 @@ export class VincularUnidadeTipoAvaliacaoComponent {
    * @param {Unidade} unidade
    */
   public listTiposAvaliacoesByUnidadeId(unidade) {
-
     this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidade.id, ativo: true}).subscribe(page => {
 
-      const aux = unidade.unidadesTiposAvaliacoes;
+      for (let k = 0; k < page.content.length; k++) {
+        page.content[k].unidadeTipoAvaliacaoDispositivo = {unidadeTipoAvaliacao: page.content[k]};
+        for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++) {
+          if (unidade.unidadesTiposAvaliacoes[i].id === page.content[k].id)
+            page.content[k] = unidade.unidadesTiposAvaliacoes[i];
+        }
+      }
 
       unidade.unidadesTiposAvaliacoes = page.content;
-
-      if (aux && aux.length)
-        for (let i = 0; i < aux.length; i++)
-          for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
-            if (unidade.unidadesTiposAvaliacoes[k].tipoAvaliacao.id === aux[i].tipoAvaliacao.id) {
-              unidade.unidadesTiposAvaliacoes[k].checked = aux[i].unidadeTipoAvaliacaoDispositivo.ativo;
-              unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDispositivo = aux[i].unidadeTipoAvaliacaoDispositivo;
-            }
-          }
     })
   }
 
