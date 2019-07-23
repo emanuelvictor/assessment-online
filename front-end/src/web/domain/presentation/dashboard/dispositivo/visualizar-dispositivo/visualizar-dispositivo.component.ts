@@ -31,9 +31,7 @@ export class VisualizarDispositivoComponent implements OnInit {
 
   unidades: any[] = [];
 
-  unidadesTiposAvaliacoesDispositivo: any[] = [];
-
-  // unidadesTiposAvaliacoesDispositivo: any[] = [];
+  unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[] = [];
 
   /**
    *
@@ -91,12 +89,14 @@ export class VisualizarDispositivoComponent implements OnInit {
 
             for (let k = 0; k < this.unidadesTiposAvaliacoesDispositivo.length; k++)
               if (this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-                this.unidades[i].unidadeTipoAvaliacaoDispositivoValue = this.unidadesTiposAvaliacoesDispositivo[k].ativo;
-                this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo = (this.unidadesTiposAvaliacoesDispositivo[k]);
-                this.unidades[i].unidadesTiposAvaliacoes.push(this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao);
+                if (this.unidadesTiposAvaliacoesDispositivo[k].ativo)
+                  this.unidades[i].unidadeTipoAvaliacaoDispositivoValue = this.unidadesTiposAvaliacoesDispositivo[k].ativo;
+                (this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo = this.unidadesTiposAvaliacoesDispositivo[k];
+                this.unidades[i].unidadesTiposAvaliacoes.push(this.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao)
               }
 
           }
+
         });
 
         this.dispositivo = dispositivo
@@ -136,7 +136,7 @@ export class VisualizarDispositivoComponent implements OnInit {
    * @param $event
    */
   public saveUnidadeTipoAvaliacaoDispositivo($event): void {
-
+console.log(this.unidadesTiposAvaliacoesDispositivo);
     const aux = new UnidadeTipoAvaliacaoDispositivo();
     aux.id = $event.id;
 
@@ -148,32 +148,31 @@ export class VisualizarDispositivoComponent implements OnInit {
     aux.ativo = $event.ativo;
     aux.ordem = $event.ordem;
 
-    this.unidadeTipoAvaliacaoDispositivoRepository.save(aux)
-      .then(result => {
-        this.openSnackBar('Vínculo removido com sucesso!');
+    this.unidadeTipoAvaliacaoDispositivoRepository.save(aux).then(result => {
+      this.openSnackBar('Vínculo inserido com sucesso!');
 
-        $event = result;
+      $event = result;
 
-        // Se não tiiver nenhum unidadeTipoAvaliacaoDispositivo na lista
-        if (!this.unidadesTiposAvaliacoesDispositivo || !this.unidadesTiposAvaliacoesDispositivo.length) {
-          this.unidadesTiposAvaliacoesDispositivo = [];
-          this.unidadesTiposAvaliacoesDispositivo.push(result)
-        }
+      // Se não tiiver nenhum unidadeTipoAvaliacaoDispositivo na lista
+      if (!this.unidadesTiposAvaliacoesDispositivo || !this.unidadesTiposAvaliacoesDispositivo.length) {
+        this.unidadesTiposAvaliacoesDispositivo = [];
+        this.unidadesTiposAvaliacoesDispositivo.push(result)
+      }
 
-        // Se tiver avaliaveis
-        else
-          for (let i = 0; i < this.unidadesTiposAvaliacoesDispositivo.length; i++)
-            if (this.unidadesTiposAvaliacoesDispositivo[i].id === $event.id) {
-              this.unidadesTiposAvaliacoesDispositivo[i] = $event;
-              return
-            }
+      // Se tiver avaliaveis
+      else
+        for (let i = 0; i < this.unidadesTiposAvaliacoesDispositivo.length; i++)
+          if (this.unidadesTiposAvaliacoesDispositivo[i].id === $event.id) {
+            this.unidadesTiposAvaliacoesDispositivo[i] = $event;
+            return
+          }
 
-            // Não encontrou no array coloca no último
-            else if (i === this.unidadesTiposAvaliacoesDispositivo.length - 1) {
-              this.unidadesTiposAvaliacoesDispositivo.push($event);
-              return
-            }
-      })
+          // Não encontrou no array coloca no último
+          else if (i === this.unidadesTiposAvaliacoesDispositivo.length - 1) {
+            this.unidadesTiposAvaliacoesDispositivo.push($event);
+            return
+          }
+    })
   }
 
   /**
@@ -181,7 +180,7 @@ export class VisualizarDispositivoComponent implements OnInit {
    * @param $event
    */
   public removeUnidadeTipoAvaliacaoDispositivo($event: any): void {
-
+    console.log(this.unidadesTiposAvaliacoesDispositivo);
     const aux = new UnidadeTipoAvaliacaoDispositivo();
     aux.id = $event.id;
 
@@ -190,34 +189,33 @@ export class VisualizarDispositivoComponent implements OnInit {
 
     aux.dispositivo = $event.dispositivo;
     aux.id = $event.id;
-    aux.ativo = $event.ativo;
+    aux.ativo = false;
 
-    this.unidadeTipoAvaliacaoDispositivoRepository.save(aux)
-      .then(result => {
-        this.openSnackBar('Vínculo removido com sucesso!');
+    this.unidadeTipoAvaliacaoDispositivoRepository.save(aux).then(result => {
+      this.openSnackBar('Vínculo removido com sucesso!');
 
-        $event = result;
+      $event = result;
 
-        // Se não tiiver nenhum unidadeTipoAvaliacaoDispositivo na lista
-        if (!this.unidadesTiposAvaliacoesDispositivo || !this.unidadesTiposAvaliacoesDispositivo.length) {
-          this.unidadesTiposAvaliacoesDispositivo = [];
-          this.unidadesTiposAvaliacoesDispositivo.push(this.unidadesTiposAvaliacoesDispositivo);
-        }
+      // Se não tiiver nenhum unidadeTipoAvaliacaoDispositivo na lista
+      if (!this.unidadesTiposAvaliacoesDispositivo || !this.unidadesTiposAvaliacoesDispositivo.length) {
+        this.unidadesTiposAvaliacoesDispositivo = [];
+        this.unidadesTiposAvaliacoesDispositivo.push(this.unidadesTiposAvaliacoesDispositivo as any);
+      }
 
-        // Se tiver avaliáveis
-        else
-          for (let i = 0; i < this.unidadesTiposAvaliacoesDispositivo.length; i++)
-            if (this.unidadesTiposAvaliacoesDispositivo[i].id === $event.id) {
-              this.unidadesTiposAvaliacoesDispositivo[i] = $event;
-              return
-            }
+      // Se tiver avaliáveis
+      else
+        for (let i = 0; i < this.unidadesTiposAvaliacoesDispositivo.length; i++)
+          if (this.unidadesTiposAvaliacoesDispositivo[i].id === $event.id) {
+            this.unidadesTiposAvaliacoesDispositivo[i] = $event;
+            return
+          }
 
-            // Não encontrou no array coloca no último
-            else if (i === this.unidadesTiposAvaliacoesDispositivo.length - 1) {
-              this.unidadesTiposAvaliacoesDispositivo.push($event);
-              return
-            }
-      })
+          // Não encontrou no array coloca no último
+          else if (i === this.unidadesTiposAvaliacoesDispositivo.length - 1) {
+            this.unidadesTiposAvaliacoesDispositivo.push($event);
+            return
+          }
+    })
   }
 
   /**

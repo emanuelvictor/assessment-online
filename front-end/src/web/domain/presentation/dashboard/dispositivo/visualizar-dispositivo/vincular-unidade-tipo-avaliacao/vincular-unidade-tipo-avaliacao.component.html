@@ -1,5 +1,5 @@
 <mat-nav-list *ngIf='unidades?.length'>
-  <div *ngFor='let unidade of unidades | filter:filter.unidade' (click)='changeUnidadeTipoAvaliacaoFromClick(unidade)'
+  <div *ngFor='let unidade of unidades | filter:filter.unidade'
        [ngStyle]="{'background-color': unidade.unidadeTipoAvaliacaoDispositivoValue ? 'aliceblue' : '#fafafa' }">
     <mat-list-item disableRipple layout='row' layout-margin
                    (click)='unidade.unidadeTipoAvaliacaoDispositivoValue = !unidade.unidadeTipoAvaliacaoDispositivoValue'>
@@ -31,6 +31,7 @@
                         style='margin-left: 10px; padding: 5px; background-color: aliceblue'
                         (ngModelChange)='changeUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacao, unidade)'
                         *ngFor="let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes | orderBy:'unidadeTipoAvaliacaoDispositivo.ordem'">
+            <!--{{unidadeTipoAvaliacao?.unidadeTipoAvaliacaoDispositivo?.id}} - -->
             {{unidadeTipoAvaliacao?.unidadeTipoAvaliacaoDispositivo?.ordem ? unidadeTipoAvaliacao?.unidadeTipoAvaliacaoDispositivo?.ordem + ' - ' : ''}}
             {{unidadeTipoAvaliacao?.ordem ? unidadeTipoAvaliacao?.ordem + ' - ' : ''}}
             {{ unidadeTipoAvaliacao?.tipoAvaliacao?.nome + ': ' + unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado }}

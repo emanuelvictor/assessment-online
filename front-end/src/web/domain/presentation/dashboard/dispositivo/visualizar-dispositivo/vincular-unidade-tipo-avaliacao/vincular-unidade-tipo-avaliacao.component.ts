@@ -74,38 +74,14 @@ export class VincularUnidadeTipoAvaliacaoComponent {
    *
    * @param unidade
    */
-  public changeUnidadeTipoAvaliacaoFromClick(unidade) {
-console.log('changeUnidadeTipoAvaliacaoFromClick')
-    // this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidade.id, ativo: true}).subscribe(page => {
-    //
-    //   for (let k = 0; k < page.content.length; k++) {
-    //     page.content[k].unidadeTipoAvaliacaoDispositivo = {unidadeTipoAvaliacao: page.content[k]};
-    //     for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++) {
-    //       if (unidade.unidadesTiposAvaliacoes[i].id === page.content[k].id)
-    //         page.content[k] = unidade.unidadesTiposAvaliacoes[i];
-    //     }
-    //   }
-    //
-    //   unidade.unidadesTiposAvaliacoes = page.content;
-    // })
-  }
-
-  /**
-   *
-   * @param unidade
-   */
   public changeUnidadeTipoAvaliacao(unidade) {
 
     if (unidade.unidadeTipoAvaliacaoDispositivoValue)
       this.listTiposAvaliacoesByUnidadeId(unidade);
 
     else if (unidade.unidadesTiposAvaliacoes && unidade.unidadesTiposAvaliacoes.length)
-      for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
-        // if (!unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDipositivo)
-        //   unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDipositivo = new UnidadeTipoAvaliacaoDispositivo();
-        // unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDipositivo.ativo = false;
+      for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++)
         this.changeUnidadeTipoAvaliacaoDispositivo(unidade.unidadesTiposAvaliacoes[k], unidade)
-      }
   }
 
   /**
@@ -116,24 +92,23 @@ console.log('changeUnidadeTipoAvaliacaoFromClick')
   public changeUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacao, unidade) {
 
     if (!unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo) {
-      let unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+      const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
       unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
       unidadeTipoAvaliacaoDispositivo.ativo = true; /*(unidadeTipoAvaliacao as any).checked*/
-      unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo = unidadeTipoAvaliacaoDispositivo;
+      unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo = unidadeTipoAvaliacaoDispositivo
     }
 
     unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.dispositivo = this.dispositivo;
 
     if (unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ordem) {
 
-      for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++) {
-        if (unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem > unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ordem) {
+      for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++)
+        if (unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem > unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ordem)
           unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem = unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem - 1;
-        }
-      }
 
       unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ordem = null;
-
+      unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ativo = false;
+      this.unidadesTiposAvaliacoesDispositivoChange.emit(unidade.unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo));
       this.removeUnidadeTipoAvaliacaoDispositivo.emit(unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo);
 
       return
@@ -141,14 +116,13 @@ console.log('changeUnidadeTipoAvaliacaoFromClick')
 
     let aux = 0;
 
-    for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++) {
-      if (unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo && unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem && unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem > aux) {
-        aux = unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem
-      }
-    }
+    for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++)
+      if (unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo && unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem && unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem > aux)
+        aux = unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem;
 
     unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ordem = aux + 1;
-
+    unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ativo = true;
+    this.unidadesTiposAvaliacoesDispositivoChange.emit(unidade.unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo));
     this.saveUnidadeTipoAvaliacaoDispositivo.emit(unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo)
   }
 
@@ -161,13 +135,18 @@ console.log('changeUnidadeTipoAvaliacaoFromClick')
 
       for (let k = 0; k < page.content.length; k++) {
         page.content[k].unidadeTipoAvaliacaoDispositivo = {unidadeTipoAvaliacao: page.content[k]};
-        for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++) {
+        for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++)
           if (unidade.unidadesTiposAvaliacoes[i].id === page.content[k].id)
             page.content[k] = unidade.unidadesTiposAvaliacoes[i];
-        }
       }
 
       unidade.unidadesTiposAvaliacoes = page.content;
+
+      if (!unidade.unidadesTiposAvaliacoes.filter(a => a.unidadeTipoAvaliacaoDispositivo.ativo).length)
+        for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
+          this.changeUnidadeTipoAvaliacaoDispositivo(unidade.unidadesTiposAvaliacoes[k], unidade);
+          unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDispositivo.ativo = true
+        }
     })
   }
 
