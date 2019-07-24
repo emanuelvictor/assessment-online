@@ -18,4 +18,9 @@ export class Dispositivo extends Abstract {
    */
   public unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[] = [];
 
+
+  constructor(id?: number) {
+    super();
+    this.id = id
+  }
 }

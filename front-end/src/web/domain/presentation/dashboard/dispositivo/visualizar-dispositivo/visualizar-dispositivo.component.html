@@ -87,8 +87,8 @@
       <mat-card class='bgc-grey-50' style='width: 100%' *ngIf='unidades?.length'>
 
         <vincular-unidade-tipo-avaliacao *ngIf='dispositivo?.id' [filter]='filter'
-                                         [(unidades)]='unidades' [dispositivo]='dispositivo'
-                                         [(unidadesTiposAvaliacoesDispositivo)]='unidadesTiposAvaliacoesDispositivo'
+                                         [(unidades)]='unidades'
+                                         [(unidadesTiposAvaliacoesDispositivo)]='dispositivo.unidadesTiposAvaliacoesDispositivo'
                                          (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'
                                          (saveUnidadeTipoAvaliacaoDispositivo)='saveUnidadeTipoAvaliacaoDispositivo($event)'
                                          (removeUnidadeTipoAvaliacaoDispositivo)='removeUnidadeTipoAvaliacaoDispositivo($event)'>

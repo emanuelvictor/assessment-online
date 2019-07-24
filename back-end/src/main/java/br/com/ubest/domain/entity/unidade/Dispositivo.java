@@ -51,4 +51,10 @@ public class Dispositivo extends AbstractEntity implements Serializable {
     public Dispositivo() {
     }
 
+    /**
+     * @param id
+     */
+    public Dispositivo(Long id) {
+        super(id);
+    }
 }
