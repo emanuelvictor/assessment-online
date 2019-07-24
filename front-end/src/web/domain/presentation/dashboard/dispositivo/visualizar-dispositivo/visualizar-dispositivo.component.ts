@@ -131,12 +131,15 @@ export class VisualizarDispositivoComponent implements OnInit {
     })
   }
 
+  public unidadesTiposAvaliacoesDispositivoChange($event) {
+console.log($event)
+  }
+
   /**
    *
    * @param $event
    */
   public saveUnidadeTipoAvaliacaoDispositivo($event): void {
-console.log(this.unidadesTiposAvaliacoesDispositivo);
     const aux = new UnidadeTipoAvaliacaoDispositivo();
     aux.id = $event.id;
 
@@ -180,7 +183,6 @@ console.log(this.unidadesTiposAvaliacoesDispositivo);
    * @param $event
    */
   public removeUnidadeTipoAvaliacaoDispositivo($event: any): void {
-    console.log(this.unidadesTiposAvaliacoesDispositivo);
     const aux = new UnidadeTipoAvaliacaoDispositivo();
     aux.id = $event.id;
 

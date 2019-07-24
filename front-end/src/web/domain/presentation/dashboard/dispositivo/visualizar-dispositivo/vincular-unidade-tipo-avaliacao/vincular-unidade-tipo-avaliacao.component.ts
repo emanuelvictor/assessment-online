@@ -80,8 +80,44 @@ export class VincularUnidadeTipoAvaliacaoComponent {
       this.listTiposAvaliacoesByUnidadeId(unidade);
 
     else if (unidade.unidadesTiposAvaliacoes && unidade.unidadesTiposAvaliacoes.length)
-      for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++)
-        this.changeUnidadeTipoAvaliacaoDispositivo(unidade.unidadesTiposAvaliacoes[k], unidade)
+      this.changeUnidadeTipoAvaliacaoDispositivoOneTransaction(unidade);
+  }
+
+  public changeUnidadeTipoAvaliacaoDispositivoOneTransaction(unidade) {
+    for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
+      if (!unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDispositivo) {
+        const unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+        unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidade.unidadesTiposAvaliacoes[k];
+        unidadeTipoAvaliacaoDispositivo.ativo = true; /*(unidadeTipoAvaliacao as any).checked*/
+        unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDispositivo = unidadeTipoAvaliacaoDispositivo
+      }
+
+      unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDispositivo.dispositivo = this.dispositivo;
+
+      if (unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDispositivo.ordem) {
+
+        for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++)
+          if (unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem > unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDispositivo.ordem)
+            unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem = unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem - 1;
+
+        unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDispositivo.ordem = null;
+        unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDispositivo.ativo = false;
+
+        continue
+      }
+
+      let aux = 0;
+
+      for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++)
+        if (unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo && unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem && unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem > aux)
+          aux = unidade.unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo.ordem;
+
+      unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDispositivo.ordem = aux + 1;
+      unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDispositivo.ativo = true
+
+    }
+
+    this.unidadesTiposAvaliacoesDispositivoChange.emit(unidade.unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo));
   }
 
   /**
@@ -142,11 +178,12 @@ export class VincularUnidadeTipoAvaliacaoComponent {
 
       unidade.unidadesTiposAvaliacoes = page.content;
 
-      if (!unidade.unidadesTiposAvaliacoes.filter(a => a.unidadeTipoAvaliacaoDispositivo.ativo).length)
-        for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
-          this.changeUnidadeTipoAvaliacaoDispositivo(unidade.unidadesTiposAvaliacoes[k], unidade);
-          unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoDispositivo.ativo = true
-        }
+      if (!unidade.unidadesTiposAvaliacoes.filter(a => a.unidadeTipoAvaliacaoDispositivo.ativo).length) {
+        this.changeUnidadeTipoAvaliacaoDispositivoOneTransaction(unidade);
+        unidade.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacaoDispositivo => {
+          unidadeTipoAvaliacaoDispositivo.ativo = true
+        })
+      }
     })
   }
 

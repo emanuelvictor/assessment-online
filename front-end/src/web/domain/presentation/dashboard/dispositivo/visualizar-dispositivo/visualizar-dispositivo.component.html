@@ -89,6 +89,7 @@
         <vincular-unidade-tipo-avaliacao *ngIf='dispositivo?.id' [filter]='filter'
                                          [(unidades)]='unidades' [dispositivo]='dispositivo'
                                          [(unidadesTiposAvaliacoesDispositivo)]='unidadesTiposAvaliacoesDispositivo'
+                                         (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'
                                          (saveUnidadeTipoAvaliacaoDispositivo)='saveUnidadeTipoAvaliacaoDispositivo($event)'
                                          (removeUnidadeTipoAvaliacaoDispositivo)='removeUnidadeTipoAvaliacaoDispositivo($event)'>
         </vincular-unidade-tipo-avaliacao>
