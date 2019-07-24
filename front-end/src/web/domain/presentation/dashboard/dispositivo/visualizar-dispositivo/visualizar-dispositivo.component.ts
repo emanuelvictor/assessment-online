@@ -151,7 +151,16 @@ export class VisualizarDispositivoComponent implements OnInit {
 
     this.dispositivoRepository.saveUnidadesTiposAvaliacoesDispositivo(this.dispositivo.id, this.dispositivo.unidadesTiposAvaliacoesDispositivo)
       .then(result => {
-        this.dispositivo.unidadesTiposAvaliacoesDispositivo = result;
+        for (let i = 0; i < this.dispositivo.unidadesTiposAvaliacoesDispositivo.length; i++)
+          for (let k = 0; k < result.length; k++)
+            if (result[k].unidadeTipoAvaliacao.id === this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id) {
+              (this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo = result[k];
+              for (let c = 0; c < this.unidades.length; c++)
+                if (this.unidades[c].id === result[k].unidadeTipoAvaliacao.unidade.id)
+                  for (let j = 0; j < this.unidades[c].unidadesTiposAvaliacoes.length; j++)
+                    if (this.unidades[c].unidadesTiposAvaliacoes[j].id === result[k].unidadeTipoAvaliacao.id)
+                      this.unidades[c].unidadesTiposAvaliacoes[j].unidadeTipoAvaliacaoDispositivo.id = result[k].id
+            }
       })
   }
 

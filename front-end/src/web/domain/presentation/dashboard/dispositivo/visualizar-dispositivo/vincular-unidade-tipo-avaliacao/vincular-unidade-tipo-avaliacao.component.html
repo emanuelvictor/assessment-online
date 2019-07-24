@@ -31,7 +31,6 @@
                         style='margin-left: 10px; padding: 5px; background-color: aliceblue'
                         (ngModelChange)='changeUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacao, unidade)'
                         *ngFor="let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes | orderBy:'unidadeTipoAvaliacaoDispositivo.ordem'">
-            <!--{{unidadeTipoAvaliacao?.unidadeTipoAvaliacaoDispositivo?.id}} - -->
             {{unidadeTipoAvaliacao?.unidadeTipoAvaliacaoDispositivo?.ordem ? unidadeTipoAvaliacao?.unidadeTipoAvaliacaoDispositivo?.ordem + ' - ' : ''}}
             {{unidadeTipoAvaliacao?.ordem ? unidadeTipoAvaliacao?.ordem + ' - ' : ''}}
             {{ unidadeTipoAvaliacao?.tipoAvaliacao?.nome + ': ' + unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado }}
