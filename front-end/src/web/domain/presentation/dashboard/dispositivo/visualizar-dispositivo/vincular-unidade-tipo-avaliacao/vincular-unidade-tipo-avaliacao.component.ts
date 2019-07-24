@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repository/unidade-tipo-avaliacao.repository";
-import {Dispositivo} from "../../../../../entity/avaliacao/dispositivo.model";
 import {UnidadeTipoAvaliacaoDispositivo} from "../../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
 
 @Component({
@@ -44,24 +43,6 @@ export class VincularUnidadeTipoAvaliacaoComponent {
   public filter: any = {
     unidade: {}
   };
-
-  // /**
-  //  *
-  //  */
-  // @Input()
-  // dispositivo: Dispositivo;
-
-  /**
-   *
-   */
-  @Output()
-  saveUnidadeTipoAvaliacaoDispositivo: EventEmitter<any> = new EventEmitter();
-
-  /**
-   *
-   */
-  @Output()
-  removeUnidadeTipoAvaliacaoDispositivo: EventEmitter<any> = new EventEmitter();
 
   /**
    *
@@ -147,7 +128,6 @@ export class VincularUnidadeTipoAvaliacaoComponent {
       unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ordem = null;
       unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ativo = false;
       this.unidadesTiposAvaliacoesDispositivoChange.emit(unidade.unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo));
-      this.removeUnidadeTipoAvaliacaoDispositivo.emit(unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo);
 
       return
     }
@@ -161,7 +141,6 @@ export class VincularUnidadeTipoAvaliacaoComponent {
     unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ordem = aux + 1;
     unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ativo = true;
     this.unidadesTiposAvaliacoesDispositivoChange.emit(unidade.unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo));
-    this.saveUnidadeTipoAvaliacaoDispositivo.emit(unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo)
   }
 
   /**
