@@ -1,8 +1,8 @@
 <mat-nav-list *ngIf='unidades?.length'>
-  <div *ngFor='let unidade of unidades | filter:filter.unidade'
+  <div *ngFor='let unidade of unidades '
        [ngStyle]="{'background-color': unidade.unidadeTipoAvaliacaoDispositivoValue ? 'aliceblue' : '#fafafa' }">
     <mat-list-item disableRipple layout='row' layout-margin
-                   (click)='unidade.unidadeTipoAvaliacaoDispositivoValue = !unidade.unidadeTipoAvaliacaoDispositivoValue'>
+                   (click)='unidade.unidadeTipoAvaliacaoDispositivoValue = !unidade.unidadeTipoAvaliacaoDispositivoValue; changeUnidadeTipoAvaliacao(unidade)'>
 
       <h3 matLine>{{unidade?.nome}}</h3>
       <p matLine>
@@ -12,17 +12,15 @@
         {{unidade?.endereco?.cidade ? (unidade?.endereco?.cidade?.nome + ' - ' + unidade?.endereco?.cidade?.estado?.uf) : ''}}
       </p>
 
-      <mat-slide-toggle style='opacity: 1 !important; cursor: pointer' flex
-                        [(ngModel)]='unidade.unidadeTipoAvaliacaoDispositivoValue' [disabled]='true'>
+      <mat-slide-toggle [(ngModel)]='unidade.unidadeTipoAvaliacaoDispositivoValue'
+                        style='opacity: 1 !important; cursor: pointer' flex [disabled]='true'>
       </mat-slide-toggle>
 
     </mat-list-item>
 
     <mat-accordion>
       <mat-expansion-panel style='background-color: aliceblue'
-                           (opened)='changeUnidadeTipoAvaliacao(unidade)'
-                           (closed)='changeUnidadeTipoAvaliacao(unidade)'
-                           [expanded]='unidade.unidadeTipoAvaliacaoDispositivoValue'>
+                           [expanded]='unidade?.unidadeTipoAvaliacaoDispositivoValue && unidade?.unidadesTiposAvaliacoes?.length > 1'>
 
         <section style='padding: 16px'
                  layout='column' layout-align='start start'

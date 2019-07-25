@@ -100,7 +100,10 @@ export class VincularUnidadeTipoAvaliacaoComponent {
 
     }
 
-    this.unidadesTiposAvaliacoesDispositivoChange.emit(unidade.unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo));
+    this.unidadesTiposAvaliacoesDispositivoChange.emit(unidade.unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => {
+      unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+      return unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo
+    }))
   }
 
   /**

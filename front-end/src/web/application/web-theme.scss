@@ -36,7 +36,17 @@ visualizar-dispositivo {
   }
 }
 
-inserir-unidade, inserir-dispositivo{
+inserir-dispositivo {
+  mat-nav-list {
+    margin: -19px -32px !important;
+
+    mat-list-item {
+      margin: 0 !important;
+    }
+  }
+}
+
+inserir-unidade {
   mat-nav-list {
     margin: -8px -24px !important;
 

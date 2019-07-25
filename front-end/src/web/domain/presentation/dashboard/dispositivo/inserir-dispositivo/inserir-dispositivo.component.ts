@@ -30,6 +30,9 @@ export class InserirDispositivoComponent implements OnInit {
    */
   public dispositivo: Dispositivo = new Dispositivo();
 
+  /**
+   *
+   */
   unidades: any[] = [];
 
   /**
@@ -70,18 +73,11 @@ export class InserirDispositivoComponent implements OnInit {
           .subscribe(resulted => {
 
             this.unidades[k].unidadesTiposAvaliacoes = resulted.content;
-
-            if (this.dispositivo.unidadesTiposAvaliacoesDispositivo && this.dispositivo.unidadesTiposAvaliacoesDispositivo.length)
-              for (let i = 0; i < this.dispositivo.unidadesTiposAvaliacoesDispositivo.length; i++) {
-                if (this.unidades[k].id === this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.unidade.id) {
-                  this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
-                    if (unidadeTipoAvaliacao.id === this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id) {
-                      this.unidades[k].checked = true;
-                      unidadeTipoAvaliacao.checked = true;
-                    }
-                  })
-                }
-              }
+            console.log(this.unidades[k].unidadesTiposAvaliacoes);
+            this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
+              this.unidades[k].unidadeTipoAvaliacaoDispositivoValue = false;
+              unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo = {}
+            })
           })
       }
     })
@@ -89,38 +85,43 @@ export class InserirDispositivoComponent implements OnInit {
 
   /**
    *
+   * @param $event
    */
-  public save(): void {
+  public unidadesTiposAvaliacoesDispositivoChange($event) {
 
-    this.dispositivo.unidadesTiposAvaliacoesDispositivo.forEach(unidadeTpoAvaliacaoDispositivo =>
-      delete unidadeTpoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade
-    );
+    $event.forEach(item => {
 
-    this.dispositivoRepository.save(this.dispositivo).then(result => {
-      this.dispositivo = result;
-      this.success('Dispositivo inserido com sucesso')
+      for (let i = 0; i < this.dispositivo.unidadesTiposAvaliacoesDispositivo.length; i++) {
+        if (item.unidadeTipoAvaliacao.id === this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id) {
+          this.dispositivo.unidadesTiposAvaliacoesDispositivo[i] = item;
+          return
+        }
+      }
+
+      this.dispositivo.unidadesTiposAvaliacoesDispositivo.push(item)
     })
   }
 
   /**
    *
-   * @param $event
    */
-  add($event: any) {
-    this.dispositivo.unidadesTiposAvaliacoesDispositivo.push($event);
-    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivo)
-  }
+  public save(dispositivo): void {
 
-  /**
-   *
-   * @param $event
-   */
-  remove($event: any) {
-    for (let i = 0; i < this.dispositivo.unidadesTiposAvaliacoesDispositivo.length; i++) {
-      if (this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id === $event.unidadeTipoAvaliacao.id)
-        this.dispositivo.unidadesTiposAvaliacoesDispositivo.splice(i, 1);
-    }
-    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivo)
+    dispositivo.unidadesTiposAvaliacoesDispositivo = dispositivo.unidadesTiposAvaliacoesDispositivo.filter(unidadeTipoAvaliacaoDipositivo => unidadeTipoAvaliacaoDipositivo.ativo).map(unidadeTipoAvaliacaoDipositivo => {
+      return {
+        ordem: unidadeTipoAvaliacaoDipositivo.ordem,
+        unidadeTipoAvaliacao: {id: unidadeTipoAvaliacaoDipositivo.unidadeTipoAvaliacao.id}
+      }
+    });
+
+    dispositivo.unidadesTiposAvaliacoesDispositivo.forEach(unidadeTpoAvaliacaoDispositivo =>
+      delete unidadeTpoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade
+    );
+
+    this.dispositivoRepository.save(dispositivo).then(result => {
+      this.dispositivo = result;
+      this.success('Dispositivo inserido com sucesso')
+    })
   }
 
   /**

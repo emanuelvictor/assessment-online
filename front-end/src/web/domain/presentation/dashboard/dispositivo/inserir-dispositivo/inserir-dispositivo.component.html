@@ -1,4 +1,4 @@
-<dispositivo-form [dispositivo]='dispositivo' (save)='save()'>
+<dispositivo-form [dispositivo]='dispositivo' (save)='save($event)'>
 
   <!--cabeçalho div-->
   <div layout='column' layout-margin header>
@@ -20,14 +20,22 @@
                style='margin-top: 8px; margin-left: -25px; margin-right: -25px; margin-bottom: 8px; position: inherit;width: auto'>
   </mat-divider>
 
-  <configurar-unidades-tipos-avaliacoes (add)='add($event)' (remove)='remove($event)'
-                                        [unidades]='unidades'
-                                        [unidadesTiposAvaliacoesDispositivo]='dispositivo.unidadesTiposAvaliacoesDispositivo'
-                                        configurarUnidadesTiposAvaliacoes *ngIf='unidades.length'>
-  </configurar-unidades-tipos-avaliacoes>
+  <!--<configurar-unidades-tipos-avaliacoes (add)='add($event)' (remove)='remove($event)'-->
+  <!--[unidades]='unidades'-->
+  <!--[unidadesTiposAvaliacoesDispositivo]='dispositivo.unidadesTiposAvaliacoesDispositivo'-->
+  <!--configurarUnidadesTiposAvaliacoes *ngIf='unidades.length'>-->
+  <!--</configurar-unidades-tipos-avaliacoes>-->
+
+  <mat-card configurarUnidadesTiposAvaliacoes class='bgc-grey-50' *ngIf='unidades?.length'>
+
+    <vincular-unidade-tipo-avaliacao [(unidades)]='unidades'
+                                     (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'>
+    </vincular-unidade-tipo-avaliacao>
+
+  </mat-card>
 
   <mat-divider [inset]='true' divider2
-               style='margin-top: 8px; margin-left: -25px; margin-right: -25px; margin-bottom: 14px; position: inherit;width: auto'>
+               style='margin-top: 11px; margin-left: -25px; margin-right: -25px; margin-bottom: 14px; position: inherit;width: auto'>
   </mat-divider>
 
   <!--actions div-->
