@@ -71,9 +71,7 @@ export class InserirDispositivoComponent implements OnInit {
 
         this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[k].id, ativo: true})
           .subscribe(resulted => {
-
             this.unidades[k].unidadesTiposAvaliacoes = resulted.content;
-            console.log(this.unidades[k].unidadesTiposAvaliacoes);
             this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
               this.unidades[k].unidadeTipoAvaliacaoDispositivoValue = false;
               unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo = {}

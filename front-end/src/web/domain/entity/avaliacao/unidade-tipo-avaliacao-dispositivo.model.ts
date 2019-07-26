@@ -24,4 +24,12 @@ export class UnidadeTipoAvaliacaoDispositivo extends Abstract {
    */
   public dispositivo: Dispositivo;
 
+  /**
+   *
+   * @param ativo
+   */
+  constructor(ativo?: boolean) {
+    super();
+    this.ativo = ativo;
+  }
 }

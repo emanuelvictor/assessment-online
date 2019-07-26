@@ -37,7 +37,6 @@ export class VisualizarDispositivoComponent implements OnInit {
     unidade: {}
   };
 
-
   /**
    *
    * @param unidadeRepository
@@ -72,30 +71,47 @@ export class VisualizarDispositivoComponent implements OnInit {
   public find(dispositivoId: number) {
 
     this.dispositivoRepository.findById(dispositivoId).subscribe((dispositivo: Dispositivo) => {
+
       this.unidadeRepository.listLightByFilters({withUnidadesTiposAvaliacoesAtivasFilter: true}).subscribe(result => {
+
         this.unidades = result.content;
 
         this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters({dispositivoId: dispositivoId}).subscribe(page => {
-          this.dispositivo.unidadesTiposAvaliacoesDispositivo = page.content;
+          dispositivo.unidadesTiposAvaliacoesDispositivo = page.content;
 
           for (let i = 0; i < this.unidades.length; i++) {
+            this.unidadeTipoAvaliacaoRepository.listByUnidadeId({
+              unidadeId: this.unidades[i].id,
+              ativo: true
+            }).subscribe(result => {
 
-            if (!this.unidades[i].unidadesTiposAvaliacoes)
-              this.unidades[i].unidadesTiposAvaliacoes = [];
+              this.unidades[i].unidadesTiposAvaliacoes = result.content;
 
-            for (let k = 0; k < this.dispositivo.unidadesTiposAvaliacoesDispositivo.length; k++)
-              if (this.dispositivo.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-                if (this.dispositivo.unidadesTiposAvaliacoesDispositivo[k].ativo)
-                  this.unidades[i].unidadeTipoAvaliacaoDispositivoValue = this.dispositivo.unidadesTiposAvaliacoesDispositivo[k].ativo;
-                (this.dispositivo.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo = this.dispositivo.unidadesTiposAvaliacoesDispositivo[k];
-                this.unidades[i].unidadesTiposAvaliacoes.push(this.dispositivo.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao)
-              }
+              this.unidades[i].unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => {
+                (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo(false)
+              });
 
+              for (let k = 0; k < dispositivo.unidadesTiposAvaliacoesDispositivo.length; k++)
+                if (dispositivo.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+
+                  if (dispositivo.unidadesTiposAvaliacoesDispositivo[k].ativo)
+                    this.unidades[i].unidadeTipoAvaliacaoDispositivoValue = dispositivo.unidadesTiposAvaliacoesDispositivo[k].ativo;
+
+                  (dispositivo.unidadesTiposAvaliacoesDispositivo[k].unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo = dispositivo.unidadesTiposAvaliacoesDispositivo[k];
+
+                  for (let j = 0; j < this.unidades[i].unidadesTiposAvaliacoes.length; j++) {
+                    dispositivo.unidadesTiposAvaliacoesDispositivo.forEach(unidadeTipoAvaliacaoDispositivo => {
+                      if (this.unidades[i].unidadesTiposAvaliacoes[j].id === unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id)
+                        this.unidades[i].unidadesTiposAvaliacoes[j] = unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao
+                    })
+                  }
+
+                }
+
+              this.dispositivo = dispositivo
+            })
           }
-
         });
-
-        this.dispositivo = dispositivo
       })
     })
   }
