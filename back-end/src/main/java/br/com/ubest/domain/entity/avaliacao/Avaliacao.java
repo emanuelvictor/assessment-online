@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.envers.Audited;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,6 +25,9 @@ import java.util.List;
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
+
+@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
+@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class Avaliacao extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -951100332065317651L;

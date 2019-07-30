@@ -3,6 +3,9 @@ package br.com.ubest.domain.entity.avaliacao;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import lombok.Data;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -17,6 +20,9 @@ import java.io.Serializable;
         @UniqueConstraint(columnNames = {"tipo_avaliacao_id", "unidade_id"}),
         @UniqueConstraint(columnNames = {"unidade_id", "ordem"})
 })
+
+@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
+@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class UnidadeTipoAvaliacao extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -12345682065951632L;

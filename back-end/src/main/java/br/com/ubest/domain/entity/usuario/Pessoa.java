@@ -3,6 +3,9 @@ package br.com.ubest.domain.entity.usuario;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -16,6 +19,9 @@ import java.io.Serializable;
 @lombok.EqualsAndHashCode(callSuper = true)
 @Inheritance(strategy = InheritanceType.JOINED)
 @JsonIgnoreProperties({"authorities", "avaliaveis", "operadores"})
+
+@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
+@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class Pessoa extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -112345695623456789L;

@@ -5,6 +5,7 @@ import br.com.ubest.domain.repository.ContaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,7 @@ public class AuthenticationResource {
      * @return Mono<Conta>
      */
     @GetMapping
+    @Transactional
     public Mono<Optional<Conta>> principal() {
         return ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication).switchIfEmpty(Mono.empty())
                 .map(authentication -> {

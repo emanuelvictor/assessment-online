@@ -4,6 +4,9 @@ import br.com.ubest.domain.entity.generic.AbstractEntity;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Usuario;
 import lombok.Data;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.Entity;
@@ -20,6 +23,9 @@ import java.io.Serializable;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"usuario_id", "unidade_id"})
 })
+
+@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
+@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class Operador extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -963123951512387123L;

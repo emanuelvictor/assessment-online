@@ -26,9 +26,9 @@ public class HibernateConfig {
 
     private final DataSource dataSource;
 
-    private final MultiTenantConnectionProviderImpl multiTenantConnectionProviderImpl;
+//    private final MultiTenantConnectionProviderImpl multiTenantConnectionProviderImpl;
 
-    private final TenantIdentifierResolver tenantIdentifierResolver;
+//    private final TenantIdentifierResolver tenantIdentifierResolver;
 
     @Bean
     JpaVendorAdapter jpaVendorAdapter() {
@@ -65,9 +65,9 @@ public class HibernateConfig {
         properties.put(Environment.HBM2DDL_AUTO, env.getProperty("spring.jpa.hibernate.ddl-auto"));
         properties.put(Environment.DIALECT, env.getProperty("spring.jpa.properties.hibernate.dialect"));
         properties.put(Environment.DEFAULT_NULL_ORDERING, env.getProperty("spring.jpa.properties.hibernate.order_by.default_null_ordering"));
-        properties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
-        properties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProviderImpl);
-        properties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
+//        properties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
+//        properties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProviderImpl);
+//        properties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, tenantIdentifierResolver);
 
         // Envers
         properties.put("org.hibernate.envers.audit_table_suffix", env.getProperty("spring.jpa.properties.org.hibernate.envers.audit_table_suffix"));

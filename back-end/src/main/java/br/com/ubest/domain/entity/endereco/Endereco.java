@@ -3,6 +3,9 @@ package br.com.ubest.domain.entity.endereco;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 
@@ -17,6 +20,9 @@ import java.io.Serializable;
 @Entity
 @Audited
 @EqualsAndHashCode(callSuper = false)
+
+@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
+@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class Endereco extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -1234564552908065252L;

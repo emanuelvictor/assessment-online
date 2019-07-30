@@ -3,6 +3,9 @@ package br.com.ubest.domain.entity.avaliacao;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.Column;
@@ -14,6 +17,9 @@ import java.io.Serializable;
 @Audited
 @NoArgsConstructor
 @lombok.EqualsAndHashCode(callSuper = true)
+
+@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
+@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class TipoAvaliacao extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -2224100382065317162L;

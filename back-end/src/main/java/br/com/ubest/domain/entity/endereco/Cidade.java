@@ -3,6 +3,9 @@ package br.com.ubest.domain.entity.endereco;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 
@@ -24,6 +27,9 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
         @UniqueConstraint(columnNames = {"nome", "estado_id"})
 })
 @EqualsAndHashCode(callSuper = true)
+
+@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
+@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class Cidade extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 3822122969075543760L;
