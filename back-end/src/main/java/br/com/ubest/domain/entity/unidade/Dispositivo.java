@@ -23,9 +23,6 @@ import java.util.Set;
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
-
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
-@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class Dispositivo extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -12345665123987987L;

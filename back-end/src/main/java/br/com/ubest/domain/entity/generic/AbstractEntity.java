@@ -24,7 +24,7 @@ public abstract class AbstractEntity implements IEntity<Long> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     protected String tenant;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")

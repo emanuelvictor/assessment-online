@@ -28,9 +28,6 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
         @UniqueConstraint(columnNames = {"nome", "pais_id"})
 })
 @EqualsAndHashCode(callSuper = true)
-
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
-@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 class Estado extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 8414044637595122330L;

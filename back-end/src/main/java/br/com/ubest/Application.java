@@ -1,8 +1,12 @@
 package br.com.ubest;
 
+import br.com.ubest.application.hibernate.EmptyInterceptorConfig;
+import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import org.hibernate.EmptyInterceptor;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -13,14 +17,17 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import javax.persistence.EntityManager;
 import javax.servlet.MultipartConfigElement;
 import java.util.Arrays;
 
@@ -116,6 +123,23 @@ public class Application  extends SpringBootServletInitializer {
     @Bean
     public Validator validator() {
         return new LocalValidatorFactoryBean();
+    }
+
+    /**
+     * @return Validator
+     */
+    @Bean
+    @Transactional
+    public EntityManager entityManager(final EntityManager entityManager, final TenantIdentifierResolver tenantIdentifierResolver) {
+        org.hibernate.Filter filter = entityManager.unwrap(Session.class).enableFilter("tenantFilter");
+        filter.setParameter("tenant", tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+        filter.validate();
+        return entityManager;
+    }
+
+    @Bean
+    public EmptyInterceptor emptyInterceptor(final TenantIdentifierResolver tenantIdentifierResolver) {
+        return new EmptyInterceptorConfig(tenantIdentifierResolver);
     }
 
 }

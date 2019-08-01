@@ -17,9 +17,6 @@ import java.io.Serializable;
 @Entity
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
-
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
-@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class Unidade extends Pessoa implements Serializable {
 
     private static final long serialVersionUID = -12345665123456789L;

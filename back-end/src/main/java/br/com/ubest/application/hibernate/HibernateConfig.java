@@ -1,9 +1,30 @@
 package br.com.ubest.application.hibernate;
 
+import br.com.ubest.domain.entity.generic.AbstractEntity;
+import org.hibernate.EmptyInterceptor;
+import org.hibernate.Session;
+import org.hibernate.type.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+
+import javax.sql.DataSource;
+import java.io.Serializable;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
 import br.com.ubest.application.multitenancy.MultiTenantConnectionProviderImpl;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.EmptyInterceptor;
 import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.Environment;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +49,24 @@ public class HibernateConfig {
 
 //    private final MultiTenantConnectionProviderImpl multiTenantConnectionProviderImpl;
 
-//    private final TenantIdentifierResolver tenantIdentifierResolver;
+    private final EmptyInterceptor emptyInterceptor;
+
+    @Configuration
+    @AllArgsConstructor
+    public static class TransactionManager {
+
+        private final LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean;
+
+        @Primary
+        @Bean
+        public PlatformTransactionManager transactionManager() throws SQLException {
+
+            final JpaTransactionManager transactionManager = new JpaTransactionManager();
+            transactionManager.setEntityManagerFactory(localContainerEntityManagerFactoryBean.getObject());
+            return transactionManager;
+        }
+
+    }
 
     @Bean
     JpaVendorAdapter jpaVendorAdapter() {
@@ -42,7 +80,6 @@ public class HibernateConfig {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
         em.setPackagesToScan("br.com.ubest.domain.entity");
-
         em.setJpaVendorAdapter(jpaVendorAdapter());
 
         final HashMap<String, Object> properties = new HashMap<>();
@@ -74,24 +111,46 @@ public class HibernateConfig {
         properties.put("org.hibernate.envers.revision_field_name", env.getProperty("spring.jpa.properties.org.hibernate.envers.revision_field_name"));
         properties.put("org.hibernate.envers.revision_type_field_name", env.getProperty("spring.jpa.properties.org.hibernate.envers.revision_type_field_name"));
 
+        properties.put("hibernate.ejb.interceptor", emptyInterceptor);
+
         em.setJpaPropertyMap(properties);
 
         return em;
     }
+//    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Configuration
-    @AllArgsConstructor
-    public static class TransactionManager {
+//    private final TenantIdentifierResolver tenantIdentifierResolver;
 
-        private final LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean;
-
-        @Primary
-        @Bean
-        public PlatformTransactionManager transactionManager() {
-            final JpaTransactionManager transactionManager = new JpaTransactionManager();
-            transactionManager.setEntityManagerFactory(localContainerEntityManagerFactoryBean.getObject());
-            return transactionManager;
-        }
-
-    }
+//    @Bean
+//    public EmptyInterceptor hibernateInterceptor() {
+//        return new EmptyInterceptor() {
+//
+//            @Override
+//            public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+//                if (entity instanceof AbstractEntity) {
+//                    log.debug("[save] Updating the entity " + id + " with util information: " + tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+//                    ((AbstractEntity) entity).setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+//                if (entity instanceof AbstractEntity) {
+//                    log.debug("[delete] Updating the entity " + id + " with util information: " + tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+//                    ((AbstractEntity) entity).setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+//                }
+//            }
+//
+//            @Override
+//            public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types) {
+//                if (entity instanceof AbstractEntity) {
+//                    log.debug("[flush-dirty] Updating the entity " + id + " with util information: " + tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+//                    ((AbstractEntity) entity).setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+//                }
+//                return false;
+//            }
+//
+//        };
+//    }
 }

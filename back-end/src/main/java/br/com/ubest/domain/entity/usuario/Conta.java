@@ -31,9 +31,6 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Table(schema = DEFAULT_TENANT_ID)
 @lombok.EqualsAndHashCode(callSuper = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
-
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
-@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class Conta extends AbstractEntity implements TenantDetails, Serializable {
 
     private static final long serialVersionUID = 8321156549256137046L;

@@ -26,9 +26,6 @@ import java.io.Serializable;
 @Entity
 @Audited
 @EqualsAndHashCode(callSuper = true)
-
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
-@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class Configuracao extends AbstractEntity  implements Serializable {
 
     private static final long serialVersionUID = -12345665432751632L;

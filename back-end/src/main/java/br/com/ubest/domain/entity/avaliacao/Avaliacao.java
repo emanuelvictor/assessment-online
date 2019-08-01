@@ -25,9 +25,6 @@ import java.util.List;
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
-
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
-@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class Avaliacao extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -951100332065317651L;

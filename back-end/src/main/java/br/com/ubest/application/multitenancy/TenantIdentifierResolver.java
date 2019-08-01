@@ -23,7 +23,7 @@ public class TenantIdentifierResolver
 
     private String schema = DEFAULT_TENANT_ID;
 
-    private final EntityManager entityManager;
+//    private final EntityManager entityManager;
 
 //    @Override
     public String resolveCurrentTenantIdentifier() {
@@ -38,9 +38,9 @@ public class TenantIdentifierResolver
     public void setSchema(final String schema) {
         this.schema = removeNoCache(schema);
 
-        org.hibernate.Filter filter = entityManager.unwrap(Session.class).enableFilter("tenantFilter");
-        filter.setParameter("tenant", this.schema);
-        filter.validate();
+//        org.hibernate.Filter filter = entityManager.unwrap(Session.class).enableFilter("tenantFilter");
+//        filter.setParameter("tenant", this.schema);
+//        filter.validate();
     }
 
     public void setUsername(final String username) {

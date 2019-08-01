@@ -26,9 +26,6 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Audited
 @Table(schema = DEFAULT_TENANT_ID)
 @EqualsAndHashCode(callSuper = true)
-
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
-@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 class Pais extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -7513339061739700255L;

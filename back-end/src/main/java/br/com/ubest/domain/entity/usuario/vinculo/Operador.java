@@ -23,9 +23,6 @@ import java.io.Serializable;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"usuario_id", "unidade_id"})
 })
-
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
-@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class Operador extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -963123951512387123L;

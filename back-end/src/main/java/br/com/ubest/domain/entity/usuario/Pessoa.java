@@ -19,9 +19,6 @@ import java.io.Serializable;
 @lombok.EqualsAndHashCode(callSuper = true)
 @Inheritance(strategy = InheritanceType.JOINED)
 @JsonIgnoreProperties({"authorities", "avaliaveis", "operadores"})
-
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
-@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public class Pessoa extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -112345695623456789L;
