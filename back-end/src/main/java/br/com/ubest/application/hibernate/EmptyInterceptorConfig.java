@@ -24,21 +24,33 @@ public class EmptyInterceptorConfig extends EmptyInterceptor {
 
     @Override
     public boolean onSave(final Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-//        log.debug("[save] Updating the entity " + id + " with util information: " + tenantIdentifierResolver.resolveCurrentTenantIdentifier());
-        ((AbstractEntity) entity).setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+        log.debug("[save] Updating the entity " + id + " with util information: " + tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+        try {
+            ((AbstractEntity) entity).setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
         return true;
     }
 
     @Override
     public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         log.debug("[delete] Updating the entity " + id + " with util information: " + tenantIdentifierResolver.resolveCurrentTenantIdentifier());
-        ((AbstractEntity) entity).setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+        try {
+            ((AbstractEntity) entity).setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types) {
         log.debug("[flush-dirty] Updating the entity " + id + " with util information: " + tenantIdentifierResolver.resolveCurrentTenantIdentifier());
-        ((AbstractEntity) entity).setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+        try {
+            ((AbstractEntity) entity).setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
         return false;
     }
 

@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -111,7 +112,11 @@ public class HibernateConfig {
         properties.put("org.hibernate.envers.revision_field_name", env.getProperty("spring.jpa.properties.org.hibernate.envers.revision_field_name"));
         properties.put("org.hibernate.envers.revision_type_field_name", env.getProperty("spring.jpa.properties.org.hibernate.envers.revision_type_field_name"));
 
+        properties.put(Environment.INTERCEPTOR, emptyInterceptor);
+
         properties.put("hibernate.ejb.interceptor", emptyInterceptor);
+
+//        properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, org.hibernate.context.internal.ThreadLocalSessionContext.class);
 
         em.setJpaPropertyMap(properties);
 
