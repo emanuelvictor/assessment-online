@@ -5,6 +5,7 @@ import {Operador} from "../../../../../entity/usuario/vinculo/operador.model";
 import {AvaliavelRepository} from "../../../../../repository/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repository/unidade-tipo-avaliacao.repository";
 import {Avaliavel} from "../../../../../entity/usuario/vinculo/avaliavel.model";
+import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
 
 @Component({
   selector: 'vincular-unidade',
@@ -94,9 +95,11 @@ export class VincularUnidadeComponent implements OnInit {
    *
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
+   * @param unidadeTipoAvaliacaoDispositivoRepository
    */
   constructor(private avaliavelRepository: AvaliavelRepository,
-              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
+              private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository) {
   }
 
   /**
@@ -120,10 +123,11 @@ export class VincularUnidadeComponent implements OnInit {
       (unidade as any).operador = operador;
     }
 
-    if (!(unidade as any).operadorValue)
+    if (!(unidade as any).operadorValue) {
       this.removeOperador.emit((unidade as any).operador);
-    else
+    } else {
       this.saveOperador.emit((unidade as any).operador)
+    }
   }
 
   /**
@@ -131,14 +135,14 @@ export class VincularUnidadeComponent implements OnInit {
    * @param unidade
    */
   public changeAvaliavel(unidade) {
-    if (unidade.avaliavelValue)
+    if (unidade.avaliavelValue) {
       this.listTiposAvaliacoesByUnidadeId(unidade);
-
-    else if (unidade.unidadesTiposAvaliacoes && unidade.unidadesTiposAvaliacoes.length)
+    } else if (unidade.unidadesTiposAvaliacoes && unidade.unidadesTiposAvaliacoes.length) {
       for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
         unidade.unidadesTiposAvaliacoes[k].checked = false;
         this.changeUnidadeTipoAvaliacao(unidade.unidadesTiposAvaliacoes[k])
       }
+    }
   }
 
   /**
@@ -151,17 +155,24 @@ export class VincularUnidadeComponent implements OnInit {
     avaliavel.usuario = this.usuario;
     avaliavel.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
 
-    for (let i = 0; i < this.avaliaveis.length; i++)
-      if (this.avaliaveis[i].unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id)
+    for (let i = 0; i < this.avaliaveis.length; i++) {
+      if (this.avaliaveis[i].unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id) {
         avaliavel = this.avaliaveis[i];
+      }
+    }
 
     avaliavel.ativo = (unidadeTipoAvaliacao as any).checked;
 
-    if (!(unidadeTipoAvaliacao as any).checked)
-      this.removeAvaliavel.emit(avaliavel);
-    else
-      this.saveAvaliavel.emit(avaliavel);
+    if (!(unidadeTipoAvaliacao as any).checked) {
+    //   this.removeAvaliavel.emit(avaliavel);
+    // } else {
+    //   this.saveAvaliavel.emit(avaliavel);
+    }
 
+    this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters({unidadeTipoAvaliacaoId: unidadeTipoAvaliacao.id}).subscribe(result => {
+      unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo = result.content;
+      console.log(unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo)
+    })
   }
 
   /**
@@ -176,14 +187,16 @@ export class VincularUnidadeComponent implements OnInit {
 
           unidade.unidadesTiposAvaliacoes = page.content;
 
-          if (aux && aux.length)
-            for (let i = 0; i < aux.length; i++)
+          if (aux && aux.length) {
+            for (let i = 0; i < aux.length; i++) {
               for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
                 if (unidade.unidadesTiposAvaliacoes[k].tipoAvaliacao.id === aux[i].tipoAvaliacao.id) {
                   unidade.unidadesTiposAvaliacoes[k].checked = aux[i].avaliavel.ativo;
                   unidade.unidadesTiposAvaliacoes[k].avaliavel = aux[i].avaliavel;
                 }
               }
+            }
+          }
         }
       );
   }
