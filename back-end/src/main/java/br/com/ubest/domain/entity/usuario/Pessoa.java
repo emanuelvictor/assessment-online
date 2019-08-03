@@ -3,6 +3,9 @@ package br.com.ubest.domain.entity.usuario;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;

@@ -9,6 +9,7 @@ import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -18,6 +19,7 @@ import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
+@Transactional
 @RequestMapping({"tipos-avaliacoes", "sistema/tipos-avaliacoes", "sistema/mobile/tipos-avaliacoes"})
 public class TipoAvaliacaoResource extends AbstractResource<TipoAvaliacao> {
 
@@ -26,6 +28,7 @@ public class TipoAvaliacaoResource extends AbstractResource<TipoAvaliacao> {
     @PostMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<TipoAvaliacao> save(@RequestBody final TipoAvaliacao tipoAvaliacao) {
+//        tipoAvaliacao.setTenant("contato@bubblemixtea.com.br");
         return Mono.just(this.tipoAvaliacaoService.save(tipoAvaliacao));
     }
 

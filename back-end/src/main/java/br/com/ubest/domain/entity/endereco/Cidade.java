@@ -3,6 +3,9 @@ package br.com.ubest.domain.entity.endereco;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 

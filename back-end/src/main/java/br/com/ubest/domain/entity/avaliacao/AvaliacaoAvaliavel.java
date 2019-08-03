@@ -4,6 +4,9 @@ import br.com.ubest.domain.entity.generic.AbstractEntity;
 import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
 import lombok.Data;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;

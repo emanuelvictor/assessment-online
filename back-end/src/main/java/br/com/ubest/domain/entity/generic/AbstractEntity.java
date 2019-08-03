@@ -2,6 +2,9 @@ package br.com.ubest.domain.entity.generic;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +14,8 @@ import java.time.LocalDateTime;
  */
 @Data
 @MappedSuperclass
+@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenant", type = "string")})
+@Filter(name = "tenantFilter", condition = "tenant = :tenant")
 public abstract class AbstractEntity implements IEntity<Long> {
 
     private static final long serialVersionUID = -3875941859616104733L;
@@ -18,6 +23,9 @@ public abstract class AbstractEntity implements IEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+
+    @Column(nullable = false)
+    protected String tenant;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(nullable = false, updatable = false)

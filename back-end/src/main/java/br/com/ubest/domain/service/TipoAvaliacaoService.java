@@ -1,5 +1,6 @@
 package br.com.ubest.domain.service;
 
+import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.repository.TipoAvaliacaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,12 +10,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TipoAvaliacaoService {
+
+    public final EntityManager entityManager;
+
+    public final TenantIdentifierResolver tenantIdentifierResolver;
 
     private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
 

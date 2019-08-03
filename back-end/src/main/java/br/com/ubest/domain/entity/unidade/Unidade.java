@@ -3,6 +3,9 @@ package br.com.ubest.domain.entity.unidade;
 import br.com.ubest.domain.entity.endereco.Endereco;
 import br.com.ubest.domain.entity.usuario.Pessoa;
 import lombok.Data;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.CascadeType;
