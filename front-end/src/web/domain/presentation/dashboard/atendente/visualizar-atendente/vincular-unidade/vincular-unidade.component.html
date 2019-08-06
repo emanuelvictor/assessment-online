@@ -43,10 +43,10 @@
               <mat-expansion-panel [expanded]='unidadeTipoAvaliacao.dispositivoValue'
                                    (opened)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'
                                    (closed)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>
-                <div> asdfasdf</div>
                 <div flex
                      *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo'>
-                  {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}
+                  {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.codigo}}
+                  <!--                  {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}-->
                 </div>
               </mat-expansion-panel>
             </mat-accordion>
