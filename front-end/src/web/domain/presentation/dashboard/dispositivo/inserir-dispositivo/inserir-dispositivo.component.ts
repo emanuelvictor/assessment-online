@@ -11,6 +11,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {viewAnimation} from "../../../controls/utils";
 import {UnidadeRepository} from "../../../../repository/unidade.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
+import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 
 /**
  *
@@ -35,6 +36,8 @@ export class InserirDispositivoComponent implements OnInit {
    */
   unidades: any[] = [];
 
+  vincularUnidadeTipoSvaliacao: boolean;
+
   /**
    *
    * @param unidadeRepository
@@ -52,6 +55,7 @@ export class InserirDispositivoComponent implements OnInit {
   constructor(private unidadeRepository: UnidadeRepository,
               @Inject(ElementRef) private element: ElementRef,
               private dispositivoRepository: DispositivoRepository,
+              private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
               private activatedRoute: ActivatedRoute, private router: Router,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
@@ -62,15 +66,21 @@ export class InserirDispositivoComponent implements OnInit {
    *
    */
   ngOnInit(): void {
+
     this.unidadeRepository.listLightByFilters({
       withUnidadesTiposAvaliacoesAtivasFilter: true
     }).subscribe(result => {
       this.unidades = result.content;
 
+      // this.tipoAvaliacaoRepository.listByFilters(null).subscribe( result => {
+      //   this.vincularUnidadeTipoSvaliacao = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1)))
+      // })
+
       for (let k = 0; k < this.unidades.length; k++) {
 
-        this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[k].id, ativo: true})
+        this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: this.unidades[k].id, ativo: true})
           .subscribe(resulted => {
+            console.log(resulted.content);
             this.unidades[k].unidadesTiposAvaliacoes = resulted.content;
             this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
               this.unidades[k].unidadeTipoAvaliacaoDispositivoValue = false;

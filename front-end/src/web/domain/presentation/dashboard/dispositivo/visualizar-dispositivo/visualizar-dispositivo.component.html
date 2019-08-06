@@ -84,7 +84,7 @@
         </mat-form-field>
       </div>
 
-      <mat-card class='bgc-grey-50' style='width: 100%' *ngIf='unidades?.length'>
+      <mat-card [@fadeInOut] class='bgc-grey-50' style='width: 100%' *ngIf='unidades?.length'>
 
         <vincular-unidade-tipo-avaliacao *ngIf='dispositivo?.id' [(unidades)]='unidades' [filter]='filter'
                                          [(unidadesTiposAvaliacoesDispositivo)]='dispositivo.unidadesTiposAvaliacoesDispositivo'

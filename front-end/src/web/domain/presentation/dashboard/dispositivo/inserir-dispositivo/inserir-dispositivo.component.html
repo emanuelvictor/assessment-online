@@ -17,16 +17,12 @@
   </div>
 
   <mat-divider [inset]='true' divider
-               style='margin-top: 8px; margin-left: -25px; margin-right: -25px; margin-bottom: 8px; position: inherit;width: auto'>
+               style='margin-top: 8px; margin-left: -25px; margin-right: -25px; margin-bottom: 8px; position: inherit;width: auto'
+               *ngIf='unidades?.length && (unidades.length > 1 || (unidades.length === 1 && (unidades[0].unidadesTiposAvaliacoes && unidades[0].unidadesTiposAvaliacoes.length > 1)))'>
   </mat-divider>
 
-  <!--<configurar-unidades-tipos-avaliacoes (add)='add($event)' (remove)='remove($event)'-->
-  <!--[unidades]='unidades'-->
-  <!--[unidadesTiposAvaliacoesDispositivo]='dispositivo.unidadesTiposAvaliacoesDispositivo'-->
-  <!--configurarUnidadesTiposAvaliacoes *ngIf='unidades.length'>-->
-  <!--</configurar-unidades-tipos-avaliacoes>-->
-
-  <mat-card configurarUnidadesTiposAvaliacoes class='bgc-grey-50' *ngIf='unidades?.length'>
+  <mat-card configurarUnidadesTiposAvaliacoes class='bgc-grey-50'
+            *ngIf='unidades?.length && (unidades.length > 1 || (unidades.length === 1 && (unidades[0].unidadesTiposAvaliacoes && unidades[0].unidadesTiposAvaliacoes.length > 1)))'>
 
     <vincular-unidade-tipo-avaliacao [(unidades)]='unidades'
                                      (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'>
