@@ -72,12 +72,9 @@ export class InserirDispositivoComponent implements OnInit {
     }).subscribe(result => {
       this.unidades = result.content;
 
-      // this.tipoAvaliacaoRepository.listByFilters(null).subscribe( result => {
-      //   this.vincularUnidadeTipoSvaliacao = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1)))
-      // })
-
       for (let k = 0; k < this.unidades.length; k++) {
 
+        // this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[k].id, ativo: true})
         this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: this.unidades[k].id, ativo: true})
           .subscribe(resulted => {
             console.log(resulted.content);
