@@ -15,17 +15,55 @@
                 <div layout='row' flex class='push-left'>
 
                   <mat-form-field flex layout-margin>
-                    <input [(ngModel)]='dispositivo.codigo'
-                           matInput name='codigo' id='codigo'
-                           placeholder='Código do dispositivo'
-                           formControlName='codigo' maxlength='144'>
+                    <input [(ngModel)]='dispositivo.nome'
+                           matInput name='nome' id='nome'
+                           placeholder='Nome do dispositivo'
+                           formControlName='nome' maxlength='144'>
                     <mat-error>
                       Campo obrigatório
                     </mat-error>
                   </mat-form-field>
 
                 </div>
+              </div>
 
+              <div layout='row' layout-align='start center'>
+                <div layout='row' flex class='push-left'>
+                  <mat-form-field flex='30' layout-margin>
+                    <input matInput type='number' name='time' id='time'
+                           formControlName='time' [(ngModel)]='dispositivo.time'
+                           placeholder='Tempo de espera entre as avaliações (Em segundos)'>
+                    <mat-error *ngIf="form.controls['time']?.hasError('exception')">
+                      {{form?.controls['time']?.errors.exception}}
+                    </mat-error>
+                    <mat-error *ngIf="form?.controls['time']?.hasError('required')">
+                      Campo obrigatório
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-checkbox style='padding: 20px' flex
+                                [ngModelOptions]='{standalone: true}'
+                                [(ngModel)]='dispositivo.quebrarLinhaNaSelecaoDeItenAvaliavel'>
+                    Quebrar linha durante a seleção de ítens avaliáveis (no aplicativo móvel)
+                  </mat-checkbox>
+                </div>
+              </div>
+
+              <div layout='row' layout-align='start center'>
+                <div layout='row' flex class='push-left' layout-margin>
+
+                  <mat-checkbox matTooltip='O tablet não sai do aplicativo' flex='10'
+                                (change)="dispositivo.modoQuiosque ? dispositivo.modoInsonia = true : ''"
+                                [(ngModel)]='dispositivo.modoQuiosque' [ngModelOptions]='{standalone: true}'>
+                    Modo Quiosque
+                  </mat-checkbox>
+
+                  <mat-checkbox matTooltip='Enquanto estiver no aplicativo, a tela não adormece' flex='10'
+                                (change)="!dispositivo.modoInsonia ? dispositivo.modoQuiosque = false : ''"
+                                [(ngModel)]='dispositivo.modoInsonia' [ngModelOptions]='{standalone: true}'>
+                    Modo Insônia
+                  </mat-checkbox>
+                </div>
               </div>
 
               <!--divider-->
