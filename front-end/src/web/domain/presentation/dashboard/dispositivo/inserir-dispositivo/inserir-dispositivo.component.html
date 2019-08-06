@@ -16,13 +16,11 @@
     </div>
   </div>
 
-  <mat-divider [inset]='true' divider
-               style='margin-top: 8px; margin-left: -25px; margin-right: -25px; margin-bottom: 8px; position: inherit;width: auto'
-               *ngIf='unidades?.length && (unidades.length > 1 || (unidades.length === 1 && (unidades[0].unidadesTiposAvaliacoes && unidades[0].unidadesTiposAvaliacoes.length > 1)))'>
+  <mat-divider [inset]='true' divider *ngIf='vincularUnidadeTipoSvaliacao'
+               style='margin-top: 8px; margin-left: -25px; margin-right: -25px; margin-bottom: 8px; position: inherit;width: auto'>
   </mat-divider>
 
-  <mat-card configurarUnidadesTiposAvaliacoes class='bgc-grey-50'
-            *ngIf='unidades?.length && (unidades.length > 1 || (unidades.length === 1 && (unidades[0].unidadesTiposAvaliacoes && unidades[0].unidadesTiposAvaliacoes.length > 1)))'>
+  <mat-card configurarUnidadesTiposAvaliacoes class='bgc-grey-50' *ngIf='vincularUnidadeTipoSvaliacao'>
 
     <vincular-unidade-tipo-avaliacao [(unidades)]='unidades'
                                      (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'>

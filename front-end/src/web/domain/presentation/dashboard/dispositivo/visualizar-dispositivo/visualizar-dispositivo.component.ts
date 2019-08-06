@@ -31,6 +31,11 @@ export class VisualizarDispositivoComponent implements OnInit {
 
   /**
    *
+   */
+  vincularUnidadeTipoSvaliacao: boolean;
+
+  /**
+   *
    * @type {{unidade: {}}}
    */
   public filter: any = {
@@ -80,12 +85,14 @@ export class VisualizarDispositivoComponent implements OnInit {
           dispositivo.unidadesTiposAvaliacoesDispositivo = page.content;
 
           for (let i = 0; i < this.unidades.length; i++) {
-            this.unidadeTipoAvaliacaoRepository.listByUnidadeId({
+            this.unidadeTipoAvaliacaoRepository.listByFilters({
               unidadeId: this.unidades[i].id,
               ativo: true
             }).subscribe(result => {
 
               this.unidades[i].unidadesTiposAvaliacoes = result.content;
+
+              this.vincularUnidadeTipoSvaliacao = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1)));
 
               this.unidades[i].unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => {
                 (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo(false)
@@ -111,7 +118,7 @@ export class VisualizarDispositivoComponent implements OnInit {
               this.dispositivo = dispositivo
             })
           }
-        });
+        })
       })
     })
   }

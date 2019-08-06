@@ -82,8 +82,8 @@ export class InserirUnidadeComponent {
 
       });
 
-      this.success('Unidade inserido com sucesso');
-    });
+      this.success('Unidade inserido com sucesso')
+    })
   }
 
   /**
