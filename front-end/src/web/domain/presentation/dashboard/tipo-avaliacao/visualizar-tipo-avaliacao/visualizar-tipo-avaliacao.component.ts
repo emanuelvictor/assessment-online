@@ -46,9 +46,12 @@ export class VisualizarTipoAvaliacaoComponent implements OnInit {
    * @param {number} tipoAvaliacaoId
    */
   public find(tipoAvaliacaoId: number) {
-    this.tipoAvaliacaoRepository.findById(tipoAvaliacaoId)
-      .subscribe((tipoAvaliacao: TipoAvaliacao) =>{
-        this.tipoAvaliacao = tipoAvaliacao}
+    console.log(this.tipoAvaliacaoRepository.connect(tipoAvaliacaoId));
+    this.tipoAvaliacaoRepository.connect(tipoAvaliacaoId)
+      .subscribe((tipoAvaliacao: TipoAvaliacao) => {
+          console.log(tipoAvaliacao);
+          this.tipoAvaliacao = tipoAvaliacao
+        }
       )
   }
 
