@@ -1,54 +1,52 @@
 package br.com.ubest.application.websocket;
 
-import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
-import br.com.ubest.domain.repository.TipoAvaliacaoRepository;
+import br.com.ubest.domain.entity.unidade.Dispositivo;
+import br.com.ubest.domain.repository.DispositivoRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.envers.Audited;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
-import org.springframework.web.reactive.socket.WebSocketHandler;
-import org.springframework.web.reactive.socket.server.WebSocketService;
-import org.springframework.web.reactive.socket.server.support.HandshakeWebSocketService;
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
-import org.springframework.web.reactive.socket.server.upgrade.ReactorNettyRequestUpgradeStrategy;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.UnicastProcessor;
+import reactor.core.publisher.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Configuration
 @RequiredArgsConstructor
 public class WebSocketConfiguration {
 
-//    private final DispositivoWebSocketHandler dispositivoWebSocketHandler;
+    private final DispositivoRepository dispositivoRepository;
 
     @Bean
-    public DispositivoWebSocketHandler dispositivoWebSocketHandler() {
-        return new DispositivoWebSocketHandler();
+    public UnicastProcessor<Dispositivo> dispositivoPublisher() {
+        final Dispositivo dispositivo = new Dispositivo();//dispositivoRepository.findById(Long.valueOf(id)).orElse(null);
+        dispositivo.setCodigo("TESTE");
+        final List<Dispositivo> dispositivos = new ArrayList<>();
+        dispositivos.add(dispositivo);
+        return UnicastProcessor.create(new LinkedList<>(dispositivos));
+//        return UnicastProcessor.create();
     }
 
     @Bean
-    public HandlerMapping handlerMapping() {
-        Map<String, WebSocketHandler> map = new HashMap<>();
-        map.put("/echo/{id}", dispositivoWebSocketHandler());
-        SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
-        mapping.setUrlMap(map);
-        mapping.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return mapping;
+    public Flux<Dispositivo> dispositivo(final UnicastProcessor<Dispositivo> dispositivoPublisher) {
+        return dispositivoPublisher.replay(25).autoConnect();
+    }
+
+    @Bean
+    public HandlerMapping webSocketMapping(UnicastProcessor<Dispositivo> dispositivoPublisher, Flux<Dispositivo> dispositivo) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("/dispositivos/{id}", new DispositivoWebSocketHandler(dispositivoPublisher, dispositivo, dispositivoRepository));
+        SimpleUrlHandlerMapping simpleUrlHandlerMapping = new SimpleUrlHandlerMapping();
+        simpleUrlHandlerMapping.setUrlMap(map);
+//        simpleUrlHandlerMapping.setOrder(10);
+        simpleUrlHandlerMapping.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return simpleUrlHandlerMapping;
     }
 
     @Bean
     public WebSocketHandlerAdapter handlerAdapter() {
-        return new WebSocketHandlerAdapter(webSocketService());
-    }
-
-    @Bean
-    public WebSocketService webSocketService() {
-        return new HandshakeWebSocketService(/*new ReactorNettyRequestUpgradeStrategy()*/);
+        return new WebSocketHandlerAdapter();
     }
 }

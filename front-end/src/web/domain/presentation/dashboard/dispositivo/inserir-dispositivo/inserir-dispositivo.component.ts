@@ -150,6 +150,7 @@ export class InserirDispositivoComponent implements OnInit {
       delete unidadeTpoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade
     );
 
+    (dispositivo as any).codigo = dispositivo.nome;
     if (dispositivo.unidadesTiposAvaliacoesDispositivo.length > 0)
       this.dispositivoRepository.save(dispositivo).then(result => {
         this.dispositivo = result;

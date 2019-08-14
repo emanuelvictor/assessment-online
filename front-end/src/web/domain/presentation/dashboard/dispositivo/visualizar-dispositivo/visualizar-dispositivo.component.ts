@@ -66,6 +66,11 @@ export class VisualizarDispositivoComponent implements OnInit {
    */
   ngOnInit() {
     const dispositivoId: number = this.activatedRoute.snapshot.params['id'];
+
+    // this.dispositivoRepository.connect(dispositivoId).subscribe( result => {
+    //   console.log(result);
+    // })
+
     this.find(dispositivoId)
   }
 
@@ -75,8 +80,9 @@ export class VisualizarDispositivoComponent implements OnInit {
    */
   public find(dispositivoId: number) {
 
-    this.dispositivoRepository.findById(dispositivoId).subscribe((dispositivo: Dispositivo) => {
-
+    // this.dispositivoRepository.findById(dispositivoId).subscribe((dispositivo: Dispositivo) => {
+      this.dispositivoRepository.connect(dispositivoId).subscribe( dispositivo => {
+console.log(dispositivo);
       this.unidadeRepository.listLightByFilters({withUnidadesTiposAvaliacoesAtivasFilter: true}).subscribe(result => {
 
         this.unidades = result.content;
