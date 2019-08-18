@@ -35,8 +35,7 @@ export class MobileService {
   /**
    *
    */
-  private _timeout: number;
-
+  private _timeout: any;
 
   /**
    * @param _localStorage

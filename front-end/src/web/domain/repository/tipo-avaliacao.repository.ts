@@ -3,6 +3,8 @@ import {BaseRepository} from '../../infrastructure/repository/base/base.reposito
 import {HttpClient} from '@angular/common/http';
 import {TipoAvaliacao} from "../entity/avaliacao/tipo-avaliacao.model";
 
+// import { WebSocketSubject, webSocket } from 'rxjs/websocket';
+
 @Injectable()
 export class TipoAvaliacaoRepository extends BaseRepository<TipoAvaliacao> {
 

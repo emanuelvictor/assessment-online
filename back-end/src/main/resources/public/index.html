@@ -1,87 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>UBest - O melhor para sua empresa!</title>
-
-  <!-- Stylesheet -->
-  <!--<link href="./assets/styles/startup-materilize.css" rel="stylesheet">-->
-
-  <!--&lt;!&ndash; Material Icons &ndash;&gt;-->
-  <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
-
-  <!--<meta id="shopify-digital-wallet" name="shopify-digital-wallet" content="/17758583/digital_wallets/dialog">-->
-  <!--<meta name="shopify-checkout-api-token" content="6aacc581eb2b41d74f03c38d3c985dba">-->
-  <!--<meta id="in-context-paypal-metadata" data-shop-id="17758583" data-environment="production" data-locale="en_US" data-paypal-v4="true" data-currency="USD">-->
-
-  <link rel="canonical" href="https://ubest.com.br">
+<link type="text/css" rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
+<script type="text/javascript" src="app.js"></script>
 </head>
-
-<!--<body style="background: url('assets/images/site.jpg'); height: 5000px">-->
-<body style='margin: 0'>
-
-<!-- Navbar -->
-<!--<nav class="n fq">-->
-<!--<div class="nav-wrapper">-->
-<!--<ul id="nav-mobile" class="ag hide-on-med-and-down">-->
-<!--<li><a class="waves-effect waves-teal" href="sistema">Entrar</a></li>-->
-<!--<li><a class="waves-effect waves-teal" href="sistema/#/cadastre-se">Cadastre-se agora!</a></li>-->
-<!--</ul>-->
-
-<!--<a href="#" data-activates="slide-out" class="button-collapse ag"><i class="material-icons white-text">menu</i></a>-->
-<!--</div>-->
-<!--</nav>-->
-<!--<ul id="slide-out" class="side-nav">-->
-<!--<li><a class="waves-effect waves-teal" href="sistema">Entrar</a></li>-->
-<!--<li><a class="waves-effect waves-teal" href="sistema/#/cadastre-se">Cadastre-se agora!</a></li>-->
-<!--</ul>-->
-<!--falar das características do aplicativo, insonia e quiosque-->
-<!--tela inicial-->
-<!--<div class="v ai">-->
-<!--<div class="bz">-->
-<!--<img src="./assets/images/site.jpg" alt="">-->
-<!--</div>-->
-<!--</div>-->
-
-<a style="height: 100px;width: 400px;position: absolute;right: 0" href="./sistema/"></a>
-
-<div>
-  <!--<div style="background: url('assets/images/site.jpg'); height: 100%; background-size: contain">-->
-  <!--</div>-->
-  <img src="./assets/images/site.jpg" style='display: block; z-index: 1; width: 100%;' alt="">
-
-</div>
-
-
-
-<!-- Scripts -->
-<!--<script src="./assets/scripts/jquery.min.js"></script>-->
-<!--<script src="./assets/scripts/materialize.min.js"></script>-->
-<!--<script src="./assets/scripts/startup-all-min.js?2667407724680817860" crossorigin="anonymous"></script>-->
-
-<!-- Global site tag (gtag.js) - Google Analytics Otto -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-134970471-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-134970471-1');
-</script>
-
-<!-- Global site tag (gtag.js) - Google Analytics Emanuel -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135017074-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-135017074-1');
-</script>
-
+<body>
+	<div>
+		<div id="connect-container" class="ui centered grid">
+			<div class="row">
+				<button id="connect" onclick="connect();" class="ui green button ">Connect</button>
+				<button id="disconnect" disabled="disabled" onclick="disconnect();"
+					class="ui red button">Disconnect</button>
+			</div>
+			<div class="row">
+				<textarea id="message" style="width: 350px" class="ui input"
+					placeholder="Message to Echo"></textarea>
+			</div>
+			<div class="row">
+				<button id="echo" onclick="echo();" disabled="disabled"
+					class="ui button">Echo message</button>
+			</div>
+		</div>
+		<div id="console-container">
+			<h3>Logging</h3>
+			<div id="logging"></div>
+		</div>
+	</div>
 </body>
 </html>
