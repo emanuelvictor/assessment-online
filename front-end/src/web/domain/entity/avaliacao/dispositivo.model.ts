@@ -11,7 +11,37 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
-  public codigo: string;
+  public nome: string;
+
+  /**
+   *
+   */
+  public modoQuiosque: boolean;
+
+  /**
+   *
+   */
+  public modoInsonia: boolean;
+
+  /**
+   *
+   */
+  public latitude: boolean;
+
+  /**
+   *
+   */
+  public longitude: boolean;
+
+  /**
+   *
+   */
+  public time: number;
+
+  /**
+   *
+   */
+  public quebrarLinhaNaSelecaoDeItenAvaliavel: boolean;
 
   /**
    *

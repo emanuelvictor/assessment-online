@@ -16,17 +16,11 @@
     </div>
   </div>
 
-  <mat-divider [inset]='true' divider
+  <mat-divider *ngIf='vincularUnidadeTipoSvaliacao' [inset]='true' divider
                style='margin-top: 8px; margin-left: -25px; margin-right: -25px; margin-bottom: 8px; position: inherit;width: auto'>
   </mat-divider>
 
-  <!--<configurar-unidades-tipos-avaliacoes (add)='add($event)' (remove)='remove($event)'-->
-  <!--[unidades]='unidades'-->
-  <!--[unidadesTiposAvaliacoesDispositivo]='dispositivo.unidadesTiposAvaliacoesDispositivo'-->
-  <!--configurarUnidadesTiposAvaliacoes *ngIf='unidades.length'>-->
-  <!--</configurar-unidades-tipos-avaliacoes>-->
-
-  <mat-card configurarUnidadesTiposAvaliacoes class='bgc-grey-50' *ngIf='unidades?.length'>
+  <mat-card configurarUnidadesTiposAvaliacoes class='bgc-grey-50' *ngIf='vincularUnidadeTipoSvaliacao'>
 
     <vincular-unidade-tipo-avaliacao [(unidades)]='unidades'
                                      (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'>
@@ -34,7 +28,7 @@
 
   </mat-card>
 
-  <mat-divider [inset]='true' divider2
+  <mat-divider *ngIf='vincularUnidadeTipoSvaliacao' [inset]='true' divider2
                style='margin-top: 11px; margin-left: -25px; margin-right: -25px; margin-bottom: 14px; position: inherit;width: auto'>
   </mat-divider>
 

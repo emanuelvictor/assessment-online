@@ -116,7 +116,6 @@ import {DispositivoFormComponent} from "./presentation/dashboard/dispositivo/ins
 import {ConsultarDispositivosComponent} from "./presentation/dashboard/dispositivo/consultar-dispositivos/consultar-dispositivos.component";
 import {AlterarDispositivoComponent} from "./presentation/dashboard/dispositivo/alterar-dispositivo/alterar-dispositivo.component";
 import {OrderModule} from "ngx-order-pipe";
-import {ConfigurarUnidadesTiposAvaliacoesComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/configurar-unidades-tipos-avaliacoes/configurar-unidades-tipos-avaliacoes.component";
 import {UnidadeTipoAvaliacaoDispositivoRepository} from "./repository/unidade-tipo-avaliacao-dispositivo.repository";
 import {VincularUnidadeTipoAvaliacaoComponent} from "./presentation/dashboard/dispositivo/visualizar-dispositivo/vincular-unidade-tipo-avaliacao/vincular-unidade-tipo-avaliacao.component";
 
@@ -228,7 +227,6 @@ registerLocaleData(localePt, 'pt-BR');
     DispositivoFormComponent,
     ConsultarDispositivosComponent,
     AlterarDispositivoComponent,
-    ConfigurarUnidadesTiposAvaliacoesComponent, //TODO remover
     VincularUnidadeTipoAvaliacaoComponent,
 
     // Cliente

@@ -11,6 +11,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {viewAnimation} from "../../../controls/utils";
 import {UnidadeRepository} from "../../../../repository/unidade.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
+import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
+import {UnidadeTipoAvaliacaoDispositivo} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
 
 /**
  *
@@ -34,6 +36,11 @@ export class InserirDispositivoComponent implements OnInit {
    *
    */
   unidades: any[] = [];
+
+  /**
+   *
+   */
+  vincularUnidadeTipoSvaliacao: boolean;
 
   /**
    *
@@ -62,6 +69,7 @@ export class InserirDispositivoComponent implements OnInit {
    *
    */
   ngOnInit(): void {
+
     this.unidadeRepository.listLightByFilters({
       withUnidadesTiposAvaliacoesAtivasFilter: true
     }).subscribe(result => {
@@ -69,13 +77,39 @@ export class InserirDispositivoComponent implements OnInit {
 
       for (let k = 0; k < this.unidades.length; k++) {
 
-        this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[k].id, ativo: true})
+        // this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[k].id, ativo: true})
+        this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: this.unidades[k].id, ativo: true})
           .subscribe(resulted => {
             this.unidades[k].unidadesTiposAvaliacoes = resulted.content;
+
             this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
               this.unidades[k].unidadeTipoAvaliacaoDispositivoValue = false;
               unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo = {}
-            })
+            });
+
+            this.vincularUnidadeTipoSvaliacao = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1)));
+
+            if (!this.vincularUnidadeTipoSvaliacao) {
+              const unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+              unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = this.unidades[0].unidadesTiposAvaliacoes[0];
+              unidadeTipoAvaliacaoDispositivo.ativo = true;
+              unidadeTipoAvaliacaoDispositivo.ordem = 1;
+              this.dispositivo.unidadesTiposAvaliacoesDispositivo.push(unidadeTipoAvaliacaoDispositivo)
+            } else if (this.unidades[0].unidadesTiposAvaliacoes.length > 1) {
+
+              this.unidades[0].unidadeTipoAvaliacaoDispositivoValue = true;
+              const unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[] = [];
+              for (let i = 0; i < this.unidades[0].unidadesTiposAvaliacoes.length; i++) {
+                const unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+                unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = this.unidades[0].unidadesTiposAvaliacoes[i];
+                unidadeTipoAvaliacaoDispositivo.ativo = true;
+                unidadeTipoAvaliacaoDispositivo.ordem = (i + 1);
+                this.unidades[0].unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo = unidadeTipoAvaliacaoDispositivo;
+                unidadesTiposAvaliacoesDispositivo.push(unidadeTipoAvaliacaoDispositivo)
+              }
+
+              this.unidadesTiposAvaliacoesDispositivoChange(unidadesTiposAvaliacoesDispositivo)
+            }
           })
       }
     })
@@ -116,10 +150,12 @@ export class InserirDispositivoComponent implements OnInit {
       delete unidadeTpoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade
     );
 
-    this.dispositivoRepository.save(dispositivo).then(result => {
-      this.dispositivo = result;
-      this.success('Dispositivo inserido com sucesso')
-    })
+    if (dispositivo.unidadesTiposAvaliacoesDispositivo.length > 0)
+      this.dispositivoRepository.save(dispositivo).then(result => {
+        this.dispositivo = result;
+        this.success('Dispositivo inserido com sucesso')
+      });
+    else this.openSnackBar('Selecione ao menos um Tipo de Avaliação')
   }
 
   /**

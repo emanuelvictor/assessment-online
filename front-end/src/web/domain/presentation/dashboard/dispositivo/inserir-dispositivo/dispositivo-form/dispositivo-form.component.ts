@@ -4,7 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry, MatSnackBar} from "@angular/material";
 
-import {FormBuilder, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, ValidatorFn, Validators} from "@angular/forms";
 import {FileRepository} from "../../../../../../infrastructure/repository/file/file.repository";
 import {Dispositivo} from "../../../../../entity/avaliacao/dispositivo.model";
 
@@ -59,9 +59,26 @@ export class DispositivoFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      codigo: ['codigo', [Validators.required]]
-    })
+      nome: ['nome', [Validators.required]],
+      time: ['time', [Validators.required, this.timeoutValidator()]]
+    });
 
+  }
+
+  /**
+   *
+   * @param exception
+   */
+  timeoutValidator(exception?: string): ValidatorFn {
+    return (c: AbstractControl): { [key: string]: any } => {
+      if (c.value || c.value === 0) {
+        if (c.value < 5) {
+          return {exception: exception ? exception : 'O tempo deve ultrapassar 5 segundos'};
+        } else if (c.value > 600) {
+          return {exception: exception ? exception : 'O tempo não deve ultrapassar 10 minutos (600 segundos)'};
+        }
+      }
+    }
   }
 
   /**

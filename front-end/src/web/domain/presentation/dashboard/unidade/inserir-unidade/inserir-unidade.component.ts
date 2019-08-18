@@ -58,7 +58,11 @@ export class InserirUnidadeComponent {
     this.tipoAvaliacaoRepository.listByFilters(null)
       .subscribe(result => {
         this.tiposAvaliacoes = result.content;
-      });
+        if (this.tiposAvaliacoes.length && this.tiposAvaliacoes.length === 1) {
+          this.tiposAvaliacoes[0].ativo = true;
+          this.saveUnidadeTipoAvaliacao(this.tiposAvaliacoes[0])
+        }
+      })
   }
 
   /**
@@ -82,8 +86,8 @@ export class InserirUnidadeComponent {
 
       });
 
-      this.success('Unidade inserido com sucesso');
-    });
+      this.success('Unidade inserido com sucesso')
+    })
   }
 
   /**
