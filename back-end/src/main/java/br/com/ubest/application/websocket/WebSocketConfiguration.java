@@ -31,7 +31,7 @@ public class WebSocketConfiguration {
 
     @Bean
     public Flux<Dispositivo> dispositivo(final UnicastProcessor<Dispositivo> dispositivoPublisher) {
-        return dispositivoPublisher.replay(25).autoConnect();
+        return dispositivoPublisher.replay(1).autoConnect();
     }
 
     @Bean
