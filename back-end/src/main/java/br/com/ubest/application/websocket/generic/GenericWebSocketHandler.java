@@ -19,12 +19,20 @@ public class GenericWebSocketHandler<T extends AbstractEntity> implements WebSoc
 
     private UnicastProcessor<T> messagePublisher;
     private Flux<String> outputMessages;
+
+    // Repositório
     private JpaRepository<T, Long> jpaRepository;
+
+    // Mapeador do JSON
     private JsonConverter<T> jsonConverter;
 
-    public GenericWebSocketHandler(final JpaRepository<T, Long> jpaRepository, final JsonConverter<T> jsonConverter) {
+    // Path para extração do ID
+    private final String path;
+
+    public GenericWebSocketHandler(final JpaRepository<T, Long> jpaRepository, final JsonConverter<T> jsonConverter, final String path) {
         this.jpaRepository = jpaRepository;
         this.jsonConverter = jsonConverter;
+        this.path = path;
     }
 
     // Cria o fluxo vazio
@@ -60,14 +68,15 @@ public class GenericWebSocketHandler<T extends AbstractEntity> implements WebSoc
         return session.send(outputMessages.map(session::textMessage));
     }
 
+
     /**
      *
      * @param session WebSocketSession
      * @return long
      */
-    private static long extractIdFromSession(final WebSocketSession session) {
+    private long extractIdFromSession(final WebSocketSession session) {
         // This can go in a static final
-        final UriTemplate template = new UriTemplate("/tipos-avaliacoes/{id}");
+        final UriTemplate template = new UriTemplate(path);
         final Map<String, String> parameters = template.match(session.getHandshakeInfo().getUri().toASCIIString());
         final String id = parameters.get("id");
 

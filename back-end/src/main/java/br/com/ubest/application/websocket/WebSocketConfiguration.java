@@ -13,7 +13,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
+import org.springframework.web.reactive.socket.WebSocketSession;
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
+import org.springframework.web.util.UriTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +33,8 @@ public class WebSocketConfiguration {
     @Bean
     public HandlerMapping webSocketMapping() {
         final Map<String, Object> map = new HashMap<>();
-        map.put("/dispositivos/{id}", new GenericWebSocketHandler<>(dispositivoRepository, new JsonConverter<>(Dispositivo.class, objectMapper)));
-        map.put("/tipos-avaliacoes/{id}", new GenericWebSocketHandler<>(tipoAvaliacaoRepository, new JsonConverter<>(TipoAvaliacao.class, objectMapper)));
+        map.put("/dispositivos/{id}", new GenericWebSocketHandler<>(dispositivoRepository, new JsonConverter<>(Dispositivo.class, objectMapper), "/dispositivos/{id}"));
+        map.put("/tipos-avaliacoes/{id}", new GenericWebSocketHandler<>(tipoAvaliacaoRepository, new JsonConverter<>(TipoAvaliacao.class, objectMapper), "/tipos-avaliacoes/{id}"));
         final SimpleUrlHandlerMapping simpleUrlHandlerMapping = new SimpleUrlHandlerMapping();
         simpleUrlHandlerMapping.setUrlMap(map);
         simpleUrlHandlerMapping.setOrder(Ordered.HIGHEST_PRECEDENCE);

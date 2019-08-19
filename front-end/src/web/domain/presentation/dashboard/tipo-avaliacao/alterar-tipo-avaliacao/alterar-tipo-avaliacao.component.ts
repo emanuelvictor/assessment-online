@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
@@ -12,7 +12,7 @@ import {WebSocketSubject} from "rxjs/webSocket";
   templateUrl: './alterar-tipo-avaliacao.component.html',
   styleUrls: ['./alterar-tipo-avaliacao.component.scss']
 })
-export class AlterarTipoAvaliacaoComponent implements OnInit {
+export class AlterarTipoAvaliacaoComponent implements OnInit, OnDestroy {
 
   /**
    *
@@ -58,7 +58,7 @@ export class AlterarTipoAvaliacaoComponent implements OnInit {
    */
   public save(): void {
     this.webSocketSubject.next(this.tipoAvaliacao);
-    this.success('Tipo de avaliação inserida com sucesso');
+    // this.success('Tipo de avaliação inserida com sucesso');
   }
 
   /**
@@ -99,5 +99,12 @@ export class AlterarTipoAvaliacaoComponent implements OnInit {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
+  }
+
+  /**
+   *
+   */
+  ngOnDestroy(): void {
+    this.webSocketSubject.unsubscribe()
   }
 }
