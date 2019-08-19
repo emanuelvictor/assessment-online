@@ -1,6 +1,12 @@
 package br.com.ubest.application.websocket;
 
+import br.com.ubest.application.converters.JsonConverter;
+import br.com.ubest.application.websocket.generic.GenericWebSocketHandler;
+import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
+import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.DispositivoRepository;
+import br.com.ubest.domain.repository.TipoAvaliacaoRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +24,16 @@ public class WebSocketConfiguration {
 
     private final DispositivoRepository dispositivoRepository;
 
+    private final TipoAvaliacaoRepository tipoAvaliacaoRepository;
+
+    private final ObjectMapper objectMapper;
+
     @Bean
     public HandlerMapping webSocketMapping() {
         final Map<String, Object> map = new HashMap<>();
-        map.put("/dispositivos/{id}", new DispositivoWebSocketHandler(dispositivoRepository));
-        SimpleUrlHandlerMapping simpleUrlHandlerMapping = new SimpleUrlHandlerMapping();
+        map.put("/dispositivos/{id}", new GenericWebSocketHandler<>(dispositivoRepository, new JsonConverter<>(Dispositivo.class, objectMapper)));
+        map.put("/tipos-avaliacoes/{id}", new GenericWebSocketHandler<>(tipoAvaliacaoRepository, new JsonConverter<>(TipoAvaliacao.class, objectMapper)));
+        final SimpleUrlHandlerMapping simpleUrlHandlerMapping = new SimpleUrlHandlerMapping();
         simpleUrlHandlerMapping.setUrlMap(map);
         simpleUrlHandlerMapping.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return simpleUrlHandlerMapping;

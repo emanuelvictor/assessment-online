@@ -5,6 +5,7 @@ import {textMasks} from '../../../controls/text-masks/text-masks';
 import {DomSanitizer} from "@angular/platform-browser";
 import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
+import {WebSocketSubject} from "rxjs/webSocket";
 
 @Component({
   selector: 'alterar-tipo-avaliacao',
@@ -23,6 +24,11 @@ export class AlterarTipoAvaliacaoComponent implements OnInit {
    * @type {TipoAvaliacao}
    */
   tipoAvaliacao: TipoAvaliacao = new TipoAvaliacao();
+
+  /**
+   *
+   */
+  webSocketSubject: WebSocketSubject<TipoAvaliacao>;
 
   /**
    *
@@ -51,12 +57,8 @@ export class AlterarTipoAvaliacaoComponent implements OnInit {
    *
    */
   public save(): void {
-    this.tipoAvaliacaoRepository.save(this.tipoAvaliacao)
-      .then(result => {
-        this.tipoAvaliacao = result;
-
-        this.success('Tipo de avaliação inserida com sucesso');
-      });
+    this.webSocketSubject.next(this.tipoAvaliacao);
+    this.success('Tipo de avaliação inserida com sucesso');
   }
 
   /**
@@ -73,11 +75,12 @@ export class AlterarTipoAvaliacaoComponent implements OnInit {
    * @param {number} avaliacaoId
    */
   public find(avaliacaoId: number) {
-    this.tipoAvaliacaoRepository.findById(avaliacaoId)
-      .subscribe((tipoAvaliacao: TipoAvaliacao) => {
-          this.tipoAvaliacao = tipoAvaliacao;
-        }
-      )
+    this.webSocketSubject = this.tipoAvaliacaoRepository.connect(avaliacaoId);
+
+    this.webSocketSubject.subscribe((tipoAvaliacao: TipoAvaliacao) => {
+        this.tipoAvaliacao = tipoAvaliacao;
+      }
+    )
   }
 
   /**

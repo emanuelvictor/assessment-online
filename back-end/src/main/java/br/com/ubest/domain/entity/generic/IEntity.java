@@ -13,10 +13,10 @@ public interface IEntity<ID extends Serializable> extends Serializable {
     /**
      * @return ID
      */
-    ID getId();
+    public  ID getId();
 
     /**
      * @param id ID
      */
-    void setId(ID id);
+    public void setId(ID id);
 }

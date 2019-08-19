@@ -5,11 +5,15 @@ import {PageSerialize} from '../../page-serialize/page-serialize';
 import {Observable} from 'rxjs';
 import {environment} from "../../../../environments/environment";
 import {Router} from "@angular/router";
+import {webSocket, WebSocketSubject} from "rxjs/webSocket";
+import {Message} from "stompjs";
 
 
 export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
 
   protected collectionName: string = environment.endpoint;
+
+  public socket: WebSocketSubject<T>;
 
   constructor(public httpClient: HttpClient, public collection: string, private router?: Router) {
     if (collection) {
@@ -17,6 +21,17 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
     } else {
       this.collectionName = this.collectionName + this.constructor.name.replace('Repository', '').toLowerCase() + 's';
     }
+  }
+
+  connect(id: number): WebSocketSubject<T> {
+
+    this.socket = webSocket('ws://localhost:8080/' + this.collectionName + '/' + id);
+
+    // return new Observable<any>(subscriber => {
+    return this.socket;
+    // });
+
+// return null
   }
 
   async save(item: T): Promise<T> {

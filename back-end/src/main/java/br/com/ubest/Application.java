@@ -125,18 +125,11 @@ public class Application  extends SpringBootServletInitializer {
         return new LocalValidatorFactoryBean();
     }
 
-//    /**
-//     * @return Validator
-//     */
-//    @Bean
-//    @Transactional
-//    public EntityManager entityManager(final EntityManager entityManager, final TenantIdentifierResolver tenantIdentifierResolver) {
-//        org.hibernate.Filter filter = entityManager.unwrap(Session.class).enableFilter("tenantFilter");
-//        filter.setParameter("tenant", tenantIdentifierResolver.resolveCurrentTenantIdentifier());
-//        filter.validate();
-//        return entityManager;
-//    }
-
+    /**
+     *
+     * @param tenantIdentifierResolver TenantIdentifierResolver
+     * @return EmptyInterceptor
+     */
     @Bean
     public EmptyInterceptor emptyInterceptor(final TenantIdentifierResolver tenantIdentifierResolver) {
         return new EmptyInterceptorConfig(tenantIdentifierResolver);

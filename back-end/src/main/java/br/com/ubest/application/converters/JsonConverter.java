@@ -7,9 +7,16 @@ import java.io.IOException;
 
 public class JsonConverter<T> {
 
-    public  T toObject(final String jsonString, final Class<T> tClass) {
+    private final Class<T> tClass;
 
-        final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper;
+
+    public JsonConverter(final Class<T> tClass, final ObjectMapper objectMapper) {
+        this.tClass = tClass; //getGenericTypeClass();// (Class<T>) Class.forName(this.getClass().getTypeName());
+        this.mapper = objectMapper;
+    }
+
+    public T toObject(final String jsonString) {
 
         try {
             return mapper.readValue(jsonString, tClass);
@@ -20,7 +27,6 @@ public class JsonConverter<T> {
 
     public String toJSON(T object) {
         try {
-            final ObjectMapper mapper = new ObjectMapper();
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

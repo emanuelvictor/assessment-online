@@ -3,6 +3,7 @@ package br.com.ubest.application.websocket;
 import br.com.ubest.application.converters.JsonConverter;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.DispositivoRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketSession;
@@ -40,7 +41,7 @@ public class DispositivoWebSocketHandler implements WebSocketHandler {
         // Se as mensagens estão nulas, inicializa com o primeiro
         if (this.outputMessages == null) {
             this.messagePublisher = this.dispositivoPublisher(extractIdFromSession(session));
-            this.outputMessages = Flux.from(this.dispositivos(this.messagePublisher)).map(new JsonConverter<Dispositivo>()::toJSON);
+            this.outputMessages = Flux.from(this.dispositivos(this.messagePublisher)).map(new JsonConverter<>(Dispositivo.class, new ObjectMapper())::toJSON);
         }
 
         final WebSocketMessageSubscriber subscriber = new WebSocketMessageSubscriber(messagePublisher);
@@ -48,7 +49,7 @@ public class DispositivoWebSocketHandler implements WebSocketHandler {
                 .map(WebSocketMessage::getPayloadAsText)
                 // Recebendo salva
                 .map(s -> {
-                    final Dispositivo dispositivo = new JsonConverter<Dispositivo>().toObject(s, Dispositivo.class);
+                    final Dispositivo dispositivo = new JsonConverter<>(Dispositivo.class, new ObjectMapper()).toObject(s);
                     dispositivo.setId(extractIdFromSession(session));
                     return this.dispositivoRepository.save(dispositivo);
                 })
