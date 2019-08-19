@@ -19,7 +19,7 @@ public interface UnidadeTipoAvaliacaoDispositivoRepository extends JpaRepository
 //            "       (" +
 //            "           :dispositivoId IS NOT NULL AND " +
 //            "           (" +
-//            "               unidadeTipoAvaliacaoDispositivo.dispositivo.id = :dispositivoId" +
+//            "               unidadeTipoAvaliacaoDispositivo.dispositivos.id = :dispositivoId" +
 //            "           )" +
 //            "           OR :dispositivoId IS NULL " +
 //            "       )" +

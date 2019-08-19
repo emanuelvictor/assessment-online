@@ -7,21 +7,21 @@ import java.io.IOException;
 
 public class JsonConverter<T> {
 
-    public T toEvent(final String json, final Class<T> tClass) {
+    public  T toObject(final String jsonString, final Class<T> tClass) {
 
         final ObjectMapper mapper = new ObjectMapper();
 
         try {
-            return mapper.readValue(json, tClass);
+            return mapper.readValue(jsonString, tClass);
         } catch (IOException e) {
-            throw new RuntimeException("Invalid JSON:" + json, e);
+            throw new RuntimeException("Invalid JSON:" + jsonString, e);
         }
     }
 
-    public String toJSON(T event) {
+    public String toJSON(T object) {
         try {
             final ObjectMapper mapper = new ObjectMapper();
-            return mapper.writeValueAsString(event);
+            return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
