@@ -6,6 +6,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
 import {WebSocketSubject} from "rxjs/webSocket";
+import {SchedulerLike} from "rxjs/internal/types";
 
 @Component({
   selector: 'alterar-tipo-avaliacao',
@@ -58,7 +59,7 @@ export class AlterarTipoAvaliacaoComponent implements OnInit, OnDestroy {
    */
   public save(): void {
     this.webSocketSubject.next(this.tipoAvaliacao);
-    // this.success('Tipo de avaliação inserida com sucesso');
+    this.success('Tipo de avaliação inserida com sucesso');
   }
 
   /**

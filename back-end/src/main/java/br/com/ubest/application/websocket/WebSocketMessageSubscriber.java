@@ -1,4 +1,4 @@
-package br.com.ubest.application.websocket.generic;
+package br.com.ubest.application.websocket;
 
 import reactor.core.publisher.UnicastProcessor;
 
@@ -8,20 +8,23 @@ public class WebSocketMessageSubscriber<T> {
     private UnicastProcessor<T> messagePublisher;
     private Optional<T> lastReceivedMessage = Optional.empty();
 
-    public WebSocketMessageSubscriber(UnicastProcessor<T> messagePublisher) {
+    WebSocketMessageSubscriber(final UnicastProcessor<T> messagePublisher) {
         this.messagePublisher = messagePublisher;
     }
 
-    public void onNext(T object) {
+    void onNext(final T object) {
         lastReceivedMessage = Optional.of(object);
         messagePublisher.onNext(object);
     }
 
-    public void onError(Throwable error) {
+    void onError(final Throwable error) {
         error.printStackTrace();
+//        messagePublisher.onError(error);
     }
 
     public void onComplete() {
-        lastReceivedMessage.ifPresent(messagePublisher::onNext);
+        messagePublisher.onComplete();
+//        if (!messagePublisher.isEmpty())
+//            lastReceivedMessage.ifPresent(messagePublisher::onNext);
     }
 }

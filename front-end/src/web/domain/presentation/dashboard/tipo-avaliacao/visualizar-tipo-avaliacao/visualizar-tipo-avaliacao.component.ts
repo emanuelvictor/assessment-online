@@ -1,23 +1,29 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {Avaliacao} from "../../../../entity/avaliacao/avaliacao.model";
 import {TipoAvaliacao} from "../../../../entity/avaliacao/tipo-avaliacao.model";
 import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
 import {ConfirmDialogComponent} from "../../../controls/confirm-dialog/confirm-dialog.component";
+import {WebSocketSubject} from "rxjs/webSocket";
 
 @Component({
   selector: 'visualizar-tipo-avaliacao',
   templateUrl: './visualizar-tipo-avaliacao.component.html',
   styleUrls: ['./visualizar-tipo-avaliacao.component.scss']
 })
-export class VisualizarTipoAvaliacaoComponent implements OnInit {
+export class VisualizarTipoAvaliacaoComponent implements OnInit, OnDestroy {
 
   /**
    *
    * @type {Avaliacao}
    */
   tipoAvaliacao: TipoAvaliacao = new TipoAvaliacao();
+
+  /**
+   *
+   */
+  webSocketSubject: WebSocketSubject<TipoAvaliacao>;
 
   /**
    *
@@ -46,10 +52,12 @@ export class VisualizarTipoAvaliacaoComponent implements OnInit {
    * @param {number} tipoAvaliacaoId
    */
   public find(tipoAvaliacaoId: number) {
-    this.tipoAvaliacaoRepository.connect(tipoAvaliacaoId)
-      .subscribe((tipoAvaliacao: TipoAvaliacao) =>{
-        this.tipoAvaliacao = tipoAvaliacao}
-      )
+    this.webSocketSubject = this.tipoAvaliacaoRepository.connect(tipoAvaliacaoId);
+
+    this.webSocketSubject.subscribe((tipoAvaliacao: TipoAvaliacao) => {
+        this.tipoAvaliacao = tipoAvaliacao;
+      }
+    )
   }
 
   /**
@@ -95,5 +103,13 @@ export class VisualizarTipoAvaliacaoComponent implements OnInit {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
     });
+  }
+
+
+  /**
+   *
+   */
+  ngOnDestroy(): void {
+    this.webSocketSubject.unsubscribe()
   }
 }

@@ -1,7 +1,6 @@
 package br.com.ubest.application.websocket;
 
 import br.com.ubest.application.converters.JsonConverter;
-import br.com.ubest.application.websocket.generic.GenericWebSocketHandler;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.DispositivoRepository;
@@ -13,9 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
-import org.springframework.web.reactive.socket.WebSocketSession;
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
-import org.springframework.web.util.UriTemplate;
 
 import java.util.HashMap;
 import java.util.Map;

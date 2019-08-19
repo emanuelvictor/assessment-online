@@ -1,4 +1,4 @@
-package br.com.ubest.application.websocket.generic;
+package br.com.ubest.application.websocket;
 
 import br.com.ubest.application.converters.JsonConverter;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
@@ -7,18 +7,16 @@ import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketSession;
 import org.springframework.web.util.UriTemplate;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.UnicastProcessor;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class GenericWebSocketHandler<T extends AbstractEntity> implements WebSocketHandler {
 
-    private UnicastProcessor<T> messagePublisher;
-    private Flux<String> outputMessages;
+    // Envelopa os subscribers
+    private List<WrapperHandler<T>> wrappersHandler = new ArrayList<>();
 
     // Repositório
     private JpaRepository<T, Long> jpaRepository;
@@ -29,31 +27,26 @@ public class GenericWebSocketHandler<T extends AbstractEntity> implements WebSoc
     // Path para extração do ID
     private final String path;
 
+    /**
+     * @param jpaRepository JpaRepository<T, Long>
+     * @param jsonConverter JsonConverter<T>
+     * @param path          String
+     */
     public GenericWebSocketHandler(final JpaRepository<T, Long> jpaRepository, final JsonConverter<T> jsonConverter, final String path) {
         this.jpaRepository = jpaRepository;
         this.jsonConverter = jsonConverter;
         this.path = path;
     }
 
-    // Cria o fluxo vazio
-    public UnicastProcessor<T> publisher(final long id) {
-        final T object = this.jpaRepository.findById(id).orElseThrow();
-        return UnicastProcessor.create(new LinkedList<>(List.of(object)));
-    }
-
-    private Flux<T> flux(final UnicastProcessor<T> publisher) {
-        return publisher.replay(1).autoConnect();
-    }
-
     @Override
     public Mono<Void> handle(final WebSocketSession session) {
-        // Se as mensagens estão nulas, inicializa com o primeiro
-        if (this.outputMessages == null) {
-            this.messagePublisher = this.publisher(extractIdFromSession(session));
-            this.outputMessages = Flux.from(this.flux(this.messagePublisher)).map(entity -> jsonConverter.toJSON(entity));
-        }
 
-        final WebSocketMessageSubscriber<T> subscriber = new WebSocketMessageSubscriber<>(messagePublisher);
+        final long resourceId = extractIdFromSession(session);
+
+        final WrapperHandler<T> wrapperHandler = this.getWrapperHandlerByRosourceId(resourceId);
+
+        final WebSocketMessageSubscriber<T> subscriber = new WebSocketMessageSubscriber<>(wrapperHandler.getMessagePublisher());
+
         session.receive()
                 .map(WebSocketMessage::getPayloadAsText)
                 // Recebendo salva
@@ -62,15 +55,35 @@ public class GenericWebSocketHandler<T extends AbstractEntity> implements WebSoc
                     abstractEntity.setId(extractIdFromSession(session));
                     return this.jpaRepository.save(abstractEntity);
                 })
-                .subscribe(subscriber::onNext, subscriber::onError, subscriber::onComplete);
+                .subscribe(subscriber::onNext, subscriber::onError, () -> {
+                    wrapperHandler.decrementSubscribers();
+                    if (wrapperHandler.nonSubscribers())
+                        removeWrapperHandlerByRosourceId(resourceId);
+                });
 
         // Envia o que está na base
-        return session.send(outputMessages.map(session::textMessage));
+        return session.send(wrapperHandler.getOutputMessages().map(session::textMessage));
+    }
+
+    /**
+     * @param resourceId long
+     * @return WrapperHandler<T>
+     */
+    private WrapperHandler<T> getWrapperHandlerByRosourceId(final long resourceId) {
+        if (wrappersHandler.stream().noneMatch(wh -> wh.getResourceId() == resourceId))
+            wrappersHandler.add(new WrapperHandler<>(jpaRepository, jsonConverter, resourceId));
+        return wrappersHandler.stream().filter(wh -> wh.getResourceId() == resourceId).findFirst().orElseThrow();
+    }
+
+    /**
+     * @param resourceId long
+     */
+    private void removeWrapperHandlerByRosourceId(final long resourceId) {
+        wrappersHandler.removeIf(tWrapperHandler -> tWrapperHandler.getResourceId() == resourceId);
     }
 
 
     /**
-     *
      * @param session WebSocketSession
      * @return long
      */
