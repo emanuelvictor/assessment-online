@@ -9,14 +9,13 @@ import org.springframework.web.reactive.socket.WebSocketSession;
 import org.springframework.web.util.UriTemplate;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class GenericWebSocketHandler<T extends AbstractEntity> implements WebSocketHandler {
 
     // Envelopa os subscribers
-    private List<WrapperHandler<T>> wrappersHandler = new ArrayList<>();
+    private final List<WrapperHandler<T>> wrappersHandler;
 
     // Repositório
     private JpaRepository<T, Long> jpaRepository;
@@ -32,10 +31,11 @@ public class GenericWebSocketHandler<T extends AbstractEntity> implements WebSoc
      * @param jsonConverter JsonConverter<T>
      * @param path          String
      */
-    public GenericWebSocketHandler(final JpaRepository<T, Long> jpaRepository, final JsonConverter<T> jsonConverter, final String path) {
+    GenericWebSocketHandler(final JpaRepository<T, Long> jpaRepository, final JsonConverter<T> jsonConverter, final String path, final List<WrapperHandler<T>> wrappersHandler) {
         this.jpaRepository = jpaRepository;
         this.jsonConverter = jsonConverter;
         this.path = path;
+        this.wrappersHandler = wrappersHandler;
     }
 
     @Override

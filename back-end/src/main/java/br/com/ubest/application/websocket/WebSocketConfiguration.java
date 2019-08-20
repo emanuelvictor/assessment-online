@@ -14,24 +14,26 @@ import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
 public class WebSocketConfiguration {
 
+    private final ObjectMapper objectMapper;
+
     private final DispositivoRepository dispositivoRepository;
 
     private final TipoAvaliacaoRepository tipoAvaliacaoRepository;
 
-    private final ObjectMapper objectMapper;
-
     @Bean
     public HandlerMapping webSocketMapping() {
         final Map<String, Object> map = new HashMap<>();
-        map.put("/dispositivos/{id}", new GenericWebSocketHandler<>(dispositivoRepository, new JsonConverter<>(Dispositivo.class, objectMapper), "/dispositivos/{id}"));
-        map.put("/tipos-avaliacoes/{id}", new GenericWebSocketHandler<>(tipoAvaliacaoRepository, new JsonConverter<>(TipoAvaliacao.class, objectMapper), "/tipos-avaliacoes/{id}"));
+        map.put("/dispositivos/{id}/connect", new GenericWebSocketHandler<>(dispositivoRepository, new JsonConverter<>(Dispositivo.class, objectMapper), "/dispositivos/{id}/connect", dispositivosWrapperHandler()));
+        map.put("/tipos-avaliacoes/{id}/connect", new GenericWebSocketHandler<>(tipoAvaliacaoRepository, new JsonConverter<>(TipoAvaliacao.class, objectMapper), "/tipos-avaliacoes/{id}/connect", tiposAvaliacoesWrapperHandler()));
         final SimpleUrlHandlerMapping simpleUrlHandlerMapping = new SimpleUrlHandlerMapping();
         simpleUrlHandlerMapping.setUrlMap(map);
         simpleUrlHandlerMapping.setOrder(Ordered.HIGHEST_PRECEDENCE);
@@ -41,5 +43,17 @@ public class WebSocketConfiguration {
     @Bean
     public WebSocketHandlerAdapter handlerAdapter() {
         return new WebSocketHandlerAdapter();
+    }
+
+    @Bean
+    public List<WrapperHandler<TipoAvaliacao>> tiposAvaliacoesWrapperHandler() {
+        // Envelopa os subscribers
+        return new ArrayList<>();
+    }
+
+    @Bean
+    public List<WrapperHandler<Dispositivo>> dispositivosWrapperHandler() {
+        // Envelopa os subscribers
+        return new ArrayList<>();
     }
 }

@@ -6,7 +6,6 @@ import {Observable} from 'rxjs';
 import {environment} from "../../../../environments/environment";
 import {Router} from "@angular/router";
 import {webSocket, WebSocketSubject} from "rxjs/webSocket";
-import {Message} from "stompjs";
 
 
 export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
@@ -25,7 +24,7 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
 
   connect(id: number): WebSocketSubject<T> {
 
-    this.socket = webSocket('ws://localhost:8080/' + this.collectionName + '/' + id);
+    this.socket = webSocket('ws://localhost:8080/' + this.collectionName + '/' + id + '/connect');
 
     // return new Observable<any>(subscriber => {
     return this.socket;

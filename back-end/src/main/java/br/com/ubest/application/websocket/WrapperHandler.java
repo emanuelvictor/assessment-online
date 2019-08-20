@@ -50,7 +50,7 @@ public class WrapperHandler<T> {
         return publisher.replay(1).autoConnect();
     }
 
-    UnicastProcessor<T> getMessagePublisher() {
+    public UnicastProcessor<T> getMessagePublisher() {
         // Se as mensagens estão nulas, inicializa com o primeiro
         if (this.outputMessages == null) {
             this.messagePublisher = this.publisher(resourceId);

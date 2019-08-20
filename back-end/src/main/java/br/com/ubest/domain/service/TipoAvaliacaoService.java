@@ -1,7 +1,9 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.application.websocket.WrapperHandler;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
+import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.TipoAvaliacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,8 @@ public class TipoAvaliacaoService {
 
     private final TipoAvaliacaoRepository tipoAvaliacaoRepository;
 
+    private final List<WrapperHandler<TipoAvaliacao>> tiposAvaliacoesWrapperHandler;
+
     public Optional<TipoAvaliacao> findById(final long id) {
         return this.tipoAvaliacaoRepository.findById(id);
     }
@@ -37,7 +41,14 @@ public class TipoAvaliacaoService {
 
     public TipoAvaliacao save(final long id, final TipoAvaliacao tipoTipoAvaliacao) {
         Assert.isTrue(id > 0, "ID da avaliação incorreto"); //TODO fazer o validador exclusivo
-        return this.tipoAvaliacaoRepository.save(tipoTipoAvaliacao);
+
+        tipoTipoAvaliacao.setId(id);
+
+        tipoAvaliacaoRepository.save(tipoTipoAvaliacao);
+
+        tiposAvaliacoesWrapperHandler.stream().filter(tipoAvaliacaoWrapperHandler -> tipoAvaliacaoWrapperHandler.getResourceId() == id).findFirst().orElseThrow().getMessagePublisher().onNext(tipoTipoAvaliacao);
+
+        return tipoTipoAvaliacao;
     }
 
     @Transactional
