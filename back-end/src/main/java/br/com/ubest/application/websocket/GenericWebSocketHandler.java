@@ -51,9 +51,9 @@ public class GenericWebSocketHandler<T extends AbstractEntity> implements WebSoc
                 .map(WebSocketMessage::getPayloadAsText)
                 // Recebendo salva
                 .map(s -> {
-                    final T abstractEntity = jsonConverter.toObject(s);
-                    abstractEntity.setId(extractIdFromSession(session));
-                    return this.jpaRepository.save(abstractEntity);
+                    final T entity = jsonConverter.toObject(s);
+                    entity.setId(extractIdFromSession(session));
+                    return this.jpaRepository.save(entity);
                 })
                 .subscribe(subscriber::onNext, subscriber::onError, () -> {
                     wrapperHandler.decrementSubscribers();

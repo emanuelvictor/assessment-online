@@ -1,15 +1,12 @@
 package br.com.ubest.domain.resource;
 
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
-import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.usuario.Perfil;
-import br.com.ubest.domain.repository.TipoAvaliacaoRepository;
 import br.com.ubest.domain.service.TipoAvaliacaoService;
 import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -19,7 +16,6 @@ import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
-@Transactional
 @RequestMapping({"tipos-avaliacoes", "sistema/tipos-avaliacoes", "sistema/mobile/tipos-avaliacoes"})
 public class TipoAvaliacaoResource extends AbstractResource<TipoAvaliacao> {
 
