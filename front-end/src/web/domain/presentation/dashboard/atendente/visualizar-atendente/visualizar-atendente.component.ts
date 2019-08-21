@@ -110,8 +110,7 @@ export class VisualizarAtendenteComponent implements OnInit {
 
       this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
         this.unidades = result.content;
-console.log(this.unidades);
-        this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1 && (this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivos && this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivos[0].length > 1))));
+        console.log(this.unidades.map(u => u.unidadesTiposAvaliacoes));
 
         this.operadorRepository.listByFilters({usuarioId: atendenteId}).subscribe(page => {
           this.operadores = page.content;
@@ -138,6 +137,8 @@ console.log(this.unidades);
               }
           }
         });
+        console.log(this.unidades.map(u => u.unidadesTiposAvaliacoes));
+        this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1 && (this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivos && this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivos[0].length > 1))));
 
         this.atendente = atendente;
 

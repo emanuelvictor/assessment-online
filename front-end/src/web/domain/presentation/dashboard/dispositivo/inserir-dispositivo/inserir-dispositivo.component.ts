@@ -95,16 +95,16 @@ export class InserirDispositivoComponent implements OnInit {
               unidadeTipoAvaliacaoDispositivo.ativo = true;
               unidadeTipoAvaliacaoDispositivo.ordem = 1;
               this.dispositivo.unidadesTiposAvaliacoesDispositivo.push(unidadeTipoAvaliacaoDispositivo)
-            } else if (this.unidades[0].unidadesTiposAvaliacoes.length > 1) {
+            } else if (this.unidades[k].unidadesTiposAvaliacoes.length > 1) {
 
-              this.unidades[0].unidadeTipoAvaliacaoDispositivoValue = true;
+              this.unidades[k].unidadeTipoAvaliacaoDispositivoValue = true;
               const unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[] = [];
-              for (let i = 0; i < this.unidades[0].unidadesTiposAvaliacoes.length; i++) {
+              for (let i = 0; i < this.unidades[k].unidadesTiposAvaliacoes.length; i++) {
                 const unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
-                unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = this.unidades[0].unidadesTiposAvaliacoes[i];
+                unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = this.unidades[k].unidadesTiposAvaliacoes[i];
                 unidadeTipoAvaliacaoDispositivo.ativo = true;
                 unidadeTipoAvaliacaoDispositivo.ordem = (i + 1);
-                this.unidades[0].unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo = unidadeTipoAvaliacaoDispositivo;
+                this.unidades[k].unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo = unidadeTipoAvaliacaoDispositivo;
                 unidadesTiposAvaliacoesDispositivo.push(unidadeTipoAvaliacaoDispositivo)
               }
 

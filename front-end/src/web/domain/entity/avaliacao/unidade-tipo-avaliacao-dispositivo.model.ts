@@ -26,6 +26,11 @@ export class UnidadeTipoAvaliacaoDispositivo extends Abstract {
 
   /**
    *
+   */
+  public unidadesTiposAvaliacoesDispositivos: UnidadeTipoAvaliacaoDispositivo[];
+
+  /**
+   *
    * @param ativo
    */
   constructor(ativo?: boolean) {
