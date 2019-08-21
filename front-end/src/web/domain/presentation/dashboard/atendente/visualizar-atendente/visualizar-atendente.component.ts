@@ -113,43 +113,53 @@ export class VisualizarAtendenteComponent implements OnInit {
    */
   public async find(id: number) {
 
-    this.unidades = (await this.unidadeService.listLightByFilters({withBondFilter: true}).toPromise()).content;
+    this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
+      this.unidades = result.content;
 
-    this.operadores = (await this.operadorRepository.listByFilters({usuarioId: id}).toPromise()).content;
+      this.operadorRepository.listByFilters({usuarioId: id}).subscribe(result => {
+        this.operadores = result.content;
 
-    if (this.operadores.length)
-      for (let i = 0; i < this.unidades.length; i++)
-        for (let k = 0; k < this.operadores.length; k++)
-          if (this.operadores[k].unidade.id === this.unidades[i].id) {
-            (this.unidades[i] as any).operadorValue = true;
-            (this.unidades[i] as any).operador = this.operadores[k];
+        if (this.operadores.length)
+          for (let i = 0; i < this.unidades.length; i++)
+            for (let k = 0; k < this.operadores.length; k++)
+              if (this.operadores[k].unidade.id === this.unidades[i].id) {
+                (this.unidades[i] as any).operadorValue = true;
+                (this.unidades[i] as any).operador = this.operadores[k];
+              }
+      });
+
+      this.avaliavelRepository.listByFilters({usuarioId: id}).subscribe(result => {
+        this.avaliaveis = result.content;
+
+        for (let i = 0; i < this.unidades.length; i++) {
+          if (!this.unidades[i].unidadesTiposAvaliacoes || !this.unidades[i].unidadesTiposAvaliacoes.length) {
+            this.unidadeTipoAvaliacaoRepository.listByFilters({
+              unidadeId: this.unidades[i].id,
+              ativo: true
+            }).subscribe(result => {
+              this.unidades[i].unidadesTiposAvaliacoes = result.content;
+              for (let c = 0; c < this.unidades[i].unidadesTiposAvaliacoes.length; c++)
+                this.unidadeTipoAvaliacaoDispositivoRepository.listByUnidadeTipoAvaliacaoId({unidadeTipoAvaliacaoId: this.unidades[i].unidadesTiposAvaliacoes[c].id}).subscribe(result => {
+                  this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo = result.content
+                });
+
+              for (let k = 0; k < this.avaliaveis.length; k++)
+                if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+                  (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo;
+                  this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
+                  this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao);
+                }
+            })
           }
-
-    this.avaliaveis = (await this.avaliavelRepository.listByFilters({usuarioId: id}).toPromise()).content;
-
-    for (let i = 0; i < this.unidades.length; i++) {
-      if (!this.unidades[i].unidadesTiposAvaliacoes || !this.unidades[i].unidadesTiposAvaliacoes.length) {
-        this.unidades[i].unidadesTiposAvaliacoes = (await this.unidadeTipoAvaliacaoRepository.listByFilters({
-          unidadeId: this.unidades[i].id,
-          ativo: true
-        }).toPromise()).content;
-
-        for (let c = 0; c < this.unidades[i].unidadesTiposAvaliacoes.length; c++)
-          this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo = (await this.unidadeTipoAvaliacaoDispositivoRepository.listByUnidadeTipoAvaliacaoId({unidadeTipoAvaliacaoId: this.unidades[i].unidadesTiposAvaliacoes[c].id}).toPromise()).content;
-      }
-
-      for (let k = 0; k < this.avaliaveis.length; k++)
-        if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-          (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo;
-          this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
-          this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao);
         }
-    }
 
-    this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1 || (this.unidades[0].unidadesTiposAvaliacoes.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivo && this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivo.length > 1)))));
+        this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1 || (this.unidades[0].unidadesTiposAvaliacoes.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivo && this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivo.length > 1)))));
 
-    this.atendente = (await this.usuarioService.findById(id).toPromise())
-
+        this.usuarioService.findById(id).subscribe(result => {
+          this.atendente = result
+        })
+      })
+    })
   }
 
   /**

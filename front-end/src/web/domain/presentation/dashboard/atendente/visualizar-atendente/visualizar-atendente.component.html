@@ -58,9 +58,9 @@
       </mat-card>
 
       <div style='width: 100%'
-           *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'
            layout-align='center center'
-           layout='row' flex [@fadeInOut]>
+           layout='row' flex [@fadeInOut]
+           *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'>
 
         <mat-form-field flex style='margin-bottom: 0'>
           <input id='filter' name='filter' matInput
