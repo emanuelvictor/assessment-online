@@ -58,7 +58,7 @@
       </mat-card>
 
       <div style='width: 100%'
-           *ngIf='unidades?.length'
+           *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'
            layout-align='center center'
            layout='row' flex [@fadeInOut]>
 
@@ -71,7 +71,7 @@
 
       </div>
 
-      <mat-card class='bgc-grey-50' style='width: 100%' *ngIf='unidades?.length'>
+      <mat-card class='bgc-grey-50' style='width: 100%' *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'>
 
         <vincular-unidade [filter]='filter'
                           [usuario]='atendente'

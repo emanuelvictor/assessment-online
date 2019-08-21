@@ -64,6 +64,11 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
+   */
+  vincularUnidadeTipoAvaliacaoDispositivo: boolean;
+
+  /**
+   *
    * @param {MatSnackBar} snackBar
    * @param {OperadorRepository} operadorRepository
    * @param {AvaliavelRepository} avaliavelRepository
@@ -105,6 +110,8 @@ export class VisualizarAtendenteComponent implements OnInit {
 
       this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
         this.unidades = result.content;
+console.log(this.unidades);
+        this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1 && (this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivos && this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivos[0].length > 1))));
 
         this.operadorRepository.listByFilters({usuarioId: atendenteId}).subscribe(page => {
           this.operadores = page.content;
