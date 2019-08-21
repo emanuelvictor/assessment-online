@@ -12,6 +12,9 @@ import {viewAnimation} from "../../../controls/utils";
 import {Avaliavel} from "../../../../entity/usuario/vinculo/avaliavel.model";
 import {OperadorRepository} from "../../../../repository/operador.repository";
 import {AvaliavelRepository} from "../../../../repository/avaliavel.repository";
+import {Unidade} from "../../../../entity/unidade/unidade.model";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
+import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
 
 @Component({
   selector: 'visualizar-atendente',
@@ -26,7 +29,7 @@ export class VisualizarAtendenteComponent implements OnInit {
   /**
    *
    */
-  public unidades: any;
+  public unidades: Unidade[];
 
   /**
    *
@@ -70,20 +73,23 @@ export class VisualizarAtendenteComponent implements OnInit {
   /**
    *
    * @param {MatSnackBar} snackBar
+   * @param unidadeTipoAvaliacaoRepository
    * @param {OperadorRepository} operadorRepository
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {Router} router
    * @param {UsuarioService} usuarioService
    * @param {ActivatedRoute} activatedRoute
    * @param {MatDialog} dialog
+   * @param unidadeTipoAvaliacaoDispositivoRepository
    * @param {AuthenticationService} authenticationService
    * @param {UnidadeService} unidadeService
    */
-  constructor(private snackBar: MatSnackBar,
-              private operadorRepository: OperadorRepository,
-              private avaliavelRepository: AvaliavelRepository,
+  constructor(private avaliavelRepository: AvaliavelRepository,
               private router: Router, private usuarioService: UsuarioService,
               public activatedRoute: ActivatedRoute, private dialog: MatDialog,
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
+              private operadorRepository: OperadorRepository, private snackBar: MatSnackBar,
+              private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository,
               private authenticationService: AuthenticationService, private unidadeService: UnidadeService) {
     /**
      * Pega o usuário logado
@@ -103,48 +109,47 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param {number} atendenteId
+   * @param {number} id
    */
-  public find(atendenteId: number) {
-    this.usuarioService.findById(atendenteId).subscribe(atendente => {
+  public async find(id: number) {
 
-      this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
-        this.unidades = result.content;
-        console.log(this.unidades.map(u => u.unidadesTiposAvaliacoes));
+    this.unidades = (await this.unidadeService.listLightByFilters({withBondFilter: true}).toPromise()).content;
 
-        this.operadorRepository.listByFilters({usuarioId: atendenteId}).subscribe(page => {
-          this.operadores = page.content;
+    this.operadores = (await this.operadorRepository.listByFilters({usuarioId: id}).toPromise()).content;
 
-          if (this.operadores.length)
-            for (let i = 0; i < this.unidades.length; i++)
-              for (let k = 0; k < this.operadores.length; k++)
-                if (this.operadores[k].unidade.id === this.unidades[i].id) {
-                  this.unidades[i].operadorValue = true;
-                  this.unidades[i].operador = this.operadores[k];
-                }
-        });
-
-        this.avaliavelRepository.listByFilters({usuarioId: atendenteId}).subscribe(page => {
-          this.avaliaveis = page.content;
-          for (let i = 0; i < this.unidades.length; i++) {
-            if (!this.unidades[i].unidadesTiposAvaliacoes)
-              this.unidades[i].unidadesTiposAvaliacoes = [];
-            for (let k = 0; k < this.avaliaveis.length; k++)
-              if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-                this.unidades[i].avaliavelValue = this.avaliaveis[k].ativo;
-                this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
-                this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao);
-              }
+    if (this.operadores.length)
+      for (let i = 0; i < this.unidades.length; i++)
+        for (let k = 0; k < this.operadores.length; k++)
+          if (this.operadores[k].unidade.id === this.unidades[i].id) {
+            (this.unidades[i] as any).operadorValue = true;
+            (this.unidades[i] as any).operador = this.operadores[k];
           }
-        });
-        console.log(this.unidades.map(u => u.unidadesTiposAvaliacoes));
-        this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1 && (this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivos && this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivos[0].length > 1))));
 
-        this.atendente = atendente;
+    this.avaliaveis = (await this.avaliavelRepository.listByFilters({usuarioId: id}).toPromise()).content;
 
-      });
+    for (let i = 0; i < this.unidades.length; i++) {
+      if (!this.unidades[i].unidadesTiposAvaliacoes || !this.unidades[i].unidadesTiposAvaliacoes.length) {
+        this.unidades[i].unidadesTiposAvaliacoes = (await this.unidadeTipoAvaliacaoRepository.listByFilters({
+          unidadeId: this.unidades[i].id,
+          ativo: true
+        }).toPromise()).content;
 
-    })
+        for (let c = 0; c < this.unidades[i].unidadesTiposAvaliacoes.length; c++)
+          this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo = (await this.unidadeTipoAvaliacaoDispositivoRepository.listByUnidadeTipoAvaliacaoId({unidadeTipoAvaliacaoId: this.unidades[i].unidadesTiposAvaliacoes[c].id}).toPromise()).content;
+      }
+
+      for (let k = 0; k < this.avaliaveis.length; k++)
+        if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+          (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo;
+          this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
+          this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao);
+        }
+    }
+
+    this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1 || (this.unidades[0].unidadesTiposAvaliacoes.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivo && this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivo.length > 1)))));
+
+    this.atendente = (await this.usuarioService.findById(id).toPromise())
+
   }
 
   /**
@@ -211,7 +216,7 @@ export class VisualizarAtendenteComponent implements OnInit {
 
         for (let i = 0; i < this.unidades.length; i++)
           if (this.unidades[i].id === operador.unidade.id)
-            this.unidades[i].operador = operador;
+            (this.unidades[i] as any).operador = operador;
 
         this.openSnackBar('Vínculo salvo com sucesso!');
       })

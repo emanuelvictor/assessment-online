@@ -191,14 +191,17 @@ export class VincularUnidadeComponent implements OnInit {
             for (let i = 0; i < aux.length; i++) {
               for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
                 if (unidade.unidadesTiposAvaliacoes[k].tipoAvaliacao.id === aux[i].tipoAvaliacao.id) {
+                  if (!aux[i].avaliavel){
+                    aux[i].avaliavel = {}
+                  }
                   unidade.unidadesTiposAvaliacoes[k].checked = aux[i].avaliavel.ativo;
-                  unidade.unidadesTiposAvaliacoes[k].avaliavel = aux[i].avaliavel;
+                  unidade.unidadesTiposAvaliacoes[k].avaliavel = aux[i].avaliavel
                 }
               }
             }
           }
         }
-      );
+      )
   }
 
 }
