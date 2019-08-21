@@ -1,0 +1,20 @@
+DROP TABLE dispositivo CASCADE;
+DROP TABLE dispositivo_aud CASCADE;
+
+alter table unidade add column latitude numeric(19, 2);
+alter table unidade add column longitude numeric(19, 2);
+alter table unidade add column modo_insonia boolean not null default false;
+alter table unidade add column modo_quiosque boolean not null  default false;
+alter table unidade add column publico boolean not null  default false;
+alter table unidade add column quebrar_linha_na_selecao_de_iten_avaliavel boolean not null default false;
+alter table unidade add column time int2 not null check(time>=5 AND time<=600) default 30;
+alter table unidade add column unidade_superior_id int8;
+alter table unidade_aud add column latitude numeric(19, 2);
+alter table unidade_aud add column longitude numeric(19, 2);
+alter table unidade_aud add column modo_insonia boolean;
+alter table unidade_aud add column modo_quiosque boolean;
+alter table unidade_aud add column publico boolean;
+alter table unidade_aud add column quebrar_linha_na_selecao_de_iten_avaliavel boolean;
+alter table unidade_aud add column time int2;
+alter table unidade_aud add column unidade_superior_id int8;
+alter table unidade add constraint FKwdoo9ji6mbn5xuk797kd4xmg foreign key (unidade_superior_id) references unidade;

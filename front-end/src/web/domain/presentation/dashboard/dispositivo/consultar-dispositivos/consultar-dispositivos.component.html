@@ -50,13 +50,13 @@
           <mat-header-cell flex-xl='30' flex-gt-md='30' flex-md='20' flex-sm='30'
                            layout-align='start center' *matHeaderCellDef mat-sort-header>
             <div layout-margin layout='column'>
-              Código
+              Nome
             </div>
           </mat-header-cell>
           <mat-cell flex-xl='30' flex-gt-md='30' flex-md='30' flex-sm='30'
                     layout-align='start center' *matCellDef='let dispositivo'>
             <div layout-margin layout='column'>
-              {{dispositivo?.codigo}}
+              {{dispositivo?.nome}}
             </div>
           </mat-cell>
         </ng-container>

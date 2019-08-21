@@ -4,8 +4,7 @@ import {MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {DomSanitizer} from "@angular/platform-browser";
 import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
-import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
-import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
+import {Unidade} from "../../../../entity/unidade/unidade.model";
 
 @Component({
   selector: 'alterar-dispositivo',
@@ -21,22 +20,20 @@ export class AlterarDispositivoComponent implements OnInit {
 
   /**
    *
-   * @type {Dispositivo}
+   * @type {Unidade}
    */
-  dispositivo: Dispositivo = new Dispositivo();
+  dispositivo: Unidade = new Unidade();
 
   /**
    *
    * @param {MatSnackBar} snackBar
-   * @param unidadeTipoAvaliacaoDispositivoRepository
    * @param {ActivatedRoute} activatedRoute
    * @param {DispositivoRepository} dispositivoRepository
    * @param {DomSanitizer} domSanitizer
    * @param {Router} router
    */
   constructor(private domSanitizer: DomSanitizer, private snackBar: MatSnackBar, private router: Router,
-              private dispositivoRepository: DispositivoRepository, private activatedRoute: ActivatedRoute,
-              private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository) {
+              private dispositivoRepository: DispositivoRepository, private activatedRoute: ActivatedRoute) {
 
   }
 
@@ -53,7 +50,7 @@ export class AlterarDispositivoComponent implements OnInit {
    * @param {number} dispositivoId
    */
   public find(dispositivoId: number) {
-    this.dispositivoRepository.findById(dispositivoId).subscribe((dispositivo: Dispositivo) => this.dispositivo = dispositivo)
+    this.dispositivoRepository.findById(dispositivoId).subscribe((dispositivo: Unidade) => this.dispositivo = dispositivo)
   }
 
   /**
@@ -72,8 +69,8 @@ export class AlterarDispositivoComponent implements OnInit {
    * @param $event
    */
   add($event: any) {
-    this.unidadeTipoAvaliacaoDispositivoRepository.save($event);
-    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivo.length)
+    // this.unidadeTipoAvaliacaoDispositivoRepository.save($event);
+    // console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivo.length)
   }
 
   /**
@@ -81,8 +78,8 @@ export class AlterarDispositivoComponent implements OnInit {
    * @param $event
    */
   remove($event: any) {
-    this.unidadeTipoAvaliacaoDispositivoRepository.delete($event.id);
-    console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivo.length)
+    // this.unidadeTipoAvaliacaoDispositivoRepository.delete($event.id);
+    // console.log(this.dispositivo.unidadesTiposAvaliacoesDispositivo.length)
   }
 
   /**

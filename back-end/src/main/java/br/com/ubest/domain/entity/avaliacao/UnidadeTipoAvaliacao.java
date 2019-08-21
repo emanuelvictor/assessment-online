@@ -22,7 +22,6 @@ public class UnidadeTipoAvaliacao extends AbstractEntity implements Serializable
     private static final long serialVersionUID = -12345682065951632L;
 
     /**
-     * TODO remover
      * Ordem em que a avaliação será exibida no tablet
      */
     @Column

@@ -10,8 +10,8 @@
         {{unidade?.endereco?.cidade ? (unidade?.endereco?.cidade?.nome + ' - ' + unidade?.endereco?.cidade?.estado?.uf) : ''}}
       </p>
 
-      <mat-slide-toggle layout-margin flex
-                        [(ngModel)]='unidade.operadorValue'
+      <mat-slide-toggle layout-margin
+                        [(ngModel)]='unidade.operadorValue' flex
                         (ngModelChange)='saveOperadorInner(unidade)'>
         Operador
       </mat-slide-toggle>
@@ -23,46 +23,22 @@
     </mat-list-item>
 
     <mat-accordion>
-      <mat-expansion-panel [expanded]='unidade.avaliavelValue'
+      <mat-expansion-panel class='bgc-grey-100'
+                           [expanded]='unidade.avaliavelValue'
                            (opened)='changeAvaliavel(unidade)'
                            (closed)='changeAvaliavel(unidade)'>
 
-        <div *ngIf='unidade?.unidadesTiposAvaliacoes?.length'
-             layout-align='center start' layout='column' flex style='width: 100%'>
-          <div *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes' style='width: 100%'>
-
-            <mat-list-item layout='column' layout-margin
-                           (click)='unidadeTipoAvaliacao.dispositivoValue = !unidadeTipoAvaliacao.dispositivoValue'
-                           [ngStyle]="{'background-color': unidadeTipoAvaliacao.dispositivoValue ? 'aliceblue' : '#fafafa' }">
-              <h3 style='margin-left: 25px!important' matLine>
-                {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
-              </h3>
-            </mat-list-item>
-
-            <mat-accordion>
-              <mat-expansion-panel [expanded]='unidadeTipoAvaliacao.dispositivoValue'
-                                   (opened)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'
-                                   (closed)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>
-                <div flex
-                     *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo'>
-                  {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.codigo}}
-                  <!--                  {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}-->
-                </div>
-              </mat-expansion-panel>
-            </mat-accordion>
-          </div>
-          <!--                    <button mat-button flex-->
-          <!--                            *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes'>-->
-          <!--                        {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}-->
-          <!--                    </button>-->
-
-          <!--                        <mat-checkbox class='example-margin'-->
-          <!--                                      [(ngModel)]='unidadeTipoAvaliacao.checked'-->
-          <!--                                      (ngModelChange)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'-->
-          <!--                                      *ngFor="let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes">-->
-          <!--                            {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}-->
-          <!--                        </mat-checkbox>-->
-        </div>
+        <mat-card-content>
+          <section class="example-section"
+                   *ngIf='unidade?.unidadesTiposAvaliacoes?.length'>
+            <mat-checkbox class='example-margin'
+                          [(ngModel)]='unidadeTipoAvaliacao.checked'
+                          (ngModelChange)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'
+                          *ngFor="let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes">
+              {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
+            </mat-checkbox>
+          </section>
+        </mat-card-content>
 
       </mat-expansion-panel>
     </mat-accordion>

@@ -93,4 +93,51 @@ public class UnidadeResource extends AbstractResource<Unidade> {
     Mono<List<String>> getHashsByUnidadeId(@PathVariable final long unidadeId) {
         return Mono.just(this.unidadeService.getHashsByUnidadeId(unidadeId));
     }
+
+    /*
+     * --------------------------------------------------------------
+     *            Configurações de nomes das avaliações
+     * --------------------------------------------------------------
+     */
+    @PostMapping("dispositivos")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    public Mono<Unidade> saveDispositivo(@RequestBody final Unidade dispositivo) {
+//        // todo unidades inferiores
+//        dispositivo.getUnidadesTiposAvaliacoesUnidade().forEach(unidadeTipoAvaliacaoUnidade -> unidadeTipoAvaliacaoUnidade.setUnidade(dispositivo));
+        return Mono.just(this.unidadeService.save(dispositivo));
+    }
+
+    @PutMapping("dispositivos/{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    public Mono<Unidade> updateDispositivo(@PathVariable final long id, @RequestBody final Unidade dispositivo) {
+        dispositivo.setId(id);
+        return Mono.just(this.unidadeService.save(dispositivo));
+    }
+//// TODO save das unidades inferior
+//    @PutMapping("{id}/unidadesTiposAvaliacoesUnidade")
+//    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+//    public Mono<List<UnidadeTipoAvaliacaoUnidade>> saveUnidadesTiposAvaliacoesUnidade(@PathVariable final long id, @RequestBody final UnidadeTipoAvaliacaoUnidade[] unidadesTiposAvaliacoesUnidade) {
+//        final List<UnidadeTipoAvaliacaoUnidade> unidadeTipoAvaliacaoUnidades = getListFromArray(unidadesTiposAvaliacoesUnidade);
+//        unidadeTipoAvaliacaoUnidades.forEach(unidadeTipoAvaliacaoUnidade -> unidadeTipoAvaliacaoUnidade.setUnidade(new Unidade(id)));
+//        return Mono.just(this.unidadeTipoAvaliacaoUnidadeRepository.saveAll(unidadeTipoAvaliacaoUnidades));
+//    }
+
+    @DeleteMapping("dispositivos/{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    public Mono<Boolean> deleteDispositivo(@PathVariable long id) {
+        this.unidadeService.delete(id);
+        return Mono.just(true);
+    }
+
+    @GetMapping("dispositivos/{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    public Mono<Optional<Unidade>> findDispositivoById(@PathVariable final long id) {
+        return Mono.just(this.unidadeService.findById(id));
+    }
+
+    @GetMapping("dispositivos")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<Page<Unidade>> listDispositivosByFilters() {
+        return Mono.just(this.unidadeService.listDispositivosByFilters(getPageable()));
+    }
 }

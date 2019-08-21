@@ -7,8 +7,8 @@ import 'moment/locale/pt-br';
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
 import {UsuarioService} from "../../../../service/usuario.service";
 import {Subject} from "rxjs";
-import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
 import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
+import {Unidade} from "../../../../entity/unidade/unidade.model";
 
 @Component({
   selector: 'consultar-dispositivos',
@@ -48,9 +48,9 @@ export class ConsultarDispositivosComponent implements OnInit {
   /**
    *
    * dataSource com os usuários
-   * @type {MatTableDataSource<Dispositivo>}
+   * @type {MatTableDataSource<Unidade>}
    */
-  dataSource = new MatTableDataSource<Dispositivo>();
+  dataSource = new MatTableDataSource<Unidade>();
 
   /**
    * Bind com o objeto paginator
@@ -126,7 +126,7 @@ export class ConsultarDispositivosComponent implements OnInit {
 
       this.dispositivoRepository.listByFilters(pageRequest)
         .subscribe((result) => {
-          this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
+          this.dataSource = new MatTableDataSource<Unidade>(result.content);
           this.page = result
         })
     })
@@ -142,7 +142,7 @@ export class ConsultarDispositivosComponent implements OnInit {
 
     this.dispositivoRepository.listByFilters(this.pageRequest)
       .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
+        this.dataSource = new MatTableDataSource<Unidade>(result.content);
         this.page = result
       })
   }
@@ -158,7 +158,7 @@ export class ConsultarDispositivosComponent implements OnInit {
 
     this.dispositivoRepository.listByFilters(pageRequest)
       .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
+        this.dataSource = new MatTableDataSource<Unidade>(result.content);
         this.page = result
       })
   }

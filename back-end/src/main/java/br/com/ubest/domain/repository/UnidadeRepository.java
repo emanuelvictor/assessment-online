@@ -351,4 +351,18 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
      * @return List<Unidade>
      */
     List<Unidade> findByNome(final String nome);
+
+    /**
+     * @param pageable Pageable
+     * @return Page<Unidade>
+     */
+    @Query("FROM Unidade unidade WHERE ( " +
+//            "       unidade.id IN (" +
+//            "           SELECT unidadeInner.unidadeSuperior.id FROM Unidade unidadeInner" +
+//            "       ) " +
+//            "       AND" +
+            " unidade.unidadeSuperior IS NULL " +
+            "   )"
+    )
+    Page<Unidade> listDispositivosByFilters(final Pageable pageable);
 }

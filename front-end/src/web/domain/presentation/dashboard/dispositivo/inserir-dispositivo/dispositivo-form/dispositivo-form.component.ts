@@ -6,7 +6,7 @@ import {MatIconRegistry, MatSnackBar} from "@angular/material";
 
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from "@angular/forms";
 import {FileRepository} from "../../../../../../infrastructure/repository/file/file.repository";
-import {Dispositivo} from "../../../../../entity/avaliacao/dispositivo.model";
+import {Unidade} from "../../../../../entity/unidade/unidade.model";
 
 /**
  *
@@ -31,10 +31,10 @@ export class DispositivoFormComponent implements OnInit {
 
   /**
    *
-   * @type {Dispositivo}
+   * @type {Unidade}
    */
   @Input()
-  public dispositivo: Dispositivo;
+  public dispositivo: Unidade;
 
   /**
    *

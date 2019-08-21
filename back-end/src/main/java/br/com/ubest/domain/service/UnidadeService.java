@@ -202,4 +202,13 @@ public class UnidadeService {
     List<Unidade> findByNome(final String nome) {
         return unidadeRepository.findByNome(nome);
     }
+
+    /**
+     *
+     * @param pageable
+     * @return
+     */
+    public Page<Unidade> listDispositivosByFilters(final Pageable pageable) {
+        return this.unidadeRepository.listDispositivosByFilters(pageable);
+    }
 }
