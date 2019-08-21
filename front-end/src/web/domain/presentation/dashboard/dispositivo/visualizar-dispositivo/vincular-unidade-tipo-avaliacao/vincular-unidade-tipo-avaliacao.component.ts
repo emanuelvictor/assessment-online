@@ -143,6 +143,11 @@ export class VincularUnidadeTipoAvaliacaoComponent {
 
     unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ordem = aux + 1;
     unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ativo = true;
+
+    // Handler de quando tem um novo tipo de avaliação
+    if (!unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao)
+      unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = Object.assign(unidadeTipoAvaliacao, {});
+
     this.unidadesTiposAvaliacoesDispositivoChange.emit(unidade.unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo));
   }
 
