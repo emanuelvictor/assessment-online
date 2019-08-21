@@ -43,7 +43,7 @@
 
                   <mat-checkbox style='padding: 20px' flex
                                 [ngModelOptions]='{standalone: true}'
-                                [(ngModel)]='dispositivo.quebrarLinhaNaSelecaoDeItenAvaliavel'>
+                                [(ngModel)]='dispositivo.quebrarLinhaNaSelecaoDeItemAvaliavel'>
                     Quebrar linha durante a seleção de ítens avaliáveis (no aplicativo móvel)
                   </mat-checkbox>
                 </div>
@@ -52,13 +52,13 @@
               <div layout='row' layout-align='start center'>
                 <div layout='row' flex class='push-left' layout-margin>
 
-                  <mat-checkbox matTooltip='O tablet não sai do aplicativo' flex='10'
+                  <mat-checkbox matTooltip='O tablet não sai do aplicativo' flex='20'
                                 (change)="dispositivo.modoQuiosque ? dispositivo.modoInsonia = true : ''"
                                 [(ngModel)]='dispositivo.modoQuiosque' [ngModelOptions]='{standalone: true}'>
                     Modo Quiosque
                   </mat-checkbox>
 
-                  <mat-checkbox matTooltip='Enquanto estiver no aplicativo, a tela não adormece' flex='10'
+                  <mat-checkbox matTooltip='Enquanto estiver no aplicativo, a tela não adormece' flex='10' flex-sm='30'
                                 (change)="!dispositivo.modoInsonia ? dispositivo.modoQuiosque = false : ''"
                                 [(ngModel)]='dispositivo.modoInsonia' [ngModelOptions]='{standalone: true}'>
                     Modo Insônia

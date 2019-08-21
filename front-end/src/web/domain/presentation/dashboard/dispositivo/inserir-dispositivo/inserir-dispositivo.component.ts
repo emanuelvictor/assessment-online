@@ -137,10 +137,15 @@ export class InserirDispositivoComponent implements OnInit {
   /**
    *
    */
-  public save(dispositivo): void {
+  public save($event): void {
+
+    const dispositivo = Object.assign($event, {});
+
+    dispositivo.unidadesTiposAvaliacoesDispositivo = Object.assign($event.unidadesTiposAvaliacoesDispositivo, []);
 
     dispositivo.unidadesTiposAvaliacoesDispositivo = dispositivo.unidadesTiposAvaliacoesDispositivo.filter(unidadeTipoAvaliacaoDipositivo => unidadeTipoAvaliacaoDipositivo.ativo).map(unidadeTipoAvaliacaoDipositivo => {
       return {
+        ativo: unidadeTipoAvaliacaoDipositivo.ativo,
         ordem: unidadeTipoAvaliacaoDipositivo.ordem,
         unidadeTipoAvaliacao: {id: unidadeTipoAvaliacaoDipositivo.unidadeTipoAvaliacao.id}
       }

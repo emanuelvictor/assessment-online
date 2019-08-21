@@ -114,7 +114,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: unidade.id, ativo: true}).subscribe(result => {
 
       if (!result.content.length) {
-        this.openSnackBar('Vincule Ítens Avaliáveis á esses Tipos de Avaliações');
+        this.openSnackBar('Vincule Itens Avaliáveis á esses Tipos de Avaliações');
         unidade.checked = false;
         return
       }

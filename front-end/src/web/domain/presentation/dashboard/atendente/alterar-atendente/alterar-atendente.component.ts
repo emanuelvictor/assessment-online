@@ -68,7 +68,7 @@ export class AlterarAtendenteComponent implements OnInit {
     this.usuarioService.save(atendente).then(result => {
       atendente = result;
       this._loadingService.resolve('overlayStarSyntax');
-      this.success('Ítem Avaliável alterado com sucesso');
+      this.success('Item Avaliável alterado com sucesso');
     })
   }
 

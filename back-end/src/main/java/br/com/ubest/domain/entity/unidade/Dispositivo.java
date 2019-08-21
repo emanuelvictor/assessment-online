@@ -10,6 +10,8 @@ import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -29,14 +31,40 @@ public class Dispositivo extends AbstractEntity implements Serializable {
      */
     @NotNull
     @Column(nullable = false)
+    private String nome;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
     private boolean publico = false;
 
     /**
      *
      */
-    @Length(max = 150)
-    @Column(nullable = false, length = 150, unique = true)
-    private String codigo;
+    @NotNull
+    @Column(nullable = false)
+    private boolean modoQuiosque = false;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
+    private boolean modoInsonia;
+
+    /**
+     *
+     */
+    @Min(value = 5, message = "O mínimo são 5 segundos")
+    @Max(value = 600, message = "O máximo são 10 minutos (600 segundos)")
+    private short time = 30;
+
+    /**
+     *
+     */
+    private boolean quebrarLinhaNaSelecaoDeItemAvaliavel;
 
     /**
      *

@@ -41,7 +41,7 @@ export class ConsultarDispositivosComponent implements OnInit {
    * Serve para armazenar as colunas que serão exibidas na tabela
    */
   public displayedColumns: string[] = [
-    'codigo',
+    'nome',
     'publico'
   ];
 

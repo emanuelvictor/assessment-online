@@ -36,12 +36,12 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
-  public time: number;
+  public time: number = 30;
 
   /**
    *
    */
-  public quebrarLinhaNaSelecaoDeItenAvaliavel: boolean;
+  public quebrarLinhaNaSelecaoDeItemAvaliavel: boolean;
 
   /**
    *
