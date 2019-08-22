@@ -147,6 +147,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "                   WHERE" +
             "                   (" +
             "                       unidadeTipoAvaliacao.unidade.id = unidade.id AND unidadeTipoAvaliacao.ativo = :withBondFilter" +
+            "                       AND unidadeTipoAvaliacaoDispositivo.ativo = :withBondFilter" +
             "                   )" +
             "               )" +
             "           )" +
