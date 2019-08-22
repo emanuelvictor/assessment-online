@@ -30,6 +30,8 @@ public interface UnidadeTipoAvaliacaoDispositivoRepository extends JpaRepository
 
     @Query("FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE " +
             "   (   " +
+            "       ((:ativo IS NOT NULL AND unidadeTipoAvaliacaoDispositivo.ativo = :ativo) OR :ativo IS NULL)" +
+            "       AND " +
             "       (" +
             "           FILTER(:defaultFilter, unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.nome) = TRUE" +
             "       )" +
@@ -53,6 +55,7 @@ public interface UnidadeTipoAvaliacaoDispositivoRepository extends JpaRepository
     Page<UnidadeTipoAvaliacaoDispositivo> listByFilters(@Param("defaultFilter") final String defaultFilter,
                                                         @Param("dispositivoId") final Long dispositivoId,
                                                         @Param("unidadeTipoAvaliacaoId") final Long unidadeTipoAvaliacaoId,
+                                                        @Param("ativo") final Boolean ativo,
                                                         final Pageable pageable);
 
 }

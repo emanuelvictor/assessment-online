@@ -16,34 +16,32 @@
         Operador
       </mat-slide-toggle>
       <mat-slide-toggle layout-margin flex
-                        [(ngModel)]='unidade.avaliavelValue'>
+                        [(ngModel)]='unidade.avaliavelValue'
+                        (ngModelChange)='changeAvaliavel(unidade)'>
         Avaliável
       </mat-slide-toggle>
 
     </mat-list-item>
-
     <mat-accordion>
-      <mat-expansion-panel [expanded]='unidade.avaliavelValue'
-                           (opened)='changeAvaliavel(unidade)'
-                           (closed)='changeAvaliavel(unidade)'>
+      <mat-expansion-panel [expanded]='unidade.avaliavelValue && (unidade?.unidadesTiposAvaliacoes?.length > 1) || unidade?.unidadesTiposAvaliacoes[0]?.unidadesTiposAvaliacoesDispositivo?.length > 1'>
 
         <div *ngIf='unidade?.unidadesTiposAvaliacoes?.length'
              layout-align='center start' layout='column' flex style='width: 100%'>
           <div *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes' style='width: 100%' layout='row'>
 
             <mat-list-item disableRipple layout='column' layout-margin
-                           [ngStyle]="{'background-color': unidadeTipoAvaliacao.dispositivoValue ? 'aliceblue' : '#fafafa' }">
+                           [ngStyle]="{'background-color': unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue ? 'aliceblue' : '#fafafa' }">
               <h3 style='margin-left: 25px!important' matLine
-                  (click)='unidadeTipoAvaliacao.dispositivoValue = !unidadeTipoAvaliacao.dispositivoValue; changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>
+                  (click)='unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue = !unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue; changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>
                 {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
               </h3>
 
 
             </mat-list-item>
             <div layout='row' flex
-                 [ngStyle]="{'background-color': unidadeTipoAvaliacao.dispositivoValue ? 'aliceblue' : '#fafafa' }">
-              <mat-checkbox [(ngModel)]='unidadeTipoAvaliacaoDispositivo.checked'
-                            [ngModelOptions]='{standalone: true}' flex layout-margin
+                 [ngStyle]="{'background-color': unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue ? 'aliceblue' : '#fafafa' }">
+              <mat-checkbox [ngModelOptions]='{standalone: true}' flex layout-margin
+                            [(ngModel)]='unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacaoDispositivoValue'
                             *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo'>
                 {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}
               </mat-checkbox>
@@ -52,7 +50,7 @@
             <!--              <mat-expansion-panel style='padding-left:33px !important'-->
             <!--                                   (opened)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'-->
             <!--                                   (closed)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'-->
-            <!--                                   [expanded]='unidadeTipoAvaliacao.dispositivoValue' layout-margin>-->
+            <!--                                   [expanded]='unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue' layout-margin>-->
             <!--                <mat-checkbox [(ngModel)]='unidadeTipoAvaliacaoDispositivo.ativo'-->
             <!--                              [ngModelOptions]='{standalone: true}' flex layout-margin-->
             <!--                              *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo'>-->

@@ -78,9 +78,8 @@
                           [(avaliaveis)]='avaliaveis'
                           (saveOperador)='saveOperador($event)'
                           (removeOperador)='removeOperador($event)'
-                          (saveAvaliavel)='saveAvaliavel($event)'
-                          (removeAvaliavel)='removeAvaliavel($event)'
                           [filter]='filter' [usuario]='atendente'
+                          (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'
                           *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'>
         </vincular-unidade>
 

@@ -27,7 +27,7 @@ export class UnidadeTipoAvaliacaoDispositivo extends Abstract {
   /**
    *
    */
-  public unidadesTiposAvaliacoesDispositivos: UnidadeTipoAvaliacaoDispositivo[];
+  public unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[];
 
   /**
    *

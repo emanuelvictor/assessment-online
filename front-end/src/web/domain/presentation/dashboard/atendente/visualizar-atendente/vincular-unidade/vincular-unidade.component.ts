@@ -5,6 +5,8 @@ import {Operador} from "../../../../../entity/usuario/vinculo/operador.model";
 import {AvaliavelRepository} from "../../../../../repository/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repository/unidade-tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
+import {Avaliavel} from "../../../../../entity/usuario/vinculo/avaliavel.model";
+import {UnidadeTipoAvaliacaoDispositivo} from "../../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
 
 @Component({
   selector: 'vincular-unidade',
@@ -129,12 +131,12 @@ export class VincularUnidadeComponent {
    */
   public changeAvaliavel(unidade) {
     if (unidade.avaliavelValue) {
-      // this.listTiposAvaliacoesByUnidadeId(unidade);
+      this.listTiposAvaliacoesByUnidadeId(unidade);
     } else if (unidade.unidadesTiposAvaliacoes && unidade.unidadesTiposAvaliacoes.length) {
-      // for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
-      //   unidade.unidadesTiposAvaliacoes[k].checked = false;
-      //   this.changeUnidadeTipoAvaliacao(unidade.unidadesTiposAvaliacoes[k])
-      // }
+      for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
+        unidade.unidadesTiposAvaliacoes[k].checked = false;
+        this.changeUnidadeTipoAvaliacao(unidade.unidadesTiposAvaliacoes[k])
+      }
     }
   }
 
@@ -157,9 +159,9 @@ export class VincularUnidadeComponent {
     // avaliavel.ativo = (unidadeTipoAvaliacao as any).checked;
     //
     // if (!(unidadeTipoAvaliacao as any).checked) {
-    // //   this.removeAvaliavel.emit(avaliavel);
-    // // } else {
-    // //   this.saveAvaliavel.emit(avaliavel);
+    //   //   this.removeAvaliavel.emit(avaliavel);
+    //   // } else {
+    //   //   this.saveAvaliavel.emit(avaliavel);
     // }
     //
     // this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters({unidadeTipoAvaliacaoId: unidadeTipoAvaliacao.id}).subscribe(result => {
@@ -173,28 +175,79 @@ export class VincularUnidadeComponent {
    * @param {Unidade} unidade
    */
   public listTiposAvaliacoesByUnidadeId(unidade) {
-    this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidade.id, ativo: true})
-      .subscribe(page => {
+    this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidade.id, ativo: true}).subscribe(page => {
 
-          const aux = unidade.unidadesTiposAvaliacoes;
+      for (let k = 0; k < page.content.length; k++) {
+        page.content[k].unidadeTipoAvaliacaoDispositivo = {unidadeTipoAvaliacao: page.content[k]};
+        for (let i = 0; i < unidade.unidadesTiposAvaliacoes.length; i++)
+          if (unidade.unidadesTiposAvaliacoes[i].id === page.content[k].id)
+            page.content[k] = unidade.unidadesTiposAvaliacoes[i];
+      }
 
-          unidade.unidadesTiposAvaliacoes = page.content;
+      unidade.unidadesTiposAvaliacoes = page.content;
 
-          if (aux && aux.length) {
-            for (let i = 0; i < aux.length; i++) {
-              for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
-                if (unidade.unidadesTiposAvaliacoes[k].tipoAvaliacao.id === aux[i].tipoAvaliacao.id) {
-                  if (!aux[i].avaliavel){
-                    aux[i].avaliavel = {}
-                  }
-                  unidade.unidadesTiposAvaliacoes[k].checked = aux[i].avaliavel.ativo;
-                  unidade.unidadesTiposAvaliacoes[k].avaliavel = aux[i].avaliavel
-                }
-              }
-            }
-          }
-        }
-      )
+      if (!unidade.unidadesTiposAvaliacoes.filter(a => a.unidadeTipoAvaliacaoDispositivo.ativo).length) {
+        this.changeUnidadeTipoAvaliacaoDispositivoOneTransaction(unidade);
+        unidade.unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacaoDispositivo => {
+          unidadeTipoAvaliacaoDispositivo.ativo = true
+        })
+      }
+    })
   }
+
+  public changeUnidadeTipoAvaliacaoDispositivoOneTransaction(unidade) {
+    const toEmmit : any = [];
+
+    for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
+      for (let c = 0; c < unidade.unidadesTiposAvaliacoes[k].unidadesTiposAvaliacoesDispositivo.length; c++) {
+        unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoValue = true;
+        unidade.unidadesTiposAvaliacoes[k].unidadesTiposAvaliacoesDispositivo[c].unidadeTipoAvaliacaoDispositivoValue = true;
+        toEmmit.push(unidade.unidadesTiposAvaliacoes[k].unidadesTiposAvaliacoesDispositivo[c])
+      }
+    }
+
+    this.unidadesTiposAvaliacoesDispositivoChange.emit(toEmmit)
+  }
+
+  /**
+   *
+   */
+  @Input()
+  public unidadesTiposAvaliacoesDispositivo: any;
+
+  /**
+   *
+   * @type {EventEmitter}
+   */
+  @Output()
+  public unidadesTiposAvaliacoesDispositivoChange = new EventEmitter();
+
+  // /**
+  //  *
+  //  * @param {Unidade} unidade
+  //  */
+  // public listTiposAvaliacoesByUnidadeId(unidade) {
+  //   this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidade.id, ativo: true}).subscribe(page => {
+  //
+  //       const aux = unidade.unidadesTiposAvaliacoes;
+  //
+  //       unidade.unidadesTiposAvaliacoes = page.content;
+  //
+  //       if (aux && aux.length) {
+  //         for (let i = 0; i < aux.length; i++) {
+  //           for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
+  //             if (unidade.unidadesTiposAvaliacoes[k].tipoAvaliacao.id === aux[i].tipoAvaliacao.id) {
+  //               if (!aux[i].avaliavel) {
+  //                 aux[i].avaliavel = {}
+  //               }
+  //               unidade.unidadesTiposAvaliacoes[k].checked = aux[i].avaliavel.ativo;
+  //               unidade.unidadesTiposAvaliacoes[k].avaliavel = aux[i].avaliavel
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   )
+  // }
 
 }

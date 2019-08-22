@@ -15,6 +15,7 @@ import {AvaliavelRepository} from "../../../../repository/avaliavel.repository";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
+import {UnidadeTipoAvaliacaoDispositivo} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
 
 @Component({
   selector: 'visualizar-atendente',
@@ -112,52 +113,65 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {number} id
    */
   public find(id: number) {
+    this.usuarioService.findById(id).subscribe(usuario => {
 
-    this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
-      this.unidades = result.content;
+      this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
 
-      this.operadorRepository.listByFilters({usuarioId: id}).subscribe(result => {
-        this.operadores = result.content;
+        this.unidades = result.content;
 
-        if (this.operadores.length)
-          for (let i = 0; i < this.unidades.length; i++)
-            for (let k = 0; k < this.operadores.length; k++)
-              if (this.operadores[k].unidade.id === this.unidades[i].id) {
-                (this.unidades[i] as any).operadorValue = true;
-                (this.unidades[i] as any).operador = this.operadores[k]
-              }
-      });
+        this.operadorRepository.listByFilters({usuarioId: id}).subscribe(result => {
+          this.operadores = result.content;
 
-      this.avaliavelRepository.listByFilters({usuarioId: id}).subscribe(result => {
-        this.avaliaveis = result.content;
+          if (this.operadores.length)
+            for (let i = 0; i < this.unidades.length; i++)
+              for (let k = 0; k < this.operadores.length; k++)
+                if (this.operadores[k].unidade.id === this.unidades[i].id) {
+                  (this.unidades[i] as any).operadorValue = true;
+                  (this.unidades[i] as any).operador = this.operadores[k]
+                }
+        });
 
-        for (let i = 0; i < this.unidades.length; i++) {
-          if (!this.unidades[i].unidadesTiposAvaliacoes || !this.unidades[i].unidadesTiposAvaliacoes.length) {
+        this.avaliavelRepository.listByFilters({usuarioId: id}).subscribe(result => {
+          this.avaliaveis = result.content;
+
+          for (let i = 0; i < this.unidades.length; i++) {
             this.unidadeTipoAvaliacaoRepository.listByFilters({
               unidadeId: this.unidades[i].id,
               ativo: true
             }).subscribe(result => {
+
               this.unidades[i].unidadesTiposAvaliacoes = result.content;
+
+              this.unidades[i].unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => {
+                (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo(false)
+              });
+
               for (let c = 0; c < this.unidades[i].unidadesTiposAvaliacoes.length; c++)
-                this.unidadeTipoAvaliacaoDispositivoRepository.listByUnidadeTipoAvaliacaoId({unidadeTipoAvaliacaoId: this.unidades[i].unidadesTiposAvaliacoes[c].id}).subscribe(result => {
+                this.unidadeTipoAvaliacaoDispositivoRepository.listByUnidadeTipoAvaliacaoId({
+                  unidadeTipoAvaliacaoId: this.unidades[i].unidadesTiposAvaliacoes[c].id,
+                  ativo: true
+                }).subscribe(result => {
                   this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo = result.content;
 
-                  for (let k = 0; k < this.avaliaveis.length; k++)
+                  for (let k = 0; k < this.avaliaveis.length; k++) {
                     if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-                      (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo;
-                      this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
-                      // this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao) // TODO
+                      (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo
                     }
+
+                    if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.id === this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[k].id) {
+                      (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[k] as any).unidadeTipoAvaliacaoDispositivoValue = this.avaliaveis[k].ativo;
+                      (this.unidades[i].unidadesTiposAvaliacoes[c] as any).unidadeTipoAvaliacaoValue = this.avaliaveis[k].ativo
+                    }
+                  }
+
 
                   if (!this.vincularUnidadeTipoAvaliacaoDispositivo)
                     this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length > 1 || (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo && this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length > 1)))))
-                })
+                });
+
+              this.atendente = usuario
             })
           }
-        }
-
-        this.usuarioService.findById(id).subscribe(result => {
-          this.atendente = result
         })
       })
     })
@@ -248,41 +262,41 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    * @param avaliavel
    */
-  public saveAvaliavel(avaliavel): void {
-
-    const aux = new Avaliavel();
-    aux.unidadeTipoAvaliacao = avaliavel.unidadeTipoAvaliacao;
-    aux.usuario = avaliavel.usuario;
-    aux.id = avaliavel.id;
-    aux.ativo = avaliavel.ativo;
-    delete (aux.unidadeTipoAvaliacao as any).avaliavel;
-
-    this.avaliavelRepository.save(aux)
-      .then(result => {
-        avaliavel = result;
-        this.openSnackBar('Vínculo salvo com sucesso!');
-
-        // Se não tiiver nenhum avaliavel na lista
-        if (!this.avaliaveis || !this.avaliaveis.length) {
-          this.avaliaveis = [];
-          this.avaliaveis.push(this.avaliaveis)
-        }
-
-        // Se tiver avaliaveis
-        else
-          for (let i = 0; i < this.avaliaveis.length; i++)
-            if (this.avaliaveis[i].id === avaliavel.id) {
-              this.avaliaveis[i] = avaliavel;
-              return
-            }
-
-            // Não encontrou no array coloca no último
-            else if (i === this.avaliaveis.length - 1) {
-              this.avaliaveis.push(avaliavel);
-              return
-            }
-
-      })
+  public unidadesTiposAvaliacoesDispositivoChange(avaliavel): void {
+    console.log(avaliavel);
+    // const aux = new Avaliavel();
+    // aux.unidadeTipoAvaliacao = avaliavel.unidadeTipoAvaliacao;
+    // aux.usuario = avaliavel.usuario;
+    // aux.id = avaliavel.id;
+    // aux.ativo = avaliavel.ativo;
+    // delete (aux.unidadeTipoAvaliacao as any).avaliavel;
+    //
+    // this.avaliavelRepository.save(aux)
+    //   .then(result => {
+    //     avaliavel = result;
+    //     this.openSnackBar('Vínculo salvo com sucesso!');
+    //
+    //     // Se não tiiver nenhum avaliavel na lista
+    //     if (!this.avaliaveis || !this.avaliaveis.length) {
+    //       this.avaliaveis = [];
+    //       this.avaliaveis.push(this.avaliaveis)
+    //     }
+    //
+    //     // Se tiver avaliaveis
+    //     else
+    //       for (let i = 0; i < this.avaliaveis.length; i++)
+    //         if (this.avaliaveis[i].id === avaliavel.id) {
+    //           this.avaliaveis[i] = avaliavel;
+    //           return
+    //         }
+    //
+    //         // Não encontrou no array coloca no último
+    //         else if (i === this.avaliaveis.length - 1) {
+    //           this.avaliaveis.push(avaliavel);
+    //           return
+    //         }
+    //
+    //   })
   }
 
   /**
