@@ -44,8 +44,13 @@
                                    (opened)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'
                                    (closed)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>
                 <div flex
-                     *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo'>
-                  {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}
+                     [ngStyle]="{'background-color': (i % 2) === 0 ? '#ffffff' : '#fafafa' }"
+                     *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo; let i = index'>
+                  <mat-checkbox [ngModelOptions]='{standalone: true}'
+                                style='margin-left: 45px!important' flex
+                                [(ngModel)]='unidadeTipoAvaliacaoDispositivo.ativo'>
+                    {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}
+                  </mat-checkbox>
                   <!--                  {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}-->
                 </div>
               </mat-expansion-panel>

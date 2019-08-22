@@ -95,7 +95,7 @@ export class VisualizarAtendenteComponent implements OnInit {
      * Pega o usuário logado
      */
     this.authenticationService.requestContaAutenticada()
-      .subscribe(result => this.authenticatedUser = result);
+      .subscribe(result => this.authenticatedUser = result)
 
   }
 
@@ -111,7 +111,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    *
    * @param {number} id
    */
-  public async find(id: number) {
+  public find(id: number) {
 
     this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
       this.unidades = result.content;
@@ -124,7 +124,7 @@ export class VisualizarAtendenteComponent implements OnInit {
             for (let k = 0; k < this.operadores.length; k++)
               if (this.operadores[k].unidade.id === this.unidades[i].id) {
                 (this.unidades[i] as any).operadorValue = true;
-                (this.unidades[i] as any).operador = this.operadores[k];
+                (this.unidades[i] as any).operador = this.operadores[k]
               }
       });
 
@@ -147,7 +147,7 @@ export class VisualizarAtendenteComponent implements OnInit {
                 if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
                   (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo;
                   this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
-                  this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao);
+                  this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao)
                 }
             })
           }
@@ -167,8 +167,8 @@ export class VisualizarAtendenteComponent implements OnInit {
    */
   public alteraSenha() {
     this.dialog.open(AlterarSenhaComponent, {
-      data: this.atendente,
-    });
+      data: this.atendente
+    })
   }
 
   /**
@@ -192,9 +192,9 @@ export class VisualizarAtendenteComponent implements OnInit {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
             this.snackBar.open('Excluído com sucesso', 'Fechar', {
               duration: 3000
-            });
+            })
           })
-    });
+    })
   }
 
   /**
@@ -202,7 +202,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param message
    */
   public error(message: string) {
-    this.openSnackBar(message);
+    this.openSnackBar(message)
   }
 
   /**
@@ -212,7 +212,7 @@ export class VisualizarAtendenteComponent implements OnInit {
   public openSnackBar(message: string) {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
-    });
+    })
   }
 
   /**
