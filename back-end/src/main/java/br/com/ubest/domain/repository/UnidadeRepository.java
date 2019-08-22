@@ -142,6 +142,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "           :withBondFilter IS NOT NULL AND :withBondFilter IS TRUE AND " +
             "           (" +
             "               unidade.id IN (SELECT unidadeTipoAvaliacao.unidade.id FROM UnidadeTipoAvaliacao unidadeTipoAvaliacao " +
+            "                               INNER JOIN UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo ON unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id " +
             "                   WHERE" +
             "                   (" +
             "                       unidadeTipoAvaliacao.unidade.id = unidade.id AND unidadeTipoAvaliacao.ativo = :withBondFilter" +
