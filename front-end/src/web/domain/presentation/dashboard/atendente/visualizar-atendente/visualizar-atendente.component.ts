@@ -157,10 +157,11 @@ export class VisualizarAtendenteComponent implements OnInit {
                     if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
                       (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo
                     }
-
-                    if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.id === this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[k].id) {
-                      (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[k] as any).unidadeTipoAvaliacaoDispositivoValue = this.avaliaveis[k].ativo;
-                      (this.unidades[i].unidadesTiposAvaliacoes[c] as any).unidadeTipoAvaliacaoValue = this.avaliaveis[k].ativo
+                    for (let kinner = 0; kinner < this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length; kinner++) {
+                      if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.id === this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[kinner].id) {
+                        (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[kinner] as any).unidadeTipoAvaliacaoDispositivoValue = this.avaliaveis[k].ativo;
+                        (this.unidades[i].unidadesTiposAvaliacoes[c] as any).unidadeTipoAvaliacaoValue = this.avaliaveis[k].ativo
+                      }
                     }
                   }
 

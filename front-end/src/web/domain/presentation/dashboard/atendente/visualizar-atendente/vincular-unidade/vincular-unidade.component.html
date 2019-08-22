@@ -23,22 +23,20 @@
 
     </mat-list-item>
     <mat-accordion>
-      <mat-expansion-panel [expanded]='unidade.avaliavelValue && (unidade?.unidadesTiposAvaliacoes?.length > 1) || unidade?.unidadesTiposAvaliacoes[0]?.unidadesTiposAvaliacoesDispositivo?.length > 1'>
+      <mat-expansion-panel [expanded]='unidade.avaliavelValue && ((unidade?.unidadesTiposAvaliacoes?.length > 1) || unidade?.unidadesTiposAvaliacoes[0]?.unidadesTiposAvaliacoesDispositivo?.length > 1)'>
 
         <div *ngIf='unidade?.unidadesTiposAvaliacoes?.length'
              layout-align='center start' layout='column' flex style='width: 100%'>
           <div *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes' style='width: 100%' layout='row'>
 
             <mat-list-item disableRipple layout='column' layout-margin
-                           [ngStyle]="{'background-color': unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue ? 'aliceblue' : '#fafafa' }">
-              <h3 style='margin-left: 25px!important' matLine
-                  (click)='unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue = !unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue; changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>
+                           [ngStyle]="{'background-color': unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue ? 'aliceblue' : '#fafafa' }"
+                           (click)='unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue = !unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue; emit(changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao, unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue)); verifyUnidade(unidade)'>
+              <h3 style='margin-left: 25px!important' matLine>
                 {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
               </h3>
-
-
             </mat-list-item>
-            <div layout='row' flex
+            <div layout='row' flex *ngIf='unidadeTipoAvaliacao?.unidadesTiposAvaliacoesDispositivo?.length > 1'
                  [ngStyle]="{'background-color': unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue ? 'aliceblue' : '#fafafa' }">
               <mat-checkbox [ngModelOptions]='{standalone: true}' flex layout-margin
                             [(ngModel)]='unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacaoDispositivoValue'
