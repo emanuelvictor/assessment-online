@@ -1,10 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {Unidade} from "../../../../../entity/unidade/unidade.model";
 import {Operador} from "../../../../../entity/usuario/vinculo/operador.model";
 import {AvaliavelRepository} from "../../../../../repository/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repository/unidade-tipo-avaliacao.repository";
-import {Avaliavel} from "../../../../../entity/usuario/vinculo/avaliavel.model";
 import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
 
 @Component({
@@ -12,7 +11,7 @@ import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../../reposito
   templateUrl: './vincular-unidade.component.html',
   styleUrls: ['./vincular-unidade.component.scss']
 })
-export class VincularUnidadeComponent implements OnInit {
+export class VincularUnidadeComponent {
 
   /**
    * Unidades do sistema
@@ -104,12 +103,6 @@ export class VincularUnidadeComponent implements OnInit {
 
   /**
    *
-   */
-  ngOnInit() {
-  }
-
-  /**
-   *
    * @param {Unidade} unidade
    */
   public saveOperadorInner(unidade: Unidade): void {
@@ -136,12 +129,12 @@ export class VincularUnidadeComponent implements OnInit {
    */
   public changeAvaliavel(unidade) {
     if (unidade.avaliavelValue) {
-      this.listTiposAvaliacoesByUnidadeId(unidade);
+      // this.listTiposAvaliacoesByUnidadeId(unidade);
     } else if (unidade.unidadesTiposAvaliacoes && unidade.unidadesTiposAvaliacoes.length) {
-      for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
-        unidade.unidadesTiposAvaliacoes[k].checked = false;
-        this.changeUnidadeTipoAvaliacao(unidade.unidadesTiposAvaliacoes[k])
-      }
+      // for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
+      //   unidade.unidadesTiposAvaliacoes[k].checked = false;
+      //   this.changeUnidadeTipoAvaliacao(unidade.unidadesTiposAvaliacoes[k])
+      // }
     }
   }
 
@@ -151,28 +144,28 @@ export class VincularUnidadeComponent implements OnInit {
    */
   public changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao) {
 
-    let avaliavel: Avaliavel = new Avaliavel();
-    avaliavel.usuario = this.usuario;
-    avaliavel.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
-
-    for (let i = 0; i < this.avaliaveis.length; i++) {
-      if (this.avaliaveis[i].unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id) {
-        avaliavel = this.avaliaveis[i];
-      }
-    }
-
-    avaliavel.ativo = (unidadeTipoAvaliacao as any).checked;
-
-    if (!(unidadeTipoAvaliacao as any).checked) {
-    //   this.removeAvaliavel.emit(avaliavel);
-    // } else {
-    //   this.saveAvaliavel.emit(avaliavel);
-    }
-
-    this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters({unidadeTipoAvaliacaoId: unidadeTipoAvaliacao.id}).subscribe(result => {
-      unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo = result.content;
-      console.log(unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo)
-    })
+    // let avaliavel: Avaliavel = new Avaliavel();
+    // avaliavel.usuario = this.usuario;
+    // avaliavel.unidadeTipoAvaliacao = unidadeTipoAvaliacao;
+    //
+    // for (let i = 0; i < this.avaliaveis.length; i++) {
+    //   if (this.avaliaveis[i].unidadeTipoAvaliacao.id === unidadeTipoAvaliacao.id) {
+    //     avaliavel = this.avaliaveis[i];
+    //   }
+    // }
+    //
+    // avaliavel.ativo = (unidadeTipoAvaliacao as any).checked;
+    //
+    // if (!(unidadeTipoAvaliacao as any).checked) {
+    // //   this.removeAvaliavel.emit(avaliavel);
+    // // } else {
+    // //   this.saveAvaliavel.emit(avaliavel);
+    // }
+    //
+    // this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters({unidadeTipoAvaliacaoId: unidadeTipoAvaliacao.id}).subscribe(result => {
+    //   unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo = result.content;
+    //   console.log(unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo)
+    // })
   }
 
   /**

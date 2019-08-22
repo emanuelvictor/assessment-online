@@ -147,7 +147,7 @@ export class VisualizarAtendenteComponent implements OnInit {
                 if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
                   (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo;
                   this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
-                  this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao)
+                  // this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao) // TODO
                 }
             })
           }
@@ -264,7 +264,7 @@ export class VisualizarAtendenteComponent implements OnInit {
         // Se não tiiver nenhum avaliavel na lista
         if (!this.avaliaveis || !this.avaliaveis.length) {
           this.avaliaveis = [];
-          this.avaliaveis.push(this.avaliaveis);
+          this.avaliaveis.push(this.avaliaveis)
         }
 
         // Se tiver avaliaveis
@@ -272,13 +272,13 @@ export class VisualizarAtendenteComponent implements OnInit {
           for (let i = 0; i < this.avaliaveis.length; i++)
             if (this.avaliaveis[i].id === avaliavel.id) {
               this.avaliaveis[i] = avaliavel;
-              return;
+              return
             }
 
             // Não encontrou no array coloca no último
             else if (i === this.avaliaveis.length - 1) {
               this.avaliaveis.push(avaliavel);
-              return;
+              return
             }
 
       })

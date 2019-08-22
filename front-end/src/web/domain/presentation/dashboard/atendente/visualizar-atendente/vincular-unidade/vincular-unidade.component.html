@@ -29,32 +29,37 @@
 
         <div *ngIf='unidade?.unidadesTiposAvaliacoes?.length'
              layout-align='center start' layout='column' flex style='width: 100%'>
-          <div *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes' style='width: 100%'>
+          <div *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes' style='width: 100%' layout='row'>
 
-            <mat-list-item layout='column' layout-margin
-                           (click)='unidadeTipoAvaliacao.dispositivoValue = !unidadeTipoAvaliacao.dispositivoValue'
+            <mat-list-item disableRipple layout='column' layout-margin
                            [ngStyle]="{'background-color': unidadeTipoAvaliacao.dispositivoValue ? 'aliceblue' : '#fafafa' }">
-              <h3 style='margin-left: 25px!important' matLine>
+              <h3 style='margin-left: 25px!important' matLine
+                  (click)='unidadeTipoAvaliacao.dispositivoValue = !unidadeTipoAvaliacao.dispositivoValue; changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>
                 {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
               </h3>
-            </mat-list-item>
 
-            <mat-accordion>
-              <mat-expansion-panel [expanded]='unidadeTipoAvaliacao.dispositivoValue'
-                                   (opened)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'
-                                   (closed)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>
-                <div flex
-                     [ngStyle]="{'background-color': (i % 2) === 0 ? '#ffffff' : '#fafafa' }"
-                     *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo; let i = index'>
-                  <mat-checkbox [ngModelOptions]='{standalone: true}'
-                                style='margin-left: 45px!important' flex
-                                [(ngModel)]='unidadeTipoAvaliacaoDispositivo.ativo'>
-                    {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}
-                  </mat-checkbox>
-                  <!--                  {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}-->
-                </div>
-              </mat-expansion-panel>
-            </mat-accordion>
+
+            </mat-list-item>
+            <div layout='row' flex
+                 [ngStyle]="{'background-color': unidadeTipoAvaliacao.dispositivoValue ? 'aliceblue' : '#fafafa' }">
+              <mat-checkbox [(ngModel)]='unidadeTipoAvaliacaoDispositivo.checked'
+                            [ngModelOptions]='{standalone: true}' flex layout-margin
+                            *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo'>
+                {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}
+              </mat-checkbox>
+            </div>
+            <!--            <mat-accordion>-->
+            <!--              <mat-expansion-panel style='padding-left:33px !important'-->
+            <!--                                   (opened)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'-->
+            <!--                                   (closed)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'-->
+            <!--                                   [expanded]='unidadeTipoAvaliacao.dispositivoValue' layout-margin>-->
+            <!--                <mat-checkbox [(ngModel)]='unidadeTipoAvaliacaoDispositivo.ativo'-->
+            <!--                              [ngModelOptions]='{standalone: true}' flex layout-margin-->
+            <!--                              *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo'>-->
+            <!--                  {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}-->
+            <!--                </mat-checkbox>-->
+            <!--              </mat-expansion-panel>-->
+            <!--            </mat-accordion>-->
           </div>
           <!--                    <button mat-button flex-->
           <!--                            *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes'>-->
