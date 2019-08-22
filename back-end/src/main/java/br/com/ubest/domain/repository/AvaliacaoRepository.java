@@ -30,8 +30,8 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "   FROM Avaliacao avaliacao " +
             "       INNER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliacao.id = avaliacao.id " +
             "       INNER JOIN Agrupador agrupador ON avaliacao.agrupador.id = agrupador.id " +
-            "       INNER JOIN Unidade unidade ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacao.unidade.id = unidade.id " +
-            "       INNER JOIN TipoAvaliacao tipoAvaliacao ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.id = tipoAvaliacao.id " +
+            "       INNER JOIN Unidade unidade ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id = unidade.id " +
+            "       INNER JOIN TipoAvaliacao tipoAvaliacao ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.tipoAvaliacao.id = tipoAvaliacao.id " +
             "       INNER JOIN Usuario usuario ON avaliacaoAvaliavel.avaliavel.usuario.id = usuario.id " +
 //            "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
             "   WHERE " +

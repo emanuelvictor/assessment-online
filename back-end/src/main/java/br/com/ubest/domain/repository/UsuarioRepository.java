@@ -79,7 +79,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             ") FROM Usuario usuario " +
             "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.usuario.id = usuario.id " +
-            "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.id = avaliavel.unidadeTipoAvaliacao.id " +
+            "       LEFT OUTER JOIN UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo ON unidadeTipoAvaliacaoDispositivo.id = avaliavel.unidadeTipoAvaliacaoDispositivo.id " +
+            "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.id = unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id " +
             "       LEFT OUTER JOIN Unidade unidade ON unidade.id = unidadeTipoAvaliacao.unidade.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
             "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
@@ -127,7 +128,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "               (" +
             "                   SELECT avaliavel.usuario.id FROM Avaliavel avaliavel WHERE " +
             "                   (" +
-            "                       avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.id = unidadeTipoAvaliacao.tipoAvaliacao.id AND avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.id IN :tiposAvaliacoesFilter " +
+            "                       avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.tipoAvaliacao.id = unidadeTipoAvaliacao.tipoAvaliacao.id AND avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.tipoAvaliacao.id IN :tiposAvaliacoesFilter " +
             "                   )" +
             "               )" +
             "           )" +
@@ -140,7 +141,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "               (" +
             "                   SELECT avaliavel.usuario.id FROM Avaliavel avaliavel WHERE " +
             "                   (" +
-            "                       avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id AND avaliavel.unidadeTipoAvaliacao.unidade.id IN :unidadesFilter " +
+            "                       avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id AND avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id IN :unidadesFilter " +
             "                   )" +
             "               )" +
             "           )" +
@@ -154,9 +155,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "               (" +
             "                   unidade.id IN " +
             "                   (" +
-            "                       SELECT avaliavel.unidadeTipoAvaliacao.unidade.id FROM Avaliavel avaliavel WHERE " +
+            "                       SELECT avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id FROM Avaliavel avaliavel WHERE " +
             "                       (" +
-            "                           avaliavel.unidadeTipoAvaliacao.unidade.id IN " +
+            "                           avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id IN " +
             "                           (" +
             "                               SELECT operador.unidade.id FROM Operador operador WHERE " +
             "                               (" +
@@ -270,8 +271,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   usuario.documento" +
             ") FROM Usuario usuario " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.usuario.id = usuario.id " +
-            "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.id = avaliavel.unidadeTipoAvaliacao.id " +
-            "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id AND avaliavel.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id" +
+            "       LEFT OUTER JOIN UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo ON unidadeTipoAvaliacaoDispositivo.id = avaliavel.unidadeTipoAvaliacaoDispositivo.id " +
+            "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.id = unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id " +
+            "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id AND avaliavel.unidadeTipoAvaliacaoDispositivo.id = unidadeTipoAvaliacaoDispositivo.id" +
             "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
             "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
             "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2) " +
@@ -303,7 +305,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "           (" +
             "               SELECT avaliavel.usuario.id FROM Avaliavel avaliavel WHERE " +
             "               (" +
-            "                   avaliavel.unidadeTipoAvaliacao.unidade.id = :unidadeId" +
+            "                   avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id = :unidadeId" +
             "               )" +
             "           )"
     )

@@ -20,7 +20,7 @@ public interface AvaliacaoAvaliavelRepository extends JpaRepository<AvaliacaoAva
      * @param unidadeId long
      * @return List<AvaliacaoAvaliavel>
      */
-    @Query("FROM AvaliacaoAvaliavel avaliacaoAvaliavel WHERE avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacao.unidade.id = :unidadeId")
+    @Query("FROM AvaliacaoAvaliavel avaliacaoAvaliavel WHERE avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id = :unidadeId")
     List<AvaliacaoAvaliavel> listAvaliacaoAvaliavelByUnidadeId(@Param("unidadeId") final long unidadeId);
 
     /**

@@ -17,12 +17,12 @@ public interface AvaliavelRepository extends JpaRepository<Avaliavel, Long> {
                     "   (" +
                     "       (:unidadeId IS NULL AND (:usuarioId IS NOT NULL AND avaliavel.usuario.id = :usuarioId)) " +
                     "       OR " +
-                    "       (:usuarioId IS NULL AND (:unidadeId IS NOT NULL AND avaliavel.unidadeTipoAvaliacao.unidade.id = :unidadeId))" +
+                    "       (:usuarioId IS NULL AND (:unidadeId IS NOT NULL AND avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id = :unidadeId))" +
                     "       OR :usuarioId IS NULL AND :unidadeId IS NULL " +
                     "   )" +
                     "   AND " +
                     "   (" +
-                    "       (:unidadeTipoAvaliacaoId IS NOT NULL AND avaliavel.unidadeTipoAvaliacao.id = :unidadeTipoAvaliacaoId)" +
+                    "       (:unidadeTipoAvaliacaoId IS NOT NULL AND avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id = :unidadeTipoAvaliacaoId)" +
                     "       OR :unidadeTipoAvaliacaoId IS NULL  " +
                     "   )" +
                     "   AND " +
@@ -31,10 +31,10 @@ public interface AvaliavelRepository extends JpaRepository<Avaliavel, Long> {
                     "       OR :ativo IS NULL " +
                     "   )" +
                     "   AND (" +
-                    "           FILTER(:defaultFilter, avaliavel.unidadeTipoAvaliacao.unidade.nome) = TRUE" +
+                    "           FILTER(:defaultFilter, avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.nome) = TRUE" +
                     "       OR " +
                     "           (" +
-                    "               FILTER(:defaultFilter, avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.nome, avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.selecao, avaliavel.unidadeTipoAvaliacao.tipoAvaliacao.enunciado) = TRUE" +
+                    "               FILTER(:defaultFilter, avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.tipoAvaliacao.nome, avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.tipoAvaliacao.selecao, avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.tipoAvaliacao.enunciado) = TRUE" +
                     "           )" +
                     "       )" +
                     ")"
@@ -46,7 +46,8 @@ public interface AvaliavelRepository extends JpaRepository<Avaliavel, Long> {
                                   @Param("unidadeTipoAvaliacaoId") final Long unidadeTipoAvaliacaoId,
                                   final Pageable pageable);
 
-    Set<Avaliavel> findAllByUnidadeTipoAvaliacaoId(final long avaliacaoUnidadeTipoId);
+    @Query(" SELECT avaliavel FROM Avaliavel avaliavel WHERE avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id = :unidadeTipoAvaliacaoId")
+    Set<Avaliavel> findAllByUnidadeTipoAvaliacaoId(@Param("unidadeTipoAvaliacaoId") final long unidadeTipoAvaliacaoId);
 
     Set<Avaliavel> findAllByUsuarioId(final long usuarioId);
 

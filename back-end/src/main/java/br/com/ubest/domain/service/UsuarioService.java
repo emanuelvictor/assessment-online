@@ -5,14 +5,13 @@ import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.configuracao.Configuracao;
-import br.com.ubest.domain.entity.endereco.Endereco;
+import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.unidade.Unidade;
+import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
-import br.com.ubest.domain.repository.ConfiguracaoRepository;
-import br.com.ubest.domain.repository.ContaRepository;
-import br.com.ubest.domain.repository.UsuarioRepository;
+import br.com.ubest.domain.repository.*;
 import br.com.ubest.infrastructure.file.ImageUtils;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
@@ -78,6 +77,8 @@ public class UsuarioService {
 
     private final TipoAvaliacaoService tipoAvaliacaoService;
 
+    private final DispositivoRepository dispositivoRepository;
+
     private final ConfiguracaoRepository configuracaoRepository;
 
     private final TenantIdentifierResolver tenantIdentifierResolver;
@@ -85,6 +86,8 @@ public class UsuarioService {
     private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
 
     private final ServerSecurityContextRepository serverSecurityContextRepository;
+
+    private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
 
     /**
      * Serviço de alteração de senha
@@ -291,6 +294,21 @@ public class UsuarioService {
         unidadeTipoAvaliacao.setUnidade(unidade);
         this.unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
 
+        final Dispositivo dispositivo = new Dispositivo();
+        dispositivo.setNome(unidade.getNome());
+        dispositivo.setModoInsonia(true);
+        dispositivo.setModoQuiosque(true);
+        dispositivo.setQuebrarLinhaNaSelecaoDeItemAvaliavel(true);
+        dispositivo.setPublico(false);
+        dispositivo.setTime((short) 30);
+        this.unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
+
+        final UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+        unidadeTipoAvaliacaoDispositivo.setAtivo(true);
+        unidadeTipoAvaliacaoDispositivo.setUnidadeTipoAvaliacao(unidadeTipoAvaliacao);
+        unidadeTipoAvaliacaoDispositivo.setDispositivo(dispositivo);
+        this.unidadeTipoAvaliacaoDispositivoRepository.save(unidadeTipoAvaliacaoDispositivo);
+
         // Quesito
         final Usuario quesito = new Usuario();
         quesito.setNome("Atendimento");
@@ -299,7 +317,7 @@ public class UsuarioService {
         // Vinculo entre a avaliação vinculada á unidade e o quesito
         final Avaliavel avaliavel = new Avaliavel();
         avaliavel.setUsuario(quesito);
-        avaliavel.setUnidadeTipoAvaliacao(unidadeTipoAvaliacao);
+        avaliavel.setUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacaoDispositivo);
         this.avaliavelService.save(avaliavel);
 
         final Configuracao configuracao = new Configuracao();
