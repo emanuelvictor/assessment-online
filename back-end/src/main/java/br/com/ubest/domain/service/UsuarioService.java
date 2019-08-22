@@ -275,6 +275,7 @@ public class UsuarioService {
      */
     @Transactional
     public void bootstrapTemplate() {
+
         // Tipo de avaliação
         final TipoAvaliacao tipoAvaliacao = new TipoAvaliacao();
         tipoAvaliacao.setNome("Atendimento");
@@ -295,15 +296,16 @@ public class UsuarioService {
         this.unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
 
         final Dispositivo dispositivo = new Dispositivo();
-        dispositivo.setNome(unidade.getNome());
+        dispositivo.setNome("Meu primeiro dispositivo");
         dispositivo.setModoInsonia(true);
         dispositivo.setModoQuiosque(true);
         dispositivo.setQuebrarLinhaNaSelecaoDeItemAvaliavel(true);
         dispositivo.setPublico(false);
         dispositivo.setTime((short) 30);
-        this.unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
+        this.dispositivoRepository.save(dispositivo);
 
         final UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+        unidadeTipoAvaliacaoDispositivo.setOrdem((short) 1);
         unidadeTipoAvaliacaoDispositivo.setAtivo(true);
         unidadeTipoAvaliacaoDispositivo.setUnidadeTipoAvaliacao(unidadeTipoAvaliacao);
         unidadeTipoAvaliacaoDispositivo.setDispositivo(dispositivo);
@@ -322,8 +324,12 @@ public class UsuarioService {
 
         final Configuracao configuracao = new Configuracao();
         try {
-            configuracao.setBackgroundImage(IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/banner.png")));
-            configuracao.setLogo(IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/ubest1.png")));
+            final URL backgroundImageURL = getClass().getResource("../../../../../public/sistema/assets/images/banner.png");
+            if (backgroundImageURL != null)
+                configuracao.setBackgroundImage(IOUtils.toByteArray(backgroundImageURL));
+            final URL logoURL = getClass().getResource("../../../../../public/sistema/assets/images/ubest1.png");
+            if (logoURL != null)
+                configuracao.setLogo(IOUtils.toByteArray(logoURL));
         } catch (IOException e) {
             e.printStackTrace();
         }

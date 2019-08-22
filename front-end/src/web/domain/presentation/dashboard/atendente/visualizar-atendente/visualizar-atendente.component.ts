@@ -140,20 +140,21 @@ export class VisualizarAtendenteComponent implements OnInit {
               this.unidades[i].unidadesTiposAvaliacoes = result.content;
               for (let c = 0; c < this.unidades[i].unidadesTiposAvaliacoes.length; c++)
                 this.unidadeTipoAvaliacaoDispositivoRepository.listByUnidadeTipoAvaliacaoId({unidadeTipoAvaliacaoId: this.unidades[i].unidadesTiposAvaliacoes[c].id}).subscribe(result => {
-                  this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo = result.content
-                });
+                  this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo = result.content;
 
-              for (let k = 0; k < this.avaliaveis.length; k++)
-                if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-                  (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo;
-                  this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
-                  // this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao) // TODO
-                }
+                  for (let k = 0; k < this.avaliaveis.length; k++)
+                    if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+                      (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo;
+                      this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
+                      // this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao) // TODO
+                    }
+
+                  if (!this.vincularUnidadeTipoAvaliacaoDispositivo)
+                    this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length > 1 || (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo && this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length > 1)))))
+                })
             })
           }
         }
-
-        this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1 || (this.unidades[0].unidadesTiposAvaliacoes.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivo && this.unidades[0].unidadesTiposAvaliacoes[0].unidadesTiposAvaliacoesDispositivo.length > 1)))));
 
         this.usuarioService.findById(id).subscribe(result => {
           this.atendente = result
