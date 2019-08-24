@@ -16,6 +16,8 @@ import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
 import {UnidadeTipoAvaliacaoDispositivo} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
+import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
+import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
 
 @Component({
   selector: 'visualizar-atendente',
@@ -28,7 +30,7 @@ import {UnidadeTipoAvaliacaoDispositivo} from "../../../../entity/avaliacao/unid
 export class VisualizarAtendenteComponent implements OnInit {
 
   /**
-   *
+   *unidades
    */
   public unidades: Unidade[];
 
@@ -69,7 +71,7 @@ export class VisualizarAtendenteComponent implements OnInit {
   /**
    *
    */
-  vincularUnidadeTipoAvaliacaoDispositivo: boolean;
+  vincularUnidadeTipoAvaliacaoDispositivo: boolean = true;
 
   /**
    *
@@ -86,6 +88,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {UnidadeService} unidadeService
    */
   constructor(private avaliavelRepository: AvaliavelRepository,
+              private dispositivoRepository: DispositivoRepository,
               private router: Router, private usuarioService: UsuarioService,
               public activatedRoute: ActivatedRoute, private dialog: MatDialog,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
@@ -108,6 +111,8 @@ export class VisualizarAtendenteComponent implements OnInit {
     this.find(atendenteId);
   }
 
+  dispositivos: Dispositivo[] = [];
+
   /**
    *
    * @param {number} id
@@ -115,66 +120,112 @@ export class VisualizarAtendenteComponent implements OnInit {
   public find(id: number) {
     this.usuarioService.findById(id).subscribe(usuario => {
 
-      this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
-
-        this.unidades = result.content;
-
-        this.operadorRepository.listByFilters({usuarioId: id}).subscribe(result => {
-          this.operadores = result.content;
-
-          if (this.operadores.length)
-            for (let i = 0; i < this.unidades.length; i++)
-              for (let k = 0; k < this.operadores.length; k++)
-                if (this.operadores[k].unidade.id === this.unidades[i].id) {
-                  (this.unidades[i] as any).operadorValue = true;
-                  (this.unidades[i] as any).operador = this.operadores[k]
-                }
+      this.dispositivoRepository.listByFilters({withBondFilter: true}).subscribe(result => {
+        result.content.forEach( dispositivo => {
+          (dispositivo as any).unidades.forEach( unidade => {
+            (unidade as any).unidadesTiposAvaliacoesDispositivo = dispositivo.unidadesTiposAvaliacoesDispositivo.filter( u => u.ativo && u.unidadeTipoAvaliacao.ativo && u.unidadeTipoAvaliacao.unidade.id === unidade.id);
+          })
         });
+        // for (let i = 0; i < this.dispositivos.length; i++) {
+        //   for (let k = 0; k < (this.dispositivos[i] as any).unidades.length; k++) {
+        //     (this.dispositivos[i] as any).unidades[k].unidadesTiposAvaliacoesDispositivo = this.dispositivos[i].unidadesTiposAvaliacoesDispositivo;
+        //   }
+        // }
 
-        this.avaliavelRepository.listByFilters({usuarioId: id}).subscribe(result => {
-          this.avaliaveis = result.content;
+        this.dispositivos = result.content
+      });
 
-          for (let i = 0; i < this.unidades.length; i++) {
-            this.unidadeTipoAvaliacaoRepository.listByFilters({
-              unidadeId: this.unidades[i].id,
-              ativo: true
-            }).subscribe(result => {
+      this.atendente = usuario
 
-              this.unidades[i].unidadesTiposAvaliacoes = result.content;
-
-              this.unidades[i].unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => {
-                (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo(false)
-              });
-
-              for (let c = 0; c < this.unidades[i].unidadesTiposAvaliacoes.length; c++)
-                this.unidadeTipoAvaliacaoDispositivoRepository.listByUnidadeTipoAvaliacaoId({
-                  unidadeTipoAvaliacaoId: this.unidades[i].unidadesTiposAvaliacoes[c].id,
-                  ativo: true
-                }).subscribe(result => {
-                  this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo = result.content;
-
-                  for (let k = 0; k < this.avaliaveis.length; k++) {
-                    if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-                      (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo
-                    }
-                    for (let kinner = 0; kinner < this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length; kinner++) {
-                      if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.id === this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[kinner].id) {
-                        (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[kinner] as any).unidadeTipoAvaliacaoDispositivoValue = this.avaliaveis[k].ativo;
-                        (this.unidades[i].unidadesTiposAvaliacoes[c] as any).unidadeTipoAvaliacaoValue = this.avaliaveis[k].ativo
-                      }
-                    }
-                  }
-
-
-                  if (!this.vincularUnidadeTipoAvaliacaoDispositivo)
-                    this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length > 1 || (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo && this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length > 1)))))
-                });
-
-              this.atendente = usuario
-            })
-          }
-        })
-      })
+      // this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
+      //
+      //   this.unidades = result.content;
+      //
+      //   this.operadorRepository.listByFilters({usuarioId: id}).subscribe(resultOperadores => {
+      //     this.operadores = resultOperadores.content;
+      //
+      //     if (this.operadores.length) {
+      //       for (let i = 0; i < this.unidades.length; i++) {
+      //         for (let k = 0; k < this.operadores.length; k++) {
+      //           if (this.operadores[k].unidade.id === this.unidades[i].id) {
+      //             (this.unidades[i] as any).operadorValue = true;
+      //             (this.unidades[i] as any).operador = this.operadores[k]
+      //           }
+      //         }
+      //       }
+      //     }
+      //   });
+      //
+      //   this.avaliavelRepository.listByFilters({usuarioId: id}).subscribe(resultAvaliaveis => {
+      //     this.avaliaveis = resultAvaliaveis.content;
+      //
+      //     for (let i = 0; i < this.unidades.length; i++) {
+      //       this.unidadeTipoAvaliacaoRepository.listByFilters({
+      //         unidadeId: this.unidades[i].id,
+      //         ativo: true
+      //       }).subscribe(resultUnidadeTipoAvaliacao => {
+      //
+      //         this.unidades[i].unidadesTiposAvaliacoes = resultUnidadeTipoAvaliacao.content;
+      //
+      //         this.unidades[i].unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => {
+      //           (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo(false)
+      //         });
+      //
+      //         for (let c = 0; c < this.unidades[i].unidadesTiposAvaliacoes.length; c++) {
+      //           this.unidadeTipoAvaliacaoDispositivoRepository.listByUnidadeTipoAvaliacaoId({
+      //             unidadeTipoAvaliacaoId: this.unidades[i].unidadesTiposAvaliacoes[c].id,
+      //             ativo: true
+      //           }).subscribe(resultUnidadeTipoAvaliacaoDispositivo => {
+      //             this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo = resultUnidadeTipoAvaliacaoDispositivo.content;
+      //
+      //             for (let j = 0; j < this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length; j++) {
+      //               let found = false;
+      //               for (let k = 0; k < this.dispositivos.length; k++) {
+      //                 if (this.dispositivos[k].id === this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[j].dispositivo.id) {
+      //                   found = true;
+      //                   if ((this.dispositivos as any).unidades) {
+      //                     if (!(this.dispositivos as any).unidades.filter(u => u.id === this.unidades[i].id).length) {
+      //                       (this.dispositivos[k] as any).unidades.push(this.unidades[i])
+      //                     }
+      //                   } else {
+      //                     (this.dispositivos[k] as any).unidades = []
+      //                   }
+      //                 }
+      //               }
+      //               if (!found) {
+      //                 (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[j].dispositivo as any).unidades = [this.unidades[i]];
+      //                 this.dispositivos.push(this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[j].dispositivo);
+      //               }
+      //
+      //               if (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length === j + 1) {
+      //                 // _this.dispositivos.flatMap( a => a.unidadesTiposAvaliacoesDispositivo.map( a => a.unidadeTipoAvaliacao.unidade))
+      //                 console.log(this.dispositivos)
+      //               }
+      //             }
+      //
+      //             for (let k = 0; k < this.avaliaveis.length; k++) {
+      //               if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+      //                 (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo
+      //               }
+      //               for (let kinner = 0; kinner < this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length; kinner++) {
+      //                 if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.id === this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[kinner].id) {
+      //                   (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[kinner] as any).unidadeTipoAvaliacaoDispositivoValue = this.avaliaveis[k].ativo;
+      //                   (this.unidades[i].unidadesTiposAvaliacoes[c] as any).unidadeTipoAvaliacaoValue = this.avaliaveis[k].ativo
+      //                 }
+      //               }
+      //             }
+      //
+      //             if (!this.vincularUnidadeTipoAvaliacaoDispositivo) {
+      //               this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length > 1 || (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo && this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length > 1)))))
+      //             }
+      //           })
+      //         }
+      //
+      //         this.atendente = usuario
+      //       })
+      //     }
+      //   })
+      // })
     })
   }
 
@@ -202,7 +253,7 @@ export class VisualizarAtendenteComponent implements OnInit {
     );
 
     dialogRef.afterClosed().subscribe(remover => {
-      if (remover)
+      if (remover) {
         this.usuarioService.remove(this.atendente)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
@@ -210,6 +261,7 @@ export class VisualizarAtendenteComponent implements OnInit {
               duration: 3000
             })
           })
+      }
     })
   }
 
@@ -240,9 +292,11 @@ export class VisualizarAtendenteComponent implements OnInit {
       .then(result => {
         operador = result;
 
-        for (let i = 0; i < this.unidades.length; i++)
-          if (this.unidades[i].id === operador.unidade.id)
+        for (let i = 0; i < this.unidades.length; i++) {
+          if (this.unidades[i].id === operador.unidade.id) {
             (this.unidades[i] as any).operador = operador;
+          }
+        }
 
         this.openSnackBar('Vínculo salvo com sucesso!');
       })
@@ -326,8 +380,8 @@ export class VisualizarAtendenteComponent implements OnInit {
         }
 
         // Se tiver avaliáveis
-        else
-          for (let i = 0; i < this.avaliaveis.length; i++)
+        else {
+          for (let i = 0; i < this.avaliaveis.length; i++) {
             if (this.avaliaveis[i].id === avaliavel.id) {
               this.avaliaveis[i] = avaliavel;
               return;
@@ -338,6 +392,8 @@ export class VisualizarAtendenteComponent implements OnInit {
               this.avaliaveis.push(avaliavel);
               return;
             }
+          }
+        }
 
       })
   }

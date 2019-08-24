@@ -5,6 +5,7 @@ import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.repository.DispositivoRepository;
 import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
+import br.com.ubest.domain.service.DispositivoService;
 import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,8 @@ import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 @RequiredArgsConstructor
 @RequestMapping({"**dispositivos", "**sistema/dispositivos", "**sistema/mobile/dispositivos"})
 public class DispositivoResource extends AbstractResource<Dispositivo> {
+
+    private final DispositivoService dispositivoService;
 
     private final DispositivoRepository dispositivoRepository;
 
@@ -61,10 +64,11 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
         return Mono.just(this.dispositivoRepository.findById(id));
     }
 
+
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<Page<Dispositivo>> listByFilters() {
-        return Mono.just(this.dispositivoRepository.findAll(getPageable()));
+    Mono<Page<Dispositivo>> listByFilters(final String defaultFilter, final Boolean withBondFilter, final Boolean withAvaliaveisFilter, final Boolean withUnidadesTiposAvaliacoesAtivasFilter, final Long[] idsFilter) {
+        return Mono.just(this.dispositivoService.listByFilters(defaultFilter, withBondFilter, withAvaliaveisFilter, withUnidadesTiposAvaliacoesAtivasFilter, getListFromArray(idsFilter), getPageable()));
     }
 
 }

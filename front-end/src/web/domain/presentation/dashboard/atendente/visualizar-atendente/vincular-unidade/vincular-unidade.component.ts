@@ -18,6 +18,19 @@ export class VincularUnidadeComponent {
    * Unidades do sistema
    */
   @Input()
+  public dispositivos: any;
+
+  /**
+   *
+   * @type {EventEmitter}
+   */
+  @Output()
+  public dispositivosChange = new EventEmitter();
+
+  /**
+   * Unidades do sistema
+   */
+  @Input()
   public unidades: any;
 
   /**
@@ -58,6 +71,7 @@ export class VincularUnidadeComponent {
    */
   @Input()
   public filter: any = {
+    dispositivo: {},
     unidade: {}
   };
 
@@ -107,21 +121,21 @@ export class VincularUnidadeComponent {
    * @param {Unidade} unidade
    */
   public saveOperadorInner(unidade: Unidade): void {
-    if (!(unidade as any).operador) {
-      const operador: Operador = new Operador();
-      operador.usuario = this.usuario;
-
-      const u = new Unidade();
-      u.id = unidade.id;
-      operador.unidade = u;
-      (unidade as any).operador = operador;
-    }
-
-    if (!(unidade as any).operadorValue) {
-      this.removeOperador.emit((unidade as any).operador);
-    } else {
-      this.saveOperador.emit((unidade as any).operador)
-    }
+    // if (!(unidade as any).operador) {
+    //   const operador: Operador = new Operador();
+    //   operador.usuario = this.usuario;
+    //
+    //   const u = new Unidade();
+    //   u.id = unidade.id;
+    //   operador.unidade = u;
+    //   (unidade as any).operador = operador;
+    // }
+    //
+    // if (!(unidade as any).operadorValue) {
+    //   this.removeOperador.emit((unidade as any).operador);
+    // } else {
+    //   this.saveOperador.emit((unidade as any).operador)
+    // }
   }
 
   /**
@@ -129,23 +143,23 @@ export class VincularUnidadeComponent {
    * @param unidade
    */
   public changeAvaliavel(unidade) {
-    if (unidade.avaliavelValue) {
-
-      this.emit(this.changeUnidadeAvaliavelValue(unidade, true))
-
-    } else if (unidade.unidadesTiposAvaliacoes && unidade.unidadesTiposAvaliacoes.length) {
-
-      let toEmit = [];
-
-      for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
-        unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoValue = false;
-        toEmit = toEmit.concat(this.changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidade.unidadesTiposAvaliacoes[k], unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoValue))
-      }
-
-      this.emit(toEmit);
-
-      this.verifyUnidade(unidade)
-    }
+    // if (unidade.avaliavelValue) {
+    //
+    //   this.emit(this.changeUnidadeAvaliavelValue(unidade, true))
+    //
+    // } else if (unidade.unidadesTiposAvaliacoes && unidade.unidadesTiposAvaliacoes.length) {
+    //
+    //   let toEmit = [];
+    //
+    //   for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
+    //     unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoValue = false;
+    //     toEmit = toEmit.concat(this.changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidade.unidadesTiposAvaliacoes[k], unidade.unidadesTiposAvaliacoes[k].unidadeTipoAvaliacaoValue))
+    //   }
+    //
+    //   this.emit(toEmit);
+    //
+    //   this.verifyUnidade(unidade)
+    // }
   }
 
   /**
@@ -178,29 +192,29 @@ export class VincularUnidadeComponent {
     // })
   }
 
-  /**
-   *
-   * @param unidadeTipoAvaliacao
-   * @param unidadeTipoAvaliacaoValue
-   */
-  public changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao: UnidadeTipoAvaliacao, unidadeTipoAvaliacaoValue: boolean): [] {
-    const toEmit: any = [];
-
-    (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = unidadeTipoAvaliacaoValue;
-    for (let c = 0; c < unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.length; c++) {
-      (unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo[c] as any).unidadeTipoAvaliacaoDispositivoValue = unidadeTipoAvaliacaoValue;
-      toEmit.push(unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo[c])
-    }
-
-    return toEmit
-  }
+  // /**
+  //  *
+  //  * @param unidadeTipoAvaliacao
+  //  * @param unidadeTipoAvaliacaoValue
+  //  */
+  // public changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao: UnidadeTipoAvaliacao, unidadeTipoAvaliacaoValue: boolean): [] {
+    // const toEmit: any = [];
+    //
+    // (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = unidadeTipoAvaliacaoValue;
+    // for (let c = 0; c < unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.length; c++) {
+    //   (unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo[c] as any).unidadeTipoAvaliacaoDispositivoValue = unidadeTipoAvaliacaoValue;
+    //   toEmit.push(unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo[c])
+    // }
+    //
+    // return toEmit
+  // }
 
   /**
    *
    * @param toEmit
    */
   public emit(toEmit) {
-    this.unidadesTiposAvaliacoesDispositivoChange.emit(toEmit)
+    // this.unidadesTiposAvaliacoesDispositivoChange.emit(toEmit)
   }
 
   /**
@@ -208,24 +222,24 @@ export class VincularUnidadeComponent {
    * @param unidade
    */
   public verifyUnidade(unidade: Unidade) {
-    (unidade as any).avaliavelValue = unidade.unidadesTiposAvaliacoes.filter(u => (u as any).unidadeTipoAvaliacaoValue).length > 0;
+    // (unidade as any).avaliavelValue = unidade.unidadesTiposAvaliacoes.filter(u => (u as any).unidadeTipoAvaliacaoValue).length > 0;
   }
 
-  /**
-   *
-   * @param unidade
-   * @param avaliavelValue
-   */
-  public changeUnidadeAvaliavelValue(unidade: Unidade, avaliavelValue): [] {
-    let toEmit: any = [];
-
-    for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
-      (unidade.unidadesTiposAvaliacoes[k] as any).unidadeTipoAvaliacaoValue = avaliavelValue;
-      toEmit = toEmit.concat(this.changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidade.unidadesTiposAvaliacoes[k], avaliavelValue));
-    }
-
-    return toEmit;
-  }
+  // /**
+  //  *
+  //  * @param unidade
+  //  * @param avaliavelValue
+  //  */
+  // public changeUnidadeAvaliavelValue(unidade: Unidade, avaliavelValue): [] {
+    // let toEmit: any = [];
+    //
+    // for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
+    //   (unidade.unidadesTiposAvaliacoes[k] as any).unidadeTipoAvaliacaoValue = avaliavelValue;
+    //   toEmit = toEmit.concat(this.changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidade.unidadesTiposAvaliacoes[k], avaliavelValue));
+    // }
+    //
+    // return toEmit;
+  // }
 
   /**
    *

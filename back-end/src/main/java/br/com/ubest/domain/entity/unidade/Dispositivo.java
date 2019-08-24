@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -84,5 +85,13 @@ public class Dispositivo extends AbstractEntity implements Serializable {
      */
     public Dispositivo(Long id) {
         super(id);
+    }
+
+    /**
+     *
+     * @return Set<Unidade>
+     */
+    public Set<Unidade> getUnidades(){
+        return this.unidadesTiposAvaliacoesDispositivo.stream().map(unidadeTipoAvaliacaoDispositivo -> unidadeTipoAvaliacaoDispositivo.getUnidadeTipoAvaliacao().getUnidade()).collect(Collectors.toSet());
     }
 }
