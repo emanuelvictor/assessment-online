@@ -190,7 +190,7 @@ export class VisualizarAtendenteComponent implements OnInit {
   /**
    *
    */
-  public remove() {
+  public remove(itemAvaliavel: Usuario) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
         data: {
@@ -203,7 +203,7 @@ export class VisualizarAtendenteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(remover => {
       if (remover)
-        this.usuarioService.remove(this.atendente)
+        this.usuarioService.remove(itemAvaliavel)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
             this.snackBar.open('Excluído com sucesso', 'Fechar', {
@@ -261,10 +261,10 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param avaliavel
+   * @param unidadesTiposAvaliacoesDispositivo
    */
-  public unidadesTiposAvaliacoesDispositivoChange(avaliavel): void {
-    console.log(avaliavel);
+  public unidadesTiposAvaliacoesDispositivoChange(unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[]): void {
+    console.log(unidadesTiposAvaliacoesDispositivo.map(value => (value as any).unidadeTipoAvaliacaoDispositivoValue));
     // const aux = new Avaliavel();
     // aux.unidadeTipoAvaliacao = avaliavel.unidadeTipoAvaliacao;
     // aux.usuario = avaliavel.usuario;

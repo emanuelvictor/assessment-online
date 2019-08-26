@@ -31,14 +31,15 @@
 
                         <mat-list-item disableRipple layout='column' layout-margin
                                        [ngStyle]="{'background-color': unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue ? 'aliceblue' : '#fafafa' }"
-                                       (click)='unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue = !unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue; emit(changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao, unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue)); verifyUnidade(unidade)'>
+                                       (click)='clickUnidadeTipoAvaliacao(unidadeTipoAvaliacao, unidade)'>
                             <h3 style='margin-left: 25px!important' matLine>
                                 {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
                             </h3>
                         </mat-list-item>
                         <div layout='row' flex *ngIf='unidadeTipoAvaliacao?.unidadesTiposAvaliacoesDispositivo?.length > 1'
                              [ngStyle]="{'background-color': unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue ? 'aliceblue' : '#fafafa' }">
-                            <mat-checkbox [ngModelOptions]='{standalone: true}' flex layout-margin
+                            <mat-checkbox flex layout-margin
+                                          (change)='emit(changeUnidadeTipoAvaliacaoDispositivoUnidadeTipoAvaliacaoDispositivoValue(unidadeTipoAvaliacaoDispositivo, unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacaoDispositivoValue)); verifyUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'
                                           [(ngModel)]='unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacaoDispositivoValue'
                                           *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo'>
                                 {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}

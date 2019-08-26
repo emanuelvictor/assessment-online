@@ -6,6 +6,7 @@ import {AvaliavelRepository} from "../../../../../repository/avaliavel.repositor
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repository/unidade-tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
 import {UnidadeTipoAvaliacao} from "../../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
+import {UnidadeTipoAvaliacaoDispositivo} from "../../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
 
 @Component({
   selector: 'vincular-unidade',
@@ -183,8 +184,8 @@ export class VincularUnidadeComponent {
    * @param unidadeTipoAvaliacao
    * @param unidadeTipoAvaliacaoValue
    */
-  public changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao: UnidadeTipoAvaliacao, unidadeTipoAvaliacaoValue: boolean): [] {
-    const toEmit: any = [];
+  public changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao: UnidadeTipoAvaliacao, unidadeTipoAvaliacaoValue: boolean): UnidadeTipoAvaliacaoDispositivo[] {
+    const toEmit: UnidadeTipoAvaliacaoDispositivo[] = [];
 
     (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = unidadeTipoAvaliacaoValue;
     for (let c = 0; c < unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.length; c++) {
@@ -229,6 +230,30 @@ export class VincularUnidadeComponent {
 
   /**
    *
+   * @param unidadeTipoAvaliacao
+   */
+  verifyUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao) {
+    (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(u => (u as any).unidadesTiposAvaliacoesDispositivoValue).length > 0;
+  }
+
+  changeUnidadeTipoAvaliacaoDispositivoUnidadeTipoAvaliacaoDispositivoValue(unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo, unidadeTipoAvaliacaoDispositivoValue: boolean) {
+    const toEmit: any = [];
+    (unidadeTipoAvaliacaoDispositivo as any).unidadeTipoAvaliacaoDispositivoValue = unidadeTipoAvaliacaoDispositivoValue;
+    toEmit.push(unidadeTipoAvaliacaoDispositivo);
+
+    //
+    // this.changeAvaliavel(unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade, unidadeTipoAvaliacaoDispositivoValue);
+    //
+    // for (let k = 0; k < unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade; k++) {
+    //     // (unidadeTipoAvaliacaoDispositivo.unidadesTiposAvaliacoes.unidadesTiposAvaliacoes[k] as any).unidadeTipoAvaliacaoValue = unidadeTipoAvaliacaoDispositivoValue;
+    //     toEmit = toEmit.concat(this.changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue((unidadeTipoAvaliacaoDispositivo.unidadesTiposAvaliacoes.unidadesTiposAvaliacoes[k] as any).unidadesTiposAvaliacoes[k], unidadeTipoAvaliacaoDispositivoValue));
+    //   }
+
+    return toEmit;
+  }
+
+  /**
+   *
    */
   @Input()
   public unidadesTiposAvaliacoesDispositivo: any;
@@ -240,32 +265,14 @@ export class VincularUnidadeComponent {
   @Output()
   public unidadesTiposAvaliacoesDispositivoChange = new EventEmitter();
 
-  // /**
-  //  *
-  //  * @param {Unidade} unidade
-  //  */
-  // public listTiposAvaliacoesByUnidadeId(unidade) {
-  //   this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidade.id, ativo: true}).subscribe(page => {
-  //
-  //       const aux = unidade.unidadesTiposAvaliacoes;
-  //
-  //       unidade.unidadesTiposAvaliacoes = page.content;
-  //
-  //       if (aux && aux.length) {
-  //         for (let i = 0; i < aux.length; i++) {
-  //           for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
-  //             if (unidade.unidadesTiposAvaliacoes[k].tipoAvaliacao.id === aux[i].tipoAvaliacao.id) {
-  //               if (!aux[i].avaliavel) {
-  //                 aux[i].avaliavel = {}
-  //               }
-  //               unidade.unidadesTiposAvaliacoes[k].checked = aux[i].avaliavel.ativo;
-  //               unidade.unidadesTiposAvaliacoes[k].avaliavel = aux[i].avaliavel
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   )
-  // }
-
+  /**
+   *
+   * @param unidadeTipoAvaliacao
+   * @param unidade
+   */
+  clickUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao, unidade: Unidade) {
+    (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = (unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(value => (value as any).unidadeTipoAvaliacaoDispositivoValue).length >= 0 && unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(value => (value as any).unidadeTipoAvaliacaoDispositivoValue).length !== unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.length);
+    this.emit(this.changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao, (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue));
+    this.verifyUnidade(unidade);
+  }
 }
