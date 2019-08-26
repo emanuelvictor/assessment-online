@@ -233,7 +233,8 @@ export class VincularUnidadeComponent {
    * @param unidadeTipoAvaliacao
    */
   verifyUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao) {
-    (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(u => (u as any).unidadesTiposAvaliacoesDispositivoValue).length > 0;
+    (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(value => (value as any).unidadeTipoAvaliacaoDispositivoValue).length !== 0;
+    // (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = (unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(value => (value as any).unidadeTipoAvaliacaoDispositivoValue).length >= 0 && unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(value => (value as any).unidadeTipoAvaliacaoDispositivoValue).length !== unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.length);
   }
 
   changeUnidadeTipoAvaliacaoDispositivoUnidadeTipoAvaliacaoDispositivoValue(unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo, unidadeTipoAvaliacaoDispositivoValue: boolean) {
@@ -268,9 +269,8 @@ export class VincularUnidadeComponent {
   /**
    *
    * @param unidadeTipoAvaliacao
-   * @param unidade
    */
-  clickUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao, unidade: Unidade) {
+  clickUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao) {
     (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = (unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(value => (value as any).unidadeTipoAvaliacaoDispositivoValue).length >= 0 && unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(value => (value as any).unidadeTipoAvaliacaoDispositivoValue).length !== unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.length);
     return this.changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao, (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue)
   }
