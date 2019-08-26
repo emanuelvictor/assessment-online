@@ -66,6 +66,13 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "       AND " +
             "       (" +
             "           (" +
+            "               dispositivo.id IN :dispositivosFilter" +
+            "           )" +
+            "           OR :dispositivosFilter IS NULL" +
+            "       )" +
+            "       AND " +
+            "       (" +
+            "           (" +
             "               unidade.id IN :unidadesFilter" +
             "           )" +
             "           OR :unidadesFilter IS NULL" +
@@ -96,9 +103,9 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "       AND" +
             "       (" +
             "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') " +
-            "           AND dispositivo.id IN " +
+            "           AND unidade.id IN " +
             "           (" +
-            "               SELECT operador.dispositivo.id FROM Operador operador WHERE " +
+            "               SELECT operador.unidade.id FROM Operador operador WHERE " +
             "               (" +
             "                   operador.usuario.id = :usuarioId" +
             "               )" +
@@ -111,6 +118,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
                                   @Param("perfil") final String perfil,
                                   @Param("defaultFilter") final String defaultFilter,
                                   @Param("unidadesFilter") final List<Long> unidadesFilter,
+                                  @Param("dispositivosFilter") final List<Long> dispositivosFilter,
                                   @Param("usuariosFilter") final List<Long> usuariosFilter,
                                   @Param("tiposAvaliacoesFilter") final List<Long> tiposAvaliacoesFilter,
                                   @Param("hasFeedback") final Boolean hasFeedback,

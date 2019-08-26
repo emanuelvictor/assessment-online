@@ -2,7 +2,6 @@ package br.com.ubest.domain.entity.usuario;
 
 import br.com.caelum.stella.validation.CNPJValidator;
 import br.com.caelum.stella.validation.CPFValidator;
-import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
 import br.com.ubest.domain.entity.usuario.vinculo.Operador;
@@ -173,18 +172,18 @@ public class Usuario extends Pessoa implements Serializable {
      */
     @Transient
     @JsonProperty
-    public String getDispositivos() {
+    public String getUnidades() {
 
-        final Set<Dispositivo> dispositivos = new HashSet<>();
+        final Set<Unidade> unidades = new HashSet<>();
 
         if (this.avaliaveis != null && !Objects.requireNonNull(this.avaliaveis).isEmpty())
-            dispositivos.addAll(this.avaliaveis.stream().map(avaliavel -> avaliavel.getUnidadeTipoAvaliacaoDispositivo().getDispositivo()).collect(Collectors.toSet()));
+            unidades.addAll(this.avaliaveis.stream().map(avaliavel -> avaliavel.getUnidadeTipoAvaliacaoDispositivo().getUnidadeTipoAvaliacao().getUnidade()).collect(Collectors.toSet()));
         if (this.operadores != null)
-            dispositivos.addAll(this.operadores.stream().map(Operador::getDispositivo).collect(Collectors.toSet()));
+            unidades.addAll(this.operadores.stream().map(Operador::getUnidade).collect(Collectors.toSet()));
 
-        if (dispositivos.isEmpty())
+        if (unidades.isEmpty())
             return null;
-        return dispositivos.stream().map(Dispositivo::getNome).collect(Collectors.joining(", "));
+        return unidades.stream().map(a -> a.nome).collect(Collectors.joining(", "));
     }
 
     /**

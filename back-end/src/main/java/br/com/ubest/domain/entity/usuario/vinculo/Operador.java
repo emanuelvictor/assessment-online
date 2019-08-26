@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"usuario_id", "dispositivo_id"})
+        @UniqueConstraint(columnNames = {"usuario_id", "unidade_id"})
 })
 public class Operador extends AbstractEntity implements Serializable {
 
@@ -37,6 +37,6 @@ public class Operador extends AbstractEntity implements Serializable {
      */
     @NotNull
     @ManyToOne(optional = false)
-    private Dispositivo dispositivo;
+    private Unidade unidade;
 
 }

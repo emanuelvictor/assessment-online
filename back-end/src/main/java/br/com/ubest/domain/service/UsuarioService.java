@@ -302,7 +302,6 @@ public class UsuarioService {
         dispositivo.setQuebrarLinhaNaSelecaoDeItemAvaliavel(true);
         dispositivo.setPublico(false);
         dispositivo.setTime((short) 30);
-        dispositivo.setEndereco(null);
         this.dispositivoRepository.save(dispositivo);
 
         final UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();

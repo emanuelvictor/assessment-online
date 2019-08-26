@@ -159,16 +159,16 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "                       (" +
             "                           avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id IN " +
             "                           (" +
-            "                               SELECT operador.dispositivo.id FROM Operador operador WHERE " +
+            "                               SELECT operador.unidade.id FROM Operador operador WHERE " +
             "                               (" +
             "                                   operador.usuario.id = :usuarioId " +
             "                               )" +
             "                           )" +
             "                       )" +
             "                   )" +
-            "                   OR operador.dispositivo.id IN " +
+            "                   OR operador.unidade.id IN " +
             "                   (" +
-            "                       SELECT operadorInner.dispositivo.id FROM Operador operadorInner WHERE operadorInner.usuario.id = :usuarioId " +
+            "                       SELECT operadorInner.unidade.id FROM Operador operadorInner WHERE operadorInner.usuario.id = :usuarioId " +
             "                   ) " +
             "               )" +
             "           )" +
@@ -289,6 +289,18 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findUsuarioByIdAndReturnAvaliacoes(@Param("usuarioId") final Long usuarioId);
 
     /**
+     * @return List<Usuario>jj
+     */
+    @Query("FROM Usuario usuario WHERE usuario.conta.administrador = TRUE")
+    List<Usuario> getAdministrators();
+
+    /**
+     * @param nome String
+     * @return List<Usuario>
+     */
+    List<Usuario> findByNome(final String nome);
+
+    /**
      * @param dispositivoId Long
      * @return List<Usuario>
      */
@@ -298,7 +310,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "           (" +
             "               SELECT operador.usuario.id FROM Operador operador WHERE " +
             "               (" +
-            "                   operador.dispositivo.id = :dispositivoId " +
+            "                   operador.unidade.id IN " +
+            "                   (" +
+            "                       SELECT unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE unidadeTipoAvaliacaoDispositivo.dispositivo.id = :dispositivoId" +
+            "                   ) " +
             "               )" +
             "           )" +
             "           OR usuario.id IN" +
@@ -311,16 +326,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     )
     List<Usuario> listUsuariosByDispositivoId(@Param("dispositivoId") final Long dispositivoId);
 
-    /**
-     * @return List<Usuario>
-     */
-    @Query("FROM Usuario usuario WHERE usuario.conta.administrador = TRUE")
-    List<Usuario> getAdministrators();
-
-    /**
-     * @param nome String
-     * @return List<Usuario>
-     */
-    List<Usuario> findByNome(final String nome);
 
 }

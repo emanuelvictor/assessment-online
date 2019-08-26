@@ -1,58 +1,30 @@
 package br.com.ubest.domain.entity.unidade;
 
-import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.domain.entity.endereco.Endereco;
 import br.com.ubest.domain.entity.usuario.Pessoa;
 import lombok.Data;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+import javax.persistence.OneToOne;
 
 @Data
 @Entity
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
-public class Unidade extends AbstractEntity implements Serializable {
+public class Unidade extends Pessoa {
 
-    private static final long serialVersionUID = -12345665123456789L;
+    /**
+     *
+     */
+    @OneToOne(cascade = CascadeType.ALL)
+    private Endereco endereco;
 
     /**
      *
      */
     private String agradecimento;
-
-    /**
-     *
-     */
-    @NotNull
-    @NotEmpty
-    @Column(nullable = false)
-    private String nome;
-
-    @Transient
-    private Object media;
-
-    @Transient
-    private long quantidadeAvaliacoes;
-
-    @Transient
-    private long avaliacoes1;
-
-    @Transient
-    private long avaliacoes2;
-
-    @Transient
-    private long avaliacoes3;
-
-    @Transient
-    private long avaliacoes4;
-
-    @Transient
-    private long avaliacoes5;
 
     /**
      *
@@ -63,21 +35,27 @@ public class Unidade extends AbstractEntity implements Serializable {
     /**
      *
      */
-    public Unidade(final long id, final String nome) {
+    public Unidade(final long id, final String nome, final String documento, final Endereco endereco) {
 
         this.id = id;
         this.nome = nome;
+        this.documento = documento;
+
+        this.endereco = endereco;
 
     }
 
     /**
      *
      */
-    public Unidade(final long id, final String nome,
+    public Unidade(final long id, final String nome, final String documento, final Endereco endereco,
                    final Double media, final long quantidadeAvaliacoes, final long avaliacoes1, final long avaliacoes2, final long avaliacoes3, final long avaliacoes4, final long avaliacoes5) {
 
         this.id = id;
         this.nome = nome;
+        this.documento = documento;
+
+        this.endereco = endereco;
 
         this.media = media;
         this.quantidadeAvaliacoes = quantidadeAvaliacoes;
@@ -86,7 +64,6 @@ public class Unidade extends AbstractEntity implements Serializable {
         this.avaliacoes3 = avaliacoes3;
         this.avaliacoes4 = avaliacoes4;
         this.avaliacoes5 = avaliacoes5;
-
     }
 
 }

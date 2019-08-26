@@ -1,10 +1,6 @@
 package br.com.ubest.domain.repository;
 
 import br.com.ubest.domain.entity.unidade.Dispositivo;
-import br.com.ubest.domain.entity.unidade.Unidade;
-import br.com.ubest.domain.entity.usuario.Perfil;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +10,8 @@ import java.util.List;
 public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> {
 
     /**
+     * TODO com pau
+     *
      * @param usuarioId {long}
      * @return List<Dispositivo>
      */
@@ -25,11 +23,13 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
             "               avaliavel.usuario.id = :usuarioId" +
             "           )" +
             "       ) " +
-            "       OR " +
-            "       dispositivo.id IN (" +
-            "           SELECT operador.dispositivo.id FROM Operador operador WHERE " +
+            "       OR dispositivo.id IN (" +
+            "           SELECT unidadeTipoAvaliacaoDispositivo.dispositivo.id From UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE " +
             "           (" +
-            "               operador.usuario.id = :usuarioId" +
+            "               unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id IN " +
+            "               (" +
+            "                   SELECT operador.unidade.id FROM Operador operador WHERE operador.usuario.id = :usuarioId" +
+            "               )" +
             "           )" +
             "       ) " +
             "   )"
@@ -40,10 +40,15 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
      * @param dispositivoId {long}
      * @return List<String>
      */
-    @Query("SELECT operador.usuario.conta.password FROM Operador operador " +
-            "   WHERE" +
+    @Query("SELECT operador.usuario.conta.password FROM Operador operador WHERE" +
             "   ( " +
-            "       operador.dispositivo.id = :dispositivoId " +
+            "       operador.unidade.id IN " +
+            "       (" +
+            "           SELECT unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE " +
+            "           (" +
+            "               unidadeTipoAvaliacaoDispositivo.dispositivo.id = :dispositivoId" +
+            "           )" +
+            "       )" +
             "   )"
     )
     List<String> getHashsByDispositivoId(@Param("dispositivoId") final long dispositivoId);

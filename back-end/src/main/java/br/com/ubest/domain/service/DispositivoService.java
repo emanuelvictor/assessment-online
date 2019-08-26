@@ -99,4 +99,12 @@ public class DispositivoService {
         return hashs.isEmpty() ? new ArrayList<>() : hashs;
     }
 
+    /**
+     * @param usuarioId long
+     * @return List<Unidade>
+     */
+    public List<Dispositivo> listByUsuarioId(final long usuarioId) {
+        return this.dispositivoRepository.listByUsuarioId(usuarioId);
+    }
+
 }

@@ -1,21 +1,17 @@
 package br.com.ubest.domain.entity.unidade;
 
-import br.com.ubest.domain.entity.endereco.Endereco;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,12 +30,6 @@ public class Dispositivo extends AbstractEntity implements Serializable {
     @NotNull
     @Column(nullable = false)
     private String nome;
-
-    /**
-     *
-     */
-    @Column
-    protected String documento;
 
     /**
      *
@@ -84,12 +74,6 @@ public class Dispositivo extends AbstractEntity implements Serializable {
     /**
      *
      */
-    @OneToOne(cascade = CascadeType.ALL)
-    private Endereco endereco;
-
-    /**
-     *
-     */
     public Dispositivo() {
     }
 
@@ -101,10 +85,9 @@ public class Dispositivo extends AbstractEntity implements Serializable {
     }
 
     /**
-     *
      * @return Set<Unidade>
      */
-    public Set<Unidade> getUnidades(){
-        return this.unidadesTiposAvaliacoesDispositivo.stream().map(unidadeTipoAvaliacaoDispositivo -> unidadeTipoAvaliacaoDispositivo.getUnidadeTipoAvaliacao().getUnidade()).collect(Collectors.toSet());
+    public Set<Unidade> getUnidades() {
+        return this.unidadesTiposAvaliacoesDispositivo != null ? this.unidadesTiposAvaliacoesDispositivo.stream().map(unidadeTipoAvaliacaoDispositivo -> unidadeTipoAvaliacaoDispositivo.getUnidadeTipoAvaliacao().getUnidade()).collect(Collectors.toSet()) : null;
     }
 }
