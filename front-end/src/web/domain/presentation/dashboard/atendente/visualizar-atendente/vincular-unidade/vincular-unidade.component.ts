@@ -272,7 +272,6 @@ export class VincularUnidadeComponent {
    */
   clickUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao, unidade: Unidade) {
     (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = (unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(value => (value as any).unidadeTipoAvaliacaoDispositivoValue).length >= 0 && unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(value => (value as any).unidadeTipoAvaliacaoDispositivoValue).length !== unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.length);
-    this.emit(this.changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao, (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue));
-    this.verifyUnidade(unidade);
+    return this.changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao, (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue)
   }
 }

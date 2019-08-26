@@ -31,7 +31,7 @@
 
                         <mat-list-item disableRipple layout='column' layout-margin
                                        [ngStyle]="{'background-color': unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue ? 'aliceblue' : '#fafafa' }"
-                                       (click)='clickUnidadeTipoAvaliacao(unidadeTipoAvaliacao, unidade)'>
+                                       (click)='emit(clickUnidadeTipoAvaliacao(unidadeTipoAvaliacao, unidade)); verifyUnidade(unidade)'>
                             <h3 style='margin-left: 25px!important' matLine>
                                 {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
                             </h3>
