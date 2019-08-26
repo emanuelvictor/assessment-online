@@ -13,6 +13,40 @@ import java.util.List;
 
 public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> {
 
+    /**
+     * @param usuarioId {long}
+     * @return List<Dispositivo>
+     */
+    @Query("FROM Dispositivo dispositivo WHERE " +
+            "   (   " +
+            "       dispositivo.id IN (" +
+            "           SELECT avaliavel.unidadeTipoAvaliacaoDispositivo.dispositivo.id FROM Avaliavel avaliavel WHERE " +
+            "           (" +
+            "               avaliavel.usuario.id = :usuarioId" +
+            "           )" +
+            "       ) " +
+            "       OR " +
+            "       dispositivo.id IN (" +
+            "           SELECT operador.dispositivo.id FROM Operador operador WHERE " +
+            "           (" +
+            "               operador.usuario.id = :usuarioId" +
+            "           )" +
+            "       ) " +
+            "   )"
+    )
+    List<Dispositivo> listByUsuarioId(@Param("usuarioId") final long usuarioId);
+
+    /**
+     * @param dispositivoId {long}
+     * @return List<String>
+     */
+    @Query("SELECT operador.usuario.conta.password FROM Operador operador " +
+            "   WHERE" +
+            "   ( " +
+            "       operador.dispositivo.id = :dispositivoId " +
+            "   )"
+    )
+    List<String> getHashsByDispositivoId(@Param("dispositivoId") final long dispositivoId);
 
 //    /**
 //     * @param usuarioId     {Long}

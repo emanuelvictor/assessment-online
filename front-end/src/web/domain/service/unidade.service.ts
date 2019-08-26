@@ -19,14 +19,6 @@ export class UnidadeService {
    *
    * @returns {Observable<{}>}
    */
-  public listByUsuarioId(pageable: any): Observable<any> {
-    return this.unidadeRepository.listByUsuarioId(pageable);
-  }
-
-  /**
-   *
-   * @returns {Observable<{}>}
-   */
   public listLightByFilters(pageable: any): Observable<any> {
     return this.unidadeRepository.listLightByFilters(pageable);
   }

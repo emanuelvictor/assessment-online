@@ -53,8 +53,8 @@ public class OperadorService {
         return this.operadorRepository.listByFilters(defaultFilter, enderecoFilter, usuarioId, unidadeId, pageable);
     }
 
-    List<Operador> findAllByUnidadeId(final Long unidadeId) {
-        return this.operadorRepository.findAllByUnidadeId(unidadeId);
+    List<Operador> findAllByDispositivoId(final Long unidadeId) {
+        return this.operadorRepository.findAllByDispositivoId(unidadeId);
     }
 
     List<Operador> findAllByUsuarioId(final Long usuarioId) {

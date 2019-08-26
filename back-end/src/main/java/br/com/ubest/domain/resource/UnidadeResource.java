@@ -58,22 +58,10 @@ public class UnidadeResource extends AbstractResource<Unidade> {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<Page<Unidade>> listByFilters(final String defaultFilter, final Long[] tiposAvaliacoesFilter, final String enderecoFilter,
+    Mono<Page<Unidade>> listByFilters(final String defaultFilter, final Long[] tiposAvaliacoesFilter,
                                       @RequestParam(required = false) final LocalDateTime dataInicioFilter,
                                       @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
-        return Mono.just(this.unidadeService.listByFilters(defaultFilter, getListFromArray(tiposAvaliacoesFilter), enderecoFilter, dataInicioFilter, dataTerminoFilter, getPageable()));
-    }
-
-    /**
-     * Lista todas as unidades pelo id do usuário.
-     *
-     * @param usuarioId {long}
-     * @return Mono<List < Unidade>>
-     */
-    @GetMapping("by-usuario") //TODO gambitinho
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<List<Unidade>> listByUsuarioId(@RequestParam final long usuarioId) {
-        return Mono.just(this.unidadeService.listByUsuarioId(usuarioId));
+        return Mono.just(this.unidadeService.listByFilters(defaultFilter, getListFromArray(tiposAvaliacoesFilter), dataInicioFilter, dataTerminoFilter, getPageable()));
     }
 
     @GetMapping("light")
@@ -82,15 +70,4 @@ public class UnidadeResource extends AbstractResource<Unidade> {
         return Mono.just(this.unidadeService.listByFilters(defaultFilter, withBondFilter, withAvaliaveisFilter, withUnidadesTiposAvaliacoesAtivasFilter, getListFromArray(idsFilter), getPageable()));
     }
 
-    @GetMapping("authenticate/{unidadeId}")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    Mono<Boolean> authenticateByUnidadeId(@PathVariable final long unidadeId, @RequestParam final String password) {
-        return Mono.just(this.unidadeService.authenticateByUnidadeId(unidadeId, password));
-    }
-
-    @GetMapping("{unidadeId}/hashs")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    Mono<List<String>> getHashsByUnidadeId(@PathVariable final long unidadeId) {
-        return Mono.just(this.unidadeService.getHashsByUnidadeId(unidadeId));
-    }
 }

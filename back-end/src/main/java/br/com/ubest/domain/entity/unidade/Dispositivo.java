@@ -1,5 +1,6 @@
 package br.com.ubest.domain.entity.unidade;
 
+import br.com.ubest.domain.entity.endereco.Endereco;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -33,6 +34,12 @@ public class Dispositivo extends AbstractEntity implements Serializable {
     @NotNull
     @Column(nullable = false)
     private String nome;
+
+    /**
+     *
+     */
+    @Column
+    protected String documento;
 
     /**
      *
@@ -77,11 +84,17 @@ public class Dispositivo extends AbstractEntity implements Serializable {
     /**
      *
      */
+    @OneToOne(cascade = CascadeType.ALL)
+    private Endereco endereco;
+
+    /**
+     *
+     */
     public Dispositivo() {
     }
 
     /**
-     * @param id
+     * @param id Long
      */
     public Dispositivo(Long id) {
         super(id);

@@ -12,6 +12,7 @@ import {viewAnimation} from "../../../controls/utils";
 import {ContaService} from "../../../../service/conta.service";
 import {ConfiguracaoRepository} from "../../../../repository/configuracao.repository";
 import {Router} from "@angular/router";
+import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
 
 @Component({
   selector: 'visualizar-minha-conta',
@@ -65,6 +66,7 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
   public userSubscription: Subscription;
 
   /**
+   * @param dispositivoRepository
    * @param router
    * @param {MatDialog} dialog
    * @param {MatSnackBar} snackBar
@@ -75,7 +77,8 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
    * @param operadorRepository
    * @param avaliavelRepository
    */
-  constructor(private dialog: MatDialog, private snackBar: MatSnackBar, private router: Router,
+  constructor(private dialog: MatDialog, private snackBar: MatSnackBar,
+              private dispositivoRepository: DispositivoRepository, private router: Router,
               private configuracaoRepository: ConfiguracaoRepository, private contaService: ContaService,
               private authenticationService: AuthenticationService, private unidadeService: UnidadeService,
               private operadorRepository: OperadorRepository, private avaliavelRepository: AvaliavelRepository) {
@@ -91,7 +94,7 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
         conta.usuario.conta = conta;
         this.usuario = conta.usuario;
 
-        this.unidadeService.listByUsuarioId({usuarioId: this.usuario.id}).subscribe(result => {
+        this.dispositivoRepository.listByUsuarioId({usuarioId: this.usuario.id}).subscribe(result => {
           this.unidades = result;
 
           this.operadorRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {

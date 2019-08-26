@@ -159,16 +159,16 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "                       (" +
             "                           avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id IN " +
             "                           (" +
-            "                               SELECT operador.unidade.id FROM Operador operador WHERE " +
+            "                               SELECT operador.dispositivo.id FROM Operador operador WHERE " +
             "                               (" +
             "                                   operador.usuario.id = :usuarioId " +
             "                               )" +
             "                           )" +
             "                       )" +
             "                   )" +
-            "                   OR operador.unidade.id IN " +
+            "                   OR operador.dispositivo.id IN " +
             "                   (" +
-            "                       SELECT operadorInner.unidade.id FROM Operador operadorInner WHERE operadorInner.usuario.id = :usuarioId " +
+            "                       SELECT operadorInner.dispositivo.id FROM Operador operadorInner WHERE operadorInner.usuario.id = :usuarioId " +
             "                   ) " +
             "               )" +
             "           )" +
@@ -289,7 +289,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findUsuarioByIdAndReturnAvaliacoes(@Param("usuarioId") final Long usuarioId);
 
     /**
-     * @param unidadeId Long
+     * @param dispositivoId Long
      * @return List<Usuario>
      */
     @Query("FROM Usuario usuario WHERE " +
@@ -298,21 +298,21 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "           (" +
             "               SELECT operador.usuario.id FROM Operador operador WHERE " +
             "               (" +
-            "                   operador.unidade.id = :unidadeId " +
+            "                   operador.dispositivo.id = :dispositivoId " +
             "               )" +
             "           )" +
             "           OR usuario.id IN" +
             "           (" +
             "               SELECT avaliavel.usuario.id FROM Avaliavel avaliavel WHERE " +
             "               (" +
-            "                   avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id = :unidadeId" +
+            "                   avaliavel.unidadeTipoAvaliacaoDispositivo.dispositivo.id = :dispositivoId" +
             "               )" +
             "           )"
     )
-    List<Usuario> listUsuariosByUnidadeId(@Param("unidadeId") final Long unidadeId);
+    List<Usuario> listUsuariosByDispositivoId(@Param("dispositivoId") final Long dispositivoId);
 
     /**
-     * @return List<Usuario>jj
+     * @return List<Usuario>
      */
     @Query("FROM Usuario usuario WHERE usuario.conta.administrador = TRUE")
     List<Usuario> getAdministrators();

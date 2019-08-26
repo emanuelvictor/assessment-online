@@ -1,6 +1,7 @@
 package br.com.ubest.domain.resource;
 
 import br.com.ubest.domain.entity.unidade.Dispositivo;
+import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.repository.DispositivoRepository;
@@ -71,4 +72,27 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
         return Mono.just(this.dispositivoService.listByFilters(defaultFilter, withBondFilter, withAvaliaveisFilter, withUnidadesTiposAvaliacoesAtivasFilter, getListFromArray(idsFilter), getPageable()));
     }
 
+    /**
+     * Lista todas as unidades pelo id do usuário.
+     *
+     * @param usuarioId {long}
+     * @return Mono<List < Unidade>>
+     */
+    @GetMapping("by-usuario") //TODO gambitinho
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<List<Dispositivo>> listByUsuarioId(@RequestParam final long usuarioId) {
+        return Mono.just(this.dispositivoRepository.listByUsuarioId(usuarioId));
+    }
+
+    @GetMapping("authenticate/{dispositivoId}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    Mono<Boolean> authenticateByDispositivoId(@PathVariable final long dispositivoId, @RequestParam final String password) {
+        return Mono.just(this.dispositivoService.authenticateByDispositivoId(dispositivoId, password));
+    }
+
+    @GetMapping("{dispositivoId}/hashs")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    Mono<List<String>> getHashsByDispositivoId(@PathVariable final long dispositivoId) {
+        return Mono.just(this.dispositivoService.getHashsByDispositivoId(dispositivoId));
+    }
 }

@@ -1,6 +1,7 @@
 package br.com.ubest.domain.entity.usuario.vinculo;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Usuario;
 import lombok.Data;
@@ -18,7 +19,7 @@ import java.io.Serializable;
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"usuario_id", "unidade_id"})
+        @UniqueConstraint(columnNames = {"usuario_id", "dispositivo_id"})
 })
 public class Operador extends AbstractEntity implements Serializable {
 
@@ -36,6 +37,6 @@ public class Operador extends AbstractEntity implements Serializable {
      */
     @NotNull
     @ManyToOne(optional = false)
-    private Unidade unidade;
+    private Dispositivo dispositivo;
 
 }

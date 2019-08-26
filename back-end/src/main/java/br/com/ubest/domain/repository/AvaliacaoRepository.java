@@ -31,6 +31,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "       INNER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliacao.id = avaliacao.id " +
             "       INNER JOIN Agrupador agrupador ON avaliacao.agrupador.id = agrupador.id " +
             "       INNER JOIN Unidade unidade ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id = unidade.id " +
+            "       INNER JOIN Dispositivo dispositivo ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.dispositivo.id = dispositivo.id " +
             "       INNER JOIN TipoAvaliacao tipoAvaliacao ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.tipoAvaliacao.id = tipoAvaliacao.id " +
             "       INNER JOIN Usuario usuario ON avaliacaoAvaliavel.avaliavel.usuario.id = usuario.id " +
 //            "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
@@ -95,16 +96,16 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "       AND" +
             "       (" +
             "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') " +
-            "           AND unidade.id IN " +
+            "           AND dispositivo.id IN " +
             "           (" +
-            "               SELECT operador.unidade.id FROM Operador operador WHERE " +
+            "               SELECT operador.dispositivo.id FROM Operador operador WHERE " +
             "               (" +
             "                   operador.usuario.id = :usuarioId" +
             "               )" +
             "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
             "       )" +
             "   )" +
-            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.id, unidade.nome, tipoAvaliacao.id, agrupador.id, agrupador.feedback "
+            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.id, unidade.nome, dispositivo.id, tipoAvaliacao.id, agrupador.id, agrupador.feedback "
     )
     Page<Avaliacao> listByFilters(@Param("usuarioId") final Long usuarioId,
                                   @Param("perfil") final String perfil,

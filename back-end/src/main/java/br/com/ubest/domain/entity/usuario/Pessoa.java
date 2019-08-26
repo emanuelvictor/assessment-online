@@ -29,7 +29,7 @@ public class Pessoa extends AbstractEntity implements Serializable {
     protected String nome;
 
     /**
-     * TODO fazer unique
+     *
      */
     @Column(unique = true)
     protected String documento;
