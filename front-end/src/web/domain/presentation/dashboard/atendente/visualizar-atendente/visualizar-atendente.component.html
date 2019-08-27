@@ -73,14 +73,14 @@
 
       <mat-card class='bgc-grey-50' style='width: 100%' *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'>
 
-        <vincular-unidade [(unidades)]='unidades'
-                          [(operadores)]='operadores'
-                          [(avaliaveis)]='avaliaveis'
+        <vincular-unidade [unidades]='unidades'
+                          [operadores]='operadores'
+                          [avaliaveis]='avaliaveis'
                           (saveOperador)='saveOperador($event)'
                           (removeOperador)='removeOperador($event)'
                           [filter]='filter' [usuario]='atendente'
-                          (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'
-                          *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'>
+                          *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'
+                          (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'>
         </vincular-unidade>
 
       </mat-card>
