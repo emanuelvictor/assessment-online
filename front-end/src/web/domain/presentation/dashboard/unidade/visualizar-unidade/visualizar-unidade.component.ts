@@ -143,7 +143,6 @@ export class VisualizarUnidadeComponent implements OnInit {
 
     this.unidadeTipoAvaliacaoRepository.save(unidadeTipoAvaliacao)
       .then(result => {
-        this.openSnackBar(result.ativo ? 'Vínculo criado com sucesso' : 'Vínculo removido');
 
         for (let i = 0; i < this.unidadesTiposAvaliacoes.length; i++) {
           if (result.id === this.unidadesTiposAvaliacoes[i].id) {

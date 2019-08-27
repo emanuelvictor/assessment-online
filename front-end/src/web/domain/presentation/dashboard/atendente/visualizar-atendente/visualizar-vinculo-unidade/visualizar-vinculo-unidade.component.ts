@@ -84,23 +84,22 @@ export class VisualizarVinculoUnidadeComponent {
    * @param {Unidade} unidade
    */
   public listTiposAvaliacoesByUnidadeId(unidade) {
-    this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidade.id, ativo: true})
-      .subscribe(page => {
+    this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: unidade.id, ativo: true}).subscribe(page => {
 
-          const aux = unidade.unidadesTiposAvaliacoes;
+        const aux = unidade.unidadesTiposAvaliacoes;
 
-          unidade.unidadesTiposAvaliacoes = page.content;
+        unidade.unidadesTiposAvaliacoes = page.content;
 
-          if (aux && aux.length)
-            for (let i = 0; i < aux.length; i++)
-              for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
-                if (unidade.unidadesTiposAvaliacoes[k].tipoAvaliacao.id === aux[i].tipoAvaliacao.id) {
-                  unidade.unidadesTiposAvaliacoes[k].checked = aux[i].avaliavel.ativo;
-                  unidade.unidadesTiposAvaliacoes[k].avaliavel = aux[i].avaliavel;
-                }
+        if (aux && aux.length)
+          for (let i = 0; i < aux.length; i++)
+            for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
+              if (unidade.unidadesTiposAvaliacoes[k].tipoAvaliacao.id === aux[i].tipoAvaliacao.id) {
+                unidade.unidadesTiposAvaliacoes[k].checked = aux[i].avaliavel.ativo;
+                unidade.unidadesTiposAvaliacoes[k].avaliavel = aux[i].avaliavel;
               }
-        }
-      );
+            }
+      }
+    );
   }
 
   /**

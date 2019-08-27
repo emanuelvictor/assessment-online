@@ -61,10 +61,9 @@
                     layout-margin class='image-cover' [size]='0.2'
                     [usuario]="{'id': usuario?.id , 'foto': usuario?.thumbnailPath}">
             </avatar>
-            <div layout-margin layout='column'>
-              <span>{{usuario?.nome}}</span>
-              <span *ngIf='usuario?.documento' [@fadeInOut]
-                    style='color: #607d8b'>{{usuario?.documento | documento}}</span>
+            <div layout-margin layout='column' *ngIf='usuario?.nome' [@fadeInOut]>
+              <b>{{usuario?.nome}}<span *ngIf='usuario?.documento' [@fadeInOut]
+                                        style='color: #607d8b'>{{usuario?.documento | documento}}</span></b>
               <span style='color: gray'>{{usuario?.conta?.email}}</span>
               <span style='color: #607d8b'>{{usuario?.unidades}}</span>
             </div>

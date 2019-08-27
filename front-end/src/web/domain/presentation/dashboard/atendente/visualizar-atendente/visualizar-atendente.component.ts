@@ -114,24 +114,24 @@ export class VisualizarAtendenteComponent implements OnInit {
   public find(id: number) {
     this.usuarioService.findById(id).subscribe(usuario => {
 
-      this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
+      this.avaliavelRepository.listByFilters({usuarioId: id}).subscribe(result => {
+        this.avaliaveis = result.content;
 
-        this.unidades = result.content;
+        this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
+          this.unidades = result.content;
 
-        this.operadorRepository.listByFilters({usuarioId: id}).subscribe(result => {
-          this.operadores = result.content;
+          this.operadorRepository.listByFilters({usuarioId: id}).subscribe(result => {
+            this.operadores = result.content;
 
-          if (this.operadores.length)
-            for (let i = 0; i < this.unidades.length; i++)
-              for (let k = 0; k < this.operadores.length; k++)
-                if (this.operadores[k].unidade.id === this.unidades[i].id) {
-                  (this.unidades[i] as any).operadorValue = true;
-                  (this.unidades[i] as any).operador = this.operadores[k]
-                }
-        });
+            if (this.operadores.length)
+              for (let i = 0; i < this.unidades.length; i++)
+                for (let k = 0; k < this.operadores.length; k++)
+                  if (this.operadores[k].unidade.id === this.unidades[i].id) {
+                    (this.unidades[i] as any).operadorValue = true;
+                    (this.unidades[i] as any).operador = this.operadores[k]
+                  }
+          });
 
-        this.avaliavelRepository.listByFilters({usuarioId: id}).subscribe(result => {
-          this.avaliaveis = result.content;
 
           for (let i = 0; i < this.unidades.length; i++) {
             this.unidadeTipoAvaliacaoRepository.listByFilters({
@@ -154,8 +154,9 @@ export class VisualizarAtendenteComponent implements OnInit {
 
                   for (let k = 0; k < this.avaliaveis.length; k++) {
                     if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-                      (this.unidades[i] as any).avaliavelValue = this.avaliaveis[k].ativo
+                      (this.unidades[i] as any).avaliavelValue = this.avaliaveis.filter(a => a.ativo).length > 0;
                     }
+
                     for (let kinner = 0; kinner < this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length; kinner++) {
                       if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.id === this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[kinner].id) {
                         (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[kinner] as any).unidadeTipoAvaliacaoDispositivoValue = this.avaliaveis[k].ativo;
@@ -259,12 +260,10 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param unidadesTiposAvaliacoesDispositivo
    */
   public unidadesTiposAvaliacoesDispositivoChange(unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[]): void {
-    console.log(unidadesTiposAvaliacoesDispositivo.map(value => (value as any).unidadeTipoAvaliacaoDispositivoValue));
-
     const toSave = [];
 
     unidadesTiposAvaliacoesDispositivo.forEach(unidadeTipoAvaliacaoDispositivo => {
-      let aux = this.avaliaveis.filter(a => a.unidadeTipoAvaliacaoDispositivo.id === unidadeTipoAvaliacaoDispositivo)[0];
+      let aux = this.avaliaveis.filter(a => a.unidadeTipoAvaliacaoDispositivo.id === unidadeTipoAvaliacaoDispositivo.id)[0];
       aux = aux ? aux : {};
       (aux.unidadeTipoAvaliacaoDispositivo as any) = {
         id: unidadeTipoAvaliacaoDispositivo.id,
@@ -276,12 +275,10 @@ export class VisualizarAtendenteComponent implements OnInit {
       toSave.push(aux)
     });
 
-
     this.avaliavelRepository.saveAll(toSave).then(result => {
-      this.avaliaveis = result;
 
       // Se não tiiver nenhum avaliavel na lista
-      if (!this.avaliaveis || !this.avaliaveis.length)
+      if (!result || !result.length)
         this.avaliaveis = [];
 
       // Se tiver avaliaveis
