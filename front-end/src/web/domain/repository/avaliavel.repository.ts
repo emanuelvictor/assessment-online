@@ -10,4 +10,12 @@ export class AvaliavelRepository extends BaseRepository<Avaliavel> {
     super(httpClient, 'avaliaveis');
   }
 
+
+  /**
+   *
+   * @param avaliaveis
+   */
+  async saveAll(avaliaveis: Avaliavel[]): Promise<Avaliavel[]> {
+    return this.httpClient.post<Avaliavel[]>(this.collectionName + '/all', avaliaveis).toPromise()
+  }
 }

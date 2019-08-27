@@ -33,6 +33,10 @@ public class AvaliavelService {
         return this.avaliavelRepository.save(avaliavel);
     }
 
+    public List<Avaliavel> save(final List<Avaliavel> avaliaveis) {
+        return this.avaliavelRepository.saveAll(avaliaveis);
+    }
+
     public Avaliavel save(final long id, final Avaliavel avaliavel) {
         Assert.isTrue(id > 0, "ID do avaliavel incorreto"); //TODO fazer o validador exclusivo
         return this.avaliavelRepository.save(avaliavel);

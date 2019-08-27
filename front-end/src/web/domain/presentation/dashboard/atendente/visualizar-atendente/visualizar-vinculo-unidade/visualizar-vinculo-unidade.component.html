@@ -29,11 +29,11 @@
         <mat-card-content>
           <section class="example-section"
                    *ngIf='unidade?.unidadesTiposAvaliacoes?.length'>
-            <mat-checkbox class='example-margin'
-                          [(ngModel)]='unidadeTipoAvaliacao.checked' [disabled]="true"
-                          (ngModelChange)='changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'
-                          *ngFor="let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes">
-              {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
+            <mat-checkbox class='example-margin' [disabled]='true'
+                          [(ngModel)]='unidadeTipoAvaliacaoDispositivo.checked'
+                          *ngFor='let unidadeTipoAvaliacaoDispositivo of unidade.unidadesTiposAvaliacoes'
+                          (ngModelChange)='changeUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacaoDispositivo)'>
+              {{unidadeTipoAvaliacaoDispositivo?.unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
             </mat-checkbox>
           </section>
         </mat-card-content>

@@ -1,6 +1,5 @@
 package br.com.ubest.domain.entity.usuario.vinculo;
 
-import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import br.com.ubest.domain.entity.usuario.Usuario;
@@ -18,7 +17,7 @@ import java.io.Serializable;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"usuario_id", "unidade_tipo_avaliacao_dispositivo_id"})
 })
-public class Avaliavel extends AbstractEntity  implements Serializable {
+public class Avaliavel extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -12345665456328951L;
 
