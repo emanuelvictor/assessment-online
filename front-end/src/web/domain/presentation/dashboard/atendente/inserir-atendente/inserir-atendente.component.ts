@@ -7,6 +7,9 @@ import {Conta} from '../../../../entity/usuario/conta.model';
 import {UnidadeService} from "../../../../service/unidade.service";
 import {OperadorRepository} from "../../../../repository/operador.repository";
 import {AvaliavelRepository} from "../../../../repository/avaliavel.repository";
+import {UnidadeTipoAvaliacaoDispositivo} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
+import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
+import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
 
 @Component({
   selector: 'inserir-atendente',
@@ -37,11 +40,18 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
   unidades: any;
 
   /**
+   *
+   */
+  vincularUnidadeTipoAvaliacaoDispositivo: boolean;
+
+  /**
    * @param {UsuarioService} usuarioService
    * @param {OperadorRepository} operadorRepository
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {Router} router
    * @param {MatSnackBar} snackBar
+   * @param unidadeTipoAvaliacaoRepository
+   * @param unidadeTipoAvaliacaoDispositivoRepository
    * @param {ActivatedRoute} activatedRoute
    * @param {UnidadeService} unidadeService
    */
@@ -49,7 +59,9 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
               private operadorRepository: OperadorRepository,
               private avaliavelRepository: AvaliavelRepository,
               private router: Router, private snackBar: MatSnackBar,
-              private activatedRoute: ActivatedRoute, private unidadeService: UnidadeService) {
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
+              private activatedRoute: ActivatedRoute, private unidadeService: UnidadeService,
+              private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository) {
   }
 
   /**
@@ -65,20 +77,46 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
    *
    */
   public listUnidadesByFilters() {
-    this.unidadeService.listLightByFilters(null)
-      .subscribe(result => {
-        this.unidades = result.content;
-      });
+    this.unidadeService.listLightByFilters({withBondFilter: true}).subscribe(result => {
+      this.unidades = result.content;
+
+      for (let i = 0; i < this.unidades.length; i++) {
+        this.unidadeTipoAvaliacaoRepository.listByFilters({
+          unidadeId: this.unidades[i].id,
+          ativo: true
+        }).subscribe(result => {
+
+          this.unidades[i].unidadesTiposAvaliacoes = result.content;
+
+          this.unidades[i].unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => {
+            (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo(false)
+          });
+
+          for (let c = 0; c < this.unidades[i].unidadesTiposAvaliacoes.length; c++) {
+            this.unidadeTipoAvaliacaoDispositivoRepository.listByUnidadeTipoAvaliacaoId({
+              unidadeTipoAvaliacaoId: this.unidades[i].unidadesTiposAvaliacoes[c].id,
+              ativo: true
+            }).subscribe(result => {
+              this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo = result.content;
+
+              if (!this.vincularUnidadeTipoAvaliacaoDispositivo) {
+                this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length > 1 || (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo && this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length > 1)))))
+              }
+            })
+          }
+
+        })
+      }
+    })
   }
 
   /**
    *
    */
   public save(): void {
-    if ((!this.avaliaveis.length && !this.operadores.length) && !this.atendente.conta.administrador)
+    if ((!this.avaliaveis.length && !this.operadores.length) && !this.atendente.conta.administrador) {
       this.snackBar.open('Selecione ao menos uma unidade', 'Fechar');
-
-    else {
+    } else {
       this.usuarioService.save(this.atendente)
         .then(result => {
           this.atendente = result;
