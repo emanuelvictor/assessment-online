@@ -44,7 +44,7 @@
                             <mat-checkbox flex layout-margin
                                           [(ngModel)]='unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacaoDispositivoValue'
                                           *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo'
-                                          (change)='emit(changeUnidadeTipoAvaliacaoDispositivoUnidadeTipoAvaliacaoDispositivoValue(unidadeTipoAvaliacaoDispositivo, unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacaoDispositivoValue)); verifyUnidadeTipoAvaliacao(unidadeTipoAvaliacao)'>
+                                          (change)='emit(changeUnidadeTipoAvaliacaoDispositivoUnidadeTipoAvaliacaoDispositivoValue(unidadeTipoAvaliacaoDispositivo, unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacaoDispositivoValue)); verifyUnidadeTipoAvaliacao(unidadeTipoAvaliacao); verifyUnidade(unidade)'>
                                 {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}
                             </mat-checkbox>
                         </div>

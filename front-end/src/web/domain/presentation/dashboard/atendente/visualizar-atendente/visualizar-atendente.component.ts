@@ -154,7 +154,7 @@ export class VisualizarAtendenteComponent implements OnInit {
 
                   for (let k = 0; k < this.avaliaveis.length; k++) {
                     if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-                      (this.unidades[i] as any).avaliavelValue = this.avaliaveis.filter(a => a.ativo).length > 0;
+                      (this.unidades[i] as any).avaliavelValue = this.avaliaveis.filter(a => a.ativo && a.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id).length > 0;
                     }
 
                     for (let kinner = 0; kinner < this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length; kinner++) {
@@ -165,9 +165,9 @@ export class VisualizarAtendenteComponent implements OnInit {
                     }
                   }
 
-
                   if (!this.vincularUnidadeTipoAvaliacaoDispositivo)
                     this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length > 1 || (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo && this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length > 1)))))
+
                 });
 
               this.atendente = usuario
@@ -292,47 +292,5 @@ export class VisualizarAtendenteComponent implements OnInit {
         }
     })
   }
-
-  // /**
-  //  *
-  //  * @param avaliavel
-  //  */
-  // public removeAvaliavel(avaliavel): void {
-  //
-  //   const aux = new Avaliavel();
-  //   aux.unidadeTipoAvaliacao = avaliavel.unidadeTipoAvaliacao;
-  //   aux.usuario = avaliavel.usuario;
-  //   aux.id = avaliavel.id;
-  //   aux.ativo = avaliavel.ativo;
-  //   delete (aux.unidadeTipoAvaliacao as any).avaliavel;
-  //
-  //   this.avaliavelRepository.save(aux)
-  //     .then(result => {
-  //       this.openSnackBar('Vínculo removido com sucesso!');
-  //
-  //       avaliavel = result;
-  //
-  //       // Se não tiiver nenhum avaliavel na lista
-  //       if (!this.avaliaveis || !this.avaliaveis.length) {
-  //         this.avaliaveis = [];
-  //         this.avaliaveis.push(this.avaliaveis);
-  //       }
-  //
-  //       // Se tiver avaliáveis
-  //       else
-  //         for (let i = 0; i < this.avaliaveis.length; i++)
-  //           if (this.avaliaveis[i].id === avaliavel.id) {
-  //             this.avaliaveis[i] = avaliavel;
-  //             return;
-  //           }
-  //
-  //           // Não encontrou no array coloca no último
-  //           else if (i === this.avaliaveis.length - 1) {
-  //             this.avaliaveis.push(avaliavel);
-  //             return;
-  //           }
-  //
-  //     })
-  // }
 
 }
