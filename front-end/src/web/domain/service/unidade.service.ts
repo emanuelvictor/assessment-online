@@ -82,4 +82,12 @@ export class UnidadeService {
   public findEstatisticasByUnidadeId(id: number, pageRequest: any): Observable<Unidade> {
     return this.unidadeRepository.findEstatisticasByUnidadeId(id, pageRequest);
   }
+
+  /**
+   *
+   * @returns {Observable<{}>}
+   */
+  public listByUsuarioId(pageable: any): Observable<any> {
+    return this.unidadeRepository.listByUsuarioId(pageable);
+  }
 }

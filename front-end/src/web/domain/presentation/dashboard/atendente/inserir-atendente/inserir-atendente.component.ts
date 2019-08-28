@@ -190,12 +190,11 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
    * @param avaliavel
    */
   public removeAvaliavel(avaliavel): void {
-    for (let i = 0; i < this.avaliaveis.length; i++) {
-      if (this.avaliaveis[i].unidadeTipoAvaliacao.unidade.id === avaliavel.unidadeTipoAvaliacao.unidade.id) {
+    for (let i = 0; i < this.avaliaveis.length; i++)
+      if (this.avaliaveis[i].unidadeTipoAvaliacaoDispositivo.id === avaliavel.unidadeTipoAvaliacaoDispositivo.id) {
         this.avaliaveis.splice(i, 1);
-        return;
+        return
       }
-    }
   }
 
   /**

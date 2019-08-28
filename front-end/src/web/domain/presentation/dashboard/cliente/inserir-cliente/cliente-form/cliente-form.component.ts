@@ -106,7 +106,7 @@ export class ClienteFormComponent implements OnInit {
     }
     return (c: AbstractControl): { [key: string]: any } => {
 
-      if (((this.conta.email && this.conta.email.length) || this.conta.administrador) && (!c.value || !c.value.length)) {
+      if (((this.cliente.conta.email && this.cliente.conta.email.length) || this.cliente.conta.administrador) && (!c.value || !c.value.length)) {
         return {
           exception: exception ? exception : 'Defina uma a nova senha'
         };
@@ -127,13 +127,13 @@ export class ClienteFormComponent implements OnInit {
     }
     return (c: AbstractControl): { [key: string]: any } => {
 
-      if (this.conta.password && this.conta.password.length && (!c.value || !c.value.length)) {
+      if (this.cliente.conta.password && this.cliente.conta.password.length && (!c.value || !c.value.length)) {
         return {
           exception: exception ? exception : 'Confirme a nova senha'
         };
       }
 
-      if ((this.conta.password && this.conta.password.length) && this.conta.password !== c.value) {
+      if ((this.cliente.conta.password && this.cliente.conta.password.length) && this.cliente.conta.password !== c.value) {
         return {
           exception: exception ? exception : 'A nova senha e a confirmação não coincidem'
         };

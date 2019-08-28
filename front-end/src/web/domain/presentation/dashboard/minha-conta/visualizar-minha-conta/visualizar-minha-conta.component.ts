@@ -77,11 +77,15 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
    * @param operadorRepository
    * @param avaliavelRepository
    */
-  constructor(private dialog: MatDialog, private snackBar: MatSnackBar,
-              private dispositivoRepository: DispositivoRepository, private router: Router,
-              private configuracaoRepository: ConfiguracaoRepository, private contaService: ContaService,
-              private authenticationService: AuthenticationService, private unidadeService: UnidadeService,
-              private operadorRepository: OperadorRepository, private avaliavelRepository: AvaliavelRepository) {
+  constructor(private router: Router,
+              private contaService: ContaService,
+              private unidadeService: UnidadeService,
+              private operadorRepository: OperadorRepository,
+              private avaliavelRepository: AvaliavelRepository,
+              private authenticationService: AuthenticationService,
+              private dispositivoRepository: DispositivoRepository,
+              private configuracaoRepository: ConfiguracaoRepository,
+              private dialog: MatDialog, private snackBar: MatSnackBar) {
   }
 
   /**
@@ -94,7 +98,7 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
         conta.usuario.conta = conta;
         this.usuario = conta.usuario;
 
-        this.dispositivoRepository.listByUsuarioId({usuarioId: this.usuario.id}).subscribe(result => {
+        this.unidadeService.listByUsuarioId({usuarioId: this.usuario.id}).subscribe(result => {
           this.unidades = result;
 
           this.operadorRepository.listByFilters({usuarioId: this.usuario.id}).subscribe(page => {
@@ -119,13 +123,15 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
                 this.unidades[i].unidadesTiposAvaliacoes = []
               }
               for (let k = 0; k < this.avaliaveis.length; k++) {
-                if (this.avaliaveis[k].unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+                if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
                   this.unidades[i].avaliavelValue = this.avaliaveis[k].ativo;
-                  this.avaliaveis[k].unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
-                  this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacao)
+                  this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
+                  this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao)
                 }
               }
             }
+
+            this.unidades = this.unidades.filter( u => u.avaliavelValue)
           })
 
         })

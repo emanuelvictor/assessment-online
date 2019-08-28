@@ -209,7 +209,8 @@ public class UsuarioService {
         if (usuario.getConta().getEmail() != null && usuario.getConta().getEmail().length() > 0) {
             Assert.notNull(usuario.getConta().getPassword(), "Informe a senha");
             usuario.getConta().setPassword(passwordEncoder.encode(usuario.getConta().getPassword()));
-        }
+        } else if (usuario.getConta().getEmail() != null && usuario.getConta().getEmail().length() == 0)
+            usuario.getConta().setEmail(null);
 
         usuario.getConta().setEsquema(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
 

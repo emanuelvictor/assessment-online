@@ -22,7 +22,7 @@ visualizar-atendente, visualizar-minha-conta, visualizar-unidade {
   }
 }
 
-visualizar-dispositivo {
+visualizar-dispositivo, inserir-atendente {
   .mat-expansion-panel-body {
     padding: 0 !important;
   }
@@ -33,6 +33,12 @@ visualizar-dispositivo {
     mat-list-item {
       margin: 0 !important;
     }
+  }
+}
+
+visualizar-minha-conta {
+  .mat-expansion-panel-body {
+    padding: 0 24px 0 !important;
   }
 }
 
@@ -86,19 +92,6 @@ img {
 .cropper-view-box,
 .cropper-face {
   border-radius: 50%;
-}
-
-
-//ev-datepicker {
-//  mat-form-field {
-//    min-width: 206px;
-//  }
-//}
-
-visualizar-minha-conta {
-  .mat-expansion-panel-body {
-    padding: 0 24px 0 !important;
-  }
 }
 
 router-outlet ~ * {

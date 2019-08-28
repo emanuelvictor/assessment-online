@@ -58,14 +58,11 @@
         </mat-card-content>
       </mat-card>
 
-      <mat-card class='bgc-grey-50'
-                style="width: 100%"
-                *ngIf='unidades?.length'>
-        <visualizar-vinculo-unidade
-            [usuario]='usuario'
-            [(unidades)]='unidades'
-            [(operadores)]='operadores'
-            [(avaliaveis)]='avaliaveis'>
+      <mat-card class='bgc-grey-50' style='width: 100%' *ngIf='unidades?.length'>
+        <visualizar-vinculo-unidade [usuario]='usuario'
+                                    [(unidades)]='unidades'
+                                    [(operadores)]='operadores'
+                                    [(avaliaveis)]='avaliaveis'>
         </visualizar-vinculo-unidade>
       </mat-card>
     </div>

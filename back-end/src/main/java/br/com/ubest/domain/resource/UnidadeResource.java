@@ -70,4 +70,16 @@ public class UnidadeResource extends AbstractResource<Unidade> {
         return Mono.just(this.unidadeService.listByFilters(defaultFilter, withBondFilter, withAvaliaveisFilter, withUnidadesTiposAvaliacoesAtivasFilter, getListFromArray(idsFilter), getPageable()));
     }
 
+    /**
+     * Lista todas as unidades pelo id do usuário.
+     *
+     * @param usuarioId {long}
+     * @return Mono<List < Unidade>>
+     */
+    @GetMapping("by-usuario") //TODO gambitinho
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<List<Unidade>> listByUsuarioId(@RequestParam final long usuarioId) {
+        return Mono.just(this.unidadeService.listByUsuarioId(usuarioId));
+    }
+
 }

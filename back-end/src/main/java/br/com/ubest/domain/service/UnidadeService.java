@@ -136,4 +136,11 @@ public class UnidadeService {
 
     }
 
+    /**
+     * @param usuarioId long
+     * @return List<Unidade>
+     */
+    public List<Unidade> listByUsuarioId(final long usuarioId) {
+        return this.unidadeRepository.listByUsuarioId(usuarioId);
+    }
 }

@@ -1,19 +1,20 @@
 <mat-nav-list *ngIf='unidades?.length'>
-  <div *ngFor="let unidade of unidades">
+  <div *ngFor='let unidade of unidades'>
+
     <mat-list-item layout='row' disableRipple layout-margin *ngIf='(unidade.avaliavelValue || unidade.operadorValue)'>
-      <h3 matLine *ngIf="unidade.avaliavelValue && !unidade.operadorValue">
+      <h3 matLine *ngIf='unidade.avaliavelValue && !unidade.operadorValue'>
         <strong style='color: rgb(94, 124, 139)'> Atendente</strong>
         {{'em: ' + unidade?.nome}}
       </h3>
-      <h3 matLine *ngIf="!unidade.avaliavelValue && unidade.operadorValue">
+      <h3 matLine *ngIf='!unidade.avaliavelValue && unidade.operadorValue'>
         <strong style='color: #c00'> Operador</strong>
         {{'em: ' + unidade?.nome}}
       </h3>
-      <h3 matLine *ngIf="unidade.avaliavelValue && unidade.operadorValue">
+      <h3 matLine *ngIf='unidade.avaliavelValue && unidade.operadorValue'>
         <strong style='color: #c00'> Operador </strong> e <strong style='color: rgb(94, 124, 139)'> atendente </strong>
         {{'em: ' + unidade?.nome}}
       </h3>
-      <p matLine *ngIf="unidade?.endereco?.cidade?.nome">
+      <p matLine *ngIf='unidade?.endereco?.cidade?.nome'>
         {{unidade?.endereco?.logradouro ? unidade?.endereco?.logradouro + ', ' : ''}}
         {{unidade?.endereco?.numero ? unidade?.endereco?.numero + ', ' : ''}}
         {{unidade?.endereco?.bairro ? unidade?.endereco?.bairro + ', ' : ''}}
@@ -22,19 +23,17 @@
     </mat-list-item>
 
     <mat-accordion>
-      <mat-expansion-panel class='bgc-grey-100'
-                           [expanded]='unidade.avaliavelValue'
-                           (opened)='changeAvaliavel(unidade)'>
+      <mat-expansion-panel class='bgc-grey-100' [expanded]='unidade.avaliavelValue' (opened)='changeAvaliavel(unidade)'>
 
         <mat-card-content>
-          <section class="example-section"
-                   *ngIf='unidade?.unidadesTiposAvaliacoes?.length'>
-            <mat-checkbox class='example-margin' [disabled]='true'
-                          [(ngModel)]='unidadeTipoAvaliacaoDispositivo.checked'
-                          *ngFor='let unidadeTipoAvaliacaoDispositivo of unidade.unidadesTiposAvaliacoes'
-                          (ngModelChange)='changeUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacaoDispositivo)'>
-              {{unidadeTipoAvaliacaoDispositivo?.unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
-            </mat-checkbox>
+          <section class='example-section' *ngIf='unidade?.unidadesTiposAvaliacoes?.length'>
+            <div *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes'>
+              <mat-checkbox *ngIf='unidadeTipoAvaliacao.checked'
+                            class='example-margin' [disabled]='true'
+                            [(ngModel)]='unidadeTipoAvaliacao.checked'>
+                {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
+              </mat-checkbox>
+            </div>
           </section>
         </mat-card-content>
 
