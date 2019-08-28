@@ -59,13 +59,18 @@
                              matInput name='email' id='email'
                              type='email' formControlName='email'
                              placeholder='E-mail' maxlength='144'
-                             pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'>
+                             pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'
+                             (keyup)="form.controls['password'].get('password')?.updateValueAndValidity()">
                       <mat-error *ngIf="form.controls['email'].hasError('pattern')">
                         E-mail inválido, utilize o formato 'email@email.com'
                       </mat-error>
+                        <mat-error *ngIf="form.controls['email'].hasError('exception')">
+                            O e-mail é obrigatório caso o Item Avaliavel seja administrador
+                        </mat-error>
                     </mat-form-field>
                     <div layout="column" layout-align="center center" *ngIf="usuarioLogado?.isAdministrador">
-                      <mat-checkbox [(ngModel)]='usuario.conta.administrador' [ngModelOptions]="{standalone: true}">
+                      <mat-checkbox (change)="form.controls['password'].get('password')?.updateValueAndValidity(); form.get('email')?.updateValueAndValidity()"
+                                    [(ngModel)]='usuario.conta.administrador' [ngModelOptions]="{standalone: true}">
                         Administrador
                       </mat-checkbox>
                     </div>

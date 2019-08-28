@@ -1,10 +1,9 @@
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer, ViewChild} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 
-import {FormBuilder, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/forms';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../../entity/usuario/usuario.model';
-import {confirmPassword, password} from '../../../../controls/validators/validators';
 import {HttpClient} from "@angular/common/http";
 import {RecaptchaComponent} from "ng-recaptcha";
 
@@ -61,6 +60,11 @@ export class ClienteFormComponent implements OnInit {
 
   /**
    *
+   */
+  confirmacaoPassword: string = null;
+
+  /**
+   *
    * @param {Renderer} renderer
    * @param {MatSnackBar} snackBar
    * @param {FormBuilder} fb
@@ -81,13 +85,62 @@ export class ClienteFormComponent implements OnInit {
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],
       email: ['email', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]],
-      password: ['password', [Validators.required, password()]],
-      confirmacaoPassword: ['confirmacaoPassword', [Validators.required, confirmPassword()]],
+      password: ['password', [Validators.required, this.novaSenhaValidator()]],
+      confirmacaoPassword: ['confirmacaoPassword', [Validators.required, this.confirmarSenhaValidator()]],
       recaptchaReactive: ['recaptchaReactive', [Validators.required]]
     });
 
     this.fotoPath = this.cliente.fotoPath;
     this.arquivoFile = this.cliente.arquivoFile;
+  }
+
+
+  /**
+   *
+   * @param exception
+   * @param validatorFn
+   */
+  public novaSenhaValidator(exception?: string, validatorFn?: ValidatorFn): ValidatorFn {
+    if (validatorFn) {
+      return validatorFn;
+    }
+    return (c: AbstractControl): { [key: string]: any } => {
+
+      if (((this.conta.email && this.conta.email.length) || this.conta.administrador) && (!c.value || !c.value.length)) {
+        return {
+          exception: exception ? exception : 'Defina uma a nova senha'
+        };
+      }
+
+      return null
+    }
+  }
+
+  /**
+   *
+   * @param exception
+   * @param validatorFn
+   */
+  public confirmarSenhaValidator(exception?: string, validatorFn?: ValidatorFn): ValidatorFn {
+    if (validatorFn) {
+      return validatorFn;
+    }
+    return (c: AbstractControl): { [key: string]: any } => {
+
+      if (this.conta.password && this.conta.password.length && (!c.value || !c.value.length)) {
+        return {
+          exception: exception ? exception : 'Confirme a nova senha'
+        };
+      }
+
+      if ((this.conta.password && this.conta.password.length) && this.conta.password !== c.value) {
+        return {
+          exception: exception ? exception : 'A nova senha e a confirmação não coincidem'
+        };
+      }
+
+      return null
+    }
   }
 
   /**

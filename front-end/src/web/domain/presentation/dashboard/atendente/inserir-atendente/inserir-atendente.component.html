@@ -22,13 +22,13 @@
 
   <vincular-unidade unidades
                     [usuario]='atendente'
-                    [(unidades)]='unidades'
-                    [(operadores)]='operadores'
-                    [(avaliaveis)]='avaliaveis'
+                    [unidades]='unidades'
+                    [operadores]='operadores'
+                    [avaliaveis]='avaliaveis'
                     (saveOperador)='saveOperador($event)'
                     (removeOperador)='removeOperador($event)'
-                    (saveAvaliavel)='saveAvaliavel($event)'
-                    (removeAvaliavel)='removeAvaliavel($event)'>
+                    *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'
+                    (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'>
   </vincular-unidade>
 
   <!--actions div-->

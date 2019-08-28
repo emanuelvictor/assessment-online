@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 
-import {FormBuilder, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/forms';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../../entity/usuario/usuario.model';
 import {AuthenticationService} from '../../../../../service/authentication.service';
@@ -90,11 +90,32 @@ export class AtendenteFormComponent implements OnInit {
 
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],
-      email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]]
+      email: ['email', [Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$'), this.emailObrigatorio()]]
     });
 
     this.fotoPath = this.usuario.fotoPath;
     this.arquivoFile = this.usuario.arquivoFile;
+  }
+
+  /**
+   *
+   * @param exception
+   * @param validatorFn
+   */
+  public emailObrigatorio(exception?: string, validatorFn?: ValidatorFn): ValidatorFn {
+    if (validatorFn) {
+      return validatorFn;
+    }
+    return (c: AbstractControl): { [key: string]: any } => {
+
+      if ((this.usuario.conta.administrador) && (!c.value || !c.value.length)) {
+        return {
+          exception: exception ? exception : 'O e-mail é obrigatório se o Item Avaliável for administrador'
+        };
+      }
+
+      return null
+    }
   }
 
   /**

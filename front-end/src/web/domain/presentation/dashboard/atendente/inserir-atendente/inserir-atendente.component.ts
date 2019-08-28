@@ -10,6 +10,7 @@ import {AvaliavelRepository} from "../../../../repository/avaliavel.repository";
 import {UnidadeTipoAvaliacaoDispositivo} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
+import {Avaliavel} from "../../../../entity/usuario/vinculo/avaliavel.model";
 
 @Component({
   selector: 'inserir-atendente',
@@ -195,6 +196,35 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
         return;
       }
     }
+  }
+
+  /**
+   *
+   * @param unidadesTiposAvaliacoesDispositivo
+   */
+  public unidadesTiposAvaliacoesDispositivoChange(unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[]): void {
+    const toSave = [];
+
+    unidadesTiposAvaliacoesDispositivo.forEach(unidadeTipoAvaliacaoDispositivo => {
+      const aux = new Avaliavel();
+      (aux.unidadeTipoAvaliacaoDispositivo as any) = {
+        id: unidadeTipoAvaliacaoDispositivo.id,
+        ativo: unidadeTipoAvaliacaoDispositivo.ativo
+      };
+      (aux.usuario as any) = {id: this.atendente.id};
+      aux.ativo = (unidadeTipoAvaliacaoDispositivo as any).unidadeTipoAvaliacaoDispositivoValue;
+      delete (aux.unidadeTipoAvaliacaoDispositivo as any).avaliavel;
+      toSave.push(aux)
+    });
+
+    toSave.forEach(value => {
+      if (value.ativo) {
+        this.saveAvaliavel(value);
+      } else {
+        this.removeAvaliavel(value)
+      }
+    })
+
   }
 
   /**
