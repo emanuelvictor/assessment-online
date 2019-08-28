@@ -1,4 +1,14 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  NgZone,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 
 import {Endereco} from '../../../entity/endereco/endereco.model';
 import {textMasks} from '../text-masks/text-masks';
@@ -37,6 +47,12 @@ export class MapsComponent implements OnInit, AfterViewInit {
    */
   @Input()
   endereco: Endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
+
+  /**
+   *
+   */
+  @Output()
+  enderecoChange: EventEmitter<Endereco> = new EventEmitter();
 
   /**
    *
@@ -179,6 +195,8 @@ export class MapsComponent implements OnInit, AfterViewInit {
             this.cidadeNotFind = true;
             this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
           }
+
+          this.enderecoChange.emit(this.endereco)
         })
         .catch(exception => {
           this.cidadeNotFind = true;
