@@ -225,11 +225,11 @@ export class VisualizarClienteComponent implements OnInit {
   // public saveAvaliavel(avaliavel: Avaliavel): void {
   //
   //   const aux = new Avaliavel();
-  //   aux.unidadeTipoAvaliacaoDispositivo = avaliavel.unidadeTipoAvaliacaoDispositivo;
+  //   aux.unidadeTipoAvaliacaoLicenca = avaliavel.unidadeTipoAvaliacaoLicenca;
   //   aux.usuario = avaliavel.usuario;
   //   aux.id = avaliavel.id;
   //   aux.ativo = avaliavel.ativo;
-  //   delete (aux.unidadeTipoAvaliacaoDispositivo as any).avaliavel;
+  //   delete (aux.unidadeTipoAvaliacaoLicenca as any).avaliavel;
   //
   //   this.avaliavelRepository.save(aux)
   //     .then(result => {
@@ -268,11 +268,11 @@ export class VisualizarClienteComponent implements OnInit {
   // public removeAvaliavel(avaliavel: Avaliavel): void {
   //
   //   const aux = new Avaliavel();
-  //   aux.unidadeTipoAvaliacaoDispositivo = avaliavel.unidadeTipoAvaliacaoDispositivo;
+  //   aux.unidadeTipoAvaliacaoLicenca = avaliavel.unidadeTipoAvaliacaoLicenca;
   //   aux.usuario = avaliavel.usuario;
   //   aux.id = avaliavel.id;
   //   aux.ativo = avaliavel.ativo;
-  //   delete (aux.unidadeTipoAvaliacaoDispositivo as any).avaliavel;
+  //   delete (aux.unidadeTipoAvaliacaoLicenca as any).avaliavel;
   //
   //   this.avaliavelRepository.save(aux)
   //     .then(result => {

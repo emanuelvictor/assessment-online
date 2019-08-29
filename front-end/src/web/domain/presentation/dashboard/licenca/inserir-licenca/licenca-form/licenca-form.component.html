@@ -15,9 +15,9 @@
                 <div layout='row' flex class='push-left'>
 
                   <mat-form-field flex layout-margin>
-                    <input [(ngModel)]='dispositivo.nome'
+                    <input [(ngModel)]='licenca.nome'
                            matInput name='nome' id='nome'
-                           placeholder='Nome do dispositivo'
+                           placeholder='Nome do licenca'
                            formControlName='nome' maxlength='144'>
                     <mat-error>
                       Campo obrigatório
@@ -31,7 +31,7 @@
                 <div layout='row' flex class='push-left'>
                   <mat-form-field flex='30' layout-margin>
                     <input matInput type='number' name='time' id='time'
-                           formControlName='time' [(ngModel)]='dispositivo.time'
+                           formControlName='time' [(ngModel)]='licenca.time'
                            placeholder='Tempo de espera entre as avaliações (Em segundos)'>
                     <mat-error *ngIf="form.controls['time']?.hasError('exception')">
                       {{form?.controls['time']?.errors.exception}}
@@ -43,7 +43,7 @@
 
                   <mat-checkbox style='padding: 20px' flex
                                 [ngModelOptions]='{standalone: true}'
-                                [(ngModel)]='dispositivo.quebrarLinhaNaSelecaoDeItemAvaliavel'>
+                                [(ngModel)]='licenca.quebrarLinhaNaSelecaoDeItemAvaliavel'>
                     Quebrar linha durante a seleção de ítens avaliáveis (no aplicativo móvel)
                   </mat-checkbox>
                 </div>
@@ -53,14 +53,14 @@
                 <div layout='row' flex class='push-left' layout-margin>
 
                   <mat-checkbox matTooltip='O tablet não sai do aplicativo' flex='20'
-                                (change)="dispositivo.modoQuiosque ? dispositivo.modoInsonia = true : ''"
-                                [(ngModel)]='dispositivo.modoQuiosque' [ngModelOptions]='{standalone: true}'>
+                                (change)="licenca.modoQuiosque ? licenca.modoInsonia = true : ''"
+                                [(ngModel)]='licenca.modoQuiosque' [ngModelOptions]='{standalone: true}'>
                     Modo Quiosque
                   </mat-checkbox>
 
                   <mat-checkbox matTooltip='Enquanto estiver no aplicativo, a tela não adormece' flex='10' flex-sm='30'
-                                (change)="!dispositivo.modoInsonia ? dispositivo.modoQuiosque = false : ''"
-                                [(ngModel)]='dispositivo.modoInsonia' [ngModelOptions]='{standalone: true}'>
+                                (change)="!licenca.modoInsonia ? licenca.modoQuiosque = false : ''"
+                                [(ngModel)]='licenca.modoInsonia' [ngModelOptions]='{standalone: true}'>
                     Modo Insônia
                   </mat-checkbox>
                 </div>

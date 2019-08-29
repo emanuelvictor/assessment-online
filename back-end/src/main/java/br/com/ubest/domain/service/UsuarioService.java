@@ -5,9 +5,9 @@ import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.configuracao.Configuracao;
-import br.com.ubest.domain.entity.unidade.Dispositivo;
+import br.com.ubest.domain.entity.unidade.Licenca;
 import br.com.ubest.domain.entity.unidade.Unidade;
-import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
+import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoLicenca;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
@@ -77,7 +77,7 @@ public class UsuarioService {
 
     private final TipoAvaliacaoService tipoAvaliacaoService;
 
-    private final DispositivoRepository dispositivoRepository;
+    private final LicencaRepository licencaRepository;
 
     private final ConfiguracaoRepository configuracaoRepository;
 
@@ -87,7 +87,7 @@ public class UsuarioService {
 
     private final ServerSecurityContextRepository serverSecurityContextRepository;
 
-    private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
+    private final UnidadeTipoAvaliacaoLicencaRepository unidadeTipoAvaliacaoLicencaRepository;
 
     /**
      * Serviço de alteração de senha
@@ -296,21 +296,21 @@ public class UsuarioService {
         unidadeTipoAvaliacao.setUnidade(unidade);
         this.unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
 
-        final Dispositivo dispositivo = new Dispositivo();
-        dispositivo.setNome("Meu primeiro dispositivo");
-        dispositivo.setModoInsonia(true);
-        dispositivo.setModoQuiosque(true);
-        dispositivo.setQuebrarLinhaNaSelecaoDeItemAvaliavel(true);
-        dispositivo.setPublico(false);
-        dispositivo.setTime((short) 30);
-        this.dispositivoRepository.save(dispositivo);
+        final Licenca licenca = new Licenca();
+        licenca.setNome("Meu primeiro licenca");
+        licenca.setModoInsonia(true);
+        licenca.setModoQuiosque(true);
+        licenca.setQuebrarLinhaNaSelecaoDeItemAvaliavel(true);
+        licenca.setPublico(false);
+        licenca.setTime((short) 30);
+        this.licencaRepository.save(licenca);
 
-        final UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
-        unidadeTipoAvaliacaoDispositivo.setOrdem((short) 1);
-        unidadeTipoAvaliacaoDispositivo.setAtivo(true);
-        unidadeTipoAvaliacaoDispositivo.setUnidadeTipoAvaliacao(unidadeTipoAvaliacao);
-        unidadeTipoAvaliacaoDispositivo.setDispositivo(dispositivo);
-        this.unidadeTipoAvaliacaoDispositivoRepository.save(unidadeTipoAvaliacaoDispositivo);
+        final UnidadeTipoAvaliacaoLicenca unidadeTipoAvaliacaoLicenca = new UnidadeTipoAvaliacaoLicenca();
+        unidadeTipoAvaliacaoLicenca.setOrdem((short) 1);
+        unidadeTipoAvaliacaoLicenca.setAtivo(true);
+        unidadeTipoAvaliacaoLicenca.setUnidadeTipoAvaliacao(unidadeTipoAvaliacao);
+        unidadeTipoAvaliacaoLicenca.setLicenca(licenca);
+        this.unidadeTipoAvaliacaoLicencaRepository.save(unidadeTipoAvaliacaoLicenca);
 
         // Quesito
         final Usuario quesito = new Usuario();
@@ -320,7 +320,7 @@ public class UsuarioService {
         // Vinculo entre a avaliação vinculada á unidade e o quesito
         final Avaliavel avaliavel = new Avaliavel();
         avaliavel.setUsuario(quesito);
-        avaliavel.setUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacaoDispositivo);
+        avaliavel.setUnidadeTipoAvaliacaoLicenca(unidadeTipoAvaliacaoLicenca);
         this.avaliavelService.save(avaliavel);
 
         final Configuracao configuracao = new Configuracao();

@@ -1,7 +1,6 @@
 package br.com.ubest.domain.entity.usuario.vinculo;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
-import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Usuario;
 import lombok.Data;

@@ -54,9 +54,9 @@
             </div>
           </mat-header-cell>
           <mat-cell flex-xl='30' flex-gt-md='30' flex-md='30' flex-sm='30'
-                    layout-align='start center' *matCellDef='let dispositivo'>
+                    layout-align='start center' *matCellDef='let licenca'>
             <div layout-margin layout='column'>
-              {{dispositivo?.nome}}
+              {{licenca?.nome}}
             </div>
           </mat-cell>
         </ng-container>
@@ -69,9 +69,9 @@
             </div>
           </mat-header-cell>
           <mat-cell flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'
-                    layout-align='start center' *matCellDef='let dispositivo'>
+                    layout-align='start center' *matCellDef='let licenca'>
             <div layout-margin layout='column'>
-              {{dispositivo?.publico ? 'Sim' : 'Não'}}
+              {{licenca?.publico ? 'Sim' : 'Não'}}
             </div>
           </mat-cell>
         </ng-container>
@@ -79,14 +79,14 @@
         <mat-header-row *matHeaderRowDef='displayedColumns'>
         </mat-header-row>
 
-        <mat-row *matRowDef='let dispositivo; columns: displayedColumns'
-                 routerLink='{{dispositivo.id}}' style='cursor: pointer'>
+        <mat-row *matRowDef='let licenca; columns: displayedColumns'
+                 routerLink='{{licenca.id}}' style='cursor: pointer'>
         </mat-row>
       </mat-table>
       <no-records-found [dataSource]='dataSource?.data'></no-records-found>
       <mat-paginator [pageSizeOptions]='[5, 20, 50, 100]'
                      [length]='page.totalElements' style='border-radius: 2px'
-                     (page)='listDispositivosByFilters(pageRequest)' class='bgc-grey-50'>
+                     (page)='listLicencasByFilters(pageRequest)' class='bgc-grey-50'>
       </mat-paginator>
     </div>
   </div>

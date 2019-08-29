@@ -1,7 +1,7 @@
 import {Abstract} from '../abstract/abstract.model';
-import {UnidadeTipoAvaliacaoDispositivo} from "./unidade-tipo-avaliacao-dispositivo.model";
+import {UnidadeTipoAvaliacaoLicenca} from "./unidade-tipo-avaliacao-licenca.model";
 
-export class Dispositivo extends Abstract {
+export class Licenca extends Abstract {
 
   /**
    *
@@ -36,7 +36,7 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
-  public time: number = 30;
+  public time = 30;
 
   /**
    *
@@ -46,7 +46,7 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
-  public unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[] = [];
+  public unidadesTiposAvaliacoesLicenca: UnidadeTipoAvaliacaoLicenca[] = [];
 
 
   constructor(id?: number) {

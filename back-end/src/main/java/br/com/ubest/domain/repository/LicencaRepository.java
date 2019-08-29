@@ -1,32 +1,32 @@
 package br.com.ubest.domain.repository;
 
-import br.com.ubest.domain.entity.unidade.Dispositivo;
+import br.com.ubest.domain.entity.unidade.Licenca;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> {
+public interface LicencaRepository extends JpaRepository<Licenca, Long> {
 
     /**
      * TODO com pau
      *
      * @param usuarioId {long}
-     * @return List<Dispositivo>
+     * @return List<Licenca>
      */
-    @Query("FROM Dispositivo dispositivo WHERE " +
+    @Query("FROM Licenca licenca WHERE " +
             "   (   " +
-            "       dispositivo.id IN (" +
-            "           SELECT avaliavel.unidadeTipoAvaliacaoDispositivo.dispositivo.id FROM Avaliavel avaliavel WHERE " +
+            "       licenca.id IN (" +
+            "           SELECT avaliavel.unidadeTipoAvaliacaoLicenca.licenca.id FROM Avaliavel avaliavel WHERE " +
             "           (" +
             "               avaliavel.usuario.id = :usuarioId" +
             "           )" +
             "       ) " +
-            "       OR dispositivo.id IN (" +
-            "           SELECT unidadeTipoAvaliacaoDispositivo.dispositivo.id From UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE " +
+            "       OR licenca.id IN (" +
+            "           SELECT unidadeTipoAvaliacaoLicenca.licenca.id From UnidadeTipoAvaliacaoLicenca unidadeTipoAvaliacaoLicenca WHERE " +
             "           (" +
-            "               unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id IN " +
+            "               unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.unidade.id IN " +
             "               (" +
             "                   SELECT operador.unidade.id FROM Operador operador WHERE operador.usuario.id = :usuarioId" +
             "               )" +
@@ -34,24 +34,24 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
             "       ) " +
             "   )"
     )
-    List<Dispositivo> listByUsuarioId(@Param("usuarioId") final long usuarioId);
+    List<Licenca> listByUsuarioId(@Param("usuarioId") final long usuarioId);
 
     /**
-     * @param dispositivoId {long}
+     * @param licencaId {long}
      * @return List<String>
      */
     @Query("SELECT operador.usuario.conta.password FROM Operador operador WHERE" +
             "   ( " +
             "       operador.unidade.id IN " +
             "       (" +
-            "           SELECT unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE " +
+            "           SELECT unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.unidade.id FROM UnidadeTipoAvaliacaoLicenca unidadeTipoAvaliacaoLicenca WHERE " +
             "           (" +
-            "               unidadeTipoAvaliacaoDispositivo.dispositivo.id = :dispositivoId" +
+            "               unidadeTipoAvaliacaoLicenca.licenca.id = :licencaId" +
             "           )" +
             "       )" +
             "   )"
     )
-    List<String> getHashsByDispositivoId(@Param("dispositivoId") final long dispositivoId);
+    List<String> getHashsByLicencaId(@Param("licencaId") final long licencaId);
 
 //    /**
 //     * @param usuarioId     {Long}
@@ -60,7 +60,7 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
 //     * @param pageable      Pageable
 //     * @return Page<Unidade>
 //     */
-//    @Query(" FROM Dispositivo dispositivo " +
+//    @Query(" FROM Licenca licenca " +
 //            "       LEFT OUTER JOIN Endereco endereco ON  .endereco.id = endereco.id " +
 //            "       LEFT OUTER JOIN Cidade cidade ON cidade.id = endereco.cidade.id " +
 //            "       LEFT OUTER JOIN Estado estado ON estado.id = cidade.estado.id " +
@@ -68,16 +68,16 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
 //            "   WHERE " +
 //            "   (   " +
 //            "       (" +
-//            "           FILTER(:defaultFilter, dispositivo.nome, endereco.logradouro, endereco.complemento, endereco.bairro, endereco.cep, endereco.numero, cidade.nome, estado.nome, estado.uf, pais.nome) = TRUE" +
+//            "           FILTER(:defaultFilter, licenca.nome, endereco.logradouro, endereco.complemento, endereco.bairro, endereco.cep, endereco.numero, cidade.nome, estado.nome, estado.uf, pais.nome) = TRUE" +
 //            "       )" +
 //            "       AND" +
 //            "       (" +
 //            "           :withBondFilter IS NOT NULL AND :withBondFilter IS TRUE AND " +
 //            "           (" +
-//            "               dispositivo.id IN (SELECT unidadeTipoAvaliacaoDispositivo.dispositivo.id FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo " +
+//            "               licenca.id IN (SELECT unidadeTipoAvaliacaoLicenca.licenca.id FROM UnidadeTipoAvaliacaoLicenca unidadeTipoAvaliacaoLicenca " +
 //            "                   WHERE" +
 //            "                   (" +
-//            "                       unidadeTipoAvaliacaoDispositivo.dispositivo.id = dispositivo.id AND unidadeTipoAvaliacaoDispositivo.ativo = :withBondFilter" +
+//            "                       unidadeTipoAvaliacaoLicenca.licenca.id = licenca.id AND unidadeTipoAvaliacaoLicenca.ativo = :withBondFilter" +
 //            "                   )" +
 //            "               )" +
 //            "           )" +
@@ -87,10 +87,10 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
 //            "       (" +
 //            "           :withAvaliaveisFilter IS NOT NULL AND :withAvaliaveisFilter IS TRUE AND " +
 //            "           (" +
-//            "               dispositivo.id IN (SELECT unidadeTipoAvaliacaoDispositivo.dispositivo.id FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo " +
+//            "               licenca.id IN (SELECT unidadeTipoAvaliacaoLicenca.licenca.id FROM UnidadeTipoAvaliacaoLicenca unidadeTipoAvaliacaoLicenca " +
 //            "                   WHERE" +
 //            "                   (" +
-//            "                       unidadeTipoAvaliacaoDispositivo.dispositivo.id = dispositivo.id AND unidadeTipoAvaliacao.id IN (SELECT avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id FROM Avaliavel avaliavel WHERE (avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id AND avaliavel.ativo IS TRUE))" +
+//            "                       unidadeTipoAvaliacaoLicenca.licenca.id = licenca.id AND unidadeTipoAvaliacao.id IN (SELECT avaliavel.unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.id FROM Avaliavel avaliavel WHERE (avaliavel.unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id AND avaliavel.ativo IS TRUE))" +
 //            "                   )" +
 //            "               )" +
 //            "           )" +
@@ -100,11 +100,11 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
 //            "       (" +
 //            "           :withUnidadesTiposAvaliacoesAtivasFilter IS NOT NULL AND " +
 //            "           (" +
-//            "               dispositivo.id IN (SELECT unidadeTipoAvaliacaoDispositivo.dispositivo.id FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo " +
-//            "                           INNER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.id = unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id" +
+//            "               licenca.id IN (SELECT unidadeTipoAvaliacaoLicenca.licenca.id FROM UnidadeTipoAvaliacaoLicenca unidadeTipoAvaliacaoLicenca " +
+//            "                           INNER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.id = unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.id" +
 //            "                   WHERE" +
 //            "                   (" +
-//            "                       unidadeTipoAvaliacaoDispositivo.dispositivo.id = dispositivo.id AND unidadeTipoAvaliacao.ativo = :withUnidadesTiposAvaliacoesAtivasFilter " +
+//            "                       unidadeTipoAvaliacaoLicenca.licenca.id = licenca.id AND unidadeTipoAvaliacao.ativo = :withUnidadesTiposAvaliacoesAtivasFilter " +
 //            "                   )" +
 //            "               )" +
 //            "           )" +
@@ -113,14 +113,14 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
 //            "       AND" +
 //            "       (" +
 //            "           (" +
-//            "               dispositivo.id IN :idsFilter" +
+//            "               licenca.id IN :idsFilter" +
 //            "           ) OR :idsFilter IS NULL" +
 //            "       )" +
 //            "       AND" +
 //            "       (" +
-//            "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') AND dispositivo.id IN " +
+//            "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') AND licenca.id IN " +
 //            "           (" +
-//            "               SELECT operador.dispositivo.id FROM Operador operador WHERE " +
+//            "               SELECT operador.licenca.id FROM Operador operador WHERE " +
 //            "               (" +
 //            "                   operador.usuario.id = :usuarioId" +
 //            "                   AND " +
@@ -137,9 +137,9 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
 //            "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
 //            "       )" +
 //            "   )"
-////           + "GROUP BY dispositivo.id, unidade.created, unidade.updated, unidade.documento, unidade.nome, unidade.documento, endereco.id, cidade.id, estado.id, pais.id"
+////           + "GROUP BY licenca.id, unidade.created, unidade.updated, unidade.documento, unidade.nome, unidade.documento, endereco.id, cidade.id, estado.id, pais.id"
 //    )
-//    Page<Dispositivo> listByFilters(@Param("usuarioId") final Long usuarioId,
+//    Page<Licenca> listByFilters(@Param("usuarioId") final Long usuarioId,
 //                                @Param("perfil") final String perfil,
 //                                @Param("defaultFilter") final String defaultFilter,
 //                                @Param("withBondFilter") final Boolean withBondFilter,

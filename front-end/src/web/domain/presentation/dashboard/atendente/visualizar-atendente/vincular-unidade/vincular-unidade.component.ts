@@ -4,9 +4,9 @@ import {Unidade} from "../../../../../entity/unidade/unidade.model";
 import {Operador} from "../../../../../entity/usuario/vinculo/operador.model";
 import {AvaliavelRepository} from "../../../../../repository/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../repository/unidade-tipo-avaliacao.repository";
-import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
+import {UnidadeTipoAvaliacaoLicencaRepository} from "../../../../../repository/unidade-tipo-avaliacao-licenca.repository";
 import {UnidadeTipoAvaliacao} from "../../../../../entity/avaliacao/unidade-tipo-avaliacao.model";
-import {UnidadeTipoAvaliacaoDispositivo} from "../../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
+import {UnidadeTipoAvaliacaoLicenca} from "../../../../../entity/avaliacao/unidade-tipo-avaliacao-licenca.model";
 
 @Component({
   selector: 'vincular-unidade',
@@ -94,13 +94,26 @@ export class VincularUnidadeComponent {
 
   /**
    *
+   */
+  @Input()
+  public unidadesTiposAvaliacoesLicenca: any;
+
+  /**
+   *
+   * @type {EventEmitter}
+   */
+  @Output()
+  public unidadesTiposAvaliacoesLicencaChange = new EventEmitter();
+
+  /**
+   *
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
-   * @param unidadeTipoAvaliacaoDispositivoRepository
+   * @param unidadeTipoAvaliacaoLicencaRepository
    */
   constructor(private avaliavelRepository: AvaliavelRepository,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
-              private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository) {
+              private unidadeTipoAvaliacaoLicencaRepository: UnidadeTipoAvaliacaoLicencaRepository) {
   }
 
   /**
@@ -154,13 +167,13 @@ export class VincularUnidadeComponent {
    * @param unidadeTipoAvaliacao
    * @param unidadeTipoAvaliacaoValue
    */
-  public static changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao: UnidadeTipoAvaliacao, unidadeTipoAvaliacaoValue: boolean): UnidadeTipoAvaliacaoDispositivo[] {
-    const toEmit: UnidadeTipoAvaliacaoDispositivo[] = [];
+  public static changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao: UnidadeTipoAvaliacao, unidadeTipoAvaliacaoValue: boolean): UnidadeTipoAvaliacaoLicenca[] {
+    const toEmit: UnidadeTipoAvaliacaoLicenca[] = [];
 
     (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = unidadeTipoAvaliacaoValue;
-    for (let c = 0; c < unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.length; c++) {
-      (unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo[c] as any).unidadeTipoAvaliacaoDispositivoValue = unidadeTipoAvaliacaoValue;
-      toEmit.push(unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo[c])
+    for (let c = 0; c < unidadeTipoAvaliacao.unidadesTiposAvaliacoesLicenca.length; c++) {
+      (unidadeTipoAvaliacao.unidadesTiposAvaliacoesLicenca[c] as any).unidadeTipoAvaliacaoLicencaValue = unidadeTipoAvaliacaoValue;
+      toEmit.push(unidadeTipoAvaliacao.unidadesTiposAvaliacoesLicenca[c])
     }
 
     return toEmit
@@ -171,7 +184,7 @@ export class VincularUnidadeComponent {
    * @param toEmit
    */
   public emit(toEmit) {
-    this.unidadesTiposAvaliacoesDispositivoChange.emit(toEmit)
+    this.unidadesTiposAvaliacoesLicencaChange.emit(toEmit)
   }
 
   /**
@@ -203,35 +216,27 @@ export class VincularUnidadeComponent {
    * @param unidadeTipoAvaliacao
    */
   verifyUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao) {
-    (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(value => (value as any).unidadeTipoAvaliacaoDispositivoValue).length !== 0;
+    (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = unidadeTipoAvaliacao.unidadesTiposAvaliacoesLicenca.filter(value => (value as any).unidadeTipoAvaliacaoLicencaValue).length !== 0;
   }
 
-  changeUnidadeTipoAvaliacaoDispositivoUnidadeTipoAvaliacaoDispositivoValue(unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo, unidadeTipoAvaliacaoDispositivoValue: boolean) {
+  /**
+   *
+   * @param unidadeTipoAvaliacaoLicenca
+   * @param unidadeTipoAvaliacaoLicencaValue
+   */
+  changeUnidadeTipoAvaliacaoLicencaUnidadeTipoAvaliacaoLicencaValue(unidadeTipoAvaliacaoLicenca: UnidadeTipoAvaliacaoLicenca, unidadeTipoAvaliacaoLicencaValue: boolean) {
     const toEmit: any = [];
-    (unidadeTipoAvaliacaoDispositivo as any).unidadeTipoAvaliacaoDispositivoValue = unidadeTipoAvaliacaoDispositivoValue;
-    toEmit.push(unidadeTipoAvaliacaoDispositivo);
+    (unidadeTipoAvaliacaoLicenca as any).unidadeTipoAvaliacaoLicencaValue = unidadeTipoAvaliacaoLicencaValue;
+    toEmit.push(unidadeTipoAvaliacaoLicenca);
     return toEmit;
   }
-
-  /**
-   *
-   */
-  @Input()
-  public unidadesTiposAvaliacoesDispositivo: any;
-
-  /**
-   *
-   * @type {EventEmitter}
-   */
-  @Output()
-  public unidadesTiposAvaliacoesDispositivoChange = new EventEmitter();
 
   /**
    *
    * @param unidadeTipoAvaliacao
    */
   public clickUnidadeTipoAvaliacao(unidadeTipoAvaliacao: UnidadeTipoAvaliacao) {
-    (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = (unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(value => (value as any).unidadeTipoAvaliacaoDispositivoValue).length >= 0 && unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.filter(value => (value as any).unidadeTipoAvaliacaoDispositivoValue).length !== unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo.length);
+    (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue = (unidadeTipoAvaliacao.unidadesTiposAvaliacoesLicenca.filter(value => (value as any).unidadeTipoAvaliacaoLicencaValue).length >= 0 && unidadeTipoAvaliacao.unidadesTiposAvaliacoesLicenca.filter(value => (value as any).unidadeTipoAvaliacaoLicencaValue).length !== unidadeTipoAvaliacao.unidadesTiposAvaliacoesLicenca.length);
     return VincularUnidadeComponent.changeUnidadeTipoAvaliacaoUnidadeTipoAvaliacaoValue(unidadeTipoAvaliacao, (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoValue)
   }
 }

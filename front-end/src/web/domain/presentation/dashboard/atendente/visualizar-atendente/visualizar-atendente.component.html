@@ -60,7 +60,7 @@
       <div style='width: 100%'
            layout-align='center center'
            layout='row' flex [@fadeInOut]
-           *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'>
+           *ngIf='vincularUnidadeTipoAvaliacaoLicenca'>
 
         <mat-form-field flex style='margin-bottom: 0'>
           <input id='filter' name='filter' matInput
@@ -71,7 +71,7 @@
 
       </div>
 
-      <mat-card class='bgc-grey-50' style='width: 100%' *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'>
+      <mat-card class='bgc-grey-50' style='width: 100%' *ngIf='vincularUnidadeTipoAvaliacaoLicenca'>
 
         <vincular-unidade [unidades]='unidades'
                           [operadores]='operadores'
@@ -79,8 +79,8 @@
                           (saveOperador)='saveOperador($event)'
                           (removeOperador)='removeOperador($event)'
                           [filter]='filter' [usuario]='atendente'
-                          *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'
-                          (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'>
+                          *ngIf='vincularUnidadeTipoAvaliacaoLicenca'
+                          (unidadesTiposAvaliacoesLicencaChange)='unidadesTiposAvaliacoesLicencaChange($event)'>
         </vincular-unidade>
 
       </mat-card>

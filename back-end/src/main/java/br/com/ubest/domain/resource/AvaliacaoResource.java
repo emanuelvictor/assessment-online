@@ -71,12 +71,12 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao> {
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<Page<Avaliacao>> listByFilters(final String defaultFilter,
                                         final Long[] unidadesFilter,
-                                        final Long[] dispositivosFilter,
+                                        final Long[] licencasFilter,
                                         final Long[] usuariosFilter,
                                         final Long[] tiposAvaliacoesFilter,
                                         final Boolean hasFeedback,
                                         @RequestParam(required = false) final LocalDateTime dataInicioFilter,
                                         @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
-        return Mono.just(this.avaliacaoService.listByFilters(defaultFilter, getListFromArray(unidadesFilter), getListFromArray(dispositivosFilter), getListFromArray(usuariosFilter), getListFromArray(tiposAvaliacoesFilter), hasFeedback, dataInicioFilter, dataTerminoFilter, getPageable()));
+        return Mono.just(this.avaliacaoService.listByFilters(defaultFilter, getListFromArray(unidadesFilter), getListFromArray(licencasFilter), getListFromArray(usuariosFilter), getListFromArray(tiposAvaliacoesFilter), hasFeedback, dataInicioFilter, dataTerminoFilter, getPageable()));
     }
 }

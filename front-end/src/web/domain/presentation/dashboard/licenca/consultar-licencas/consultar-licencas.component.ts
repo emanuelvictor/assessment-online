@@ -7,15 +7,15 @@ import 'moment/locale/pt-br';
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
 import {UsuarioService} from "../../../../service/usuario.service";
 import {Subject} from "rxjs";
-import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
-import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
+import {Licenca} from "../../../../entity/avaliacao/licenca.model";
+import {LicencaRepository} from "../../../../repository/licenca.repository";
 
 @Component({
-  selector: 'consultar-dispositivos',
-  templateUrl: './consultar-dispositivos.component.html',
-  styleUrls: ['./consultar-dispositivos.component.css']
+  selector: 'consultar-licencas',
+  templateUrl: './consultar-licencas.component.html',
+  styleUrls: ['./consultar-licencas.component.css']
 })
-export class ConsultarDispositivosComponent implements OnInit {
+export class ConsultarLicencasComponent implements OnInit {
 
   /**
    *
@@ -48,9 +48,9 @@ export class ConsultarDispositivosComponent implements OnInit {
   /**
    *
    * dataSource com os usuários
-   * @type {MatTableDataSource<Dispositivo>}
+   * @type {MatTableDataSource<Licenca>}
    */
-  dataSource = new MatTableDataSource<Dispositivo>();
+  dataSource = new MatTableDataSource<Licenca>();
 
   /**
    * Bind com o objeto paginator
@@ -77,14 +77,14 @@ export class ConsultarDispositivosComponent implements OnInit {
    * @param {UsuarioService} usuarioService
    * @param {UnidadeService} unidadeService
    * @param {ConfiguracaoService} configuracaoService
-   * @param {dispositivoRepository} dispositivoRepository
+   * @param {licencaRepository} licencaRepository
    */
   constructor(private domSanitizer: DomSanitizer,
               private iconRegistry: MatIconRegistry,
               private usuarioService: UsuarioService,
               private unidadeService: UnidadeService,
               private configuracaoService: ConfiguracaoService,
-              private dispositivoRepository: DispositivoRepository) {
+              private licencaRepository: LicencaRepository) {
 
   }
 
@@ -102,7 +102,7 @@ export class ConsultarDispositivosComponent implements OnInit {
     /**
      * Listagem inicial
      */
-    this.listDispositivosByFilters(this.pageRequest);
+    this.listLicencasByFilters(this.pageRequest);
 
     /**
      * Sobrescreve o sortChange do sort bindado
@@ -112,7 +112,7 @@ export class ConsultarDispositivosComponent implements OnInit {
         'properties': this.sort.active,
         'direction': this.sort.direction
       };
-      this.listDispositivosByFilters(this.pageRequest);
+      this.listLicencasByFilters(this.pageRequest);
     });
 
     /**
@@ -124,9 +124,9 @@ export class ConsultarDispositivosComponent implements OnInit {
       pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); // TODO falcatruassa para os objetos internos
       pageRequest.defaultFilter.push(model);
 
-      this.dispositivoRepository.listByFilters(pageRequest)
+      this.licencaRepository.listByFilters(pageRequest)
         .subscribe((result) => {
-          this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
+          this.dataSource = new MatTableDataSource<Licenca>(result.content);
           this.page = result
         })
     })
@@ -140,9 +140,9 @@ export class ConsultarDispositivosComponent implements OnInit {
 
     this.pageRequest.page = 0;
 
-    this.dispositivoRepository.listByFilters(this.pageRequest)
+    this.licencaRepository.listByFilters(this.pageRequest)
       .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
+        this.dataSource = new MatTableDataSource<Licenca>(result.content);
         this.page = result
       })
   }
@@ -151,14 +151,14 @@ export class ConsultarDispositivosComponent implements OnInit {
    * Consulta de usuarios
    *
    */
-  public listDispositivosByFilters(pageRequest: any) {
+  public listLicencasByFilters(pageRequest: any) {
 
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;
 
-    this.dispositivoRepository.listByFilters(pageRequest)
+    this.licencaRepository.listByFilters(pageRequest)
       .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
+        this.dataSource = new MatTableDataSource<Licenca>(result.content);
         this.page = result
       })
   }

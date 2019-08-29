@@ -1,8 +1,8 @@
 import {Abstract} from '../abstract/abstract.model';
 import {UnidadeTipoAvaliacao} from "./unidade-tipo-avaliacao.model";
-import {Dispositivo} from "./dispositivo.model";
+import {Licenca} from "./licenca.model";
 
-export class UnidadeTipoAvaliacaoDispositivo extends Abstract {
+export class UnidadeTipoAvaliacaoLicenca extends Abstract {
 
   /**
    *
@@ -22,12 +22,12 @@ export class UnidadeTipoAvaliacaoDispositivo extends Abstract {
   /**
    *
    */
-  public dispositivo: Dispositivo;
+  public licenca: Licenca;
 
   /**
    *
    */
-  public unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[];
+  public unidadesTiposAvaliacoesLicenca: UnidadeTipoAvaliacaoLicenca[];
 
   /**
    *

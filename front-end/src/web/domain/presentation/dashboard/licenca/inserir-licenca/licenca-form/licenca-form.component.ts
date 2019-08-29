@@ -6,17 +6,17 @@ import {MatIconRegistry, MatSnackBar} from "@angular/material";
 
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from "@angular/forms";
 import {FileRepository} from "../../../../../../infrastructure/repository/file/file.repository";
-import {Dispositivo} from "../../../../../entity/avaliacao/dispositivo.model";
+import {Licenca} from "../../../../../entity/avaliacao/licenca.model";
 
 /**
  *
  */
 @Component({
-  selector: 'dispositivo-form',
-  templateUrl: './dispositivo-form.component.html',
-  styleUrls: ['./dispositivo-form.component.scss']
+  selector: 'licenca-form',
+  templateUrl: './licenca-form.component.html',
+  styleUrls: ['./licenca-form.component.scss']
 })
-export class DispositivoFormComponent implements OnInit {
+export class LicencaFormComponent implements OnInit {
 
   /**
    *
@@ -31,10 +31,10 @@ export class DispositivoFormComponent implements OnInit {
 
   /**
    *
-   * @type {Dispositivo}
+   * @type {Licenca}
    */
   @Input()
-  public dispositivo: Dispositivo;
+  public licenca: Licenca;
 
   /**
    *
@@ -133,7 +133,7 @@ export class DispositivoFormComponent implements OnInit {
     }
 
     if (valid) {
-      this.save.emit(this.dispositivo);
+      this.save.emit(this.licenca);
     }
   }
 

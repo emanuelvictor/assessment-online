@@ -13,8 +13,8 @@ import {OperadorRepository} from "../../../../repository/operador.repository";
 import {AvaliavelRepository} from "../../../../repository/avaliavel.repository";
 import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
-import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
-import {UnidadeTipoAvaliacaoDispositivo} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
+import {UnidadeTipoAvaliacaoLicencaRepository} from "../../../../repository/unidade-tipo-avaliacao-licenca.repository";
+import {UnidadeTipoAvaliacaoLicenca} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-licenca.model";
 
 @Component({
   selector: 'visualizar-atendente',
@@ -68,7 +68,7 @@ export class VisualizarAtendenteComponent implements OnInit {
   /**
    *
    */
-  vincularUnidadeTipoAvaliacaoDispositivo: boolean;
+  vincularUnidadeTipoAvaliacaoLicenca: boolean;
 
   /**
    *
@@ -80,7 +80,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param {UsuarioService} usuarioService
    * @param {ActivatedRoute} activatedRoute
    * @param {MatDialog} dialog
-   * @param unidadeTipoAvaliacaoDispositivoRepository
+   * @param unidadeTipoAvaliacaoLicencaRepository
    * @param {AuthenticationService} authenticationService
    * @param {UnidadeService} unidadeService
    */
@@ -89,7 +89,7 @@ export class VisualizarAtendenteComponent implements OnInit {
               public activatedRoute: ActivatedRoute, private dialog: MatDialog,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private operadorRepository: OperadorRepository, private snackBar: MatSnackBar,
-              private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository,
+              private unidadeTipoAvaliacaoLicencaRepository: UnidadeTipoAvaliacaoLicencaRepository,
               private authenticationService: AuthenticationService, private unidadeService: UnidadeService) {
     /**
      * Pega o usuário logado
@@ -142,31 +142,31 @@ export class VisualizarAtendenteComponent implements OnInit {
               this.unidades[i].unidadesTiposAvaliacoes = result.content;
 
               this.unidades[i].unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => {
-                (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo(false)
+                (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoLicenca = new UnidadeTipoAvaliacaoLicenca(false)
               });
 
               for (let c = 0; c < this.unidades[i].unidadesTiposAvaliacoes.length; c++)
-                this.unidadeTipoAvaliacaoDispositivoRepository.listByUnidadeTipoAvaliacaoId({
+                this.unidadeTipoAvaliacaoLicencaRepository.listByUnidadeTipoAvaliacaoId({
                   unidadeTipoAvaliacaoId: this.unidades[i].unidadesTiposAvaliacoes[c].id,
                   ativo: true
                 }).subscribe(result => {
-                  this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo = result.content;
+                  this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesLicenca = result.content;
 
                   for (let k = 0; k < this.avaliaveis.length; k++) {
-                    if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
-                      (this.unidades[i] as any).avaliavelValue = this.avaliaveis.filter(a => a.ativo && a.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id).length > 0;
+                    if (this.avaliaveis[k].unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+                      (this.unidades[i] as any).avaliavelValue = this.avaliaveis.filter(a => a.ativo && a.unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id).length > 0;
                     }
 
-                    for (let kinner = 0; kinner < this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length; kinner++) {
-                      if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.id === this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[kinner].id) {
-                        (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo[kinner] as any).unidadeTipoAvaliacaoDispositivoValue = this.avaliaveis[k].ativo;
+                    for (let kinner = 0; kinner < this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesLicenca.length; kinner++) {
+                      if (this.avaliaveis[k].unidadeTipoAvaliacaoLicenca.id === this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesLicenca[kinner].id) {
+                        (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesLicenca[kinner] as any).unidadeTipoAvaliacaoLicencaValue = this.avaliaveis[k].ativo;
                         (this.unidades[i].unidadesTiposAvaliacoes[c] as any).unidadeTipoAvaliacaoValue = this.avaliaveis[k].ativo
                       }
                     }
                   }
 
-                  if (!this.vincularUnidadeTipoAvaliacaoDispositivo)
-                    this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length > 1 || (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo && this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length > 1)))))
+                  if (!this.vincularUnidadeTipoAvaliacaoLicenca)
+                    this.vincularUnidadeTipoAvaliacaoLicenca = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length > 1 || (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesLicenca && this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesLicenca.length > 1)))))
 
                 });
 
@@ -257,21 +257,21 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param unidadesTiposAvaliacoesDispositivo
+   * @param unidadesTiposAvaliacoesLicenca
    */
-  public unidadesTiposAvaliacoesDispositivoChange(unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[]): void {
+  public unidadesTiposAvaliacoesLicencaChange(unidadesTiposAvaliacoesLicenca: UnidadeTipoAvaliacaoLicenca[]): void {
     const toSave = [];
 
-    unidadesTiposAvaliacoesDispositivo.forEach(unidadeTipoAvaliacaoDispositivo => {
-      let aux = this.avaliaveis.filter(a => a.unidadeTipoAvaliacaoDispositivo.id === unidadeTipoAvaliacaoDispositivo.id)[0];
+    unidadesTiposAvaliacoesLicenca.forEach(unidadeTipoAvaliacaoLicenca => {
+      let aux = this.avaliaveis.filter(a => a.unidadeTipoAvaliacaoLicenca.id === unidadeTipoAvaliacaoLicenca.id)[0];
       aux = aux ? aux : {};
-      (aux.unidadeTipoAvaliacaoDispositivo as any) = {
-        id: unidadeTipoAvaliacaoDispositivo.id,
-        ativo: unidadeTipoAvaliacaoDispositivo.ativo
+      (aux.unidadeTipoAvaliacaoLicenca as any) = {
+        id: unidadeTipoAvaliacaoLicenca.id,
+        ativo: unidadeTipoAvaliacaoLicenca.ativo
       };
       aux.usuario = {id: this.atendente.id};
-      aux.ativo = (unidadeTipoAvaliacaoDispositivo as any).unidadeTipoAvaliacaoDispositivoValue;
-      delete (aux.unidadeTipoAvaliacaoDispositivo as any).avaliavel;
+      aux.ativo = (unidadeTipoAvaliacaoLicenca as any).unidadeTipoAvaliacaoLicencaValue;
+      delete (aux.unidadeTipoAvaliacaoLicenca as any).avaliavel;
       toSave.push(aux)
     });
 

@@ -15,10 +15,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @lombok.EqualsAndHashCode(callSuper = true)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"unidade_tipo_avaliacao_id", "dispositivo_id"}),
-        @UniqueConstraint(columnNames = {"unidade_tipo_avaliacao_id", "dispositivo_id", "ordem"})
+        @UniqueConstraint(columnNames = {"unidade_tipo_avaliacao_id", "licenca_id"}),
+        @UniqueConstraint(columnNames = {"unidade_tipo_avaliacao_id", "licenca_id", "ordem"})
 })
-public class UnidadeTipoAvaliacaoDispositivo extends AbstractEntity implements Serializable {
+public class UnidadeTipoAvaliacaoLicenca extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -12341234065123632L;
 
@@ -38,8 +38,8 @@ public class UnidadeTipoAvaliacaoDispositivo extends AbstractEntity implements S
      *
      */
     @ManyToOne(optional = false)
-    @JoinColumn(name = "dispositivo_id")
-    private Dispositivo dispositivo;
+    @JoinColumn(name = "licenca_id")
+    private Licenca licenca;
 
     /**
      *

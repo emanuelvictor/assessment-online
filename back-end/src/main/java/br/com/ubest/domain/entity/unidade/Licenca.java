@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
-public class Dispositivo extends AbstractEntity implements Serializable {
+public class Licenca extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -12345665123987987L;
 
@@ -68,19 +68,19 @@ public class Dispositivo extends AbstractEntity implements Serializable {
      *
      */
     @EqualsAndHashCode.Exclude
-    @OneToMany(targetEntity = UnidadeTipoAvaliacaoDispositivo.class, mappedBy = "dispositivo", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<UnidadeTipoAvaliacaoDispositivo> unidadesTiposAvaliacoesDispositivo;
+    @OneToMany(targetEntity = UnidadeTipoAvaliacaoLicenca.class, mappedBy = "licenca", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UnidadeTipoAvaliacaoLicenca> unidadesTiposAvaliacoesLicenca;
 
     /**
      *
      */
-    public Dispositivo() {
+    public Licenca() {
     }
 
     /**
      * @param id Long
      */
-    public Dispositivo(Long id) {
+    public Licenca(Long id) {
         super(id);
     }
 
@@ -88,6 +88,6 @@ public class Dispositivo extends AbstractEntity implements Serializable {
      * @return Set<Unidade>
      */
     public Set<Unidade> getUnidades() {
-        return this.unidadesTiposAvaliacoesDispositivo != null ? this.unidadesTiposAvaliacoesDispositivo.stream().map(unidadeTipoAvaliacaoDispositivo -> unidadeTipoAvaliacaoDispositivo.getUnidadeTipoAvaliacao().getUnidade()).collect(Collectors.toSet()) : null;
+        return this.unidadesTiposAvaliacoesLicenca != null ? this.unidadesTiposAvaliacoesLicenca.stream().map(unidadeTipoAvaliacaoLicenca -> unidadeTipoAvaliacaoLicenca.getUnidadeTipoAvaliacao().getUnidade()).collect(Collectors.toSet()) : null;
     }
 }

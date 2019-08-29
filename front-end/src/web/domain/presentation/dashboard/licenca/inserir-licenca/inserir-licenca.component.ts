@@ -5,32 +5,31 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {MatIconRegistry, MatSnackBar} from "@angular/material";
 
 import {FormBuilder} from "@angular/forms";
-import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
-import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
+import {LicencaRepository} from "../../../../repository/licenca.repository";
+import {Licenca} from "../../../../entity/avaliacao/licenca.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {viewAnimation} from "../../../controls/utils";
 import {UnidadeRepository} from "../../../../repository/unidade.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
-import {TipoAvaliacaoRepository} from "../../../../repository/tipo-avaliacao.repository";
-import {UnidadeTipoAvaliacaoDispositivo} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
+import {UnidadeTipoAvaliacaoLicenca} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-licenca.model";
 
 /**
  *
  */
 @Component({
-  selector: 'inserir-dispositivo',
-  templateUrl: './inserir-dispositivo.component.html',
-  styleUrls: ['./inserir-dispositivo.component.scss'],
+  selector: 'inserir-licenca',
+  templateUrl: './inserir-licenca.component.html',
+  styleUrls: ['./inserir-licenca.component.scss'],
   animations: [
     viewAnimation
   ]
 })
-export class InserirDispositivoComponent implements OnInit {
+export class InserirLicencaComponent implements OnInit {
 
   /**
    *
    */
-  public dispositivo: Dispositivo = new Dispositivo();
+  public licenca: Licenca = new Licenca();
 
   /**
    *
@@ -47,7 +46,7 @@ export class InserirDispositivoComponent implements OnInit {
    * @param unidadeRepository
    * @param {MatSnackBar} snackBar
    * @param {ElementRef} element
-   * @param {DispositivoRepository} dispositivoRepository
+   * @param {LicencaRepository} licencaRepository
    * @param {Renderer} renderer
    * @param unidadeTipoAvaliacaoRepository
    * @param {FormBuilder} fb
@@ -58,7 +57,7 @@ export class InserirDispositivoComponent implements OnInit {
    */
   constructor(private unidadeRepository: UnidadeRepository,
               @Inject(ElementRef) private element: ElementRef,
-              private dispositivoRepository: DispositivoRepository,
+              private licencaRepository: LicencaRepository,
               private activatedRoute: ActivatedRoute, private router: Router,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
@@ -83,32 +82,32 @@ export class InserirDispositivoComponent implements OnInit {
             this.unidades[k].unidadesTiposAvaliacoes = resulted.content;
 
             this.unidades[k].unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao => {
-              this.unidades[k].unidadeTipoAvaliacaoDispositivoValue = false;
-              unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo = {}
+              this.unidades[k].unidadeTipoAvaliacaoLicencaValue = false;
+              unidadeTipoAvaliacao.unidadeTipoAvaliacaoLicenca = {}
             });
 
             this.vincularUnidadeTipoSvaliacao = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[0].unidadesTiposAvaliacoes && this.unidades[0].unidadesTiposAvaliacoes.length > 1)));
 
             if (!this.vincularUnidadeTipoSvaliacao) {
-              const unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
-              unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = this.unidades[0].unidadesTiposAvaliacoes[0];
-              unidadeTipoAvaliacaoDispositivo.ativo = true;
-              unidadeTipoAvaliacaoDispositivo.ordem = 1;
-              this.dispositivo.unidadesTiposAvaliacoesDispositivo.push(unidadeTipoAvaliacaoDispositivo)
+              const unidadeTipoAvaliacaoLicenca = new UnidadeTipoAvaliacaoLicenca();
+              unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao = this.unidades[0].unidadesTiposAvaliacoes[0];
+              unidadeTipoAvaliacaoLicenca.ativo = true;
+              unidadeTipoAvaliacaoLicenca.ordem = 1;
+              this.licenca.unidadesTiposAvaliacoesLicenca.push(unidadeTipoAvaliacaoLicenca)
             } else if (this.unidades[k].unidadesTiposAvaliacoes.length > 1) {
 
-              this.unidades[k].unidadeTipoAvaliacaoDispositivoValue = true;
-              const unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[] = [];
+              this.unidades[k].unidadeTipoAvaliacaoLicencaValue = true;
+              const unidadesTiposAvaliacoesLicenca: UnidadeTipoAvaliacaoLicenca[] = [];
               for (let i = 0; i < this.unidades[k].unidadesTiposAvaliacoes.length; i++) {
-                const unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
-                unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao = this.unidades[k].unidadesTiposAvaliacoes[i];
-                unidadeTipoAvaliacaoDispositivo.ativo = true;
-                unidadeTipoAvaliacaoDispositivo.ordem = (i + 1);
-                this.unidades[k].unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoDispositivo = unidadeTipoAvaliacaoDispositivo;
-                unidadesTiposAvaliacoesDispositivo.push(unidadeTipoAvaliacaoDispositivo)
+                const unidadeTipoAvaliacaoLicenca = new UnidadeTipoAvaliacaoLicenca();
+                unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao = this.unidades[k].unidadesTiposAvaliacoes[i];
+                unidadeTipoAvaliacaoLicenca.ativo = true;
+                unidadeTipoAvaliacaoLicenca.ordem = (i + 1);
+                this.unidades[k].unidadesTiposAvaliacoes[i].unidadeTipoAvaliacaoLicenca = unidadeTipoAvaliacaoLicenca;
+                unidadesTiposAvaliacoesLicenca.push(unidadeTipoAvaliacaoLicenca)
               }
 
-              this.unidadesTiposAvaliacoesDispositivoChange(unidadesTiposAvaliacoesDispositivo)
+              this.unidadesTiposAvaliacoesLicencaChange(unidadesTiposAvaliacoesLicenca)
             }
           })
       }
@@ -119,18 +118,18 @@ export class InserirDispositivoComponent implements OnInit {
    *
    * @param $event
    */
-  public unidadesTiposAvaliacoesDispositivoChange($event) {
+  public unidadesTiposAvaliacoesLicencaChange($event) {
 
     $event.forEach(item => {
 
-      for (let i = 0; i < this.dispositivo.unidadesTiposAvaliacoesDispositivo.length; i++) {
-        if (item.unidadeTipoAvaliacao.id === this.dispositivo.unidadesTiposAvaliacoesDispositivo[i].unidadeTipoAvaliacao.id) {
-          this.dispositivo.unidadesTiposAvaliacoesDispositivo[i] = item;
+      for (let i = 0; i < this.licenca.unidadesTiposAvaliacoesLicenca.length; i++) {
+        if (item.unidadeTipoAvaliacao.id === this.licenca.unidadesTiposAvaliacoesLicenca[i].unidadeTipoAvaliacao.id) {
+          this.licenca.unidadesTiposAvaliacoesLicenca[i] = item;
           return
         }
       }
 
-      this.dispositivo.unidadesTiposAvaliacoesDispositivo.push(item)
+      this.licenca.unidadesTiposAvaliacoesLicenca.push(item)
     })
   }
 
@@ -139,11 +138,11 @@ export class InserirDispositivoComponent implements OnInit {
    */
   public save($event): void {
 
-    const dispositivo = Object.assign($event, {});
+    const licenca = Object.assign($event, {});
 
-    dispositivo.unidadesTiposAvaliacoesDispositivo = Object.assign($event.unidadesTiposAvaliacoesDispositivo, []);
+    licenca.unidadesTiposAvaliacoesLicenca = Object.assign($event.unidadesTiposAvaliacoesLicenca, []);
 
-    dispositivo.unidadesTiposAvaliacoesDispositivo = dispositivo.unidadesTiposAvaliacoesDispositivo.filter(unidadeTipoAvaliacaoDipositivo => unidadeTipoAvaliacaoDipositivo.ativo).map(unidadeTipoAvaliacaoDipositivo => {
+    licenca.unidadesTiposAvaliacoesLicenca = licenca.unidadesTiposAvaliacoesLicenca.filter(unidadeTipoAvaliacaoDipositivo => unidadeTipoAvaliacaoDipositivo.ativo).map(unidadeTipoAvaliacaoDipositivo => {
       return {
         ativo: unidadeTipoAvaliacaoDipositivo.ativo,
         ordem: unidadeTipoAvaliacaoDipositivo.ordem,
@@ -151,16 +150,18 @@ export class InserirDispositivoComponent implements OnInit {
       }
     });
 
-    dispositivo.unidadesTiposAvaliacoesDispositivo.forEach(unidadeTpoAvaliacaoDispositivo =>
-      delete unidadeTpoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade
+    licenca.unidadesTiposAvaliacoesLicenca.forEach(unidadeTpoAvaliacaoLicenca =>
+      delete unidadeTpoAvaliacaoLicenca.unidadeTipoAvaliacao.unidade
     );
 
-    if (dispositivo.unidadesTiposAvaliacoesDispositivo.length > 0)
-      this.dispositivoRepository.save(dispositivo).then(result => {
-        this.dispositivo = result;
-        this.success('Dispositivo inserido com sucesso')
+    if (licenca.unidadesTiposAvaliacoesLicenca.length > 0) {
+      this.licencaRepository.save(licenca).then(result => {
+        this.licenca = result;
+        this.success('Licenca inserido com sucesso')
       });
-    else this.openSnackBar('Selecione ao menos um Tipo de Avaliação')
+    } else {
+      this.openSnackBar('Selecione ao menos um Tipo de Avaliação')
+    }
   }
 
   /**

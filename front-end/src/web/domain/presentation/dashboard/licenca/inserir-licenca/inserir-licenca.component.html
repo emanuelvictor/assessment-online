@@ -1,4 +1,4 @@
-<dispositivo-form [dispositivo]='dispositivo' (save)='save($event)'>
+<licenca-form [licenca]='licenca' (save)='save($event)'>
 
   <!--cabeçalho div-->
   <div layout='column' layout-margin header>
@@ -11,7 +11,7 @@
       </button>
 
       <div layout='row' layout-margin>
-        <h1 class='mat-headline tc-grey-500' flex> Inserir Dispositivo</h1>
+        <h1 class='mat-headline tc-grey-500' flex> Inserir Licenca</h1>
       </div>
     </div>
   </div>
@@ -23,7 +23,7 @@
   <mat-card configurarUnidadesTiposAvaliacoes class='bgc-grey-50' *ngIf='vincularUnidadeTipoSvaliacao'>
 
     <vincular-unidade-tipo-avaliacao [(unidades)]='unidades'
-                                     (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'>
+                                     (unidadesTiposAvaliacoesLicencaChange)='unidadesTiposAvaliacoesLicencaChange($event)'>
     </vincular-unidade-tipo-avaliacao>
 
   </mat-card>
@@ -53,4 +53,4 @@
     </div>
   </div>
 
-</dispositivo-form>
+</licenca-form>

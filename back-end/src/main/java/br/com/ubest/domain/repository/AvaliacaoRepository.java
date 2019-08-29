@@ -30,9 +30,9 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "   FROM Avaliacao avaliacao " +
             "       INNER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliacao.id = avaliacao.id " +
             "       INNER JOIN Agrupador agrupador ON avaliacao.agrupador.id = agrupador.id " +
-            "       INNER JOIN Unidade unidade ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id = unidade.id " +
-            "       INNER JOIN Dispositivo dispositivo ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.dispositivo.id = dispositivo.id " +
-            "       INNER JOIN TipoAvaliacao tipoAvaliacao ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.tipoAvaliacao.id = tipoAvaliacao.id " +
+            "       INNER JOIN Unidade unidade ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.unidade.id = unidade.id " +
+            "       INNER JOIN Licenca licenca ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoLicenca.licenca.id = licenca.id " +
+            "       INNER JOIN TipoAvaliacao tipoAvaliacao ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.tipoAvaliacao.id = tipoAvaliacao.id " +
             "       INNER JOIN Usuario usuario ON avaliacaoAvaliavel.avaliavel.usuario.id = usuario.id " +
 //            "       LEFT OUTER JOIN Operador operador ON operador.usuario.id = usuario.id " +
             "   WHERE " +
@@ -66,9 +66,9 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "       AND " +
             "       (" +
             "           (" +
-            "               dispositivo.id IN :dispositivosFilter" +
+            "               licenca.id IN :licencasFilter" +
             "           )" +
-            "           OR :dispositivosFilter IS NULL" +
+            "           OR :licencasFilter IS NULL" +
             "       )" +
             "       AND " +
             "       (" +
@@ -112,13 +112,13 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
             "       )" +
             "   )" +
-            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.id, unidade.nome, dispositivo.id, tipoAvaliacao.id, agrupador.id, agrupador.feedback "
+            "GROUP BY avaliacao.id, avaliacao.nota, avaliacao.fotoPath, avaliacao.data, unidade.id, unidade.nome, licenca.id, tipoAvaliacao.id, agrupador.id, agrupador.feedback "
     )
     Page<Avaliacao> listByFilters(@Param("usuarioId") final Long usuarioId,
                                   @Param("perfil") final String perfil,
                                   @Param("defaultFilter") final String defaultFilter,
                                   @Param("unidadesFilter") final List<Long> unidadesFilter,
-                                  @Param("dispositivosFilter") final List<Long> dispositivosFilter,
+                                  @Param("licencasFilter") final List<Long> licencasFilter,
                                   @Param("usuariosFilter") final List<Long> usuariosFilter,
                                   @Param("tiposAvaliacoesFilter") final List<Long> tiposAvaliacoesFilter,
                                   @Param("hasFeedback") final Boolean hasFeedback,
