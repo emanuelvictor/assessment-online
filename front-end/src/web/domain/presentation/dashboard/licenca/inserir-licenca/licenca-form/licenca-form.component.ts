@@ -7,6 +7,7 @@ import {MatIconRegistry, MatSnackBar} from "@angular/material";
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from "@angular/forms";
 import {FileRepository} from "../../../../../../infrastructure/repository/file/file.repository";
 import {Licenca} from "../../../../../entity/avaliacao/licenca.model";
+import {viewAnimation} from "../../../../controls/utils";
 
 /**
  *
@@ -14,7 +15,7 @@ import {Licenca} from "../../../../../entity/avaliacao/licenca.model";
 @Component({
   selector: 'licenca-form',
   templateUrl: './licenca-form.component.html',
-  styleUrls: ['./licenca-form.component.scss']
+  styleUrls: ['./licenca-form.component.scss'],
 })
 export class LicencaFormComponent implements OnInit {
 
@@ -34,7 +35,7 @@ export class LicencaFormComponent implements OnInit {
    * @type {Licenca}
    */
   @Input()
-  public licenca: Licenca;
+  public licenca: Licenca = new Licenca();
 
   /**
    *

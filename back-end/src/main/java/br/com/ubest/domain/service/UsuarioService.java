@@ -301,7 +301,7 @@ public class UsuarioService {
         licenca.setModoInsonia(true);
         licenca.setModoQuiosque(true);
         licenca.setQuebrarLinhaNaSelecaoDeItemAvaliavel(true);
-        licenca.setPublico(false);
+        licenca.setInterna(true);
         licenca.setTime((short) 30);
         this.licencaRepository.save(licenca);
 

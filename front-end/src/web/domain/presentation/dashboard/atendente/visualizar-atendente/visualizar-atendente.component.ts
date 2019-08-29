@@ -19,10 +19,7 @@ import {UnidadeTipoAvaliacaoLicenca} from "../../../../entity/avaliacao/unidade-
 @Component({
   selector: 'visualizar-atendente',
   templateUrl: './visualizar-atendente.component.html',
-  styleUrls: ['./visualizar-atendente.component.scss'],
-  animations: [
-    viewAnimation
-  ]
+  styleUrls: ['./visualizar-atendente.component.scss']
 })
 export class VisualizarAtendenteComponent implements OnInit {
 

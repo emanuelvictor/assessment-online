@@ -6,7 +6,7 @@ export class Licenca extends Abstract {
   /**
    *
    */
-  public publico: boolean;
+  public interna: boolean;
 
   /**
    *
@@ -51,6 +51,7 @@ export class Licenca extends Abstract {
 
   constructor(id?: number) {
     super();
+    this.interna = true;
     this.id = id
   }
 }

@@ -1,4 +1,4 @@
-<div layout-align="center center" layout-gt-xs="row" layout-margin>
+<div layout-align="center center" layout-gt-xs="row" layout-margin *ngIf='licenca'>
   <div layout="row" flex-gt-xs="80" layout-margin>
     <div flex layout-margin>
 
@@ -17,7 +17,7 @@
                   <mat-form-field flex layout-margin>
                     <input [(ngModel)]='licenca.nome'
                            matInput name='nome' id='nome'
-                           placeholder='Nome do licenca'
+                           placeholder='Nome do licença'
                            formControlName='nome' maxlength='144'>
                     <mat-error>
                       Campo obrigatório
@@ -44,7 +44,7 @@
                   <mat-checkbox style='padding: 20px' flex
                                 [ngModelOptions]='{standalone: true}'
                                 [(ngModel)]='licenca.quebrarLinhaNaSelecaoDeItemAvaliavel'>
-                    Quebrar linha durante a seleção de ítens avaliáveis (no aplicativo móvel)
+                    Quebrar linha durante a seleção de ítens avaliáveis
                   </mat-checkbox>
                 </div>
               </div>
@@ -52,17 +52,15 @@
               <div layout='row' layout-align='start center'>
                 <div layout='row' flex class='push-left' layout-margin>
 
-                  <mat-checkbox matTooltip='O tablet não sai do aplicativo' flex='20'
-                                (change)="licenca.modoQuiosque ? licenca.modoInsonia = true : ''"
-                                [(ngModel)]='licenca.modoQuiosque' [ngModelOptions]='{standalone: true}'>
-                    Modo Quiosque
-                  </mat-checkbox>
+                  <mat-slide-toggle [ngModelOptions]='{standalone: true}' [(ngModel)]='licenca.interna' layout-margin>
+                    <span
+                        class='tc-grey-600'>{{licenca.interna ? 'De uso exclusivo do aplicativo móvel' : 'De uso externo (sites, homepages, etc ...)'  }}</span>
+                  </mat-slide-toggle>
 
-                  <mat-checkbox matTooltip='Enquanto estiver no aplicativo, a tela não adormece' flex='10' flex-sm='30'
-                                (change)="!licenca.modoInsonia ? licenca.modoQuiosque = false : ''"
-                                [(ngModel)]='licenca.modoInsonia' [ngModelOptions]='{standalone: true}'>
-                    Modo Insônia
-                  </mat-checkbox>
+                  <opcoes-mobile *ngIf='licenca.interna' [licenca]='licenca' layout-margin></opcoes-mobile>
+
+                  <opcoes-site *ngIf='!licenca.interna' [licenca]='licenca' layout-margin></opcoes-site>
+
                 </div>
               </div>
 

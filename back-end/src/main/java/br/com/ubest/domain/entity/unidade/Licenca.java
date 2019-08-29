@@ -36,7 +36,7 @@ public class Licenca extends AbstractEntity implements Serializable {
      */
     @NotNull
     @Column(nullable = false)
-    private boolean publico = false;
+    private boolean interna = false;
 
     /**
      *
