@@ -1,7 +1,7 @@
-<div layout-align='center center' layout-gt-xs='row' layout-margin>
+<div layout-align='center center' layout-gt-xs='row' layout-margin >
   <div layout='row' flex-gt-xs='80' layout-margin>
     <div flex layout-margin layout='column' layout-align='center center'>
-      <mat-card class='bgc-grey-50' layout-margin style='width: calc(100% - 15px)'>
+      <mat-card class='bgc-grey-50' layout-margin style='width: calc(100% - 15px)' *ngIf='licenca?.id' [@fadeInOut]>
         <mat-card-content>
 
           <div layout='row'>
@@ -29,8 +29,12 @@
                         {{licenca?.nome}}
                       </h1>
                       <h2 flex='100' class='mat-subheading-2 tc-blue-grey-500 no-margin'>
-                        {{licenca?.publico ? 'Público' : ''}}
+                        {{licenca?.interna ? 'Licença interna' : 'Licença externa'}}
                       </h2>
+                      <h2 *ngIf='licenca?.interna' flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Modo quiosque: {{licenca?.modoQuiosque ? 'Sim' : 'Não'}}</h2>
+                      <h2 *ngIf='licenca?.interna' flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Modo insônia: {{licenca?.modoInsonia ? 'Sim' : 'Não'}}</h2>
+                      <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Tempo de espera entre as avaliações (Em segundos): {{licenca?.time}}</h2>
+                      <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Quebrar linha durante a seleção de itens avaliáveis: {{licenca?.quebrarLinhaNaSelecaoDeItemAvaliavel ? 'Sim' : 'Não'}}</h2>
                     </div>
                   </div>
                 </div>

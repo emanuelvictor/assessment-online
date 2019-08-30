@@ -25,10 +25,9 @@
                     </button>
                   </div>
                   <div flex *ngIf='!fotoPath'>
-                    <td-file-upload #singleFileUpload
-                                    defaultColor='primary'
+                    <td-file-upload defaultColor='primary'
+                                    #singleFileUpload name='file'
                                     (change)='fileChange($event)'
-                                    name="file"
                                     accept='.png, .gif, .jpg, .jpeg'>
                       <span>{{ singleFileUpload?.files?.name }}</span>
                       <ng-template td-file-input-label>
@@ -55,8 +54,8 @@
                   </div>
                   <div layout='row' layout-margin>
                     <mat-form-field flex>
-                      <input [(ngModel)]='usuario.conta.email'
-                             matInput name='email' id='email'
+                      <input matInput name='email' id='email'
+                             [(ngModel)]='usuario.conta.email'
                              type='email' formControlName='email'
                              placeholder='E-mail' maxlength='144'
                              pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'

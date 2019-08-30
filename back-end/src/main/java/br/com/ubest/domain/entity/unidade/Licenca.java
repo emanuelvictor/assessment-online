@@ -50,7 +50,7 @@ public class Licenca extends AbstractEntity implements Serializable {
      */
     @NotNull
     @Column(nullable = false)
-    private boolean modoInsonia;
+    private boolean modoInsonia = false;
 
     /**
      *

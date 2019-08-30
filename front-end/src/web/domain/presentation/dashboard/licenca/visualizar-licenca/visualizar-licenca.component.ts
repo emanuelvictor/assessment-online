@@ -27,6 +27,9 @@ export class VisualizarLicencaComponent implements OnInit {
    */
   licenca: Licenca = new Licenca();
 
+  /**
+   *
+   */
   unidades: any[] = [];
 
   /**
@@ -76,6 +79,7 @@ export class VisualizarLicencaComponent implements OnInit {
   public find(licencaId: number) {
 
     this.licencaRepository.findById(licencaId).subscribe((licenca: Licenca) => {
+      this.licenca = licenca
 
       this.unidadeRepository.listLightByFilters({withUnidadesTiposAvaliacoesAtivasFilter: true}).subscribe(result => {
 

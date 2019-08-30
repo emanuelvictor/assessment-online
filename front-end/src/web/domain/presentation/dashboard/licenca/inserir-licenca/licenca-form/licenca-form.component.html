@@ -44,23 +44,8 @@
                   <mat-checkbox style='padding: 20px' flex
                                 [ngModelOptions]='{standalone: true}'
                                 [(ngModel)]='licenca.quebrarLinhaNaSelecaoDeItemAvaliavel'>
-                    Quebrar linha durante a seleção de ítens avaliáveis
+                    Quebrar linha durante a seleção de itens avaliáveis
                   </mat-checkbox>
-                </div>
-              </div>
-
-              <div layout='row' layout-align='start center'>
-                <div layout='row' flex class='push-left' layout-margin>
-
-                  <mat-slide-toggle [ngModelOptions]='{standalone: true}' [(ngModel)]='licenca.interna' layout-margin>
-                    <span
-                        class='tc-grey-600'>{{licenca.interna ? 'De uso exclusivo do aplicativo móvel' : 'De uso externo (sites, homepages, etc ...)'  }}</span>
-                  </mat-slide-toggle>
-
-                  <opcoes-mobile *ngIf='licenca.interna' [licenca]='licenca' layout-margin></opcoes-mobile>
-
-                  <opcoes-site *ngIf='!licenca.interna' [licenca]='licenca' layout-margin></opcoes-site>
-
                 </div>
               </div>
 
@@ -70,6 +55,21 @@
               <ng-content select="[configurarUnidadesTiposAvaliacoes]"></ng-content>
 
               <ng-content select="[divider2]"></ng-content>
+
+              <div layout='row' layout-align='start center'>
+                <div layout='row' flex class='push-left' layout-margin>
+
+                  <mat-slide-toggle [ngModelOptions]='{standalone: true}' [(ngModel)]='licenca.interna' layout-margin>
+                    <span
+                            class='tc-grey-600'>{{licenca.interna ? 'De uso exclusivo do aplicativo móvel' : 'De uso externo (sites, homepages, etc ...)'  }}</span>
+                  </mat-slide-toggle>
+
+                  <opcoes-mobile *ngIf='licenca.interna' [licenca]='licenca' layout-margin></opcoes-mobile>
+
+                  <opcoes-site *ngIf='!licenca.interna' [licenca]='licenca' layout-margin></opcoes-site>
+
+                </div>
+              </div>
 
             </div>
 
