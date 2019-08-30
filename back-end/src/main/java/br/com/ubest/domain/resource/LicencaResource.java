@@ -1,5 +1,6 @@
 package br.com.ubest.domain.resource;
 
+import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.unidade.Licenca;
 import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoLicenca;
 import br.com.ubest.domain.entity.usuario.Perfil;
@@ -27,11 +28,14 @@ public class LicencaResource extends AbstractResource<Licenca> {
 
     private final LicencaRepository licencaRepository;
 
+    private final TenantIdentifierResolver tenantIdentifierResolver;
+
     private final UnidadeTipoAvaliacaoLicencaRepository unidadeTipoAvaliacaoLicencaRepository;
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Licenca> save(@RequestBody final Licenca licenca) {
+        licenca.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
         licenca.getUnidadesTiposAvaliacoesLicenca().forEach(unidadeTipoAvaliacaoLicenca -> unidadeTipoAvaliacaoLicenca.setLicenca(licenca));
         return Mono.just(this.licencaRepository.save(licenca));
     }
@@ -39,6 +43,7 @@ public class LicencaResource extends AbstractResource<Licenca> {
     @PutMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Licenca> update(@PathVariable final long id, @RequestBody final Licenca licenca) {
+        licenca.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
         licenca.setId(id);
         return Mono.just(this.licencaRepository.save(licenca));
     }
@@ -72,7 +77,7 @@ public class LicencaResource extends AbstractResource<Licenca> {
     }
 
     /**
-     * Lista todas as unidades pelo id do usuário.
+     * Lista todas as licenças pelo id do usuário.
      *
      * @param usuarioId {long}
      * @return Mono<List < Unidade>>

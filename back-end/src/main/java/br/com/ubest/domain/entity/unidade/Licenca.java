@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -15,14 +16,35 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static br.com.ubest.Application.DEFAULT_TENANT_ID;
+
 @Data
 @Entity
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
+@Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"tenant", "nome"})
+})
 public class Licenca extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -12345665123987987L;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
+    @Length(max = 150)
+    private String tenant;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(unique = true, nullable = false)
+    @Length(min = 10, max = 10)
+    private String codigo;
 
     /**
      *
