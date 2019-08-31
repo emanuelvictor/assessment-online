@@ -1,6 +1,3 @@
-/**
- *
- */
 package br.com.ubest.infrastructure.hibernate.dialect;
 
 import br.com.ubest.infrastructure.hibernate.functions.PostgreSQLFilterFunction;

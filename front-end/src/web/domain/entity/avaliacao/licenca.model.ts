@@ -6,7 +6,12 @@ export class Licenca extends Abstract {
   /**
    *
    */
-  public codigo: string;
+  public numero: number;
+
+  /**
+   *
+   */
+  public senha: string;
 
   /**
    *

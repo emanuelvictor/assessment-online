@@ -11,6 +11,7 @@ import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -34,6 +35,7 @@ public class LicencaResource extends AbstractResource<Licenca> {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    @Transactional
     public Mono<Licenca> save(@RequestBody final Licenca licenca) {
         licenca.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
         licenca.getUnidadesTiposAvaliacoesLicenca().forEach(unidadeTipoAvaliacaoLicenca -> unidadeTipoAvaliacaoLicenca.setLicenca(licenca));

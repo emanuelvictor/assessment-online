@@ -303,6 +303,7 @@ public class UsuarioService {
         licenca.setQuebrarLinhaNaSelecaoDeItemAvaliavel(true);
         licenca.setInterna(true);
         licenca.setTime((short) 30);
+        licenca.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
         this.licencaRepository.save(licenca);
 
         final UnidadeTipoAvaliacaoLicenca unidadeTipoAvaliacaoLicenca = new UnidadeTipoAvaliacaoLicenca();

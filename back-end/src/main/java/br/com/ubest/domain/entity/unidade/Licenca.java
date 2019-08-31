@@ -13,6 +13,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,9 +43,14 @@ public class Licenca extends AbstractEntity implements Serializable {
      *
      */
     @NotNull
-    @Column(unique = true, nullable = false)
-    @Length(min = 10, max = 10)
-    private String codigo;
+    @Column(insertable = false, updatable = false)
+    private long numero;
+
+    /**
+     *
+     */
+    @Column(length = 10)
+    private String senha;
 
     /**
      *
@@ -112,4 +118,21 @@ public class Licenca extends AbstractEntity implements Serializable {
     public Set<Unidade> getUnidades() {
         return this.unidadesTiposAvaliacoesLicenca != null ? this.unidadesTiposAvaliacoesLicenca.stream().map(unidadeTipoAvaliacaoLicenca -> unidadeTipoAvaliacaoLicenca.getUnidadeTipoAvaliacao().getUnidade()).collect(Collectors.toSet()) : null;
     }
+
+    /**
+     *
+     * @param min
+     * @param max
+     * @return
+     */
+    private static int getRandomNumberInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
+
 }

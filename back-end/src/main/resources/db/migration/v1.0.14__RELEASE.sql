@@ -1,7 +1,7 @@
 -- Insere os licencas de acordo com as unidades
-INSERT INTO licenca (id, created, nome, publico, modo_quiosque, modo_insonia, time, quebrar_linha_na_selecao_de_item_avaliavel, tenant, codigo)
+INSERT INTO licenca (id, created, nome, interna, modo_quiosque, modo_insonia, time, quebrar_linha_na_selecao_de_item_avaliavel, tenant)
     (
-        SELECT  (unidade.id) as ide, NOW() AS created, pessoa.nome AS nome, false AS publico, false AS modo_quiosque, false AS modo_insonia, 30 AS time, false AS quebrar_linha_na_selecao_de_item_avaliavel, current_schema(), random_string(8)
+        SELECT  (unidade.id) as ide, NOW() AS created, pessoa.nome AS nome, false AS interna, false AS modo_quiosque, false AS modo_insonia, 30 AS time, false AS quebrar_linha_na_selecao_de_item_avaliavel, current_schema()
         FROM unidade
                  INNER JOIN pessoa ON pessoa.id = unidade.id
     );
