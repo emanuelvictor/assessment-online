@@ -74,8 +74,8 @@ public class LicencaResource extends AbstractResource<Licenca> {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<Page<Licenca>> listByFilters(final String defaultFilter, final Boolean withBondFilter, final Boolean withAvaliaveisFilter, final Boolean withUnidadesTiposAvaliacoesAtivasFilter, final Long[] idsFilter) {
-        return Mono.just(this.licencaService.listByFilters(defaultFilter, withBondFilter, withAvaliaveisFilter, withUnidadesTiposAvaliacoesAtivasFilter, getListFromArray(idsFilter), getPageable()));
+    Mono<Page<Licenca>> listByFilters(final String defaultFilter) {
+        return Mono.just(this.licencaService.listByFilters(defaultFilter, getPageable()));
     }
 
     /**

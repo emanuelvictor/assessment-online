@@ -35,13 +35,10 @@ public class LicencaService {
 
     /**
      * @param defaultFilter     String
-     * @param enderecoFilter    String
-     * @param dataInicioFilter  String
-     * @param dataTerminoFilter String
      * @param pageable          pageable
      * @return Page<Unidade>
      */
-    public Page<Licenca> listByFilters(final String defaultFilter, final Boolean withBondFilter, final Boolean withAvaliaveisFilter, final Boolean withUnidadesTiposAvaliacoesAtivasFilter, final List<Long> idsFilter, final Pageable pageable) {
+    public Page<Licenca> listByFilters(final String defaultFilter, final Pageable pageable) {
 
         final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
 
