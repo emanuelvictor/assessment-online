@@ -35,7 +35,7 @@ public class Licenca extends AbstractEntity implements Serializable {
      *
      */
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @Length(max = 150)
     private String tenant;
 

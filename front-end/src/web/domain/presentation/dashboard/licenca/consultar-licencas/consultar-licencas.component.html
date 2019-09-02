@@ -10,11 +10,11 @@
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
 
-      <input [matChipInputFor]='defaultFilterChipList'
-             (ngModelChange)='defaultFilterChanged($event)'
+      <input (ngModelChange)='defaultFilterChanged($event)'
              (matChipInputTokenEnd)='addDefaultFilter($event)'
+             placeholder='Pesquisar pelo nome ou número da licença'
              [(ngModel)]='defaultFilter' [ngModelOptions]='{standalone: true}'
-             placeholder='Pesquisar pelo nome ou enunciado' [matChipInputAddOnBlur]='true'>
+             [matChipInputFor]='defaultFilterChipList' [matChipInputAddOnBlur]='true'>
 
     </mat-chip-list>
 

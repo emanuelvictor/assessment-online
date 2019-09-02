@@ -45,7 +45,6 @@ public class LicencaResource extends AbstractResource<Licenca> {
     @PutMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Licenca> update(@PathVariable final long id, @RequestBody final Licenca licenca) {
-        licenca.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
         licenca.setId(id);
         return Mono.just(this.licencaRepository.save(licenca));
     }

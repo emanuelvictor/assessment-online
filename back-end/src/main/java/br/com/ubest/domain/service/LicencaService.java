@@ -40,11 +40,11 @@ public class LicencaService {
      */
     public Page<Licenca> listByFilters(final String defaultFilter, final Pageable pageable) {
 
-        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
+//        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
+//
+//        final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 
-        final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
-
-        return this.licencaRepository.findAll(new PageRequest(0, 20));
+        return this.licencaRepository.listByFilters(defaultFilter, this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(), pageable);
 
     }
 

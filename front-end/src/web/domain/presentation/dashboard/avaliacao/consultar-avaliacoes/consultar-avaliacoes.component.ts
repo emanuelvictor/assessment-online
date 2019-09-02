@@ -222,7 +222,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
           this.page.content.forEach(avaliacao => {
             avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
             if (avaliacao.avaliacoesAvaliaveis[0]) {
-              avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade
+              avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.unidade
             }
           })
         })
@@ -308,7 +308,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       this.page.content.forEach(avaliacao => {
         avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
         if (avaliacao.avaliacoesAvaliaveis[0]) {
-          avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade
+          avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.unidade
         }
       })
 
@@ -358,7 +358,7 @@ export class ConsultarAvaliacoesComponent implements OnInit {
       this.page.content.forEach(avaliacao => {
         if (avaliacao.avaliacoesAvaliaveis && avaliacao.avaliacoesAvaliaveis.length) {
           avaliacao.atendentes = avaliacao.avaliacoesAvaliaveis.map(avaliacaoAvaliavel => ' ' + avaliacaoAvaliavel.avaliavel.usuario.nome).join();
-          avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacao.unidade
+          avaliacao.unidade = avaliacao.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.unidade
         }
       })
 

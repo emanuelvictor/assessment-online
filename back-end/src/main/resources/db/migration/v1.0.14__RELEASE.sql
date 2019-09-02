@@ -1,15 +1,11 @@
--- Insere os licencas de acordo com as unidades
-INSERT INTO licenca (id, created, nome, interna, modo_quiosque, modo_insonia, time, quebrar_linha_na_selecao_de_item_avaliavel, tenant)
-    (
-        SELECT  (unidade.id) as ide, NOW() AS created, pessoa.nome AS nome, false AS interna, false AS modo_quiosque, false AS modo_insonia, 30 AS time, false AS quebrar_linha_na_selecao_de_item_avaliavel, current_schema()
-        FROM unidade
-                 INNER JOIN pessoa ON pessoa.id = unidade.id
-    );
+ALTER TABLE avaliavel
+    RENAME COLUMN unidade_tipo_avaliacao_id TO unidade_tipo_avaliacao_licenca_id;
 
--- Insere os unidade-tipo-avaliacao-licenca de acordo com as unidades
-INSERT INTO unidade_tipo_avaliacao_licenca (id, created, ordem, unidade_tipo_avaliacao_id, licenca_id, ativo)
-    (
-        SELECT  (unidade_tipo_avaliacao.id) as ide, NOW() AS created, 1 AS ordem, unidade_tipo_avaliacao.id AS unidade_tipo_avaliacao_id, unidade.id AS licenca_id, true AS ativo
-        FROM unidade
-                 INNER JOIN unidade_tipo_avaliacao ON unidade_tipo_avaliacao.unidade_id = unidade.id
-    );
+ALTER TABLE avaliavel_aud
+    RENAME COLUMN unidade_tipo_avaliacao_id TO unidade_tipo_avaliacao_licenca_id;
+
+ALTER TABLE ONLY avaliavel
+    DROP CONSTRAINT fk1wg1nljm73ixmvny30jwxv1nw;
+
+ALTER TABLE ONLY avaliavel
+    ADD CONSTRAINT fk1wg1nljm73ixmvny30jwxv1nw FOREIGN KEY (unidade_tipo_avaliacao_licenca_id) REFERENCES unidade_tipo_avaliacao_licenca (id);
