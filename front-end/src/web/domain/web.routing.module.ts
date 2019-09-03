@@ -39,6 +39,7 @@ import {InserirLicencaComponent} from "./presentation/dashboard/licenca/inserir-
 import {VisualizarLicencaComponent} from "./presentation/dashboard/licenca/visualizar-licenca/visualizar-licenca.component";
 import {AlterarLicencaComponent} from "./presentation/dashboard/licenca/alterar-licenca/alterar-licenca.component";
 import {ConsultarLicencasComponent} from "./presentation/dashboard/licenca/consultar-licencas/consultar-licencas.component";
+import {AssinaturaComponent} from "./presentation/dashboard/assinatura/assinatura.component";
 
 
 const routes: Routes = [
@@ -127,6 +128,9 @@ const routes: Routes = [
         },
         {
           path: 'configuracoes', component: ConfiguracaoComponent,
+        },
+        {
+          path: 'assinatura', component: AssinaturaComponent,
         }
       ]
   },

@@ -120,6 +120,7 @@ import {AlterarLicencaComponent} from "./presentation/dashboard/licenca/alterar-
 import {VisualizarLicencaComponent} from "./presentation/dashboard/licenca/visualizar-licenca/visualizar-licenca.component";
 import {OpcoesMobileComponent} from "./presentation/dashboard/licenca/inserir-licenca/opcoes-mobile/opcoes-mobile.component";
 import {OpcoesSiteComponent} from "./presentation/dashboard/licenca/inserir-licenca/opcoes-site/opcoes-site.component";
+import {AssinaturaComponent} from "./presentation/dashboard/assinatura/assinatura.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -244,6 +245,9 @@ registerLocaleData(localePt, 'pt-BR');
     ConsultarClientesComponent,
     UsuarioPessoaFisicaFormComponent,
     UsuarioPessoaJuridicaFormComponent,
+
+    // Assinatura
+    AssinaturaComponent,
 
     NoRecordsFoundComponent
   ],

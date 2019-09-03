@@ -95,5 +95,16 @@
       </div>
     </mat-list-item>
 
+    <mat-list-item *ngIf='authenticatedUser?.isAdministrador'
+                   routerLinkActive #rlaAssinatura='routerLinkActive'
+                   [ngClass]="{'menu-active': rlaAssinatura.isActive}"
+                   class='push-bottom' routerLink='/dashboard/assinatura'>
+      <div layout='row' flex class='pad-left'>
+        <span flex='10'></span>
+        <mat-icon matListAvatar flex>shopping_cart</mat-icon>
+        <h3 matLine style='color: white' flex='85'> Minha Assinatura </h3>
+      </div>
+    </mat-list-item>
+
   </mat-list>
 </mat-nav-list>
