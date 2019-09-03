@@ -87,15 +87,13 @@ public class Assinatura extends AbstractEntity {
     /**
      *
      */
-    @NotNull
-    @Column(nullable = false)
+    @Column
     private byte codigoArea;
 
     /**
      *
      */
-    @NotNull
-    @Column(nullable = false)
+    @Column
     private long telefone;
 
     /**
