@@ -49,6 +49,21 @@
                 </div>
               </div>
 
+              <div layout='row' layout-align='start center'>
+                <div layout='row' flex class='push-left' layout-margin>
+
+                  <mat-slide-toggle [ngModelOptions]='{standalone: true}' [(ngModel)]='licenca.interna' layout-margin>
+                    <span
+                            class='tc-grey-600'>{{licenca.interna ? 'Interna: De uso exclusivo para o aplicativo móvel' : 'De uso externo (sites, homepages, etc ...)'  }}</span>
+                  </mat-slide-toggle>
+
+                  <opcoes-mobile *ngIf='licenca.interna' [licenca]='licenca' layout-margin></opcoes-mobile>
+
+                  <opcoes-site *ngIf='!licenca.interna' [licenca]='licenca' layout-margin></opcoes-site>
+
+                </div>
+              </div>
+
               <!--divider-->
               <ng-content select="[divider]"></ng-content>
 
@@ -56,18 +71,12 @@
 
               <ng-content select="[divider2]"></ng-content>
 
-              <div layout='row' layout-align='start center'>
-                <div layout='row' flex class='push-left' layout-margin>
+              <div layout='column' layout-margin>
+                <div layout='row' layout-align='start center'>
 
-                  <mat-slide-toggle [ngModelOptions]='{standalone: true}' [(ngModel)]='licenca.interna' layout-margin>
-                    <span
-                            class='tc-grey-600'>{{licenca.interna ? 'De uso exclusivo do aplicativo móvel' : 'De uso externo (sites, homepages, etc ...)'  }}</span>
-                  </mat-slide-toggle>
-
-                  <opcoes-mobile *ngIf='licenca.interna' [licenca]='licenca' layout-margin></opcoes-mobile>
-
-                  <opcoes-site *ngIf='!licenca.interna' [licenca]='licenca' layout-margin></opcoes-site>
-
+                  <div layout='row' layout-margin>
+                    <h1 class='mat-headline tc-grey-500' flex> Dados de pagamento</h1>
+                  </div>
                 </div>
               </div>
 

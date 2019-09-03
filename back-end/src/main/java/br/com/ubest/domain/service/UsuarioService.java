@@ -297,7 +297,7 @@ public class UsuarioService {
         this.unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
 
         final Licenca licenca = new Licenca();
-        licenca.setNome("Meu primeiro licenca");
+        licenca.setNome("Minha primeira licença");
         licenca.setModoInsonia(true);
         licenca.setModoQuiosque(true);
         licenca.setQuebrarLinhaNaSelecaoDeItemAvaliavel(true);
