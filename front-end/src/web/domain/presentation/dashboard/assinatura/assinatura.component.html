@@ -62,13 +62,13 @@
                   <div layout-gt-xs="row" layout-margin>
                     <mat-form-field flex="35" *ngIf="isEmpresa">
                       <input matInput name="documentoTitularCartao" [textMask]="{mask: masks.cnpj, guide: false}"
-                             [(ngModel)]="compra.pagamento.documentoTitularCartao" matInput
+                             [(ngModel)]="compra.pagamento.documentoTitularCartao"
                              placeholder="CNPJ" required>
                     </mat-form-field>
 
                     <mat-form-field flex="35" *ngIf="!isEmpresa">
                       <input matInput name="documentoTitularCartao" [textMask]="{mask: masks.cpf, guide: false}"
-                             [(ngModel)]="documentoTitularCartao" matInput
+                             [(ngModel)]="documentoTitularCartao"
                              placeholder="CPF" required>
                     </mat-form-field>
 
