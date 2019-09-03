@@ -1,5 +1,6 @@
 package br.com.ubest.domain.entity.unidade;
 
+import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -29,6 +30,9 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 })
 public class Licenca extends AbstractEntity implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = -12345665123987987L;
 
     /**
@@ -98,6 +102,13 @@ public class Licenca extends AbstractEntity implements Serializable {
     @EqualsAndHashCode.Exclude
     @OneToMany(targetEntity = UnidadeTipoAvaliacaoLicenca.class, mappedBy = "licenca", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UnidadeTipoAvaliacaoLicenca> unidadesTiposAvaliacoesLicenca;
+
+    /**
+     *
+     */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "assinatura_id")
+    private Assinatura assinatura;
 
     /**
      *
