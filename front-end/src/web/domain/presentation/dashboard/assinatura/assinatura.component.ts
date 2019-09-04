@@ -15,6 +15,8 @@ import {AuthenticationService} from "../../../service/authentication.service";
 import {TipoFeedback} from "../../../entity/configuracao/tipo-feedback.enum";
 import {enumToArrayString, viewAnimation} from "../../controls/utils";
 import {textMasks} from "../../controls/text-masks/text-masks";
+import {Assinatura} from "../../../entity/assinatura/assinatura.model";
+import {AssinaturaRepository} from "../../../repository/assinatura.repository";
 
 /**
  *
@@ -39,53 +41,22 @@ export class AssinaturaComponent implements OnInit {
    */
   contaAutenticada: any = null;
 
-  /**
-   *
-   * @type {}
-   */
-  logoPath = null;
-
-  /**
-   *
-   * @type {}
-   */
-  arquivoFile = null;
-
-  /**
-   *
-   * @type {}
-   */
-  backgroundPath = null;
-
-  /**
-   *
-   * @type {}
-   */
-  backgroundArquivoFile = null;
 
   /**
    *
    * @type {Configuracao}
    */
-  public configuracao: Configuracao = new Configuracao();
+  public assinatura: Assinatura = new Assinatura();
 
   /**
    *
    */
   form: any;
-  /**
-   *
-   * @type {any}
-   */
-  importFilePath = null;
-  /**
-   *
-   * @type {any}
-   */
-  importFile = null;
-  done = false;
 
-  tiposFeedbacks: any;
+  /**
+   *
+   */
+  done: boolean = false;
 
   /**
    *
@@ -93,11 +64,10 @@ export class AssinaturaComponent implements OnInit {
    * @param fileRepository
    * @param _loadingService
    * @param element
-   * @param configuracaoService
    * @param renderer
    * @param fb
    * @param authenticationService
-   * @param configuracaoRepository
+   * @param assinaturaRepository
    * @param iconRegistry
    * @param domSanitizer
    */
@@ -105,10 +75,9 @@ export class AssinaturaComponent implements OnInit {
               private fileRepository: FileRepository,
               private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
-              private configuracaoService: ConfiguracaoService,
+              private assinaturaRepository: AssinaturaRepository,
               private renderer: Renderer, private fb: FormBuilder,
               private authenticationService: AuthenticationService,
-              private configuracaoRepository: ConfiguracaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
   }
 
@@ -117,74 +86,23 @@ export class AssinaturaComponent implements OnInit {
    */
   ngOnInit(): void {
 
-    this.tiposFeedbacks = enumToArrayString(TipoFeedback);
-
     this.form = this.fb.group({
-      um: ['um', [Validators.required]],
-      dois: ['dois', [Validators.required]],
-      tres: ['tres', [Validators.required]],
-      quatro: ['quatro', [Validators.required]],
-      cinco: ['cinco', [Validators.required]],
-      time: ['time', [Validators.required, this.timeoutValidator()]],
-      agradecimento: ['agradecimento', [Validators.required]],
-      feedbackEnunciado: ['feedbackEnunciado', [this.feedbackRequired()]],
+      numeroCartao: ['numeroCartao', [Validators.required]],
+      mesValidade: ['mesValidade', [Validators.required]],
+      anoValidade: ['anoValidade', [Validators.required]],
+      codigoSeguranca: ['codigoSeguranca', [Validators.required]],
+      nomeTitularCartao: ['nomeTitularCartao', [Validators.required]],
+      documentoTitularCartao: ['documentoTitularCartao', [Validators.required]],
+      dataNascimentoTitularCartao: ['dataNascimentoTitularCartao', [Validators.required]],
     });
 
-    this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'meia-boca', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'bacana', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'top-da-balada', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
-
-    this.configuracaoService.requestConfiguracao.subscribe(result => {
-
-      this.configuracao = result;
-
-      if (!this.configuracao.tipoFeedback) {
-        this.configuracao.tipoFeedback = TipoFeedback.TEXTO;
-      }
-
-      this.logoPath = this.configuracao.logoPath;
-      this.arquivoFile = this.configuracao.logoFile;
-
-      this.backgroundPath = this.configuracao.backgroundImagePath;
-      this.backgroundArquivoFile = this.configuracao.backgroundImageFile;
-
+    this.assinaturaRepository.assinatura.subscribe(result => {
       this.done = true;
-
+      this.assinatura = result
     });
 
-    this.contaAutenticada = this.authenticationService.contaAutenticada;
-  }
+    this.contaAutenticada = this.authenticationService.contaAutenticada
 
-  /**
-   *
-   * @param exception
-   */
-  timeoutValidator(exception?: string): ValidatorFn {
-    return (c: AbstractControl): { [key: string]: any } => {
-      if (c.value || c.value === 0) {
-        if (c.value < 5) {
-          return {exception: exception ? exception : 'O tempo deve ultrapassar 5 segundos'};
-        } else if (c.value > 600) {
-          return {exception: exception ? exception : 'O tempo não deve ultrapassar 10 minutos (600 segundos)'};
-        }
-      }
-    }
-  }
-
-  /**
-   *
-   * @param exception
-   */
-  feedbackRequired(exception?: string): ValidatorFn {
-    return (c: AbstractControl): { [key: string]: any } => {
-      if (this.configuracao.feedback && !c.value) {
-        return {exception: exception ? exception : 'Campo obrigatório'};
-      } else {
-        return null;
-      }
-    }
   }
 
   /**
@@ -240,23 +158,15 @@ export class AssinaturaComponent implements OnInit {
     }
 
     if (valid) {
-
-      this.configuracao.backgroundImageFile = this.backgroundArquivoFile;
-      this.configuracao.backgroundImagePath = this.backgroundPath;
-
-      this.configuracao.logoFile = this.arquivoFile;
-      this.configuracao.logoPath = this.logoPath;
-
       this._loadingService.register('overlayStarSyntax');
-      this.configuracaoService.save(this.configuracao)
+      this.assinaturaRepository.save(this.assinatura)
         .then(result => {
-          this.configuracao = result;
+          this.assinatura = result;
 
           this._loadingService.resolve('overlayStarSyntax');
-          this.success('Configuração atualizada com sucesso');
+          this.success('Assinatura atualizada com sucesso');
 
-          this.configuracaoRepository.observerConfiguracao.next(result);
-        });
+        })
     }
   }
 
@@ -265,7 +175,7 @@ export class AssinaturaComponent implements OnInit {
    * @param message
    */
   public error(message: string) {
-    this.openSnackBar(message);
+    this.openSnackBar(message)
   }
 
   /**
@@ -273,7 +183,7 @@ export class AssinaturaComponent implements OnInit {
    * @param message
    */
   public success(message: string) {
-    this.openSnackBar(message);
+    this.openSnackBar(message)
   }
 
   /**
@@ -283,86 +193,7 @@ export class AssinaturaComponent implements OnInit {
   public openSnackBar(message: string) {
     this.snackBar.open(message, "Fechar", {
       duration: 5000
-    });
-  }
-
-  /**
-   *
-   * @param event
-   */
-  fileChange(event) {
-    const fileList: FileList = event.target.files;
-    if (fileList.length > 0) {
-      this.arquivoFile = fileList[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onload = (arquivo: any) => {
-        this.logoPath = arquivo.target.result;
-      };
-    }
-  }
-
-  /**
-   *
-   */
-  public removeFile() {
-    this.logoPath = null;
-    this.arquivoFile = null;
-  }
-
-  /**
-   *
-   * @param event
-   */
-  backgroundChange(event) {
-    const fileList: FileList = event.target.files;
-    if (fileList.length > 0) {
-      this.backgroundArquivoFile = fileList[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onload = (arquivo: any) => {
-        this.backgroundPath = arquivo.target.result;
-      };
-    }
-  }
-
-  /**
-   *
-   */
-  public removeBackgroundFile() {
-    this.backgroundPath = null;
-    this.backgroundArquivoFile = null;
-  }
-
-  /**
-   *
-   * @param event
-   */
-  importFileChange(event) {
-    const fileList: FileList = event.target.files;
-    if (fileList.length > 0) {
-      this.importFile = fileList[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onload = (arquivo: any) => {
-        this.importFilePath = arquivo.target.result;
-      };
-    }
-  }
-
-  /**
-   *
-   */
-  public removeImportFile() {
-    this.importFilePath = null;
-    this.importFile = null;
-  }
-
-  /**
-   *
-   */
-  public importt() {
-    this.fileRepository.importt(this.importFile);
+    })
   }
 
 }

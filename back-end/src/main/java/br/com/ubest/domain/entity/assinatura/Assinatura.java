@@ -3,15 +3,18 @@ package br.com.ubest.domain.entity.assinatura;
 import br.com.ubest.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.ubest.domain.entity.endereco.Endereco;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.domain.entity.generic.EntityIdResolver;
 import br.com.ubest.domain.entity.unidade.Licenca;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -21,9 +24,13 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Entity
 @Audited
 @Table(schema = DEFAULT_TENANT_ID)
+@JsonIdentityInfo(
+        property = "id",
+        scope = Assinatura.class,
+        resolver = EntityIdResolver.class,
+        generator = ObjectIdGenerators.PropertyGenerator.class)
 @lombok.EqualsAndHashCode(callSuper = true)
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
-public class Assinatura extends AbstractEntity {
+public class Assinatura extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -3875941812495359616L;
 
@@ -66,11 +73,11 @@ public class Assinatura extends AbstractEntity {
     @Column
     private String nomeTitularCartao;
 
-//    /**
-//     * TODO não precisa
-//     */
-//    @Column
-//    private Boolean isEmpresa;
+    /**
+     *
+     */
+    @Column
+    private Boolean souEmpresa = false;
 
     /**
      *
@@ -88,16 +95,16 @@ public class Assinatura extends AbstractEntity {
      *
      */
     @Column
-    private byte codigoArea;
+    private Byte codigoArea;
 
     /**
      *
      */
     @Column
-    private long telefone;
+    private Long telefone;
 
     /**
-     * TODO ?
+     *
      * Para pagamento com cartão de crédito
      */
     @Transient
@@ -109,10 +116,11 @@ public class Assinatura extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Endereco endereco;
 
-    /**
-     *
-     */
-    @OneToMany(targetEntity = Licenca.class, mappedBy = "assinatura", fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Licenca> licencas;
+//    /**
+//     * TODO carniça
+//     */
+//    @EqualsAndHashCode.Exclude
+//    @OneToMany(targetEntity = Licenca.class, mappedBy = "assinatura", fetch = FetchType.EAGER, orphanRemoval = true)
+//    private Set<Licenca> licencas;
 
 }

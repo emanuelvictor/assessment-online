@@ -2,6 +2,7 @@ package br.com.ubest.domain.entity.unidade;
 
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.domain.entity.generic.EntityIdResolver;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
@@ -24,7 +25,11 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Entity
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
+@JsonIdentityInfo(
+        property = "id",
+        scope = Assinatura.class,
+        resolver = EntityIdResolver.class,
+        generator = ObjectIdGenerators.PropertyGenerator.class)
 @Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
         @UniqueConstraint(columnNames = {"tenant", "nome"})
 })
@@ -33,7 +38,7 @@ public class Licenca extends AbstractEntity implements Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = -12345665123987987L;
+    private static final long serialVersionUID = -12345852313987987L;
 
     /**
      *
@@ -131,7 +136,6 @@ public class Licenca extends AbstractEntity implements Serializable {
     }
 
     /**
-     *
      * @param min
      * @param max
      * @return

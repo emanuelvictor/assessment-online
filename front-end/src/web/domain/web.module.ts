@@ -121,6 +121,7 @@ import {VisualizarLicencaComponent} from "./presentation/dashboard/licenca/visua
 import {OpcoesMobileComponent} from "./presentation/dashboard/licenca/inserir-licenca/opcoes-mobile/opcoes-mobile.component";
 import {OpcoesSiteComponent} from "./presentation/dashboard/licenca/inserir-licenca/opcoes-site/opcoes-site.component";
 import {AssinaturaComponent} from "./presentation/dashboard/assinatura/assinatura.component";
+import {AssinaturaRepository} from "./repository/assinatura.repository";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -272,13 +273,14 @@ registerLocaleData(localePt, 'pt-BR');
     AvaliacaoAvaliavelRepository,
     TipoAvaliacaoRepository,
     ConfiguracaoRepository,
-    LicencaRepository,
+    AssinaturaRepository,
     AvaliavelRepository,
     AvaliacaoRepository,
     OperadorRepository,
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
+    LicencaRepository,
     ContaRepository,
     FileRepository,
 
