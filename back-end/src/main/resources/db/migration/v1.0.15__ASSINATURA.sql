@@ -1,4 +1,4 @@
-create table assinatura
+create table if not exists assinatura
 (
     id                            bigserial    not null,
     created                       timestamp    not null,
@@ -17,7 +17,7 @@ create table assinatura
     endereco_id                   bigint
 );
 
-create table assinatura_aud
+create table if not exists assinatura_aud
 (
     id                            int8 not null,
     rev                           int8 not null,
@@ -45,8 +45,13 @@ alter table assinatura
 INSERT INTO public.assinatura (created, tenant) VALUES (NOW(), current_schema());
 
 -- atualizar licencas
-alter table licenca add column licenca bigint not null default MAX((SELECT MAX(id) FROM publica.assinatura WHERE tenant = "current_schema"() ));
-alter table licenca_aud add column licenca bigint;
+alter table licenca add column assinatura_id bigint;
+alter table licenca_aud add column assinatura_id bigint;
+
+update licenca set assinatura_id = (SELECT MAX(id) FROM public.assinatura WHERE tenant = "current_schema"() );
+
+alter table licenca alter column assinatura_id set not null;
+-- not null default MAX((SELECT MAX(id) FROM publica.assinatura WHERE tenant = "current_schema"() ));
 
 -- create table licenca_aud (id int8 not null, rev int8 not null, revtype int2, nome varchar(150), numero bigint, primary key (id, rev));
 -- create table unidade_tipo_avaliacao_licenca_aud (id int8 not null, rev int8 not null, revtype int2, ativo boolean, ordem int2, licenca_id int8, unidade_tipo_avaliacao_id int8, primary key (id, rev));
