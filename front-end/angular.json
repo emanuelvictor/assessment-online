@@ -31,7 +31,8 @@
             ],
             "scripts": [
               "src/assets/scripts/nprogress.js",
-              "src/assets/scripts/cropper.js"
+              "src/assets/scripts/cropper.js",
+              "src/assets/scripts/moip.min.js"
             ]
           },
           "configurations": {
