@@ -40,12 +40,6 @@ export class MapsComponent implements OnInit, AfterViewInit {
    *
    */
   @Input()
-  showMap = true;
-
-  /**
-   *
-   */
-  @Input()
   endereco: Endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
 
   /**
@@ -68,12 +62,6 @@ export class MapsComponent implements OnInit, AfterViewInit {
    *
    */
   authenticatedUser: any;
-
-  /**
-   *
-   */
-  @Input()
-  myAddresOption: boolean;
 
   /**
    *

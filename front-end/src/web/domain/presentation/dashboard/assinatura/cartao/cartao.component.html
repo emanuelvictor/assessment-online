@@ -1,0 +1,103 @@
+<!-- Cartão de crédito -->
+<div [formGroup]='form.controls.cartao'>
+    <div layout="row" layout-margin>
+        <b class="tc-grey-800 pagamento-title" flex>Informações do cartão</b>
+    </div>
+
+    <div layout-gt-xs="row" layout-align="start center" layout-margin>
+        <mat-form-field flex>
+            <input matInput name="numeroCartao"
+                   formControlName='numeroCartao'
+                   [(ngModel)]="assinatura.numeroCartao"
+                   placeholder="Número do cartão" required
+                   [textMask]="{mask: masks.cardNumber, guide: false}">
+            <!--                  <mat-hint>-->
+            <!--                    <span *ngIf="isInvalidBin" class="tc-red-600">-->
+            <!--                      Número do cartão inválido!-->
+            <!--                    </span>-->
+            <!--                  </mat-hint>-->
+        </mat-form-field>
+        <div flex>
+            <img *ngIf="imagemBandeiraCartao" [src]="imagemBandeiraCartao" alt="logo cartao">
+        </div>
+    </div>
+
+    <div layout-gt-xs="row" layout-margin>
+        <mat-form-field flex>
+            <input formControlName='mesValidade'
+                   placeholder="Mês de validade"
+                   [(ngModel)]="assinatura.mesValidade"
+                   name="mesValidade" matInput required
+                   [textMask]="{mask: masks.month, guide: false}">
+        </mat-form-field>
+        <mat-form-field flex>
+            <input matInput name="anoValidade"
+                   placeholder="Ano de validade"
+                   formControlName='numeroCartao'
+                   [(ngModel)]="assinatura.anoValidade"
+                   [textMask]="{mask: masks.year, guide: false}"
+                   required>
+        </mat-form-field>
+        <mat-form-field flex>
+            <input name="codigoSeguranca"
+                   maxLength="10" required matInput
+                   formControlName='codigoSeguranca'
+                   placeholder="Código de segurança"
+                   [(ngModel)]="assinatura.codigoSeguranca">
+        </mat-form-field>
+    </div>
+
+    <div layout="row" layout-margin>
+        <b class="tc-grey-800 pagamento-title" flex>Dados do titular do cartão</b>
+    </div>
+
+    <div layout="row">
+        <div>
+            <div layout-gt-xs="row" layout-margin>
+                <mat-form-field flex>
+                    <input name="nomeTitularCartao" matInput
+                           formControlName='nomeTitularCartao'
+                           maxlength="80" somenteLetras required
+                           placeholder="Nome (impresso no cartão)"
+                           [(ngModel)]="assinatura.nomeTitularCartao">
+                </mat-form-field>
+            </div>
+            <div layout='row'>
+
+                <div layout-gt-xs="row" layout-margin>
+                    <mat-form-field flex *ngIf="assinatura.souEmpresa">
+                        <input placeholder="CNPJ" required
+                               matInput name="documentoTitularCartao"
+                               formControlName='documentoTitularCartao'
+                               [textMask]="{mask: masks.cnpj, guide: false}"
+                               [(ngModel)]="assinatura.documentoTitularCartao">
+                    </mat-form-field>
+
+                    <mat-form-field flex *ngIf="!assinatura.souEmpresa">
+                        <input name="documentoTitularCartao"
+                               matInput required placeholder="CPF"
+                               formControlName='documentoTitularCartao'
+                               [textMask]="{mask: masks.cpf, guide: false}"
+                               [(ngModel)]="assinatura.documentoTitularCartao">
+                    </mat-form-field>
+
+                    <mat-form-field flex>
+                        <input name="dataNascimentoTitularCartao"
+                               [textMask]="{mask: masks.date, guide: false}"
+                               formControlName='dataNascimentoTitularCartao'
+                               matInput placeholder="Data de nascimento" required
+                               [(ngModel)]="assinatura.dataNascimentoTitularCartao">
+                    </mat-form-field>
+                </div>
+
+                <mat-checkbox class="push-left" style='margin-top: 34px'
+                              [ngModelOptions]="{standalone: true}" flex
+                              [(ngModel)]="assinatura.souEmpresa" name="is-empresa">
+                    Sou empresa
+                </mat-checkbox>
+            </div>
+        </div>
+
+        <div hide-xs flex></div>
+    </div>
+</div>

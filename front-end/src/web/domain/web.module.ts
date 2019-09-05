@@ -122,6 +122,7 @@ import {OpcoesMobileComponent} from "./presentation/dashboard/licenca/inserir-li
 import {OpcoesSiteComponent} from "./presentation/dashboard/licenca/inserir-licenca/opcoes-site/opcoes-site.component";
 import {AssinaturaComponent} from "./presentation/dashboard/assinatura/assinatura.component";
 import {AssinaturaRepository} from "./repository/assinatura.repository";
+import {CartaoComponent} from "./presentation/dashboard/assinatura/cartao/cartao.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -249,6 +250,7 @@ registerLocaleData(localePt, 'pt-BR');
 
     // Assinatura
     AssinaturaComponent,
+    CartaoComponent,
 
     NoRecordsFoundComponent
   ],

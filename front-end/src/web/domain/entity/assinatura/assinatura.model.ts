@@ -7,6 +7,11 @@ export class Assinatura extends Abstract {
   /**
    *
    */
+  public formaPagamento: any;
+
+  /**
+   *
+   */
   public mesValidade: string;
 
   /**
@@ -70,4 +75,9 @@ export class Assinatura extends Abstract {
    */
   public licencas: Set<Licenca>;
 
+
+  constructor() {
+    super();
+    this.formaPagamento = 'BOLETO'
+  }
 }

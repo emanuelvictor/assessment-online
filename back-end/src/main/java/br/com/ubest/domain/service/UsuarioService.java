@@ -2,6 +2,7 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.application.aspect.exceptions.PasswordNotFound;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.configuracao.Configuracao;
@@ -73,11 +74,13 @@ public class UsuarioService {
 
     private final AvaliavelService avaliavelService;
 
+    private final LicencaRepository licencaRepository;
+
     private final UsuarioRepository usuarioRepository;
 
-    private final TipoAvaliacaoService tipoAvaliacaoService;
+    private final AssinaturaRepository assinaturaRepository;
 
-    private final LicencaRepository licencaRepository;
+    private final TipoAvaliacaoService tipoAvaliacaoService;
 
     private final ConfiguracaoRepository configuracaoRepository;
 
@@ -296,7 +299,12 @@ public class UsuarioService {
         unidadeTipoAvaliacao.setUnidade(unidade);
         this.unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
 
+final Assinatura assinatura = new Assinatura();
+assinatura.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+assinaturaRepository.save(assinatura);
+
         final Licenca licenca = new Licenca();
+        licenca.setAssinatura(assinatura);
         licenca.setNome("Minha primeira licença");
         licenca.setModoInsonia(true);
         licenca.setModoQuiosque(true);

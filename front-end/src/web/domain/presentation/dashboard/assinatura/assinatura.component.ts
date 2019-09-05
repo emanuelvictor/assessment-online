@@ -61,24 +61,21 @@ export class AssinaturaComponent implements OnInit {
   /**
    *
    * @param snackBar
-   * @param fileRepository
    * @param _loadingService
    * @param element
    * @param renderer
    * @param fb
    * @param authenticationService
    * @param assinaturaRepository
-   * @param iconRegistry
    * @param domSanitizer
    */
   constructor(private snackBar: MatSnackBar,
-              private fileRepository: FileRepository,
+              private domSanitizer: DomSanitizer,
               private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
               private assinaturaRepository: AssinaturaRepository,
               private renderer: Renderer, private fb: FormBuilder,
-              private authenticationService: AuthenticationService,
-              private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+              private authenticationService: AuthenticationService) {
   }
 
   /**
@@ -87,18 +84,16 @@ export class AssinaturaComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      numeroCartao: ['numeroCartao', [Validators.required]],
-      mesValidade: ['mesValidade', [Validators.required]],
-      anoValidade: ['anoValidade', [Validators.required]],
-      codigoSeguranca: ['codigoSeguranca', [Validators.required]],
-      nomeTitularCartao: ['nomeTitularCartao', [Validators.required]],
-      documentoTitularCartao: ['documentoTitularCartao', [Validators.required]],
-      dataNascimentoTitularCartao: ['dataNascimentoTitularCartao', [Validators.required]],
+      codigoArea: ['codigoArea', [Validators.required]],
+      telefone: ['telefone', [Validators.required]]
     });
 
     this.assinaturaRepository.assinatura.subscribe(result => {
       this.done = true;
-      this.assinatura = result
+      this.assinatura = result;
+      if (!this.assinatura.formaPagamento) {
+        this.assinatura.formaPagamento = 'BOLETO'
+      }
     });
 
     this.contaAutenticada = this.authenticationService.contaAutenticada

@@ -5,110 +5,61 @@
       <mat-card class='bgc-grey-50'>
         <form [formGroup]='form' (ngSubmit)='save(form)' novalidate>
           <mat-card-content>
+            <div layout="row" layout-margin>
+              <mat-radio-group name="formaPagamento" [(ngModel)]="assinatura.formaPagamento" layout="row" flex [ngModelOptions]="{standalone: true}">
+                <mat-radio-button name="formaPagamento" color="primary" [value]="'BOLETO'" flex>
+                  <span class="tc-grey-800">Boleto</span>
+                </mat-radio-button>
+                <mat-radio-button name="formaPagamento" color="primary" [value]="'CARTAO'" flex>
+                  <span class="tc-grey-800">Cartão de crédito</span>
+                </mat-radio-button>
+              </mat-radio-group>
+              <div hide-xs flex></div>
+            </div>
 
-            <!-- Cartão de crédito -->
-            <div>
-              <div layout="row" layout-margin>
-                <b class="tc-grey-800 pagamento-title" flex>Informações do cartão</b>
-              </div>
+              <!-- Cartão de crédito -->
+            <cartao *ngIf="assinatura.formaPagamento === 'CARTAO'" [assinatura]='assinatura'></cartao>
 
-              <div layout-gt-xs="row" layout-align="start center" layout-margin>
-                <mat-form-field flex>
-                  <input matInput name="numeroCartao"
-                         formControlName='numeroCartao'
-                         [(ngModel)]="assinatura.numeroCartao"
-                         placeholder="Número do cartão" required
-                         [textMask]="{mask: masks.cardNumber, guide: false}">
-                  <!--                  <mat-hint>-->
-                  <!--                    <span *ngIf="isInvalidBin" class="tc-red-600">-->
-                  <!--                      Número do cartão inválido!-->
-                  <!--                    </span>-->
-                  <!--                  </mat-hint>-->
-                </mat-form-field>
-                <div flex>
-                  <img *ngIf="imagemBandeiraCartao" [src]="imagemBandeiraCartao" alt="logo cartao">
-                </div>
-              </div>
-
+              <!-- Boleto -->
+            <div layout="row">
               <div layout-gt-xs="row" layout-margin>
                 <mat-form-field flex>
-                  <input formControlName='mesValidade'
-                         placeholder="Mês de validade"
-                         [(ngModel)]="assinatura.mesValidade"
-                         name="mesValidade" matInput required
-                         [textMask]="{mask: masks.month, guide: false}">
+                  <input formControlName='codigoArea'
+                         name="codigoArea" id="codigoArea"
+                         [(ngModel)]="assinatura.codigoArea"
+                         matInput placeholder="DDD" required
+                         pattern="\d*" minlength="1" maxlength="2">
                 </mat-form-field>
                 <mat-form-field flex>
-                  <input matInput name="anoValidade"
-                         placeholder="Ano de validade"
-                         formControlName='numeroCartao'
-                         [(ngModel)]="assinatura.anoValidade"
-                         [textMask]="{mask: masks.year, guide: false}"
-                         required>
-                </mat-form-field>
-                <mat-form-field flex>
-                  <input name="codigoSeguranca"
-                         maxLength="10" required matInput
-                         formControlName='codigoSeguranca'
-                         placeholder="Código de segurança"
-                         [(ngModel)]="assinatura.codigoSeguranca">
+                  <input id="telefone" matInput
+                         formControlName='telefone'
+                         pattern="\d*" name="telefone"
+                         placeholder="Número do telefone"
+                         [(ngModel)]="assinatura.telefone"
+                         minlength="7" maxlength="9" required>
                 </mat-form-field>
               </div>
-
-              <div layout="row" layout-margin>
-                <b class="tc-grey-800 pagamento-title" flex>Dados do titular do cartão</b>
-              </div>
-
-              <div layout="row">
-                <div>
-                  <div layout-gt-xs="row" layout-margin>
-                    <mat-form-field flex>
-                      <input name="nomeTitularCartao" matInput
-                             formControlName='nomeTitularCartao'
-                             maxlength="80" somenteLetras required
-                             placeholder="Nome (impresso no cartão)"
-                             [(ngModel)]="assinatura.nomeTitularCartao">
-                    </mat-form-field>
+              <div flex hide-xs>
+                <div layout="row" layout-align="start center" style='margin-top: 11px'>
+                  <div class="push-left" layout="row" layout-margin layout-align="center center">
+                    <span style="margin-top: 20px;">Pagamento via</span>
                   </div>
-                  <div layout-gt-xs="row" layout-margin>
-                    <mat-form-field flex="35" *ngIf="assinatura.souEmpresa">
-                      <input placeholder="CNPJ" required
-                             matInput name="documentoTitularCartao"
-                             formControlName='documentoTitularCartao'
-                             [textMask]="{mask: masks.cnpj, guide: false}"
-                             [(ngModel)]="assinatura.documentoTitularCartao">
-                    </mat-form-field>
-
-                    <mat-form-field flex="35" *ngIf="!assinatura.souEmpresa">
-                      <input name="documentoTitularCartao"
-                             matInput required placeholder="CPF"
-                             formControlName='documentoTitularCartao'
-                             [textMask]="{mask: masks.cpf, guide: false}"
-                             [(ngModel)]="assinatura.documentoTitularCartao">
-                    </mat-form-field>
-
-                    <mat-form-field flex>
-                      <input name="dataNascimentoTitularCartao"
-                             [textMask]="{mask: masks.date, guide: false}"
-                             formControlName='dataNascimentoTitularCartao'
-                             matInput placeholder="Data de nascimento" required
-                             [(ngModel)]="assinatura.dataNascimentoTitularCartao">
-                    </mat-form-field>
-
-                    <mat-checkbox class="push-left" style='margin-top: 26px'
-                                  [ngModelOptions]="{standalone: true}" flex
-                                  [(ngModel)]="assinatura.souEmpresa" name="is-empresa">
-                      Sou empresa
-                    </mat-checkbox>
-                  </div>
+                  <a href="http://wirecard.com.br" target='_blank' style='margin-top: 14px'>
+                    <img class='size-height-32 logo-image' alt='Logo marca WIRECARD'
+                         src='https://upload.wikimedia.org/wikipedia/commons/d/d7/Wirecard_Logo.svg'>
+                  </a>
                 </div>
-                <div hide-xs flex></div>
               </div>
             </div>
 
+            <div layout="row" layout-margin>
+              <b class="tc-grey-800 pagamento-title" flex>Endereço</b>
+            </div>
+
+            <maps-component [(endereco)]='assinatura.endereco' [form]='form'></maps-component>
 
             <!--actions div-->
-            <div flex layout-margin actions>
+            <div flex layout-margin>
               <div layout-gt-xs='row' flex layout-margin>
 
                 <span flex='70'></span>
