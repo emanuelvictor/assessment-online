@@ -67,14 +67,12 @@
                   </div>
                   <div layout="row">
                     <div flex>
-                      <usuario-pessoa-juridica-form [form]='form'
-                                                    [cliente]='cliente' flex
-                                                    *ngIf='cliente.souEmpresa'>
+                      <usuario-pessoa-juridica-form [(documento)]='cliente.documento' flex
+                                                    *ngIf='cliente.souEmpresa' [form]='form'>
                       </usuario-pessoa-juridica-form>
 
-                      <usuario-pessoa-fisica-form [form]='form'
-                                                  [cliente]='cliente' flex
-                                                  *ngIf='!cliente.souEmpresa'>
+                      <usuario-pessoa-fisica-form [(documento)]='cliente.documento' flex
+                                                  [form]='form' *ngIf='!cliente.souEmpresa'>
                       </usuario-pessoa-fisica-form>
                     </div>
 

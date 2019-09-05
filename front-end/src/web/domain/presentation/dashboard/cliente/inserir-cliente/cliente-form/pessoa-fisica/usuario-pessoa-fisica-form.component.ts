@@ -1,9 +1,9 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {textMasks} from "../../../../../controls/text-masks/text-masks";
-import {cpfValidator} from "../../../../../controls/validators/validators";
+import {cpfValidator, obrigatorio} from "../../../../../controls/validators/validators";
 
 @Component({
   selector: 'usuario-pessoa-fisica-form',
@@ -27,7 +27,14 @@ export class UsuarioPessoaFisicaFormComponent implements OnInit, OnDestroy {
    * @type {{}}
    */
   @Input()
-  cliente: any = {};
+  documento: string = '';
+
+  /**
+   *
+   * @type {{}}
+   */
+  @Output()
+  documentoChange: EventEmitter<string> = new EventEmitter<string>();
 
   /**
    *
@@ -40,7 +47,7 @@ export class UsuarioPessoaFisicaFormComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     const formGroup = new FormGroup({
-      cpf: new FormControl('cpf', [Validators.required, cpfValidator()])
+      cpf: new FormControl('cpf', [obrigatorio('O CPF é obrigatório'), cpfValidator()])
     });
 
     if (!this.form) {

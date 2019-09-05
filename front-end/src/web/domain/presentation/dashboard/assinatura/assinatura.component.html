@@ -18,7 +18,7 @@
             </div>
 
               <!-- Cartão de crédito -->
-            <cartao *ngIf="assinatura.formaPagamento === 'CARTAO'" [assinatura]='assinatura'></cartao>
+            <cartao *ngIf="assinatura.formaPagamento === 'CARTAO'" [@fadeInOut] [assinatura]='assinatura'></cartao>
 
               <!-- Boleto -->
             <div layout="row">
@@ -29,6 +29,9 @@
                          [(ngModel)]="assinatura.codigoArea"
                          matInput placeholder="DDD" required
                          pattern="\d*" minlength="1" maxlength="2">
+                  <mat-error *ngIf="form?.controls['codigoArea']?.hasError('exception')">
+                    {{form?.controls['codigoArea']?.errors.exception}}
+                  </mat-error>
                 </mat-form-field>
                 <mat-form-field flex>
                   <input id="telefone" matInput
@@ -37,6 +40,9 @@
                          placeholder="Número do telefone"
                          [(ngModel)]="assinatura.telefone"
                          minlength="7" maxlength="9" required>
+                  <mat-error *ngIf="form?.controls['telefone']?.hasError('exception')">
+                    {{form?.controls['telefone']?.errors.exception}}
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div flex hide-xs>
@@ -53,10 +59,10 @@
             </div>
 
             <div layout="row" layout-margin>
-              <b class="tc-grey-800 pagamento-title" flex>Endereço</b>
+              <b class="pagamento-title" flex>Endereço</b>
             </div>
 
-            <maps-component [(endereco)]='assinatura.endereco' [form]='form'></maps-component>
+            <maps-component [(endereco)]='assinatura.endereco' [allRequired]='true' [form]='form'></maps-component>
 
             <!--actions div-->
             <div flex layout-margin>

@@ -16,6 +16,7 @@ import {AuthenticationService} from '../../../service/authentication.service';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 import {EnderecoService} from '../../../service/endereco.service';
 import {Cidade} from '../../../entity/endereco/cidade.model';
+import {obrigatorio} from "../validators/validators";
 
 
 @Component({
@@ -35,6 +36,12 @@ export class MapsComponent implements OnInit, AfterViewInit {
    */
   @ViewChild('autocomplete')
   inputAutocomplete;
+
+  /**
+   *
+   */
+  @Input()
+  allRequired: boolean;
 
   /**
    *
@@ -103,13 +110,23 @@ export class MapsComponent implements OnInit, AfterViewInit {
     if (!this.endereco.cidade)
       this.endereco.cidade = new Cidade();
 
-    const formGroup = new FormGroup({
-      logradouro: new FormControl('logradouro'),
-      numero: new FormControl('numero'),
-      bairro: new FormControl('bairro'),
-      cidade: new FormControl('cidade', []),
-      estado: new FormControl('estado', this.estadoObrigatorio())
-    });
+    let formGroup;
+    if (this.allRequired)
+      formGroup = new FormGroup({
+        logradouro: new FormControl('logradouro', [obrigatorio('Logradouro obrigatório')]),
+        numero: new FormControl('numero', [obrigatorio('Número obrigatório')]),
+        bairro: new FormControl('bairro',[obrigatorio('Bairro obrigatório')]),
+        cidade: new FormControl('cidade', [obrigatorio('Cidade obrigatório')]),
+        estado: new FormControl('estado', this.estadoObrigatorio())
+      });
+    else
+      formGroup = new FormGroup({
+        logradouro: new FormControl('logradouro'),
+        numero: new FormControl('numero'),
+        bairro: new FormControl('bairro'),
+        cidade: new FormControl('cidade', []),
+        estado: new FormControl('estado', this.estadoObrigatorio())
+      });
 
     if (!this.form) {
       this.form = this.fb.group({});
@@ -124,8 +141,8 @@ export class MapsComponent implements OnInit, AfterViewInit {
    */
   private estadoObrigatorio(): ValidatorFn {
     return (c: AbstractControl): { [key: string]: any } => {
-      if (this.endereco.cidade.nome && !c.value ) return {
-        exception: 'Estado obrigatório'
+      if (this.endereco.cidade.nome && !c.value) return {
+        exception: 'O estado é obrigatório'
       };
     }
   }

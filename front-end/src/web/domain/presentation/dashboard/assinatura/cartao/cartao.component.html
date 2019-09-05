@@ -1,103 +1,107 @@
 <!-- Cartão de crédito -->
 <div [formGroup]='form.controls.cartao'>
-    <div layout="row" layout-margin>
-        <b class="tc-grey-800 pagamento-title" flex>Informações do cartão</b>
-    </div>
+  <div layout="row" layout-margin>
+    <b class="pagamento-title" flex>Informações do cartão</b>
+  </div>
 
-    <div layout-gt-xs="row" layout-align="start center" layout-margin>
-        <mat-form-field flex>
-            <input matInput name="numeroCartao"
-                   formControlName='numeroCartao'
-                   [(ngModel)]="assinatura.numeroCartao"
-                   placeholder="Número do cartão" required
-                   [textMask]="{mask: masks.cardNumber, guide: false}">
-            <!--                  <mat-hint>-->
-            <!--                    <span *ngIf="isInvalidBin" class="tc-red-600">-->
-            <!--                      Número do cartão inválido!-->
-            <!--                    </span>-->
-            <!--                  </mat-hint>-->
-        </mat-form-field>
-        <div flex>
-            <img *ngIf="imagemBandeiraCartao" [src]="imagemBandeiraCartao" alt="logo cartao">
-        </div>
+  <div layout-gt-xs="row" layout-align="start center" layout-margin>
+    <mat-form-field flex>
+      <input matInput name="numeroCartao"
+             formControlName='numeroCartao'
+             [(ngModel)]="assinatura.numeroCartao"
+             placeholder="Número do cartão" required
+             [textMask]="{mask: masks.cardNumber, guide: false}">
+      <mat-error *ngIf="form?.controls?.cartao?.controls['numeroCartao']?.hasError('exception')">
+        {{form?.controls?.cartao?.controls['numeroCartao']?.errors?.exception}}
+      </mat-error>
+    </mat-form-field>
+    <div flex>
+      <img *ngIf="imagemBandeiraCartao" [src]="imagemBandeiraCartao" alt="logo cartao">
     </div>
+  </div>
 
+  <div layout-gt-xs="row" layout-margin>
+    <mat-form-field flex>
+      <input formControlName='mesValidade'
+             placeholder="Mês de validade"
+             [(ngModel)]="assinatura.mesValidade"
+             name="mesValidade" matInput required
+             [textMask]="{mask: masks.month, guide: false}">
+      <mat-error *ngIf="form?.controls?.cartao?.controls['mesValidade']?.hasError('exception')">
+        {{form?.controls?.cartao?.controls['mesValidade']?.errors?.exception}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field flex>
+      <input placeholder="Ano de validade"
+             formControlName='anoValidade'
+             required matInput name="anoValidade"
+             [(ngModel)]="assinatura.anoValidade"
+             [textMask]="{mask: masks.year, guide: false}">
+      <mat-error *ngIf="form?.controls?.cartao?.controls['anoValidade']?.hasError('exception')">
+        {{form?.controls?.cartao?.controls['anoValidade']?.errors?.exception}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field flex>
+      <input name="codigoSeguranca"
+             maxLength="10" required matInput
+             formControlName='codigoSeguranca'
+             placeholder="Código de segurança"
+             [(ngModel)]="assinatura.codigoSeguranca">
+      <mat-error *ngIf="form?.controls?.cartao?.controls['codigoSeguranca']?.hasError('exception')">
+        {{form?.controls?.cartao?.controls['codigoSeguranca']?.errors?.exception}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div layout="row" layout-margin>
+    <b class="pagamento-title" flex>Dados do titular do cartão</b>
+  </div>
+
+  <div layout="column">
     <div layout-gt-xs="row" layout-margin>
-        <mat-form-field flex>
-            <input formControlName='mesValidade'
-                   placeholder="Mês de validade"
-                   [(ngModel)]="assinatura.mesValidade"
-                   name="mesValidade" matInput required
-                   [textMask]="{mask: masks.month, guide: false}">
-        </mat-form-field>
-        <mat-form-field flex>
-            <input matInput name="anoValidade"
-                   placeholder="Ano de validade"
-                   formControlName='numeroCartao'
-                   [(ngModel)]="assinatura.anoValidade"
-                   [textMask]="{mask: masks.year, guide: false}"
-                   required>
-        </mat-form-field>
-        <mat-form-field flex>
-            <input name="codigoSeguranca"
-                   maxLength="10" required matInput
-                   formControlName='codigoSeguranca'
-                   placeholder="Código de segurança"
-                   [(ngModel)]="assinatura.codigoSeguranca">
-        </mat-form-field>
-    </div>
-
-    <div layout="row" layout-margin>
-        <b class="tc-grey-800 pagamento-title" flex>Dados do titular do cartão</b>
+      <mat-form-field flex>
+        <input name="nomeTitularCartao" matInput
+               formControlName='nomeTitularCartao'
+               maxlength="80" somenteLetras required
+               placeholder="Nome (impresso no cartão)"
+               [(ngModel)]="assinatura.nomeTitularCartao">
+        <mat-error *ngIf="form?.controls?.cartao?.controls['nomeTitularCartao']?.hasError('exception')">
+          {{form?.controls?.cartao?.controls['nomeTitularCartao']?.errors?.exception}}
+        </mat-error>
+      </mat-form-field>
     </div>
 
     <div layout="row">
-        <div>
-            <div layout-gt-xs="row" layout-margin>
-                <mat-form-field flex>
-                    <input name="nomeTitularCartao" matInput
-                           formControlName='nomeTitularCartao'
-                           maxlength="80" somenteLetras required
-                           placeholder="Nome (impresso no cartão)"
-                           [(ngModel)]="assinatura.nomeTitularCartao">
-                </mat-form-field>
-            </div>
-            <div layout='row'>
+      <div flex layout='row'>
+        <usuario-pessoa-juridica-form [form]='form' flex='20'
+                                      *ngIf='assinatura.souEmpresa'
+                                      [(documento)]='assinatura.documentoTitularCartao'>
+        </usuario-pessoa-juridica-form>
 
-                <div layout-gt-xs="row" layout-margin>
-                    <mat-form-field flex *ngIf="assinatura.souEmpresa">
-                        <input placeholder="CNPJ" required
-                               matInput name="documentoTitularCartao"
-                               formControlName='documentoTitularCartao'
-                               [textMask]="{mask: masks.cnpj, guide: false}"
-                               [(ngModel)]="assinatura.documentoTitularCartao">
-                    </mat-form-field>
+        <usuario-pessoa-fisica-form [form]='form' flex='20'
+                                    *ngIf='!assinatura.souEmpresa'
+                                    [(documento)]='assinatura.documentoTitularCartao'>
+        </usuario-pessoa-fisica-form>
 
-                    <mat-form-field flex *ngIf="!assinatura.souEmpresa">
-                        <input name="documentoTitularCartao"
-                               matInput required placeholder="CPF"
-                               formControlName='documentoTitularCartao'
-                               [textMask]="{mask: masks.cpf, guide: false}"
-                               [(ngModel)]="assinatura.documentoTitularCartao">
-                    </mat-form-field>
+        <ev-datepicker [(dataInput)]='assinatura.dataNascimentoTitularCartao' style='margin-top: 12px'>
+          <mat-form-field flex>
+            <input [textMask]='{mask: masks.date, guide: false}'
+                   flex matInput placeholder='Data de nascimento'
+                   [(ngModel)]='assinatura.dataNascimentoTitularCartao'
+                   formControlName='dataNascimentoTitularCartao' required
+                   name='dataNascimentoTitularCartao' id='dataNascimentoTitularCartao'/>
+            <mat-error *ngIf="form?.controls?.cartao?.controls['dataNascimentoTitularCartao']?.hasError('exception')">
+              {{form?.controls?.cartao?.controls['dataNascimentoTitularCartao']?.errors.exception}}
+            </mat-error>
+          </mat-form-field>
+        </ev-datepicker>
 
-                    <mat-form-field flex>
-                        <input name="dataNascimentoTitularCartao"
-                               [textMask]="{mask: masks.date, guide: false}"
-                               formControlName='dataNascimentoTitularCartao'
-                               matInput placeholder="Data de nascimento" required
-                               [(ngModel)]="assinatura.dataNascimentoTitularCartao">
-                    </mat-form-field>
-                </div>
+        <mat-checkbox style='margin-top: 33px; margin-right: 20px; margin-left:30px'
+                      [(ngModel)]='assinatura.souEmpresa' [ngModelOptions]='{standalone: true}'>
+          Sou empresa
+        </mat-checkbox>
+      </div>
 
-                <mat-checkbox class="push-left" style='margin-top: 34px'
-                              [ngModelOptions]="{standalone: true}" flex
-                              [(ngModel)]="assinatura.souEmpresa" name="is-empresa">
-                    Sou empresa
-                </mat-checkbox>
-            </div>
-        </div>
-
-        <div hide-xs flex></div>
     </div>
+  </div>
 </div>

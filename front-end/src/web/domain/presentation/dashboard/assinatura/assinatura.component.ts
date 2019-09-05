@@ -7,7 +7,7 @@ import {Configuracao} from "../../../entity/configuracao/configuracao.model";
 
 import {TdLoadingService} from '@covalent/core';
 
-import {AbstractControl, FormBuilder, ValidatorFn, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {ConfiguracaoService} from "../../../service/configuracao.service";
 import {FileRepository} from "../../../../infrastructure/repository/file/file.repository";
 import {ConfiguracaoRepository} from "../../../repository/configuracao.repository";
@@ -17,6 +17,7 @@ import {enumToArrayString, viewAnimation} from "../../controls/utils";
 import {textMasks} from "../../controls/text-masks/text-masks";
 import {Assinatura} from "../../../entity/assinatura/assinatura.model";
 import {AssinaturaRepository} from "../../../repository/assinatura.repository";
+import {obrigatorio} from "../../controls/validators/validators";
 
 /**
  *
@@ -84,15 +85,15 @@ export class AssinaturaComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      codigoArea: ['codigoArea', [Validators.required]],
-      telefone: ['telefone', [Validators.required]]
+      codigoArea: ['codigoArea', [obrigatorio('O código de área do número de telefone é obrigatório')]],
+      telefone: ['telefone', [obrigatorio('O telefone é obrigatório')]]
     });
 
     this.assinaturaRepository.assinatura.subscribe(result => {
       this.done = true;
       this.assinatura = result;
       if (!this.assinatura.formaPagamento) {
-        this.assinatura.formaPagamento = 'BOLETO'
+        this.assinatura.formaPagamento = 'CARTAO'
       }
     });
 

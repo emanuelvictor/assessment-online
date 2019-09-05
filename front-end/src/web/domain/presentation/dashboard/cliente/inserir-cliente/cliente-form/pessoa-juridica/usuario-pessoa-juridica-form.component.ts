@@ -1,9 +1,9 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {textMasks} from "../../../../../controls/text-masks/text-masks";
-import {cnpjValidator} from "../../../../../controls/validators/validators";
+import {cnpjValidator, obrigatorio} from "../../../../../controls/validators/validators";
 
 @Component({
   selector: 'usuario-pessoa-juridica-form',
@@ -26,7 +26,14 @@ export class UsuarioPessoaJuridicaFormComponent implements OnInit, OnDestroy {
    * @type {{}}
    */
   @Input()
-  cliente: any = {};
+  documento: string = '';
+
+  /**
+   *
+   * @type {{}}
+   */
+  @Output()
+  documentoChange: EventEmitter<string> = new EventEmitter<string>();
 
   /**
    *
@@ -39,7 +46,7 @@ export class UsuarioPessoaJuridicaFormComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     const formGroup = new FormGroup({
-      cnpj: new FormControl('cnpj', [Validators.required, cnpjValidator()])
+      cnpj: new FormControl('cnpj', [obrigatorio('O CNPJ é obrigatório'), cnpjValidator()])
     });
 
     if (!this.form) {
