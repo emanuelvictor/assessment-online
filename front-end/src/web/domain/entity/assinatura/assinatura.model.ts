@@ -75,6 +75,11 @@ export class Assinatura extends Abstract {
    */
   public licencas: Set<Licenca>;
 
+  /**
+   *
+   */
+  public codigoSeguranca: any;
+
 
   constructor() {
     super();
