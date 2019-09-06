@@ -1,12 +1,12 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
-import {viewAnimation} from "../../../controls/utils";
-import {Assinatura} from "../../../../entity/assinatura/assinatura.model";
-import {textMasks} from "../../../controls/text-masks/text-masks";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn} from "@angular/forms";
+import {viewAnimation} from "../../../../controls/utils";
+import {Assinatura} from "../../../../../entity/assinatura/assinatura.model";
+import {textMasks} from "../../../../controls/text-masks/text-masks";
 import * as moment from 'moment-timezone';
-import {obrigatorio} from "../../../controls/validators/validators";
+import {obrigatorio} from "../../../../controls/validators/validators";
 
 /**
  *
@@ -36,6 +36,7 @@ export class CartaoComponent implements OnInit, OnDestroy {
   /**
    *
    */
+  @Input()
   form: any;
 
   /**

@@ -2,7 +2,7 @@ import {CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule} from '@angular/core';
 import 'hammerjs';
 import {HeaderComponent} from './presentation/controls/header/header.component';
 import {AuthenticationService} from './service/authentication.service';
-import {DateAdapter} from '@angular/material';
+import {DateAdapter, MatStepperModule} from '@angular/material';
 import {DashboardViewComponent} from './presentation/dashboard/dashboard-view.component';
 import {VisualizarMinhaContaComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/visualizar-minha-conta.component';
 import {AlterarMinhaContaComponent} from './presentation/dashboard/minha-conta/alterar-minha-conta/alterar-minha-conta.component';
@@ -122,7 +122,8 @@ import {OpcoesMobileComponent} from "./presentation/dashboard/licenca/inserir-li
 import {OpcoesSiteComponent} from "./presentation/dashboard/licenca/inserir-licenca/opcoes-site/opcoes-site.component";
 import {AssinaturaComponent} from "./presentation/dashboard/assinatura/assinatura.component";
 import {AssinaturaRepository} from "./repository/assinatura.repository";
-import {CartaoComponent} from "./presentation/dashboard/assinatura/cartao/cartao.component";
+import {CartaoComponent} from "./presentation/dashboard/assinatura/dados-pagamento/cartao/cartao.component";
+import {DadosPagamentoComponent} from "./presentation/dashboard/assinatura/dados-pagamento/dados-pagamento.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -250,6 +251,7 @@ registerLocaleData(localePt, 'pt-BR');
 
     // Assinatura
     AssinaturaComponent,
+    DadosPagamentoComponent,
     CartaoComponent,
 
     NoRecordsFoundComponent
@@ -262,7 +264,8 @@ registerLocaleData(localePt, 'pt-BR');
     BrowserAnimationsModule,
     NgxChartsModule,
     WebRoutingModule,
-    RecaptchaModule
+    RecaptchaModule,
+    MatStepperModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent, InserirTipoAvaliacaoComponent],

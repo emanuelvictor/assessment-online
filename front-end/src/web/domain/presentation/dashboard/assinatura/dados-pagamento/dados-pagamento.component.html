@@ -1,0 +1,79 @@
+<form [formGroup]='form?.controls?.secondFormGroup' (ngSubmit)='save(form)' novalidate>
+
+  <div layout="row" layout-margin>
+    <mat-radio-group [ngModelOptions]="{standalone: true}"
+                     layout="row" flex name="formaPagamento"
+                     [(ngModel)]="assinatura.formaPagamento">
+      <mat-radio-button name="formaPagamento" color="primary" [value]="'BOLETO'" flex>
+        <span class="tc-grey-800">Boleto</span>
+      </mat-radio-button>
+      <mat-radio-button name="formaPagamento" color="primary" [value]="'CARTAO'" flex>
+        <span class="tc-grey-800">Cartão de crédito</span>
+      </mat-radio-button>
+    </mat-radio-group>
+    <div hide-xs flex></div>
+  </div>
+
+  <!-- Cartão de crédito -->
+  <cartao [form]='form.secondFormGroup'
+          [assinatura]='assinatura' [@fadeInOut]
+          *ngIf="assinatura.formaPagamento === 'CARTAO'">
+  </cartao>
+
+  <!-- Boleto -->
+  <div layout="row">
+    <div layout-gt-xs="row" layout-margin>
+      <mat-form-field flex>
+        <input formControlName='codigoArea'
+               name="codigoArea" id="codigoArea"
+               [(ngModel)]="assinatura.codigoArea"
+               matInput placeholder="DDD" required
+               pattern="\d*" minlength="1" maxlength="2">
+        <mat-error *ngIf="form.secondFormGroup?.controls['codigoArea']?.hasError('exception')">
+          {{form?.controls['codigoArea']?.errors.exception}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field flex>
+        <input id="telefone" matInput
+               formControlName='telefone'
+               pattern="\d*" name="telefone"
+               placeholder="Número do telefone"
+               [(ngModel)]="assinatura.telefone"
+               minlength="7" maxlength="9" required>
+        <mat-error *ngIf="form.secondFormGroup?.controls['telefone']?.hasError('exception')">
+          {{form?.controls['telefone']?.errors.exception}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div flex hide-xs>
+      <div layout="row" layout-align="start center" style='margin-top: 11px'>
+        <div class="push-left" layout="row" layout-margin layout-align="center center">
+          <span style="margin-top: 20px;">Pagamento via</span>
+        </div>
+        <a href="http://wirecard.com.br" target='_blank' style='margin-top: 14px'>
+          <img class='size-height-32 logo-image' alt='Logo marca WIRECARD'
+               src='https://upload.wikimedia.org/wikipedia/commons/d/d7/Wirecard_Logo.svg'>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div layout="row" layout-margin>
+    <b class="pagamento-title" flex>Endereço</b>
+  </div>
+
+  <maps-component [form]='form'
+                  [allRequired]='true'
+                  [(endereco)]='assinatura.endereco'>
+  </maps-component>
+
+  <!--actions div-->
+  <div layout-gt-xs='row' flex layout-margin>
+
+    <span flex='70'></span>
+
+    <button flex mat-button matStepperPrevious type='button'>Voltar</button>
+    <button flex mat-raised-button color='accent' matStepperNext>Próximo</button>
+  </div>
+
+</form>
