@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Assinatura} from "../entity/assinatura/assinatura.model";
 import {Observable} from "rxjs";
 
@@ -15,4 +15,7 @@ export class AssinaturaRepository extends BaseRepository<Assinatura> {
     return this.httpClient.get<Assinatura>(this.collectionName)
   }
 
+  get publicKey(): Observable<string> {
+    return this.httpClient.get(this.collectionName + '/public-key', {responseType: 'text'})
+  }
 }

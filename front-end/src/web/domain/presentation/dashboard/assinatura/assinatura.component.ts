@@ -2,18 +2,14 @@ import {Component, ElementRef, Inject, OnInit, Renderer} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 import {DomSanitizer} from "@angular/platform-browser";
-import {MatIconRegistry, MatSnackBar} from "@angular/material";
+import {MatSnackBar} from "@angular/material";
 import {Configuracao} from "../../../entity/configuracao/configuracao.model";
 
 import {TdLoadingService} from '@covalent/core';
 
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
-import {ConfiguracaoService} from "../../../service/configuracao.service";
-import {FileRepository} from "../../../../infrastructure/repository/file/file.repository";
-import {ConfiguracaoRepository} from "../../../repository/configuracao.repository";
+import {FormBuilder} from "@angular/forms";
 import {AuthenticationService} from "../../../service/authentication.service";
-import {TipoFeedback} from "../../../entity/configuracao/tipo-feedback.enum";
-import {enumToArrayString, viewAnimation} from "../../controls/utils";
+import {viewAnimation} from "../../controls/utils";
 import {textMasks} from "../../controls/text-masks/text-masks";
 import {Assinatura} from "../../../entity/assinatura/assinatura.model";
 import {AssinaturaRepository} from "../../../repository/assinatura.repository";
@@ -58,6 +54,7 @@ export class AssinaturaComponent implements OnInit {
    *
    */
   done: boolean = false;
+  private publicKey: string;
 
   /**
    *
@@ -97,6 +94,10 @@ export class AssinaturaComponent implements OnInit {
       }
     });
 
+    this.assinaturaRepository.publicKey.subscribe(result => {
+      this.publicKey = result
+    })
+    
     this.contaAutenticada = this.authenticationService.contaAutenticada
 
   }

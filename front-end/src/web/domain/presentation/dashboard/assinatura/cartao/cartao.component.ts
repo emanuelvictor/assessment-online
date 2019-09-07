@@ -24,6 +24,12 @@ export class CartaoComponent implements OnInit, OnDestroy {
   /**
    *
    */
+  @Input()
+  publicKey: string;
+
+  /**
+   *
+   */
   masks = textMasks;
 
   /**
@@ -77,19 +83,20 @@ export class CartaoComponent implements OnInit, OnDestroy {
       return validatorFn
     }
 
-    return (): { [key: string]: any } => {
+    return (c: AbstractControl): { [key: string]: any } => {
 
       const Moip = window['Moip'];
       const cc = new Moip.CreditCard({
-        number: this.assinatura.numeroCartao,
+        number: c.value,
         cvc: this.assinatura.codigoSeguranca,
         expMonth: this.assinatura.mesValidade,
         expYear: this.assinatura.anoValidade,
-        pubKey: result
+        pubKey: this.publicKey
       });
+      console.log(cc);
       if (!cc.isValid()) {
           return {
-            exception: exception ? exception : 'Defina uma data'
+            exception: exception ? exception : 'Cartão inválido'
           }
       }
 

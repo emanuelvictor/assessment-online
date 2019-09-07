@@ -18,7 +18,8 @@
             </div>
 
               <!-- Cartão de crédito -->
-            <cartao *ngIf="assinatura.formaPagamento === 'CARTAO'" [@fadeInOut] [assinatura]='assinatura'></cartao>
+            <cartao *ngIf="assinatura.formaPagamento === 'CARTAO'" [@fadeInOut]
+                    [assinatura]='assinatura' [publicKey]='publicKey'></cartao>
 
               <!-- Boleto -->
             <div layout="row">
