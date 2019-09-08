@@ -4,9 +4,13 @@ import {MobileService} from '../../../service/mobile.service';
 import {UnidadeService} from '../../../../../web/domain/service/unidade.service';
 import {MatSnackBar} from "@angular/material";
 import {TdLoadingService} from "@covalent/core";
-import {viewAnimation} from "../../../../../web/domain/presentation/controls/utils";
+import {getIdentifier, viewAnimation} from "../../../../../web/domain/presentation/controls/utils";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
 import {Agrupador} from "../../../../../web/domain/entity/avaliacao/agrupador.model";
+import {Subject} from "rxjs";
+import {environment} from "../../../../../environments/environment";
+import {Licenca} from "../../../../../web/domain/entity/avaliacao/licenca.model";
+import {WebSocketSubject} from "rxjs/webSocket";
 
 @Component({
   selector: 'configurar-unidades-e-avaliacoes',
@@ -30,6 +34,17 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
   /**
    *
+   */
+  private webSocketSubject: WebSocketSubject<Licenca>;
+
+  /**
+   *
+   * @type {Subject<string>}
+   */
+  private modelChanged: Subject<string> = new Subject<string>();
+
+  /**
+   *
    * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
@@ -41,23 +56,44 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
               private unidadeService: UnidadeService, private router: Router,
               private mobileService: MobileService, private snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
+    this.modelChanged
+      .debounceTime(1000)
+      .distinctUntilChanged().subscribe(model => {
+        if (model.length === 6) {
+          if (this.webSocketSubject)
+            this.webSocketSubject.unsubscribe();
+          this.webSocketSubject = this.mobileService.connect(model);
+
+          this.webSocketSubject.subscribe(result => {
+            this.mobileService.licenca = Object.assign({}, result);
+            this.mobileService.licenca.numeroSerie = Object.assign({}, result.numeroSerie);
+            this.mobileService.licenca.numeroSerie = 'asdfff';
+            console.log('gerando número de série');
+            // this.mobileService.licenca.unidadesTiposAvaliacoesLicenca = null;
+            if (this.mobileService.licenca.numeroSerie !== result.numeroSerie) {
+              this.mobileService.licencaRepository.save(this.mobileService.licenca);
+            }
+          })
+        }
+      }
+    )
   }
 
   /**
    *
    */
   ngOnInit() {
-    // Inicia o loading
-    this._loadingService.register('overlayStarSyntax');
-
-    // Mata o timeout se houver (Aqui não precisa de timeout)
-    this.mobileService.clearTimeout();
-
-    // Zera o model
-    this.mobileService.agrupador = new Agrupador();
-
-    // Inicia o carregamento das unidades
-    this.consultarUnidades()
+    // // Inicia o loading
+    // this._loadingService.register('overlayStarSyntax');
+    //
+    // // Mata o timeout se houver (Aqui não precisa de timeout)
+    // this.mobileService.clearTimeout();
+    //
+    // // Zera o model
+    // this.mobileService.agrupador = new Agrupador();
+    //
+    // // Inicia o carregamento das unidades
+    // this.consultarUnidades()
   }
 
   /**
@@ -224,5 +260,15 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
     })
+  }
+
+  /**
+   *
+   * @param {string} username
+   */
+  public changed($event: string) {
+    if ($event && $event.length) {
+      this.modelChanged.next($event);
+    }
   }
 }

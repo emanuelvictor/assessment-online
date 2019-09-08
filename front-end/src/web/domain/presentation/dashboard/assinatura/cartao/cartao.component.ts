@@ -5,7 +5,7 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Valid
 import {viewAnimation} from "../../../controls/utils";
 import {Assinatura} from "../../../../entity/assinatura/assinatura.model";
 import {textMasks} from "../../../controls/text-masks/text-masks";
-import * as moment from 'moment-timezone';
+// import * as moment from 'moment-timezone';
 import {obrigatorio} from "../../../controls/validators/validators";
 
 /**
@@ -127,13 +127,13 @@ export class CartaoComponent implements OnInit, OnDestroy {
         };
       }
 
-      const momentData = moment(c.value, "DD-MM-YYYY");
-
-      if (momentData.isAfter(moment())) {
-        return {
-          exception: 'Insira uma data anterior à de hoje'
-        };
-      }
+      // const momentData = moment(c.value, "DD-MM-YYYY");
+      //
+      // if (momentData.isAfter(moment())) {
+      //   return {
+      //     exception: 'Insira uma data anterior à de hoje'
+      //   };
+      // }
 
       return null
     }

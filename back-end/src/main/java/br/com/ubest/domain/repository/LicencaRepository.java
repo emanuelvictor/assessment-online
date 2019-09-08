@@ -8,11 +8,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LicencaRepository extends JpaRepository<Licenca, Long> {
 
     /**
-     * TODO com pau
+     *
+     * @param numero
+     * @return
+     */
+    Optional<Licenca> findByNumero(@Param("numero") final Long numero);
+
+    /**
      *
      * @param usuarioId {long}
      * @return List<Licenca>

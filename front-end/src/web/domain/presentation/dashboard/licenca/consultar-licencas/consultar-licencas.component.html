@@ -80,7 +80,7 @@
         </mat-header-row>
 
         <mat-row *matRowDef='let licenca; columns: displayedColumns'
-                 routerLink='{{licenca.id}}' style='cursor: pointer'>
+                 routerLink='{{licenca.numero}}' style='cursor: pointer'>
         </mat-row>
       </mat-table>
       <no-records-found [dataSource]='dataSource?.data'></no-records-found>

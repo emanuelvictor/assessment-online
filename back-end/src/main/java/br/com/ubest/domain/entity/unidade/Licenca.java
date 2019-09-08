@@ -25,20 +25,16 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Entity
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
-@JsonIdentityInfo(
-        property = "id",
-        scope = Assinatura.class,
-        resolver = EntityIdResolver.class,
-        generator = ObjectIdGenerators.PropertyGenerator.class)
 @Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
         @UniqueConstraint(columnNames = {"tenant", "nome"})
 })
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
 public class Licenca extends AbstractEntity implements Serializable {
 
     /**
      *
      */
-    private static final long serialVersionUID = -12345852313987987L;
+    private static final long serialVersionUID = -12345852313914587L;
 
     /**
      *
@@ -51,15 +47,21 @@ public class Licenca extends AbstractEntity implements Serializable {
     /**
      *
      */
-    @NotNull
-    @Column(insertable = false, updatable = false)
-    private long numero;
+    @Column
+    private String numeroSerie;
 
     /**
      *
      */
-    @Column(length = 10)
+    @Column(length = 6)
     private String senha;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(insertable = false, updatable = false)
+    private long numero;
 
     /**
      *
@@ -124,7 +126,7 @@ public class Licenca extends AbstractEntity implements Serializable {
     /**
      * @param id Long
      */
-    public Licenca(Long id) {
+    public Licenca(final Long id) {
         super(id);
     }
 
@@ -136,18 +138,28 @@ public class Licenca extends AbstractEntity implements Serializable {
     }
 
     /**
-     * @param min
-     * @param max
-     * @return
+     *
+     * @return Set<Unidade>
      */
-    private static int getRandomNumberInRange(int min, int max) {
+    public void setUnidades(final Set<Unidade> unidades) {
 
-        if (min >= max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
+    }
 
-        Random r = new Random();
-        return r.nextInt((max - min) + 1) + min;
+    /**
+     *
+     */
+    @PreUpdate
+    public void prePersist() {
+        if (numeroSerie != null)
+            this.senha = getRandomNumberInRange();
+    }
+
+    /**
+     * @return String
+     */
+    private static String getRandomNumberInRange() {
+        final Random r = new Random();
+        return String.valueOf(r.nextInt((999999 - 100000) + 1) + 100000);
     }
 
 }

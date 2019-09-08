@@ -10,6 +10,7 @@ import {viewAnimation} from "../../../controls/utils";
 import {UnidadeRepository} from "../../../../repository/unidade.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacaoLicenca} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-licenca.model";
+import {WebSocketSubject} from "rxjs/webSocket";
 
 @Component({
   selector: 'visualizar-licenca',
@@ -47,6 +48,11 @@ export class VisualizarLicencaComponent implements OnInit {
 
   /**
    *
+   */
+  private webSocketSubject: WebSocketSubject<Licenca>;
+
+  /**
+   *
    * @param unidadeRepository
    * @param unidadeTipoAvaliacaoRepository
    * @param snackBar {MatSnackBar}
@@ -68,24 +74,27 @@ export class VisualizarLicencaComponent implements OnInit {
    *
    */
   ngOnInit() {
-    const licencaId: number = this.activatedRoute.snapshot.params['id'];
-    this.find(licencaId)
+    const numero: number = this.activatedRoute.snapshot.params['numero'];
+    this.find(numero)
   }
 
   /**
    *
-   * @param {number} licencaId
+   * @param {number} numero
    */
-  public find(licencaId: number) {
+  public find(numero: number) {
 
-    this.licencaRepository.findById(licencaId).subscribe((licenca: Licenca) => {
-      this.licenca = licenca
+    this.webSocketSubject = this.licencaRepository.connect(numero);
+
+    this.webSocketSubject.subscribe(licenca => {
+      this.licenca = licenca;
+      console.log(this.licenca);
 
       this.unidadeRepository.listLightByFilters({withUnidadesTiposAvaliacoesAtivasFilter: true}).subscribe(result => {
 
         this.unidades = result.content;
 
-        this.unidadeTipoAvaliacaoLicencaRepository.listByFilters({licencaId: licencaId}).subscribe(page => {
+        this.unidadeTipoAvaliacaoLicencaRepository.listByFilters({licencaId: this.licenca.id}).subscribe(page => {
           licenca.unidadesTiposAvaliacoesLicenca = page.content;
 
           for (let i = 0; i < this.unidades.length; i++) {

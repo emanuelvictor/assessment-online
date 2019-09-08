@@ -76,15 +76,15 @@ export class ConsultarLicencasComponent implements OnInit {
    * @param {DomSanitizer} domSanitizer
    * @param {UsuarioService} usuarioService
    * @param {UnidadeService} unidadeService
-   * @param {ConfiguracaoService} configuracaoService
    * @param {licencaRepository} licencaRepository
+   * @param {ConfiguracaoService} configuracaoService
    */
   constructor(private domSanitizer: DomSanitizer,
               private iconRegistry: MatIconRegistry,
               private usuarioService: UsuarioService,
               private unidadeService: UnidadeService,
-              private configuracaoService: ConfiguracaoService,
-              private licencaRepository: LicencaRepository) {
+              private licencaRepository: LicencaRepository,
+              private configuracaoService: ConfiguracaoService) {
 
   }
 
@@ -108,11 +108,13 @@ export class ConsultarLicencasComponent implements OnInit {
      * Sobrescreve o sortChange do sort bindado
      */
     this.sort.sortChange.subscribe(() => {
+
       this.pageRequest.sort = {
         'properties': this.sort.active,
         'direction': this.sort.direction
       };
-      this.listLicencasByFilters(this.pageRequest);
+
+      this.listLicencasByFilters(this.pageRequest)
     });
 
     /**
@@ -172,11 +174,11 @@ export class ConsultarLicencasComponent implements OnInit {
     const value = $event.value;
 
     if ((value || '').trim()) {
-      this.pageRequest.defaultFilter.push(value);
+      this.pageRequest.defaultFilter.push(value)
     }
 
     if (input) {
-      input.value = '';
+      input.value = ''
     }
 
     this.onChangeFilters()
@@ -202,7 +204,7 @@ export class ConsultarLicencasComponent implements OnInit {
    */
   public defaultFilterChanged(filter: string) {
     if (filter && filter.length) {
-      this.defaultFilterModelChanged.next(filter);
+      this.defaultFilterModelChanged.next(filter)
     }
   }
 }

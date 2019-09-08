@@ -1,9 +1,12 @@
 package br.com.ubest.domain.resource;
 
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.application.websocket.WrapperHandler;
+import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.unidade.Licenca;
 import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoLicenca;
 import br.com.ubest.domain.entity.usuario.Perfil;
+import br.com.ubest.domain.repository.AssinaturaRepository;
 import br.com.ubest.domain.repository.LicencaRepository;
 import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoLicencaRepository;
 import br.com.ubest.domain.service.LicencaService;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
@@ -25,20 +29,24 @@ import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 @RequestMapping({"**licencas", "**sistema/licencas", "**sistema/mobile/licencas"})
 public class LicencaResource extends AbstractResource<Licenca> {
 
+    private final AssinaturaRepository assinaturaRepository;
+
     private final LicencaService licencaService;
 
     private final LicencaRepository licencaRepository;
 
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
+    private final List<WrapperHandler<Licenca>> licencasWrapperHandler;
+
     private final UnidadeTipoAvaliacaoLicencaRepository unidadeTipoAvaliacaoLicencaRepository;
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    @Transactional
     public Mono<Licenca> save(@RequestBody final Licenca licenca) {
         licenca.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
         licenca.getUnidadesTiposAvaliacoesLicenca().forEach(unidadeTipoAvaliacaoLicenca -> unidadeTipoAvaliacaoLicenca.setLicenca(licenca));
+        licenca.setAssinatura(this.assinaturaRepository.findAssinaturaByTenant(licenca.getTenant()).stream().findFirst().orElse(new Assinatura()));
         return Mono.just(this.licencaRepository.save(licenca));
     }
 
@@ -46,14 +54,28 @@ public class LicencaResource extends AbstractResource<Licenca> {
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Licenca> update(@PathVariable final long id, @RequestBody final Licenca licenca) {
         licenca.setId(id);
-        return Mono.just(this.licencaRepository.save(licenca));
+
+        licenca.getUnidadesTiposAvaliacoesLicenca().forEach(unidadeTipoAvaliacaoLicenca -> unidadeTipoAvaliacaoLicenca.setLicenca(licenca));
+
+        saveInner(licenca);
+
+        licencasWrapperHandler.stream().filter(t -> t.getResourceId().equals(licenca.getNumero())).findFirst().ifPresent(
+                t -> t.getMessagePublisher().onNext(licenca)
+        );
+
+        return Mono.just(licenca);
+    }
+
+    @Transactional
+    void saveInner(final Licenca licenca) {
+        this.licencaRepository.save(licenca);
     }
 
     @PutMapping("{id}/unidadesTiposAvaliacoesLicenca")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<List<UnidadeTipoAvaliacaoLicenca>> saveUnidadesTiposAvaliacoesLicenca(@PathVariable final long id, @RequestBody final UnidadeTipoAvaliacaoLicenca[] unidadesTiposAvaliacoesLicenca) {
         final List<UnidadeTipoAvaliacaoLicenca> unidadeTipoAvaliacaoLicencas = getListFromArray(unidadesTiposAvaliacoesLicenca);
-        unidadeTipoAvaliacaoLicencas.forEach(unidadeTipoAvaliacaoLicenca -> unidadeTipoAvaliacaoLicenca.setLicenca(new Licenca(id)));
+        Objects.requireNonNull(unidadeTipoAvaliacaoLicencas).forEach(unidadeTipoAvaliacaoLicenca -> unidadeTipoAvaliacaoLicenca.setLicenca(new Licenca(id)));
         return Mono.just(this.unidadeTipoAvaliacaoLicencaRepository.saveAll(unidadeTipoAvaliacaoLicencas));
     }
 
@@ -67,7 +89,7 @@ public class LicencaResource extends AbstractResource<Licenca> {
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     public Mono<Optional<Licenca>> findById(@PathVariable final long id) {
-        return Mono.just(this.licencaRepository.findById(id));
+        return Mono.just(Optional.of(this.licencaRepository.findById(id).orElse(this.licencaRepository.findByNumero(id).get())));
     }
 
 
