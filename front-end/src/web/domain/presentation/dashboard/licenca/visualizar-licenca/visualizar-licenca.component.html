@@ -1,13 +1,13 @@
 <div layout-align='center center' layout-gt-xs='row' layout-margin >
   <div layout='row' flex-gt-xs='80' layout-margin>
     <div flex layout-margin layout='column' layout-align='center center'>
-      <mat-card class='bgc-grey-50' layout-margin style='width: calc(100% - 15px)' *ngIf='licenca?.id' [@fadeInOut]>
+      <mat-card class='bgc-grey-50' layout-margin style='width: calc(100% - 15px)' *ngIf='licenca?.numero' [@fadeInOut]>
         <mat-card-content>
 
           <div layout='row'>
             <div layout='column' style='min-width: 17px'>
-              <button *ngIf='activatedRoute?.snapshot?.params?.id'
-                      class='mat-headline tc-grey-500' type='button'
+              <button class='mat-headline tc-grey-500' type='button'
+                      *ngIf='activatedRoute?.snapshot?.params?.numero'
                       routerLink='../' color='primary' mat-icon-button>
                 <mat-icon>arrow_back</mat-icon>
               </button>
@@ -36,6 +36,7 @@
                       <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Tempo de espera entre as avaliações (Em segundos): {{licenca?.time}}</h2>
                       <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Quebrar linha durante a seleção de itens avaliáveis: {{licenca?.quebrarLinhaNaSelecaoDeItemAvaliavel ? 'Sim' : 'Não'}}</h2>
                       <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Número da licença: {{licenca?.numero}}</h2>
+                      <h2 *ngIf='licenca?.senha' flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Senha: {{licenca?.senha}}</h2>
                     </div>
                   </div>
                 </div>
@@ -90,7 +91,7 @@
 
       <mat-card  class='bgc-grey-50' style='width: 100%' *ngIf='vincularUnidadeTipoSvaliacao'>
 
-        <vincular-unidade-tipo-avaliacao *ngIf='licenca?.id' [(unidades)]='unidades' [filter]='filter'
+        <vincular-unidade-tipo-avaliacao *ngIf='licenca?.numero' [(unidades)]='unidades' [filter]='filter'
                                          [(unidadesTiposAvaliacoesLicenca)]='licenca.unidadesTiposAvaliacoesLicenca'
                                          (unidadesTiposAvaliacoesLicencaChange)='unidadesTiposAvaliacoesLicencaChange($event)'>
         </vincular-unidade-tipo-avaliacao>

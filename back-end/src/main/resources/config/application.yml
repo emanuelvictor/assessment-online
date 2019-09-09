@@ -93,3 +93,27 @@ google:
     secret-key: 6LcjQaAUAAAAAGIUtmfjnQO_Z-rA0HVzbTH7SNAu
     site-key: 6LcjQaAUAAAAAJWQ4vLEi0WzBGpII2IvHB6iLLpk
     urltoverify: https://www.google.com/recaptcha/api/siteverify
+
+#GATEWAY PAYMENT
+gateway-payment:
+  checkout-boleto-uri: https://checkout-sandbox.moip.com.br/boleto/ #todo
+  tfc-moip-account-id: MPA-4C4A976D8BAB #todo
+  app-id: APP-JH1X7M53XT1K #todo
+  access-token: 7f9b6963d3544e6d8d9974f4a092eedc_v2
+  # access-token: ab50b7b83b2446249ea5045d0586ebbf_v2  secret: gerado pelo oauth: fb000268955440378d38db5991510c4c
+  token: UHITM12AKI5DVUPENUCJE7XWV7UFJGMA
+  key: LEWES7PIANC8CBLZK04U7FLCVNWJPMGPGWGABNEW
+  environment: SANDBOX
+  logo-uri: https://www.ubest.com.br/sistema/assets/images/favicon-96x96-green.png
+  expiration-days: 1
+  gateway-uri: https://sandbox.moip.com.br/ #todo
+  public-key: -----BEGIN PUBLIC KEY-----
+              MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlb+xVAeH9i1k8G7GADWX
+              vE7xKGXlbYgkCskRNj+Z31kwRNcsvmdiORFxJ+YbOnwMR7ndCe2EQgFs7rCFW4qy
+              LTe/lbR64bXCA6BLZKmvEhYH9qSFTtiUeVXsxhyP5+qv716jVv88YhtLBcCI64On
+              ZYLbKcjUJZMTcSJWKUmWfxKWKUXPHNjRv5Bguu48Ihn3Fl+4/wFXoYooZxWdo1LX
+              dBYjrlpOLe+tf49i7tTmSMX/7YTwnGMdriOPP286DcHCZR0j6xXRdkAekvvV+qgg
+              G6XuWIjSsuoktoc28SIQEr1qHfF/ztemrVqgEt6hDlZwc6jQbaGnO6eerp9Q87JD
+              awIDAQAB
+              -----END PUBLIC KEY-----
+

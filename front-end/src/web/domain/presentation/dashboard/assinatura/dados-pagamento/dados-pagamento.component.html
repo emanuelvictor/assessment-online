@@ -15,9 +15,9 @@
   </div>
 
   <!-- Cartão de crédito -->
-  <cartao [form]='form.secondFormGroup'
-          [assinatura]='assinatura' [@fadeInOut]
-          *ngIf="assinatura.formaPagamento === 'CARTAO'">
+  <cartao [@fadeInOut] [publicKey]='publicKey'
+          [assinatura]='assinatura' [form]='form.secondFormGroup'
+          *ngIf="assinatura.formaPagamento === 'CARTAO' && publicKey">
   </cartao>
 
   <!-- Boleto -->

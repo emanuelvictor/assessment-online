@@ -115,8 +115,8 @@ const routes: Routes = [
           children: [
             {path: '', component: ConsultarLicencasComponent},
             {path: 'inserir', component: InserirLicencaComponent},
-            {path: ':id', component: VisualizarLicencaComponent},
-            {path: ':id/alterar', component: AlterarLicencaComponent}
+            {path: ':numero', component: VisualizarLicencaComponent},
+            {path: ':numero/alterar', component: AlterarLicencaComponent}
           ]
         },
         {

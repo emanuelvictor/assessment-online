@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 
@@ -24,11 +25,7 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Entity
 @Audited
 @Table(schema = DEFAULT_TENANT_ID)
-@JsonIdentityInfo(
-        property = "id",
-        scope = Assinatura.class,
-        resolver = EntityIdResolver.class,
-        generator = ObjectIdGenerators.PropertyGenerator.class)
+@NoArgsConstructor
 @lombok.EqualsAndHashCode(callSuper = true)
 public class Assinatura extends AbstractEntity implements Serializable {
 

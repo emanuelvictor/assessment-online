@@ -50,6 +50,7 @@ import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/config
 import {OpcoesDeConfiguracaoComponent} from "./presentation/avaliacao/configurar/configuracoes/opcoes-de-configuracao/opcoes-de-configuracao.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {OrderModule} from "ngx-order-pipe";
+import {LicencaRepository} from "../../web/domain/repository/licenca.repository";
 
 
 /**
@@ -99,6 +100,7 @@ import {OrderModule} from "ngx-order-pipe";
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
+    LicencaRepository,
     ContaRepository,
     FileRepository,
 

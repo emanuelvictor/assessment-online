@@ -13,6 +13,9 @@ import {TdLoadingService} from "@covalent/core";
 import {ConfiguracaoRepository} from "../../../web/domain/repository/configuracao.repository";
 import {Configuracao} from "../../../web/domain/entity/configuracao/configuracao.model";
 import {Agrupador} from "../../../web/domain/entity/avaliacao/agrupador.model";
+import {LicencaRepository} from "../../../web/domain/repository/licenca.repository";
+import {Licenca} from "../../../web/domain/entity/avaliacao/licenca.model";
+import {WebSocketSubject} from "rxjs/webSocket";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -26,6 +29,11 @@ export class MobileService {
    *
    */
   private _agrupador: Agrupador = new Agrupador();
+
+  /**
+   *
+   */
+  private _licenca: Licenca = new Licenca();
 
   /**
    *
@@ -45,13 +53,35 @@ export class MobileService {
    * @param {UnidadeService} unidadeService
    * @param _loadingService
    * @param {AvaliacaoService} avaliacaoService
+   * @param _licencaRepository
    */
   constructor(private router: Router,
               private _localStorage: LocalStorage,
               private unidadeService: UnidadeService,
               private _loadingService: TdLoadingService,
               private avaliacaoService: AvaliacaoService,
+              private _licencaRepository: LicencaRepository,
               private configuracaRepository: ConfiguracaoRepository) {
+  }
+
+  /**
+   *
+   * @param numero
+   */
+  public connect(numero: any): WebSocketSubject<Licenca> {
+    return this.licencaRepository.connect(numero)
+  }
+
+  get licenca(): Licenca {
+    return this._licenca;
+  }
+
+  set licenca(value: Licenca) {
+    this._licenca = value;
+  }
+
+  get licencaRepository(): LicencaRepository {
+    return this._licencaRepository
   }
 
   /**

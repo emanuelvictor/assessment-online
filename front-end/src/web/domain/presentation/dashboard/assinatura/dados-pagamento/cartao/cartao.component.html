@@ -26,7 +26,8 @@
              placeholder="Mês de validade"
              [(ngModel)]="assinatura.mesValidade"
              name="mesValidade" matInput required
-             [textMask]="{mask: masks.month, guide: false}">
+             [textMask]="{mask: masks.month, guide: false}"
+             (keyup)="form?.controls?.cartao?.get('numeroCartao')?.updateValueAndValidity()">
       <mat-error *ngIf="form?.controls?.cartao?.controls['mesValidade']?.hasError('exception')">
         {{form?.controls?.cartao?.controls['mesValidade']?.errors?.exception}}
       </mat-error>
@@ -36,7 +37,8 @@
              formControlName='anoValidade'
              required matInput name="anoValidade"
              [(ngModel)]="assinatura.anoValidade"
-             [textMask]="{mask: masks.year, guide: false}">
+             [textMask]="{mask: masks.year, guide: false}"
+             (keyup)="form?.controls?.cartao?.get('numeroCartao')?.updateValueAndValidity()">
       <mat-error *ngIf="form?.controls?.cartao?.controls['anoValidade']?.hasError('exception')">
         {{form?.controls?.cartao?.controls['anoValidade']?.errors?.exception}}
       </mat-error>

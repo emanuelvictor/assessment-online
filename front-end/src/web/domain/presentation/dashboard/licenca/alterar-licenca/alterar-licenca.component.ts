@@ -23,7 +23,7 @@ export class AlterarLicencaComponent implements OnInit {
    *
    * @type {Licenca}
    */
-  licenca: Licenca = new Licenca();
+  licenca: any = new Licenca();
 
   /**
    *
@@ -34,9 +34,9 @@ export class AlterarLicencaComponent implements OnInit {
    * @param {DomSanitizer} domSanitizer
    * @param {Router} router
    */
-  constructor(private domSanitizer: DomSanitizer, private snackBar: MatSnackBar, private router: Router,
-              private licencaRepository: LicencaRepository, private activatedRoute: ActivatedRoute,
-              private unidadeTipoAvaliacaoLicencaRepository: UnidadeTipoAvaliacaoLicencaRepository) {
+  constructor(private licencaRepository: LicencaRepository, private activatedRoute: ActivatedRoute,
+              private unidadeTipoAvaliacaoLicencaRepository: UnidadeTipoAvaliacaoLicencaRepository,
+              private domSanitizer: DomSanitizer, private snackBar: MatSnackBar, private router: Router) {
 
   }
 
@@ -44,22 +44,28 @@ export class AlterarLicencaComponent implements OnInit {
    *
    */
   ngOnInit() {
-    const licencaId: number = this.activatedRoute.snapshot.params['id'];
-    this.find(licencaId)
+    const numero: number = this.activatedRoute.snapshot.params['numero'];
+    this.find(numero)
   }
 
   /**
    *
-   * @param {number} licencaId
+   * @param {number} numero
    */
-  public find(licencaId: number) {
-    this.licencaRepository.findById(licencaId).subscribe((licenca: Licenca) => this.licenca = licenca)
+  public find(numero: number) {
+    this.licencaRepository.findById(numero).subscribe((licenca: Licenca) => this.licenca = licenca)
   }
 
   /**
    *
    */
   public save(): void {
+    // delete (this.licenca as any).assinatura;
+    // delete this.licenca.unidadesTiposAvaliacoesLicenca;
+    // delete this.licenca.numeroSerie;
+    // delete this.licenca.numero;
+    // delete this.licenca.senha;
+    // delete this.licenca.unidades;
     this.licencaRepository.save(this.licenca)
       .then(result => {
         this.licenca = result;

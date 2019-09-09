@@ -30,6 +30,12 @@ export class DadosPagamentoComponent implements OnInit {
   /**
    *
    */
+  @Input()
+  publicKey: string;
+
+  /**
+   *
+   */
   masks = textMasks;
 
   /**
