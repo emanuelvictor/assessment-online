@@ -113,11 +113,17 @@ public class Assinatura extends AbstractEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Endereco endereco;
 
-//    /**
-//     * TODO carniça
-//     */
-//    @EqualsAndHashCode.Exclude
-//    @OneToMany(targetEntity = Licenca.class, mappedBy = "assinatura", fetch = FetchType.EAGER, orphanRemoval = true)
-//    private Set<Licenca> licencas;
+    /**
+     *
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Plano plano;
+
+    /**
+     * TODO testar
+     */
+    @EqualsAndHashCode.Exclude
+    @OneToMany(targetEntity = Licenca.class, mappedBy = "assinatura", fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Licenca> licencas;
 
 }
