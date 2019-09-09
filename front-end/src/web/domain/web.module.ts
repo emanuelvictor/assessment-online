@@ -124,6 +124,7 @@ import {AssinaturaComponent} from "./presentation/dashboard/assinatura/assinatur
 import {AssinaturaRepository} from "./repository/assinatura.repository";
 import {CartaoComponent} from "./presentation/dashboard/assinatura/dados-pagamento/cartao/cartao.component";
 import {DadosPagamentoComponent} from "./presentation/dashboard/assinatura/dados-pagamento/dados-pagamento.component";
+import {PlanosComponent} from "./presentation/dashboard/assinatura/planos/planos.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -253,6 +254,7 @@ registerLocaleData(localePt, 'pt-BR');
     AssinaturaComponent,
     DadosPagamentoComponent,
     CartaoComponent,
+    PlanosComponent,
 
     NoRecordsFoundComponent
   ],

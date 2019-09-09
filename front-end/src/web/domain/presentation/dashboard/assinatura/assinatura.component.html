@@ -3,22 +3,6 @@
     <div flex layout-margin>
 
       <mat-card class='bgc-grey-50'>
-<!--        <div layout="row" layout-margin>-->
-<!--          <mat-radio-group name="formaPagamento" [(ngModel)]="assinatura.formaPagamento" layout="row" flex-->
-<!--                           [ngModelOptions]="{standalone: true}">-->
-<!--            <mat-radio-button name="formaPagamento" color="primary" [value]="'BOLETO'" flex>-->
-<!--              <span class="tc-grey-800">Boleto</span>-->
-<!--            </mat-radio-button>-->
-<!--            <mat-radio-button name="formaPagamento" color="primary" [value]="'CARTAO'" flex>-->
-<!--              <span class="tc-grey-800">Cartão de crédito</span>-->
-<!--            </mat-radio-button>-->
-<!--          </mat-radio-group>-->
-<!--          <div hide-xs flex></div>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; Cartão de crédito &ndash;&gt;-->
-<!--        <cartao *ngIf="assinatura.formaPagamento === 'CARTAO'" [@fadeInOut]-->
-<!--                [assinatura]='assinatura' [publicKey]='publicKey'></cartao>-->
 
         <mat-horizontal-stepper #stepper [class.mat-elevation-z2]='true' linear
                                 *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
@@ -33,13 +17,12 @@
 
           <mat-step >
             <form [formGroup]="form" novalidate>
-              <ng-template matStepLabel>Plano</ng-template>
-              <!--              <mat-form-field>-->
-              <!--                <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>-->
-              <!--              </mat-form-field>-->
-              <div>
-                <button mat-button type='button' matStepperNext>Próximo</button>
-              </div>
+
+              <ng-template matStepLabel>
+                Plano
+              </ng-template>
+
+              <planos [form]='form' [assinatura]='assinatura'></planos>
             </form>
           </mat-step>
           <mat-step [stepControl]='form'>
@@ -48,7 +31,7 @@
               Dados de Pagamento
             </ng-template>
 
-            <dados-pagamento [form]='form' [publicKey]='publicKey'></dados-pagamento>
+            <dados-pagamento [form]='form' [assinatura]='assinatura' [publicKey]='publicKey'></dados-pagamento>
 
           </mat-step>
           <mat-step>
