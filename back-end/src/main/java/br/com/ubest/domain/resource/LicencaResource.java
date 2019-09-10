@@ -42,11 +42,12 @@ public class LicencaResource extends AbstractResource<Licenca> {
     private final UnidadeTipoAvaliacaoLicencaRepository unidadeTipoAvaliacaoLicencaRepository;
 
     @PostMapping
+    @Transactional
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Licenca> save(@RequestBody final Licenca licenca) {
         licenca.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
         licenca.getUnidadesTiposAvaliacoesLicenca().forEach(unidadeTipoAvaliacaoLicenca -> unidadeTipoAvaliacaoLicenca.setLicenca(licenca));
-        licenca.setAssinatura(this.assinaturaRepository.findAssinaturaByTenant(licenca.getTenant()).stream().findFirst().orElse(new Assinatura()));
+        licenca.setAssinatura(this.assinaturaRepository.findAll().stream().findFirst().orElse(new Assinatura()));
         return Mono.just(this.licencaRepository.save(licenca));
     }
 
@@ -87,6 +88,7 @@ public class LicencaResource extends AbstractResource<Licenca> {
     }
 
     @GetMapping("{id}")
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     public Mono<Optional<Licenca>> findById(@PathVariable final long id) {
         return Mono.just(Optional.of(this.licencaRepository.findById(id).orElse(this.licencaRepository.findByNumero(id).get())));
@@ -94,6 +96,7 @@ public class LicencaResource extends AbstractResource<Licenca> {
 
 
     @GetMapping
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     Mono<Page<Licenca>> listByFilters(final String defaultFilter) {
         return Mono.just(this.licencaService.listByFilters(defaultFilter, getPageable()));
@@ -106,17 +109,20 @@ public class LicencaResource extends AbstractResource<Licenca> {
      * @return Mono<List < Unidade>>
      */
     @GetMapping("by-usuario") //TODO gambitinho
+    @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     Mono<List<Licenca>> listByUsuarioId(@RequestParam final long usuarioId) {
         return Mono.just(this.licencaRepository.listByUsuarioId(usuarioId));
     }
 
+    @Transactional(readOnly = true)
     @GetMapping("authenticate/{licencaId}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<Boolean> authenticateByLicencaId(@PathVariable final long licencaId, @RequestParam final String password) {
         return Mono.just(this.licencaService.authenticateByLicencaId(licencaId, password));
     }
 
+    @Transactional(readOnly = true)
     @GetMapping("{licencaId}/hashs")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<List<String>> getHashsByLicencaId(@PathVariable final long licencaId) {

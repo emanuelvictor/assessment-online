@@ -24,21 +24,12 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Data
 @Entity
 @Audited
-@Table(schema = DEFAULT_TENANT_ID)
 @NoArgsConstructor
+@Table(schema = DEFAULT_TENANT_ID)
 @lombok.EqualsAndHashCode(callSuper = true)
 public class Assinatura extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -3875941812495359616L;
-
-    /**
-     *
-     */
-    @NotNull
-    @Column(nullable = false, updatable = false, length = 150)
-    @Length(max = 150)
-    private String tenant;
-
 
     /**
      *
@@ -116,14 +107,14 @@ public class Assinatura extends AbstractEntity implements Serializable {
     /**
      *
      */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Plano plano;
 
-    /**
-     * TODO testar
-     */
-    @EqualsAndHashCode.Exclude
-    @OneToMany(targetEntity = Licenca.class, mappedBy = "assinatura", fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Licenca> licencas;
+//    /**
+//     * TODO testar
+//     */
+//    @EqualsAndHashCode.Exclude
+//    @OneToMany(targetEntity = Licenca.class, mappedBy = "assinatura", fetch = FetchType.EAGER, orphanRemoval = true)
+//    private Set<Licenca> licencas;
 
 }

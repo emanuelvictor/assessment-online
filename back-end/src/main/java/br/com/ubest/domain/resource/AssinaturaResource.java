@@ -7,7 +7,6 @@ import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.repository.AssinaturaRepository;
 import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -45,7 +44,7 @@ public class AssinaturaResource extends AbstractResource<Assinatura> {
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Assinatura> getAssinatura() {
-        return Mono.just(this.assinaturaRepository.findAssinaturaByTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier()).stream().findFirst().orElse(new Assinatura()));
+        return Mono.just(this.assinaturaRepository.findAll().stream().findFirst().orElse(new Assinatura()));
     }
 
     /**

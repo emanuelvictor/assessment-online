@@ -299,9 +299,8 @@ public class UsuarioService {
         unidadeTipoAvaliacao.setUnidade(unidade);
         this.unidadeTipoAvaliacaoService.save(unidadeTipoAvaliacao);
 
-final Assinatura assinatura = new Assinatura();
-assinatura.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
-assinaturaRepository.save(assinatura);
+        final Assinatura assinatura = new Assinatura();
+        assinaturaRepository.save(assinatura);
 
         final Licenca licenca = new Licenca();
         licenca.setAssinatura(assinatura);

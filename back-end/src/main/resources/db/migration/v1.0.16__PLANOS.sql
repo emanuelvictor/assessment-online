@@ -16,3 +16,12 @@ alter table assinatura add constraint FK6jimgux7sa47dn3vhhq570ucc foreign key (e
 alter table assinatura_aud add constraint FKsdoeqhnanjxce7ytk7i2jq701 foreign key (rev) references public.revision;
 alter table plano_aud add constraint FKplf42kuplmdwdod4pgjfcoml6 foreign key (rev) references public.revision;
 
+insert into plano(id, created, nome, quantidade_avaliacoes, valor_avaliacoes_excedentes, valor_mensal)
+values (1, now(), 'Starter', 1500, 0.25, 49.99);
+
+insert into plano(id, created, nome, quantidade_avaliacoes, valor_avaliacoes_excedentes, valor_mensal)
+values (2, now(), 'Pro', 3000, 0.25, 99.99);
+
+insert into plano(id, created, nome, quantidade_avaliacoes, valor_avaliacoes_excedentes, valor_mensal)
+values (3, now(), 'Enterprise', 5000, 0.25, 149.99);
+

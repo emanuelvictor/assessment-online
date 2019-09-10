@@ -4,7 +4,6 @@ create table if not exists assinatura
     created                        timestamp    not null,
     updated                        timestamp,
     primary key (id),
-    tenant                         varchar(150) not null,
     mes_validade                   varchar(20),
     ano_validade                   varchar(50),
     data_vencimento                timestamp,
@@ -24,7 +23,6 @@ create table if not exists assinatura_aud
     rev                            int8 not null,
     revtype                        int2,
     primary key (id, rev),
-    tenant                         varchar(150),
     mes_validade                   varchar(20),
     ano_validade                   varchar(50),
     data_vencimento                timestamp,
@@ -44,10 +42,10 @@ alter table assinatura
     add constraint UK_numero_cartao unique (numero_cartao);
 
 -- Inserir assinatura
-INSERT INTO public.assinatura (created, tenant)
-VALUES (NOW(), current_schema());
+INSERT INTO assinatura (id, created)
+VALUES (1, NOW());
 
-alter table licenca add column assinatura_id bigint not null default 0;
+alter table licenca add column assinatura_id bigint not null default 1;
 alter table licenca add column latitude numeric(19, 2);
 alter table licenca add column longitude numeric(19, 2);
 alter table licenca add column interna boolean not null default true;
@@ -81,7 +79,7 @@ alter table licenca add column unidade_id varchar(150);
 -- Insere os licencas de acordo com as unidades
 INSERT INTO public.licenca (unidade_id, created, nome, interna, modo_quiosque, modo_insonia, time, quebrar_linha_na_selecao_de_item_avaliavel, tenant, assinatura_id)
     (
-        SELECT  (unidade.id) || current_schema(), NOW() AS created, pessoa.nome AS nome, false AS interna, false AS modo_quiosque, false AS modo_insonia, 30 AS time, false AS quebrar_linha_na_selecao_de_item_avaliavel, current_schema(), (SELECT MAX(id) FROM public.assinatura WHERE tenant = "current_schema"())
+        SELECT  (unidade.id) || current_schema(), NOW() AS created, pessoa.nome AS nome, false AS interna, false AS modo_quiosque, false AS modo_insonia, 30 AS time, false AS quebrar_linha_na_selecao_de_item_avaliavel, current_schema(), 1
         FROM unidade
                  INNER JOIN pessoa ON pessoa.id = unidade.id
     );
@@ -96,4 +94,4 @@ INSERT INTO unidade_tipo_avaliacao_licenca (id, created, ordem, unidade_tipo_ava
     );
 
 
-alter table licenca add constraint fk_assinatura foreign key (assinatura_id) references public.assinatura;
+alter table licenca add constraint fk_assinatura foreign key (assinatura_id) references assinatura;

@@ -112,13 +112,13 @@ public class ConfiguracaoService {
 
         final byte[] background = getConfiguracao(cliente).getBackgroundImage();
 
-//        if (background == null) {
-//            try {
-//                return IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/banner.png"));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        if (background == null) {
+            try {
+                return IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/banner.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         return background;
     }

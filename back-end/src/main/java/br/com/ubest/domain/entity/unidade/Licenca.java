@@ -34,7 +34,7 @@ public class Licenca extends AbstractEntity implements Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = -12345852313914587L;
+    private static final long serialVersionUID = -12345852313456791L;
 
     /**
      *
