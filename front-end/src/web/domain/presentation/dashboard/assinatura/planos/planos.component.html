@@ -1,19 +1,43 @@
 <!-- Cartão de crédito -->
-<div [formGroup]='form.controls.cartao'>
-  <div layout="row" layout-margin>
-    <b class="pagamento-title" flex>Selecione um plano</b>
-  </div>
+<div layout="row" layout-margin>
+  <b class="pagamento-title" flex>Selecione um plano</b>
+</div>
 
-  <div layout="row" layout-margin>
-    <mat-radio-group [ngModelOptions]="{standalone: true}"
-                     layout="row" flex name="formaPagamento"
-                     [(ngModel)]="assinatura.formaPagamento">
-      <mat-radio-button name="formaPagamento" color="primary" [value]="'BOLETO'" flex>
-        <span class="tc-grey-800">Boleto</span>
+<mat-grid-list cols='3' rowHeight='275px'>
+  <mat-radio-group layout="row" flex name='plano'
+                   [(ngModel)]='assinatura.plano.id'
+                   [ngModelOptions]="{standalone: true}">
+
+    <mat-grid-tile *ngFor='let plano of planos' style='margin-left: 60px'>
+      <mat-radio-button name='plano' color='primary' [value]='plano.id'>
+        <div layout='column' layout-margin layout-align='center center'
+             style='border: 2px solid #60338e !important; box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)'>
+          <div flex>
+            {{plano.nome}}
+          </div>
+          <div flex>
+            {{plano.descricao}}
+          </div>
+          <div style='width: 100%; background-color: #dfe5e7; text-align: center; padding: 20px'>
+            {{plano.valorMensal}}
+          </div>
+          <div flex>
+            {{plano.quantidadeAvaliacoes}}  avaliações por mês
+          </div>
+          <div flex>
+            {{plano.valorAvaliacoesExcedentes}}  por avaliação excedente
+          </div>
+        </div>
       </mat-radio-button>
-      <mat-radio-button name="formaPagamento" color="primary" [value]="'CARTAO'" flex>
-        <span class="tc-grey-800">Cartão de crédito</span>
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
+    </mat-grid-tile>
+
+  </mat-radio-group>
+</mat-grid-list>
+
+<!--actions div-->
+<div layout-gt-xs='row' flex layout-margin>
+
+  <span flex='80'></span>
+
+  <button flex mat-raised-button color='accent' matStepperNext>Próximo</button>
 </div>

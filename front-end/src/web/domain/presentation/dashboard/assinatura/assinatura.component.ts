@@ -11,6 +11,8 @@ import {textMasks} from "../../controls/text-masks/text-masks";
 import {Assinatura} from "../../../entity/assinatura/assinatura.model";
 import {AssinaturaRepository} from "../../../repository/assinatura.repository";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {Endereco} from "../../../entity/endereco/endereco.model";
+import {Cidade} from "../../../entity/endereco/cidade.model";
 
 /**
  *
@@ -72,12 +74,14 @@ export class AssinaturaComponent implements OnInit {
 
     this.assinaturaRepository.assinatura.subscribe(result => {
       this.assinatura = result;
+      if (!this.assinatura.endereco)
+        this.assinatura.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
       if (!this.assinatura.formaPagamento)
-        this.assinatura.formaPagamento = 'CARTAO'
-      });
+        this.assinatura.formaPagamento = 'CARTAO' //todo retornar para boleto
+    });
 
-    this.assinaturaRepository.publicKey.subscribe(result =>this.publicKey = result)
-    
+    this.assinaturaRepository.publicKey.subscribe(result => this.publicKey = result)
+
   }
 
   /**

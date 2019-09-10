@@ -1,6 +1,8 @@
 import {Abstract} from "../abstract/abstract.model";
 import {Endereco} from "../endereco/endereco.model";
 import {Licenca} from "../avaliacao/licenca.model";
+import {Plano} from "./plano.model";
+import {Cidade} from "../endereco/cidade.model";
 
 export class Assinatura extends Abstract {
 
@@ -80,9 +82,17 @@ export class Assinatura extends Abstract {
    */
   public codigoSeguranca: any;
 
+  /**
+   *
+   */
+  public plano: Plano;
 
+  /**
+   *
+   */
   constructor() {
     super();
-    this.formaPagamento = 'BOLETO'
+    this.formaPagamento = 'BOLETO';
+    this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0)
   }
 }

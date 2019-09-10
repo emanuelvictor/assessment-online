@@ -5,6 +5,8 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Assinatura} from "../../../../entity/assinatura/assinatura.model";
 import {viewAnimation} from "../../../controls/utils";
 import {obrigatorio} from "../../../controls/validators/validators";
+import {PlanoRepository} from "../../../../repository/plano.repository";
+import {Plano} from "../../../../entity/assinatura/plano.model";
 
 // import * as moment from 'moment-timezone';
 
@@ -34,27 +36,24 @@ export class PlanosComponent implements OnInit {
   @Input()
   form: any;
 
+  planos: Plano[];
+
   /**
    *
+   * @param planoRepository
    * @param fb
    */
-  constructor(private fb: FormBuilder) {
+  constructor(private planoRepository: PlanoRepository, private fb: FormBuilder) {
+    planoRepository.findAll().subscribe( result => {
+      this.planos = result;
+      this.assinatura.plano = this.planos[0]
+    })
   }
 
   /**
    *
    */
   ngOnInit(): void {
-
-    const formGroup = new FormGroup({
-      numeroCartao: new FormControl('numeroCartao', [obrigatorio('O número do cartão é obrigatório')]),
-    });
-
-    if (!this.form) {
-      this.form = this.fb.group({});
-    }
-
-    this.form.addControl('planos', formGroup);
 
   }
 }

@@ -4,8 +4,7 @@
 
       <mat-card class='bgc-grey-50'>
 
-        <mat-horizontal-stepper #stepper [class.mat-elevation-z2]='true' linear
-                                *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+        <mat-horizontal-stepper #stepper [class.mat-elevation-z2]='true' linear>
 
           <ng-template matStepperIcon='edit'>
             <mat-icon>done</mat-icon>
@@ -23,6 +22,7 @@
               </ng-template>
 
               <planos [form]='form' [assinatura]='assinatura'></planos>
+
             </form>
           </mat-step>
           <mat-step [stepControl]='form'>
