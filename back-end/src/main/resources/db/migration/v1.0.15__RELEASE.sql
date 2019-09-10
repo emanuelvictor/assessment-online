@@ -1,11 +1,5 @@
-ALTER TABLE avaliavel
-    RENAME COLUMN unidade_tipo_avaliacao_id TO unidade_tipo_avaliacao_licenca_id;
+-- alter table licenca alter column senha set type varchar(6);
+-- alter table licenca_aud alter column senha set type varchar(6);
 
-ALTER TABLE avaliavel_aud
-    RENAME COLUMN unidade_tipo_avaliacao_id TO unidade_tipo_avaliacao_licenca_id;
-
-ALTER TABLE ONLY avaliavel
-    DROP CONSTRAINT fk1wg1nljm73ixmvny30jwxv1nw;
-
-ALTER TABLE ONLY avaliavel
-    ADD CONSTRAINT fk1wg1nljm73ixmvny30jwxv1nw FOREIGN KEY (unidade_tipo_avaliacao_licenca_id) REFERENCES unidade_tipo_avaliacao_licenca (id);
+alter table licenca add column numero_serie varchar(6);
+alter table licenca_aud add column numero_serie varchar(6);
