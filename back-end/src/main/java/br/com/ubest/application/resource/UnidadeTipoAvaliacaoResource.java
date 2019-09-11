@@ -1,4 +1,4 @@
-package br.com.ubest.domain.resource;
+package br.com.ubest.application.resource;
 
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.usuario.Perfil;

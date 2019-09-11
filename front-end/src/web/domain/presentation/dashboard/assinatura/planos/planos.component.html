@@ -1,43 +1,45 @@
 <!-- Cartão de crédito -->
-<div layout="row" layout-margin>
-  <b class="pagamento-title" flex>Selecione um plano</b>
-</div>
+<form [formGroup]='form?.controls?.firstFormGroup' (ngSubmit)='save()' novalidate>
+  <div layout="row" layout-margin>
+    <b class="pagamento-title" flex>Selecione um plano</b>
+  </div>
 
-<mat-grid-list cols='3' rowHeight='275px'>
-  <mat-radio-group layout="row" flex name='plano'
-                   [(ngModel)]='assinatura.plano.id'
-                   [ngModelOptions]="{standalone: true}">
+  <mat-grid-list cols='3' rowHeight='275px'>
+    <mat-radio-group layout="row" flex name='plano'
+                     [(ngModel)]='assinatura.plano.id'
+                     [ngModelOptions]="{standalone: true}">
 
-    <mat-grid-tile *ngFor='let plano of planos' style='margin-left: 60px'>
-      <mat-radio-button name='plano' color='primary' [value]='plano.id'>
-        <div layout='column' layout-margin layout-align='center center'
-             style='border: 2px solid #60338e !important; box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)'>
-          <div flex>
-            {{plano.nome}}
+      <mat-grid-tile *ngFor='let plano of planos' style='margin-left: 60px'>
+        <mat-radio-button name='plano' color='primary' [value]='plano.id'>
+          <div layout='column' layout-margin layout-align='center center'
+               style='border: 2px solid #60338e !important; box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)'>
+            <div flex>
+              {{plano.nome}}
+            </div>
+            <div flex>
+              {{plano.descricao}}
+            </div>
+            <div style='width: 100%; background-color: #dfe5e7; text-align: center; padding: 20px'>
+              {{plano.valorMensal}}
+            </div>
+            <div flex>
+              {{plano.quantidadeAvaliacoes}}  avaliações por mês
+            </div>
+            <div flex>
+              {{plano.valorAvaliacoesExcedentes}}  por avaliação excedente
+            </div>
           </div>
-          <div flex>
-            {{plano.descricao}}
-          </div>
-          <div style='width: 100%; background-color: #dfe5e7; text-align: center; padding: 20px'>
-            {{plano.valorMensal}}
-          </div>
-          <div flex>
-            {{plano.quantidadeAvaliacoes}}  avaliações por mês
-          </div>
-          <div flex>
-            {{plano.valorAvaliacoesExcedentes}}  por avaliação excedente
-          </div>
-        </div>
-      </mat-radio-button>
-    </mat-grid-tile>
+        </mat-radio-button>
+      </mat-grid-tile>
 
-  </mat-radio-group>
-</mat-grid-list>
+    </mat-radio-group>
+  </mat-grid-list>
 
-<!--actions div-->
-<div layout-gt-xs='row' flex layout-margin>
+  <!--actions div-->
+  <div layout-gt-xs='row' flex layout-margin>
 
-  <span flex='80'></span>
+    <span flex='80'></span>
 
-  <button flex mat-raised-button color='accent' matStepperNext>Próximo</button>
-</div>
+    <button flex mat-raised-button color='accent' matStepperNext>Próximo</button>
+  </div>
+</form>

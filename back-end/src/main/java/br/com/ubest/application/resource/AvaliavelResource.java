@@ -1,4 +1,4 @@
-package br.com.ubest.domain.resource;
+package br.com.ubest.application.resource;
 
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;

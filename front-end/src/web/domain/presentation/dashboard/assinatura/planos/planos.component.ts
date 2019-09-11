@@ -1,12 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {Assinatura} from "../../../../entity/assinatura/assinatura.model";
 import {viewAnimation} from "../../../controls/utils";
-import {obrigatorio} from "../../../controls/validators/validators";
 import {PlanoRepository} from "../../../../repository/plano.repository";
 import {Plano} from "../../../../entity/assinatura/plano.model";
+import {AssinaturaRepository} from "../../../../repository/assinatura.repository";
 
 // import * as moment from 'moment-timezone';
 
@@ -21,7 +21,7 @@ import {Plano} from "../../../../entity/assinatura/plano.model";
     viewAnimation
   ]
 })
-export class PlanosComponent implements OnInit {
+export class PlanosComponent {
 
   /**
    *
@@ -29,6 +29,13 @@ export class PlanosComponent implements OnInit {
    */
   @Input()
   public assinatura: Assinatura = new Assinatura();
+
+  /**
+   *
+   * @type {Configuracao}
+   */
+  @Output()
+  public assinaturaChange: EventEmitter<Assinatura> = new EventEmitter();
 
   /**
    *
@@ -42,18 +49,23 @@ export class PlanosComponent implements OnInit {
    *
    * @param planoRepository
    * @param fb
+   * @param assinaturaRepository
    */
-  constructor(private planoRepository: PlanoRepository, private fb: FormBuilder) {
-    planoRepository.findAll().subscribe( result => {
+  constructor(private fb: FormBuilder,
+              private planoRepository: PlanoRepository,
+              private assinaturaRepository: AssinaturaRepository) {
+
+    planoRepository.findAll().subscribe(result => {
       this.planos = result;
       this.assinatura.plano = this.planos[0]
     })
+
   }
 
   /**
    *
    */
-  ngOnInit(): void {
-
+  public save(): void {
+    this.assinaturaRepository.save(this.assinatura).then(result => this.assinatura = result)
   }
 }

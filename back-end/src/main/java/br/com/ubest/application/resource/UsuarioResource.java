@@ -1,6 +1,5 @@
-package br.com.ubest.domain.resource;
+package br.com.ubest.application.resource;
 
-import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.repository.UsuarioRepository;

@@ -1,4 +1,4 @@
-package br.com.ubest.domain.resource;
+package br.com.ubest.application.resource;
 
 import br.com.ubest.domain.entity.endereco.Cidade;
 import br.com.ubest.domain.service.EnderecoService;

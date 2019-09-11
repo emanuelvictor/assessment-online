@@ -1,4 +1,4 @@
-package br.com.ubest.domain.resource;
+package br.com.ubest.application.resource;
 
 import br.com.ubest.domain.entity.avaliacao.Agrupador;
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;

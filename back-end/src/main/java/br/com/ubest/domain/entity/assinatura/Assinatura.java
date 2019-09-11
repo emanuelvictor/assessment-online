@@ -1,31 +1,28 @@
 package br.com.ubest.domain.entity.assinatura;
 
-import br.com.ubest.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import br.com.ubest.domain.entity.endereco.Endereco;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
-import br.com.ubest.domain.entity.generic.EntityIdResolver;
-import br.com.ubest.domain.entity.unidade.Licenca;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoLicenca;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
+/**
+ * @author Emanuel Victor
+ * @version 1.0.0
+ * @since 1.0.0, 10/09/2019
+ */
 @Data
 @Entity
 @Audited
 @NoArgsConstructor
-@Table(schema = DEFAULT_TENANT_ID)
 @lombok.EqualsAndHashCode(callSuper = true)
 public class Assinatura extends AbstractEntity implements Serializable {
 
@@ -48,6 +45,14 @@ public class Assinatura extends AbstractEntity implements Serializable {
      */
     @Column
     private LocalDateTime dataVencimento;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private FormaPagamento formaPagamento;
 
     /**
      *
@@ -92,7 +97,6 @@ public class Assinatura extends AbstractEntity implements Serializable {
     private Long telefone;
 
     /**
-     *
      * Para pagamento com cartão de crédito
      */
     @Transient
@@ -101,7 +105,8 @@ public class Assinatura extends AbstractEntity implements Serializable {
     /**
      *
      */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Endereco.class )
     private Endereco endereco;
 
     /**

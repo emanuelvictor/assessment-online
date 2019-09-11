@@ -93,6 +93,7 @@ export class Assinatura extends Abstract {
   constructor() {
     super();
     this.formaPagamento = 'BOLETO';
-    this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0)
+    this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
+    this.plano = new Plano()
   }
 }
