@@ -15,8 +15,9 @@
   </div>
 
   <!-- Cartão de crédito -->
-  <cartao [@fadeInOut] [publicKey]='publicKey'
-          [assinatura]='assinatura' [form]='form.secondFormGroup'
+  <cartao [assinatura]='assinatura'
+          [publicKey]='publicKey' [@fadeInOut]
+          [form]='form?.controls?.secondFormGroup'
           *ngIf="assinatura.formaPagamento === 'CARTAO' && publicKey">
   </cartao>
 
@@ -29,19 +30,19 @@
                [(ngModel)]="assinatura.codigoArea"
                matInput placeholder="DDD" required
                pattern="\d*" minlength="1" maxlength="2">
-        <mat-error *ngIf="form.secondFormGroup?.controls['codigoArea']?.hasError('exception')">
-          {{form?.controls['codigoArea']?.errors.exception}}
+        <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['codigoArea']?.hasError('exception')">
+          {{form?.controls?.secondFormGroup?.controls['codigoArea']?.errors.exception}}
         </mat-error>
       </mat-form-field>
       <mat-form-field flex>
-        <input id="telefone" matInput
+        <input id='telefone' matInput
                formControlName='telefone'
-               pattern="\d*" name="telefone"
-               placeholder="Número do telefone"
-               [(ngModel)]="assinatura.telefone"
-               minlength="7" maxlength="9" required>
-        <mat-error *ngIf="form.secondFormGroup?.controls['telefone']?.hasError('exception')">
-          {{form?.controls['telefone']?.errors.exception}}
+               pattern="\d*" name='telefone'
+               placeholder='Número do telefone'
+               [(ngModel)]='assinatura.telefone'
+               minlength='7' maxlength='9' required>
+        <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['telefone']?.hasError('exception')">
+          {{form?.controls?.secondFormGroup?.controls['telefone']?.errors.exception}}
         </mat-error>
       </mat-form-field>
     </div>
@@ -62,9 +63,9 @@
     <b class="pagamento-title" flex>Endereço</b>
   </div>
 
-  <maps-component [form]='form'
-                  [allRequired]='true'
-                  [(endereco)]='assinatura.endereco'>
+  <maps-component [allRequired]='true'
+                  [(endereco)]='assinatura.endereco'
+                  [form]='form?.controls?.secondFormGroup'>
   </maps-component>
 
   <!--actions div-->

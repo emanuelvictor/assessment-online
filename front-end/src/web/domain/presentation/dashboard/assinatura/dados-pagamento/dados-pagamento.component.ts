@@ -74,8 +74,23 @@ export class DadosPagamentoComponent implements OnInit {
    */
   ngOnInit(): void {
 
-    this.form.get('secondFormGroup').addControl('codigoArea', new FormControl([obrigatorio('O código de área do número de telefone é obrigatório')]));
-    this.form.get('secondFormGroup').addControl('telefone', new FormControl([obrigatorio('O telefone é obrigatório')]))
+    // this.form.get('secondFormGroup').addControl('codigoArea', new FormControl([obrigatorio('O código de área do número de telefone é obrigatório')]));
+    // this.form.get('secondFormGroup').addControl('telefone', new FormControl([obrigatorio('O telefone é obrigatório')]))
+
+
+    const formGroup = new FormGroup({
+      codigoArea: new FormControl(this.assinatura.codigoArea, [obrigatorio('O código de área do número de telefone é obrigatório')]),
+      telefone: new FormControl(this.assinatura.telefone, [obrigatorio('O telefone é obrigatório')]),
+    });
+
+    if (!this.form) {
+      this.form = this.fb.group({});
+    }
+
+    this.form.addControl('secondFormGroup', formGroup);
+
+    console.log(this.form)
+
 
   }
 

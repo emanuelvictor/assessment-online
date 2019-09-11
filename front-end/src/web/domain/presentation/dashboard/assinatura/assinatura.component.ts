@@ -43,7 +43,6 @@ export class AssinaturaComponent implements OnInit {
    */
   form: FormGroup = new FormGroup({
     firstFormGroup: new FormGroup({}),
-    secondFormGroup: new FormGroup({}),
     thirdFormGroup: new FormGroup({})
   });
 
