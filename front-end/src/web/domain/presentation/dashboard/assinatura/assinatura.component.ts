@@ -100,11 +100,11 @@ export class AssinaturaComponent implements OnInit {
             if (control.controls[key2].invalid) {
               const controlInner = control.controls[key2];
               controlInner.key = '#' + key2;
-              controls.push(controlInner);
+              controls.push(controlInner)
             }
           });
         } else {
-          controls.push(control);
+          controls.push(control)
         }
       }
     });
@@ -116,9 +116,9 @@ export class AssinaturaComponent implements OnInit {
           this.renderer.invokeElementMethod(element, 'focus', []);
           valid = false;
           if (control.errors.exception) {
-            this.error(control.errors.exception);
+            this.error(control.errors.exception)
           }
-          break;
+          break
         }
         if (control.controls && control.invalid) {
           for (const controlInner of control.controls) {
@@ -127,9 +127,9 @@ export class AssinaturaComponent implements OnInit {
               this.renderer.invokeElementMethod(elementt, 'focus', []);
               valid = false;
               if (controlInner.errors.exception) {
-                this.error(controlInner.errors.exception);
+                this.error(controlInner.errors.exception)
               }
-              break;
+              break
             }
           }
         }
@@ -143,7 +143,7 @@ export class AssinaturaComponent implements OnInit {
           this.assinatura = result;
 
           this._loadingService.resolve('overlayStarSyntax');
-          this.success('Assinatura atualizada com sucesso');
+          this.success('Assinatura atualizada com sucesso')
 
         })
     }

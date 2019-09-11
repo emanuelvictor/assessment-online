@@ -37,22 +37,22 @@
             <ng-template matStepLabel>
               Concluir
             </ng-template>
-            <div layout="row" layout-align="center center">
-              <div class="visualizar-compra-container" flex>
-                <div layout="column" layout-margin layout-align="center center">
-                  <img src='https://www.thefullclass.com/static/images/big-check.png' class="push-top"
-                       alt="Imagem grande check">
-                  <h1 class="tc-light-green-800" style="font-size: 34px" flex>Parabéns</h1>
-                  <span class="tc-light-green-800 text-center mat-title" style='line-height: 20px' flex>
-                          Sua assinatura foi realizada com sucesso! :)
-                        </span>
-                  <span *ngIf="assinatura && assinatura.formaPagamento === 'BOLETO'"
-                        class="tc-light-green-800 text-center mat-subhead" flex>
-                          Você receberá o boleto em seu e-mail
-                        </span>
-                  <span class="tc-grey-400 mat-subhead" style="line-height: 3em" flex>
-                          INFORMAÇÕES DA COMPRA
-                        </span>
+            <div layout='row' layout-align='center center'>
+              <div class='visualizar-compra-container' flex>
+                <div layout='column' layout-margin layout-align='center center'>
+                  <img class='push-top' alt='Imagem grande check'
+                       src='https://www.thefullclass.com/static/images/big-check.png'>
+                  <h1 class='tc-light-green-800' style='font-size: 34px' flex>Parabéns</h1>
+                  <span class='tc-light-green-800 text-center mat-title' style='line-height: 20px' flex>
+                    Sua assinatura foi realizada com sucesso! :)
+                  </span>
+                  <span class='tc-light-green-800 text-center mat-subhead' flex
+                        *ngIf="assinatura && assinatura.formaPagamento === 'BOLETO'">
+                    Você receberá o boleto em seu e-mail
+                  </span>
+                  <span class='tc-grey-400 mat-subhead' style='line-height: 3em' flex>
+                    INFORMAÇÕES DA ASSINATURA
+                  </span>
                 </div>
               </div>
             </div>
