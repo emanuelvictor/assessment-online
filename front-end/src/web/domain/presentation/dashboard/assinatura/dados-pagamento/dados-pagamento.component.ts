@@ -147,15 +147,8 @@ export class DadosPagamentoComponent implements OnInit {
     }
 
     if (valid) {
-      this._loadingService.register('overlayStarSyntax');
       this.assinaturaRepository.save(this.assinatura)
-        .then(result => {
-          this.assinatura = result;
-
-          this._loadingService.resolve('overlayStarSyntax');
-          this.success('Assinatura atualizada com sucesso');
-
-        })
+        .then(result => this.assinatura = result)
     }
   }
 

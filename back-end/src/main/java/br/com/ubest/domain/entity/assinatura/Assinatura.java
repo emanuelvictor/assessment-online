@@ -3,6 +3,7 @@ package br.com.ubest.domain.entity.assinatura;
 import br.com.ubest.domain.entity.endereco.Endereco;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoLicenca;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
@@ -10,6 +11,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
@@ -79,9 +81,10 @@ public class Assinatura extends AbstractEntity implements Serializable {
     private String documentoTitularCartao;
 
     /**
-     *
+     *TODO colcoar só localdate
      */
     @Column
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dataNascimentoTitularCartao;
 
     /**

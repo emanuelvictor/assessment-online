@@ -4,7 +4,7 @@
     <b class="pagamento-title" flex>Selecione um plano</b>
   </div>
 
-  <mat-grid-list cols='3' rowHeight='275px'>
+  <mat-grid-list cols='3' rowHeight='275px' *ngIf='planos?.length'>
     <mat-radio-group layout="row" flex name='plano'
                      [(ngModel)]='assinatura.plano.id'
                      [ngModelOptions]="{standalone: true}">

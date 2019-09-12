@@ -1,3 +1,4 @@
+import creditCardType, {types as CardType} from 'credit-card-type';
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
@@ -6,6 +7,7 @@ import {viewAnimation} from "../../../../controls/utils";
 import {textMasks} from "../../../../controls/text-masks/text-masks";
 import {Assinatura} from "../../../../../entity/assinatura/assinatura.model";
 import {obrigatorio} from "../../../../controls/validators/validators";
+
 // import * as moment from 'moment-timezone';
 
 /**
@@ -80,11 +82,24 @@ export class CartaoComponent implements OnInit, OnDestroy {
    * @param validatorFn
    */
   public cartaoCreditoValidator(exception?: string, validatorFn?: ValidatorFn): ValidatorFn {
+
     if (validatorFn) {
       return validatorFn
     }
 
     return (c: AbstractControl): { [key: string]: any } => {
+
+      if (c.value) {
+        const cards = creditCardType(c.value).filter(function (card) {
+          return card.type === CardType.MASTERCARD || card.type === CardType.VISA || card.type == CardType.DINERS_CLUB || card.type === CardType.AMERICAN_EXPRESS || card.type === CardType.ELO;
+        });
+
+        if (!cards.length) {
+          return {
+            exception: exception ? exception : 'São permitidos somente os cartões Visa, MasterCard, Dinners Club, American Express e Elo'
+          }
+        }
+      }
 
       const Moip = window['Moip'];
 
@@ -96,11 +111,12 @@ export class CartaoComponent implements OnInit, OnDestroy {
         pubKey: this.publicKey
       });
 
-      if (!cc.isValid()) {
+      if (this.assinatura.codigoSeguranca && this.assinatura.mesValidade && this.assinatura.anoValidade && this.publicKey)
+        if (!cc.isValid()) {
           return {
             exception: exception ? exception : 'Cartão inválido'
           }
-      }
+        }
 
       return null
     }
@@ -112,30 +128,24 @@ export class CartaoComponent implements OnInit, OnDestroy {
    * @param validatorFn
    */
   public dataNascimentoTitularCartaoValidator(exception?: string, validatorFn?: ValidatorFn): ValidatorFn {
+
     if (validatorFn) {
       return validatorFn
     }
+
     return (c: AbstractControl): { [key: string]: any } => {
 
       if (!c || !c.value) {
         return {
           exception: exception ? exception : 'Defina uma data'
-        };
+        }
       }
 
       if (c.value.length < 8) {
         return {
           exception: 'Data inválida'
-        };
+        }
       }
-
-      // const momentData = moment(c.value, "DD-MM-YYYY");
-      //
-      // if (momentData.isAfter(moment())) {
-      //   return {
-      //     exception: 'Insira uma data anterior à de hoje'
-      //   };
-      // }
 
       return null
     }
@@ -145,6 +155,6 @@ export class CartaoComponent implements OnInit, OnDestroy {
    *
    */
   ngOnDestroy(): void {
-    this.form.removeControl('password');
+    this.form.removeControl('cartao');
   }
 }

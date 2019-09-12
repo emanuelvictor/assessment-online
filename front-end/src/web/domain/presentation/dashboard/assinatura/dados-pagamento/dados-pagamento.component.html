@@ -1,4 +1,6 @@
-<form [formGroup]='form?.controls?.secondFormGroup' (ngSubmit)='save(form?.controls?.secondFormGroup)' novalidate>
+<form [formGroup]='form?.controls?.secondFormGroup'
+      (ngSubmit)='save(form?.controls?.secondFormGroup)'
+      novalidate *ngIf='form?.controls?.secondFormGroup'>
 
   <div layout="row" layout-margin>
     <mat-radio-group [ngModelOptions]="{standalone: true}"
@@ -15,9 +17,8 @@
   </div>
 
   <!-- Cartão de crédito -->
-  <cartao [assinatura]='assinatura'
-          [publicKey]='publicKey' [@fadeInOut]
-          [form]='form?.controls?.secondFormGroup'
+  <cartao [assinatura]='assinatura' [publicKey]='publicKey'
+          [form]='form?.controls?.secondFormGroup' [@fadeInOut]
           *ngIf="assinatura.formaPagamento === 'CARTAO' && publicKey">
   </cartao>
 

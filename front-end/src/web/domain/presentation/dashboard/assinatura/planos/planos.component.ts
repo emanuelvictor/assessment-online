@@ -66,6 +66,7 @@ export class PlanosComponent {
    *
    */
   public save(): void {
-    this.assinaturaRepository.save(this.assinatura).then(result => this.assinatura = result)
+    this.assinaturaRepository.save(this.assinatura)
+      .then(result => this.assinatura = result)
   }
 }
