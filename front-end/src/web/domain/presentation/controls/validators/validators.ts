@@ -230,6 +230,12 @@ export function obrigatorio(exception?: string, validatorFn?: ValidatorFn): Vali
   }
   return (c: AbstractControl): { [key: string]: any } => {
 
+    if (typeof c.value === 'number')
+      if (!c.value) {
+        return {
+          exception: exception ? exception : 'Campo obrigatório'
+        };
+      } else return null;
     if (!c.value || !c.value.length) {
       return {
         exception: exception ? exception : 'Campo obrigatório'

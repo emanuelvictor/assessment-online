@@ -20,7 +20,7 @@
               Plano
             </ng-template>
 
-            <planos [form]='form' [(assinatura)]='assinatura'></planos>
+            <planos [form]='form' *ngIf='form' [(assinatura)]='assinatura'></planos>
 
           </mat-step>
 

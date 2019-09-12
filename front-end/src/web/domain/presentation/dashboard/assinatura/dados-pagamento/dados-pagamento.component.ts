@@ -79,8 +79,8 @@ export class DadosPagamentoComponent implements OnInit {
 
 
     const formGroup = new FormGroup({
-      codigoArea: new FormControl(this.assinatura.codigoArea, [obrigatorio('O código de área do número de telefone é obrigatório')]),
-      telefone: new FormControl(this.assinatura.telefone, [obrigatorio('O telefone é obrigatório')]),
+      codigoArea: new FormControl('codigoArea', [obrigatorio('O código de área do número de telefone é obrigatório')]),
+      telefone: new FormControl('telefone', [obrigatorio('O telefone é obrigatório')]),
     });
 
     if (!this.form) {
