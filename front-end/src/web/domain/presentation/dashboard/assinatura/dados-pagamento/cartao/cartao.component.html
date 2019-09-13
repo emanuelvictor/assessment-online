@@ -44,11 +44,11 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field flex>
-      <input name="codigoSeguranca"
-             maxLength="10" required matInput
-             formControlName='codigoSeguranca'
+      <input formControlName='codigoSeguranca'
              placeholder="Código de segurança"
-             [(ngModel)]="assinatura.codigoSeguranca">
+             [(ngModel)]="assinatura.codigoSeguranca"
+             maxLength="10" matInput name="codigoSeguranca"
+             (keyup)="form?.controls?.cartao?.get('numeroCartao')?.updateValueAndValidity()">
       <mat-error *ngIf="form?.controls?.cartao?.controls['codigoSeguranca']?.hasError('exception')">
         {{form?.controls?.cartao?.controls['codigoSeguranca']?.errors?.exception}}
       </mat-error>
@@ -98,7 +98,7 @@
           </mat-form-field>
         </ev-datepicker>
 
-        <mat-checkbox style='margin-top: 33px; margin-right: 20px; margin-left:30px'
+        <mat-checkbox style='margin-top: 35px; margin-right: 20px; margin-left:30px'
                       [(ngModel)]='assinatura.souEmpresa' [ngModelOptions]='{standalone: true}'>
           Sou empresa
         </mat-checkbox>

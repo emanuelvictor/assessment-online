@@ -1,11 +1,7 @@
 <!-- Cartão de crédito -->
 <form [formGroup]='form?.controls?.firstFormGroup' (ngSubmit)='save()' novalidate>
-  <div layout="row" layout-margin>
-    <b class="pagamento-title" flex>Selecione um plano</b>
-  </div>
-
-  <mat-grid-list cols='3' rowHeight='275px' *ngIf='planos?.length'>
-    <mat-radio-group layout="row" flex name='plano'
+  <mat-grid-list cols='3' rowHeight='400px' *ngIf='planos?.length'>
+    <mat-radio-group layout='row' flex name='plano'
                      [(ngModel)]='assinatura.plano.id'
                      [ngModelOptions]="{standalone: true}">
 
@@ -14,9 +10,11 @@
           <div layout='column' layout-margin layout-align='center center'
                style='border: 2px solid #60338e !important; box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)'>
             <div flex>
-              {{plano.nome}}
+              <b>
+                {{plano.nome}}
+              </b>
             </div>
-            <div flex>
+            <div *ngIf='plano?.descricao' flex>
               {{plano.descricao}}
             </div>
             <div style='width: 100%; background-color: #dfe5e7; text-align: center; padding: 20px'>
@@ -27,6 +25,16 @@
             </div>
             <div flex>
               {{plano.valorAvaliacoesExcedentes}}  por avaliação excedente
+            </div>
+            <div flex *ngIf='plano?.quantidadeLicencas'
+                 style='width: 100%;background-color: aliceblue;text-align: center;padding: 20px;margin: 0; padding-bottom: 0'>
+              {{plano.quantidadeLicencas}} (licenças) x {{plano.valorMensal}}
+            </div>
+            <div flex style='width: 100%;background-color: aliceblue;text-align: center;margin: 0'>
+              =
+            </div>
+            <div flex style='width: 100%;background-color: aliceblue;text-align: center;padding: 20px;margin: 0; padding-top: 0'>
+              {{(plano.quantidadeLicencas * plano.valorMensal) | currency}}
             </div>
           </div>
         </mat-radio-button>

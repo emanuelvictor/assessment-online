@@ -2,9 +2,11 @@ package br.com.ubest.domain.entity.assinatura;
 
 import br.com.ubest.domain.entity.endereco.Endereco;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.domain.entity.unidade.Licenca;
 import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoLicenca;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -13,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
@@ -60,7 +63,7 @@ public class Assinatura extends AbstractEntity implements Serializable {
      *
      */
     @Column(unique = true)
-    private Long numeroCartao;
+    private String numeroCartao;
 
     /**
      *
@@ -81,11 +84,11 @@ public class Assinatura extends AbstractEntity implements Serializable {
     private String documentoTitularCartao;
 
     /**
-     *TODO colcoar só localdate
+     *
      */
     @Column
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDateTime dataNascimentoTitularCartao;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataNascimentoTitularCartao;
 
     /**
      *
@@ -102,7 +105,7 @@ public class Assinatura extends AbstractEntity implements Serializable {
     /**
      * Para pagamento com cartão de crédito
      */
-    @Transient
+    @Column
     private String hash;
 
     /**

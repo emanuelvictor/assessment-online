@@ -7,6 +7,8 @@ import {viewAnimation} from "../../../controls/utils";
 import {PlanoRepository} from "../../../../repository/plano.repository";
 import {Plano} from "../../../../entity/assinatura/plano.model";
 import {AssinaturaRepository} from "../../../../repository/assinatura.repository";
+import {Licenca} from "../../../../entity/avaliacao/licenca.model";
+import {LicencaRepository} from "../../../../repository/licenca.repository";
 
 // import * as moment from 'moment-timezone';
 
@@ -43,21 +45,39 @@ export class PlanosComponent {
   @Input()
   form: any;
 
+  /**
+   *
+   */
   planos: Plano[];
+
+  /**
+   *
+   */
+  licencas: Licenca[];
 
   /**
    *
    * @param planoRepository
    * @param fb
+   * @param licencaRepository
    * @param assinaturaRepository
    */
   constructor(private fb: FormBuilder,
               private planoRepository: PlanoRepository,
+              private licencaRepository: LicencaRepository,
               private assinaturaRepository: AssinaturaRepository) {
 
     planoRepository.findAll().subscribe(result => {
       this.planos = result;
-      this.assinatura.plano = this.planos[0]
+
+      licencaRepository.findAll().subscribe( licencas => {
+        this.planos.forEach( plano => {
+          (plano as any).quantidadeLicencas = (licencas as any).numberOfElements
+        })
+      });
+
+      if (!this.assinatura.plano)
+        this.assinatura.plano = this.planos[0]
     })
 
   }

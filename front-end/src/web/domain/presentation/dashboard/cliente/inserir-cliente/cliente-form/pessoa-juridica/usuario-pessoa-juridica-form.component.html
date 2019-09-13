@@ -3,6 +3,7 @@
     <mat-form-field flex>
       <input matInput name='cnpj' id='cnpj'
              [(ngModel)]='documento' required
+             (keyup)='documentoChange.emit(documento)'
              placeholder='CNPJ' formControlName='cnpj'
              [textMask]='{mask: masks.cnpj, guide: false}'>
       <mat-error *ngIf="form?.controls?.pessoaJuridica?.controls['cnpj']?.hasError('exception')">

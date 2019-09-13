@@ -32,6 +32,11 @@ export class Plano extends Abstract {
   /**
    *
    */
+  public quantidadeLicencas: number;
+
+  /**
+   *
+   */
   constructor() {
     super()
   }

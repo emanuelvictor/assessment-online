@@ -63,7 +63,7 @@ export class CartaoComponent implements OnInit, OnDestroy {
       numeroCartao: new FormControl('numeroCartao', [obrigatorio('O número do cartão é obrigatório'), this.cartaoCreditoValidator()]),
       mesValidade: new FormControl('mesValidade', [obrigatorio('O mês de validade é obrigatório')]),
       anoValidade: new FormControl('anoValidade', [obrigatorio('O ano de validade é obrigatório')]),
-      codigoSeguranca: new FormControl('codigoSeguranca', [obrigatorio('O código de segurança é obrigatório')]),
+      codigoSeguranca: new FormControl('codigoSeguranca', [this.codigoSegurancaObrigatorio('O código de segurança é obrigatório')]),
       nomeTitularCartao: new FormControl('nomeTitularCartao', [obrigatorio('O nome do titular é obrigatório')]),
       dataNascimentoTitularCartao: new FormControl('dataNascimentoTitularCartao', [this.dataNascimentoTitularCartaoValidator()])
     });
@@ -116,6 +116,8 @@ export class CartaoComponent implements OnInit, OnDestroy {
           return {
             exception: exception ? exception : 'Cartão inválido'
           }
+        } else if (cc.isValid()){
+          this.assinatura.hash = cc.hash()
         }
 
       return null
@@ -151,10 +153,34 @@ export class CartaoComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Validação de obrigatorio
+  codigoSegurancaObrigatorio(exception?: string, validatorFn?: ValidatorFn): ValidatorFn {
+    if (validatorFn) {
+      return validatorFn;
+    }
+    return (c: AbstractControl): { [key: string]: any } => {
+
+      if (typeof c.value === 'number')
+        if (!c.value && !this.assinatura.hash) {
+          return {
+            exception: exception ? exception : 'Campo obrigatório'
+          }
+        } else return null;
+
+      if ((!c.value || !c.value.length) && !this.assinatura.hash) {
+        return {
+          exception: exception ? exception : 'Campo obrigatório'
+        }
+      }
+
+      return null
+    }
+  }
+
   /**
    *
    */
   ngOnDestroy(): void {
-    this.form.removeControl('cartao');
+    this.form.removeControl('cartao')
   }
 }
