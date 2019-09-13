@@ -6,7 +6,7 @@
                      [ngModelOptions]="{standalone: true}">
 
       <mat-grid-tile *ngFor='let plano of planos' style='margin-left: 60px'>
-        <mat-radio-button name='plano' color='primary' [value]='plano.id'>
+        <mat-radio-button name='plano' color='primary' [value]='plano.id' *ngIf='plano?.quantidadeLicencas' [@fadeInOut]>
           <div layout='column' layout-margin layout-align='center center'
                style='border: 2px solid #60338e !important; box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)'>
             <div flex>
@@ -18,23 +18,23 @@
               {{plano.descricao}}
             </div>
             <div style='width: 100%; background-color: #dfe5e7; text-align: center; padding: 20px'>
-              {{plano.valorMensal}}
+              {{plano.valorMensal | currency:'BRL':true}}
             </div>
             <div flex>
-              {{plano.quantidadeAvaliacoes}}  avaliações por mês
+              {{plano.quantidadeAvaliacoes}} avaliações por mês
             </div>
             <div flex>
-              {{plano.valorAvaliacoesExcedentes}}  por avaliação excedente
+              {{plano.valorAvaliacoesExcedentes | currency:'BRL':true}} por avaliação excedente
             </div>
             <div flex *ngIf='plano?.quantidadeLicencas'
                  style='width: 100%;background-color: aliceblue;text-align: center;padding: 20px;margin: 0; padding-bottom: 0'>
-              {{plano.quantidadeLicencas}} (licenças) x {{plano.valorMensal}}
+              {{plano.quantidadeLicencas}} (licenças) x {{plano.valorMensal | currency:'BRL':true}}
             </div>
             <div flex style='width: 100%;background-color: aliceblue;text-align: center;margin: 0'>
               =
             </div>
             <div flex style='width: 100%;background-color: aliceblue;text-align: center;padding: 20px;margin: 0; padding-top: 0'>
-              {{(plano.quantidadeLicencas * plano.valorMensal) | currency}}
+              {{(plano.quantidadeLicencas * plano.valorMensal) | currency:'BRL':true}}
             </div>
           </div>
         </mat-radio-button>
