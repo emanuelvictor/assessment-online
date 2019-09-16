@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -48,8 +50,11 @@ public class Assinatura extends AbstractEntity implements Serializable {
     /**
      *
      */
-    @Column
-    private LocalDateTime dataVencimento;
+    @Min(1)
+    @Max(28)
+    @NotNull
+    @Column(nullable = false)
+    private short diaUtilVencimentoFatura = 5;
 
     /**
      *

@@ -35,6 +35,7 @@
           {{form?.controls?.secondFormGroup?.controls['codigoArea']?.errors.exception}}
         </mat-error>
       </mat-form-field>
+
       <mat-form-field flex>
         <input id='telefone' matInput
                formControlName='telefone'
@@ -44,6 +45,16 @@
                minlength='7' maxlength='9' required>
         <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['telefone']?.hasError('exception')">
           {{form?.controls?.secondFormGroup?.controls['telefone']?.errors.exception}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field flex>
+        <input [(ngModel)]='assinatura.diaUtilVencimentoFatura'
+               placeholder='Dia útil para o vencimento da fatura'
+               id='diaUtilVencimentoFatura' name='diaUtilVencimentoFatura'
+               type='number' matInput required formControlName='diaUtilVencimentoFatura'>
+        <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['diaUtilVencimentoFatura']?.hasError('exception')">
+          {{form?.controls?.secondFormGroup?.controls['diaUtilVencimentoFatura']?.errors.exception}}
         </mat-error>
       </mat-form-field>
     </div>

@@ -90,10 +90,16 @@ export class Assinatura extends Abstract {
   /**
    *
    */
+  public diaUtilVencimentoFatura: number = 5;
+
+  /**
+   *
+   */
   constructor() {
     super();
     this.formaPagamento = 'BOLETO';
     this.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
-    this.plano = new Plano()
+    this.plano = new Plano();
+    this.diaUtilVencimentoFatura = 5
   }
 }

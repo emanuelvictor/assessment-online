@@ -7,7 +7,7 @@ import {Configuracao} from "../../../../entity/configuracao/configuracao.model";
 
 import {TdLoadingService} from '@covalent/core';
 
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn} from "@angular/forms";
 import {viewAnimation} from "../../../controls/utils";
 import {textMasks} from "../../../controls/text-masks/text-masks";
 import {Assinatura} from "../../../../entity/assinatura/assinatura.model";
@@ -77,13 +77,14 @@ export class DadosPagamentoComponent implements OnInit {
     const formGroup = new FormGroup({
       codigoArea: new FormControl('codigoArea', [obrigatorio('O código de área do número de telefone é obrigatório')]),
       telefone: new FormControl('telefone', [obrigatorio('O telefone é obrigatório')]),
+      diaUtilVencimentoFatura: new FormControl('diaUtilVencimentoFatura', [obrigatorio('Qual é o dia útil para o vencimento da fatura?'), this.diaUtilVencimentoFaturaValidator()])
     });
 
     if (!this.form) {
       this.form = this.fb.group({});
     }
 
-    this.form.addControl('secondFormGroup', formGroup);
+    this.form.addControl('secondFormGroup', formGroup)
 
   }
 
@@ -119,7 +120,7 @@ export class DadosPagamentoComponent implements OnInit {
           this.renderer.invokeElementMethod(element, 'focus', []);
           valid = false;
           if (control.errors.exception) {
-            this.error(control.errors.exception);
+            this.error(control.errors.exception)
           }
           break
         }
@@ -130,7 +131,7 @@ export class DadosPagamentoComponent implements OnInit {
               this.renderer.invokeElementMethod(elementt, 'focus', []);
               valid = false;
               if (controlInner.errors.exception) {
-                this.error(controlInner.errors.exception);
+                this.error(controlInner.errors.exception)
               }
               break
             }
@@ -169,6 +170,30 @@ export class DadosPagamentoComponent implements OnInit {
     this.snackBar.open(message, "Fechar", {
       duration: 5000
     })
+  }
+
+  /**
+   *
+   * @param exception
+   * @param validatorFn
+   */
+  public diaUtilVencimentoFaturaValidator(exception?: string, validatorFn?: ValidatorFn): ValidatorFn {
+
+    if (validatorFn) {
+      return validatorFn
+    }
+
+    return (c: AbstractControl): { [key: string]: any } => {
+
+      if (typeof c.value === 'number')
+        if (!c.value)
+          if (c.value > 28 || c.value < 1)
+            return {
+              exception: exception ? exception : 'O dia para o vencimento da fatura devem estar entre o dia 1 e o dia 28'
+            };
+
+      return null
+    }
   }
 
 }
