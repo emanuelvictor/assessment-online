@@ -184,9 +184,8 @@ export class DadosPagamentoComponent implements OnInit {
     }
 
     return (c: AbstractControl): { [key: string]: any } => {
-
-      if (typeof c.value === 'number')
-        if (!c.value)
+      if (c.value)
+        if (typeof c.value === 'number')
           if (c.value > 28 || c.value < 1)
             return {
               exception: exception ? exception : 'O dia para o vencimento da fatura devem estar entre o dia 1 e o dia 28'

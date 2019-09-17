@@ -26,23 +26,18 @@
   <div layout="row">
     <div layout-gt-xs="row" layout-margin>
       <mat-form-field flex>
-        <input formControlName='codigoArea'
-               name="codigoArea" id="codigoArea"
-               [(ngModel)]="assinatura.codigoArea"
-               matInput placeholder="DDD" required
-               pattern="\d*" minlength="1" maxlength="2">
+        <input [(ngModel)]='assinatura.codigoArea' placeholder='DDD'
+               formControlName='codigoArea' required matInput pattern='\d*'
+               name='codigoArea' id='codigoArea' minlength='1' maxlength='2'>
         <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['codigoArea']?.hasError('exception')">
           {{form?.controls?.secondFormGroup?.controls['codigoArea']?.errors.exception}}
         </mat-error>
       </mat-form-field>
 
       <mat-form-field flex>
-        <input id='telefone' matInput
-               formControlName='telefone'
-               pattern="\d*" name='telefone'
-               placeholder='Número do telefone'
-               [(ngModel)]='assinatura.telefone'
-               minlength='7' maxlength='9' required>
+        <input formControlName='telefone' placeholder='Número do telefone'
+               [(ngModel)]='assinatura.telefone' minlength='7' maxlength='9'
+               id='telefone' matInput pattern="\d*" name='telefone' required>
         <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['telefone']?.hasError('exception')">
           {{form?.controls?.secondFormGroup?.controls['telefone']?.errors.exception}}
         </mat-error>

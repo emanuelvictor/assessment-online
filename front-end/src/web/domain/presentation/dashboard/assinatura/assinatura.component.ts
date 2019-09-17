@@ -46,6 +46,9 @@ export class AssinaturaComponent implements OnInit {
     thirdFormGroup: new FormGroup({})
   });
 
+  /**
+   *
+   */
   private publicKey: string;
 
   /**
@@ -76,7 +79,7 @@ export class AssinaturaComponent implements OnInit {
       if (!this.assinatura.endereco)
         this.assinatura.endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
       if (!this.assinatura.formaPagamento)
-        this.assinatura.formaPagamento = 'CARTAO' //todo retornar para boleto
+        this.assinatura.formaPagamento = 'CARTAO'
     });
 
     this.assinaturaRepository.publicKey.subscribe(result => this.publicKey = result)
