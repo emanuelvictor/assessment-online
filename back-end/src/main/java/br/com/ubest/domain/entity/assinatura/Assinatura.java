@@ -2,11 +2,8 @@ package br.com.ubest.domain.entity.assinatura;
 
 import br.com.ubest.domain.entity.endereco.Endereco;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
-import br.com.ubest.domain.entity.unidade.Licenca;
-import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoLicenca;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
@@ -16,10 +13,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Set;
-
-import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
 /**
  * @author Emanuel Victor
@@ -130,7 +123,7 @@ public class Assinatura extends AbstractEntity implements Serializable {
 //     * TODO testar
 //     */
 //    @EqualsAndHashCode.Exclude
-//    @OneToMany(targetEntity = Licenca.class, mappedBy = "assinatura", fetch = FetchType.EAGER, orphanRemoval = true)
-//    private Set<Licenca> licencas;
+//    @OneToMany(targetEntity = Dispositivo.class, mappedBy = "assinatura", fetch = FetchType.EAGER, orphanRemoval = true)
+//    private Set<Dispositivo> dispositivos;
 
 }

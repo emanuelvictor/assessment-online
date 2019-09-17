@@ -1,12 +1,12 @@
 import {Pessoa} from "../../abstract/pessoa.model";
 import {Usuario} from "../usuario.model";
-import {UnidadeTipoAvaliacaoLicenca} from "../../avaliacao/unidade-tipo-avaliacao-licenca.model";
+import {UnidadeTipoAvaliacaoDispositivo} from "../../avaliacao/unidade-tipo-avaliacao-dispositivo.model";
 
 export class Avaliavel extends Pessoa {
 
   public usuario: Usuario;
 
-  public unidadeTipoAvaliacaoLicenca: UnidadeTipoAvaliacaoLicenca;
+  public unidadeTipoAvaliacaoDispositivo: UnidadeTipoAvaliacaoDispositivo;
 
   public ativo: boolean;
 

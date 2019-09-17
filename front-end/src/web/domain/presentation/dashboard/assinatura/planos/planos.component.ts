@@ -7,8 +7,8 @@ import {viewAnimation} from "../../../controls/utils";
 import {PlanoRepository} from "../../../../repository/plano.repository";
 import {Plano} from "../../../../entity/assinatura/plano.model";
 import {AssinaturaRepository} from "../../../../repository/assinatura.repository";
-import {Licenca} from "../../../../entity/avaliacao/licenca.model";
-import {LicencaRepository} from "../../../../repository/licenca.repository";
+import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
+import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
 
 // import * as moment from 'moment-timezone';
 
@@ -53,26 +53,26 @@ export class PlanosComponent {
   /**
    *
    */
-  licencas: Licenca[];
+  dispositivos: Dispositivo[];
 
   /**
    *
    * @param planoRepository
    * @param fb
-   * @param licencaRepository
+   * @param dispositivoRepository
    * @param assinaturaRepository
    */
   constructor(private fb: FormBuilder,
               private planoRepository: PlanoRepository,
-              private licencaRepository: LicencaRepository,
+              private dispositivoRepository: DispositivoRepository,
               private assinaturaRepository: AssinaturaRepository) {
 
     planoRepository.findAll().subscribe(result => {
       this.planos = result;
 
-      licencaRepository.findAll().subscribe( licencas => {
+      dispositivoRepository.findAll().subscribe( dispositivos => {
         this.planos.forEach( plano => {
-          (plano as any).quantidadeLicencas = (licencas as any).numberOfElements
+          (plano as any).quantidadeDispositivos = (dispositivos as any).numberOfElements
         })
       });
 

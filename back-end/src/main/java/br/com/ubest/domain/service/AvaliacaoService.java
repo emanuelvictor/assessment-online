@@ -110,7 +110,7 @@ public class AvaliacaoService {
     @Transactional
     public Page<Avaliacao> listByFilters(final String defaultFilter,
                                          final List<Long> unidadesFilter,
-                                         final List<Long> licencasFilter,
+                                         final List<Long> dispositivosFilter,
                                          final List<Long> usuariosFilter,
                                          final List<Long> tiposAvaliacoesFilter,
                                          final Boolean hasFeedback,
@@ -127,7 +127,7 @@ public class AvaliacaoService {
                 conta.getPerfil().name(),
                 defaultFilter,
                 unidadesFilter,
-                licencasFilter,
+                dispositivosFilter,
                 usuariosFilter,
                 tiposAvaliacoesFilter,
                 hasFeedback,

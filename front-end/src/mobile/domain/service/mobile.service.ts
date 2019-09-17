@@ -13,8 +13,8 @@ import {TdLoadingService} from "@covalent/core";
 import {ConfiguracaoRepository} from "../../../web/domain/repository/configuracao.repository";
 import {Configuracao} from "../../../web/domain/entity/configuracao/configuracao.model";
 import {Agrupador} from "../../../web/domain/entity/avaliacao/agrupador.model";
-import {LicencaRepository} from "../../../web/domain/repository/licenca.repository";
-import {Licenca} from "../../../web/domain/entity/avaliacao/licenca.model";
+import {DispositivoRepository} from "../../../web/domain/repository/dispositivo.repository";
+import {Dispositivo} from "../../../web/domain/entity/avaliacao/dispositivo.model";
 import {WebSocketSubject} from "rxjs/webSocket";
 
 /**
@@ -33,7 +33,7 @@ export class MobileService {
   /**
    *
    */
-  private _licenca: Licenca = new Licenca();
+  private _dispositivo: Dispositivo = new Dispositivo();
 
   /**
    *
@@ -53,14 +53,14 @@ export class MobileService {
    * @param {UnidadeService} unidadeService
    * @param _loadingService
    * @param {AvaliacaoService} avaliacaoService
-   * @param _licencaRepository
+   * @param _dispositivoRepository
    */
   constructor(private router: Router,
               private _localStorage: LocalStorage,
               private unidadeService: UnidadeService,
               private _loadingService: TdLoadingService,
               private avaliacaoService: AvaliacaoService,
-              private _licencaRepository: LicencaRepository,
+              private _dispositivoRepository: DispositivoRepository,
               private configuracaRepository: ConfiguracaoRepository) {
   }
 
@@ -68,20 +68,20 @@ export class MobileService {
    *
    * @param numero
    */
-  public connect(numero: any): WebSocketSubject<Licenca> {
-    return this.licencaRepository.connect(numero)
+  public connect(numero: any): WebSocketSubject<Dispositivo> {
+    return this.dispositivoRepository.connect(numero)
   }
 
-  get licenca(): Licenca {
-    return this._licenca;
+  get dispositivo(): Dispositivo {
+    return this._dispositivo;
   }
 
-  set licenca(value: Licenca) {
-    this._licenca = value;
+  set dispositivo(value: Dispositivo) {
+    this._dispositivo = value;
   }
 
-  get licencaRepository(): LicencaRepository {
-    return this._licencaRepository
+  get dispositivoRepository(): DispositivoRepository {
+    return this._dispositivoRepository
   }
 
   /**

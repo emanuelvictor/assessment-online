@@ -9,7 +9,7 @@ import {UnidadeTipoAvaliacaoRepository} from "../../../../../web/domain/reposito
 import {Agrupador} from "../../../../../web/domain/entity/avaliacao/agrupador.model";
 import {Subject} from "rxjs";
 import {environment} from "../../../../../environments/environment";
-import {Licenca} from "../../../../../web/domain/entity/avaliacao/licenca.model";
+import {Dispositivo} from "../../../../../web/domain/entity/avaliacao/dispositivo.model";
 import {WebSocketSubject} from "rxjs/webSocket";
 
 @Component({
@@ -35,7 +35,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   /**
    *
    */
-  private webSocketSubject: WebSocketSubject<Licenca>;
+  private webSocketSubject: WebSocketSubject<Dispositivo>;
 
   /**
    *
@@ -65,13 +65,13 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
           this.webSocketSubject = this.mobileService.connect(model);
 
           this.webSocketSubject.subscribe(result => {
-            this.mobileService.licenca = Object.assign({}, result);
-            this.mobileService.licenca.numeroSerie = Object.assign({}, result.numeroSerie);
-            this.mobileService.licenca.numeroSerie = 'asdfff';
+            this.mobileService.dispositivo = Object.assign({}, result);
+            this.mobileService.dispositivo.numeroSerie = Object.assign({}, result.numeroSerie);
+            this.mobileService.dispositivo.numeroSerie = 'asdfff';
             console.log('gerando número de série');
-            // this.mobileService.licenca.unidadesTiposAvaliacoesLicenca = null;
-            if (this.mobileService.licenca.numeroSerie !== result.numeroSerie) {
-              this.mobileService.licencaRepository.save(this.mobileService.licenca);
+            // this.mobileService.dispositivo.unidadesTiposAvaliacoesDispositivo = null;
+            if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
+              this.mobileService.dispositivoRepository.save(this.mobileService.dispositivo);
             }
           })
         }

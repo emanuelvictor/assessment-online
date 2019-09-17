@@ -7,9 +7,9 @@ import {Conta} from '../../../../entity/usuario/conta.model';
 import {UnidadeService} from "../../../../service/unidade.service";
 import {OperadorRepository} from "../../../../repository/operador.repository";
 import {AvaliavelRepository} from "../../../../repository/avaliavel.repository";
-import {UnidadeTipoAvaliacaoLicenca} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-licenca.model";
+import {UnidadeTipoAvaliacaoDispositivo} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
-import {UnidadeTipoAvaliacaoLicencaRepository} from "../../../../repository/unidade-tipo-avaliacao-licenca.repository";
+import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
 import {Avaliavel} from "../../../../entity/usuario/vinculo/avaliavel.model";
 
 @Component({
@@ -43,7 +43,7 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
   /**
    *
    */
-  vincularUnidadeTipoAvaliacaoLicenca: boolean;
+  vincularUnidadeTipoAvaliacaoDispositivo: boolean;
 
   /**
    * @param {UsuarioService} usuarioService
@@ -52,7 +52,7 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
    * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param unidadeTipoAvaliacaoRepository
-   * @param unidadeTipoAvaliacaoLicencaRepository
+   * @param unidadeTipoAvaliacaoDispositivoRepository
    * @param {ActivatedRoute} activatedRoute
    * @param {UnidadeService} unidadeService
    */
@@ -62,7 +62,7 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
               private router: Router, private snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private activatedRoute: ActivatedRoute, private unidadeService: UnidadeService,
-              private unidadeTipoAvaliacaoLicencaRepository: UnidadeTipoAvaliacaoLicencaRepository) {
+              private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository) {
   }
 
   /**
@@ -90,18 +90,18 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
           this.unidades[i].unidadesTiposAvaliacoes = result.content;
 
           this.unidades[i].unidadesTiposAvaliacoes.map(unidadeTipoAvaliacao => {
-            (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoLicenca = new UnidadeTipoAvaliacaoLicenca(false)
+            (unidadeTipoAvaliacao as any).unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo(false)
           });
 
           for (let c = 0; c < this.unidades[i].unidadesTiposAvaliacoes.length; c++) {
-            this.unidadeTipoAvaliacaoLicencaRepository.listByUnidadeTipoAvaliacaoId({
+            this.unidadeTipoAvaliacaoDispositivoRepository.listByUnidadeTipoAvaliacaoId({
               unidadeTipoAvaliacaoId: this.unidades[i].unidadesTiposAvaliacoes[c].id,
               ativo: true
             }).subscribe(result => {
-              this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesLicenca = result.content;
+              this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo = result.content;
 
-              if (!this.vincularUnidadeTipoAvaliacaoLicenca) {
-                this.vincularUnidadeTipoAvaliacaoLicenca = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length > 1 || (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesLicenca && this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesLicenca.length > 1)))))
+              if (!this.vincularUnidadeTipoAvaliacaoDispositivo) {
+                this.vincularUnidadeTipoAvaliacaoDispositivo = this.unidades.length && (this.unidades.length > 1 || (this.unidades.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length > 1 || (this.unidades[i].unidadesTiposAvaliacoes && this.unidades[i].unidadesTiposAvaliacoes.length === 1 && (this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo && this.unidades[i].unidadesTiposAvaliacoes[c].unidadesTiposAvaliacoesDispositivo.length > 1)))))
               }
             })
           }
@@ -191,7 +191,7 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
    */
   public removeAvaliavel(avaliavel): void {
     for (let i = 0; i < this.avaliaveis.length; i++)
-      if (this.avaliaveis[i].unidadeTipoAvaliacaoLicenca.id === avaliavel.unidadeTipoAvaliacaoLicenca.id) {
+      if (this.avaliaveis[i].unidadeTipoAvaliacaoDispositivo.id === avaliavel.unidadeTipoAvaliacaoDispositivo.id) {
         this.avaliaveis.splice(i, 1);
         return
       }
@@ -199,20 +199,20 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
 
   /**
    *
-   * @param unidadesTiposAvaliacoesLicenca
+   * @param unidadesTiposAvaliacoesDispositivo
    */
-  public unidadesTiposAvaliacoesLicencaChange(unidadesTiposAvaliacoesLicenca: UnidadeTipoAvaliacaoLicenca[]): void {
+  public unidadesTiposAvaliacoesDispositivoChange(unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[]): void {
     const toSave = [];
 
-    unidadesTiposAvaliacoesLicenca.forEach(unidadeTipoAvaliacaoLicenca => {
+    unidadesTiposAvaliacoesDispositivo.forEach(unidadeTipoAvaliacaoDispositivo => {
       const aux = new Avaliavel();
-      (aux.unidadeTipoAvaliacaoLicenca as any) = {
-        id: unidadeTipoAvaliacaoLicenca.id,
-        ativo: unidadeTipoAvaliacaoLicenca.ativo
+      (aux.unidadeTipoAvaliacaoDispositivo as any) = {
+        id: unidadeTipoAvaliacaoDispositivo.id,
+        ativo: unidadeTipoAvaliacaoDispositivo.ativo
       };
       (aux.usuario as any) = {id: this.atendente.id};
-      aux.ativo = (unidadeTipoAvaliacaoLicenca as any).unidadeTipoAvaliacaoLicencaValue;
-      delete (aux.unidadeTipoAvaliacaoLicenca as any).avaliavel;
+      aux.ativo = (unidadeTipoAvaliacaoDispositivo as any).unidadeTipoAvaliacaoDispositivoValue;
+      delete (aux.unidadeTipoAvaliacaoDispositivo as any).avaliavel;
       toSave.push(aux)
     });
 

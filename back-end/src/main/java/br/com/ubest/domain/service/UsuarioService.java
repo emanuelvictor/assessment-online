@@ -6,9 +6,9 @@ import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.configuracao.Configuracao;
-import br.com.ubest.domain.entity.unidade.Licenca;
+import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.unidade.Unidade;
-import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoLicenca;
+import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
@@ -74,7 +74,7 @@ public class UsuarioService {
 
     private final AvaliavelService avaliavelService;
 
-    private final LicencaRepository licencaRepository;
+    private final DispositivoRepository dispositivoRepository;
 
     private final UsuarioRepository usuarioRepository;
 
@@ -90,7 +90,7 @@ public class UsuarioService {
 
     private final ServerSecurityContextRepository serverSecurityContextRepository;
 
-    private final UnidadeTipoAvaliacaoLicencaRepository unidadeTipoAvaliacaoLicencaRepository;
+    private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
 
     /**
      * Serviço de alteração de senha
@@ -302,23 +302,23 @@ public class UsuarioService {
         final Assinatura assinatura = new Assinatura();
         assinaturaRepository.save(assinatura);
 
-        final Licenca licenca = new Licenca();
-        licenca.setAssinatura(assinatura);
-        licenca.setNome("Minha primeira licença");
-        licenca.setModoInsonia(true);
-        licenca.setModoQuiosque(true);
-        licenca.setQuebrarLinhaNaSelecaoDeItemAvaliavel(true);
-        licenca.setInterna(true);
-        licenca.setTime((short) 30);
-        licenca.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
-        this.licencaRepository.save(licenca);
+        final Dispositivo dispositivo = new Dispositivo();
+        dispositivo.setAssinatura(assinatura);
+        dispositivo.setNome("Meu primeiro dispositivo");
+        dispositivo.setModoInsonia(true);
+        dispositivo.setModoQuiosque(true);
+        dispositivo.setQuebrarLinhaNaSelecaoDeItemAvaliavel(true);
+        dispositivo.setInterna(true);
+        dispositivo.setTime((short) 30);
+        dispositivo.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+        this.dispositivoRepository.save(dispositivo);
 
-        final UnidadeTipoAvaliacaoLicenca unidadeTipoAvaliacaoLicenca = new UnidadeTipoAvaliacaoLicenca();
-        unidadeTipoAvaliacaoLicenca.setOrdem((short) 1);
-        unidadeTipoAvaliacaoLicenca.setAtivo(true);
-        unidadeTipoAvaliacaoLicenca.setUnidadeTipoAvaliacao(unidadeTipoAvaliacao);
-        unidadeTipoAvaliacaoLicenca.setLicenca(licenca);
-        this.unidadeTipoAvaliacaoLicencaRepository.save(unidadeTipoAvaliacaoLicenca);
+        final UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo = new UnidadeTipoAvaliacaoDispositivo();
+        unidadeTipoAvaliacaoDispositivo.setOrdem((short) 1);
+        unidadeTipoAvaliacaoDispositivo.setAtivo(true);
+        unidadeTipoAvaliacaoDispositivo.setUnidadeTipoAvaliacao(unidadeTipoAvaliacao);
+        unidadeTipoAvaliacaoDispositivo.setDispositivo(dispositivo);
+        this.unidadeTipoAvaliacaoDispositivoRepository.save(unidadeTipoAvaliacaoDispositivo);
 
         // Quesito
         final Usuario quesito = new Usuario();
@@ -328,7 +328,7 @@ public class UsuarioService {
         // Vinculo entre a avaliação vinculada á unidade e o quesito
         final Avaliavel avaliavel = new Avaliavel();
         avaliavel.setUsuario(quesito);
-        avaliavel.setUnidadeTipoAvaliacaoLicenca(unidadeTipoAvaliacaoLicenca);
+        avaliavel.setUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacaoDispositivo);
         this.avaliavelService.save(avaliavel);
 
         final Configuracao configuracao = new Configuracao();

@@ -12,7 +12,6 @@ import {viewAnimation} from "../../../controls/utils";
 import {ContaService} from "../../../../service/conta.service";
 import {ConfiguracaoRepository} from "../../../../repository/configuracao.repository";
 import {Router} from "@angular/router";
-import {LicencaRepository} from "../../../../repository/licenca.repository";
 
 @Component({
   selector: 'visualizar-minha-conta',
@@ -66,7 +65,7 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
   public userSubscription: Subscription;
 
   /**
-   * @param licencaRepository
+   * @param dispositivoRepository
    * @param router
    * @param {MatDialog} dialog
    * @param {MatSnackBar} snackBar
@@ -83,7 +82,6 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
               private operadorRepository: OperadorRepository,
               private avaliavelRepository: AvaliavelRepository,
               private authenticationService: AuthenticationService,
-              private licencaRepository: LicencaRepository,
               private configuracaoRepository: ConfiguracaoRepository,
               private dialog: MatDialog, private snackBar: MatSnackBar) {
   }
@@ -123,10 +121,10 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
                 this.unidades[i].unidadesTiposAvaliacoes = []
               }
               for (let k = 0; k < this.avaliaveis.length; k++) {
-                if (this.avaliaveis[k].unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
+                if (this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === this.unidades[i].id) {
                   this.unidades[i].avaliavelValue = this.avaliaveis[k].ativo;
-                  this.avaliaveis[k].unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
-                  this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacaoLicenca.unidadeTipoAvaliacao)
+                  this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.avaliavel = (this.avaliaveis[k]);
+                  this.unidades[i].unidadesTiposAvaliacoes.push(this.avaliaveis[k].unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao)
                 }
               }
             }

@@ -1,6 +1,6 @@
 import {Abstract} from "../abstract/abstract.model";
 import {Endereco} from "../endereco/endereco.model";
-import {Licenca} from "../avaliacao/licenca.model";
+import {Dispositivo} from "../avaliacao/dispositivo.model";
 
 export class Plano extends Abstract {
 
@@ -32,7 +32,7 @@ export class Plano extends Abstract {
   /**
    *
    */
-  public quantidadeLicencas: number;
+  public quantidadeDispositivos: number;
 
   /**
    *

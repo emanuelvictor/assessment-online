@@ -108,24 +108,24 @@ import {UsuarioPessoaFisicaFormComponent} from "./presentation/dashboard/cliente
 import {RecaptchaModule} from "ng-recaptcha";
 import {ConsultarUsuariosComponent} from "./presentation/dashboard/atendente/consultar-atendentes/consultar-usuarios.component";
 import {NoRecordsFoundComponent} from "./presentation/controls/no-records-found/no-records-found.component";
-import {LicencaRepository} from "./repository/licenca.repository";
-import {LicencaViewComponent} from "./presentation/dashboard/licenca/licenca-view.component";
-import {InserirLicencaComponent} from "./presentation/dashboard/licenca/inserir-licenca/inserir-licenca.component";
+import {DispositivoRepository} from "./repository/dispositivo.repository";
+import {DispositivoViewComponent} from "./presentation/dashboard/dispositivo/dispositivo-view.component";
 import {OrderModule} from "ngx-order-pipe";
-import {UnidadeTipoAvaliacaoLicencaRepository} from "./repository/unidade-tipo-avaliacao-licenca.repository";
-import {VincularUnidadeTipoAvaliacaoComponent} from "./presentation/dashboard/licenca/visualizar-licenca/vincular-unidade-tipo-avaliacao/vincular-unidade-tipo-avaliacao.component";
-import {ConsultarLicencasComponent} from "./presentation/dashboard/licenca/consultar-licencas/consultar-licencas.component";
-import {LicencaFormComponent} from "./presentation/dashboard/licenca/inserir-licenca/licenca-form/licenca-form.component";
-import {AlterarLicencaComponent} from "./presentation/dashboard/licenca/alterar-licenca/alterar-licenca.component";
-import {VisualizarLicencaComponent} from "./presentation/dashboard/licenca/visualizar-licenca/visualizar-licenca.component";
-import {OpcoesMobileComponent} from "./presentation/dashboard/licenca/inserir-licenca/opcoes-mobile/opcoes-mobile.component";
-import {OpcoesSiteComponent} from "./presentation/dashboard/licenca/inserir-licenca/opcoes-site/opcoes-site.component";
+import {UnidadeTipoAvaliacaoDispositivoRepository} from "./repository/unidade-tipo-avaliacao-dispositivo.repository";
+import {VincularUnidadeTipoAvaliacaoComponent} from "./presentation/dashboard/dispositivo/visualizar-dispositivo/vincular-unidade-tipo-avaliacao/vincular-unidade-tipo-avaliacao.component";
+import {OpcoesMobileComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/opcoes-mobile/opcoes-mobile.component";
+import {OpcoesSiteComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/opcoes-site/opcoes-site.component";
 import {AssinaturaComponent} from "./presentation/dashboard/assinatura/assinatura.component";
 import {AssinaturaRepository} from "./repository/assinatura.repository";
 import {CartaoComponent} from "./presentation/dashboard/assinatura/dados-pagamento/cartao/cartao.component";
 import {DadosPagamentoComponent} from "./presentation/dashboard/assinatura/dados-pagamento/dados-pagamento.component";
 import {PlanosComponent} from "./presentation/dashboard/assinatura/planos/planos.component";
 import {PlanoRepository} from "./repository/plano.repository";
+import {DispositivoFormComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/dispositivo-form/dispositivo-form.component";
+import {AlterarDispositivoComponent} from "./presentation/dashboard/dispositivo/alterar-dispositivo/alterar-dispositivo.component";
+import {ConsultarDispositivosComponent} from "./presentation/dashboard/dispositivo/consultar-dispositivos/consultar-dispositivos.component";
+import {InserirDispositivoComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/inserir-dispositivo.component";
+import {VisualizarDispositivoComponent} from "./presentation/dashboard/dispositivo/visualizar-dispositivo/visualizar-dispositivo.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -228,13 +228,13 @@ registerLocaleData(localePt, 'pt-BR');
     VisualizarTipoAvaliacaoComponent,
     ConsultarTiposAvaliacoesComponent,
 
-    // Licencas
-    LicencaViewComponent,
-    VisualizarLicencaComponent,
-    InserirLicencaComponent,
-    LicencaFormComponent,
-    ConsultarLicencasComponent,
-    AlterarLicencaComponent,
+    // Dispositivos
+    DispositivoViewComponent,
+    VisualizarDispositivoComponent,
+    InserirDispositivoComponent,
+    DispositivoFormComponent,
+    ConsultarDispositivosComponent,
+    AlterarDispositivoComponent,
     VincularUnidadeTipoAvaliacaoComponent,
     OpcoesMobileComponent,
     OpcoesSiteComponent,
@@ -276,7 +276,7 @@ registerLocaleData(localePt, 'pt-BR');
 
     PageSerialize,
 
-    UnidadeTipoAvaliacaoLicencaRepository,
+    UnidadeTipoAvaliacaoDispositivoRepository,
     UnidadeTipoAvaliacaoRepository,
     AvaliacaoAvaliavelRepository,
     TipoAvaliacaoRepository,
@@ -288,7 +288,7 @@ registerLocaleData(localePt, 'pt-BR');
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
-    LicencaRepository,
+    DispositivoRepository,
     ContaRepository,
     PlanoRepository,
     FileRepository,

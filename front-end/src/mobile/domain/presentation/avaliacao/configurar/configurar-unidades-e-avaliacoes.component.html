@@ -15,11 +15,11 @@
           <input (ngModelChange)='changed($event)'
                  [ngModelOptions]='{standalone: true}'
                  placeholder='Insira o número da licença'
-                 [(ngModel)]='mobileService.licenca.numero'
+                 [(ngModel)]='mobileService.dispositivo.numeroLicenca'
                  matInput required name='numero' noWhiteSpace/>
         </mat-form-field>
       </div>
-      {{mobileService.licenca | json}}
+      {{mobileService.dispositivo | json}}
     </mat-card-content>
 
     <mat-card-actions>

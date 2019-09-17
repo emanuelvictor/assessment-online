@@ -2,9 +2,8 @@ package br.com.ubest.application.websocket;
 
 import br.com.ubest.application.converters.JsonConverter;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
-import br.com.ubest.domain.entity.unidade.Licenca;
-import br.com.ubest.domain.repository.LicencaRepository;
-import br.com.ubest.domain.repository.TipoAvaliacaoRepository;
+import br.com.ubest.domain.entity.unidade.Dispositivo;
+import br.com.ubest.domain.repository.DispositivoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -25,12 +24,12 @@ public class WebSocketConfiguration {
 
     private final ObjectMapper objectMapper;
 
-    private final LicencaRepository licencaRepository;
+    private final DispositivoRepository dispositivoRepository;
 
     @Bean
     public HandlerMapping webSocketMapping() {
         final Map<String, Object> map = new HashMap<>();
-        map.put("/licencas/{numero}/connect", new LicencaWebSocketHandler(licencaRepository, new JsonConverter<>(Licenca.class, objectMapper), "/licencas/{numero}/connect", "numero", dispositivosWrapperHandler()));
+        map.put("/dispositivos/{numero}/connect", new DispositivoWebSocketHandler(dispositivoRepository, new JsonConverter<>(Dispositivo.class, objectMapper), "/dispositivos/{numero}/connect", "numero", dispositivosWrapperHandler()));
         final SimpleUrlHandlerMapping simpleUrlHandlerMapping = new SimpleUrlHandlerMapping();
         simpleUrlHandlerMapping.setUrlMap(map);
         simpleUrlHandlerMapping.setOrder(Ordered.HIGHEST_PRECEDENCE);
@@ -49,7 +48,7 @@ public class WebSocketConfiguration {
     }
 
     @Bean
-    public List<WrapperHandler<Licenca>> dispositivosWrapperHandler() {
+    public List<WrapperHandler<Dispositivo>> dispositivosWrapperHandler() {
         // Envelopa os subscribers
         return new ArrayList<>();
     }

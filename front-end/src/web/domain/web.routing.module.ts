@@ -34,11 +34,11 @@ import {ConsultarClientesComponent} from "./presentation/dashboard/cliente/consu
 import {ClienteViewComponent} from "./presentation/dashboard/cliente/cleinte-view.component";
 import {ConsultarUsuariosComponent} from "./presentation/dashboard/atendente/consultar-atendentes/consultar-usuarios.component";
 import {ErrorComponent} from "../../mobile/domain/presentation/error/error.component";
-import {LicencaViewComponent} from "./presentation/dashboard/licenca/licenca-view.component";
-import {InserirLicencaComponent} from "./presentation/dashboard/licenca/inserir-licenca/inserir-licenca.component";
-import {VisualizarLicencaComponent} from "./presentation/dashboard/licenca/visualizar-licenca/visualizar-licenca.component";
-import {AlterarLicencaComponent} from "./presentation/dashboard/licenca/alterar-licenca/alterar-licenca.component";
-import {ConsultarLicencasComponent} from "./presentation/dashboard/licenca/consultar-licencas/consultar-licencas.component";
+import {DispositivoViewComponent} from "./presentation/dashboard/dispositivo/dispositivo-view.component";
+import {InserirDispositivoComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/inserir-dispositivo.component";
+import {VisualizarDispositivoComponent} from "./presentation/dashboard/dispositivo/visualizar-dispositivo/visualizar-dispositivo.component";
+import {AlterarDispositivoComponent} from "./presentation/dashboard/dispositivo/alterar-dispositivo/alterar-dispositivo.component";
+import {ConsultarDispositivosComponent} from "./presentation/dashboard/dispositivo/consultar-dispositivos/consultar-dispositivos.component";
 import {AssinaturaComponent} from "./presentation/dashboard/assinatura/assinatura.component";
 
 
@@ -111,12 +111,12 @@ const routes: Routes = [
           ]
         },
         {
-          path: 'licencas', component: LicencaViewComponent,
+          path: 'dispositivos', component: DispositivoViewComponent,
           children: [
-            {path: '', component: ConsultarLicencasComponent},
-            {path: 'inserir', component: InserirLicencaComponent},
-            {path: ':numero', component: VisualizarLicencaComponent},
-            {path: ':numero/alterar', component: AlterarLicencaComponent}
+            {path: '', component: ConsultarDispositivosComponent},
+            {path: 'inserir', component: InserirDispositivoComponent},
+            {path: ':numeroLicenca', component: VisualizarDispositivoComponent},
+            {path: ':numeroLicenca/alterar', component: AlterarDispositivoComponent}
           ]
         },
         {

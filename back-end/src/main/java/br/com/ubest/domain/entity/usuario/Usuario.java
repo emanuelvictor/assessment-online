@@ -177,7 +177,7 @@ public class Usuario extends Pessoa implements Serializable {
         final Set<Unidade> unidades = new HashSet<>();
 
         if (this.avaliaveis != null && !Objects.requireNonNull(this.avaliaveis).isEmpty())
-            unidades.addAll(this.avaliaveis.stream().map(avaliavel -> avaliavel.getUnidadeTipoAvaliacaoLicenca().getUnidadeTipoAvaliacao().getUnidade()).collect(Collectors.toSet()));
+            unidades.addAll(this.avaliaveis.stream().map(avaliavel -> avaliavel.getUnidadeTipoAvaliacaoDispositivo().getUnidadeTipoAvaliacao().getUnidade()).collect(Collectors.toSet()));
         if (this.operadores != null)
             unidades.addAll(this.operadores.stream().map(Operador::getUnidade).collect(Collectors.toSet()));
 

@@ -1,7 +1,7 @@
 import {Abstract} from '../abstract/abstract.model';
 import {Unidade} from "../unidade/unidade.model";
 import {TipoAvaliacao} from "./tipo-avaliacao.model";
-import {UnidadeTipoAvaliacaoLicenca} from "./unidade-tipo-avaliacao-licenca.model";
+import {UnidadeTipoAvaliacaoDispositivo} from "./unidade-tipo-avaliacao-dispositivo.model";
 
 export class UnidadeTipoAvaliacao extends Abstract {
 
@@ -13,6 +13,6 @@ export class UnidadeTipoAvaliacao extends Abstract {
 
   public ativo: boolean;
 
-  public unidadesTiposAvaliacoesLicenca: UnidadeTipoAvaliacaoLicenca[];
+  public unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[];
 
 }

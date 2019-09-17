@@ -104,19 +104,19 @@ export class VisualizarVinculoUnidadeComponent {
 
   /**
    *
-   * @param unidadeTipoAvaliacaoLicenca
+   * @param unidadeTipoAvaliacaoDispositivo
    */
-  public changeUnidadeTipoAvaliacaoLicenca(unidadeTipoAvaliacaoLicenca) {
+  public changeUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacaoDispositivo) {
 
     let avaliavel: Avaliavel = new Avaliavel();
     avaliavel.usuario = this.usuario;
-    avaliavel.unidadeTipoAvaliacaoLicenca = unidadeTipoAvaliacaoLicenca;
+    avaliavel.unidadeTipoAvaliacaoDispositivo = unidadeTipoAvaliacaoDispositivo;
 
     for (let i = 0; i < this.avaliaveis.length; i++)
-      if (this.avaliaveis[i].unidadeTipoAvaliacaoLicenca.id === unidadeTipoAvaliacaoLicenca.id)
+      if (this.avaliaveis[i].unidadeTipoAvaliacaoDispositivo.id === unidadeTipoAvaliacaoDispositivo.id)
         avaliavel = this.avaliaveis[i];
 
-    avaliavel.ativo = (unidadeTipoAvaliacaoLicenca as any).checked;
+    avaliavel.ativo = (unidadeTipoAvaliacaoDispositivo as any).checked;
 
   }
 }
