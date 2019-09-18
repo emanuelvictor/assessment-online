@@ -10,16 +10,24 @@
     </mat-card-title>
 
     <mat-card-content style='height: 400px; padding: 0; margin-bottom: 0'>
-      <div layout='row' layout-margin flex style='margin-top: 34px'>
+      <div layout='column' layout-margin flex style='margin-top: 34px'>
         <mat-form-field flex>
-          <input (ngModelChange)='changed($event)'
-                 [ngModelOptions]='{standalone: true}'
+          <input [ngModelOptions]='{standalone: true}'
                  placeholder='Insira o número da licença'
-                 [(ngModel)]='mobileService.dispositivo.numeroLicenca'
-                 matInput required name='numero' noWhiteSpace/>
+                 matInput required name='numero' noWhiteSpace
+                 (ngModelChange)='inputNumeroLicencaChanged($event)'
+                 [(ngModel)]='mobileService.dispositivo.numeroLicenca'/>
+        </mat-form-field>
+
+        <mat-form-field flex *ngIf='mobileService.dispositivo.id'>
+          <input [ngModelOptions]='{standalone: true}'
+                 (ngModelChange)='inputSenhaChanged($event)'
+                 matInput required name='senha' noWhiteSpace
+                 placeholder='Insira a senha' [(ngModel)]='senha'/>
+          <mat-hint align='end'>Acesse o dispositivo pela plataforma WEB e visualize a senha</mat-hint>
         </mat-form-field>
       </div>
-      {{mobileService.dispositivo | json}}
+      <!--      {{mobileService.dispositivo | json}}-->
     </mat-card-content>
 
     <mat-card-actions>

@@ -7,6 +7,10 @@ import {UnidadeTipoAvaliacaoDispositivo} from "../entity/avaliacao/unidade-tipo-
 @Injectable()
 export class DispositivoRepository extends BaseRepository<Dispositivo> {
 
+  /**
+   *
+   * @param httpClient
+   */
   constructor(httpClient: HttpClient) {
     super(httpClient, 'dispositivos');
   }
@@ -18,5 +22,23 @@ export class DispositivoRepository extends BaseRepository<Dispositivo> {
    */
   saveUnidadesTiposAvaliacoesDispositivo(id: number, unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[]): Promise<any> {
     return this.httpClient.put<any>(this.collectionName + '/' + id + '/unidadesTiposAvaliacoesDispositivo', unidadesTiposAvaliacoesDispositivo).toPromise();
+  }
+
+  /**
+   *
+   * @param id
+   * @param senha
+   */
+  authenticate(id: number, senha: string): Promise<any> {
+    return null;
+  }
+
+  /**
+   *
+   * @param id
+   * @param numeroSerie
+   */
+  sendNumeroSerie(id: number, numeroSerie: string): Promise<any> {
+    return null;
   }
 }

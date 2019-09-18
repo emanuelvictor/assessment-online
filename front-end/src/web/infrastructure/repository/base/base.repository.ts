@@ -22,6 +22,10 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
     }
   }
 
+  /**
+   *
+   * @param id
+   */
   connect(id: number): WebSocketSubject<T> {
 
     this.socket = webSocket('ws://localhost:8080/' + this.collectionName + '/' + id + '/connect');

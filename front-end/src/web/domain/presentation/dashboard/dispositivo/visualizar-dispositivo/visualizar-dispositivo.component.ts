@@ -74,17 +74,17 @@ export class VisualizarDispositivoComponent implements OnInit {
    *
    */
   ngOnInit() {
-    const numero: number = this.activatedRoute.snapshot.params['numero'];
-    this.find(numero)
+    const numeroLicenca: number = this.activatedRoute.snapshot.params['numeroLicenca'];
+    this.find(numeroLicenca)
   }
 
   /**
    *
-   * @param {number} numero
+   * @param {number} numeroLicenca
    */
-  public find(numero: number) {
+  public find(numeroLicenca: number) {
 
-    this.webSocketSubject = this.dispositivoRepository.connect(numero);
+    this.webSocketSubject = this.dispositivoRepository.connect(numeroLicenca);
 
     this.webSocketSubject.subscribe(dispositivo => {
       this.dispositivo = dispositivo;

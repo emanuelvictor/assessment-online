@@ -238,4 +238,19 @@ export class MobileService {
     })
   }
 
+  /**
+   *
+   * @param senha
+   */
+  public authenticate(senha: string): Promise<any> {
+    return this._dispositivoRepository.authenticate(this._dispositivo.id, senha);
+  }
+
+  /**
+   *
+   * @param numeroSerie
+   */
+  public sendNumeroSerie(numeroSerie: string) {
+    return this._dispositivoRepository.sendNumeroSerie(this._dispositivo.id, numeroSerie);
+  }
 }

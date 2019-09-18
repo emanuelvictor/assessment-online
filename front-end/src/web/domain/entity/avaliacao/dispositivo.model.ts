@@ -56,6 +56,11 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
+  public emUso: boolean;
+
+  /**
+   *
+   */
   public quebrarLinhaNaSelecaoDeItemAvaliavel: boolean;
 
   /**

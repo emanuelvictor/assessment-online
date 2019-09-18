@@ -28,7 +28,8 @@ const routes: Routes = [
     ]
   },
   {
-    path: '', component: AvaliacaoComponent, canActivate: [AuthenticationService],
+    path: '', component: AvaliacaoComponent,
+    // canActivate: [AuthenticationService],
     children: [
       {path: 'configurar-unidades-e-avaliacoes', component: ConfigurarUnidadesEAvaliacoesComponent},
       {

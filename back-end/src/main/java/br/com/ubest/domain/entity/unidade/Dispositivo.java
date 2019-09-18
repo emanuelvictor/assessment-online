@@ -81,6 +81,13 @@ public class Dispositivo extends AbstractEntity implements Serializable {
      */
     @NotNull
     @Column(nullable = false)
+    public boolean emUso = false;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
     private boolean modoQuiosque = false;
 
     /**

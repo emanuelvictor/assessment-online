@@ -4,11 +4,9 @@ import {MobileService} from '../../../service/mobile.service';
 import {UnidadeService} from '../../../../../web/domain/service/unidade.service';
 import {MatSnackBar} from "@angular/material";
 import {TdLoadingService} from "@covalent/core";
-import {getIdentifier, viewAnimation} from "../../../../../web/domain/presentation/controls/utils";
+import {viewAnimation} from "../../../../../web/domain/presentation/controls/utils";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
-import {Agrupador} from "../../../../../web/domain/entity/avaliacao/agrupador.model";
 import {Subject} from "rxjs";
-import {environment} from "../../../../../environments/environment";
 import {Dispositivo} from "../../../../../web/domain/entity/avaliacao/dispositivo.model";
 import {WebSocketSubject} from "rxjs/webSocket";
 
@@ -35,13 +33,23 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   /**
    *
    */
+  senha: string = null;
+
+  /**
+   *
+   */
+  numeroSerie: string = '852456';
+
+  /**
+   *
+   */
   private webSocketSubject: WebSocketSubject<Dispositivo>;
 
   /**
    *
    * @type {Subject<string>}
    */
-  private modelChanged: Subject<string> = new Subject<string>();
+  private numeroLicencaChanged: Subject<string> = new Subject<string>();
 
   /**
    *
@@ -56,27 +64,45 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
               private unidadeService: UnidadeService, private router: Router,
               private mobileService: MobileService, private snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
-    this.modelChanged
-      .debounceTime(1000)
-      .distinctUntilChanged().subscribe(model => {
-        if (model.length === 6) {
-          if (this.webSocketSubject)
-            this.webSocketSubject.unsubscribe();
-          this.webSocketSubject = this.mobileService.connect(model);
 
-          this.webSocketSubject.subscribe(result => {
-            this.mobileService.dispositivo = Object.assign({}, result);
-            this.mobileService.dispositivo.numeroSerie = Object.assign({}, result.numeroSerie);
-            this.mobileService.dispositivo.numeroSerie = 'asdfff';
-            console.log('gerando número de série');
-            // this.mobileService.dispositivo.unidadesTiposAvaliacoesDispositivo = null;
-            if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
-              this.mobileService.dispositivoRepository.save(this.mobileService.dispositivo);
-            }
-          })
-        }
+    this.numeroLicencaChanged.debounceTime(1000).distinctUntilChanged().subscribe(model => {
+        if (this.webSocketSubject)
+          this.webSocketSubject.unsubscribe();
+        this.webSocketSubject = this.mobileService.connect(model);
+
+        this.webSocketSubject.subscribe(result => {
+          this.mobileService.dispositivo = Object.assign({}, result);
+          this.mobileService.dispositivo.numeroSerie = Object.assign({}, this.numeroSerie);
+
+          if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie && !result.emUso) {
+            console.log('Enviando número de série!');
+            this.mobileService.sendNumeroSerie(this.mobileService.dispositivo.numeroSerie)
+          } else if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie && result.emUso) {
+            alert('Licença em uso')
+          }
+        })
       }
     )
+  }
+
+  /**
+   *
+   * @param {string} $event
+   */
+  public inputNumeroLicencaChanged($event: string) {
+    if ($event && $event.length)
+      if ($event.length === 6)
+        this.numeroLicencaChanged.next($event);
+  }
+
+  /**
+   *
+   * @param {string} $event
+   */
+  public inputSenhaChanged($event) {
+    if ($event && $event.length)
+      if ($event.length === 6)
+        this.mobileService.authenticate($event);
   }
 
   /**
@@ -101,7 +127,10 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    */
   consultarUnidades() {
 
-    this.unidadeService.listLightByFilters({withAvaliaveisFilter: true, withUnidadesTiposAvaliacoesAtivasFilter: true}).subscribe(result => {
+    this.unidadeService.listLightByFilters({
+      withAvaliaveisFilter: true,
+      withUnidadesTiposAvaliacoesAtivasFilter: true
+    }).subscribe(result => {
       this.unidades = result.content;
 
       // Se só houver uma unidade.
@@ -260,15 +289,5 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
     })
-  }
-
-  /**
-   *
-   * @param {string} username
-   */
-  public changed($event: string) {
-    if ($event && $event.length) {
-      this.modelChanged.next($event);
-    }
   }
 }

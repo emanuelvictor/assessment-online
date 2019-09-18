@@ -14,7 +14,7 @@ export class AvaliacaoComponent {
   /**
    *
    */
-  backgroundImage: string = null;
+  backgroundImage: string = './configuracoes/background?cliente=public';
 
   /**
    *
@@ -24,13 +24,13 @@ export class AvaliacaoComponent {
   constructor(private router: Router,
               private authenticationService: AuthenticationService) {
 
-    this.authenticationService.requestContaAutenticada()
-      .subscribe(conta => {
-          if (conta && conta.esquema) {
-            this.backgroundImage = environment.endpoint + './configuracoes/background?cliente=' + conta.esquema + '?nocache=' + getIdentifier()
-          }
-        }
-      )
+    // this.authenticationService.requestContaAutenticada()
+    //   .subscribe(conta => {
+    //       if (conta && conta.esquema) {
+    //         this.backgroundImage = environment.endpoint + './configuracoes/background?cliente=' + conta.esquema + '?nocache=' + getIdentifier()
+    //       }
+    //     }
+    //   )
   }
 
 }
