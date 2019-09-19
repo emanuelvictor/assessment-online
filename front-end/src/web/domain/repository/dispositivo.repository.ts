@@ -26,19 +26,32 @@ export class DispositivoRepository extends BaseRepository<Dispositivo> {
 
   /**
    *
-   * @param id
+   * @param numeroSerie
    * @param senha
    */
-  authenticate(id: number, senha: string): Promise<any> {
-    return null;
+  authenticate(numeroSerie: string, senha: string): Promise<Dispositivo> {
+
+    return new Promise((resolve, reject) => {
+
+      const dispositivo: Dispositivo = new Dispositivo();
+      dispositivo.senha = senha;
+      dispositivo.numeroSerie = numeroSerie;
+
+      this.httpClient.post<Dispositivo>(this.collectionName + '/authenticate', dispositivo)
+        .toPromise()
+        .then(result => {
+          resolve(result)
+        })
+        .catch(error => reject(error))
+    })
   }
 
   /**
    *
-   * @param id
+   * @param numeroLiceca
    * @param numeroSerie
    */
-  sendNumeroSerie(id: number, numeroSerie: string): Promise<any> {
-    return null;
+  getDispositivo(numeroLiceca: number, numeroSerie: string): Promise<Dispositivo> {
+    return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroLiceca + '?numeroSerie=' + numeroSerie).toPromise();
   }
 }

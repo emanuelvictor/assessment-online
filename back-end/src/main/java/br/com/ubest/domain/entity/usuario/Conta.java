@@ -160,6 +160,14 @@ public class Conta extends AbstractEntity implements TenantDetails, Serializable
     }
 
     /**
+     *
+     */
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    /**
      * @return Perfil
      */
     public Perfil getPerfil() {
@@ -176,14 +184,6 @@ public class Conta extends AbstractEntity implements TenantDetails, Serializable
         else
             return Perfil.ATENDENTE;
 
-    }
-
-    /**
-     *
-     */
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
     /**
@@ -236,16 +236,19 @@ public class Conta extends AbstractEntity implements TenantDetails, Serializable
         this.password = password;
     }
 
+    @Override
     @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @Override
     @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @Override
     @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;

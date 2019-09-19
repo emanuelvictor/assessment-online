@@ -2,6 +2,7 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.application.aspect.exceptions.PasswordNotFound;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.application.websocket.WrapperHandler;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.entity.usuario.Usuario;
@@ -11,8 +12,17 @@ import br.com.ubest.domain.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.web.server.ServerWebExchange;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +43,18 @@ public class DispositivoService {
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
     /**
-     * @param defaultFilter     String
-     * @param pageable          pageable
+     *
+     */
+    private final List<WrapperHandler<Dispositivo>> dispositivosWrapperHandler;
+
+    /**
+     *
+     */
+    private final ServerSecurityContextRepository serverSecurityContextRepository;
+
+    /**
+     * @param defaultFilter String
+     * @param pageable      pageable
      * @return Page<Unidade>
      */
     public Page<Dispositivo> listByFilters(final String defaultFilter, final Pageable pageable) {
@@ -49,12 +69,12 @@ public class DispositivoService {
 
     /**
      * @param dispositivoId long
-     * @param password  String
+     * @param password      String
      * @return boolean
      */
     public boolean authenticateByDispositivoId(final long dispositivoId, final String password) {
 
-        if(passwordEncoder.matches(password, "$2a$10$NbtZRkg8a97Ulr6SMYFM/O0tP3eBzwuYdmURSSuoJpjGWw39okuRy"))
+        if (passwordEncoder.matches(password, "$2a$10$NbtZRkg8a97Ulr6SMYFM/O0tP3eBzwuYdmURSSuoJpjGWw39okuRy"))
             return true;
 
         final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
@@ -94,11 +114,99 @@ public class DispositivoService {
     }
 
     /**
-     * @param usuarioId long
-     * @return List<Unidade>
+     * @param id
+     * @param numeroSerie
+     * @return
      */
-    public List<Dispositivo> listByUsuarioId(final long usuarioId) {
-        return this.dispositivoRepository.listByUsuarioId(usuarioId);
+    public Dispositivo getDispositivo(final long id, final String numeroSerie) {
+
+        // Pega o dispositivo da base
+        final Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElse(this.dispositivoRepository.findByNumeroLicenca(id).orElseThrow());
+
+        // Se está passando o número de série, então está tentando se conectar administrativamente
+        if (numeroSerie != null) {
+
+            // Valida se o dispositivo é externo
+            Assert.isTrue(dispositivo.isInterna(), "A licença é para uso externo");
+
+            // Valida se o dispositivo está em uso
+            Assert.isTrue(!dispositivo.isEmUso(), "A licença está em uso");
+
+            // Seta o número de série
+            dispositivo.setNumeroSerie(numeroSerie);
+
+            // Gera a senha aleatória
+            dispositivo.gerarSenhaAleatoria();
+
+            //  Salva no banco
+            save(dispositivo);
+
+            // Avisa os websockets
+            dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getNumeroLicenca())).findFirst().ifPresent(
+                    t -> t.getMessagePublisher().onNext(dispositivo)
+            );
+
+        }
+
+        return dispositivo;
     }
 
+    /**
+     *
+     * @param dispositivo
+     * @return
+     */
+    @Transactional
+    public Dispositivo save(final Dispositivo dispositivo) {
+        return this.dispositivoRepository.save(dispositivo);
+    }
+
+    /**
+     *
+     * @param numeroSerie
+     * @param senha
+     * @param exchange
+     * @return
+     */
+    public Dispositivo authenticate(final String numeroSerie, final String senha, final  ServerWebExchange exchange) {
+
+        // Pega o dispositivo da base
+        final Dispositivo dispositivo = this.dispositivoRepository.findByNumeroSerie(numeroSerie).orElseThrow();
+
+        // Valida se o dispositivo é externo
+        Assert.isTrue(dispositivo.isInterna(), "A licença é para uso externo");
+
+        // Valida se o dispositivo está em uso
+        Assert.isTrue(!dispositivo.isEmUso(), "A licença está em uso");
+
+        // Valida se o usuário acertou a senha
+        Assert.isTrue(dispositivo.getSenha().equals(senha), "Senha incorreta");
+
+        // Cria o contexto de segurança
+        final SecurityContext securityContext = createSecurityContextByUserDetails(dispositivo);
+
+        // Insere o contexto no repositório de contexto e retorna o usuário inserido
+        serverSecurityContextRepository.save(exchange, securityContext).block();
+
+        //  Salva no banco
+        save(dispositivo);
+
+        // Avisa os websockets
+        dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getNumeroLicenca())).findFirst().ifPresent(
+                t -> t.getMessagePublisher().onNext(dispositivo)
+        );
+
+        return dispositivo;
+    }
+
+    /**
+     * Cria o contexto de autenticação a partir do Dispositivo
+     *
+     * @param userDetails {Dispositivo}
+     * @return SecurityContext
+     */
+    private static SecurityContext createSecurityContextByUserDetails(final UserDetails userDetails) {
+        final Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+        return new SecurityContextImpl(authentication);
+    }
 }

@@ -72,14 +72,24 @@ export class MobileService {
     return this.dispositivoRepository.connect(numero)
   }
 
+  /**
+   *
+   */
   get dispositivo(): Dispositivo {
     return this._dispositivo;
   }
 
+  /**
+   *
+   * @param value
+   */
   set dispositivo(value: Dispositivo) {
     this._dispositivo = value;
   }
 
+  /**
+   *
+   */
   get dispositivoRepository(): DispositivoRepository {
     return this._dispositivoRepository
   }
@@ -240,17 +250,19 @@ export class MobileService {
 
   /**
    *
+   * @param numeroSerie
    * @param senha
    */
-  public authenticate(senha: string): Promise<any> {
-    return this._dispositivoRepository.authenticate(this._dispositivo.id, senha);
+  public authenticate(numeroSerie: string, senha: string): Promise<any> {
+    return this._dispositivoRepository.authenticate(numeroSerie, senha);
   }
 
   /**
    *
+   * @param numeroLiceca
    * @param numeroSerie
    */
-  public sendNumeroSerie(numeroSerie: string) {
-    return this._dispositivoRepository.sendNumeroSerie(this._dispositivo.id, numeroSerie);
+  public getDispositivo(numeroLiceca: number, numeroSerie: string) {
+    return this._dispositivoRepository.getDispositivo(numeroLiceca, numeroSerie).then(result => this.dispositivo = result)
   }
 }

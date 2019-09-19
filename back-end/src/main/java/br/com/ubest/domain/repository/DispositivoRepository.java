@@ -12,6 +12,14 @@ import java.util.Optional;
 
 public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> {
 
+
+    /**
+     *
+     * @param numeroSerie
+     * @return
+     */
+    Optional<Dispositivo> findByNumeroSerie(@Param("numeroSerie") final String numeroSerie);
+
     /**
      *
      * @param numeroLicenca

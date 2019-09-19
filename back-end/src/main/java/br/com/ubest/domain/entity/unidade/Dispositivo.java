@@ -2,18 +2,24 @@ package br.com.ubest.domain.entity.unidade;
 
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.domain.entity.usuario.Perfil;
+import br.com.ubest.infrastructure.tenant.TenantDetails;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,7 +34,7 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
         @UniqueConstraint(columnNames = {"tenant", "nome"})
 })
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
-public class Dispositivo extends AbstractEntity implements Serializable {
+public class Dispositivo extends AbstractEntity implements Serializable, TenantDetails {
 
     /**
      *
@@ -144,7 +150,6 @@ public class Dispositivo extends AbstractEntity implements Serializable {
     }
 
     /**
-     *
      * @return Set<Unidade>
      */
     public void setUnidades(final Set<Unidade> unidades) {
@@ -154,8 +159,7 @@ public class Dispositivo extends AbstractEntity implements Serializable {
     /**
      *
      */
-    @PreUpdate
-    public void prePersist() {
+    public void gerarSenhaAleatoria() {
         if (numeroSerie != null)
             this.senha = getRandomNumberInRange();
     }
@@ -168,4 +172,85 @@ public class Dispositivo extends AbstractEntity implements Serializable {
         return String.valueOf(r.nextInt((999999 - 100000) + 1) + 100000);
     }
 
+    /**
+     * (non-Javadoc)
+     *
+     * @see org.springframework.security.core.userdetails.UserDetails#getUsername()
+     */
+    @Override
+    @Transient
+    public String getUsername() {
+        return this.numeroSerie;
+    }
+
+    /**
+     *
+     */
+    @Override
+    @Transient
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        final Set<Perfil> authorities = new HashSet<>();
+
+        authorities.add(Perfil.ATENDENTE);
+
+        return authorities;
+    }
+
+    /**
+     *
+     */
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String getTenant() {
+        return this.tenant;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 }

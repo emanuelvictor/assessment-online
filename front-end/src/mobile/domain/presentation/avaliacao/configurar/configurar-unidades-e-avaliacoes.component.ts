@@ -38,7 +38,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   /**
    *
    */
-  numeroSerie: string = '852456';
+  numeroSerie: string = '140007';
 
   /**
    *
@@ -64,7 +64,12 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
               private unidadeService: UnidadeService, private router: Router,
               private mobileService: MobileService, private snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
+  }
 
+  /**
+   *
+   */
+  ngOnInit() {
     this.numeroLicencaChanged.debounceTime(1000).distinctUntilChanged().subscribe(model => {
         if (this.webSocketSubject)
           this.webSocketSubject.unsubscribe();
@@ -72,11 +77,11 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
         this.webSocketSubject.subscribe(result => {
           this.mobileService.dispositivo = Object.assign({}, result);
-          this.mobileService.dispositivo.numeroSerie = Object.assign({}, this.numeroSerie);
+          this.mobileService.dispositivo.numeroSerie = this.numeroSerie;
 
           if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie && !result.emUso) {
             console.log('Enviando número de série!');
-            this.mobileService.sendNumeroSerie(this.mobileService.dispositivo.numeroSerie)
+            this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie)
           } else if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie && result.emUso) {
             alert('Licença em uso')
           }
@@ -102,139 +107,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   public inputSenhaChanged($event) {
     if ($event && $event.length)
       if ($event.length === 6)
-        this.mobileService.authenticate($event);
-  }
-
-  /**
-   *
-   */
-  ngOnInit() {
-    // // Inicia o loading
-    // this._loadingService.register('overlayStarSyntax');
-    //
-    // // Mata o timeout se houver (Aqui não precisa de timeout)
-    // this.mobileService.clearTimeout();
-    //
-    // // Zera o model
-    // this.mobileService.agrupador = new Agrupador();
-    //
-    // // Inicia o carregamento das unidades
-    // this.consultarUnidades()
-  }
-
-  /**
-   *
-   */
-  consultarUnidades() {
-
-    this.unidadeService.listLightByFilters({
-      withAvaliaveisFilter: true,
-      withUnidadesTiposAvaliacoesAtivasFilter: true
-    }).subscribe(result => {
-      this.unidades = result.content;
-
-      // Se só houver uma unidade.
-      if (this.unidades.length === 1) {
-
-        // Se só houver uma unidade, seleciona a primeira.
-        this.unidades[0].checked = true;
-
-        this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[0].id, ativo: true})
-          .subscribe(resulted => {
-
-            // Assinala todos os tipos de avaliações como checkes, ou seja, marcados no checkbox.
-            // Define as ordens dos tipos de avaliações
-            for (let i = 0; i < resulted.content.length; i++) {
-              resulted.content[i].checked = true;
-              resulted.content[i].ordem = i + 1;
-            }
-
-            // Popula lista do model.
-            this.unidades[0].unidadesTiposAvaliacoes = resulted.content;
-
-            // Se só houver somente um tipo de avaliação.
-            if (resulted.content.length === 1) {
-              // Vai para o próximo passo.
-              this.proximo(this.unidades);
-              // Encerra o loading.
-              this._loadingService.resolve('overlayStarSyntax');
-              return
-            }
-
-            // Encerra o loading
-            this._loadingService.resolve('overlayStarSyntax');
-          })
-      } else {
-        this._loadingService.resolve('overlayStarSyntax')
-      }
-    })
-  }
-
-  /**
-   *
-   * @param unidade
-   */
-  afterExpand(unidade) {
-
-    this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: unidade.id, ativo: true}).subscribe(result => {
-
-      if (!result.content.length) {
-        this.openSnackBar('Vincule Itens Avaliáveis á esses Tipos de Avaliações');
-        unidade.checked = false;
-        return
-      }
-
-      unidade.checked = true;
-
-      for (let i = 0; i < result.content.length; i++) {
-        result.content[i].unidade = unidade;
-        result.content[i].checked = true;
-        result.content[i].ordem = i + 1
-      }
-
-      unidade.unidadesTiposAvaliacoes = result.content
-
-    })
-  }
-
-  /**
-   *
-   * @param unidade
-   */
-  afterCollapse(unidade) {
-    unidade.checked = false;
-    unidade.unidadesTiposAvaliacoes = []
-  }
-
-  /**
-   *
-   * @param unidadeTipoAvaliacao
-   */
-  changeUnidadeTipoAvaliacao(unidadeTipoAvaliacao) {
-    unidadeTipoAvaliacao.unidade.checked = unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes && (unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliaca => unidadeTipoAvaliaca.checked).length > 0);
-
-    if (unidadeTipoAvaliacao.ordem) {
-
-      for (let i = 0; i < unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes.length; i++) {
-        if (unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes[i].ordem > unidadeTipoAvaliacao.ordem) {
-          unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes[i].ordem = unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes[i].ordem - 1;
-        }
-      }
-
-      unidadeTipoAvaliacao.ordem = null;
-
-      return
-    }
-
-    let aux = 0;
-
-    for (let i = 0; i < unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes.length; i++) {
-      if (unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes[i].ordem && unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes[i].ordem > aux) {
-        aux = unidadeTipoAvaliacao.unidade.unidadesTiposAvaliacoes[i].ordem
-      }
-    }
-
-    unidadeTipoAvaliacao.ordem = aux + 1
+        this.mobileService.authenticate(this.mobileService.dispositivo.numeroSerie, $event);
   }
 
   /**

@@ -1,7 +1,6 @@
 package br.com.ubest.application.resource;
 
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
-import br.com.ubest.application.websocket.WrapperHandler;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
@@ -16,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -52,11 +52,6 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     /**
      *
      */
-    private final List<WrapperHandler<Dispositivo>> dispositivosWrapperHandler;
-
-    /**
-     *
-     */
     private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
 
     /**
@@ -87,22 +82,9 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
 
         dispositivo.getUnidadesTiposAvaliacoesDispositivo().forEach(unidadeTipoAvaliacaoDispositivo -> unidadeTipoAvaliacaoDispositivo.setDispositivo(dispositivo));
 
-        saveInner(dispositivo);
-
-        dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getNumeroLicenca())).findFirst().ifPresent(
-                t -> t.getMessagePublisher().onNext(dispositivo)
-        );
+        this.dispositivoService.save(dispositivo);
 
         return Mono.just(dispositivo);
-    }
-
-    /**
-     *
-     * @param dispositivo
-     */
-    @Transactional
-    void saveInner(final Dispositivo dispositivo) {
-        this.dispositivoRepository.save(dispositivo);
     }
 
     /**
@@ -133,18 +115,6 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
 
     /**
      *
-     * @param id
-     * @return
-     */
-    @GetMapping("{id}")
-    @Transactional(readOnly = true)
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    public Mono<Optional<Dispositivo>> findById(@PathVariable final long id) {
-        return Mono.just(Optional.of(this.dispositivoRepository.findById(id).orElse(this.dispositivoRepository.findByNumeroLicenca(id).get())));
-    }
-
-    /**
-     *
      * @param defaultFilter
      * @return
      */
@@ -156,29 +126,37 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     }
 
     /**
-     * Lista todas as dispositivos pelo id do usuário.
      *
-     * @param usuarioId {long}
-     * @return Mono<List < Unidade>>
+     * @param dispositivoId
+     * @return
      */
-    @GetMapping("by-usuario") //TODO gambitinho
-    @Transactional(readOnly = true)
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<List<Dispositivo>> listByUsuarioId(@RequestParam final long usuarioId) {
-        return Mono.just(this.dispositivoRepository.listByUsuarioId(usuarioId));
-    }
-
-    @Transactional(readOnly = true)
-    @GetMapping("authenticate/{dispositivoId}")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    Mono<Boolean> authenticateByDispositivoId(@PathVariable final long dispositivoId, @RequestParam final String password) {
-        return Mono.just(this.dispositivoService.authenticateByDispositivoId(dispositivoId, password));
-    }
-
     @Transactional(readOnly = true)
     @GetMapping("{dispositivoId}/hashs")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<List<String>> getHashsByDispositivoId(@PathVariable final long dispositivoId) {
         return Mono.just(this.dispositivoService.getHashsByDispositivoId(dispositivoId));
+    }
+
+    /**
+     *
+     * @param id
+     * @param numeroSerie
+     * @return
+     */
+    @GetMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    Mono<Optional<Dispositivo>> getDispositivo(@PathVariable final long id, @RequestParam(required = false) final String numeroSerie) {
+        return Mono.just(Optional.of(this.dispositivoService.getDispositivo(id, numeroSerie)));
+    }
+
+    /**
+     *
+     * @param dispositivo
+     * @param exchange
+     * @return
+     */
+    @PostMapping("authenticate")
+    Mono<Optional<Dispositivo>> authenticate(@RequestBody final Dispositivo dispositivo, final ServerWebExchange exchange) {
+        return Mono.just(Optional.of(this.dispositivoService.authenticate(dispositivo.getNumeroSerie(), dispositivo.getSenha(), exchange)));
     }
 }
