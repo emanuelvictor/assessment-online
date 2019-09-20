@@ -113,6 +113,16 @@ public class DispositivoService {
         return hashs.isEmpty() ? new ArrayList<>() : hashs;
     }
 
+
+    /**
+     * @param dispositivo
+     * @return
+     */
+    @Transactional
+    public Dispositivo save(final Dispositivo dispositivo) {
+        return this.dispositivoRepository.save(dispositivo);
+    }
+
     /**
      * @param id
      * @param numeroSerie
@@ -152,26 +162,15 @@ public class DispositivoService {
     }
 
     /**
-     *
-     * @param dispositivo
-     * @return
-     */
-    @Transactional
-    public Dispositivo save(final Dispositivo dispositivo) {
-        return this.dispositivoRepository.save(dispositivo);
-    }
-
-    /**
-     *
-     * @param numeroSerie
+     * @param numeroLicenca
      * @param senha
      * @param exchange
      * @return
      */
-    public Dispositivo authenticate(final String numeroSerie, final String senha, final  ServerWebExchange exchange) {
+    public Dispositivo authenticate(final long numeroLicenca, final String senha, final ServerWebExchange exchange) {
 
         // Pega o dispositivo da base
-        final Dispositivo dispositivo = this.dispositivoRepository.findByNumeroSerie(numeroSerie).orElseThrow();
+        final Dispositivo dispositivo = this.dispositivoRepository.findByNumeroLicenca(numeroLicenca).orElseThrow();
 
         // Valida se o dispositivo é externo
         Assert.isTrue(dispositivo.isInterna(), "A licença é para uso externo");
@@ -196,6 +195,7 @@ public class DispositivoService {
                 t -> t.getMessagePublisher().onNext(dispositivo)
         );
 
+        //
         return dispositivo;
     }
 

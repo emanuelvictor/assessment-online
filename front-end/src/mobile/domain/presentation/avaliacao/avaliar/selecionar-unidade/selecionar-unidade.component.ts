@@ -37,7 +37,6 @@ export class SelecionarUnidadeComponent implements OnInit {
   constructor(private mobileService: MobileService,
               private _loadingService: TdLoadingService,
               private router: Router, private snackBar: MatSnackBar) {
-
   }
 
   /**
@@ -56,27 +55,25 @@ export class SelecionarUnidadeComponent implements OnInit {
       this.configuracao = configuracao;
 
       // Pega  configuração.
-      this.mobileService.requestUnidades().then(unidades => {
-        this.unidades = unidades;
+      this.unidades = this.mobileService.unidades;
 
-        // Se não tem unidades selecionadas, vai para tela de seleção de unidades
-        if (!this.unidades.length) {
-          this.router.navigate(['/configurar-unidades-e-avaliacoes']);
-          this._loadingService.resolve('overlayStarSyntax');
-          return
-        }
+      // Se não tem unidades selecionadas, vai para tela de seleção de unidades
+      if (!this.unidades.length) {
+        this.router.navigate(['/configurar-unidades-e-avaliacoes']);
+        this._loadingService.resolve('overlayStarSyntax');
+        return
+      }
 
-        // Se só tem uma unidade selecionada, passa direito e vai pra tela de avaliação
-        if (this.unidades.length === 1) {
-          this.router.navigate(['/avaliar/' + this.unidades[0].id + '/ordem/1']);
-          this._loadingService.resolve('overlayStarSyntax');
-          return
-        }
+      // Se só tem uma unidade selecionada, passa direito e vai pra tela de avaliação
+      if (this.unidades.length === 1) {
+        this.router.navigate(['/avaliar/' + this.unidades[0].id + '/ordem/1']);
+        this._loadingService.resolve('overlayStarSyntax');
+        return
+      }
 
-        // Caso tenha unidades a selecionar, e a quantidade seja maior que 1
-        // Remove loading
-        this._loadingService.resolve('overlayStarSyntax')
-      })
+      // Caso tenha unidades a selecionar, e a quantidade seja maior que 1
+      // Remove loading
+      this._loadingService.resolve('overlayStarSyntax')
     })
   }
 

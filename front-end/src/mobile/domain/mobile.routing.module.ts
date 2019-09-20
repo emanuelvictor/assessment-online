@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AvaliarComponent} from "./presentation/avaliacao/avaliar/avaliar.component";
 import {AvaliacaoComponent} from "./presentation/avaliacao/avaliacao.component";
-import {AuthenticationService} from "../../web/domain/service/authentication.service";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component";
 import {ConclusaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao.component";
@@ -16,11 +15,12 @@ import {MobileLoginComponent} from "./presentation/login/mobile-login/mobile-log
 import {AuthenticateComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate/authenticate.component";
 import {OpcoesDeConfiguracaoComponent} from "./presentation/avaliacao/configurar/configuracoes/opcoes-de-configuracao/opcoes-de-configuracao.component";
 import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
+import {MobileService} from "./service/mobile.service";
 
 
 const routes: Routes = [
   {path: '', redirectTo: 'avaliar', pathMatch: 'full'},
-  {path: 'authentication', component: MobileLoginComponent},
+  {path: 'configurar-unidades-e-avaliacoes', component: ConfigurarUnidadesEAvaliacoesComponent},
   {path: 'configuracoes', component: ConfiguracoesComponent,
     children: [
       {path: '', component: AuthenticateComponent},
@@ -29,9 +29,8 @@ const routes: Routes = [
   },
   {
     path: '', component: AvaliacaoComponent,
-    // canActivate: [AuthenticationService],
+    canActivate: [MobileService],
     children: [
-      {path: 'configurar-unidades-e-avaliacoes', component: ConfigurarUnidadesEAvaliacoesComponent},
       {
         path: 'avaliar', component: AvaliarComponent,
         children: [

@@ -6,9 +6,7 @@ import {Unidade} from '../../../web/domain/entity/unidade/unidade.model';
 import {MatSnackBarConfig} from '@angular/material';
 import {AvaliacaoService} from '../../../web/domain/service/avaliacao.service';
 import {UnidadeService} from '../../../web/domain/service/unidade.service';
-import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
-import {UnidadeTipoAvaliacao} from "../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
-import {Router} from "@angular/router";
+import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from "@angular/router";
 import {TdLoadingService} from "@covalent/core";
 import {ConfiguracaoRepository} from "../../../web/domain/repository/configuracao.repository";
 import {Configuracao} from "../../../web/domain/entity/configuracao/configuracao.model";
@@ -16,6 +14,15 @@ import {Agrupador} from "../../../web/domain/entity/avaliacao/agrupador.model";
 import {DispositivoRepository} from "../../../web/domain/repository/dispositivo.repository";
 import {Dispositivo} from "../../../web/domain/entity/avaliacao/dispositivo.model";
 import {WebSocketSubject} from "rxjs/webSocket";
+import {Observable} from "rxjs";
+import {TOKEN_NAME} from "../../../web/domain/presentation/controls/utils";
+import {environment} from "../../../environments/environment";
+import {isNullOrUndefined} from "util";
+import {Conta} from "../../../web/domain/entity/usuario/conta.model";
+import {CookieService} from "ngx-cookie-service";
+import {HttpClient} from "@angular/common/http";
+import {UnidadeTipoAvaliacaoDispositivo} from "../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
+import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -23,7 +30,7 @@ import {WebSocketSubject} from "rxjs/webSocket";
  * Esse serviço também é responsável por configurar a snackbar (ou toast)
  */
 @Injectable()
-export class MobileService {
+export class MobileService implements CanActivate, CanActivateChild {
 
   /**
    *
@@ -53,15 +60,18 @@ export class MobileService {
    * @param {UnidadeService} unidadeService
    * @param _loadingService
    * @param {AvaliacaoService} avaliacaoService
+   * @param _cookieService
    * @param _dispositivoRepository
+   * @param httpClient
    */
-  constructor(private router: Router,
-              private _localStorage: LocalStorage,
+  constructor(private _localStorage: LocalStorage,
+              private _cookieService: CookieService,
               private unidadeService: UnidadeService,
               private _loadingService: TdLoadingService,
               private avaliacaoService: AvaliacaoService,
               private _dispositivoRepository: DispositivoRepository,
-              private configuracaRepository: ConfiguracaoRepository) {
+              private configuracaRepository: ConfiguracaoRepository,
+              private httpClient: HttpClient, private router: Router,) {
   }
 
   /**
@@ -138,23 +148,8 @@ export class MobileService {
   /**
    * @returns {any}
    */
-  get unidadesTiposAvaliacoes(): UnidadeTipoAvaliacao[] {
-    return this._localStorage.unidadesTiposAvaliacoes
-  }
-
-  /**
-   *
-   * @param unidadesTiposAvaliacoes
-   */
-  set unidadesTiposAvaliacoes(unidadesTiposAvaliacoes: UnidadeTipoAvaliacao[]) {
-    this._localStorage.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes
-  }
-
-  /**
-   *
-   */
-  public requestUnidadesTiposAvaliacoes(): Promise<UnidadeTipoAvaliacao[]> {
-    return this._localStorage.requestUnidadesTiposAvaliacoes()
+  get unidadesTiposAvaliacoesDispositivo(): UnidadeTipoAvaliacaoDispositivo[] {
+    return this._dispositivo.unidadesTiposAvaliacoesDispositivo
   }
 
   /**
@@ -177,29 +172,7 @@ export class MobileService {
    * @returns {Unidade[]}
    */
   get unidades(): any {
-    return this._localStorage.unidades
-  }
-
-  /**
-   *
-   * @param {Unidade} unidades
-   */
-  set unidades(unidades: any) {
-    this._localStorage.unidades = unidades
-  }
-
-  /**
-   *
-   */
-  public requestUnidades(): Promise<Unidade[]> {
-    return this._localStorage.requestUnidades()
-  }
-
-  /**
-   *
-   */
-  get localStorage(): LocalStorage {
-    return this._localStorage;
+    return this._dispositivo.unidadesTiposAvaliacoesDispositivo.map(value => value.unidadeTipoAvaliacao.unidade)
   }
 
   /**
@@ -209,7 +182,9 @@ export class MobileService {
     return this.configuracaRepository.requestConfiguracao.then(result => this._configuracao = result)
   }
 
-
+  /**
+   *
+   */
   get configuracao(): Configuracao {
     return this._configuracao
   }
@@ -226,43 +201,122 @@ export class MobileService {
 
   /**
    *
-   * @param id
+   * Realiza a autenticação com o número da licença e a senha
+   *
+   * @param numeroLicenca
+   * @param senha
    */
-  public setHashsByUnidadeId(id: number): Promise<any> {
-    return new Promise((resolve) => {
-      this.unidadeService.getHashsByUnidadeId(id)
-        .subscribe(hashs => {
+  public authenticate(numeroLicenca: number, senha: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this._dispositivoRepository.authenticate(numeroLicenca, senha)
+        .then(result => {
 
-          if (hashs && hashs.length) {
-            const localHashs = this._localStorage.hashs;
-
-            for (let _i = 0; _i < hashs.length; _i++) {
-              localHashs.push(hashs[_i]);
-            }
-
-            this._localStorage.hashs = localHashs
+          if (this._cookieService.get(TOKEN_NAME)) {
+            this._localStorage.token = this._cookieService.get(TOKEN_NAME);
           }
 
-          resolve(this._localStorage.hashs);
+          if (this._localStorage.token) {
+            this._cookieService.set(TOKEN_NAME, this._localStorage.token, null, '/');
+          }
+
+          resolve(result)
         })
+        .catch(error => reject(error));
     })
   }
 
   /**
-   *
-   * @param numeroSerie
-   * @param senha
-   */
-  public authenticate(numeroSerie: string, senha: string): Promise<any> {
-    return this._dispositivoRepository.authenticate(numeroSerie, senha);
-  }
-
-  /**
+   * Requisita o dispositivo do back-end, para atenticação do mobile
    *
    * @param numeroLiceca
    * @param numeroSerie
    */
   public getDispositivo(numeroLiceca: number, numeroSerie: string) {
     return this._dispositivoRepository.getDispositivo(numeroLiceca, numeroSerie).then(result => this.dispositivo = result)
+  }
+
+  /**
+   *
+   * @param route
+   * @param state
+   * @returns {boolean}
+   */
+  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    return this.canActivate(route, state)
+  }
+
+  /**
+   *
+   * @param route
+   * @param state
+   * @returns {boolean}
+   */
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | any> {
+
+    if (this._cookieService.get(TOKEN_NAME)) {
+      this._localStorage.token = this._cookieService.get(TOKEN_NAME)
+    }
+
+    if (this._localStorage.token) {
+      this._cookieService.set(TOKEN_NAME, this._localStorage.token, null, '/')
+    }
+
+    if (window['cookieEmperor']) {
+      window['cookieEmperor'].getCookie(environment.endpoint, TOKEN_NAME, function (data) {
+        this._localStorage.setItem(TOKEN_NAME, data.cookieValue);
+        console.log('token em cookies ', data.cookieValue);
+        console.log('token em localstorage ', this._localStorage.getItem(TOKEN_NAME))
+      }, function (error) {
+        if (error) {
+          console.log('error: ' + error)
+        }
+      })
+    }
+
+    return this.requestContaAutenticada()
+      .map(auth => {
+        if (isNullOrUndefined(auth)) {
+          this.router.navigate(['configurar-unidades-e-avaliacoes']);
+          return false
+        } else {
+          return true
+        }
+
+      }).catch((err: any) => {
+        // simple logging, but you can do a lot more, see below
+        // this.router.navigate(['error']);
+        return err
+      })
+
+  }
+
+  /**
+   *
+   */
+  public requestContaAutenticada(): Observable<any | Conta> {
+    return this.httpClient.get<Conta>(environment.endpoint + 'principal').catch((err: any) => {
+      // simple logging, but you can do a lot more, see below
+      if (this._localStorage.token) {
+        this.router.navigate(['error'])
+      } else {
+        this.router.navigate(['configurar-unidades-e-avaliacoes'])
+      }
+      return err
+    })
+  }
+
+  /**
+   *
+   */
+  public logout(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.httpClient.get(environment.endpoint + 'logout').toPromise()
+        .then(() => {
+          this._localStorage.removeToken();
+          this._cookieService.delete(TOKEN_NAME);
+          resolve();
+        })
+        .catch(error => reject(error))
+    })
   }
 }

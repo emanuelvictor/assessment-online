@@ -26,16 +26,16 @@ export class DispositivoRepository extends BaseRepository<Dispositivo> {
 
   /**
    *
-   * @param numeroSerie
+   * @param numeroLicenca
    * @param senha
    */
-  authenticate(numeroSerie: string, senha: string): Promise<Dispositivo> {
+  authenticate(numeroLicenca: number, senha: string): Promise<Dispositivo> {
 
     return new Promise((resolve, reject) => {
 
       const dispositivo: Dispositivo = new Dispositivo();
       dispositivo.senha = senha;
-      dispositivo.numeroSerie = numeroSerie;
+      dispositivo.numeroLicenca = numeroLicenca;
 
       this.httpClient.post<Dispositivo>(this.collectionName + '/authenticate', dispositivo)
         .toPromise()

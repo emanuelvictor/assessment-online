@@ -1,7 +1,9 @@
 package br.com.ubest.application.resource;
 
+import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.ContaRepository;
+import br.com.ubest.domain.repository.DispositivoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
@@ -23,16 +25,26 @@ public class AuthenticationResource {
     private final ContaRepository contaRepository;
 
     /**
+     *
+     */
+    private final DispositivoRepository dispositivoRepository;
+
+    /**
      * TODO verificar se não da pra colocar em outro lugar também
      *
      * @return Mono<Conta>
      */
     @GetMapping
-    public Mono<Optional<Conta>> principal() {
+    public Mono<Optional<Object>> principal() {
         return ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication).switchIfEmpty(Mono.empty())
                 .map(authentication -> {
-                    final Conta conta = (Conta) authentication.getPrincipal();
-                    return Optional.ofNullable(contaRepository.findByEmailIgnoreCase(conta.getEmail()));
+
+                    if (authentication.getPrincipal() instanceof Conta) {
+                        final Conta conta = (Conta) authentication.getPrincipal();
+                        return Optional.ofNullable(contaRepository.findByEmailIgnoreCase(conta.getEmail()));
+                    } else {
+                        return Optional.ofNullable(authentication.getPrincipal());
+                    }
                 });
     }
 }

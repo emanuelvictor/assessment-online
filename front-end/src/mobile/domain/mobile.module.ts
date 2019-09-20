@@ -8,7 +8,6 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {MobileRoutingModule} from './mobile.routing.module';
 import {DateAdapter, MatRippleModule} from '@angular/material';
 import {SharedModule} from '../../shared/shared.module';
-import {AuthenticationService} from '../../web/domain/service/authentication.service';
 import {EnderecoService} from '../../web/domain/service/endereco.service';
 import {UsuarioService} from '../../web/domain/service/usuario.service';
 import {UnidadeService} from '../../web/domain/service/unidade.service';
@@ -104,7 +103,6 @@ import {DispositivoRepository} from "../../web/domain/repository/dispositivo.rep
     ContaRepository,
     FileRepository,
 
-    AuthenticationService,
     ConfiguracaoService,
     AvaliacaoService,
     EnderecoService,

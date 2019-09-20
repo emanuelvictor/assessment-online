@@ -39,7 +39,9 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
      */
     public Mono<Void> save(final ServerWebExchange exchange, final SecurityContext context) {
         return exchange.getSession()
+
                 .doOnNext(session -> {
+
                     if (context != null) {
 //                        ((Sessao) ((SpringSessionWebSessionStore.SpringSessionWebSession) session).getSession()).setUsername(context.getAuthentication().getName());
                         session.getAttributes().put(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME, context);
@@ -50,8 +52,11 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                         session.getAttributes().remove(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME);
                         session.getAttributes().remove(SCHEMA_NAME);
                     }
-                })
-                .flatMap(WebSession::save);
+
+                }).flatMap(webSession -> {
+                    webSession.save();
+                    return Mono.empty();
+                });
     }
 
     /**

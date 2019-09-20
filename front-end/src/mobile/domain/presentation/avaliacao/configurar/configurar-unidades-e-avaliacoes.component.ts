@@ -38,7 +38,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   /**
    *
    */
-  numeroSerie: string = '140007';
+  numeroSerie: string = '143037';
 
   /**
    *
@@ -107,51 +107,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   public inputSenhaChanged($event) {
     if ($event && $event.length)
       if ($event.length === 6)
-        this.mobileService.authenticate(this.mobileService.dispositivo.numeroSerie, $event);
-  }
-
-  /**
-   *
-   * @param unidades
-   */
-  public proximo(unidades: any) {
-    this._loadingService.register('overlayStarSyntax');
-    const unidadesTiposAvaliacoes = [];
-
-    unidades.filter(unidade => unidade.checked).map(unidade => unidade.unidadesTiposAvaliacoes).forEach(a => {
-      a.forEach(b => {
-        if (b.checked) {
-          unidadesTiposAvaliacoes.push(b)
-        }
-      })
-    });
-
-    //
-    this.mobileService.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
-    this.mobileService.unidades = unidades.filter(unidade => unidade.checked);
-
-    //
-    if (!this.mobileService.unidadesTiposAvaliacoes.length || !this.mobileService.unidades.length) {
-      this._loadingService.resolve('overlayStarSyntax');
-      return
-    }
-
-    // Zera os hashs
-    this.mobileService.localStorage.removeHashs();
-
-    //
-    this.mobileService.requestUnidades().then(unidadess => {
-      for (let i = 0; i < unidadess.length; i++) {
-
-        this.mobileService.setHashsByUnidadeId(unidadess[i].id).then(() => {
-          if (i === unidadess.length - 1) {
-            this.router.navigate(['avaliar']);
-            this._loadingService.resolve('overlayStarSyntax')
-          }
-        })
-      }
-    })
-
+        this.mobileService.authenticate(this.mobileService.dispositivo.numeroLicenca, $event);
   }
 
   /**

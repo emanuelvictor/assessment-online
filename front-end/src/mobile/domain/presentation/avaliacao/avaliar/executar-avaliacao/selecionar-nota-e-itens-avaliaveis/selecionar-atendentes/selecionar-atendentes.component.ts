@@ -28,12 +28,12 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
   /**
    *
    */
-  unidadesTiposAvaliacoes: any;
+  unidadesTiposAvaliacoesDispositivo: any;
 
   /**
    *
    */
-  unidadeTipoAvaliacao: any;
+  unidadeTipoAvaliacaoDispositivo: any;
 
   /**
    *
@@ -68,75 +68,74 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
       this.router.navigate(['avaliar']);
     }
 
-    // Requisita unidades.
-    this.mobileService.requestUnidades().then(unidades => {
+    // Se não tem unidades selecionadas vai para tela de selação de unidades
+    if (!this.mobileService.unidades || !this.mobileService.unidades.length) {
+      this.router.navigate(['configurar-unidades-e-avaliacoes']);
+      this._loadingService.resolve('overlayStarSyntax');
+      return
+    }
 
-      // Se não tem unidades selecionadas vai para tela de selação de unidades
-      if (!unidades || !unidades.length) {
-        this.router.navigate(['configurar-unidades-e-avaliacoes']);
-        this._loadingService.resolve('overlayStarSyntax');
-        return
+    // Popula variável de unidadesTiposAvalicoes, esta variável será utilizada na conclusão da avaliação.
+    this.unidadesTiposAvaliacoesDispositivo = this.mobileService.unidadesTiposAvaliacoesDispositivo;
+
+    // Se não tem unidades selecionadas vai para tela de selação de unidades
+    if (!this.mobileService.unidadesTiposAvaliacoesDispositivo || !this.mobileService.unidadesTiposAvaliacoesDispositivo.length) {
+      this.router.navigate(['configurar-unidades-e-avaliacoes']);
+      this._loadingService.resolve('overlayStarSyntax');
+      return
+    }
+
+    // Conta a quantidade de avaliações, utilizado para criar contador na tela.
+    this.countTiposAvaliacoes = this.unidadesTiposAvaliacoesDispositivo.filter(unidadeTipoAvaliacaoDispositivo => unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.parent.snapshot.params.unidadeId).length;
+
+    // Se não tem unidadeId, então retorna para seleção de unidade. //TODO pode estar no abstract
+    if (!this.activatedRoute.parent.snapshot.params.ordem) {
+      this.router.navigate(['configurar-unidades-e-avaliacoes']);
+      this._loadingService.resolve('overlayStarSyntax');
+      return
+    }
+
+    // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas. //TODO pode estar no abstract
+    if (!this.activatedRoute.parent.parent.snapshot.params.unidadeId) {
+      this.router.navigate(['avaliar']);
+      this._loadingService.resolve('overlayStarSyntax');
+      return
+    }
+
+    // Pega a unidade filtrada pela ordem e pela unidade
+    this.unidadeTipoAvaliacaoDispositivo = this.unidadesTiposAvaliacoesDispositivo.filter(unidadeTipoAvaliacaoDispositivo => {
+      return unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.parent.snapshot.params.unidadeId && unidadeTipoAvaliacaoDispositivo.ordem === +this.activatedRoute.parent.snapshot.params.ordem
+    })[0];
+
+    // Requisita os avaliáveis de acordo com o tipo de avaliação vinculado ao dispositivo.
+    this.avaliavelRepository.listByFilters({
+
+      ativo: true,
+
+      unidadeTipoAvaliacaoDispositivoId: this.unidadeTipoAvaliacaoDispositivo.id //TODO implementar requisição com unidadeTipoAvaliacaoDispositivoId no back-end
+
+    }).subscribe(resultt => {
+
+      this.avaliaveis = resultt.content;
+
+      // Se tem apenas um avaliável
+      if (this.avaliaveis.length === 1) {
+
+        // Seleciona o mesmo
+        this.avaliaveis[0].selected = true;
+
+        // Conclui a avaliação
+        this.proximo()
+
+        // Se não tem avaliáveis, esta errado, pois deve ter avaliáveis.
+      } else if (!this.avaliaveis.length) {
+
+        // Então vai para a tela de erro para instruir o usuário
+        this.router.navigate(['error'])
       }
 
-      // Requisita unidadesTiposAvaliacoes.
-      this.mobileService.requestUnidadesTiposAvaliacoes().then(unidadesTiposAvaliacoes => {
-
-        // Popula variável de unidadesTiposAvalicoes, esta variável será utilizada na conclusão da avaliação.
-        this.unidadesTiposAvaliacoes = unidadesTiposAvaliacoes;
-
-        // Se não tem unidades selecionadas vai para tela de selação de unidades
-        if (!unidadesTiposAvaliacoes || !unidadesTiposAvaliacoes.length) {
-          this.router.navigate(['configurar-unidades-e-avaliacoes']);
-          this._loadingService.resolve('overlayStarSyntax');
-          return
-        }
-
-        // Conta a quantidade de avaliações, utilizado para criar contador na tela.
-        this.countTiposAvaliacoes = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.parent.snapshot.params.unidadeId).length;
-
-        // Se não tem unidadeId, então retorna para seleção de unidade. //TODO pode estar no abstract
-        if (!this.activatedRoute.parent.snapshot.params.ordem) {
-          this.router.navigate(['configurar-unidades-e-avaliacoes']);
-          this._loadingService.resolve('overlayStarSyntax');
-          return
-        }
-
-        // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas. //TODO pode estar no abstract
-        if (!this.activatedRoute.parent.parent.snapshot.params.unidadeId) {
-          this.router.navigate(['avaliar']);
-          this._loadingService.resolve('overlayStarSyntax');
-          return
-        }
-
-        // Pega a unidade filtrada pela ordem e pela unidade
-        this.unidadeTipoAvaliacao = this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => {
-          return unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.parent.snapshot.params.unidadeId && unidadeTipoAvaliacao.ordem === this.activatedRoute.parent.snapshot.params.ordem
-        })[0];
-
-        // Requisita os avaliáveis de acordo com o tipo de avaliação.
-        this.avaliavelRepository.listByFilters({ativo: true, unidadeTipoAvaliacaoId: this.unidadeTipoAvaliacao.id}).subscribe(resultt => {
-          this.avaliaveis = resultt.content;
-
-          // Se tem apenas um avaliável
-          if (this.avaliaveis.length === 1) {
-
-            // Seleciona o mesmo
-            this.avaliaveis[0].selected = true;
-
-            // Conclui a avaliação
-            this.proximo()
-
-            // Se não tem avaliáveis, esta errado, pois deve ter avaliáveis.
-          } else if (!this.avaliaveis.length) {
-
-            // Então vai para a tela de erro para instruir o usuário
-            this.router.navigate(['error'])
-          }
-
-          // Resolve loading.
-          this._loadingService.resolve('overlayStarSyntax');
-        })
-      })
+      // Resolve loading.
+      this._loadingService.resolve('overlayStarSyntax');
     })
   }
 
@@ -155,7 +154,7 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
     if (this.mobileService.agrupador.avaliacoes[+this.activatedRoute.parent.snapshot.params.ordem - 1].avaliacoesAvaliaveis.length > 0) {
 
       // Se a quantidade de unidades tipos avaliações for diferente que a ordem, então as avaliações não chegaram no fim.
-      if (this.unidadesTiposAvaliacoes.filter(unidadeTipoAvaliacao => unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.parent.snapshot.params.unidadeId).length !== +this.activatedRoute.parent.snapshot.params.ordem) {
+      if (this.unidadesTiposAvaliacoesDispositivo.filter(unidadeTipoAvaliacaoDispositivo => unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.parent.snapshot.params.unidadeId).length !== +this.activatedRoute.parent.snapshot.params.ordem) {
 
         // Incrementa a ordem, e vai para proxima avaliação
         this.router.navigate(['/avaliar/' + (+this.activatedRoute.parent.parent.snapshot.params.unidadeId) + '/ordem/' + (Number(this.activatedRoute.parent.snapshot.params.ordem) + 1)]);

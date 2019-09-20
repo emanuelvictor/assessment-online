@@ -52,7 +52,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     /**
      *
      */
-    @Column
+    @Column(unique = true)
     private String numeroSerie;
 
     /**

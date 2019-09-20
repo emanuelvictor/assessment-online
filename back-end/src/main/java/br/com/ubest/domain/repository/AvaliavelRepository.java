@@ -22,8 +22,8 @@ public interface AvaliavelRepository extends JpaRepository<Avaliavel, Long> {
                     "   )" +
                     "   AND " +
                     "   (" +
-                    "       (:unidadeTipoAvaliacaoId IS NOT NULL AND avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id = :unidadeTipoAvaliacaoId)" +
-                    "       OR :unidadeTipoAvaliacaoId IS NULL  " +
+                    "       (:unidadeTipoAvaliacaoDispositivoId IS NOT NULL AND avaliavel.unidadeTipoAvaliacaoDispositivo.id = :unidadeTipoAvaliacaoDispositivoId)" +
+                    "       OR :unidadeTipoAvaliacaoDispositivoId IS NULL  " +
                     "   )" +
                     "   AND " +
                     "   (" +
@@ -43,7 +43,7 @@ public interface AvaliavelRepository extends JpaRepository<Avaliavel, Long> {
                                   @Param("usuarioId") final Long usuarioId,
                                   @Param("unidadeId") final Long unidadeId,
                                   @Param("ativo") final Boolean ativo,
-                                  @Param("unidadeTipoAvaliacaoId") final Long unidadeTipoAvaliacaoId,
+                                  @Param("unidadeTipoAvaliacaoDispositivoId") final Long unidadeTipoAvaliacaoDispositivoId,
                                   final Pageable pageable);
 
     @Query(" SELECT avaliavel FROM Avaliavel avaliavel WHERE avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id = :unidadeTipoAvaliacaoId")

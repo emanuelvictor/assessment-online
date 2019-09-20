@@ -70,8 +70,8 @@ public class AvaliavelService {
 
     }
 
-    public Page<Avaliavel> listByFilters(final String defaultFilter, final Long usuarioId, final Long unidadeId, final Boolean ativo, final Long unidadeTipoAvaliacaoId, final Pageable pageable) {
-        return this.avaliavelRepository.listByFilters(defaultFilter, usuarioId, unidadeId, ativo, unidadeTipoAvaliacaoId, pageable);
+    public Page<Avaliavel> listByFilters(final String defaultFilter, final Long usuarioId, final Long unidadeId, final Boolean ativo, final Long unidadeTipoAvaliacaoDispositivoId, final Pageable pageable) {
+        return this.avaliavelRepository.listByFilters(defaultFilter, usuarioId, unidadeId, ativo, unidadeTipoAvaliacaoDispositivoId, pageable);
     }
 
 

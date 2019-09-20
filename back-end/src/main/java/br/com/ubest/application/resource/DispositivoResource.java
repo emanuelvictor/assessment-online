@@ -144,7 +144,6 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
      * @return
      */
     @GetMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<Optional<Dispositivo>> getDispositivo(@PathVariable final long id, @RequestParam(required = false) final String numeroSerie) {
         return Mono.just(Optional.of(this.dispositivoService.getDispositivo(id, numeroSerie)));
     }
@@ -157,6 +156,6 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
      */
     @PostMapping("authenticate")
     Mono<Optional<Dispositivo>> authenticate(@RequestBody final Dispositivo dispositivo, final ServerWebExchange exchange) {
-        return Mono.just(Optional.of(this.dispositivoService.authenticate(dispositivo.getNumeroSerie(), dispositivo.getSenha(), exchange)));
+        return Mono.just(Optional.of(this.dispositivoService.authenticate(dispositivo.getNumeroLicenca(), dispositivo.getSenha(), exchange)));
     }
 }
