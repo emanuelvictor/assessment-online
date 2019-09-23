@@ -3,7 +3,6 @@
  */
 import {Injectable} from '@angular/core';
 import {Unidade} from '../../../web/domain/entity/unidade/unidade.model';
-import {MatSnackBarConfig} from '@angular/material';
 import {AvaliacaoService} from '../../../web/domain/service/avaliacao.service';
 import {UnidadeService} from '../../../web/domain/service/unidade.service';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from "@angular/router";
@@ -18,7 +17,6 @@ import {Observable} from "rxjs";
 import {TOKEN_NAME} from "../../../web/domain/presentation/controls/utils";
 import {environment} from "../../../environments/environment";
 import {isNullOrUndefined} from "util";
-import {Conta} from "../../../web/domain/entity/usuario/conta.model";
 import {CookieService} from "ngx-cookie-service";
 import {HttpClient} from "@angular/common/http";
 import {UnidadeTipoAvaliacaoDispositivo} from "../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
@@ -51,7 +49,6 @@ export class MobileService implements CanActivate, CanActivateChild {
    *
    */
   private _timeout: number;
-
 
   /**
    * @param _localStorage
@@ -86,7 +83,7 @@ export class MobileService implements CanActivate, CanActivateChild {
    *
    */
   get dispositivo(): Dispositivo {
-    return this._dispositivo;
+    return this._dispositivo ? this._dispositivo : new Dispositivo();
   }
 
   /**
@@ -172,7 +169,7 @@ export class MobileService implements CanActivate, CanActivateChild {
    * @returns {Unidade[]}
    */
   get unidades(): any {
-    return this._dispositivo.unidadesTiposAvaliacoesDispositivo.map(value => value.unidadeTipoAvaliacao.unidade)
+    return (this._dispositivo as any).unidades
   }
 
   /**
@@ -191,16 +188,6 @@ export class MobileService implements CanActivate, CanActivateChild {
 
   /**
    *
-   * @returns {MatSnackBarConfig}
-   */
-  public static get matSnackBarConfig(): MatSnackBarConfig {
-    const matSnackBarConfig: MatSnackBarConfig = new MatSnackBarConfig();
-    matSnackBarConfig.duration = 5000;
-    return matSnackBarConfig
-  }
-
-  /**
-   *
    * Realiza a autenticação com o número da licença e a senha
    *
    * @param numeroLicenca
@@ -208,20 +195,19 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   public authenticate(numeroLicenca: number, senha: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this._dispositivoRepository.authenticate(numeroLicenca, senha)
-        .then(result => {
+      this._dispositivoRepository.authenticate(numeroLicenca, senha).then(result => {
 
-          if (this._cookieService.get(TOKEN_NAME)) {
-            this._localStorage.token = this._cookieService.get(TOKEN_NAME);
-          }
+        if (this._cookieService.get(TOKEN_NAME)) {
+          this._localStorage.token = this._cookieService.get(TOKEN_NAME);
+        }
 
-          if (this._localStorage.token) {
-            this._cookieService.set(TOKEN_NAME, this._localStorage.token, null, '/');
-          }
+        if (this._localStorage.token) {
+          this._cookieService.set(TOKEN_NAME, this._localStorage.token, null, '/');
+        }
 
-          resolve(result)
-        })
-        .catch(error => reject(error));
+        resolve(result)
+
+      }).catch(error => reject(error));
     })
   }
 
@@ -273,8 +259,9 @@ export class MobileService implements CanActivate, CanActivateChild {
       })
     }
 
-    return this.requestContaAutenticada()
+    return this.requestDispositivoAutenticada()
       .map(auth => {
+        this.dispositivo = auth;
         if (isNullOrUndefined(auth)) {
           this.router.navigate(['configurar-unidades-e-avaliacoes']);
           return false
@@ -293,30 +280,38 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  public requestContaAutenticada(): Observable<any | Conta> {
-    return this.httpClient.get<Conta>(environment.endpoint + 'principal').catch((err: any) => {
-      // simple logging, but you can do a lot more, see below
-      if (this._localStorage.token) {
-        this.router.navigate(['error'])
-      } else {
-        this.router.navigate(['configurar-unidades-e-avaliacoes'])
-      }
+  public requestDispositivoAutenticada(): Observable<Dispositivo | any> {
+    return this.httpClient.get<Dispositivo>(environment.endpoint + 'principal').catch((err: any) => {
+
+      if (this._localStorage.token)
+        this.router.navigate(['error']);
+      else
+        this.router.navigate(['configurar-unidades-e-avaliacoes']);
+
       return err
+
     })
   }
 
   /**
    *
    */
-  public logout(): Promise<any> {
+  public logout(password: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.httpClient.get(environment.endpoint + 'logout').toPromise()
-        .then(() => {
-          this._localStorage.removeToken();
-          this._cookieService.delete(TOKEN_NAME);
-          resolve();
-        })
-        .catch(error => reject(error))
+      this.requestDispositivoAutenticada().subscribe(result => {
+
+        this.httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
+
+          if (password === result.password) {
+            this._localStorage.removeToken();
+            this._cookieService.delete(TOKEN_NAME);
+            resolve()
+          } else
+            resolve('Senha incorreta!')
+
+        }).catch(error => reject(error))
+
+      })
     })
   }
 }

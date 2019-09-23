@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../../../../../../web/domain/service/authentication.service";
 import {environment} from "../../../../../../environments/environment";
 import {getIdentifier} from "../../../../../../web/domain/presentation/controls/utils";
+import {MobileService} from "../../../../service/mobile.service";
 
 @Component({
   selector: 'app-configuracoes',
@@ -18,18 +18,16 @@ export class ConfiguracoesComponent {
   /**
    *
    * @param router
-   * @param {AuthenticationService} authenticationService
+   * @param {MobileService} mobileService
    */
   constructor(private router: Router,
-              private authenticationService: AuthenticationService) {
+              private mobileService: MobileService) {
 
-    this.authenticationService.requestContaAutenticada()
-      .subscribe(conta => {
-          if (conta && conta.esquema) {
-            this.backgroundImage = environment.endpoint + './configuracoes/background?cliente=' + conta.esquema + '?nocache=' + getIdentifier()
-          }
-        }
-      )
+    this.mobileService.requestDispositivoAutenticada().subscribe(dispositivo => {
+      if (dispositivo && dispositivo.tenant) {
+        this.backgroundImage = environment.endpoint + './configuracoes/background?cliente=' + dispositivo.tenant + '?nocache=' + getIdentifier()
+      }
+    })
   }
 
 }

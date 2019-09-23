@@ -1,14 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MobileService} from '../../../service/mobile.service';
-import {UnidadeService} from '../../../../../web/domain/service/unidade.service';
-import {MatSnackBar} from "@angular/material";
-import {TdLoadingService} from "@covalent/core";
-import {viewAnimation} from "../../../../../web/domain/presentation/controls/utils";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
+import {getIdentifier, viewAnimation} from "../../../../../web/domain/presentation/controls/utils";
 import {Subject} from "rxjs";
 import {Dispositivo} from "../../../../../web/domain/entity/avaliacao/dispositivo.model";
 import {WebSocketSubject} from "rxjs/webSocket";
+import {environment} from "../../../../../environments/environment";
+import {DomSanitizer} from "@angular/platform-browser";
+import {ConfiguracaoRepository} from "../../../../../web/domain/repository/configuracao.repository";
 
 @Component({
   selector: 'configurar-unidades-e-avaliacoes',
@@ -23,12 +22,23 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   /**
    *
    */
-  model: any;
+  public dispositivo: Dispositivo = new Dispositivo();
 
   /**
    *
    */
-  unidades: any;
+  public cliente: string = 'public';
+
+  /**
+   *
+   * @type {string}
+   */
+  logoImage: string = environment.endpoint + './configuracoes/logomarca?cliente=public';
+
+  /**
+   *
+   */
+  backgroundPath: string = environment.endpoint + 'assets/images/banner.png';
 
   /**
    *
@@ -38,7 +48,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   /**
    *
    */
-  numeroSerie: string = '143037';
+  numeroSerie: string = '113130';
 
   /**
    *
@@ -54,40 +64,64 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   /**
    *
    * @param {Router} router
-   * @param {MatSnackBar} snackBar
-   * @param {MobileService} mobileService
-   * @param {UnidadeService} unidadeService
-   * @param _loadingService
-   * @param unidadeTipoAvaliacaoRepository
+   * @param _sanitizer
+   * @param {ConfiguracaoRepository} configuracaoRepository
+   * @param mobileService
    */
-  constructor(private _loadingService: TdLoadingService,
-              private unidadeService: UnidadeService, private router: Router,
-              private mobileService: MobileService, private snackBar: MatSnackBar,
-              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
+  constructor(private mobileService: MobileService,
+              private configuracaoRepository: ConfiguracaoRepository,
+              private router: Router, private _sanitizer: DomSanitizer) {
   }
 
   /**
    *
    */
-  ngOnInit() {
+  ngOnInit(): void {
     this.numeroLicencaChanged.debounceTime(1000).distinctUntilChanged().subscribe(model => {
-        if (this.webSocketSubject)
-          this.webSocketSubject.unsubscribe();
-        this.webSocketSubject = this.mobileService.connect(model);
 
-        this.webSocketSubject.subscribe(result => {
-          this.mobileService.dispositivo = Object.assign({}, result);
-          this.mobileService.dispositivo.numeroSerie = this.numeroSerie;
+      if (this.webSocketSubject)
+        this.webSocketSubject.unsubscribe();
+      this.webSocketSubject = this.mobileService.connect(model);
 
-          if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie && !result.emUso) {
-            console.log('Enviando número de série!');
-            this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie)
-          } else if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie && result.emUso) {
-            alert('Licença em uso')
-          }
-        })
-      }
-    )
+      this.webSocketSubject.subscribe(result => {
+
+        this.mobileService.dispositivo = Object.assign({}, result);
+        this.mobileService.dispositivo.numeroSerie = this.numeroSerie;
+
+        this.configuracaoRepository.getClienteByUsername(this.mobileService.dispositivo.tenant)
+          .subscribe(result => {
+            if (result !== this.cliente) {
+              this.cliente = result;
+
+              const identifier: string = getIdentifier();
+              this.logoImage = environment.endpoint + './configuracoes/logomarca?cliente=' + this.cliente + '?nocache=' + identifier;
+
+              if (this.cliente === 'public') {
+                this.backgroundPath = environment.endpoint + 'assets/images/banner.png';
+              } else {
+                this.backgroundPath = environment.endpoint + './configuracoes/background?cliente=' + this.cliente + '?nocache=' + identifier;
+              }
+            }
+          });
+
+        if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie && !result.emUso) {
+          console.log('Enviando número de série!');
+          this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie)
+        } else if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie && result.emUso) {
+          alert('Licença em uso')
+        }
+
+      })
+
+    })
+  }
+
+  /**
+   *
+   * @param image
+   */
+  getBackground(image) {
+    return this._sanitizer.bypassSecurityTrustStyle(`url(${image})`);
   }
 
   /**
@@ -107,16 +141,8 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   public inputSenhaChanged($event) {
     if ($event && $event.length)
       if ($event.length === 6)
-        this.mobileService.authenticate(this.mobileService.dispositivo.numeroLicenca, $event);
-  }
-
-  /**
-   *
-   * @param message
-   */
-  public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 5000
-    })
+        this.mobileService.authenticate(this.mobileService.dispositivo.numeroLicenca, $event).then(result => {
+          this.router.navigate(['avaliar'])
+        })
   }
 }

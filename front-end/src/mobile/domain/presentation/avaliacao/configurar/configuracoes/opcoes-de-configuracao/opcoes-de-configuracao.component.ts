@@ -28,13 +28,11 @@ export class OpcoesDeConfiguracaoComponent implements OnInit {
    * @param element
    * @param renderer
    * @param snackBar
-   * @param {AuthenticationService} authenticationService
    * @param {Router} router
    */
   constructor(private mobileService: MobileService,
               @Inject(ElementRef) private element: ElementRef,
               private router: Router, private renderer: Renderer,
-              private authenticationService: AuthenticationService,
               private snackBar: MatSnackBar, private fb: FormBuilder) {
   }
 
@@ -62,8 +60,7 @@ export class OpcoesDeConfiguracaoComponent implements OnInit {
   reconfig() {
 
     // Limpa
-    this.mobileService.localStorage.removeUnidades();
-    this.mobileService.localStorage.removeUnidadesTiposAvaliacoes();
+    this.mobileService.dispositivo = null;
 
     // Vai pra reconfigurar
     this.router.navigate(['/configurar-unidades-e-avaliacoes'])
@@ -76,12 +73,10 @@ export class OpcoesDeConfiguracaoComponent implements OnInit {
   logout() {
 
     // Limpa
-    this.mobileService.localStorage.removeHashs();
-    this.mobileService.localStorage.removeUnidades();
-    this.mobileService.localStorage.removeUnidadesTiposAvaliacoes();
+    this.mobileService.dispositivo = null;
 
     // Vai pra reconfigurar
-    this.authenticationService.logout().then(() => this.router.navigate(['/configurar-unidades-e-avaliacoes']))
+    this.mobileService.logout().then(() => this.router.navigate(['/configurar-unidades-e-avaliacoes']))
 
   }
 

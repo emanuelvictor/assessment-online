@@ -32,19 +32,20 @@ public class AuthenticationResource {
     /**
      * TODO verificar se não da pra colocar em outro lugar também
      *
-     * @return Mono<Conta>
+     * @return Mono<Optional < Object>>
      */
     @GetMapping
     public Mono<Optional<Object>> principal() {
-        return ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication).switchIfEmpty(Mono.empty())
-                .map(authentication -> {
+        return ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication).switchIfEmpty(Mono.empty()).map(authentication -> {
 
-                    if (authentication.getPrincipal() instanceof Conta) {
-                        final Conta conta = (Conta) authentication.getPrincipal();
-                        return Optional.ofNullable(contaRepository.findByEmailIgnoreCase(conta.getEmail()));
-                    } else {
-                        return Optional.ofNullable(authentication.getPrincipal());
-                    }
-                });
+            if (authentication.getPrincipal() instanceof Conta) {
+                final Conta conta = (Conta) authentication.getPrincipal();
+                return Optional.ofNullable(contaRepository.findByEmailIgnoreCase(conta.getEmail()));
+            } else {
+                final Dispositivo dispositivo = (Dispositivo) authentication.getPrincipal();
+                return Optional.ofNullable(dispositivoRepository.findById(dispositivo.getId()).orElse(null));
+            }
+
+        });
     }
 }

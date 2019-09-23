@@ -1,11 +1,13 @@
-mat-select {
-  div {
-    font-size: 20px;
-  }
+@import "../../../../../theme";
+
+.login {
+  height: 100%;
+  background-size: cover;
+  background-image: url("../../../../../assets/images/banner.png");
 }
 
-//button {
-//  height: 50px;
-//  width: 125px;
-//  font-size: 25px
-//}
+.logo {
+  height: 50px;
+  margin-top: 10px;
+  margin-bottom: 28px;
+}

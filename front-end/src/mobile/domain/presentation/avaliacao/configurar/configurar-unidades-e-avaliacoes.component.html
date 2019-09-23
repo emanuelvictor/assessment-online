@@ -1,33 +1,90 @@
-<div layout='column' layout-align='center center'
-     *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-  <mat-card style='width: 600px'>
-    <mat-card-title class='push' style='margin-right: 0;padding-right: 0'>
-      <div layout='row'>
-        <div layout='column'>
-          <label style='font-size: 23px'>Insira o número da licença</label>
+<div [style.background-image]='getBackground(backgroundPath)'
+     layout-align='center center' layout='column' class='login'>
+
+  <div layout='column' layout-align='center center'>
+
+    <mat-card style='width: 600px'>
+      <mat-card-content>
+
+        <div layout='column' layout-margin>
+
+          <div layout-align='center center' layout='column' layout-margin>
+
+            <div layout='row' flex layout-margin>
+              <img class='logo' src='{{logoImage}}'>
+            </div>
+
+            <div layout='row' flex layout-margin>
+              <h1 class='mat-title tc-grey-600' flex>
+                <b>Sistema para Avaliação de Atendimentos</b>
+              </h1>
+            </div>
+          </div>
+
+          <div layout='row' layout-margin flex style='margin-top: 34px'>
+            <mat-form-field flex>
+              <input [ngModelOptions]='{standalone: true}'
+                     placeholder='Insira o número da licença'
+                     matInput required name='numero' noWhiteSpace
+                     (ngModelChange)='inputNumeroLicencaChanged($event)'
+                     [(ngModel)]='mobileService.dispositivo.numeroLicenca'/>
+            </mat-form-field>
+          </div>
+
+          <div layout='column' flex layout-margin
+               *ngIf='mobileService?.dispositivo?.interna && mobileService?.dispositivo?.senha'>
+
+            <div flex layout='row'>
+
+              <mat-form-field flex *ngIf='mobileService?.dispositivo?.id'>
+                <input [ngModelOptions]='{standalone: true}'
+                       (ngModelChange)='inputSenhaChanged($event)'
+                       matInput required name='senha' noWhiteSpace
+                       placeholder='Insira a senha' [(ngModel)]='senha'/>
+                <mat-hint align='end'>Acesse o dispositivo pela plataforma WEB e visualize a senha</mat-hint>
+              </mat-form-field>
+
+            </div>
+          </div>
+
         </div>
-      </div>
-    </mat-card-title>
 
-    <mat-card-content style='height: 400px; padding: 0; margin-bottom: 0'>
-      <div layout='column' layout-margin flex style='margin-top: 34px'>
-        <mat-form-field flex>
-          <input [ngModelOptions]='{standalone: true}'
-                 placeholder='Insira o número da licença'
-                 matInput required name='numero' noWhiteSpace
-                 (ngModelChange)='inputNumeroLicencaChanged($event)'
-                 [(ngModel)]='mobileService.dispositivo.numeroLicenca'/>
-        </mat-form-field>
-
-        <mat-form-field flex *ngIf='mobileService.dispositivo.id'>
-          <input [ngModelOptions]='{standalone: true}'
-                 (ngModelChange)='inputSenhaChanged($event)'
-                 matInput required name='senha' noWhiteSpace
-                 placeholder='Insira a senha' [(ngModel)]='senha'/>
-          <mat-hint align='end'>Acesse o dispositivo pela plataforma WEB e visualize a senha</mat-hint>
-        </mat-form-field>
-      </div>
-    </mat-card-content>
-
-  </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
+
+
+<!--<div layout='column' layout-align='center center'-->
+<!--     *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">-->
+<!--  <mat-card style='width: 600px'>-->
+<!--    <mat-card-title class='push' style='margin-right: 0;padding-right: 0'>-->
+<!--      <div layout='row'>-->
+<!--        <div layout='column'>-->
+<!--          <label style='font-size: 23px'>Insira o número da licença</label>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </mat-card-title>-->
+
+<!--    <mat-card-content style='height: 400px; padding: 0; margin-bottom: 0'>-->
+<!--      <div layout='column' layout-margin flex style='margin-top: 34px'>-->
+<!--        <mat-form-field flex>-->
+<!--          <input [ngModelOptions]='{standalone: true}'-->
+<!--                 placeholder='Insira o número da licença'-->
+<!--                 matInput required name='numero' noWhiteSpace-->
+<!--                 (ngModelChange)='inputNumeroLicencaChanged($event)'-->
+<!--                 [(ngModel)]='mobileService.dispositivo.numeroLicenca'/>-->
+<!--        </mat-form-field>-->
+
+<!--        <mat-form-field flex *ngIf='mobileService.dispositivo.id'>-->
+<!--          <input [ngModelOptions]='{standalone: true}'-->
+<!--                 (ngModelChange)='inputSenhaChanged($event)'-->
+<!--                 matInput required name='senha' noWhiteSpace-->
+<!--                 placeholder='Insira a senha' [(ngModel)]='senha'/>-->
+<!--          <mat-hint align='end'>Acesse o dispositivo pela plataforma WEB e visualize a senha</mat-hint>-->
+<!--        </mat-form-field>-->
+<!--      </div>-->
+<!--    </mat-card-content>-->
+
+<!--  </mat-card>-->
+<!--</div>-->

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {MobileService} from "../../../../../../service/mobile.service";
 import {AvaliavelRepository} from "../../../../../../../../web/domain/repository/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
@@ -175,7 +175,17 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
       }
 
     } else {
-      this.snackBar.open('Selecione ao menos um atendente', 'Fechar', MobileService.matSnackBarConfig)
+      this.snackBar.open('Selecione ao menos um atendente', 'Fechar', SelecionarAtendentesComponent.matSnackBarConfig)
     }
+  }
+
+  /**
+   *
+   * @returns {MatSnackBarConfig}
+   */
+  public static get matSnackBarConfig(): MatSnackBarConfig {
+    const matSnackBarConfig: MatSnackBarConfig = new MatSnackBarConfig();
+    matSnackBarConfig.duration = 5000;
+    return matSnackBarConfig
   }
 }
