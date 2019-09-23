@@ -27,7 +27,6 @@ import {ContaRepository} from '../../web/domain/repository/conta.repository';
 import {ContaService} from '../../web/domain/service/conta.service';
 import {PageSerialize} from '../../web/infrastructure/page-serialize/page-serialize';
 import {MobileService} from "./service/mobile.service";
-import {MobileLoginComponent} from './presentation/login/mobile-login/mobile-login.component';
 import {ConfiguracaoRepository} from "../../web/domain/repository/configuracao.repository";
 import {ConfiguracaoService} from "../../web/domain/service/configuracao.service";
 import {LocalStorage} from "../../web/infrastructure/local-storage/local-storage";
@@ -46,7 +45,6 @@ import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/execu
 import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/feedback/feedback.component";
 import {AuthenticateComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate/authenticate.component";
 import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
-import {OpcoesDeConfiguracaoComponent} from "./presentation/avaliacao/configurar/configuracoes/opcoes-de-configuracao/opcoes-de-configuracao.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {OrderModule} from "ngx-order-pipe";
 import {DispositivoRepository} from "../../web/domain/repository/dispositivo.repository";
@@ -66,11 +64,9 @@ import {DispositivoRepository} from "../../web/domain/repository/dispositivo.rep
     SelecionarUnidadeComponent,
     SelecionarAtendentesComponent,
     SelecionarNotaEItensAvaliaveisComponent,
-    MobileLoginComponent,
     FeedbackComponent,
     AuthenticateComponent,
     ConfiguracoesComponent,
-    OpcoesDeConfiguracaoComponent,
     ConfigurarUnidadesEAvaliacoesComponent
   ],
   imports: [
