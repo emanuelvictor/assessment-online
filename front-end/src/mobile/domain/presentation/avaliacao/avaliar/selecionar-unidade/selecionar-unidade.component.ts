@@ -53,13 +53,13 @@ export class SelecionarUnidadeComponent implements OnInit {
     // Requisita configuração.
     this.mobileService.requestConfiguracao.then(configuracao => {
       this.configuracao = configuracao;
-debugger;
+
       // Pega  configuração.
       this.unidades = this.mobileService.unidades;
 
       // Se não tem unidades selecionadas, vai para tela de seleção de unidades
       if (!this.unidades || !this.unidades.length) {
-        this.router.navigate(['/configurar-unidades-e-avaliacoes']);
+        this.router.navigate(['configurar-unidades-e-avaliacoes']);
         this._loadingService.resolve('overlayStarSyntax');
         return
       }

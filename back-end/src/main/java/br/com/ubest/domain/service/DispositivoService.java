@@ -131,7 +131,7 @@ public class DispositivoService {
     public Dispositivo getDispositivo(final long id, final String numeroSerie) {
 
         // Pega o dispositivo da base
-        final Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElse(this.dispositivoRepository.findByNumeroLicenca(id).orElseThrow());
+        final Dispositivo dispositivo = this.getDispositivo(id);
 
         // Se está passando o número de série, então está tentando se conectar administrativamente
         if (numeroSerie != null) {
@@ -159,6 +159,12 @@ public class DispositivoService {
         }
 
         return dispositivo;
+    }
+
+    @Transactional(readOnly = true)
+    Dispositivo getDispositivo(final long id) {
+        // Pega o dispositivo da base
+        return this.dispositivoRepository.findById(id).orElse(this.dispositivoRepository.findByNumeroLicenca(id).orElseThrow());
     }
 
     /**

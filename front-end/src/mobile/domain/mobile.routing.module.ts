@@ -20,7 +20,7 @@ const routes: Routes = [
     {
       path: '', redirectTo: ':numeroLicenca', pathMatch: 'full'
     },
-    {path: 'inserir-licenca', component: ConfigurarUnidadesEAvaliacoesComponent},
+    {path: 'configurar-unidades-e-avaliacoes', component: ConfigurarUnidadesEAvaliacoesComponent},
     {
       path: ':numeroLicenca', component: AvaliacaoComponent, canActivate: [MobileService],
       children: [

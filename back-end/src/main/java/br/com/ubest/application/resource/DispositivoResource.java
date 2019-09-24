@@ -127,18 +127,6 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
 
     /**
      *
-     * @param dispositivoId
-     * @return
-     */
-    @Transactional(readOnly = true)
-    @GetMapping("{dispositivoId}/hashs")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    Mono<List<String>> getHashsByDispositivoId(@PathVariable final long dispositivoId) {
-        return Mono.just(this.dispositivoService.getHashsByDispositivoId(dispositivoId));
-    }
-
-    /**
-     *
      * @param id
      * @param numeroSerie
      * @return
