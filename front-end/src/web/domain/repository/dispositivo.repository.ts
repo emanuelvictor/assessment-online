@@ -3,6 +3,7 @@ import {BaseRepository} from '../../infrastructure/repository/base/base.reposito
 import {HttpClient} from '@angular/common/http';
 import {Dispositivo} from "../entity/avaliacao/dispositivo.model";
 import {UnidadeTipoAvaliacaoDispositivo} from "../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class DispositivoRepository extends BaseRepository<Dispositivo> {
@@ -51,10 +52,10 @@ export class DispositivoRepository extends BaseRepository<Dispositivo> {
    * @param numeroLiceca
    * @param numeroSerie
    */
-  getDispositivo(numeroLiceca: number, numeroSerie?: string): Promise<Dispositivo> {
+  getDispositivo(numeroLiceca: number, numeroSerie?: string): Observable<Dispositivo> {
     if (numeroSerie)
-      return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroLiceca + '?numeroSerie=' + numeroSerie).toPromise();
+      return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroLiceca + '?numeroSerie=' + numeroSerie);
     else
-      return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroLiceca).toPromise();
+      return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroLiceca);
   }
 }

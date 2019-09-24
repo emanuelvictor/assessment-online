@@ -17,12 +17,15 @@ import {MobileService} from "./service/mobile.service";
 
 
 const routes: Routes = [
+    {
+      path: '', redirectTo: ':numeroLicenca', pathMatch: 'full'
+    },
     {path: 'inserir-licenca', component: ConfigurarUnidadesEAvaliacoesComponent},
     {
-      path: '', component: AvaliacaoComponent,
+      path: ':numeroLicenca', component: AvaliacaoComponent, canActivate: [MobileService],
       children: [
         {
-          path: ':numeroLicenca', component: AvaliarComponent, canActivate: [MobileService],
+          path: '', component: AvaliarComponent,
           children: [
             {path: '', component: SelecionarUnidadeComponent},
             {

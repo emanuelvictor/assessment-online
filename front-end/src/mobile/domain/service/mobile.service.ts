@@ -225,16 +225,16 @@ export class MobileService implements CanActivate, CanActivateChild {
    * @param numeroLiceca
    * @param numeroSerie
    */
-  public getDispositivo(numeroLiceca: number, numeroSerie?: string): Promise<Dispositivo> {
-    return new Promise((resolve, reject) => {
-      return this._dispositivoRepository.getDispositivo(numeroLiceca, numeroSerie)
-        .then(result => {
-          this.dispositivo = result;
-          resolve(this.dispositivo)
-        }).catch(error => {
-          reject(error)
-        })
-    })
+  public getDispositivo(numeroLiceca: number, numeroSerie?: string): Observable<Dispositivo> {
+    // return new Promise((resolve, reject) => {
+    return this._dispositivoRepository.getDispositivo(numeroLiceca, numeroSerie)
+    //     .then(result => {
+    //       this.dispositivo = result;
+    //       resolve(this.dispositivo)
+    //     }).catch(error => {
+    //       reject(error)
+    //     })
+    // })
   }
 
   /**
@@ -255,38 +255,38 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | any> {
 
-    return this.requestDispositivoAutenticada().map(auth => {
+    return new Observable(subscriber => {
+      this.requestDispositivoAutenticada().subscribe(auth => {
 
-      this.dispositivo = auth;
+        this.dispositivo = auth;
 
-      // Se não tem ninguém autenticado
-      if (isNullOrUndefined(auth)) {
+        // Se não tem ninguém autenticado
+        if (isNullOrUndefined(auth)) {
 
-        if (route.params.numeroLicenca) {
-          this.getDispositivo(route.params.numeroLicenca).then(resulted => {
-            if (!resulted.interna) {
-              this.dispositivo = resulted;
-              return true
-            } else {
-              this.router.navigate(['configurar-unidades-e-avaliacoes']);
-              return false
-            }
+          if (route.params.numeroLicenca) {
+            this.getDispositivo(route.params.numeroLicenca).subscribe(resulted => {
+              if (!resulted.interna) {
+                this.dispositivo = resulted;
+                subscriber.next(true)
+              } else {
+                this.router.navigate(['configurar-unidades-e-avaliacoes']);
+                subscriber.next(false)
+              }
+            })
+          } else {
+            this.router.navigate(['configurar-unidades-e-avaliacoes']);
+            subscriber.next(false)
+          }
 
-          })
+          // Se tem alguém autenticado
         } else {
-          this.router.navigate(['configurar-unidades-e-avaliacoes']);
-          return false
+          this.handlerDispositivoInterno(); // TODO VERIFCAR SE AINDA É NECESSÁRIO
+          return true
         }
 
-        // Se tem alguém autenticado
-      } else {
-        this.handlerDispositivoInterno(); // TODO VERIFCAR SE AINDA É NECESSÁRIO
-        return true
-      }
-
-    }).catch((err: any) => {
-      return err
+      })
     })
+
   }
 
   /**
