@@ -49,7 +49,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   /**
    *
    */
-  numeroSerie: string /*= '123130'*/;
+  numeroSerie: string = '133130';
 
   /**
    *
@@ -112,7 +112,12 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
           if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
 
             if (!result.emUso)
-              this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie);
+              this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie).subscribe( resulted => {
+                if (resulted.interna)
+                  this.mobileService.dispositivo = resulted;
+                else
+                  this.error('Essa licença é para uso externo!')
+              });
             else
               this.error('Licença sendo utilizada em outro dispositivo!')
 
@@ -122,7 +127,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
         // Se não, então deve procurar avaliações públicas (externas)
         else {
 
-          this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, null).then(resulted => {
+          this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca).subscribe(resulted => {
             if (!resulted.interna)
               this.router.navigate([this.mobileService.dispositivo.numeroLicenca]);
             else

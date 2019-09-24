@@ -18,7 +18,7 @@ import {MobileService} from "./service/mobile.service";
 
 const routes: Routes = [
     {
-      path: '', redirectTo: ':numeroLicenca', pathMatch: 'full'
+      path: '', redirectTo: 'configurar-unidades-e-avaliacoes', pathMatch: 'full'
     },
     {path: 'configurar-unidades-e-avaliacoes', component: ConfigurarUnidadesEAvaliacoesComponent},
     {
