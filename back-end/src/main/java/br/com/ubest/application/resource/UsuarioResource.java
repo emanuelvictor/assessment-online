@@ -90,7 +90,6 @@ public class UsuarioResource extends AbstractResource<Usuario> {
         return Mono.just(this.usuarioService.listByFilters(defaultFilter, getListFromArray(idsFilter), getPageable()));
     }
 
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     @GetMapping(value = "{id}/thumbnail", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Mono<ResponseEntity<byte[]>> findThumbnail(@PathVariable final long id) {
         return Mono.just(
@@ -99,7 +98,6 @@ public class UsuarioResource extends AbstractResource<Usuario> {
         );
     }
 
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     @GetMapping(value = "{id}/avatar", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Mono<ResponseEntity<byte[]>> findAvatar(@PathVariable final long id) {
         return Mono.just(
@@ -108,7 +106,6 @@ public class UsuarioResource extends AbstractResource<Usuario> {
         );
     }
 
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     @GetMapping(value = "{id}/foto", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Mono<ResponseEntity<byte[]>> findFoto(@PathVariable final long id) {
         return Mono.just(

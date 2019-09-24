@@ -19,26 +19,46 @@ import java.util.Optional;
 @RequestMapping({"**avaliaveis", "**sistema/avaliaveis", "**sistema/mobile/avaliaveis"})
 public class AvaliavelResource extends AbstractResource<Avaliavel> {
 
+    /**
+     *
+     */
     private final AvaliavelService avaliavelService;
 
+    /**
+     * @param avaliaveis
+     * @return
+     */
     @PostMapping("all")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<List<Avaliavel>> save(@RequestBody final Avaliavel[] avaliaveis) {
         return Mono.just(this.avaliavelService.save(Utils.getListFromArray(avaliaveis)));
     }
 
+    /**
+     * @param avaliavel
+     * @return
+     */
     @PostMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Avaliavel> save(@RequestBody final Avaliavel avaliavel) {
         return Mono.just(this.avaliavelService.save(avaliavel));
     }
 
+    /**
+     * @param id
+     * @param avaliavel
+     * @return
+     */
     @PutMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Avaliavel> update(@PathVariable final long id, @RequestBody final Avaliavel avaliavel) {
         return Mono.just(this.avaliavelService.save(id, avaliavel));
     }
 
+    /**
+     * @param id
+     * @return
+     */
     @DeleteMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Boolean> delete(@PathVariable final long id) {
@@ -46,14 +66,25 @@ public class AvaliavelResource extends AbstractResource<Avaliavel> {
         return Mono.just(true);
     }
 
+    /**
+     * @param id
+     * @return
+     */
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     public Mono<Optional<Avaliavel>> findAvaliavelById(@PathVariable final long id) {
         return Mono.just(this.avaliavelService.findById(id));
     }
 
+    /**
+     * @param defaultFilter
+     * @param usuarioId
+     * @param unidadeId
+     * @param ativo
+     * @param unidadeTipoAvaliacaoDispositivoId
+     * @return
+     */
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     Mono<Page<Avaliavel>> listByFilters(final String defaultFilter, final Long usuarioId, final Long unidadeId, final Boolean ativo, final Long unidadeTipoAvaliacaoDispositivoId) {
         return Mono.just(this.avaliavelService.listByFilters(defaultFilter, usuarioId, unidadeId, ativo, unidadeTipoAvaliacaoDispositivoId, getPageable()));
     }

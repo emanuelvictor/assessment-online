@@ -11,50 +11,52 @@ import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/ex
 import {SelecionarNotaEItensAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota-e-itens-avaliaveis.component";
 import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component";
 import {ErrorComponent} from "./presentation/error/error.component";
-import {MobileLoginComponent} from "./presentation/login/mobile-login/mobile-login.component";
 import {AuthenticateComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate/authenticate.component";
-import {OpcoesDeConfiguracaoComponent} from "./presentation/avaliacao/configurar/configuracoes/opcoes-de-configuracao/opcoes-de-configuracao.component";
 import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
 import {MobileService} from "./service/mobile.service";
 
 
 const routes: Routes = [
-  {path: '', redirectTo: 'avaliar', pathMatch: 'full'},
-  {path: 'configurar-unidades-e-avaliacoes', component: ConfigurarUnidadesEAvaliacoesComponent},
-  {path: 'configuracoes', component: ConfiguracoesComponent,
-    children: [
-      {path: '', component: AuthenticateComponent},
-      {path: 'opcoes-de-configuracao', component: OpcoesDeConfiguracaoComponent},
-    ]
-  },
-  {
-    path: '', component: AvaliacaoComponent,
-    canActivate: [MobileService],
-    children: [
-      {
-        path: 'avaliar', component: AvaliarComponent,
-        children: [
-          {path: '', component: SelecionarUnidadeComponent},
-          {
-            path: ':unidadeId', component: ExecutarAvaliacaoComponent,
-            children: [
-              {
-                path: 'ordem/:ordem', component: SelecionarNotaEItensAvaliaveisComponent,
-                children: [
-                  {path: '', component: SelecionarNotaComponent},
-                  {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
-                ]
-              },
-              {path: 'conclusao', component: ConclusaoComponent},
-              {path: 'feedback', component: FeedbackComponent},
-            ]
-          },
+    {path: 'inserir-licenca', component: ConfigurarUnidadesEAvaliacoesComponent},
+    {
+      path: '', component: AvaliacaoComponent,
+      children: [
+        {
+          path: ':numeroLicenca', component: AvaliarComponent, canActivate: [MobileService],
+          children: [
+            {path: '', component: SelecionarUnidadeComponent},
+            {
+              path: ':unidadeId', component: ExecutarAvaliacaoComponent,
+              children: [
+                {
+                  path: 'ordem/:ordem', component: SelecionarNotaEItensAvaliaveisComponent,
+                  children: [
+                    {path: '', component: SelecionarNotaComponent},
+                    {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
+                  ]
+                },
+                {path: 'conclusao', component: ConclusaoComponent},
+                {path: 'feedback', component: FeedbackComponent},
+              ]
+            },
+          ]
+        },
+      ]
+    },
+    {
+      path: 'configuracoes', component: ConfiguracoesComponent,
+      children:
+        [
+          {path: '', component: AuthenticateComponent},
         ]
-      },
-    ]
-  },
-  {path: 'error', component: ErrorComponent}
-];
+    }
+    ,
+    {
+      path: 'error', component:
+      ErrorComponent
+    }
+  ]
+;
 
 /**
  *

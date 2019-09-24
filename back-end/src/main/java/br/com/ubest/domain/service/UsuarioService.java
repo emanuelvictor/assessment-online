@@ -473,14 +473,29 @@ public class UsuarioService {
         return save(id, fileInBytes);
     }
 
+    /**
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
     public byte[] findThumbnail(final long id) {
         return Objects.requireNonNull(usuarioRepository.findById(id).orElse(null)).getThumbnail();
     }
 
+    /**
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
     public byte[] findAvatar(final long id) {
         return Objects.requireNonNull(usuarioRepository.findById(id).orElse(null)).getAvatar();
     }
 
+    /**
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
     public byte[] findFoto(final long id) {
         return Objects.requireNonNull(usuarioRepository.findById(id).orElse(null)).getFoto();
     }

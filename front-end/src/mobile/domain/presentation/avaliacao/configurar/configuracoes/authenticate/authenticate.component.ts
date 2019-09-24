@@ -3,7 +3,7 @@ import {MatSnackBar} from "@angular/material";
 import {MobileService} from "../../../../../service/mobile.service";
 import {Router} from "@angular/router";
 import {Agrupador} from "../../../../../../../web/domain/entity/avaliacao/agrupador.model";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {TdLoadingService} from "@covalent/core";
 import {Subject} from "rxjs";
 import {viewAnimation} from "../../../../../../../web/domain/presentation/controls/utils";
@@ -97,7 +97,7 @@ export class AuthenticateComponent implements OnInit {
    */
   cancelar() {
     this.mobileService.agrupador = new Agrupador();
-    this.router.navigate(['/avaliar'])
+    this.router.navigate([this.mobileService.dispositivo.numeroLicenca])
   }
 
   /**

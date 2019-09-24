@@ -5,7 +5,14 @@ import {Injectable} from '@angular/core';
 import {Unidade} from '../../../web/domain/entity/unidade/unidade.model';
 import {AvaliacaoService} from '../../../web/domain/service/avaliacao.service';
 import {UnidadeService} from '../../../web/domain/service/unidade.service';
-import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from "@angular/router";
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  Router,
+  RouterStateSnapshot
+} from "@angular/router";
 import {TdLoadingService} from "@covalent/core";
 import {ConfiguracaoRepository} from "../../../web/domain/repository/configuracao.repository";
 import {Configuracao} from "../../../web/domain/entity/configuracao/configuracao.model";
@@ -63,12 +70,13 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   constructor(private _localStorage: LocalStorage,
               private _cookieService: CookieService,
+              private activatedRoute: ActivatedRoute,
               private unidadeService: UnidadeService,
               private _loadingService: TdLoadingService,
               private avaliacaoService: AvaliacaoService,
               private _dispositivoRepository: DispositivoRepository,
               private configuracaRepository: ConfiguracaoRepository,
-              private httpClient: HttpClient, private router: Router,) {
+              private httpClient: HttpClient, private router: Router) {
   }
 
   /**
@@ -83,7 +91,7 @@ export class MobileService implements CanActivate, CanActivateChild {
    *
    */
   get dispositivo(): Dispositivo {
-    return this._dispositivo ? this._dispositivo : new Dispositivo();
+    return this._dispositivo ? this._dispositivo : new Dispositivo()
   }
 
   /**
@@ -91,7 +99,7 @@ export class MobileService implements CanActivate, CanActivateChild {
    * @param value
    */
   set dispositivo(value: Dispositivo) {
-    this._dispositivo = value;
+    this._dispositivo = value
   }
 
   /**
@@ -126,7 +134,7 @@ export class MobileService implements CanActivate, CanActivateChild {
 
       // Reseta os objetos de domínio
       this.agrupador = new Agrupador();
-      this.router.navigate(['/avaliar']);
+      this.router.navigate([this._dispositivo.numeroLicenca]);
       this._loadingService.resolve('overlayStarSyntax');
       return time ? time : this._configuracao.timeInMilis
     }, time ? time : this._configuracao.timeInMilis);
@@ -207,7 +215,7 @@ export class MobileService implements CanActivate, CanActivateChild {
 
         resolve(result)
 
-      }).catch(error => reject(error));
+      }).catch(error => reject(error))
     })
   }
 
@@ -217,8 +225,16 @@ export class MobileService implements CanActivate, CanActivateChild {
    * @param numeroLiceca
    * @param numeroSerie
    */
-  public getDispositivo(numeroLiceca: number, numeroSerie: string) {
-    return this._dispositivoRepository.getDispositivo(numeroLiceca, numeroSerie).then(result => this.dispositivo = result)
+  public getDispositivo(numeroLiceca: number, numeroSerie?: string): Promise<Dispositivo> {
+    return new Promise((resolve, reject) => {
+      return this._dispositivoRepository.getDispositivo(numeroLiceca, numeroSerie)
+        .then(result => {
+          this.dispositivo = result;
+          resolve(this.dispositivo)
+        }).catch(error => {
+          reject(error)
+        })
+    })
   }
 
   /**
@@ -239,42 +255,38 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | any> {
 
-    if (this._cookieService.get(TOKEN_NAME)) {
-      this._localStorage.token = this._cookieService.get(TOKEN_NAME)
-    }
+    return this.requestDispositivoAutenticada().map(auth => {
 
-    if (this._localStorage.token) {
-      this._cookieService.set(TOKEN_NAME, this._localStorage.token, null, '/')
-    }
+      this.dispositivo = auth;
 
-    if (window['cookieEmperor']) {
-      window['cookieEmperor'].getCookie(environment.endpoint, TOKEN_NAME, function (data) {
-        this._localStorage.setItem(TOKEN_NAME, data.cookieValue);
-        console.log('token em cookies ', data.cookieValue);
-        console.log('token em localstorage ', this._localStorage.getItem(TOKEN_NAME))
-      }, function (error) {
-        if (error) {
-          console.log('error: ' + error)
-        }
-      })
-    }
+      // Se não tem ninguém autenticado
+      if (isNullOrUndefined(auth)) {
 
-    return this.requestDispositivoAutenticada()
-      .map(auth => {
-        this.dispositivo = auth;
-        if (isNullOrUndefined(auth)) {
+        if (route.params.numeroLicenca) {
+          this.getDispositivo(route.params.numeroLicenca).then(resulted => {
+            if (!resulted.interna) {
+              this.dispositivo = resulted;
+              return true
+            } else {
+              this.router.navigate(['configurar-unidades-e-avaliacoes']);
+              return false
+            }
+
+          })
+        } else {
           this.router.navigate(['configurar-unidades-e-avaliacoes']);
           return false
-        } else {
-          return true
         }
 
-      }).catch((err: any) => {
-        // simple logging, but you can do a lot more, see below
-        // this.router.navigate(['error']);
-        return err
-      })
+        // Se tem alguém autenticado
+      } else {
+        this.handlerDispositivoInterno(); // TODO VERIFCAR SE AINDA É NECESSÁRIO
+        return true
+      }
 
+    }).catch((err: any) => {
+      return err
+    })
   }
 
   /**
@@ -313,5 +325,27 @@ export class MobileService implements CanActivate, CanActivateChild {
 
       })
     })
+  }
+
+  private handlerDispositivoInterno() {
+    if (this._cookieService.get(TOKEN_NAME)) {
+      this._localStorage.token = this._cookieService.get(TOKEN_NAME)
+    }
+
+    if (this._localStorage.token) {
+      this._cookieService.set(TOKEN_NAME, this._localStorage.token, null, '/')
+    }
+
+    if (window['cookieEmperor']) {
+      window['cookieEmperor'].getCookie(environment.endpoint, TOKEN_NAME, function (data) {
+        this._localStorage.setItem(TOKEN_NAME, data.cookieValue);
+        console.log('token em cookies ', data.cookieValue);
+        console.log('token em localstorage ', this._localStorage.getItem(TOKEN_NAME))
+      }, function (error) {
+        if (error) {
+          console.log('error: ' + error)
+        }
+      })
+    }
   }
 }

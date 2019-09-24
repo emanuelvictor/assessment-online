@@ -57,6 +57,8 @@ export class ConclusaoComponent extends AbstractComponent implements OnInit {
     // Salva o agrupador, e as avaliações com seus avaliaveis por cascade.
     this.agrupadorRepository.save(agrupador).then(() => {
       this._loadingService.resolve('overlayStarSyntax')
+    }).catch(() => {
+      this._loadingService.resolve('overlayStarSyntax')
     })
     // // Workarround
     // // Tempo de espera padrão para concluir o timeout.

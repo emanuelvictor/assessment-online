@@ -53,12 +53,12 @@ export class SelecionarUnidadeComponent implements OnInit {
     // Requisita configuração.
     this.mobileService.requestConfiguracao.then(configuracao => {
       this.configuracao = configuracao;
-
+debugger;
       // Pega  configuração.
       this.unidades = this.mobileService.unidades;
 
       // Se não tem unidades selecionadas, vai para tela de seleção de unidades
-      if (!this.unidades.length) {
+      if (!this.unidades || !this.unidades.length) {
         this.router.navigate(['/configurar-unidades-e-avaliacoes']);
         this._loadingService.resolve('overlayStarSyntax');
         return
@@ -66,7 +66,7 @@ export class SelecionarUnidadeComponent implements OnInit {
 
       // Se só tem uma unidade selecionada, passa direito e vai pra tela de avaliação
       if (this.unidades.length === 1) {
-        this.router.navigate(['/avaliar/' + this.unidades[0].id + '/ordem/1']);
+        this.router.navigate([this.mobileService.dispositivo.numeroLicenca + '/' + this.unidades[0].id + '/ordem/1']);
         this._loadingService.resolve('overlayStarSyntax');
         return
       }
@@ -82,7 +82,7 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param unidade
    */
   public proximo(unidade: Unidade) {
-    this.router.navigate(['/avaliar/' + unidade.id + '/ordem/1'])
+    this.router.navigate([this.mobileService.dispositivo.numeroLicenca + '/' + unidade.id + '/ordem/1'])
   }
 
   /**

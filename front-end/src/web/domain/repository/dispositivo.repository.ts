@@ -51,7 +51,10 @@ export class DispositivoRepository extends BaseRepository<Dispositivo> {
    * @param numeroLiceca
    * @param numeroSerie
    */
-  getDispositivo(numeroLiceca: number, numeroSerie: string): Promise<Dispositivo> {
-    return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroLiceca + '?numeroSerie=' + numeroSerie).toPromise();
+  getDispositivo(numeroLiceca: number, numeroSerie?: string): Promise<Dispositivo> {
+    if (numeroSerie)
+      return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroLiceca + '?numeroSerie=' + numeroSerie).toPromise();
+    else
+      return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroLiceca).toPromise();
   }
 }

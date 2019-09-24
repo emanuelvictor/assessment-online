@@ -31,8 +31,8 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao> {
     }
 
     @PostMapping("/agrupador")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Agrupador> save(@RequestBody final Agrupador agrupador) {
+        //TODO fazer handler do recaptcha
         return Mono.just(this.avaliacaoService.save(agrupador));
     }
 

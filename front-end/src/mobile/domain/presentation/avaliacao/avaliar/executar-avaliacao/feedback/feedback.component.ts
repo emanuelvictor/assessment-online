@@ -70,7 +70,7 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
     if (!this.mobileService.configuracao || !this.mobileService.configuracao.tipoFeedback)
     // Se não tem configuração requisitada, vai para a tela de avaliação.
     {
-      this.router.navigate(['avaliar']);
+      this.router.navigate([this.mobileService.dispositivo.numeroLicenca]);
       return
     }
 
@@ -130,6 +130,6 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
       return
     }
 
-    this.router.navigate(['/avaliar/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/conclusao'])
+    this.router.navigate([this.mobileService.dispositivo.numeroLicenca + '/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/conclusao'])
   }
 }
