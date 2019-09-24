@@ -42,18 +42,17 @@ const routes: Routes = [
                 {path: 'feedback', component: FeedbackComponent},
               ]
             },
+            {
+              path: 'configuracoes', component: ConfiguracoesComponent,
+              children:
+                [
+                  {path: '', component: AuthenticateComponent},
+                ]
+            },
           ]
-        },
+        }
       ]
     },
-    {
-      path: 'configuracoes', component: ConfiguracoesComponent,
-      children:
-        [
-          {path: '', component: AuthenticateComponent},
-        ]
-    }
-    ,
     {
       path: 'error', component:
       ErrorComponent
