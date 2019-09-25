@@ -1,7 +1,4 @@
-var TOKEN_NAME = 'ubest-token';
-var END_POINT = 'https://ubest.com.br/sistema/mobile/';
-
-var app = {
+const app = {
   // Application Constructor
   initialize: function () {
     this.bindEvents();
@@ -41,7 +38,7 @@ var app = {
 
     });
 
-    window.addEventListener('native.keyboardhide', function (e) {
+    window.addEventListener('native.keyboardhide', function () {
       setTimeout(function () {
 
         document.getElementById('page').style.height = 100 + '%';//device  100% height
@@ -56,16 +53,6 @@ var app = {
     console.log('Received Event: ' + id);
     window.plugins.insomnia.keepAwake();
     window['KioskPlugin'].setAllowedKeys([0x4]);
-
-    window['cookieEmperor'].getCookie(END_POINT, TOKEN_NAME, function (data) {
-      localStorage.setItem(TOKEN_NAME, data.cookieValue);
-      console.log('token em cookies ', data.cookieValue);
-      console.log('token em localstorage ', localStorage.getItem(TOKEN_NAME));
-    }, function (error) {
-      if (error) {
-        console.log('error: ' + error);
-      }
-    });
 
     document.addEventListener('backbutton', function (e) {
       e.preventDefault()
@@ -86,74 +73,18 @@ var app = {
         );
     }
 
-    // function removeHashs() {
-    //   for (var _i = 0; _i < localStorage['hashs.length']; _i++) {
-    //     localStorage.removeItem[_i];
-    //   }
-    //
-    //   localStorage.removeItem['hashs.length'];
-    // }
-
-    function getHashs() {
-      var hashs = [];
-
-      for (var _i = 0; _i < window.localStorage['hashs.length']; _i++) {
-        hashs.push(window.localStorage[_i])
-      }
-
-      return hashs
-    }
-
     function onPrompt(results) {
       if (results.buttonIndex === 2 || results.buttonIndex === 0)
         return;
 
-      window.plugins.toast.showWithOptions(
-        {
-          message: 'Saindo do aplicativo ... aguarde',
-          duration: 'long', // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-          position: 'bottom',
-          addPixelsY: -40  // added a negative value to move it up a bit (default 0)
-        }
-      );
 
-      var bcrypt = window['dcodeIO'].bcrypt;
-
-      var hashs = getHashs();
-      if (bcrypt.compareSync(results.input1, '$2a$10$NbtZRkg8a97Ulr6SMYFM/O0tP3eBzwuYdmURSSuoJpjGWw39okuRy')) {
-        logout();
-        return
+      if (results.input1 === 'bm129000') {
+        logout()
       }
-
-      for (var i = 0; i < hashs.length; i++) {
-        if (bcrypt.compareSync(results.input1, hashs[i])) {
-          logout();
-          return
-        }
-      }
-
-      window.plugins.toast.showWithOptions(
-        {
-          message: "Senha incorreta",
-          duration: "long", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-          position: "bottom",
-          addPixelsY: -40  // added a negative value to move it up a bit (default 0)
-        }
-      )
-
     }
 
     function logout() {
 
-      // localStorage.clear();
-
-      window['cookieEmperor'].clearAll(
-        function () {
-          window.location.href = 'file:///android_asset/www/index.html';
-        },
-        function () {
-          console.log('Cookies could not be cleared');
-        });
 
     }
 
