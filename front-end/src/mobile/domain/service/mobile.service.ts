@@ -285,16 +285,11 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   public logout(password: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.requestDispositivoAutenticada().subscribe(result => {
-        this.httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
-          if (password === result.password) {
-            resolve()
-          } else
-            resolve('Senha incorreta!')
-
-        }).catch(error => reject(error))
-
-      })
+      if (this._dispositivo.senha === password){
+        document.cookie = "unlogged=false";
+        resolve()
+      } else
+        resolve('Senha incorreta!');
     })
   }
 
