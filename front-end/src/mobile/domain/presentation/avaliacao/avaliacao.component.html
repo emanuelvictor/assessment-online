@@ -6,15 +6,8 @@
 
 </main>
 
-<button mat-icon-button color='primary' routerLink='{{mobileService.dispositivo.numeroLicenca}}/authenticate'
-        style='z-index: 1000;
-        margin-top: -80px;
-        background: white;
-        position: fixed;
-        margin-left: 45%;
-        border-radius: 50px 50px 0 0!important;
-        height: 80px;
-        width: 100px'>
+<button *ngIf='mobileService?.dispositivo?.interna' mat-icon-button color='primary' routerLink='{{mobileService.dispositivo.numeroLicenca}}/authenticate'
+        style='z-index: 1000; margin-top: -80px; background: white; position: fixed; margin-left: 45%; border-radius: 50px 50px 0 0!important; height: 80px;width: 100px'>
     <mat-icon style='font-size: 60px;margin-top: 30px'>keyboard_arrow_up</mat-icon>
 </button>
 

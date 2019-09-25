@@ -49,7 +49,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   /**
    *
    */
-  numeroSerie: string /*= '133130'*/;
+  numeroSerie: string = '133131';
 
   /**
    *
