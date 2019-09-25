@@ -10,55 +10,56 @@ import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/executar
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-atendentes/selecionar-atendentes.component";
 import {SelecionarNotaEItensAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota-e-itens-avaliaveis.component";
 import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component";
-import {ErrorComponent} from "./presentation/error/error.component";
+import {MobileErrorComponent} from "./presentation/controls/mobile-error/mobile-error.component";
 import {AuthenticateComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate/authenticate.component";
-import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
 import {MobileService} from "./service/mobile.service";
+import {ConfiguracaoComponent} from "../../web/domain/presentation/dashboard/configuracao/configuracao.component";
+import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
 
 
 const routes: Routes = [
-    {
-      path: '', redirectTo: 'configurar-unidades-e-avaliacoes', pathMatch: 'full'
-    },
-    {path: 'configurar-unidades-e-avaliacoes', component: ConfigurarUnidadesEAvaliacoesComponent},
-    {
-      path: ':numeroLicenca', component: AvaliacaoComponent, canActivate: [MobileService],
-      children: [
-        {
-          path: '', component: AvaliarComponent,
-          children: [
-            {path: '', component: SelecionarUnidadeComponent},
-            {
-              path: ':unidadeId', component: ExecutarAvaliacaoComponent,
-              children: [
-                {
-                  path: 'ordem/:ordem', component: SelecionarNotaEItensAvaliaveisComponent,
-                  children: [
-                    {path: '', component: SelecionarNotaComponent},
-                    {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
-                  ]
-                },
-                {path: 'conclusao', component: ConclusaoComponent},
-                {path: 'feedback', component: FeedbackComponent},
+  {
+    path: '', redirectTo: 'configurar-unidades-e-avaliacoes', pathMatch: 'full'
+  },
+  {
+    path: 'error', component: MobileErrorComponent
+  },
+  {
+    path: 'configurar-unidades-e-avaliacoes', component: ConfigurarUnidadesEAvaliacoesComponent
+  },
+  {
+    path: 'avaliar', component: AvaliacaoComponent,
+    children: [
+      {
+        path: ':numeroLicenca', component: AvaliarComponent, canActivate: [MobileService],
+        children: [
+          {path: '', component: SelecionarUnidadeComponent},
+          {
+            path: '', component: ConfiguracoesComponent,
+            children:
+              [
+                {path: 'authenticate', component: AuthenticateComponent},
               ]
-            },
-            {
-              path: 'configuracoes', component: ConfiguracoesComponent,
-              children:
-                [
-                  {path: '', component: AuthenticateComponent},
+          },
+          {
+            path: ':unidadeId', component: ExecutarAvaliacaoComponent,
+            children: [
+              {
+                path: 'ordem/:ordem', component: SelecionarNotaEItensAvaliaveisComponent,
+                children: [
+                  {path: '', component: SelecionarNotaComponent},
+                  {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
                 ]
-            },
-          ]
-        }
-      ]
-    },
-    {
-      path: 'error', component:
-      ErrorComponent
-    }
-  ]
-;
+              },
+              {path: 'conclusao', component: ConclusaoComponent},
+              {path: 'feedback', component: FeedbackComponent},
+            ]
+          }
+        ]
+      }
+    ]
+  },
+];
 
 /**
  *

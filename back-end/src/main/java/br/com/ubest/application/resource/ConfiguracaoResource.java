@@ -24,21 +24,41 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping({"**configuracoes", "**sistema/configuracoes", "**sistema/mobile/configuracoes"})
 public class ConfiguracaoResource extends AbstractResource<Configuracao> {
 
+    /**
+     *
+     */
     private final ConfiguracaoService configuracaoService;
 
+    /**
+     *
+     */
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
+    /**
+     *
+     * @param configuracao
+     * @return
+     */
     @PostMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Configuracao> save(@RequestBody final Configuracao configuracao) {
         return Mono.just(this.configuracaoService.save(configuracao));
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @GetMapping("{username}")
     public Mono<StringBuffer> getSchemaByUsername(final @PathVariable String username) {
         return Mono.just(this.configuracaoService.getSchemaByUsername(username));
     }
 
+    /**
+     *
+     * @return
+     */
     @GetMapping
     public Mono<Configuracao> getConfiguracao() {
         return Mono.just(this.configuracaoService.getConfiguracao());

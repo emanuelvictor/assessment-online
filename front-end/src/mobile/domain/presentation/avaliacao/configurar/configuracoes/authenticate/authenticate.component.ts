@@ -84,7 +84,7 @@ export class AuthenticateComponent implements OnInit {
         if (model.length === 6)
           this.mobileService.logout(model).then(() => {
             this.mobileService.agrupador = new Agrupador();
-            this.router.navigate(['/configuracoes/opcoes-de-configuracao'])
+            this.router.navigate(['/configurar-unidades-e-avaliacoes'])
           }).catch(error => {
             this.error(error)
           })
@@ -97,7 +97,7 @@ export class AuthenticateComponent implements OnInit {
    */
   cancelar() {
     this.mobileService.agrupador = new Agrupador();
-    this.router.navigate([this.mobileService.dispositivo.numeroLicenca])
+    this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca])
   }
 
   /**

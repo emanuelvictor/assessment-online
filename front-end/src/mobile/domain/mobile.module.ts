@@ -48,6 +48,7 @@ import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/config
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {OrderModule} from "ngx-order-pipe";
 import {DispositivoRepository} from "../../web/domain/repository/dispositivo.repository";
+import {MobileErrorComponent} from "./presentation/controls/mobile-error/mobile-error.component";
 
 
 /**
@@ -67,7 +68,9 @@ import {DispositivoRepository} from "../../web/domain/repository/dispositivo.rep
     FeedbackComponent,
     AuthenticateComponent,
     ConfiguracoesComponent,
-    ConfigurarUnidadesEAvaliacoesComponent
+    ConfigurarUnidadesEAvaliacoesComponent,
+
+    MobileErrorComponent
   ],
   imports: [
     EllipsisModule,

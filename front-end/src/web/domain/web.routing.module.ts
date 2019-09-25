@@ -33,13 +33,14 @@ import {VisualizarClienteComponent} from "./presentation/dashboard/cliente/visua
 import {ConsultarClientesComponent} from "./presentation/dashboard/cliente/consultar-clientes/consultar-clientes.component";
 import {ClienteViewComponent} from "./presentation/dashboard/cliente/cleinte-view.component";
 import {ConsultarUsuariosComponent} from "./presentation/dashboard/atendente/consultar-atendentes/consultar-usuarios.component";
-import {ErrorComponent} from "../../mobile/domain/presentation/error/error.component";
+import {MobileErrorComponent} from "../../mobile/domain/presentation/controls/mobile-error/mobile-error.component";
 import {DispositivoViewComponent} from "./presentation/dashboard/dispositivo/dispositivo-view.component";
 import {InserirDispositivoComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/inserir-dispositivo.component";
 import {VisualizarDispositivoComponent} from "./presentation/dashboard/dispositivo/visualizar-dispositivo/visualizar-dispositivo.component";
 import {AlterarDispositivoComponent} from "./presentation/dashboard/dispositivo/alterar-dispositivo/alterar-dispositivo.component";
 import {ConsultarDispositivosComponent} from "./presentation/dashboard/dispositivo/consultar-dispositivos/consultar-dispositivos.component";
 import {AssinaturaComponent} from "./presentation/dashboard/assinatura/assinatura.component";
+import {ErrorComponent} from "./presentation/controls/error/error.component";
 
 
 const routes: Routes = [

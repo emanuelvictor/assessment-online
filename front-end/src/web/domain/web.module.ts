@@ -126,6 +126,7 @@ import {AlterarDispositivoComponent} from "./presentation/dashboard/dispositivo/
 import {ConsultarDispositivosComponent} from "./presentation/dashboard/dispositivo/consultar-dispositivos/consultar-dispositivos.component";
 import {InserirDispositivoComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/inserir-dispositivo.component";
 import {VisualizarDispositivoComponent} from "./presentation/dashboard/dispositivo/visualizar-dispositivo/visualizar-dispositivo.component";
+import {ErrorComponent} from "./presentation/controls/error/error.component";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -257,7 +258,9 @@ registerLocaleData(localePt, 'pt-BR');
     CartaoComponent,
     PlanosComponent,
 
-    NoRecordsFoundComponent
+    NoRecordsFoundComponent,
+
+    ErrorComponent
   ],
   imports: [
     SharedModule,

@@ -49,7 +49,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   /**
    *
    */
-  numeroSerie: string = '133130';
+  numeroSerie: string /*= '133130'*/;
 
   /**
    *
@@ -112,7 +112,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
           if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
 
             if (!result.emUso)
-              this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie).subscribe( resulted => {
+              this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie).subscribe(resulted => {
                 if (resulted.interna)
                   this.mobileService.dispositivo = resulted;
                 else
@@ -129,7 +129,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
           this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca).subscribe(resulted => {
             if (!resulted.interna)
-              this.router.navigate([this.mobileService.dispositivo.numeroLicenca]);
+              this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
             else
               this.error('Essa licença é para uso interno!')
           })
@@ -167,7 +167,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     if ($event && $event.length)
       if ($event.length === 6)
         this.mobileService.authenticate(this.mobileService.dispositivo.numeroLicenca, $event).then(() => {
-          this.router.navigate([this.mobileService.dispositivo.numeroLicenca]);
+          this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
         })
   }
 

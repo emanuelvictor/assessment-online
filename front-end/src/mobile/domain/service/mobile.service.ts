@@ -129,7 +129,7 @@ export class MobileService implements CanActivate, CanActivateChild {
 
       // Reseta os objetos de domínio
       this.agrupador = new Agrupador();
-      this.router.navigate([this._dispositivo.numeroLicenca]);
+      this.router.navigate(['avaliar/' + this._dispositivo.numeroLicenca]);
       this._loadingService.resolve('overlayStarSyntax');
       return time ? time : this._configuracao.timeInMilis
     }, time ? time : this._configuracao.timeInMilis);
@@ -295,6 +295,23 @@ export class MobileService implements CanActivate, CanActivateChild {
         }).catch(error => reject(error))
 
       })
+    })
+  }
+
+  /**
+   *
+   */
+  public onlineCheck(): Promise<boolean> {
+    const xhr = new XMLHttpRequest();
+    return new Promise((resolve, reject) => {
+      xhr.onload = () => {
+        resolve(true);
+      };
+      xhr.onerror = () => {
+        reject(false);
+      };
+      xhr.open('GET', environment.endpoint, true);
+      xhr.send()
     })
   }
 }

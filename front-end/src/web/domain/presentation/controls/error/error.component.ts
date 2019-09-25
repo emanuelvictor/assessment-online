@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material";
 import {CookieService} from "ngx-cookie-service";
-import {LocalStorage} from "../../../../web/infrastructure/local-storage/local-storage";
-import {AuthenticationService} from "../../../../web/domain/service/authentication.service";
+import {AuthenticationService} from "../../../service/authentication.service";
+import {LocalStorage} from "../../../../infrastructure/local-storage/local-storage";
 
 @Component({
   selector: 'error',
@@ -34,7 +34,7 @@ export class ErrorComponent {
   public openSnackBar(message: string) {
     this.snackBar.open(message, "Fechar", {
       duration: 5000
-    });
+    })
   }
 
   /**
@@ -76,11 +76,11 @@ export function innerLogout() {
 
   window['cookieEmperor'].clearAll(
     function () {
-      window.location.href = 'file:///android_asset/www/index.html';
+      window.location.href = 'file:///android_asset/www/index.html'
     },
     function () {
-      console.log('Cookies could not be cleared');
-    });
+      console.log('Cookies could not be cleared')
+    })
 
 }
 
@@ -88,10 +88,10 @@ export function getHashs() {
   const hashs = [];
 
   for (let _i = 0; _i < window.localStorage['hashs.length']; _i++) {
-    hashs.push(window.localStorage[_i]);
+    hashs.push(window.localStorage[_i])
   }
 
-  return hashs;
+  return hashs
 }
 
 export function onPrompt(results) {

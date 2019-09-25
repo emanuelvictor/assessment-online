@@ -7,7 +7,7 @@
     </label>
 
     <div flex layout='row'>
-      <mat-form-field flex='50'>
+      <mat-form-field flex>
         <input [(ngModel)]='password' matInput
                [ngModelOptions]='{standalone: true}'
                (ngModelChange)='modelChanged.next($event)'
@@ -17,7 +17,7 @@
         </mat-error>
       </mat-form-field>
 
-      <button flex mat-button class='push-left'
+      <button flex='20' mat-button class='push-left'
               type='button' (click)='cancelar()'
               style='height: 40px;margin-top: 6px'>
         Cancelar

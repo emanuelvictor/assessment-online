@@ -18,7 +18,6 @@ import {LocalStorage} from "../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import {TOKEN_NAME} from "../web/domain/presentation/controls/utils";
 import {MatKeyboardModule} from "@ngx-material-keyboard/core";
-import {ErrorComponent} from "../mobile/domain/presentation/error/error.component";
 
 /**
  *
@@ -33,10 +32,7 @@ import {ErrorComponent} from "../mobile/domain/presentation/error/error.componen
     AvatarComponent,
 
     // Authentication
-    LoginComponent,
-
-    // Erro
-    ErrorComponent
+    LoginComponent
   ],
   imports: [
     CommonModule,
@@ -89,9 +85,6 @@ import {ErrorComponent} from "../mobile/domain/presentation/error/error.componen
     DocumentoPipe,
     VirgulaPipe,
     LoginComponent,
-
-    // Erro
-    ErrorComponent,
 
     CommonModule,
     ReactiveFormsModule,
