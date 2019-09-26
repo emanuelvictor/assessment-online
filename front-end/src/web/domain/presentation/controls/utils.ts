@@ -39,6 +39,8 @@ export function getIdentifier(): string {
 
 export const TOKEN_NAME = 'ubest-token';
 
+export const PASSWORD_NAME = 'senha';
+
 /**
  * -----------------------------------------------------------------------------------------
  *                                        Animações

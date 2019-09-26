@@ -22,6 +22,8 @@ import org.springframework.web.server.ServerWebExchange;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static br.com.ubest.Application.DEFAULT_TENANT_ID;
+
 @Service
 @RequiredArgsConstructor
 public class DispositivoService {
@@ -67,15 +69,6 @@ public class DispositivoService {
     }
 
     /**
-     * @param dispositivo
-     * @return
-     */
-    @Transactional
-    public Dispositivo save(final Dispositivo dispositivo) {
-        return this.dispositivoRepository.save(dispositivo);
-    }
-
-    /**
      * @param id
      * @param numeroSerie
      * @return
@@ -117,12 +110,22 @@ public class DispositivoService {
      * @param id
      * @return
      */
-    @Transactional(readOnly = true)
-    Dispositivo getDispositivo(final long id) {
+    private Dispositivo getDispositivo(final long id) {
         // Pega o dispositivo da base
         final Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElse(this.dispositivoRepository.findByNumeroLicenca(id).orElseThrow());
+        this.tenantIdentifierResolver.setSchema(dispositivo.getTenant());
         dispositivo.setUnidadesTiposAvaliacoesDispositivo(this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters(null, dispositivo.getId(), null, true, null).getContent().stream().collect(Collectors.toSet()));
+        this.tenantIdentifierResolver.setSchema(DEFAULT_TENANT_ID);
         return dispositivo;
+    }
+
+    /**
+     * @param dispositivo
+     * @return
+     */
+    @Transactional
+    public Dispositivo save(final Dispositivo dispositivo) {
+        return this.dispositivoRepository.save(dispositivo);
     }
 
     /**

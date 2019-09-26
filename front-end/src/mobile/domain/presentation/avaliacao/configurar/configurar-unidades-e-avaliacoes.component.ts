@@ -49,11 +49,6 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   /**
    *
    */
-  numeroSerie: string = '133131';
-
-  /**
-   *
-   */
   private webSocketSubject: WebSocketSubject<Dispositivo>;
 
   /**
@@ -89,7 +84,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
       this.webSocketSubject.subscribe(result => {
 
         this.mobileService.dispositivo = Object.assign({}, result);
-        this.mobileService.dispositivo.numeroSerie = this.numeroSerie;
+        this.mobileService.dispositivo.numeroSerie = this.mobileService.numeroSerie;
 
         this.configuracaoRepository.getClienteByUsername(this.mobileService.dispositivo.tenant).subscribe(result => {
           if (result !== this.cliente) {
@@ -107,7 +102,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
         });
 
         // Se tem número de série, então está em um dispositivo físico.
-        if (this.numeroSerie) {
+        if (this.mobileService.numeroSerie) {
 
           if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
 

@@ -41,9 +41,6 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
 
                 .doOnNext(session -> {
 
-                    // Remove o cookie de deslogado, se ele existir
-                    exchange.getRequest().getCookies().remove("unlogged");
-
                     if (context != null) {
 //                        ((Sessao) ((SpringSessionWebSessionStore.SpringSessionWebSession) session).getSession()).setUsername(context.getAuthentication().getName());
                         session.getAttributes().put(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME, context);
@@ -71,11 +68,6 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
         return exchange.getSession()
 
                 .flatMap(webSession -> {
-
-                    // Se tem o cookie de deslogado, não retorna nenhuma autenticação
-                    if (exchange.getRequest().getCookies().get("unlogged") != null) {
-                        return Mono.empty();
-                    }
 
                     // Populo pageable
                     pageComponent.setPageable(PageRequest.of(exchange));
