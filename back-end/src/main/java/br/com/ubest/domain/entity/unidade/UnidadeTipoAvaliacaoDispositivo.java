@@ -2,12 +2,14 @@ package br.com.ubest.domain.entity.unidade;
 
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
 @Entity
@@ -45,5 +47,11 @@ public class UnidadeTipoAvaliacaoDispositivo extends AbstractEntity implements S
      *
      */
     private boolean ativo = true;
+
+    /**
+     *
+     */
+    @Transient
+    private Set<Avaliavel> avaliaveis;
 
 }

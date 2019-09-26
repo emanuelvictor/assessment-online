@@ -3,6 +3,7 @@ package br.com.ubest.domain.service;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.application.websocket.WrapperHandler;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
+import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import br.com.ubest.domain.repository.DispositivoRepository;
 import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,11 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Service
 @RequiredArgsConstructor
 public class DispositivoService {
+
+    /**
+     *
+     */
+    private final AvaliavelService avaliavelService;
 
     /**
      *
@@ -114,9 +121,21 @@ public class DispositivoService {
         // Pega o dispositivo da base
         final Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElse(this.dispositivoRepository.findByNumeroLicenca(id).orElseThrow());
         this.tenantIdentifierResolver.setSchema(dispositivo.getTenant());
-        dispositivo.setUnidadesTiposAvaliacoesDispositivo(this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters(null, dispositivo.getId(), null, true, null).getContent().stream().collect(Collectors.toSet()));
+        this.populeDispositivo(dispositivo);
         this.tenantIdentifierResolver.setSchema(DEFAULT_TENANT_ID);
         return dispositivo;
+    }
+
+    /**
+     *
+     * @param dispositivo
+     */
+    @Transactional(readOnly = true)
+    void populeDispositivo(final Dispositivo dispositivo){
+        dispositivo.setUnidadesTiposAvaliacoesDispositivo(new HashSet<>(this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters(null, dispositivo.getId(), null, true, null).getContent()));
+        dispositivo.getUnidadesTiposAvaliacoesDispositivo().forEach(unidadeTipoAvaliacaoDispositivo ->
+                unidadeTipoAvaliacaoDispositivo.setAvaliaveis(new HashSet<>(this.avaliavelService.listByFilters(null, null, null, true, unidadeTipoAvaliacaoDispositivo.getId(), null).getContent()))
+        );
     }
 
     /**

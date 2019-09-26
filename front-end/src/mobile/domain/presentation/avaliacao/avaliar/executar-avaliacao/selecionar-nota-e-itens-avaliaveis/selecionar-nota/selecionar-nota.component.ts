@@ -11,6 +11,7 @@ import {AbstractComponent} from "../../abstract/abstract.component";
 import {Avaliacao} from "../../../../../../../../web/domain/entity/avaliacao/avaliacao.model";
 import {viewAnimation} from "../../../../../../../../web/domain/presentation/controls/utils";
 import {UnidadeTipoAvaliacaoDispositivo} from "../../../../../../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
+import {Agrupador} from "../../../../../../../../web/domain/entity/avaliacao/agrupador.model";
 
 @Component({
   selector: 'selecionar-nota',
@@ -66,7 +67,8 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
 
     // Se não tem avaliações, ou seja, deu F5, então vai pra tela inicial.
     if (!this.mobileService.agrupador.avaliacoes || (this.mobileService.agrupador.avaliacoes.length !== ((+this.activatedRoute.parent.snapshot.params.ordem) - 1))) {
-      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+      this.mobileService.agrupador = new Agrupador();
+      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca])
     }
 
     // Se não tem unidades selecionadas vai para tela de selação de unidades

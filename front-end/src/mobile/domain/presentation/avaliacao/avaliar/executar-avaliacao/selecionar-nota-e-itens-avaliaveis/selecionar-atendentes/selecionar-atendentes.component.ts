@@ -8,6 +8,7 @@ import {TdLoadingService} from "@covalent/core";
 import {AbstractComponent} from "../../abstract/abstract.component";
 import {AvaliacaoAvaliavel} from "../../../../../../../../web/domain/entity/avaliacao/avaliacao-avaliavel.model";
 import {viewAnimation} from "../../../../../../../../web/domain/presentation/controls/utils";
+import {Agrupador} from "../../../../../../../../web/domain/entity/avaliacao/agrupador.model";
 
 @Component({
   selector: 'selecionar-atendentes',
@@ -65,7 +66,8 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
 
     // Se não tem avaliações, ou seja, deu F5, então vai pra tela inicial.
     if (!this.mobileService.agrupador.avaliacoes || !this.mobileService.agrupador.avaliacoes.length || this.mobileService.agrupador.avaliacoes.length !== +this.activatedRoute.parent.snapshot.params.ordem) {
-      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+      this.mobileService.agrupador = new Agrupador();
+      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca])
     }
 
     // Se não tem unidades selecionadas vai para tela de selação de unidades
@@ -107,36 +109,26 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
       return unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.parent.snapshot.params.unidadeId && unidadeTipoAvaliacaoDispositivo.ordem === +this.activatedRoute.parent.snapshot.params.ordem
     })[0];
 
-    // Requisita os avaliáveis de acordo com o tipo de avaliação vinculado ao dispositivo.
-    this.avaliavelRepository.listByFilters({
+    this.avaliaveis = this.unidadeTipoAvaliacaoDispositivo.avaliaveis;
 
-      ativo: true,
+    // Se tem apenas um avaliável
+    if (this.avaliaveis.length === 1) {
 
-      unidadeTipoAvaliacaoDispositivoId: this.unidadeTipoAvaliacaoDispositivo.id //TODO implementar requisição com unidadeTipoAvaliacaoDispositivoId no back-end
+      // Seleciona o mesmo
+      this.avaliaveis[0].selected = true;
 
-    }).subscribe(resultt => {
+      // Conclui a avaliação
+      this.proximo()
 
-      this.avaliaveis = resultt.content;
+      // Se não tem avaliáveis, esta errado, pois deve ter avaliáveis.
+    } else if (!this.avaliaveis.length) {
 
-      // Se tem apenas um avaliável
-      if (this.avaliaveis.length === 1) {
+      // Então vai para a tela de erro para instruir o usuário
+      this.router.navigate(['error'])
+    }
 
-        // Seleciona o mesmo
-        this.avaliaveis[0].selected = true;
-
-        // Conclui a avaliação
-        this.proximo()
-
-        // Se não tem avaliáveis, esta errado, pois deve ter avaliáveis.
-      } else if (!this.avaliaveis.length) {
-
-        // Então vai para a tela de erro para instruir o usuário
-        this.router.navigate(['error'])
-      }
-
-      // Resolve loading.
-      this._loadingService.resolve('overlayStarSyntax');
-    })
+    // Resolve loading.
+    this._loadingService.resolve('overlayStarSyntax')
   }
 
   /**
