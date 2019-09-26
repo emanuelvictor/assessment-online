@@ -44,7 +44,7 @@ export class MobileErrorComponent {
     this.mobileService.onlineCheck()
       .then(result => {
         if (result) {
-          this.router.navigate(['']);
+          this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
         } else {
           this.openSnackBar('Sem conexão com a internet ainda')
         }
