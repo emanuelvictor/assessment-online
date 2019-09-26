@@ -25,6 +25,9 @@ const routes: Routes = [
     path: 'error', component: MobileErrorComponent
   },
   {
+    path: 'authenticate', component: AuthenticateComponent
+  },
+  {
     path: 'configurar-unidades-e-avaliacoes', component: ConfigurarUnidadesEAvaliacoesComponent
   },
   {

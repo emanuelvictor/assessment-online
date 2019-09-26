@@ -29,22 +29,17 @@ export class MobileErrorComponent {
 
   /**
    *
-   * @param message
-   */
-  public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
-      duration: 5000
-    });
-  }
-
-  /**
-   *
    */
   tryAgain() {
     this.mobileService.onlineCheck()
       .then(result => {
         if (result) {
-          this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+          this.mobileService.requestDispositivoAutenticada().toPromise().then(dispositivoAutenticado => {
+            this.mobileService.dispositivo = dispositivoAutenticado;
+            this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+          }).catch(() => {
+            this.openSnackBar('Não conseguimos nos autenticar, tente sair da aplicação e entrar novamente')
+          })
         } else {
           this.openSnackBar('Sem conexão com a internet ainda')
         }
@@ -54,18 +49,29 @@ export class MobileErrorComponent {
 
   /**
    *
+   * @param message
+   */
+  public openSnackBar(message: string) {
+    this.snackBar.open(message, "Fechar", {
+      duration: 5000
+    })
+  }
+
+  /**
+   *
    */
   logout() {
-    if (window.localStorage.getItem('unidadeId')) {
-      (window.navigator as any).notification.prompt(
-        'Insira uma senha administrativa para sair do aplicativo.',  // message
-        onPrompt,                  // callback to invoke
-        'Sair do aplicativo',            // title
-        ['Ok', 'Cancelar']              // buttonLabels
-      );
-    } else {
-      innerLogout()
-    }
+    this.router.navigate(['/authenticate']);
+    // if (window.localStorage.getItem('unidadeId')) {
+    //   (window.navigator as any).notification.prompt(
+    //     'Insira uma senha administrativa para sair do aplicativo.',  // message
+    //     onPrompt,                  // callback to invoke
+    //     'Sair do aplicativo',            // title
+    //     ['Ok', 'Cancelar']              // buttonLabels
+    //   );
+    // } else {
+    //   innerLogout()
+    // }
   }
 
 }
@@ -96,7 +102,7 @@ export function getHashs() {
 
 export function onPrompt(results) {
 
-  if (results.buttonIndex === 2 || results.buttonIndex === 0){
+  if (results.buttonIndex === 2 || results.buttonIndex === 0) {
     return;
   }
 
