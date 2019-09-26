@@ -31,19 +31,19 @@ export class MobileErrorComponent {
    *
    */
   tryAgain() {
-    this.mobileService.onlineCheck()
-      .then(result => {
-        if (result) {
-          this.mobileService.requestDispositivoAutenticada().toPromise().then(dispositivoAutenticado => {
+    this.mobileService.onlineCheck().then(result => {
+      if (result) {
+        this.mobileService.requestDispositivoAutenticada().toPromise().then(dispositivoAutenticado => {
+          if (dispositivoAutenticado) {
             this.mobileService.dispositivo = dispositivoAutenticado;
             this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
-          }).catch(() => {
+          } else
             this.openSnackBar('Não conseguimos nos autenticar, tente sair da aplicação e entrar novamente')
-          })
-        } else {
-          this.openSnackBar('Sem conexão com a internet ainda')
-        }
-      })
+        })
+          .catch(() => this.openSnackBar('Não conseguimos nos autenticar, tente sair da aplicação e entrar novamente'))
+      } else
+        this.openSnackBar('Sem conexão com a internet ainda')
+    })
       .catch(() => this.openSnackBar('Sem conexão com a internet ainda'));
   }
 
@@ -61,7 +61,7 @@ export class MobileErrorComponent {
    *
    */
   logout() {
-    this.router.navigate(['/authenticate']);
+    this.router.navigate(['/configuracoes/authenticate']);
     // if (window.localStorage.getItem('unidadeId')) {
     //   (window.navigator as any).notification.prompt(
     //     'Insira uma senha administrativa para sair do aplicativo.',  // message

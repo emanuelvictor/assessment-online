@@ -53,26 +53,11 @@ export class AuthenticateComponent implements OnInit {
     // Registra o loading.
     this._loadingService.register('overlayStarSyntax');
 
-    // Se não tem unidades selecionadas
-    if (!this.mobileService.unidades || !this.mobileService.unidades.length) {
-      this.router.navigate(['/configuracoes/opcoes-de-configuracao']);
-      this._loadingService.resolve('overlayStarSyntax');
-      return
-    }
+    // Reinicia o timeout
+    this.mobileService.restartTimeout();
 
-    // Se não tem unidadesTiposAvaliacoes selecionadas
-    if (!this.mobileService.unidadesTiposAvaliacoesDispositivo || !this.mobileService.unidadesTiposAvaliacoesDispositivo.length) {
-      this._loadingService.resolve('overlayStarSyntax');
-      this.router.navigate(['/configuracoes/opcoes-de-configuracao']);
-      return
-    }
-
-    // Requisita configuração
-    this.mobileService.requestConfiguracao.then(() => {
-      this._loadingService.resolve('overlayStarSyntax');
-      this.mobileService.restartTimeout()
-    });
-
+    // Resolve o loading
+    this._loadingService.resolve('overlayStarSyntax');
 
     // Debounce da digitação, toda vez que o usuário digita alguma coisa, depois de 300 milisegundos ele executa isso.
     this.modelChanged.debounceTime(300).subscribe(model => {
@@ -81,13 +66,20 @@ export class AuthenticateComponent implements OnInit {
       this.mobileService.restartTimeout();
 
       if (model && model.length)
-        if (model.length === 6)
+        if (model.length === 6){
+          // Registra o loading.
+          this._loadingService.register('overlayStarSyntax');
           this.mobileService.logout(model).then(() => {
             this.mobileService.agrupador = new Agrupador();
-            this.router.navigate(['/configurar-unidades-e-avaliacoes'])
+            this.router.navigate(['/configuracoes']);
+            // Resolve o loading
+            this._loadingService.resolve('overlayStarSyntax')
           }).catch(error => {
-            this.error(error)
+            this.error(error);
+            // Resolve o loading
+            this._loadingService.resolve('overlayStarSyntax');
           })
+        }
 
     })
   }
@@ -96,8 +88,25 @@ export class AuthenticateComponent implements OnInit {
    *
    */
   cancelar() {
+    // Registra o loading.
+    this._loadingService.register('overlayStarSyntax');
     this.mobileService.agrupador = new Agrupador();
-    this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca])
+    this.mobileService.requestDispositivoAutenticada().toPromise().then( result => {
+      if(result){
+        this.mobileService.dispositivo = result;
+        this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+        // Resolve o loading
+        this._loadingService.resolve('overlayStarSyntax')
+      } else {
+        this.router.navigate(['/configuracoes/error'])
+        // Resolve o loading
+        this._loadingService.resolve('overlayStarSyntax')
+      }
+    }).catch( () => {
+      this.router.navigate(['/configuracoes/error'])
+      // Resolve o loading
+      this._loadingService.resolve('overlayStarSyntax')
+    })
   }
 
   /**

@@ -138,7 +138,7 @@ export class MobileService implements CanActivate, CanActivateChild {
    * @param time
    */
   public createTimeout(fun: () => {}, time?: number): number {
-    this._timeout = setTimeout(fun, time ? time : this._configuracao.timeInMilis);
+    this._timeout = setTimeout(fun, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
     return this._timeout
   }
 
@@ -157,10 +157,10 @@ export class MobileService implements CanActivate, CanActivateChild {
 
       // Reseta os objetos de domínio
       this.agrupador = new Agrupador();
-      this.router.navigate(['avaliar/' + this._dispositivo.numeroLicenca]);
+        this.router.navigate(['avaliar/' + this._dispositivo.numeroLicenca]);
       this._loadingService.resolve('overlayStarSyntax');
-      return time ? time : this._configuracao.timeInMilis
-    }, time ? time : this._configuracao.timeInMilis);
+      return time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000)
+    }, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
 
     //
     return this._timeout
@@ -280,14 +280,14 @@ export class MobileService implements CanActivate, CanActivateChild {
                 subscriber.next(true)
               } else
                 this.localLogout().then(() => {
-                  this.router.navigate(['configurar-unidades-e-avaliacoes']);
+                  this.router.navigate(['configuracoes']);
                   subscriber.next(false)
                 })
 
             })
           } else
             this.localLogout().then(() => {
-              this.router.navigate(['configurar-unidades-e-avaliacoes']);
+              this.router.navigate(['configuracoes']);
               subscriber.next(false)
             })
 
@@ -311,7 +311,7 @@ export class MobileService implements CanActivate, CanActivateChild {
       if (this._localStorage.token)
         this.router.navigate(['error']);
       else
-        this.localLogout().then(() => this.router.navigate(['configurar-unidades-e-avaliacoes']));
+        this.localLogout().then(() => this.router.navigate(['configuracoes']));
 
       return err
 

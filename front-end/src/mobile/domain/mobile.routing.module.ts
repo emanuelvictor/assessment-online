@@ -19,16 +19,19 @@ import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/config
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'configurar-unidades-e-avaliacoes', pathMatch: 'full'
+    path: '', redirectTo: 'configuracoes', pathMatch: 'full'
   },
   {
-    path: 'error', component: MobileErrorComponent
-  },
-  {
-    path: 'authenticate', component: AuthenticateComponent
-  },
-  {
-    path: 'configurar-unidades-e-avaliacoes', component: ConfigurarUnidadesEAvaliacoesComponent
+    path: 'configuracoes', component: ConfiguracoesComponent,
+    children:
+      [
+        {
+          path: '', component: ConfigurarUnidadesEAvaliacoesComponent
+        },
+        {
+          path: 'authenticate', component: AuthenticateComponent
+        }
+      ]
   },
   {
     path: 'avaliar', component: AvaliacaoComponent,
@@ -37,13 +40,6 @@ const routes: Routes = [
         path: ':numeroLicenca', component: AvaliarComponent, canActivate: [MobileService],
         children: [
           {path: '', component: SelecionarUnidadeComponent},
-          {
-            path: '', component: ConfiguracoesComponent,
-            children:
-              [
-                {path: 'authenticate', component: AuthenticateComponent},
-              ]
-          },
           {
             path: ':unidadeId', component: ExecutarAvaliacaoComponent,
             children: [
@@ -62,6 +58,9 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'error', component: MobileErrorComponent
+  }
 ];
 
 /**

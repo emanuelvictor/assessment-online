@@ -73,7 +73,7 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
 
     // Se não tem unidades selecionadas vai para tela de selação de unidades
     if (!this.mobileService.unidades || !this.mobileService.unidades.length) {
-      this.router.navigate(['configurar-unidades-e-avaliacoes']);
+      this.router.navigate(['configuracoes']);
       this._loadingService.resolve('overlayStarSyntax');
       return
     }
@@ -83,14 +83,14 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
 
     // Se não tem unidades selecionadas vai para tela de selação de unidades
     if (!this.mobileService.unidadesTiposAvaliacoesDispositivo || !this.mobileService.unidadesTiposAvaliacoesDispositivo.length) {
-      this.router.navigate(['configurar-unidades-e-avaliacoes']);
+      this.router.navigate(['configuracoes']);
       this._loadingService.resolve('overlayStarSyntax');
       return
     }
 
     // Se não tem unidadeId, então retorna para seleção de unidade.
     if (!this.activatedRoute.parent.snapshot.params.ordem) {
-      this.router.navigate(['configurar-unidades-e-avaliacoes']);
+      this.router.navigate(['configuracoes']);
       this._loadingService.resolve('overlayStarSyntax');
       return
     }
