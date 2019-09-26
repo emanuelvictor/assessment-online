@@ -3,7 +3,6 @@ package br.com.ubest.domain.service;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.application.websocket.WrapperHandler;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
-import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import br.com.ubest.domain.repository.DispositivoRepository;
 import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +21,6 @@ import org.springframework.web.server.ServerWebExchange;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
 @Service
 @RequiredArgsConstructor
@@ -114,28 +110,43 @@ public class DispositivoService {
     }
 
     /**
+     * Carrega todas as informações necessárias do dispositivo para o funcionamento das avaliações.
+     * Alterna entre os tenant's.
+     *
      * @param id
      * @return
      */
     private Dispositivo getDispositivo(final long id) {
         // Pega o dispositivo da base
-        final Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElse(this.dispositivoRepository.findByNumeroLicenca(id).orElseThrow());
+        Dispositivo dispositivo = this.dispositivoRepository.findByNumeroLicenca(id).orElse(null);
+        if (dispositivo == null)
+            dispositivo = this.dispositivoRepository.findById(id).orElseThrow();
+
+        // Armazena o tenant antigo
+        final String oldTenant = this.tenantIdentifierResolver.resolveCurrentTenantIdentifier();
+
+        // Seta o tenant atual do dispositivo
         this.tenantIdentifierResolver.setSchema(dispositivo.getTenant());
-        this.populeDispositivo(dispositivo);
-        this.tenantIdentifierResolver.setSchema(DEFAULT_TENANT_ID);
+        dispositivo = this.loadDispositivo(dispositivo);
+
+        // Retorna para o antigo tenant
+        this.tenantIdentifierResolver.setSchema(oldTenant);
+
         return dispositivo;
     }
 
     /**
+     * Carrega todas as informações necessárias do dispositivo para o funcionamento das avaliações.
      *
      * @param dispositivo
      */
     @Transactional(readOnly = true)
-    void populeDispositivo(final Dispositivo dispositivo){
-        dispositivo.setUnidadesTiposAvaliacoesDispositivo(new HashSet<>(this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters(null, dispositivo.getId(), null, true, null).getContent()));
+    Dispositivo loadDispositivo(final Dispositivo dispositivo) {
+        dispositivo.setUnidadesTiposAvaliacoesDispositivo(new HashSet<>(this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters(null, dispositivo.getId(), null, true, true, null).getContent()));
         dispositivo.getUnidadesTiposAvaliacoesDispositivo().forEach(unidadeTipoAvaliacaoDispositivo ->
                 unidadeTipoAvaliacaoDispositivo.setAvaliaveis(new HashSet<>(this.avaliavelService.listByFilters(null, null, null, true, unidadeTipoAvaliacaoDispositivo.getId(), null).getContent()))
         );
+        return dispositivo;
     }
 
     /**

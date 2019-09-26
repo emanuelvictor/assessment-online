@@ -11,6 +11,7 @@ import org.springframework.security.web.server.context.ServerSecurityContextRepo
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 import static br.com.ubest.Application.SCHEMA_NAME;
 import static org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository.DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME;
 
@@ -72,18 +73,24 @@ public class WebSessionServerSecurityContextRepository implements ServerSecurity
                     // Populo pageable
                     pageComponent.setPageable(PageRequest.of(exchange));
 
-//                    return reactiveSessionRepository.findById(webSession.getId()).flatMap(session -> {
-                    if (webSession == null || webSession.isExpired())
+                    if (webSession == null || webSession.isExpired()) {
+                        if (webSession != null)
+                            webSession.getAttributes().remove(SCHEMA_NAME);
+                        tenantIdentifierResolver.setSchema(DEFAULT_TENANT_ID);
                         return Mono.empty();
-                        // Se tem a sessão no banco, mas ela está sem o username (quer dizer que o cara deslogou)
-                        // Então delete a sessão do banco
+                    }
+
+                    // Se tem a sessão no banco, mas ela está sem o username (quer dizer que o cara deslogou)
+                    // Então delete a sessão do banco
                     else if (webSession.getAttributes().get(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME) == null) {
+                        webSession.getAttributes().remove(SCHEMA_NAME);
+                        tenantIdentifierResolver.setSchema(DEFAULT_TENANT_ID);
                         return Mono.empty();
                     }
 
                     final SecurityContext securityContext = ((SecurityContext) webSession.getAttributes().get(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME));
 
-                    if (webSession.getAttributes().get(SCHEMA_NAME) != null) // TODO colocar a palavra schema em outro lugar
+                    if (webSession.getAttributes().get(SCHEMA_NAME) != null)
                         tenantIdentifierResolver.setSchema((String) webSession.getAttributes().get(SCHEMA_NAME));
                     else
                         tenantIdentifierResolver.setSchema(((TenantDetails) securityContext.getAuthentication().getPrincipal()).getTenant());

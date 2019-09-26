@@ -4,11 +4,11 @@ import {MobileService} from '../../../service/mobile.service';
 import {getIdentifier, viewAnimation} from "../../../../../web/domain/presentation/controls/utils";
 import {Subject} from "rxjs";
 import {Dispositivo} from "../../../../../web/domain/entity/avaliacao/dispositivo.model";
-import {WebSocketSubject} from "rxjs/webSocket";
 import {environment} from "../../../../../environments/environment";
 import {DomSanitizer} from "@angular/platform-browser";
 import {ConfiguracaoRepository} from "../../../../../web/domain/repository/configuracao.repository";
 import {MatSnackBar} from "@angular/material";
+import {Agrupador} from "../../../../../web/domain/entity/avaliacao/agrupador.model";
 
 @Component({
   selector: 'configurar-unidades-e-avaliacoes',
@@ -27,11 +27,6 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
   /**
    *
-   */
-  public cliente: string = 'public';
-
-  /**
-   *
    * @type {string}
    */
   logoImage: string = environment.endpoint + './configuracoes/logomarca?cliente=public';
@@ -45,11 +40,6 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    */
   senha: string = null;
-
-  /**
-   *
-   */
-  private webSocketSubject: WebSocketSubject<Dispositivo>;
 
   /**
    *
@@ -75,65 +65,72 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    */
   ngOnInit(): void {
-    this.numeroLicencaChanged.debounceTime(1000).distinctUntilChanged().subscribe(model => {
+    this.mobileService.requestDispositivoAutenticada().subscribe(result => {
+      // Se está autenticado, não pode ficar aqui
+      if (result && result.numeroLicenca)
+        this.router.navigate(['/avaliar/' + result.numeroLicenca]);
+      else {
 
-      if (this.webSocketSubject)
-        this.webSocketSubject.unsubscribe();
-      this.webSocketSubject = this.mobileService.connect(model);
+        // Zera o agrupador
+        this.mobileService.agrupador = new Agrupador();
 
-      this.webSocketSubject.subscribe(result => {
+        // Zera o dispositivo
+        this.mobileService.dispositivo = new Dispositivo();
 
-        this.mobileService.dispositivo = Object.assign({}, result);
-        this.mobileService.dispositivo.numeroSerie = this.mobileService.numeroSerie;
+        this.numeroLicencaChanged.debounceTime(1000).distinctUntilChanged().subscribe(model => {
 
-        this.configuracaoRepository.getClienteByUsername(this.mobileService.dispositivo.tenant).subscribe(result => {
-          if (result !== this.cliente) {
-            this.cliente = result;
+          this.mobileService.getDispositivo(model as any).subscribe(result => {
 
-            const identifier: string = getIdentifier();
-            this.logoImage = environment.endpoint + './configuracoes/logomarca?cliente=' + this.cliente + '?nocache=' + identifier;
+            this.mobileService.dispositivo = Object.assign({}, result);
+            this.mobileService.dispositivo.numeroSerie = this.mobileService.numeroSerie;
 
-            if (this.cliente === 'public') {
-              this.backgroundPath = environment.endpoint + 'assets/images/banner.png';
-            } else {
-              this.backgroundPath = environment.endpoint + './configuracoes/background?cliente=' + this.cliente + '?nocache=' + identifier;
-            }
-          }
-        });
+            // Atualiza o plano de fundo
+            this.requestBackground();
 
-        // Se tem número de série, então está em um dispositivo físico.
-        if (this.mobileService.numeroSerie) {
+            // Se tem número de série, então está em um dispositivo físico.
+            if (this.mobileService.numeroSerie) {
 
-          if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
+              if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
 
-            if (!result.emUso)
-              this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie).subscribe(resulted => {
-                if (resulted.interna)
-                  this.mobileService.dispositivo = resulted;
+                if (!result.emUso)
+                  this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie).subscribe(resulted => {
+                    if (resulted.interna)
+                      this.mobileService.dispositivo = resulted;
+                    else
+                      this.error('Essa licença é para uso externo!')
+                  });
                 else
-                  this.error('Essa licença é para uso externo!')
-              });
-            else
-              this.error('Licença sendo utilizada em outro dispositivo!')
+                  this.error('Licença sendo utilizada em outro dispositivo!')
 
-          }
+              }
 
-        }
-        // Se não, então deve procurar avaliações públicas (externas)
-        else {
-
-          this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca).subscribe(resulted => {
-            if (!resulted.interna)
-              this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
-            else
-              this.error('Essa licença é para uso interno!')
+            }
+            // Se não, então deve procurar avaliações públicas (externas)
+            else {
+              if (!result.interna)
+                this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+              else
+                this.error('Essa licença é para uso interno!')
+            }
           })
 
-        }
-
-      })
-
+        })
+      }
     })
+  }
+
+  /**
+   *
+   */
+  private requestBackground() {
+    const identifier: string = getIdentifier();
+    this.logoImage = environment.endpoint + './configuracoes/logomarca?cliente=' + this.mobileService.dispositivo.tenant + '?nocache=' + identifier;
+
+    if (this.mobileService.dispositivo.tenant === 'public') {
+      this.backgroundPath = environment.endpoint + 'assets/images/banner.png';
+    } else {
+      this.backgroundPath = environment.endpoint + './configuracoes/background?cliente=' + this.mobileService.dispositivo.tenant + '?nocache=' + identifier;
+    }
   }
 
   /**

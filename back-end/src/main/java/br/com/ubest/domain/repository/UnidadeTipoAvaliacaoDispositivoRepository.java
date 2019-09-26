@@ -29,6 +29,12 @@ public interface UnidadeTipoAvaliacaoDispositivoRepository extends JpaRepository
 
     @Query("FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE " +
             "   (   " +
+            "       (" +
+            "           (:withAvaliaveis IS NOT NULL AND" +
+            "               unidadeTipoAvaliacaoDispositivo.id IN (SELECT avaliavel.unidadeTipoAvaliacaoDispositivo.id FROM Avaliavel avaliavel WHERE avaliavel.ativo = :withAvaliaveis) " +
+            "           ) OR :withAvaliaveis IS NULL" +
+            "       )" +
+            "       AND" +
             "       ((:ativo IS NOT NULL AND unidadeTipoAvaliacaoDispositivo.ativo = :ativo) OR :ativo IS NULL)" +
             "       AND " +
             "       (" +
@@ -55,6 +61,7 @@ public interface UnidadeTipoAvaliacaoDispositivoRepository extends JpaRepository
                                                         @Param("dispositivoId") final Long dispositivoId,
                                                         @Param("unidadeTipoAvaliacaoId") final Long unidadeTipoAvaliacaoId,
                                                         @Param("ativo") final Boolean ativo,
+                                                        @Param("withAvaliaveis") final Boolean withAvaliaveis,
                                                         final Pageable pageable);
 
 }

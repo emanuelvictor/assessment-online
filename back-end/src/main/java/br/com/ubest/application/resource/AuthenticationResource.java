@@ -3,7 +3,7 @@ package br.com.ubest.application.resource;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.ContaRepository;
-import br.com.ubest.domain.repository.DispositivoRepository;
+import br.com.ubest.domain.service.DispositivoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
@@ -27,7 +27,7 @@ public class AuthenticationResource {
     /**
      *
      */
-    private final DispositivoRepository dispositivoRepository;
+    private final DispositivoService dispositivoService;
 
     /**
      * TODO verificar se não da pra colocar em outro lugar também
@@ -42,8 +42,8 @@ public class AuthenticationResource {
                 final Conta conta = (Conta) authentication.getPrincipal();
                 return Optional.ofNullable(contaRepository.findByEmailIgnoreCase(conta.getEmail()));
             } else {
-                final Dispositivo dispositivo = (Dispositivo) authentication.getPrincipal();
-                return Optional.ofNullable(dispositivoRepository.findById(dispositivo.getId()).orElse(null));
+                final Dispositivo dispositivo = dispositivoService.getDispositivo(((Dispositivo) authentication.getPrincipal()).getId(), null);
+                return Optional.ofNullable(dispositivo);
             }
 
         });

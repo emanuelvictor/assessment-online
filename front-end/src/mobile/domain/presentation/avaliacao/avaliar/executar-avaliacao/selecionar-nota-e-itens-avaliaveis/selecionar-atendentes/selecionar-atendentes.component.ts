@@ -155,7 +155,7 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
       } else {
 
         // Se o sistema foi configurado para exigir feedback
-        if (this.configuracao.feedback) {
+        if (this.mobileService.configuracao.feedback) {
 
           // Vai para feedback
           this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + (+this.activatedRoute.parent.parent.snapshot.params.unidadeId) + '/feedback']);
