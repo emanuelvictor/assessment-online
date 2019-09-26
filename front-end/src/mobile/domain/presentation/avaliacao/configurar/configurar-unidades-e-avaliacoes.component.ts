@@ -65,7 +65,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    */
   ngOnInit(): void {
-    this.mobileService.requestDispositivoAutenticada().subscribe(result => {
+    this.mobileService.requestDispositivoAutenticada().map(result => {
       // Se está autenticado, não pode ficar aqui
       if (result && result.numeroLicenca)
         this.router.navigate(['/avaliar/' + result.numeroLicenca]);
@@ -77,45 +77,51 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
         // Zera o dispositivo
         this.mobileService.dispositivo = new Dispositivo();
 
-        this.numeroLicencaChanged.debounceTime(1000).distinctUntilChanged().subscribe(model => {
-
-          this.mobileService.getDispositivo(model as any).subscribe(result => {
-
-            this.mobileService.dispositivo = Object.assign({}, result);
-            this.mobileService.dispositivo.numeroSerie = this.mobileService.numeroSerie;
-
-            // Atualiza o plano de fundo
-            this.requestBackground();
-
-            // Se tem número de série, então está em um dispositivo físico.
-            if (this.mobileService.numeroSerie) {
-
-              if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
-
-                if (!result.emUso)
-                  this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie).subscribe(resulted => {
-                    if (resulted.interna)
-                      this.mobileService.dispositivo = resulted;
-                    else
-                      this.error('Essa licença é para uso externo!')
-                  });
-                else
-                  this.error('Licença sendo utilizada em outro dispositivo!')
-
-              }
-
-            }
-            // Se não, então deve procurar avaliações públicas (externas)
-            else {
-              if (!result.interna)
-                this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
-              else
-                this.error('Essa licença é para uso interno!')
-            }
-          })
-
-        })
+        this.authenticate();
       }
+    }).catch( (e:any) => {
+      this.authenticate()
+    })
+  }
+
+  authenticate() {
+    this.numeroLicencaChanged.debounceTime(1000).distinctUntilChanged().subscribe(model => {
+
+      this.mobileService.getDispositivo(model as any).subscribe(result => {
+
+        this.mobileService.dispositivo = Object.assign({}, result);
+        this.mobileService.dispositivo.numeroSerie = this.mobileService.numeroSerie;
+
+        // Atualiza o plano de fundo
+        this.requestBackground();
+
+        // Se tem número de série, então está em um dispositivo físico.
+        if (this.mobileService.numeroSerie) {
+
+          if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
+
+            if (!result.emUso)
+              this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie).subscribe(resulted => {
+                if (resulted.interna)
+                  this.mobileService.dispositivo = resulted;
+                else
+                  this.error('Essa licença é para uso externo!')
+              });
+            else
+              this.error('Licença sendo utilizada em outro dispositivo!')
+
+          }
+
+        }
+        // Se não, então deve procurar avaliações públicas (externas)
+        else {
+          if (!result.interna)
+            this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+          else
+            this.error('Essa licença é para uso interno!')
+        }
+      })
+
     })
   }
 
