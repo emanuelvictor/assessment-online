@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {Router} from "@angular/router";
 import {MobileService} from "../../service/mobile.service";
+import {environment} from "../../../../environments/environment";
+import {getIdentifier} from "../../../../web/domain/presentation/controls/utils";
 
 @Component({
   selector: 'app-avaliacao',
@@ -16,11 +17,11 @@ export class AvaliacaoComponent {
 
   /**
    *
-   * @param router
    * @param mobileService
    */
-  constructor(private router: Router,
-              public mobileService: MobileService) {
+  constructor(public mobileService: MobileService) {
+    if (mobileService.dispositivo && mobileService.dispositivo.tenant)
+      this.backgroundImage = environment.endpoint + './configuracoes/background?cliente=' + mobileService.dispositivo.tenant + '?nocache=' + getIdentifier()
   }
 
 }

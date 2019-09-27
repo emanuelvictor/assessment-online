@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MobileService} from '../../../service/mobile.service';
 import {getIdentifier, viewAnimation} from "../../../../../web/domain/presentation/controls/utils";
-import {Subject} from "rxjs";
 import {Dispositivo} from "../../../../../web/domain/entity/avaliacao/dispositivo.model";
 import {environment} from "../../../../../environments/environment";
 import {DomSanitizer} from "@angular/platform-browser";
@@ -43,12 +42,6 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
   /**
    *
-   * @type {Subject<string>}
-   */
-  private numeroLicencaChanged: Subject<string> = new Subject<string>();
-
-  /**
-   *
    * @param {Router} router
    * @param _sanitizer
    * @param {ConfiguracaoRepository} configuracaoRepository
@@ -65,64 +58,61 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    */
   ngOnInit(): void {
-    this.mobileService.requestDispositivoAutenticada().map(result => {
-      // Se está autenticado, não pode ficar aqui
-      if (result && result.numeroLicenca)
-        this.router.navigate(['/avaliar/' + result.numeroLicenca]);
-      else {
+    // Se tem o token, destroy o token e os cookies
+    if (this.mobileService.token) {
+      this.mobileService.destroyCookies();
+    }
 
-        // Zera o agrupador
-        this.mobileService.agrupador = new Agrupador();
+    // Zera o agrupador
+    this.mobileService.agrupador = new Agrupador();
 
-        // Zera o dispositivo
-        this.mobileService.dispositivo = new Dispositivo();
+    // Zera o dispositivo
+    this.mobileService.dispositivo = new Dispositivo();
 
-        this.authenticate();
-      }
-    }).catch( (e:any) => {
-      this.authenticate()
-    })
   }
 
-  authenticate() {
-    this.numeroLicencaChanged.debounceTime(1000).distinctUntilChanged().subscribe(model => {
+  /**
+   *
+   * @param model
+   */
+  authenticate(model) {
 
-      this.mobileService.getDispositivo(model as any).subscribe(result => {
+    this.mobileService.getDispositivo(model as any).toPromise().then(result => {
 
-        this.mobileService.dispositivo = Object.assign({}, result);
-        this.mobileService.dispositivo.numeroSerie = this.mobileService.numeroSerie;
+      this.mobileService.dispositivo = Object.assign({}, result);
+      this.mobileService.dispositivo.numeroSerie = this.mobileService.numeroSerie;
 
-        // Atualiza o plano de fundo
-        this.requestBackground();
+      // Atualiza o plano de fundo
+      this.requestBackground();
 
-        // Se tem número de série, então está em um dispositivo físico.
-        if (this.mobileService.numeroSerie) {
+      // Se tem número de série, então está em um dispositivo físico.
+      if (this.mobileService.numeroSerie) {
 
-          if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
+        if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
 
-            if (!result.emUso)
-              this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie).subscribe(resulted => {
-                if (resulted.interna)
-                  this.mobileService.dispositivo = resulted;
-                else
-                  this.error('Essa licença é para uso externo!')
-              });
-            else
-              this.error('Licença sendo utilizada em outro dispositivo!')
-
-          }
-
-        }
-        // Se não, então deve procurar avaliações públicas (externas)
-        else {
-          if (!result.interna)
-            this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+          if (!result.emUso)
+            this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie).subscribe(resulted => {
+              if (resulted.interna)
+                this.mobileService.dispositivo = resulted;
+              else
+                this.error('Essa licença é para uso externo!')
+            });
           else
-            this.error('Essa licença é para uso interno!')
+            this.error('Licença sendo utilizada em outro dispositivo!')
+
         }
-      })
+
+      }
+      // Se não, então deve procurar avaliações públicas (externas)
+      else {
+        if (!result.interna)
+          this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+        else
+          this.error('Essa licença é para uso interno!')
+      }
 
     })
+
   }
 
   /**
@@ -151,10 +141,10 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    * @param {string} $event
    */
-  public inputNumeroLicencaChanged($event: string) {
+  public inputNumeroLicencaChanged($event) {
     if ($event && $event.length)
       if ($event.length === 6)
-        this.numeroLicencaChanged.next($event)
+        this.authenticate($event)
   }
 
   /**

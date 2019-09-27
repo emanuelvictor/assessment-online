@@ -71,17 +71,17 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
     }
 
     // Se não tem unidades selecionadas vai para tela de selação de unidades
-    if (!this.mobileService.unidades || !this.mobileService.unidades.length) {
+    if (!this.mobileService.dispositivo.unidades || !this.mobileService.dispositivo.unidades.length) {
       this.router.navigate(['configuracoes']);
       this._loadingService.resolve('overlayStarSyntax');
       return
     }
 
-    // Popula variável de unidadesTiposAvalicoes, esta variável será utilizada na conclusão da avaliação.
-    this.unidadesTiposAvaliacoesDispositivo = this.mobileService.unidadesTiposAvaliacoesDispositivo;
+    // Popula variável de unidadesTiposAvalicoes, esta variável será utilizada na conclusão da avaliaçãavaliaveiso.
+    this.unidadesTiposAvaliacoesDispositivo = this.mobileService.dispositivo.unidadesTiposAvaliacoesDispositivo;
 
     // Se não tem unidades selecionadas vai para tela de selação de unidades
-    if (!this.mobileService.unidadesTiposAvaliacoesDispositivo || !this.mobileService.unidadesTiposAvaliacoesDispositivo.length) {
+    if (!this.mobileService.dispositivo.unidadesTiposAvaliacoesDispositivo || !this.mobileService.dispositivo.unidadesTiposAvaliacoesDispositivo.length) {
       this.router.navigate(['configuracoes']);
       this._loadingService.resolve('overlayStarSyntax');
       return

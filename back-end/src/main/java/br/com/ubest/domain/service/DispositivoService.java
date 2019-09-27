@@ -120,7 +120,9 @@ public class DispositivoService {
         // Pega o dispositivo da base
         Dispositivo dispositivo = this.dispositivoRepository.findByNumeroLicenca(id).orElse(null);
         if (dispositivo == null)
-            dispositivo = this.dispositivoRepository.findById(id).orElseThrow();
+            dispositivo = this.dispositivoRepository.findById(id).orElse(null);
+
+        Assert.notNull(dispositivo, "Não encontrado");
 
         // Armazena o tenant antigo
         final String oldTenant = this.tenantIdentifierResolver.resolveCurrentTenantIdentifier();

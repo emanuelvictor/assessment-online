@@ -24,7 +24,6 @@ import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {isNullOrUndefined} from "util";
 import {HttpClient} from "@angular/common/http";
-import {UnidadeTipoAvaliacaoDispositivo} from "../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
 import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
 import {TOKEN_NAME} from "../../../web/domain/presentation/controls/utils";
@@ -157,7 +156,7 @@ export class MobileService implements CanActivate, CanActivateChild {
 
       // Reseta os objetos de domínio
       this.agrupador = new Agrupador();
-        this.router.navigate(['avaliar/' + this._dispositivo.numeroLicenca]);
+      this.router.navigate(['avaliar/' + this._dispositivo.numeroLicenca]);
       this._loadingService.resolve('overlayStarSyntax');
       return time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000)
     }, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
@@ -171,13 +170,6 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   public clearTimeout(): void {
     clearTimeout(this._timeout)
-  }
-
-  /**
-   * @returns {any}
-   */
-  get unidadesTiposAvaliacoesDispositivo(): UnidadeTipoAvaliacaoDispositivo[] {
-    return this._dispositivo.unidadesTiposAvaliacoesDispositivo
   }
 
   /**
@@ -201,6 +193,13 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   get unidades(): any {
     return this._dispositivo && (this._dispositivo as any).unidades ? (this._dispositivo as any).unidades : null
+  }
+
+  /**
+   *
+   */
+  get token(): string {
+    return this._localStorage.token
   }
 
   /**
@@ -306,16 +305,18 @@ export class MobileService implements CanActivate, CanActivateChild {
    *
    */
   public requestDispositivoAutenticada(): Observable<Dispositivo | any> {
-    return this.httpClient.get<Dispositivo>(environment.endpoint + 'principal').catch((err: any) => {
+    return this.httpClient.get<Dispositivo>(environment.endpoint + 'principal')
+      .map(result => result ? this.dispositivo = result : this.dispositivo = null)
+      .catch((err: any) => {
 
-      if (this._localStorage.token)
-        this.router.navigate(['error']);
-      else
-        this.localLogout().then(() => this.router.navigate(['configuracoes']));
+        if (this._localStorage.token)
+          this.router.navigate(['error']);
+        else
+          this.localLogout().then(() => this.router.navigate(['configuracoes']));
 
-      return err
+        return err
 
-    })
+      })
   }
 
   /**
@@ -366,7 +367,7 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  private destroyCookies() {
+  public destroyCookies() {
     this._cookieService.deleteAll();
     this._localStorage.clear()
   }

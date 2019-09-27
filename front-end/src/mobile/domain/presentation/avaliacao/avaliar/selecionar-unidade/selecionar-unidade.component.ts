@@ -20,11 +20,6 @@ export class SelecionarUnidadeComponent implements OnInit {
   /**
    *
    */
-  unidades: Unidade[];
-
-  /**
-   *
-   */
   configuracao: Configuracao;
 
   /**
@@ -54,19 +49,16 @@ export class SelecionarUnidadeComponent implements OnInit {
     this.mobileService.requestConfiguracao.then(configuracao => {
       this.configuracao = configuracao;
 
-      // Pega  configuração.
-      this.unidades = this.mobileService.unidades;
-
       // Se não tem unidades selecionadas, vai para tela de seleção de unidades
-      if (!this.unidades || !this.unidades.length) {
+      if (!this.mobileService.dispositivo.unidades || !this.mobileService.dispositivo.unidades.length) {
         this.router.navigate(['configuracoes']);
         this._loadingService.resolve('overlayStarSyntax');
         return
       }
 
       // Se só tem uma unidade selecionada, passa direito e vai pra tela de avaliação
-      if (this.unidades.length === 1) {
-        this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + this.unidades[0].id + '/ordem/1']);
+      if (this.mobileService.dispositivo.unidades.length === 1) {
+        this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + this.mobileService.dispositivo.unidades[0].id + '/ordem/1']);
         this._loadingService.resolve('overlayStarSyntax');
         return
       }

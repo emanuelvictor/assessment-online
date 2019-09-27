@@ -1,5 +1,6 @@
 import {Abstract} from '../abstract/abstract.model';
 import {UnidadeTipoAvaliacaoDispositivo} from "./unidade-tipo-avaliacao-dispositivo.model";
+import {Unidade} from "../unidade/unidade.model";
 
 export class Dispositivo extends Abstract {
 
@@ -68,7 +69,15 @@ export class Dispositivo extends Abstract {
    */
   public unidadesTiposAvaliacoesDispositivo: UnidadeTipoAvaliacaoDispositivo[] = [];
 
+  /**
+   *
+   */
+  public unidades: Unidade[] = [];
 
+  /**
+   *
+   * @param id
+   */
   constructor(id?: number) {
     super();
     this.interna = true;

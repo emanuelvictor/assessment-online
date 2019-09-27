@@ -72,17 +72,17 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
     }
 
     // Se não tem unidades selecionadas vai para tela de selação de unidades
-    if (!this.mobileService.unidades || !this.mobileService.unidades.length) {
+    if (!this.mobileService.dispositivo.unidades || !this.mobileService.dispositivo.unidades.length) {
       this.router.navigate(['configuracoes']);
       this._loadingService.resolve('overlayStarSyntax');
       return
     }
 
     // Popula variável de unidadesTiposAvalicoes, esta variável será utilizada na conclusão da avaliação.
-    this.unidadesTiposAvaliacoesDispositivo = this.mobileService.unidadesTiposAvaliacoesDispositivo;
+    this.unidadesTiposAvaliacoesDispositivo = this.mobileService.dispositivo.unidadesTiposAvaliacoesDispositivo;
 
     // Se não tem unidades selecionadas vai para tela de selação de unidades
-    if (!this.mobileService.unidadesTiposAvaliacoesDispositivo || !this.mobileService.unidadesTiposAvaliacoesDispositivo.length) {
+    if (!this.mobileService.dispositivo.unidadesTiposAvaliacoesDispositivo || !this.mobileService.dispositivo.unidadesTiposAvaliacoesDispositivo.length) {
       this.router.navigate(['configuracoes']);
       this._loadingService.resolve('overlayStarSyntax');
       return
@@ -101,7 +101,7 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
     // Se só tem uma unidade selecionada, e a ordem da avaliação é 1, então reseta o timeout.
     // Pois não há necessidade de zerá-lo, uma vez que não há mais de uma unidade para ser selecionada.
     // Isso auxilia na experiência de usuário, a tela não fica piscando
-    if (this.mobileService.unidades.length === 1 && +this.activatedRoute.parent.snapshot.params.ordem === 1) {
+    if (this.mobileService.dispositivo.unidades.length === 1 && +this.activatedRoute.parent.snapshot.params.ordem === 1) {
       this.mobileService.clearTimeout()
     }
 
