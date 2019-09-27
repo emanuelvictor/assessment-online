@@ -43,7 +43,7 @@ import {AgrupadorRepository} from "./repository/agrupador.repository";
 import {SelecionarNotaEItensAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota-e-itens-avaliaveis.component";
 import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component";
 import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/feedback/feedback.component";
-import {AuthenticateComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate/authenticate.component";
+import {AuthenticateToLogoutComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate-to-logout/authenticate-to-logout.component";
 import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {OrderModule} from "ngx-order-pipe";
@@ -66,7 +66,7 @@ import {MobileErrorComponent} from "./presentation/controls/mobile-error/mobile-
     SelecionarAtendentesComponent,
     SelecionarNotaEItensAvaliaveisComponent,
     FeedbackComponent,
-    AuthenticateComponent,
+    AuthenticateToLogoutComponent,
     ConfiguracoesComponent,
     ConfigurarUnidadesEAvaliacoesComponent,
 

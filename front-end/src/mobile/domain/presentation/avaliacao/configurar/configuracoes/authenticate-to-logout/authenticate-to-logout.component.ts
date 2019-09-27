@@ -9,14 +9,14 @@ import {Subject} from "rxjs";
 import {viewAnimation} from "../../../../../../../web/domain/presentation/controls/utils";
 
 @Component({
-  selector: 'authenticate',
-  templateUrl: './authenticate.component.html',
-  styleUrls: ['./authenticate.component.scss'],
+  selector: 'authenticate-to-logout',
+  templateUrl: './authenticate-to-logout.component.html',
+  styleUrls: ['./authenticate-to-logout.component.scss'],
   animations: [
     viewAnimation
   ]
 })
-export class AuthenticateComponent implements OnInit {
+export class AuthenticateToLogoutComponent implements OnInit {
 
   /**
    *

@@ -11,7 +11,7 @@ import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/ex
 import {SelecionarNotaEItensAvaliaveisComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota-e-itens-avaliaveis.component";
 import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component";
 import {MobileErrorComponent} from "./presentation/controls/mobile-error/mobile-error.component";
-import {AuthenticateComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate/authenticate.component";
+import {AuthenticateToLogoutComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate-to-logout/authenticate-to-logout.component";
 import {MobileService} from "./service/mobile.service";
 import {ConfiguracaoComponent} from "../../web/domain/presentation/dashboard/configuracao/configuracao.component";
 import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
@@ -29,7 +29,7 @@ const routes: Routes = [
           path: '', component: ConfigurarUnidadesEAvaliacoesComponent
         },
         {
-          path: 'authenticate', component: AuthenticateComponent
+          path: 'authenticate', component: AuthenticateToLogoutComponent
         }
       ]
   },
