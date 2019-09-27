@@ -51,7 +51,7 @@ export class SelecionarUnidadeComponent implements OnInit {
 
       // Se não tem unidades selecionadas, vai para tela de seleção de unidades
       if (!this.mobileService.dispositivo.unidades || !this.mobileService.dispositivo.unidades.length) {
-        this.router.navigate(['configuracoes']);
+        this.router.navigate(['configuracoes/error']);
         this._loadingService.resolve('overlayStarSyntax');
         return
       }
@@ -62,6 +62,9 @@ export class SelecionarUnidadeComponent implements OnInit {
         this._loadingService.resolve('overlayStarSyntax');
         return
       }
+
+      // Remove os itens selecionados da avaliação anterior
+      this.mobileService.dispositivo.unidades.forEach( unidade => (unidade as any).selected = false);
 
       // Caso tenha unidades a selecionar, e a quantidade seja maior que 1
       // Remove loading
