@@ -111,6 +111,11 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
 
     this.avaliaveis = this.unidadeTipoAvaliacaoDispositivo.avaliaveis;
 
+    // Deseleciona todos os ítens avaliáveis
+    this.avaliaveis.forEach( avaliavel => {
+      (avaliavel as any).selected = false
+    });
+
     // Se tem apenas um avaliável
     if (this.avaliaveis.length === 1) {
 

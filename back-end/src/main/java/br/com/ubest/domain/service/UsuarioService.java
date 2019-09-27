@@ -475,6 +475,19 @@ public class UsuarioService {
 
     /**
      * @param id
+     * @param tenant
+     * @return
+     */
+    public byte[] findThumbnail(final long id, final String tenant) {
+        final String oldTenant = this.tenantIdentifierResolver.resolveCurrentTenantIdentifier();
+        tenantIdentifierResolver.setSchema(tenant);
+        byte[] toReturn = findThumbnail(id);
+        tenantIdentifierResolver.setSchema(oldTenant);
+        return toReturn;
+    }
+
+    /**
+     * @param id
      * @return
      */
     @Transactional(readOnly = true)
@@ -484,11 +497,37 @@ public class UsuarioService {
 
     /**
      * @param id
+     * @param tenant
+     * @return
+     */
+    public byte[] findAvatar(final long id, final String tenant) {
+        final String oldTenant = this.tenantIdentifierResolver.resolveCurrentTenantIdentifier();
+        tenantIdentifierResolver.setSchema(tenant);
+        byte[] toReturn = findAvatar(id);
+        tenantIdentifierResolver.setSchema(oldTenant);
+        return toReturn;
+    }
+
+    /**
+     * @param id
      * @return
      */
     @Transactional(readOnly = true)
     public byte[] findAvatar(final long id) {
         return Objects.requireNonNull(usuarioRepository.findById(id).orElse(null)).getAvatar();
+    }
+
+    /**
+     * @param id
+     * @param tenant
+     * @return
+     */
+    public byte[] findFoto(final long id, final String tenant) {
+        final String oldTenant = this.tenantIdentifierResolver.resolveCurrentTenantIdentifier();
+        tenantIdentifierResolver.setSchema(tenant);
+        byte[] toReturn = findFoto(id);
+        tenantIdentifierResolver.setSchema(oldTenant);
+        return toReturn;
     }
 
     /**

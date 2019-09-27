@@ -14,7 +14,7 @@
                        *ngFor='let avaliavel of avaliaveis' mat-ripple [colspan]='1' [rowspan]='2'>
           <div layout='column' layout-align='center center'>
             <div mat-list-avatar style='width: 120px; height: 120px'>
-              <avatar class='image-cover' [size]='0.6'
+              <avatar class='image-cover' [size]='0.6' [tenant]='mobileService?.dispositivo?.tenant'
                       [usuario]="{'id': avaliavel?.usuario?.id , 'foto': avaliavel?.usuario?.avatarPath}">
               </avatar>
             </div>

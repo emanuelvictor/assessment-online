@@ -26,7 +26,7 @@ public class Utils {
      * @return {String}
      */
     public static String removeNoCache(final String schema) {
-        if (schema.contains("?nocache"))
+        if (schema != null && schema.contains("?nocache"))
             return schema.replace(schema.substring(schema.indexOf("?nocache")), "");
         return schema;
     }
