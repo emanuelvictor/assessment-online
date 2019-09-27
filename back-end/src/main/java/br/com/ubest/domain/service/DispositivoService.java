@@ -124,15 +124,9 @@ public class DispositivoService {
 
         Assert.notNull(dispositivo, "Não encontrado");
 
-        // Armazena o tenant antigo
-        final String oldTenant = this.tenantIdentifierResolver.resolveCurrentTenantIdentifier();
-
         // Seta o tenant atual do dispositivo
         this.tenantIdentifierResolver.setSchema(dispositivo.getTenant());
         dispositivo = this.loadDispositivo(dispositivo);
-
-        // Retorna para o antigo tenant
-        this.tenantIdentifierResolver.setSchema(oldTenant);
 
         return dispositivo;
     }

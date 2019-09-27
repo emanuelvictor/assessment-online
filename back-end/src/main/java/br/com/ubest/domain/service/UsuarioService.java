@@ -479,11 +479,8 @@ public class UsuarioService {
      * @return
      */
     public byte[] findThumbnail(final long id, final String tenant) {
-        final String oldTenant = this.tenantIdentifierResolver.resolveCurrentTenantIdentifier();
         tenantIdentifierResolver.setSchema(tenant);
-        byte[] toReturn = findThumbnail(id);
-        tenantIdentifierResolver.setSchema(oldTenant);
-        return toReturn;
+        return findThumbnail(id);
     }
 
     /**
@@ -501,11 +498,8 @@ public class UsuarioService {
      * @return
      */
     public byte[] findAvatar(final long id, final String tenant) {
-        final String oldTenant = this.tenantIdentifierResolver.resolveCurrentTenantIdentifier();
         tenantIdentifierResolver.setSchema(tenant);
-        byte[] toReturn = findAvatar(id);
-        tenantIdentifierResolver.setSchema(oldTenant);
-        return toReturn;
+        return findAvatar(id);
     }
 
     /**
@@ -523,11 +517,8 @@ public class UsuarioService {
      * @return
      */
     public byte[] findFoto(final long id, final String tenant) {
-        final String oldTenant = this.tenantIdentifierResolver.resolveCurrentTenantIdentifier();
         tenantIdentifierResolver.setSchema(tenant);
-        byte[] toReturn = findFoto(id);
-        tenantIdentifierResolver.setSchema(oldTenant);
-        return toReturn;
+        return findFoto(id);
     }
 
     /**
