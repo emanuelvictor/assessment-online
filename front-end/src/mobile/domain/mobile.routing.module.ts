@@ -13,7 +13,6 @@ import {ExecutarAvaliacaoComponent} from "./presentation/avaliacao/avaliar/execu
 import {MobileErrorComponent} from "./presentation/controls/mobile-error/mobile-error.component";
 import {AuthenticateToLogoutComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate-to-logout/authenticate-to-logout.component";
 import {MobileService} from "./service/mobile.service";
-import {ConfiguracaoComponent} from "../../web/domain/presentation/dashboard/configuracao/configuracao.component";
 import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
 
 

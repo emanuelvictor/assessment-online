@@ -7,6 +7,9 @@ import {FormBuilder} from "@angular/forms";
 import {TdLoadingService} from "@covalent/core";
 import {Subject} from "rxjs";
 import {viewAnimation} from "../../../../../../../web/domain/presentation/controls/utils";
+import {environment} from "../../../../../../../environments/environment";
+import {DomSanitizer} from "@angular/platform-browser";
+import {LocalStorage} from "../../../../../../../web/infrastructure/local-storage/local-storage";
 
 @Component({
   selector: 'authenticate-to-logout',
@@ -17,6 +20,17 @@ import {viewAnimation} from "../../../../../../../web/domain/presentation/contro
   ]
 })
 export class AuthenticateToLogoutComponent implements OnInit {
+
+  /**
+   *
+   * @type {string}
+   */
+  logoImage: string = environment.endpoint + 'assets/images/ubest1.png';
+
+  /**
+   *
+   */
+  backgroundPath: string = environment.endpoint + 'assets/images/banner.png';
 
   /**
    *
@@ -31,6 +45,8 @@ export class AuthenticateToLogoutComponent implements OnInit {
 
   /**
    *
+   * @param _sanitizer
+   * @param _localStorage
    * @param fb
    * @param {MobileService} mobileService
    * @param _loadingService
@@ -39,7 +55,9 @@ export class AuthenticateToLogoutComponent implements OnInit {
    * @param snackBar
    * @param {Router} router
    */
-  constructor(private mobileService: MobileService,
+  constructor(private _sanitizer: DomSanitizer,
+              private _localStorage: LocalStorage,
+              private mobileService: MobileService,
               private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
               private router: Router, private renderer: Renderer,
@@ -50,6 +68,10 @@ export class AuthenticateToLogoutComponent implements OnInit {
    *
    */
   ngOnInit(): void {
+    // Se não tem senha ou não tem o dispositivo
+    if (!this._localStorage.senha || !this.mobileService.dispositivo || !this.mobileService.dispositivo.numeroLicenca)
+      this.router.navigate(['/configuracoes']);
+
     // Registra o loading.
     this._loadingService.register('overlayStarSyntax');
 
@@ -98,15 +120,31 @@ export class AuthenticateToLogoutComponent implements OnInit {
         // Resolve o loading
         this._loadingService.resolve('overlayStarSyntax')
       } else {
-        this.router.navigate(['/configuracoes/error'])
+        this.router.navigate(['/error']);
         // Resolve o loading
         this._loadingService.resolve('overlayStarSyntax')
       }
     }).catch( () => {
-      this.router.navigate(['/configuracoes/error'])
+      this.router.navigate(['/error']);
       // Resolve o loading
       this._loadingService.resolve('overlayStarSyntax')
     })
+  }
+
+  /**
+   *
+   * @param image
+   */
+  getBackground(image) {
+    return this._sanitizer.bypassSecurityTrustStyle(`url(${image})`)
+  }
+
+  /**
+   *
+   * @param image
+   */
+  getLogomarca(image) {
+    return this._sanitizer.bypassSecurityTrustStyle(`url(${image})`)
   }
 
   /**

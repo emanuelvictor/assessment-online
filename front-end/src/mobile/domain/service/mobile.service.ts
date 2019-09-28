@@ -137,8 +137,16 @@ export class MobileService implements CanActivate, CanActivateChild {
    * @param time
    */
   public createTimeout(fun: () => {}, time?: number): number {
-    this._timeout = setTimeout(fun, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
-    return this._timeout
+    return MobileService.setTimeout(fun, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
+  }
+
+  /**
+   *
+   * @param fun
+   * @param time
+   */
+  public static setTimeout(fun: () => {}, time?): number {
+    return setTimeout(fun, time ? time : 30000);
   }
 
   /**
@@ -277,18 +285,20 @@ export class MobileService implements CanActivate, CanActivateChild {
               if (!resulted.interna) {
                 this.dispositivo = resulted;
                 subscriber.next(true)
-              } else
+              } else {
                 this.localLogout().then(() => {
                   this.router.navigate(['configuracoes']);
                   subscriber.next(false)
                 })
+              }
 
             })
-          } else
+          } else {
             this.localLogout().then(() => {
               this.router.navigate(['configuracoes']);
               subscriber.next(false)
             })
+          }
 
           // Se tem alguém autenticado
         } else {
@@ -309,10 +319,11 @@ export class MobileService implements CanActivate, CanActivateChild {
       .map(result => result ? this.dispositivo = result : this.dispositivo = null)
       .catch((err: any) => {
 
-        if (this._localStorage.token)
+        if (this._localStorage.token) {
           this.router.navigate(['error']);
-        else
+        } else {
           this.localLogout().then(() => this.router.navigate(['configuracoes']));
+        }
 
         return err
 
@@ -326,23 +337,23 @@ export class MobileService implements CanActivate, CanActivateChild {
     return new Promise((resolve, reject) => {
       this.httpClient.get<Dispositivo>(environment.endpoint + 'principal').toPromise().then(result => {
 
-        if (!result)
+        if (!result) {
           this.localLogout(password).then(() => resolve()).catch(error => reject(error));
-
-        else if (result && password === (result as any).password)
+        } else if (result && password === (result as any).password) {
           this.httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
             this.localLogout(password).then(() => resolve()).catch(error => reject(error));
           }).catch((error) => reject(error));
-
-        else if (result && password !== (result as any).password)
+        } else if (result && password !== (result as any).password) {
           reject('Senha incorreta!')
+        }
 
       }).catch(() => {
 
-        if (this._localStorage.senha === password)
+        if (this._localStorage.senha === password) {
           this.localLogout(password).then(() => resolve()).catch(error => reject(error));
-        else
+        } else {
           reject('Senha incorreta!')
+        }
 
       })
     })
@@ -359,8 +370,9 @@ export class MobileService implements CanActivate, CanActivateChild {
         this.dispositivo = new Dispositivo();
         this.destroyCookies();
         resolve()
-      } else
+      } else {
         reject('Senha incorreta!')
+      }
     })
   }
 
@@ -389,8 +401,9 @@ export class MobileService implements CanActivate, CanActivateChild {
 
     const that = this;
 
-    if (window['cookieEmperor'])
+    if (window['cookieEmperor']) {
       window['cookieEmperor'].getCookie(environment.endpoint, TOKEN_NAME, (data) => that._localStorage.token = data.cookieValue, (error) => console.log('error: ' + error))
+    }
   }
 
   /**

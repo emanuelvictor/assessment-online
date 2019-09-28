@@ -1,3 +1,6 @@
+const TOKEN_NAME = 'ubest-token';
+const PASSWORD_NAME = 'senha';
+
 const app = {
   // Application Constructor
   initialize: function () {
@@ -21,11 +24,15 @@ const app = {
   // Update DOM on a Received Event
   receivedEvent: function (id) {
 
+    console.log('Received Event: ' + id);
+    window.plugins.insomnia.keepAwake();
+    window['KioskPlugin'].setAllowedKeys([0x4]);
+
     window.addEventListener('native.keyboardshow', function (e) {
 
-      var deviceHeight = window.innerHeight;
-      var keyboardHeight = e.keyboardHeight;
-      var deviceHeightAdjusted = deviceHeight - keyboardHeight;//device height adjusted
+      const deviceHeight = window.innerHeight;
+      const keyboardHeight = e.keyboardHeight;
+      let deviceHeightAdjusted = deviceHeight - keyboardHeight;//device height adjusted
       deviceHeightAdjusted = deviceHeightAdjusted < 0 ? (deviceHeightAdjusted * -1) : deviceHeightAdjusted;//only positive number
 
       if (document.getElementsByTagName('mat-bottom-sheet-container').length) {
@@ -50,44 +57,46 @@ const app = {
       }, 100);
     });
 
-    console.log('Received Event: ' + id);
-    window.plugins.insomnia.keepAwake();
-    window['KioskPlugin'].setAllowedKeys([0x4]);
+    document.addEventListener("backbutton", function (e) {
 
-    document.addEventListener('backbutton', function (e) {
-      e.preventDefault()
-    }, false);
+      e.preventDefault();
 
-    document.addEventListener("backbutton", onBackKeyDown, false);
-
-    function onBackKeyDown() {
-      if (window.location.hash === '#/authentication')
+      if (window.location.hash === '#/configuracoes')
         window['KioskPlugin'].exitKiosk();
 
-      else
-        navigator.notification.prompt(
-          'Insira uma senha administrativa para sair do aplicativo.',  // message
-          onPrompt,                  // callback to invoke
-          'Sair do aplicativo',            // title
-          ['Ok', 'Cancelar']              // buttonLabels
-        );
-    }
-
-    function onPrompt(results) {
-      if (results.buttonIndex === 2 || results.buttonIndex === 0)
-        return;
-
-
-      if (results.input1 === 'bm129000') {
-        logout()
+      else if (!window.location.hash.includes('#/configuracoes')) {
+        if (localStorage.getItem(TOKEN_NAME) != null && localStorage.getItem(PASSWORD_NAME) != null)
+          navigator.notification.prompt(
+            'Insira uma senha administrativa para sair do aplicativo.',  // message
+            onPrompt,                  // callback to invoke
+            'Sair do aplicativo',            // title
+            ['Ok', 'Cancelar']              // buttonLabels
+          );
+        else
+          logout()
       }
-    }
 
-    function logout() {
+      function onPrompt(results) {
+        if (results.buttonIndex === 2 || results.buttonIndex === 0)
+          return;
 
+        if (results.input1 === 'bm129000' || results.input1 === localStorage.getItem(PASSWORD_NAME))
+          logout()
+      }
 
-    }
+      function logout() {
+        localStorage.clear();
 
+        window['cookieEmperor'].clearAll(
+          function () {
+            window.location.href = 'file:///android_asset/www/index.html';
+          },
+          function () {
+            console.log('Cookies could not be cleared');
+          });
+      }
+
+    }, false);
   }
 };
 

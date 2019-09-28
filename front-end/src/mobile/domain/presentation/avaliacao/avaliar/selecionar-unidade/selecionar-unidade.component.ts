@@ -51,7 +51,7 @@ export class SelecionarUnidadeComponent implements OnInit {
 
       // Se não tem unidades selecionadas, vai para tela de seleção de unidades
       if (!this.mobileService.dispositivo.unidades || !this.mobileService.dispositivo.unidades.length) {
-        this.router.navigate(['configuracoes/error']);
+        this.router.navigate(['error']);
         this._loadingService.resolve('overlayStarSyntax');
         return
       }

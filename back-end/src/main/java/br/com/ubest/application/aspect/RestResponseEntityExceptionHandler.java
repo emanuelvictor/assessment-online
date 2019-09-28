@@ -140,7 +140,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<Object> handleException(final javax.validation.ConstraintViolationException exception, final WebRequest request) {
         final StringBuilder message = new StringBuilder();
         //for (ConstraintViolation<?> constraint : exception.getConstraintViolations()) {
-        ConstraintViolation<?> constraint = exception.getConstraintViolations().iterator().next();
+        final ConstraintViolation<?> constraint = exception.getConstraintViolations().iterator().next();
         final String annotationType = constraint.getConstraintDescriptor().getAnnotation().annotationType().getName();
 
         /*

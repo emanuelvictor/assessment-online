@@ -1,30 +1,45 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material";
 import {CookieService} from "ngx-cookie-service";
 import {LocalStorage} from "../../../../../web/infrastructure/local-storage/local-storage";
 import {MobileService} from "../../../service/mobile.service";
+import {Agrupador} from "../../../../../web/domain/entity/avaliacao/agrupador.model";
 
 @Component({
   selector: 'mobile-error',
   templateUrl: './mobile-error.component.html',
   styleUrls: ['./mobile-error.component.css']
 })
-export class MobileErrorComponent {
+export class MobileErrorComponent implements OnInit, OnDestroy{
 
   /**
    *
-   * @param localStorage
+   */
+  private _timeout: number;
+
+  /**
+   *
+   * @param _localStorage
    * @param cookieService
    * @param router
    * @param snackBar
    * @param mobileService
    */
-  constructor(private localStorage: LocalStorage,
+  constructor(private _localStorage: LocalStorage,
               private cookieService: CookieService,
               private mobileService: MobileService,
               private router: Router, public snackBar: MatSnackBar) {
 
+  }
+
+  /**
+   *
+   */
+  ngOnInit(): void {
+    this._timeout = MobileService.setTimeout(() => {
+      this.tryAgain()
+    }, 30000);
   }
 
   /**
@@ -61,7 +76,16 @@ export class MobileErrorComponent {
    *
    */
   logout() {
-    this.router.navigate(['/configuracoes/authenticate']);
+    if (this._localStorage.senha)
+      this.router.navigate(['/configuracoes/authenticate']);
+    else
+      this.router.navigate(['/configuracoes'])
   }
 
+  /**
+   *
+   */
+  ngOnDestroy(): void {
+    clearTimeout(this._timeout)
+  }
 }
