@@ -114,11 +114,13 @@ export class UnidadeFormComponent implements OnInit {
     if (valid) {
       const unidade = Object.assign({}, this.unidade);
       unidade.endereco = Object.assign({}, this.unidade.endereco);
-      unidade.endereco.cidade = Object.assign({}, this.unidade.endereco.cidade);
-      unidade.endereco.cidade.estado = Object.assign({}, this.unidade.endereco.cidade.estado);
-      unidade.endereco.cidade.estado.pais = Object.assign({}, this.unidade.endereco.cidade.estado.pais);
-      if (unidade.endereco.cidade && (!unidade.endereco.cidade.nome || !unidade.endereco.cidade.nome.length))
-        unidade.endereco.cidade = null;
+      if (this.unidade.endereco){
+        unidade.endereco.cidade = Object.assign({}, this.unidade.endereco.cidade);
+        unidade.endereco.cidade.estado = Object.assign({}, this.unidade.endereco.cidade.estado);
+        unidade.endereco.cidade.estado.pais = Object.assign({}, this.unidade.endereco.cidade.estado.pais);
+        if (unidade.endereco.cidade && (!unidade.endereco.cidade.nome || !unidade.endereco.cidade.nome.length))
+          unidade.endereco.cidade = null;
+      }
       this.save.emit(unidade);
     }
   }

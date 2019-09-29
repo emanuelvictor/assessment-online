@@ -18,7 +18,7 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Data
 @Entity
 @Audited
-@Table(uniqueConstraints = {
+@Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
         @UniqueConstraint(columnNames = {"quantidade_avaliacoes", "valor_avaliacoes_excedentes", "valor_mensal"})
 })
 @EqualsAndHashCode(callSuper = true)
@@ -54,5 +54,13 @@ public class Plano extends AbstractEntity implements Serializable {
      *
      */
     public Plano() {
+    }
+
+    /**
+     *
+     * @param id
+     */
+    public Plano(Long id) {
+        super(id);
     }
 }

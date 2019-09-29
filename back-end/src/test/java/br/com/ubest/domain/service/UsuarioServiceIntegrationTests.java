@@ -10,6 +10,6 @@ public class UsuarioServiceIntegrationTests extends AbstractIntegrationTests {
 
     @Test
     public void bootstrapTemplate() {
-        usuarioService.bootstrapTemplate();
+        usuarioService.bootstrapTemplate(true);
     }
 }

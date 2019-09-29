@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface UnidadeTipoAvaliacaoDispositivoRepository extends JpaRepository<UnidadeTipoAvaliacaoDispositivo, Long> {
 
 //    @Query("FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE " +
@@ -64,4 +66,10 @@ public interface UnidadeTipoAvaliacaoDispositivoRepository extends JpaRepository
                                                         @Param("withAvaliaveis") final Boolean withAvaliaveis,
                                                         final Pageable pageable);
 
+    /**
+     *
+     * @param id
+     * @return
+     */
+     List<UnidadeTipoAvaliacaoDispositivo> findAllByUnidadeTipoAvaliacaoId(final long id);
 }

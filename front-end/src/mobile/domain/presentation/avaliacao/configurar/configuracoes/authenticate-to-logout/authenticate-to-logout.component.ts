@@ -10,6 +10,7 @@ import {viewAnimation} from "../../../../../../../web/domain/presentation/contro
 import {environment} from "../../../../../../../environments/environment";
 import {DomSanitizer} from "@angular/platform-browser";
 import {LocalStorage} from "../../../../../../../web/infrastructure/local-storage/local-storage";
+import {Dispositivo} from "../../../../../../../web/domain/entity/avaliacao/dispositivo.model";
 
 @Component({
   selector: 'authenticate-to-logout',
@@ -56,7 +57,6 @@ export class AuthenticateToLogoutComponent implements OnInit {
    * @param {Router} router
    */
   constructor(private _sanitizer: DomSanitizer,
-              private _localStorage: LocalStorage,
               private mobileService: MobileService,
               private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
@@ -67,13 +67,19 @@ export class AuthenticateToLogoutComponent implements OnInit {
   /**
    *
    */
-  ngOnInit(): void {
-    // Se não tem senha ou não tem o dispositivo
-    if (!this._localStorage.senha || !this.mobileService.dispositivo || !this.mobileService.dispositivo.numeroLicenca)
-      this.router.navigate(['/configuracoes']);
+  ngOnInit() {
 
     // Registra o loading.
     this._loadingService.register('overlayStarSyntax');
+
+    // Se não tem senha ou não tem o dispositivo
+    if (!this.mobileService.token) {
+
+      // Resolve o loading
+      this._loadingService.resolve('overlayStarSyntax');
+
+      this.router.navigate(['/configuracoes'])
+    }
 
     // Reinicia o timeout
     this.mobileService.restartTimeout();
@@ -87,21 +93,24 @@ export class AuthenticateToLogoutComponent implements OnInit {
       // Restarta o timeout
       this.mobileService.restartTimeout();
 
-      if (model && model.length)
-        if (model.length === 6){
+      if (model && model.length) {
+        if (model.length === 6 || model.length === 8) {
           // Registra o loading.
           this._loadingService.register('overlayStarSyntax');
           this.mobileService.logout(model).then(() => {
             this.mobileService.agrupador = new Agrupador();
-            this.router.navigate(['/configuracoes']);
+
             // Resolve o loading
-            this._loadingService.resolve('overlayStarSyntax')
+            this._loadingService.resolve('overlayStarSyntax');
+
+            this.router.navigate(['/configuracoes'])
           }).catch(error => {
             this.error(error);
             // Resolve o loading
             this._loadingService.resolve('overlayStarSyntax');
           })
         }
+      }
 
     })
   }
@@ -113,8 +122,8 @@ export class AuthenticateToLogoutComponent implements OnInit {
     // Registra o loading.
     this._loadingService.register('overlayStarSyntax');
     this.mobileService.agrupador = new Agrupador();
-    this.mobileService.requestDispositivoAutenticada().toPromise().then( result => {
-      if(result){
+    this.mobileService.requestDispositivoAutenticada().toPromise().then(result => {
+      if (result) {
         this.mobileService.dispositivo = result;
         this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
         // Resolve o loading
@@ -124,7 +133,7 @@ export class AuthenticateToLogoutComponent implements OnInit {
         // Resolve o loading
         this._loadingService.resolve('overlayStarSyntax')
       }
-    }).catch( () => {
+    }).catch(() => {
       this.router.navigate(['/error']);
       // Resolve o loading
       this._loadingService.resolve('overlayStarSyntax')
@@ -136,14 +145,6 @@ export class AuthenticateToLogoutComponent implements OnInit {
    * @param image
    */
   getBackground(image) {
-    return this._sanitizer.bypassSecurityTrustStyle(`url(${image})`)
-  }
-
-  /**
-   *
-   * @param image
-   */
-  getLogomarca(image) {
     return this._sanitizer.bypassSecurityTrustStyle(`url(${image})`)
   }
 

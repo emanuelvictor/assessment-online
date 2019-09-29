@@ -1,13 +1,15 @@
 package br.com.ubest.domain.entity.avaliacao;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
 @Entity
@@ -37,7 +39,20 @@ public class TipoAvaliacao extends AbstractEntity implements Serializable {
 
     private String cinco;
 
+//    /**
+//     *
+//     */
+//    @EqualsAndHashCode.Exclude
+//    @OneToMany(targetEntity = UnidadeTipoAvaliacao.class, mappedBy = "tipoAvaliacao", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+//    private Set<UnidadeTipoAvaliacao> unidadesTiposAvaliacoes;
 
+    /**
+     *
+     * @param id
+     * @param nome
+     * @param enunciado
+     * @param selecao
+     */
     public TipoAvaliacao(final Long id, final String nome, final String enunciado, final String selecao) {
         super(id);
         this.nome = nome;

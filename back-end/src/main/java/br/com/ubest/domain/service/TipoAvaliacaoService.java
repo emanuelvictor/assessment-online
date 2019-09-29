@@ -1,7 +1,11 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
+import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
+import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import br.com.ubest.domain.repository.TipoAvaliacaoRepository;
+import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
+import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,35 +20,80 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TipoAvaliacaoService {
 
-    private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
-
+    /**
+     *
+     */
     private final TipoAvaliacaoRepository tipoAvaliacaoRepository;
 
+    /**
+     *
+     */
+    private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
+
+    /**
+     *
+     */
+    private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
+
+    /**
+     * @param id
+     * @return
+     */
     public Optional<TipoAvaliacao> findById(final long id) {
         return this.tipoAvaliacaoRepository.findById(id);
     }
 
+    /**
+     * @param tipoTipoAvaliacao
+     * @return
+     */
     public TipoAvaliacao save(final TipoAvaliacao tipoTipoAvaliacao) {
         return this.tipoAvaliacaoRepository.save(tipoTipoAvaliacao);
     }
 
+    /**
+     * @param id
+     * @param tipoTipoAvaliacao
+     * @return
+     */
     public TipoAvaliacao save(final long id, final TipoAvaliacao tipoTipoAvaliacao) {
         Assert.isTrue(id > 0, "ID da avaliação incorreto"); //TODO fazer o validador exclusivo
         return this.tipoAvaliacaoRepository.save(tipoTipoAvaliacao);
     }
 
+    /**
+     * @param id
+     */
     @Transactional
     public void delete(final long id) {
 
-        this.unidadeTipoAvaliacaoService.delete(this.unidadeTipoAvaliacaoService.findAllByTipoAvaliacaoId(id));
+        final List<UnidadeTipoAvaliacao> unidadesTiposAvaliacoes = this.unidadeTipoAvaliacaoService.findAllByTipoAvaliacaoId(id);
+
+        unidadesTiposAvaliacoes.forEach(unidadeTipoAvaliacao -> {
+            this.unidadeTipoAvaliacaoDispositivoRepository.deleteAll(this.unidadeTipoAvaliacaoDispositivoRepository.findAllByUnidadeTipoAvaliacaoId(id));
+        });
+
+        this.unidadeTipoAvaliacaoService.delete(unidadesTiposAvaliacoes);
 
         this.tipoAvaliacaoRepository.deleteById(id);
     }
 
+    /**
+     * @param defaultFilter
+     * @param unidadesFilter
+     * @param pageable
+     * @return
+     */
     public Page<TipoAvaliacao> listByFilters(final String defaultFilter, final List<Long> unidadesFilter, final Pageable pageable) {
         return this.tipoAvaliacaoRepository.listByFilters(defaultFilter, unidadesFilter, pageable);
     }
 
+    /**
+     * @param defaultFilter
+     * @param idsFilter
+     * @param pageable
+     * @return
+     */
     public Page<TipoAvaliacao> listLightByFilters(final String defaultFilter, final List<Long> idsFilter, final Pageable pageable) {
         return this.tipoAvaliacaoRepository.listLightByFilters(defaultFilter, idsFilter, pageable);
     }

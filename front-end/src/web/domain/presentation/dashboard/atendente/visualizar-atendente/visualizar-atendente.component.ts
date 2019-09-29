@@ -14,11 +14,15 @@ import {Unidade} from "../../../../entity/unidade/unidade.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../repository/unidade-tipo-avaliacao.repository";
 import {UnidadeTipoAvaliacaoDispositivo} from "../../../../entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model";
 import {UnidadeTipoAvaliacaoDispositivoRepository} from "../../../../repository/unidade-tipo-avaliacao-dispositivo.repository";
+import {viewAnimation} from "../../../controls/utils";
 
 @Component({
   selector: 'visualizar-atendente',
   templateUrl: './visualizar-atendente.component.html',
-  styleUrls: ['./visualizar-atendente.component.scss']
+  styleUrls: ['./visualizar-atendente.component.scss'],
+  animations: [
+    viewAnimation
+  ]
 })
 export class VisualizarAtendenteComponent implements OnInit {
 

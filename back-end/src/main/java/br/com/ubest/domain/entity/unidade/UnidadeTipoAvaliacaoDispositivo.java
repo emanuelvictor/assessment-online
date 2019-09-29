@@ -34,6 +34,7 @@ public class UnidadeTipoAvaliacaoDispositivo extends AbstractEntity implements S
      *
      */
     @ManyToOne(optional = false)
+    @JoinColumn(name = "unidade_tipo_avaliacao_id")
     private UnidadeTipoAvaliacao unidadeTipoAvaliacao;
 
     /**

@@ -25,7 +25,7 @@ export class AlterarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @type {Colaborador}
+   * @type {Usuario}
    */
   atendente: Usuario = new Usuario();
 
@@ -68,7 +68,7 @@ export class AlterarAtendenteComponent implements OnInit {
     this.usuarioService.save(atendente).then(result => {
       atendente = result;
       this._loadingService.resolve('overlayStarSyntax');
-      this.success('Item Avaliável alterado com sucesso');
+      this.success('Item Avaliável alterado com sucesso')
     })
   }
 
@@ -78,7 +78,7 @@ export class AlterarAtendenteComponent implements OnInit {
    */
   public success(message: string) {
     this.openSnackBar(message);
-    this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+    this.router.navigate(['../'], {relativeTo: this.activatedRoute})
   }
 
   /**
@@ -88,6 +88,6 @@ export class AlterarAtendenteComponent implements OnInit {
   public openSnackBar(message: string) {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
-    });
+    })
   }
 }

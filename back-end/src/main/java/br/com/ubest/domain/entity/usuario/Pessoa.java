@@ -34,15 +34,27 @@ public class Pessoa extends AbstractEntity implements Serializable {
     @Column(unique = true)
     protected String documento;
 
+    /**
+     *
+     */
     @Transient
     protected Object media;
 
+    /**
+     *
+     */
     @Transient
     protected long quantidadeAvaliacoes;
 
+    /**
+     *
+     */
     @Transient
     protected long avaliacoes1;
 
+    /**
+     *
+     */
     @Transient
     protected long avaliacoes2;
 

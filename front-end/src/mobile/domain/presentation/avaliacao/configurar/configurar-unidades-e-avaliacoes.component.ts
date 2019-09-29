@@ -57,10 +57,16 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   /**
    *
    */
-  ngOnInit(): void {
+  async ngOnInit() {
     // Se tem o token, destroy o token e os cookies
-    if (this.mobileService.token) {
+    if (this.mobileService.token && !this.mobileService.senha) {
       this.mobileService.destroyCookies();
+    } else if (this.mobileService.token && this.mobileService.senha) {
+      const dispositivo: Dispositivo = (await this.mobileService.gedispositivo());
+      if (dispositivo && dispositivo.numeroLicenca) {
+        this.router.navigate(['/avaliar/' + dispositivo.numeroLicenca]);
+        return
+      }
     }
 
     // Zera o agrupador
@@ -90,25 +96,28 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
         if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
 
-          if (!result.emUso)
+          if (!result.emUso) {
             this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie).subscribe(resulted => {
-              if (resulted.interna)
+              if (resulted.interna) {
                 this.mobileService.dispositivo = resulted;
-              else
+              } else {
                 this.error('Essa licença é para uso externo!')
+              }
             });
-          else
+          } else {
             this.error('Licença sendo utilizada em outro dispositivo!')
+          }
 
         }
 
       }
       // Se não, então deve procurar avaliações públicas (externas)
       else {
-        if (!result.interna)
+        if (!result.interna) {
           this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
-        else
+        } else {
           this.error('Essa licença é para uso interno!')
+        }
       }
 
     })
@@ -142,9 +151,11 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    * @param {string} $event
    */
   public inputNumeroLicencaChanged($event) {
-    if ($event && $event.length)
-      if ($event.length === 6)
+    if ($event && $event.length) {
+      if ($event.length === 6) {
         this.authenticate($event)
+      }
+    }
   }
 
   /**
@@ -152,11 +163,13 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    * @param {string} $event
    */
   public inputSenhaChanged($event) {
-    if ($event && $event.length)
-      if ($event.length === 6)
+    if ($event && $event.length) {
+      if ($event.length === 6) {
         this.mobileService.authenticate(this.mobileService.dispositivo.numeroLicenca, $event).then(() => {
           this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
         })
+      }
+    }
   }
 
   /**

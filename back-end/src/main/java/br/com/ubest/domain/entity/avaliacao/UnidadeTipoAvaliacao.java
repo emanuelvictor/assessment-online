@@ -2,12 +2,15 @@ package br.com.ubest.domain.entity.avaliacao;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import br.com.ubest.domain.entity.unidade.Unidade;
+import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
 @Entity
@@ -33,6 +36,7 @@ public class UnidadeTipoAvaliacao extends AbstractEntity implements Serializable
      */
     @NotNull
     @ManyToOne(optional = false)
+    @JoinColumn(name = "tipo_avaliacao_id")
     private TipoAvaliacao tipoAvaliacao;
 
     /**
@@ -41,6 +45,13 @@ public class UnidadeTipoAvaliacao extends AbstractEntity implements Serializable
     @NotNull
     @ManyToOne(optional = false)
     private Unidade unidade;
+
+//    /**
+//     *
+//     */
+//    @EqualsAndHashCode.Exclude
+//    @OneToMany(targetEntity = UnidadeTipoAvaliacaoDispositivo.class, mappedBy = "unidadeTipoAvaliacao", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+//    private Set<UnidadeTipoAvaliacaoDispositivo> unidadesTiposAvaliacoesDispositivo;
 
     /**
      *
