@@ -3,7 +3,6 @@ import {Router} from '@angular/router';
 import {MobileService} from '../../../../service/mobile.service';
 import {MatSnackBar} from "@angular/material";
 import {Configuracao} from "../../../../../../web/domain/entity/configuracao/configuracao.model";
-import {TdLoadingService} from "@covalent/core";
 import {Unidade} from "../../../../../../web/domain/entity/unidade/unidade.model";
 import {viewAnimation} from "../../../../../../web/domain/presentation/controls/utils";
 
@@ -27,10 +26,8 @@ export class SelecionarUnidadeComponent implements OnInit {
    * @param {Router} router
    * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
-   * @param _loadingService
    */
-  constructor(private mobileService: MobileService,
-              private _loadingService: TdLoadingService,
+  constructor(public mobileService: MobileService,
               private router: Router, private snackBar: MatSnackBar) {
   }
 
@@ -43,7 +40,7 @@ export class SelecionarUnidadeComponent implements OnInit {
     this.mobileService.clearTimeout();
 
     // Registra o loading.
-    this._loadingService.register('overlayStarSyntax');
+    this.mobileService.register('overlayStarSyntax');
 
     // Requisita configuração.
     this.mobileService.requestConfiguracao.then(configuracao => {
@@ -52,14 +49,14 @@ export class SelecionarUnidadeComponent implements OnInit {
       // Se não tem unidades selecionadas, vai para tela de seleção de unidades
       if (!this.mobileService.dispositivo.unidades || !this.mobileService.dispositivo.unidades.length) {
         this.router.navigate(['error']);
-        this._loadingService.resolve('overlayStarSyntax');
+        this.mobileService.resolve('overlayStarSyntax');
         return
       }
 
       // Se só tem uma unidade selecionada, passa direito e vai pra tela de avaliação
       if (this.mobileService.dispositivo.unidades.length === 1) {
         this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + this.mobileService.dispositivo.unidades[0].id + '/ordem/1']);
-        this._loadingService.resolve('overlayStarSyntax');
+        this.mobileService.resolve('overlayStarSyntax');
         return
       }
 
@@ -68,7 +65,7 @@ export class SelecionarUnidadeComponent implements OnInit {
 
       // Caso tenha unidades a selecionar, e a quantidade seja maior que 1
       // Remove loading
-      this._loadingService.resolve('overlayStarSyntax')
+      this.mobileService.resolve('overlayStarSyntax')
     })
   }
 

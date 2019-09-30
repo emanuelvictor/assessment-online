@@ -6,7 +6,6 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {UnidadeTipoAvaliacao} from "../../../../../../../../web/domain/entity/avaliacao/unidade-tipo-avaliacao.model";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
 import {AvaliavelRepository} from "../../../../../../../../web/domain/repository/avaliavel.repository";
-import {TdLoadingService} from "@covalent/core";
 import {AbstractComponent} from "../../abstract/abstract.component";
 import {Avaliacao} from "../../../../../../../../web/domain/entity/avaliacao/avaliacao.model";
 import {viewAnimation} from "../../../../../../../../web/domain/presentation/controls/utils";
@@ -45,19 +44,17 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
    * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
    * @param {ActivatedRoute} activatedRoute
-   * @param _loadingService
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    */
-  constructor(public _loadingService: TdLoadingService,
-              private avaliavelRepository: AvaliavelRepository,
+  constructor(private avaliavelRepository: AvaliavelRepository,
               public activatedRoute: ActivatedRoute, private router: Router,
               public mobileService: MobileService, public snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
-    super(snackBar, mobileService, _loadingService)
+    super(snackBar, mobileService)
   }
 
   /**
@@ -74,7 +71,7 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
     // Se não tem unidades selecionadas vai para tela de selação de unidades
     if (!this.mobileService.dispositivo.unidades || !this.mobileService.dispositivo.unidades.length) {
       this.router.navigate(['configuracoes']);
-      this._loadingService.resolve('overlayStarSyntax');
+      this.mobileService.resolve('overlayStarSyntax');
       return
     }
 
@@ -84,14 +81,14 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
     // Se não tem unidades selecionadas vai para tela de selação de unidades
     if (!this.mobileService.dispositivo.unidadesTiposAvaliacoesDispositivo || !this.mobileService.dispositivo.unidadesTiposAvaliacoesDispositivo.length) {
       this.router.navigate(['configuracoes']);
-      this._loadingService.resolve('overlayStarSyntax');
+      this.mobileService.resolve('overlayStarSyntax');
       return
     }
 
     // Se não tem unidadeId, então retorna para seleção de unidade.
     if (!this.activatedRoute.parent.snapshot.params.ordem) {
       this.router.navigate(['configuracoes']);
-      this._loadingService.resolve('overlayStarSyntax');
+      this.mobileService.resolve('overlayStarSyntax');
       return
     }
 
@@ -108,7 +105,7 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
     // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
     if (!this.activatedRoute.parent.parent.snapshot.params.unidadeId) {
       this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
-      this._loadingService.resolve('overlayStarSyntax');
+      this.mobileService.resolve('overlayStarSyntax');
       return
     }
 
@@ -117,14 +114,14 @@ export class SelecionarNotaComponent extends AbstractComponent implements OnInit
       return unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id === +this.activatedRoute.parent.parent.snapshot.params.unidadeId && unidadeTipoAvaliacaoDispositivo.ordem === +this.activatedRoute.parent.snapshot.params.ordem
     })[0];
 
-    // Resolve o loading.
-    this._loadingService.resolve('overlayStarSyntax');
-
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'))
+    this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
+
+    // Resolve o loading.
+    this.mobileService.resolve('overlayStarSyntax');
 
   }
 

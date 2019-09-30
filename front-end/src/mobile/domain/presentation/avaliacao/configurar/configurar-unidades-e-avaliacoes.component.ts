@@ -49,7 +49,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    * @param snackBar
    */
   constructor(private _sanitizer: DomSanitizer,
-              private mobileService: MobileService,
+              public mobileService: MobileService,
               private snackBar: MatSnackBar, private router: Router,
               private configuracaoRepository: ConfiguracaoRepository) {
   }

@@ -4,14 +4,13 @@ import {MatSnackBar} from "@angular/material";
 import {CookieService} from "ngx-cookie-service";
 import {LocalStorage} from "../../../../../web/infrastructure/local-storage/local-storage";
 import {MobileService} from "../../../service/mobile.service";
-import {Agrupador} from "../../../../../web/domain/entity/avaliacao/agrupador.model";
 
 @Component({
   selector: 'mobile-error',
   templateUrl: './mobile-error.component.html',
   styleUrls: ['./mobile-error.component.css']
 })
-export class MobileErrorComponent implements OnInit, OnDestroy{
+export class MobileErrorComponent implements OnInit, OnDestroy {
 
   /**
    *
@@ -38,7 +37,8 @@ export class MobileErrorComponent implements OnInit, OnDestroy{
    */
   ngOnInit(): void {
     this._timeout = MobileService.setTimeout(() => {
-      this.tryAgain()
+      this.tryAgain();
+      return 30000
     }, 30000);
   }
 

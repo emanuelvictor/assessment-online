@@ -4,13 +4,10 @@ import {MobileService} from "../../../../../service/mobile.service";
 import {Router} from "@angular/router";
 import {Agrupador} from "../../../../../../../web/domain/entity/avaliacao/agrupador.model";
 import {FormBuilder} from "@angular/forms";
-import {TdLoadingService} from "@covalent/core";
 import {Subject} from "rxjs";
 import {viewAnimation} from "../../../../../../../web/domain/presentation/controls/utils";
 import {environment} from "../../../../../../../environments/environment";
 import {DomSanitizer} from "@angular/platform-browser";
-import {LocalStorage} from "../../../../../../../web/infrastructure/local-storage/local-storage";
-import {Dispositivo} from "../../../../../../../web/domain/entity/avaliacao/dispositivo.model";
 
 @Component({
   selector: 'authenticate-to-logout',
@@ -47,10 +44,8 @@ export class AuthenticateToLogoutComponent implements OnInit {
   /**
    *
    * @param _sanitizer
-   * @param _localStorage
    * @param fb
    * @param {MobileService} mobileService
-   * @param _loadingService
    * @param element
    * @param renderer
    * @param snackBar
@@ -58,7 +53,6 @@ export class AuthenticateToLogoutComponent implements OnInit {
    */
   constructor(private _sanitizer: DomSanitizer,
               private mobileService: MobileService,
-              private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
               private router: Router, private renderer: Renderer,
               private snackBar: MatSnackBar, private fb: FormBuilder) {
@@ -70,13 +64,13 @@ export class AuthenticateToLogoutComponent implements OnInit {
   ngOnInit() {
 
     // Registra o loading.
-    this._loadingService.register('overlayStarSyntax');
+    this.mobileService.register('overlayStarSyntax');
 
     // Se não tem senha ou não tem o dispositivo
     if (!this.mobileService.token) {
 
       // Resolve o loading
-      this._loadingService.resolve('overlayStarSyntax');
+      this.mobileService.resolve('overlayStarSyntax');
 
       this.router.navigate(['/configuracoes'])
     }
@@ -85,7 +79,7 @@ export class AuthenticateToLogoutComponent implements OnInit {
     this.mobileService.restartTimeout();
 
     // Resolve o loading
-    this._loadingService.resolve('overlayStarSyntax');
+    this.mobileService.resolve('overlayStarSyntax');
 
     // Debounce da digitação, toda vez que o usuário digita alguma coisa, depois de 300 milisegundos ele executa isso.
     this.modelChanged.debounceTime(300).subscribe(model => {
@@ -96,18 +90,18 @@ export class AuthenticateToLogoutComponent implements OnInit {
       if (model && model.length) {
         if (model.length === 6 || model.length === 8) {
           // Registra o loading.
-          this._loadingService.register('overlayStarSyntax');
+          this.mobileService.register('overlayStarSyntax');
           this.mobileService.logout(model).then(() => {
             this.mobileService.agrupador = new Agrupador();
 
             // Resolve o loading
-            this._loadingService.resolve('overlayStarSyntax');
+            this.mobileService.resolve('overlayStarSyntax');
 
             this.router.navigate(['/configuracoes'])
           }).catch(error => {
             this.error(error);
             // Resolve o loading
-            this._loadingService.resolve('overlayStarSyntax');
+            this.mobileService.resolve('overlayStarSyntax');
           })
         }
       }
@@ -120,23 +114,23 @@ export class AuthenticateToLogoutComponent implements OnInit {
    */
   cancelar() {
     // Registra o loading.
-    this._loadingService.register('overlayStarSyntax');
+    this.mobileService.register('overlayStarSyntax');
     this.mobileService.agrupador = new Agrupador();
     this.mobileService.requestDispositivoAutenticada().toPromise().then(result => {
       if (result) {
         this.mobileService.dispositivo = result;
         this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
         // Resolve o loading
-        this._loadingService.resolve('overlayStarSyntax')
+        this.mobileService.resolve('overlayStarSyntax')
       } else {
         this.router.navigate(['/error']);
         // Resolve o loading
-        this._loadingService.resolve('overlayStarSyntax')
+        this.mobileService.resolve('overlayStarSyntax')
       }
     }).catch(() => {
       this.router.navigate(['/error']);
       // Resolve o loading
-      this._loadingService.resolve('overlayStarSyntax')
+      this.mobileService.resolve('overlayStarSyntax')
     })
   }
 

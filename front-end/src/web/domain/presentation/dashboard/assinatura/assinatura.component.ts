@@ -49,7 +49,7 @@ export class AssinaturaComponent implements OnInit {
   /**
    *
    */
-  private publicKey: string;
+  public publicKey: string;
 
   /**
    *

@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TdLoadingService} from "@covalent/core";
 import {MobileService} from "../../../../../service/mobile.service";
 import {AbstractComponent} from "../abstract/abstract.component";
 import {MatSnackBar} from "@angular/material";
@@ -26,14 +25,12 @@ export class ConclusaoComponent extends AbstractComponent implements OnInit {
    * @param agrupadorRepository
    * @param mobileService
    * @param activatedRoute
-   * @param {TdLoadingService} _loadingService
    */
   constructor(public snackBar: MatSnackBar,
               private activatedRoute: ActivatedRoute,
-              public _loadingService: TdLoadingService,
               private agrupadorRepository: AgrupadorRepository,
               private router: Router, public mobileService: MobileService) {
-    super(snackBar, mobileService, _loadingService)
+    super(snackBar, mobileService)
   }
 
   /**
@@ -56,9 +53,9 @@ export class ConclusaoComponent extends AbstractComponent implements OnInit {
 
     // Salva o agrupador, e as avaliações com seus avaliaveis por cascade.
     this.agrupadorRepository.save(agrupador).then(() => {
-      this._loadingService.resolve('overlayStarSyntax')
+      this.mobileService.resolve('overlayStarSyntax')
     }).catch(() => {
-      this._loadingService.resolve('overlayStarSyntax')
+      this.mobileService.resolve('overlayStarSyntax')
     })
     // // Workarround
     // // Tempo de espera padrão para concluir o timeout.

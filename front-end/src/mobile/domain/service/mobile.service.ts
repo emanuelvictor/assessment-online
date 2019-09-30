@@ -40,7 +40,7 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  private _numeroSerie: string = '133131';
+  private _numeroSerie: string = '606437';
 
   /**
    *
@@ -213,6 +213,22 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   get token(): string {
     return this._localStorage.token
+  }
+
+  /**
+   *
+   * @param identifier
+   */
+  public register(identifier: string){
+    this._loadingService.register(identifier)
+  }
+
+  /**
+   *
+   * @param identifier
+   */
+  public resolve(identifier: string) {
+    this._loadingService.resolve(identifier)
   }
 
   /**

@@ -4,7 +4,6 @@ import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {MobileService} from "../../../../../../service/mobile.service";
 import {AvaliavelRepository} from "../../../../../../../../web/domain/repository/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
-import {TdLoadingService} from "@covalent/core";
 import {AbstractComponent} from "../../abstract/abstract.component";
 import {AvaliacaoAvaliavel} from "../../../../../../../../web/domain/entity/avaliacao/avaliacao-avaliavel.model";
 import {viewAnimation} from "../../../../../../../../web/domain/presentation/controls/utils";
@@ -47,23 +46,20 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
    * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
    * @param {ActivatedRoute} activatedRoute
-   * @param {TdLoadingService} _loadingService
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
-  constructor(public _loadingService: TdLoadingService,
-              private avaliavelRepository: AvaliavelRepository,
+  constructor(private avaliavelRepository: AvaliavelRepository,
               public mobileService: MobileService, private router: Router,
               public activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
-    super(snackBar, mobileService, _loadingService)
+    super(snackBar, mobileService)
   }
 
   /**
    *
    */
   ngOnInit() {
-
     // Se não tem avaliações, ou seja, deu F5, então vai pra tela inicial.
     if (!this.mobileService.agrupador.avaliacoes || !this.mobileService.agrupador.avaliacoes.length || this.mobileService.agrupador.avaliacoes.length !== +this.activatedRoute.parent.snapshot.params.ordem) {
       this.mobileService.agrupador = new Agrupador();
@@ -73,7 +69,7 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
     // Se não tem unidades selecionadas vai para tela de selação de unidades
     if (!this.mobileService.dispositivo.unidades || !this.mobileService.dispositivo.unidades.length) {
       this.router.navigate(['configuracoes']);
-      this._loadingService.resolve('overlayStarSyntax');
+      this.mobileService.resolve('overlayStarSyntax');
       return
     }
 
@@ -83,7 +79,7 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
     // Se não tem unidades selecionadas vai para tela de selação de unidades
     if (!this.mobileService.dispositivo.unidadesTiposAvaliacoesDispositivo || !this.mobileService.dispositivo.unidadesTiposAvaliacoesDispositivo.length) {
       this.router.navigate(['configuracoes']);
-      this._loadingService.resolve('overlayStarSyntax');
+      this.mobileService.resolve('overlayStarSyntax');
       return
     }
 
@@ -93,14 +89,14 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
     // Se não tem unidadeId, então retorna para seleção de unidade. //TODO pode estar no abstract
     if (!this.activatedRoute.parent.snapshot.params.ordem) {
       this.router.navigate(['configuracoes']);
-      this._loadingService.resolve('overlayStarSyntax');
+      this.mobileService.resolve('overlayStarSyntax');
       return
     }
 
     // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas. //TODO pode estar no abstract
     if (!this.activatedRoute.parent.parent.snapshot.params.unidadeId) {
       this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
-      this._loadingService.resolve('overlayStarSyntax');
+      this.mobileService.resolve('overlayStarSyntax');
       return
     }
 
@@ -133,7 +129,7 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
     }
 
     // Resolve loading.
-    this._loadingService.resolve('overlayStarSyntax')
+    this.mobileService.resolve('overlayStarSyntax')
   }
 
   /**

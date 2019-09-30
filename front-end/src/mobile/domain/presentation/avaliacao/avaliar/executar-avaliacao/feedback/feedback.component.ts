@@ -46,16 +46,15 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
    * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
    * @param {ActivatedRoute} activatedRoute
-   * @param {TdLoadingService} _loadingService
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
   constructor(private avaliavelRepository: AvaliavelRepository,
               private fb: FormBuilder, public snackBar: MatSnackBar,
-              public _loadingService: TdLoadingService, private router: Router,
+              private router: Router,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               public mobileService: MobileService, public activatedRoute: ActivatedRoute) {
-    super(snackBar, mobileService, _loadingService);
+    super(snackBar, mobileService);
   }
 
   /**
@@ -114,7 +113,7 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
     }
 
     // Retirar o loading
-    this._loadingService.resolve('overlayStarSyntax')
+    this.mobileService.resolve('overlayStarSyntax')
   }
 
   /**

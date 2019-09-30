@@ -1,5 +1,5 @@
-alter table dispositivo add column numero_serie varchar(6);
-alter table dispositivo_aud add column numero_serie varchar(6);
+alter table dispositivo add column numero_serie varchar;
+alter table dispositivo_aud add column numero_serie varchar;
 
 alter table dispositivo
     drop constraint if exists UK_numero_serie;
