@@ -81,11 +81,8 @@ public class DispositivoService {
         // Pega o dispositivo da base
         final Dispositivo dispositivo = this.getDispositivo(id);
 
-        // Se está passando o número de série, então está tentando se conectar administrativamente
-        if (numeroSerie != null) {
-
-            // Valida se o dispositivo é externo
-            Assert.isTrue(dispositivo.isInterna(), "A licença é para uso externo");
+        // Se está passando o número de série e o dispositivo é interno, então está tentando se conectar administrativamente
+        if (numeroSerie != null && dispositivo.isInterna()) {
 
             // Valida se o dispositivo está em uso
             Assert.isTrue(!dispositivo.isEmUso(), "A licença está em uso");
@@ -151,6 +148,7 @@ public class DispositivoService {
      */
     @Transactional
     public Dispositivo save(final Dispositivo dispositivo) {
+        this.tenantIdentifierResolver.setSchema(dispositivo.getTenant());
         return this.dispositivoRepository.save(dispositivo);
     }
 
@@ -160,7 +158,7 @@ public class DispositivoService {
      * @param exchange
      * @return
      */
-    public Dispositivo authenticate(final long numeroLicenca, final String senha, final ServerWebExchange exchange) {
+    public Dispositivo authenticate(final long numeroLicenca, final String numeroSerie, final String senha, final ServerWebExchange exchange) {
 
         // Pega o dispositivo da base
         final Dispositivo dispositivo = this.dispositivoRepository.findByNumeroLicenca(numeroLicenca).orElseThrow();
@@ -168,8 +166,11 @@ public class DispositivoService {
         // Valida se o dispositivo é externo
         Assert.isTrue(dispositivo.isInterna(), "A licença é para uso externo");
 
-        // Valida se o dispositivo está em uso
-        Assert.isTrue(!dispositivo.isEmUso(), "A licença está em uso");
+        if (!dispositivo.getNumeroSerie().equals(numeroSerie)) {
+            throw new RuntimeException("Essa licença está vinculada á outro dispositivo");
+        }
+
+        dispositivo.setEmUso(true);
 
         // Valida se o usuário acertou a senha
         Assert.isTrue(dispositivo.getSenha().equals(senha), "Senha incorreta");

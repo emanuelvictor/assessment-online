@@ -30,6 +30,7 @@
     "@covalent/core": "2.0.0-beta.3",
     "@covalent/highlight": "2.0.0-beta.3",
     "@covalent/markdown": "2.0.0-beta.3",
+    "@nativescript/schematics": "^0.7.1",
     "@ngx-material-keyboard/core": "^0.1.1",
     "@nicky-lenaers/ngx-scroll-to": "^2.0.0",
     "@swimlane/ngx-charts": "^10.0.0",

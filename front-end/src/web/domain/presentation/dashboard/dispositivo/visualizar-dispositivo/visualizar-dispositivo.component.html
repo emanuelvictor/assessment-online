@@ -36,7 +36,18 @@
                       <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Tempo de espera entre as avaliações (Em segundos): {{dispositivo?.time}}</h2>
                       <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Quebrar linha durante a seleção de itens avaliáveis: {{dispositivo?.quebrarLinhaNaSelecaoDeItemAvaliavel ? 'Sim' : 'Não'}}</h2>
                       <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Número da licença: {{dispositivo?.numeroLicenca}}</h2>
-                      <h2 *ngIf='dispositivo?.senha' flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Senha: {{dispositivo?.senha}}</h2>
+                      <h2 *ngIf='dispositivo?.interna && dispositivo?.senha' flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
+                        Senha: {{dispositivo?.senha}}
+                      </h2>
+                      <div flex layout='row' *ngIf='dispositivo?.interna && dispositivo?.numeroSerie'>
+                        <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin'>
+                          Número de série vinculado: {{dispositivo?.numeroSerie}}
+                        </h2>
+                        <button mat-raised-button color='warn'>
+                          <mat-icon>block</mat-icon>
+                          <span>Desvincular</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

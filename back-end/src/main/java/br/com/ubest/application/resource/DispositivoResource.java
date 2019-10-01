@@ -55,7 +55,6 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
 
     /**
-     *
      * @param dispositivo
      * @return
      */
@@ -70,7 +69,6 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     }
 
     /**
-     *
      * @param id
      * @param dispositivo
      * @return
@@ -88,7 +86,6 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     }
 
     /**
-     *
      * @param id
      * @param unidadesTiposAvaliacoesDispositivo
      * @return
@@ -102,7 +99,6 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     }
 
     /**
-     *
      * @param id
      * @return
      */
@@ -114,7 +110,6 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     }
 
     /**
-     *
      * @param defaultFilter
      * @return
      */
@@ -126,24 +121,26 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     }
 
     /**
-     *
      * @param id
      * @param numeroSerie
      * @return
      */
     @GetMapping("{id}")
-    Mono<Optional<Dispositivo>> getDispositivo(@PathVariable final long id, @RequestParam(required = false) final String numeroSerie) {
-        return Mono.just(Optional.of(this.dispositivoService.getDispositivo(id, numeroSerie)));
+    Mono<Optional<Dispositivo>> getDispositivo(@PathVariable final String id, @RequestParam(required = false) final String numeroSerie) {
+        try {
+            return Mono.just(Optional.of(this.dispositivoService.getDispositivo(Long.parseLong(id), numeroSerie)));
+        }catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     /**
-     *
      * @param dispositivo
      * @param exchange
      * @return
      */
     @PostMapping("authenticate")
     Mono<Optional<Dispositivo>> authenticate(@RequestBody final Dispositivo dispositivo, final ServerWebExchange exchange) {
-        return Mono.just(Optional.of(this.dispositivoService.authenticate(dispositivo.getNumeroLicenca(), dispositivo.getSenha(), exchange)));
+        return Mono.just(Optional.of(this.dispositivoService.authenticate(dispositivo.getNumeroLicenca(), dispositivo.getNumeroSerie(), dispositivo.getSenha(), exchange)));
     }
 }

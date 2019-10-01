@@ -81,44 +81,31 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    * @param model
    */
-  authenticate(model) {
+  getDispositivo(model) {
 
     this.mobileService.getDispositivo(model as any).toPromise().then(result => {
 
       this.mobileService.dispositivo = Object.assign({}, result);
-      this.mobileService.dispositivo.numeroSerie = this.mobileService.numeroSerie;
 
       // Atualiza o plano de fundo
       this.requestBackground();
 
       // Se tem número de série, então está em um dispositivo físico.
-      if (this.mobileService.numeroSerie) {
+      if (result.interna) {
 
-        if (this.mobileService.dispositivo.numeroSerie !== result.numeroSerie) {
-
-          if (!result.emUso) {
-            this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie).subscribe(resulted => {
-              if (resulted.interna) {
-                this.mobileService.dispositivo = resulted;
-              } else {
-                this.error('Essa licença é para uso externo!')
-              }
-            });
-          } else {
-            this.error('Licença sendo utilizada em outro dispositivo!')
-          }
-
-        }
+        if (this.mobileService.numeroSerie !== result.numeroSerie && result.emUso)
+          this.error('Licença sendo utilizada em outro dispositivo!');
+        else if (this.mobileService.numeroSerie !== result.numeroSerie && !result.emUso)
+          this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.numeroSerie).subscribe(resulted =>
+            this.mobileService.dispositivo = resulted
+          )
 
       }
       // Se não, então deve procurar avaliações públicas (externas)
-      else {
-        if (!result.interna) {
-          this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
-        } else {
-          this.error('Essa licença é para uso interno!')
-        }
-      }
+      else if (!result.interna)
+        this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+      else
+        this.error('Essa licença é para uso interno!')
 
     })
 
@@ -153,7 +140,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   public inputNumeroLicencaChanged($event) {
     if ($event && $event.length) {
       if ($event.length === 6) {
-        this.authenticate($event)
+        this.getDispositivo($event)
       }
     }
   }
@@ -166,7 +153,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     if ($event && $event.length) {
       if ($event.length === 6) {
         this.mobileService.authenticate(this.mobileService.dispositivo.numeroLicenca, $event).then(() => {
-          this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+          this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
         })
       }
     }
@@ -185,7 +172,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.snackBar.open(message, 'Fechar', {
       duration: 5000
     })
   }

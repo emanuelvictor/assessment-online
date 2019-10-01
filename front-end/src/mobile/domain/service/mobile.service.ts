@@ -22,7 +22,6 @@ import {Dispositivo} from "../../../web/domain/entity/avaliacao/dispositivo.mode
 import {WebSocketSubject} from "rxjs/webSocket";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
-import {isNullOrUndefined} from "util";
 import {HttpClient} from "@angular/common/http";
 import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
@@ -40,7 +39,7 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  private _numeroSerie: string = '606437';
+  private _numeroSerie: string = '244537';
 
   /**
    *
@@ -106,14 +105,6 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   get numeroSerie(): string {
     return this._numeroSerie
-  }
-
-  /**
-   *
-   * @param value
-   */
-  set numeroSerie(value: string) {
-    this._numeroSerie = value
   }
 
   /**
@@ -219,7 +210,7 @@ export class MobileService implements CanActivate, CanActivateChild {
    *
    * @param identifier
    */
-  public register(identifier: string){
+  public register(identifier: string) {
     this._loadingService.register(identifier)
   }
 
@@ -254,7 +245,7 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   public authenticate(numeroLicenca: number, senha: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this._dispositivoRepository.authenticate(numeroLicenca, senha).then(result => {
+      this._dispositivoRepository.authenticate(numeroLicenca, this._numeroSerie, senha).then(result => {
 
         this.populeCookies(senha);
 
@@ -293,41 +284,30 @@ export class MobileService implements CanActivate, CanActivateChild {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | any> {
 
     return new Observable(subscriber => {
-      this.requestDispositivoAutenticada().subscribe(auth => {
 
-        this.dispositivo = auth;
-
-        // Se não tem ninguém autenticado
-        if (isNullOrUndefined(auth) && !this._numeroSerie) {
-
-          if (route.params.numeroLicenca) {
-            this.getDispositivo(route.params.numeroLicenca).subscribe(resulted => {
-
-              if (!resulted.interna) {
-                this.dispositivo = resulted;
-                subscriber.next(true)
+      if (!route.params.numeroLicenca) {
+        this.router.navigate(['configuracoes']);
+        subscriber.next(false)
+      } else {
+        this.getDispositivo(route.params.numeroLicenca).subscribe(resulted => {
+          if (!resulted) {
+            this.router.navigate(['configuracoes']);
+            subscriber.next(false)
+          } else {
+            this.dispositivo = resulted;
+            if (this.dispositivo.interna){
+              if (!this.token){
+                this.router.navigate(['configuracoes']);
+                subscriber.next(false)
               } else {
-                this.localLogout().then(() => {
-                  this.router.navigate(['configuracoes']);
-                  subscriber.next(false)
-                })
+                this.populeCookies(this.dispositivo.senha)
               }
 
-            })
-          } else {
-            this.localLogout().then(() => {
-              this.router.navigate(['configuracoes']);
-              subscriber.next(false)
-            })
+            }
+            subscriber.next(true)
           }
-
-          // Se tem alguém autenticado
-        } else {
-          this.populeCookies(this.dispositivo.senha);
-          subscriber.next(true)
-        }
-
-      })
+        })
+      }
     })
 
   }
