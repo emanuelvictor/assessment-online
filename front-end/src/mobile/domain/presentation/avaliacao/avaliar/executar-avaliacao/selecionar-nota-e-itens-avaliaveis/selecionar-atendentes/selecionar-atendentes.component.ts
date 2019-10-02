@@ -4,7 +4,6 @@ import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {MobileService} from "../../../../../../service/mobile.service";
 import {AvaliavelRepository} from "../../../../../../../../web/domain/repository/avaliavel.repository";
 import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
-import {AbstractComponent} from "../../abstract/abstract.component";
 import {AvaliacaoAvaliavel} from "../../../../../../../../web/domain/entity/avaliacao/avaliacao-avaliavel.model";
 import {viewAnimation} from "../../../../../../../../web/domain/presentation/controls/utils";
 import {Agrupador} from "../../../../../../../../web/domain/entity/avaliacao/agrupador.model";
