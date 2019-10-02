@@ -160,8 +160,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
      *
      */
     public void gerarSenhaAleatoria() {
-        if (numeroSerie != null)
-            this.senha = getRandomNumberInRange();
+        this.senha = getRandomNumberInRange();
     }
 
     /**
@@ -207,7 +206,6 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     }
 
     /**
-     *
      * @return
      */
     @Override
@@ -216,7 +214,6 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     }
 
     /**
-     *
      * @return
      */
     @Override
@@ -225,7 +222,6 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     }
 
     /**
-     *
      * @return
      */
     @Override
@@ -235,7 +231,6 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     }
 
     /**
-     *
      * @return
      */
     @Override
@@ -245,7 +240,6 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     }
 
     /**
-     *
      * @return
      */
     @Override

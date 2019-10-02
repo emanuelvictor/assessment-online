@@ -30,7 +30,7 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  private _numeroSerie: string = '244537';
+  private _numeroSerie: string = '444537';
 
   /**
    *
@@ -83,10 +83,41 @@ export class MobileService implements CanActivate, CanActivateChild {
   }
 
   /**
+   *  Pega o dispositivo no scopo do angular
+   *  Se não houver ninguém no escopo do angular pega do dispositivo autenticado
+   *  Se naõ houver nignuém no dispositivo autenticado pega pela licença
+   */
+  public async getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca(numeroLicenca?): Promise<Dispositivo | any> {
+    if (this._dispositivo && this._dispositivo.id && this._dispositivo.senha === this.senha) {
+      return new Promise((resolve) => resolve(this._dispositivo));
+    } else if (!numeroLicenca) {
+      return this._httpClient.get<Dispositivo>(environment.endpoint + 'principal')
+        .map(result => result ? this.dispositivo = result : this.dispositivo = null)
+        .catch((err: any) => err).toPromise()
+    } else {
+      return this._httpClient.get<Dispositivo>(environment.endpoint + 'dispositivos/' + numeroLicenca)
+        .map(result => result ? this.dispositivo = result : this.dispositivo = null)
+        .catch((err: any) => err).toPromise()
+    }
+  }
+
+  /**
    *
    */
-  async getDispositivoAsync() {
-    return await this.requestLocalDispositivoOrDispositivoAutenticado()
+  public requestDispositivoAutenticada(): Observable<Dispositivo | any> {
+    return this._httpClient.get<Dispositivo>(environment.endpoint + 'principal')
+      .map(result => result ? this.dispositivo = result : this.dispositivo = null)
+      .catch((err: any) => {
+
+        if (this._localStorage.token) {
+          this._router.navigate(['error']);
+        } else {
+          this.localLogout().then(() => this._router.navigate(['configuracoes']));
+        }
+
+        return err
+
+      })
   }
 
   /**
@@ -280,15 +311,15 @@ export class MobileService implements CanActivate, CanActivateChild {
 
   // ----------------------------------------------
   /**
-   *
    * Realiza a autenticação com o número da licença e a senha
    *
    * @param numeroLicenca
+   * @param numeroSerie
    * @param senha
    */
-  public authenticate(numeroLicenca: number, senha: string): Promise<any> {
+  public authenticate(numeroLicenca: number, numeroSerie, senha: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this._dispositivoRepository.authenticate(numeroLicenca, this._numeroSerie, senha).then(result => {
+      this._dispositivoRepository.authenticate(numeroLicenca, numeroSerie, senha).then(result => {
 
         this.populeCookies(senha);
 
@@ -353,38 +384,6 @@ export class MobileService implements CanActivate, CanActivateChild {
       }
     })
 
-  }
-
-  /**
-   *
-   */
-  public requestLocalDispositivoOrDispositivoAutenticado(): Promise<Dispositivo | any> {
-    if (this._dispositivo && this._dispositivo.id && this._dispositivo.senha === this.senha) {
-      return new Promise((resolve) => resolve(this._dispositivo));
-    } else {
-      return this._httpClient.get<Dispositivo>(environment.endpoint + 'principal')
-        .map(result => result ? this.dispositivo = result : this.dispositivo = null)
-        .catch((err: any) => err).toPromise()
-    }
-  }
-
-  /**
-   *
-   */
-  public requestDispositivoAutenticada(): Observable<Dispositivo | any> {
-    return this._httpClient.get<Dispositivo>(environment.endpoint + 'principal')
-      .map(result => result ? this.dispositivo = result : this.dispositivo = null)
-      .catch((err: any) => {
-
-        if (this._localStorage.token) {
-          this._router.navigate(['error']);
-        } else {
-          this.localLogout().then(() => this._router.navigate(['configuracoes']));
-        }
-
-        return err
-
-      })
   }
 
   /**

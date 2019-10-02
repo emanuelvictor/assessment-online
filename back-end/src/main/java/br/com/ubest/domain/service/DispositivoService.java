@@ -72,23 +72,22 @@ public class DispositivoService {
     }
 
     /**
-     * @param id
+     * Método utilizado para gerar senha aleatória
+     *
+     * @param numeroLicenca
      * @param numeroSerie
      * @return
      */
-    public Dispositivo getDispositivo(final long id, final String numeroSerie) {
+    public Dispositivo getDispositivo(final long numeroLicenca, final String numeroSerie) {
 
         // Pega o dispositivo da base
-        final Dispositivo dispositivo = this.getDispositivo(id);
+        final Dispositivo dispositivo = this.getDispositivo(numeroLicenca);
 
         // Se está passando o número de série e o dispositivo é interno, então está tentando se conectar administrativamente
-        if (numeroSerie != null && dispositivo.isInterna()) {
+        if (dispositivo.isInterna()) {
 
-            // Valida se o dispositivo está em uso
-            Assert.isTrue(!dispositivo.isEmUso(), "A licença está em uso");
-
-            // Seta o número de série
-            dispositivo.setNumeroSerie(numeroSerie);
+            if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
+                throw new RuntimeException("Essa licença está sendo utilizada por outro dispositivo");
 
             // Gera a senha aleatória
             dispositivo.gerarSenhaAleatoria();
@@ -113,7 +112,7 @@ public class DispositivoService {
      * @param id
      * @return
      */
-    private Dispositivo getDispositivo(final long id) {
+    public Dispositivo getDispositivo(final long id) {
         // Pega o dispositivo da base
         Dispositivo dispositivo = this.dispositivoRepository.findByNumeroLicenca(id).orElse(null);
         if (dispositivo == null)
@@ -143,16 +142,6 @@ public class DispositivoService {
     }
 
     /**
-     * @param dispositivo
-     * @return
-     */
-    @Transactional
-    public Dispositivo save(final Dispositivo dispositivo) {
-        this.tenantIdentifierResolver.setSchema(dispositivo.getTenant());
-        return this.dispositivoRepository.save(dispositivo);
-    }
-
-    /**
      * @param numeroLicenca
      * @param senha
      * @param exchange
@@ -166,23 +155,24 @@ public class DispositivoService {
         // Valida se o dispositivo é externo
         Assert.isTrue(dispositivo.isInterna(), "A licença é para uso externo");
 
-        if (!dispositivo.getNumeroSerie().equals(numeroSerie)) {
-            throw new RuntimeException("Essa licença está vinculada á outro dispositivo");
-        }
+        // Verifico se a licença está sendo utilizada por outro aplicativo
+        if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
+            throw new RuntimeException("Essa licença está sendo utilizada por outro dispositivo");
 
-        dispositivo.setEmUso(true);
+        //  seto o número de série aqui, e somente aqui, não n o carramento do dispositivo
+        dispositivo.setNumeroSerie(numeroSerie);
 
         // Valida se o usuário acertou a senha
-        Assert.isTrue(dispositivo.getSenha().equals(senha), "Senha incorreta");
+        Assert.isTrue(dispositivo.getSenha().equals(senha), "Senha incorreta!");
+
+        //  Salva no banco
+        save(dispositivo);
 
         // Cria o contexto de segurança
         final SecurityContext securityContext = createSecurityContextByUserDetails(dispositivo);
 
         // Insere o contexto no repositório de contexto e retorna o usuário inserido
         serverSecurityContextRepository.save(exchange, securityContext).block();
-
-        //  Salva no banco
-        save(dispositivo);
 
         // Avisa os websockets
         dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getNumeroLicenca())).findFirst().ifPresent(
@@ -202,5 +192,16 @@ public class DispositivoService {
     private static SecurityContext createSecurityContextByUserDetails(final UserDetails userDetails) {
         final Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
         return new SecurityContextImpl(authentication);
+    }
+
+
+    /**
+     * @param dispositivo
+     * @return
+     */
+    @Transactional
+    public Dispositivo save(final Dispositivo dispositivo) {
+        this.tenantIdentifierResolver.setSchema(dispositivo.getTenant());
+        return this.dispositivoRepository.save(dispositivo);
     }
 }

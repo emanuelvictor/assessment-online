@@ -128,8 +128,11 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     @GetMapping("{id}")
     Mono<Optional<Dispositivo>> getDispositivo(@PathVariable final String id, @RequestParam(required = false) final String numeroSerie) {
         try {
-            return Mono.just(Optional.of(this.dispositivoService.getDispositivo(Long.parseLong(id), numeroSerie)));
-        }catch (NumberFormatException e) {
+            if (numeroSerie != null)
+                return Mono.just(Optional.of(this.dispositivoService.getDispositivo(Long.parseLong(id), numeroSerie)));
+            else
+                return Mono.just(Optional.of(this.dispositivoService.getDispositivo(Long.parseLong(id))));
+        } catch (NumberFormatException e) {
             return null;
         }
     }

@@ -62,9 +62,9 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     if (this.mobileService.token && !this.mobileService.senha) {
       this.mobileService.destroyCookies();
     } else if (this.mobileService.token && this.mobileService.senha) {
-      const dispositivo: Dispositivo = (await this.mobileService.getDispositivoAsync());
+      const dispositivo: Dispositivo = (await this.mobileService.getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca());
       if (dispositivo && dispositivo.numeroLicenca) {
-        this.router.navigate(['/avaliar/' + dispositivo.numeroLicenca]);
+        await this.router.navigate(['/avaliar/' + dispositivo.numeroLicenca]);
         return
       }
     }
@@ -81,34 +81,52 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    * @param model
    */
-  getDispositivo(model) {
+  async getDispositivo(model) {
 
-    this.mobileService.getDispositivo(model as any).toPromise().then(result => {
+    // Pega o dispositivo e copio para o escopo do angular
+    this.mobileService.dispositivo = await this.mobileService.getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca(model as any);
 
-      this.mobileService.dispositivo = Object.assign({}, result);
+    // Só prossegue se encontrou dispositivo
+    if (!this.mobileService.dispositivo)
+      return;
 
+    // Se o dispositivo é interno
+    if (this.mobileService.dispositivo.interna) {
+
+      // Se o número de série provindo do dispositivo está nulo
+      // Então Essa licença não está sendo utilizada por nenhum dispositivo ainda
+      if (!this.mobileService.dispositivo.numeroSerie) {
+        // Mando gerar uma senha para me autenticar
+        // A view irá exibir a senha logo em seguida
+        this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.numeroSerie).subscribe(resulted => {
+          // Atualiza o plano de fundo
+          this.requestBackground();
+          // Pega o dispositivo e copio para o escopo do angular
+          this.mobileService.dispositivo = resulted
+        })
+      }
+      // Caso contrário, e houver número de série no dispositivo do back-end, e este for igual ao local
+      else if (this.mobileService.dispositivo.numeroSerie && this.mobileService.dispositivo.numeroSerie === this.mobileService.numeroSerie) {
+        // Atualiza o plano de fundo
+        this.requestBackground();
+        // É o mesmo dispositivo, só mando autenticar
+        this.showMessage('Reconectar o dispositivo!')
+      }
+      // Caso contrário, e houver número de série no dispositivo do back-end, e este for DIFERENTE ao local
+      else if (this.mobileService.dispositivo.numeroSerie && this.mobileService.dispositivo.numeroSerie !== this.mobileService.numeroSerie) {
+        // O usuário está tentando utilizar o mesmo número de série em diferentes dispositivos
+        this.showMessage('Essa licença já está sendo utilizada em outro dispositivo');
+        // Reseta o dispositivo
+        this.mobileService.dispositivo = new Dispositivo()
+      }
+    }
+    // Se não, então deve procurar avaliações públicas (externas)
+    else if (!this.mobileService.dispositivo.interna) {
       // Atualiza o plano de fundo
       this.requestBackground();
-
-      // Se tem número de série, então está em um dispositivo físico.
-      if (result.interna) {
-
-        if (this.mobileService.numeroSerie !== result.numeroSerie && result.emUso)
-          this.error('Licença sendo utilizada em outro dispositivo!');
-        else if (this.mobileService.numeroSerie !== result.numeroSerie && !result.emUso)
-          this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.numeroSerie).subscribe(resulted =>
-            this.mobileService.dispositivo = resulted
-          )
-
-      }
-      // Se não, então deve procurar avaliações públicas (externas)
-      else if (!result.interna)
-        this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
-      else
-        this.error('Essa licença é para uso interno!')
-
-    })
-
+      // Vai para execução da avaliação externa
+      await this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca])
+    }
   }
 
   /**
@@ -152,7 +170,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   public inputSenhaChanged($event) {
     if ($event && $event.length) {
       if ($event.length === 6) {
-        this.mobileService.authenticate(this.mobileService.dispositivo.numeroLicenca, $event).then(() => {
+        this.mobileService.authenticate(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie, $event).then(() => {
           this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
         })
       }
@@ -163,7 +181,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    * @param message
    */
-  public error(message: string) {
+  public showMessage(message: string) {
     this.openSnackBar(message)
   }
 
