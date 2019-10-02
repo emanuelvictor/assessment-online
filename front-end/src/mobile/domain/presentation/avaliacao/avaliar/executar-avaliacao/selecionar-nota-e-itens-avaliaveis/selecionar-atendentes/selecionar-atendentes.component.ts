@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {MobileService} from "../../../../../../service/mobile.service";
@@ -17,7 +17,7 @@ import {Agrupador} from "../../../../../../../../web/domain/entity/avaliacao/agr
     viewAnimation
   ]
 })
-export class SelecionarAtendentesComponent extends AbstractComponent implements OnInit {
+export class SelecionarAtendentesComponent implements OnInit, OnDestroy {
 
   /**
    *
@@ -53,13 +53,17 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
               public mobileService: MobileService, private router: Router,
               public activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
-    super(snackBar, mobileService)
   }
 
   /**
    *
    */
   ngOnInit() {
+
+    // Registra o loading e restarta o timeout
+    this.mobileService.register('overlayStarSyntax');
+    this.mobileService.restartTimeout();
+
     // Se não tem avaliações, ou seja, deu F5, então vai pra tela inicial.
     if (!this.mobileService.agrupador.avaliacoes || !this.mobileService.agrupador.avaliacoes.length || this.mobileService.agrupador.avaliacoes.length !== +this.activatedRoute.parent.snapshot.params.ordem) {
       this.mobileService.agrupador = new Agrupador();
@@ -138,7 +142,7 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
   public proximo() {
 
     // Restarta o timeout
-    this.restartTimeout();
+    this.mobileService.restartTimeout();
 
     // Adiciona avaliação TODO
     this.mobileService.agrupador.avaliacoes[+this.activatedRoute.parent.snapshot.params.ordem - 1].avaliacoesAvaliaveis = this.avaliaveis.filter(avaliavel => avaliavel.selected).map(value => new AvaliacaoAvaliavel(value, this.mobileService.agrupador.avaliacoes[+this.activatedRoute.parent.snapshot.params.ordem - 1]));
@@ -170,6 +174,14 @@ export class SelecionarAtendentesComponent extends AbstractComponent implements 
     } else {
       this.snackBar.open('Selecione ao menos um atendente', 'Fechar', SelecionarAtendentesComponent.matSnackBarConfig)
     }
+  }
+
+  /**
+   *
+   */
+  ngOnDestroy(): void {
+    // Resolva o loading.
+    this.mobileService.resolve('overlayStarSyntax')
   }
 
   /**

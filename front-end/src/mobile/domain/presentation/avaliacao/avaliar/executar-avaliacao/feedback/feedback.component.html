@@ -1,6 +1,4 @@
-<form [formGroup]='form' (ngSubmit)='proximo()' [@fadeInOut]
-      layout='column' layout-align='center center' novalidate
-      *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+<form [formGroup]='form' (ngSubmit)='proximo()' [@fadeInOut] layout='column' layout-align='center center' novalidate>
   <mat-card style='width: 600px' *ngIf='mobileService?.configuracao?.tipoFeedback'>
     <!--<mat-card-title class="push">-->
     <!--{{configuracao?.feedbackEnunciado}}-->

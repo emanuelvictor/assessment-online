@@ -62,7 +62,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     if (this.mobileService.token && !this.mobileService.senha) {
       this.mobileService.destroyCookies();
     } else if (this.mobileService.token && this.mobileService.senha) {
-      const dispositivo: Dispositivo = (await this.mobileService.gedispositivo());
+      const dispositivo: Dispositivo = (await this.mobileService.getDispositivoAsync());
       if (dispositivo && dispositivo.numeroLicenca) {
         this.router.navigate(['/avaliar/' + dispositivo.numeroLicenca]);
         return

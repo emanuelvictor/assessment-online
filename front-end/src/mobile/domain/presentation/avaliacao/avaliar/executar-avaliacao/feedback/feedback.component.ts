@@ -1,14 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TdLoadingService} from "@covalent/core";
-import {MatSnackBar} from "@angular/material";
 import {MobileService} from "../../../../../service/mobile.service";
 import {FormBuilder, Validators} from "@angular/forms";
 import {Subject} from "rxjs";
-import {AbstractComponent} from "../abstract/abstract.component";
 import {viewAnimation} from "../../../../../../../web/domain/presentation/controls/utils";
-import {AvaliavelRepository} from "../../../../../../../web/domain/repository/avaliavel.repository";
-import {UnidadeTipoAvaliacaoRepository} from "../../../../../../../web/domain/repository/unidade-tipo-avaliacao.repository";
 import {TipoFeedback} from "../../../../../../../web/domain/entity/configuracao/tipo-feedback.enum";
 import {cpfValidator, obrigatorio} from "../../../../../../../web/domain/presentation/controls/validators/validators";
 import {textMasks} from "../../../../../../../web/domain/presentation/controls/text-masks/text-masks";
@@ -21,7 +16,7 @@ import {textMasks} from "../../../../../../../web/domain/presentation/controls/t
     viewAnimation
   ]
 })
-export class FeedbackComponent extends AbstractComponent implements OnInit {
+export class FeedbackComponent implements OnInit, OnDestroy {
 
   /**
    *
@@ -41,20 +36,15 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
 
   /**
    *
-   * @param {Router} router
+   * @param router
    * @param fb
-   * @param {MatSnackBar} snackBar
    * @param {MobileService} mobileService
    * @param {ActivatedRoute} activatedRoute
-   * @param {AvaliavelRepository} avaliavelRepository
-   * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
-  constructor(private avaliavelRepository: AvaliavelRepository,
-              private fb: FormBuilder, public snackBar: MatSnackBar,
-              private router: Router,
-              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
-              public mobileService: MobileService, public activatedRoute: ActivatedRoute) {
-    super(snackBar, mobileService);
+  constructor(private router: Router,
+              private fb: FormBuilder,
+              public mobileService: MobileService,
+              public activatedRoute: ActivatedRoute) {
   }
 
   /**
@@ -77,7 +67,7 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
     this.modelChanged.debounceTime(300).subscribe(() => {
 
       // Restarta o timeout
-      this.restartTimeout()
+      this.mobileService.restartTimeout()
     });
 
     if (this.mobileService.configuracao.tipoFeedback === <any>TipoFeedback[TipoFeedback.TEXTO]) {
@@ -121,14 +111,20 @@ export class FeedbackComponent extends AbstractComponent implements OnInit {
    */
   public proximo() {
 
-    // Restarta o timeout
-    this.restartTimeout();
-
     // Valida o formulário
     if (!this.form.valid) {
       return
     }
 
     this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/conclusao'])
+  }
+
+  /**
+   *
+   */
+  ngOnDestroy(): void {
+    // Restarta o timeout
+    this.mobileService.restartTimeout();
+    this.mobileService.resolve('overlayStarSyntax')
   }
 }

@@ -1,8 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MobileService} from "../../../../../service/mobile.service";
-import {AbstractComponent} from "../abstract/abstract.component";
-import {MatSnackBar} from "@angular/material";
 import {AgrupadorRepository} from "../../../../../repository/agrupador.repository";
 import {Agrupador} from "../../../../../../../web/domain/entity/avaliacao/agrupador.model";
 import {Avaliacao} from "../../../../../../../web/domain/entity/avaliacao/avaliacao.model";
@@ -16,27 +13,25 @@ import {viewAnimation} from "../../../../../../../web/domain/presentation/contro
     viewAnimation
   ]
 })
-export class ConclusaoComponent extends AbstractComponent implements OnInit {
+export class ConclusaoComponent implements OnInit, OnDestroy {
 
   /**
    *
-   * @param snackBar
-   * @param {Router} router
-   * @param agrupadorRepository
    * @param mobileService
-   * @param activatedRoute
+   * @param agrupadorRepository
    */
-  constructor(public snackBar: MatSnackBar,
-              private activatedRoute: ActivatedRoute,
-              private agrupadorRepository: AgrupadorRepository,
-              private router: Router, public mobileService: MobileService) {
-    super(snackBar, mobileService)
+  constructor(public mobileService: MobileService,
+              private agrupadorRepository: AgrupadorRepository) {
   }
 
   /**
    *
    */
   ngOnInit() {
+    // Registra o loading e restarta o timeout
+    this.mobileService.register('overlayStarSyntax');
+    this.mobileService.restartTimeout();
+
     const agrupador: Agrupador = Object.assign({}, this.mobileService.agrupador);
 
     this.mobileService.agrupador.avaliacoes.forEach(value => value.agrupador = null);
@@ -65,4 +60,11 @@ export class ConclusaoComponent extends AbstractComponent implements OnInit {
     // }, 300)
   }
 
+  /**
+   *
+   */
+  ngOnDestroy(): void {
+    // Resolve o loading.
+    this.mobileService.resolve('overlayStarSyntax')
+  }
 }

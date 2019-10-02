@@ -8,9 +8,9 @@
     <mat-card-content class='no-margin' style='margin-bottom: 0' *ngIf='avaliaveis?.length'>
 
       <mat-grid-list cols='{{avaliaveis.length > 6 ? 4 : 3}}' rowHeight='100px' *ngIf='avaliaveis?.length'>
-        <mat-grid-tile (click)='avaliavel.selected = !avaliavel.selected; restartTimeout()'
-                       [ngStyle]="{'background-color': (avaliavel.selected ? 'lightblue' : '')}"
-                       *ngFor='let avaliavel of avaliaveis' mat-ripple [colspan]='1' [rowspan]='2'>
+        <mat-grid-tile [ngStyle]="{'background-color': (avaliavel.selected ? 'lightblue' : '')}"
+                       *ngFor='let avaliavel of avaliaveis' mat-ripple [colspan]='1' [rowspan]='2'
+                       (click)='avaliavel.selected = !avaliavel.selected; mobileService.restartTimeout()'>
           <div layout='column' layout-align='center center'>
             <div mat-list-avatar style='width: 120px; height: 120px'>
               <avatar class='image-cover' [size]='0.6' [tenant]='mobileService?.dispositivo?.tenant'
@@ -18,7 +18,7 @@
               </avatar>
             </div>
             <div
-                [ngClass]="{'broken-line': configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === true, 'text-truncate': configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === false}">
+                [ngClass]="{'broken-line': mobileService?.configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === true, 'text-truncate': mobileService?.configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === false}">
               {{avaliavel?.usuario?.nome}}
             </div>
           </div>

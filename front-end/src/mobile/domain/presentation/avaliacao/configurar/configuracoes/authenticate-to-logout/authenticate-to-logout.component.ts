@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, Renderer} from "@angular/core";
+import {Component, ElementRef, Inject, OnDestroy, OnInit, Renderer} from "@angular/core";
 import {MatSnackBar} from "@angular/material";
 import {MobileService} from "../../../../../service/mobile.service";
 import {Router} from "@angular/router";
@@ -17,7 +17,7 @@ import {DomSanitizer} from "@angular/platform-browser";
     viewAnimation
   ]
 })
-export class AuthenticateToLogoutComponent implements OnInit {
+export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
 
   /**
    *
@@ -63,34 +63,29 @@ export class AuthenticateToLogoutComponent implements OnInit {
    */
   ngOnInit() {
 
-    // Registra o loading.
+    // Registra o loading e restarta o timeout
+    this.mobileService.restartTimeout();
     this.mobileService.register('overlayStarSyntax');
 
     // Se não tem senha ou não tem o dispositivo
     if (!this.mobileService.token) {
 
-      // Resolve o loading
+      this.router.navigate(['/configuracoes']);
+
+      // Resolve o loading e limpa o timeout
+      this.mobileService.clearTimeout();
       this.mobileService.resolve('overlayStarSyntax');
-
-      this.router.navigate(['/configuracoes'])
+      return
     }
-
-    // Reinicia o timeout
-    this.mobileService.restartTimeout();
-
-    // Resolve o loading
-    this.mobileService.resolve('overlayStarSyntax');
 
     // Debounce da digitação, toda vez que o usuário digita alguma coisa, depois de 300 milisegundos ele executa isso.
     this.modelChanged.debounceTime(300).subscribe(model => {
+      if (model && model.length && (model.length === 6 || model.length === 8)) {
 
-      // Restarta o timeout
-      this.mobileService.restartTimeout();
-
-      if (model && model.length) {
-        if (model.length === 6 || model.length === 8) {
-          // Registra o loading.
+          // Restarta o timeout e Registra o loading
+          this.mobileService.restartTimeout();
           this.mobileService.register('overlayStarSyntax');
+
           this.mobileService.logout(model).then(() => {
             this.mobileService.agrupador = new Agrupador();
 
@@ -101,12 +96,14 @@ export class AuthenticateToLogoutComponent implements OnInit {
           }).catch(error => {
             this.error(error);
             // Resolve o loading
-            this.mobileService.resolve('overlayStarSyntax');
+            this.mobileService.resolve('overlayStarSyntax')
           })
-        }
       }
+    });
 
-    })
+    // Resolve o loading e limpa o timeout
+    this.mobileService.clearTimeout();
+    this.mobileService.resolve('overlayStarSyntax')
   }
 
   /**
@@ -158,6 +155,15 @@ export class AuthenticateToLogoutComponent implements OnInit {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
     })
+  }
+
+  /**
+   *
+   */
+  ngOnDestroy(): void {
+    // Restarta o timeout e resolve o loading
+    this.mobileService.restartTimeout();
+    this.mobileService.resolve('overlayStarSyntax')
   }
 
 }

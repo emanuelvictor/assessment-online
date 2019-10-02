@@ -114,7 +114,10 @@ export class MobileService implements CanActivate, CanActivateChild {
     return this._dispositivo ? this._dispositivo : new Dispositivo()
   }
 
-  async gedispositivo() {
+  /**
+   *
+   */
+  async getDispositivoAsync() {
     return await this.requestLocalDispositivoOrDispositivoAutenticado()
   }
 
@@ -206,6 +209,7 @@ export class MobileService implements CanActivate, CanActivateChild {
     return this._localStorage.token
   }
 
+  // ------------- Loading --------------
   /**
    *
    * @param identifier
@@ -222,11 +226,25 @@ export class MobileService implements CanActivate, CanActivateChild {
     this._loadingService.resolve(identifier)
   }
 
+  // ------------- Configuração --------------
   /**
    *
    */
-  public get requestConfiguracao(): Promise<Configuracao> {
-    return this.configuracaRepository.requestConfiguracao.then(result => this._configuracao = result)
+  async getConfiguracaoAsync() {
+    return await this.requestLocalConfiguracaoOrConfiguracaoOfTheBackEnd()
+  }
+
+  /**
+   *
+   */
+  public requestLocalConfiguracaoOrConfiguracaoOfTheBackEnd(): Promise<Configuracao | any> {
+    if (this._configuracao && this._configuracao.id) {
+      return new Promise((resolve) => resolve(this._configuracao));
+    } else {
+      return this.configuracaRepository.requestConfiguracao
+        .then(result => result ? this.configuracao = result : this.configuracao = null)
+        .catch((err: any) => err)
+    }
   }
 
   /**
@@ -236,6 +254,14 @@ export class MobileService implements CanActivate, CanActivateChild {
     return this._configuracao
   }
 
+  /**
+   *
+   */
+  set configuracao(configuracao: Configuracao) {
+    this._configuracao = configuracao
+  }
+
+  // ----------------------------------------------
   /**
    *
    * Realiza a autenticação com o número da licença e a senha
@@ -295,15 +321,15 @@ export class MobileService implements CanActivate, CanActivateChild {
             subscriber.next(false)
           } else {
             this.dispositivo = resulted;
-            if (this.dispositivo.interna){
-              if (!this.token){
+            if (this.dispositivo.interna) {
+              if (!this.token) {
                 this.router.navigate(['configuracoes']);
                 subscriber.next(false)
               } else {
                 this.populeCookies(this.dispositivo.senha)
               }
-
             }
+            this.getConfiguracaoAsync();
             subscriber.next(true)
           }
         })

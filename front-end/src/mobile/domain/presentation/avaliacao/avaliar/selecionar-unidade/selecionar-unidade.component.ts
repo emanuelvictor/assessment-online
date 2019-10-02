@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MobileService} from '../../../../service/mobile.service';
 import {MatSnackBar} from "@angular/material";
@@ -14,7 +14,7 @@ import {viewAnimation} from "../../../../../../web/domain/presentation/controls/
     viewAnimation
   ]
 })
-export class SelecionarUnidadeComponent implements OnInit {
+export class SelecionarUnidadeComponent implements OnInit, OnDestroy {
 
   /**
    *
@@ -34,7 +34,7 @@ export class SelecionarUnidadeComponent implements OnInit {
   /**
    *
    */
-  ngOnInit() {
+  async ngOnInit() {
 
     // Mata o timeout se houver (Aqui não precisa de timeout)
     this.mobileService.clearTimeout();
@@ -43,30 +43,28 @@ export class SelecionarUnidadeComponent implements OnInit {
     this.mobileService.register('overlayStarSyntax');
 
     // Requisita configuração.
-    this.mobileService.requestConfiguracao.then(configuracao => {
-      this.configuracao = configuracao;
+    this.configuracao = (await this.mobileService.getConfiguracaoAsync());
 
-      // Se não tem unidades selecionadas, vai para tela de seleção de unidades
-      if (!this.mobileService.dispositivo.unidades || !this.mobileService.dispositivo.unidades.length) {
-        this.router.navigate(['error']);
-        this.mobileService.resolve('overlayStarSyntax');
-        return
-      }
+    // Se não tem unidades selecionadas, vai para tela de seleção de unidades
+    if (!this.mobileService.dispositivo.unidades || !this.mobileService.dispositivo.unidades.length) {
+      this.router.navigate(['error']);
+      this.mobileService.resolve('overlayStarSyntax');
+      return
+    }
 
-      // Se só tem uma unidade selecionada, passa direito e vai pra tela de avaliação
-      if (this.mobileService.dispositivo.unidades.length === 1) {
-        this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + this.mobileService.dispositivo.unidades[0].id + '/ordem/1']);
-        this.mobileService.resolve('overlayStarSyntax');
-        return
-      }
+    // Se só tem uma unidade selecionada, passa direito e vai pra tela de avaliação
+    if (this.mobileService.dispositivo.unidades.length === 1) {
+      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + this.mobileService.dispositivo.unidades[0].id + '/ordem/1']);
+      this.mobileService.resolve('overlayStarSyntax');
+      return
+    }
 
-      // Remove os itens selecionados da avaliação anterior
-      this.mobileService.dispositivo.unidades.forEach( unidade => (unidade as any).selected = false);
+    // Remove os itens selecionados da avaliação anterior
+    this.mobileService.dispositivo.unidades.forEach(unidade => (unidade as any).selected = false);
 
-      // Caso tenha unidades a selecionar, e a quantidade seja maior que 1
-      // Remove loading
-      this.mobileService.resolve('overlayStarSyntax')
-    })
+    // Caso tenha unidades a selecionar, e a quantidade seja maior que 1
+    // Remove loading
+    this.mobileService.resolve('overlayStarSyntax')
   }
 
   /**
@@ -87,4 +85,11 @@ export class SelecionarUnidadeComponent implements OnInit {
     })
   }
 
+  /**
+   *
+   */
+  ngOnDestroy(): void {
+    // Resolve o loading.
+    this.mobileService.resolve('overlayStarSyntax')
+  }
 }
