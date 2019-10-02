@@ -22,18 +22,19 @@ import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 @RequestMapping({"**avaliacoes", "**sistema/avaliacoes", "**sistema/mobile/avaliacoes"})
 public class AvaliacaoResource extends AbstractResource<Avaliacao> {
 
+    /**
+     *
+     */
     private final AvaliacaoService avaliacaoService;
 
-    @PostMapping("/avaliacoes-avaliaveis") // TODO??? não vai mais existir
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    public Mono<AvaliacaoAvaliavel> save(@RequestBody final AvaliacaoAvaliavel avaliacaoAvaliavel) {
-        return Mono.just(this.avaliacaoService.save(avaliacaoAvaliavel));
-    }
-
+    /**
+     *
+     * @param agrupador
+     * @return
+     */
     @PostMapping("/agrupador")
     public Mono<Agrupador> save(@RequestBody final Agrupador agrupador) {
-        //TODO fazer handler do recaptcha
-        return Mono.just(this.avaliacaoService.save(agrupador));
+        return this.avaliacaoService.save(agrupador);
     }
 
     @PutMapping("/agrupador/{id}")
@@ -42,11 +43,11 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao> {
         return Mono.just(this.avaliacaoService.save(id, agrupador));
     }
 
-    @PostMapping
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-    public Mono<Avaliacao> save(@RequestBody final Avaliacao avaliacao) {
-        return Mono.just(this.avaliacaoService.save(avaliacao));
-    }
+//    @PostMapping todo remover
+//    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+//    public Mono<Avaliacao> save(@RequestBody final Avaliacao avaliacao) {
+//        return Mono.just(this.avaliacaoService.save(avaliacao));
+//    }
 
     @PutMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")

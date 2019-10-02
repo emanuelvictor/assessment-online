@@ -26,7 +26,6 @@ import {TOKEN_NAME} from "../../../web/domain/presentation/controls/utils";
 @Injectable()
 export class MobileService implements CanActivate, CanActivateChild {
 
-
   /**
    *
    */

@@ -13,7 +13,7 @@ import {UsuarioService} from '../../web/domain/service/usuario.service';
 import {UnidadeService} from '../../web/domain/service/unidade.service';
 import {AvaliarComponent} from './presentation/avaliacao/avaliar/avaliar.component';
 import {AvaliacaoComponent} from './presentation/avaliacao/avaliacao.component';
-import {ConclusaoComponent} from './presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao.component';
+import {ConclusaoViewComponent} from './presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao-view.component';
 import {AvaliacaoService} from '../../web/domain/service/avaliacao.service';
 import {FileRepository} from '../../web/infrastructure/repository/file/file.repository';
 import {MatGridListModule} from '@angular/material/grid-list';
@@ -49,6 +49,9 @@ import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/c
 import {OrderModule} from "ngx-order-pipe";
 import {DispositivoRepository} from "../../web/domain/repository/dispositivo.repository";
 import {MobileErrorComponent} from "./presentation/controls/mobile-error/mobile-error.component";
+import {RecaptchaModule} from "ng-recaptcha";
+import {RobotVerifyComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/conclusao/robot-verify/robot-verify.component";
+import {ConclusaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao/conclusao.component";
 
 
 /**
@@ -58,7 +61,9 @@ import {MobileErrorComponent} from "./presentation/controls/mobile-error/mobile-
   declarations: [
     MobileComponent,
     AvaliarComponent,
+    ConclusaoViewComponent,
     ConclusaoComponent,
+    RobotVerifyComponent,
     AvaliacaoComponent,
     SelecionarNotaComponent,
     ExecutarAvaliacaoComponent,
@@ -81,7 +86,8 @@ import {MobileErrorComponent} from "./presentation/controls/mobile-error/mobile-
     BrowserModule,
     BrowserAnimationsModule,
     MobileRoutingModule,
-    OrderModule
+    OrderModule,
+    RecaptchaModule
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

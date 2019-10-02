@@ -4,7 +4,7 @@ import {AvaliarComponent} from "./presentation/avaliacao/avaliar/avaliar.compone
 import {AvaliacaoComponent} from "./presentation/avaliacao/avaliacao.component";
 import {ConfigurarUnidadesEAvaliacoesComponent} from "./presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component";
 import {SelecionarUnidadeComponent} from "./presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component";
-import {ConclusaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao.component";
+import {ConclusaoViewComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao-view.component";
 import {FeedbackComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/feedback/feedback.component";
 import {SelecionarNotaComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota/selecionar-nota.component";
 import {SelecionarAtendentesComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-atendentes/selecionar-atendentes.component";
@@ -14,6 +14,8 @@ import {MobileErrorComponent} from "./presentation/controls/mobile-error/mobile-
 import {AuthenticateToLogoutComponent} from "./presentation/avaliacao/configurar/configuracoes/authenticate-to-logout/authenticate-to-logout.component";
 import {MobileService} from "./service/mobile.service";
 import {ConfiguracoesComponent} from "./presentation/avaliacao/configurar/configuracoes/configuracoes.component";
+import {ConclusaoComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao/conclusao.component";
+import {RobotVerifyComponent} from "./presentation/avaliacao/avaliar/executar-avaliacao/conclusao/robot-verify/robot-verify.component";
 
 
 const routes: Routes = [
@@ -49,7 +51,13 @@ const routes: Routes = [
                   {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
                 ]
               },
-              {path: 'conclusao', component: ConclusaoComponent},
+              {
+                path: 'conclusao', component: ConclusaoViewComponent,
+                children: [
+                  {path: '', component: ConclusaoComponent},
+                  {path: 'robot-verify', component: RobotVerifyComponent},
+                ]
+              },
               {path: 'feedback', component: FeedbackComponent},
             ]
           }

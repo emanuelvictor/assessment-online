@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MobileService} from "../../../../../service/mobile.service";
-import {AgrupadorRepository} from "../../../../../repository/agrupador.repository";
-import {Agrupador} from "../../../../../../../web/domain/entity/avaliacao/agrupador.model";
-import {Avaliacao} from "../../../../../../../web/domain/entity/avaliacao/avaliacao.model";
-import {viewAnimation} from "../../../../../../../web/domain/presentation/controls/utils";
+import {AgrupadorRepository} from "../../../../../../repository/agrupador.repository";
+import {MobileService} from "../../../../../../service/mobile.service";
+import {Agrupador} from "../../../../../../../../web/domain/entity/avaliacao/agrupador.model";
+import {Avaliacao} from "../../../../../../../../web/domain/entity/avaliacao/avaliacao.model";
+import {viewAnimation} from "../../../../../../../../web/domain/presentation/controls/utils";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Dispositivo} from "../../../../../../../../web/domain/entity/avaliacao/dispositivo.model";
 
 @Component({
   selector: 'app-conclusao',
@@ -17,10 +19,14 @@ export class ConclusaoComponent implements OnInit, OnDestroy {
 
   /**
    *
+   * @param router
    * @param mobileService
+   * @param activatedRoute
    * @param agrupadorRepository
    */
-  constructor(public mobileService: MobileService,
+  constructor(private router: Router,
+              public mobileService: MobileService,
+              private activatedRoute: ActivatedRoute,
               private agrupadorRepository: AgrupadorRepository) {
   }
 
@@ -32,6 +38,11 @@ export class ConclusaoComponent implements OnInit, OnDestroy {
     this.mobileService.register('overlayStarSyntax');
     this.mobileService.restartTimeout();
 
+    if (!this.mobileService.dispositivo.interna && !this.mobileService.agrupador.recap) {
+      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + this.activatedRoute.parent.parent.snapshot.params.unidadeId + '/conclusao/robot-verify']);
+      return
+    }
+
     const agrupador: Agrupador = Object.assign({}, this.mobileService.agrupador);
 
     this.mobileService.agrupador.avaliacoes.forEach(value => value.agrupador = null);
@@ -42,7 +53,9 @@ export class ConclusaoComponent implements OnInit, OnDestroy {
       const copy: Avaliacao = Object.assign({}, avaliacao);
       copy.avaliacoesAvaliaveis = [];
       avaliacao.avaliacoesAvaliaveis.forEach(avaliacaoAvaliavel => {
-        avaliacaoAvaliavel.avaliacao = copy
+        avaliacaoAvaliavel.avaliacao = copy;
+        avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.dispositivo = new Dispositivo(this.mobileService.dispositivo.id);
+        avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.dispositivo.tenant = this.mobileService.dispositivo.tenant;
       })
     });
 
@@ -52,12 +65,6 @@ export class ConclusaoComponent implements OnInit, OnDestroy {
     }).catch(() => {
       this.mobileService.resolve('overlayStarSyntax')
     })
-    // // Workarround
-    // // Tempo de espera padrão para concluir o timeout.
-    // // Isso se reflete na experiência do usuário
-    // setTimeout(() => {
-    //   this._loadingService.resolve('overlayStarSyntax')
-    // }, 300)
   }
 
   /**

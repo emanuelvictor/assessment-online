@@ -2,9 +2,6 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.application.aspect.exceptions.PasswordNotFound;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
-import br.com.ubest.domain.entity.assinatura.Assinatura;
-import br.com.ubest.domain.entity.assinatura.FormaPagamento;
-import br.com.ubest.domain.entity.assinatura.Plano;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.configuracao.Configuracao;
@@ -16,11 +13,9 @@ import br.com.ubest.domain.entity.usuario.Usuario;
 import br.com.ubest.domain.entity.usuario.vinculo.Avaliavel;
 import br.com.ubest.domain.repository.*;
 import br.com.ubest.infrastructure.file.ImageUtils;
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.flywaydb.core.Flyway;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,10 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -53,45 +45,84 @@ import static org.springframework.security.web.server.context.WebSessionServerSe
 @RequiredArgsConstructor
 public class UsuarioService {
 
+    /**
+     *
+     */
     private final Flyway flyway;
 
-    @Value("${google.recaptcha.site-key}")
-    private String siteKey;
+    /**
+     *
+     */
+    private final RecaptchaService recaptchaService;
 
-    @Value("${google.recaptcha.secret-key}")
-    private String secretKey;
-
-    @Value("${google.recaptcha.urltoverify}")
-    private String urlToVerify;
-
+    /**
+     *
+     */
     private final UnidadeService unidadeService;
 
+    /**
+     *
+     */
     private final ContaRepository contaRepository;
 
+    /**
+     *
+     */
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     *
+     */
     private final OperadorService operadorService;
 
-    private final EnderecoService enderecoService;
-
+    /**
+     *
+     */
     private final AvaliavelService avaliavelService;
 
+    /**
+     *
+     */
     private final DispositivoRepository dispositivoRepository;
 
+    /**
+     *
+     */
     private final UsuarioRepository usuarioRepository;
 
+    /**
+     *
+     */
     private final AssinaturaRepository assinaturaRepository;
 
+    /**
+     *
+     */
     private final TipoAvaliacaoService tipoAvaliacaoService;
 
+    /**
+     *
+     */
     private final ConfiguracaoRepository configuracaoRepository;
 
+    /**
+     *
+     */
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
+    /**
+     *
+     */
     private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;
 
+    /**
+     *
+     */
     private final ServerSecurityContextRepository serverSecurityContextRepository;
 
+    /**
+     *
+     */
     private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
 
     /**
@@ -234,7 +265,7 @@ public class UsuarioService {
     public Usuario createAccount(final ServerWebExchange exchange, final Usuario usuario) {
 
         // Verifica se não é um robô
-        this.checkRecaptcha(usuario.getRecap());
+        this.recaptchaService.checkRecaptcha(usuario.getRecap());
 
         // Verifica se a conta já existe
         if (this.contaRepository.findByEmailIgnoreCase(usuario.getConta().getEmail()) != null)
@@ -269,7 +300,7 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
 
         // Insere os dados padrões para utilização inicial do sistema
-        this.bootstrapTemplate(usuario.getDocumento().length() > 15);
+        this.bootstrapTemplate();
 
         // E o usuário será salvo automáticamente no esquema públic
         return usuario;
@@ -280,7 +311,7 @@ public class UsuarioService {
      * Dados padrão para utilização inicial do sistema
      */
     @Transactional
-    public void bootstrapTemplate(final boolean souEmpresa) {
+    public void bootstrapTemplate() {
 
         // Tipo de avaliação
         final TipoAvaliacao tipoAvaliacao = new TipoAvaliacao();
@@ -542,65 +573,10 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    List<Usuario> findByNome(final String nome) {
-        return usuarioRepository.findByNome(nome);
-    }
-
     /**
-     * @param recap String
-     * @return boolean
-     */
-    private boolean checkRecaptcha(final String recap) {
-
-        try {
-            final String urlGoogle = this.urlToVerify + "?secret=%s&response=%s";
-            final String urlFormatada = String.format(urlGoogle, this.secretKey, recap);
-            final HttpURLConnection conn = (HttpURLConnection) new URL(urlFormatada).openConnection();
-            conn.setRequestMethod("GET");
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-            final StringBuilder outputString = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                outputString.append(line);
-            }
-
-            final UsuarioService.CaptchaResponse capRes = new Gson().fromJson(outputString.toString(), UsuarioService.CaptchaResponse.class);
-            return capRes.isSuccess();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * Classe auxiliar para o retorno do reCaptcha
-     */
-    private class CaptchaResponse {
-        private boolean success;
-//        private String[] errorCodes;
-
-        public boolean isSuccess() {
-            return success;
-        }
-
-        public void setSuccess(boolean success) {
-            this.success = success;
-        }
-
-//        public String[] getErrorCodes() {
-//            return errorCodes;
-//        }
-//
-//        public void setErrorCodes(String[] errorCodes) {
-//            this.errorCodes = errorCodes;
-//        }
-    }
-
-    /**
-     * @return String
+     * @return
      */
     public String getSiteKey() {
-        return this.siteKey;
+        return this.recaptchaService.getSiteKey();
     }
 }

@@ -21,11 +21,21 @@ public class Agrupador extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -2224100332065317651L;
 
-
-    // todo NÃO ROLOU, muitos dados
+    /**
+     * todo NÃO ROLOU, muitos dados
+     */
     @Transient
     public List<Avaliacao> avaliacoes;
 
+    /**
+     *
+     */
+    @Transient
+    private String recap;
+
+    /**
+     *
+     */
     @Column(length = 300)
     private String feedback;
 

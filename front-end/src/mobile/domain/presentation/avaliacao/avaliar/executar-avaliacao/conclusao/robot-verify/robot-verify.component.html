@@ -1,0 +1,15 @@
+<div layout='column' layout-align='center center' [@fadeInOut]>
+  <mat-card>
+    <mat-card-content>
+      <div layout='row' layout-margin layout-align='center center'>
+        <div flex layout-align='center center'
+             *ngIf='mobileService?.agrupador?.siteKey'>
+          <re-captcha (resolved)='resolved($event)' layout-align='center center'
+                      required #reCaptcha style='margin-right: 6px; margin-top: -12px'
+                      siteKey='{{mobileService?.agrupador?.siteKey}}' id='recaptchaReactive'>
+          </re-captcha>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

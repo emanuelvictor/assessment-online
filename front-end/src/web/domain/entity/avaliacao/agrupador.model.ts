@@ -7,6 +7,9 @@ export class Agrupador extends Abstract {
 
   public feedback: string;
 
+  public siteKey: string;
+
+  public recap: string;
 
   constructor() {
     super();
