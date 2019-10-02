@@ -67,12 +67,34 @@ export class MobileService implements CanActivate, CanActivateChild {
               private _localStorage: LocalStorage, private _cookieService: CookieService, private _loadingService: TdLoadingService) {
   }
 
+  _webSocketSubject: WebSocketSubject<Dispositivo>;
+
   /**
    *
-   * @param numero
+   * @param numeroLicenca
    */
-  public connect(numero: any): WebSocketSubject<Dispositivo> {
-    return this._dispositivoRepository.connect(numero)
+  public connect(numeroLicenca: any): void {
+    this._webSocketSubject = this._dispositivoRepository.connect(numeroLicenca);
+
+    this._webSocketSubject.subscribe(result => {
+      // Se não tiver número de série e for interna, então desloga tudo
+      if (!result.numeroSerie && result.interna){
+        this._httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
+          this.destroyCookies();
+          this.agrupador = new Agrupador();
+          this.dispositivo = new Dispositivo();
+          this._router.navigate(['configuracoes'])
+        }).catch((error) => {
+          this.destroyCookies();
+          this.agrupador = new Agrupador();
+          this.dispositivo = new Dispositivo();
+          this._router.navigate(['configuracoes'])
+        });
+
+        // Desubscreve o websocket
+        this._webSocketSubject.unsubscribe()
+      }
+    })
   }
 
   /**
@@ -321,8 +343,13 @@ export class MobileService implements CanActivate, CanActivateChild {
     return new Promise((resolve, reject) => {
       this._dispositivoRepository.authenticate(numeroLicenca, numeroSerie, senha).then(result => {
 
+        // Popula os cookies
         this.populeCookies(senha);
 
+        // Conecta o webscoket
+        this.connect(numeroLicenca);
+
+        // Resolve a promise
         resolve(result)
 
       }).catch(error => reject(error))
