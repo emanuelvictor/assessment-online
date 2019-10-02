@@ -146,4 +146,14 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     Mono<Optional<Dispositivo>> authenticate(@RequestBody final Dispositivo dispositivo, final ServerWebExchange exchange) {
         return Mono.just(Optional.of(this.dispositivoService.authenticate(dispositivo.getNumeroLicenca(), dispositivo.getNumeroSerie(), dispositivo.getSenha(), exchange)));
     }
+
+    /**
+     * @param numeroSerie
+     * @return
+     */
+    @GetMapping("{numeroSerie}/desvincular")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    Mono<Optional<Dispositivo>> desvincular(@PathVariable final String numeroSerie) {
+        return Mono.just(Optional.of(this.dispositivoService.desvincular(numeroSerie)));
+    }
 }

@@ -170,7 +170,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
   public inputSenhaChanged($event) {
     if ($event && $event.length) {
       if ($event.length === 6) {
-        this.mobileService.authenticate(this.mobileService.dispositivo.numeroLicenca, this.mobileService.dispositivo.numeroSerie, $event).then(() => {
+        this.mobileService.authenticate(this.mobileService.dispositivo.numeroLicenca, this.mobileService.numeroSerie, $event).then(() => {
           this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
         })
       }

@@ -58,6 +58,14 @@ export class DispositivoRepository extends BaseRepository<Dispositivo> {
     if (numeroSerie)
       return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroLiceca + '?numeroSerie=' + numeroSerie);
     else
-      return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroLiceca);
+      return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroLiceca)
+  }
+
+  /**
+   *
+   * @param numeroSerie
+   */
+  desvincular(numeroSerie: string): Observable<Dispositivo> {
+    return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroSerie + '/desvincular')
   }
 }

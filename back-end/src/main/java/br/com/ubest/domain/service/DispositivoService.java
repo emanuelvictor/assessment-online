@@ -194,6 +194,27 @@ public class DispositivoService {
         return new SecurityContextImpl(authentication);
     }
 
+    /**
+     *
+     * @param numeroSerie
+     * @return
+     */
+    public Dispositivo desvincular(final String numeroSerie) {
+
+        final Dispositivo dispositivo = this.dispositivoRepository.findByNumeroSerie(numeroSerie).orElseThrow();
+
+        dispositivo.setNumeroSerie(null);
+        dispositivo.setSenha(null);
+
+        this.save(dispositivo);
+
+        // Avisa os websockets
+        dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getNumeroLicenca())).findFirst().ifPresent(
+                t -> t.getMessagePublisher().onNext(dispositivo)
+        );
+
+        return dispositivo;
+    }
 
     /**
      * @param dispositivo

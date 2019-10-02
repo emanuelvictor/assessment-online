@@ -88,7 +88,6 @@ export class VisualizarDispositivoComponent implements OnInit {
 
     this.webSocketSubject.subscribe(dispositivo => {
       this.dispositivo = dispositivo;
-      console.log(this.dispositivo);
 
       this.unidadeRepository.listLightByFilters({withUnidadesTiposAvaliacoesAtivasFilter: true}).subscribe(result => {
 
@@ -198,6 +197,16 @@ export class VisualizarDispositivoComponent implements OnInit {
                       this.unidades[c].unidadesTiposAvaliacoes[j].unidadeTipoAvaliacaoDispositivo.id = result[k].id
             }
       })
+  }
+
+  /**
+   *
+   * @param numeroSerie
+   */
+  desvincular(numeroSerie: string) {
+    this.dispositivoRepository.desvincular(numeroSerie).toPromise().then(() =>
+      this.openSnackBar('Desvinculado com sucesso!')
+    )
   }
 
   /**

@@ -1,7 +1,8 @@
-<div layout-align='center center' layout-gt-xs='row' layout-margin >
+<div layout-align='center center' layout-gt-xs='row' layout-margin>
   <div layout='row' flex-gt-xs='80' layout-margin>
     <div flex layout-margin layout='column' layout-align='center center'>
-      <mat-card class='bgc-grey-50' layout-margin style='width: calc(100% - 15px)' *ngIf='dispositivo?.numeroLicenca' [@fadeInOut]>
+      <mat-card class='bgc-grey-50' layout-margin style='width: calc(100% - 15px)' *ngIf='dispositivo?.numeroLicenca'
+                [@fadeInOut]>
         <mat-card-content>
 
           <div layout='row'>
@@ -31,22 +32,28 @@
                       <h2 flex='100' class='mat-subheading-2 tc-blue-grey-500 no-margin'>
                         {{dispositivo?.interna ? 'Dispositivo interno' : 'Dispositivo externo'}}
                       </h2>
-                      <h2 *ngIf='dispositivo?.interna' flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Modo quiosque: {{dispositivo?.modoQuiosque ? 'Sim' : 'Não'}}</h2>
-                      <h2 *ngIf='dispositivo?.interna' flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Modo insônia: {{dispositivo?.modoInsonia ? 'Sim' : 'Não'}}</h2>
-                      <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Tempo de espera entre as avaliações (Em segundos): {{dispositivo?.time}}</h2>
-                      <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Quebrar linha durante a seleção de itens avaliáveis: {{dispositivo?.quebrarLinhaNaSelecaoDeItemAvaliavel ? 'Sim' : 'Não'}}</h2>
-                      <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Número da licença: {{dispositivo?.numeroLicenca}}</h2>
-                      <h2 *ngIf='dispositivo?.interna && dispositivo?.senha' flex class="mat-subheading-2 tc-blue-grey-500 no-margin">
+                      <h2 *ngIf='dispositivo?.interna' flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Modo
+                        quiosque: {{dispositivo?.modoQuiosque ? 'Sim' : 'Não'}}</h2>
+                      <h2 *ngIf='dispositivo?.interna' flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Modo
+                        insônia: {{dispositivo?.modoInsonia ? 'Sim' : 'Não'}}</h2>
+                      <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Tempo de espera entre as avaliações
+                        (Em segundos): {{dispositivo?.time}}</h2>
+                      <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Quebrar linha durante a seleção de
+                        itens avaliáveis: {{dispositivo?.quebrarLinhaNaSelecaoDeItemAvaliavel ? 'Sim' : 'Não'}}</h2>
+                      <h2 flex class="mat-subheading-2 tc-blue-grey-500 no-margin">Número da
+                        licença: {{dispositivo?.numeroLicenca}}</h2>
+                      <h2 *ngIf='dispositivo?.interna && dispositivo?.senha' flex
+                          class="mat-subheading-2 tc-blue-grey-500 no-margin">
                         Senha: {{dispositivo?.senha}}
                       </h2>
                       <div flex layout='row' *ngIf='dispositivo?.interna && dispositivo?.numeroSerie'>
-                        <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin'>
+                        <h2 (click)='desvincular(dispositivo?.numeroSerie)'
+                            class='mat-subheading-2 tc-dark-blue-grey-B65 no-margin' style='cursor: pointer'>
                           Número de série vinculado: {{dispositivo?.numeroSerie}}
+                          <a style='padding-left: 0'>
+                            (Desvincular)
+                          </a>
                         </h2>
-                        <button mat-raised-button color='warn'>
-                          <mat-icon>block</mat-icon>
-                          <span>Desvincular</span>
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -100,7 +107,7 @@
         </mat-form-field>
       </div>
 
-      <mat-card  class='bgc-grey-50' style='width: 100%' *ngIf='vincularUnidadeTipoSvaliacao'>
+      <mat-card class='bgc-grey-50' style='width: 100%' *ngIf='vincularUnidadeTipoSvaliacao'>
 
         <vincular-unidade-tipo-avaliacao *ngIf='dispositivo?.numeroLicenca' [(unidades)]='unidades' [filter]='filter'
                                          [(unidadesTiposAvaliacoesDispositivo)]='dispositivo.unidadesTiposAvaliacoesDispositivo'
