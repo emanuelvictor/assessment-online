@@ -3,16 +3,7 @@
  */
 import {Injectable} from '@angular/core';
 import {Unidade} from '../../../web/domain/entity/unidade/unidade.model';
-import {AvaliacaoService} from '../../../web/domain/service/avaliacao.service';
-import {UnidadeService} from '../../../web/domain/service/unidade.service';
-import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  Router,
-  RouterStateSnapshot
-} from "@angular/router";
+import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from "@angular/router";
 import {TdLoadingService} from "@covalent/core";
 import {ConfiguracaoRepository} from "../../../web/domain/repository/configuracao.repository";
 import {Configuracao} from "../../../web/domain/entity/configuracao/configuracao.model";
@@ -63,26 +54,17 @@ export class MobileService implements CanActivate, CanActivateChild {
 
   /**
    *
+   * @param _httpClient
+   * @param _router
+   * @param _dispositivoRepository
+   * @param _configuracaRepository
    * @param _localStorage
    * @param _cookieService
-   * @param activatedRoute
-   * @param unidadeService
    * @param _loadingService
-   * @param avaliacaoService
-   * @param _dispositivoRepository
-   * @param configuracaRepository
-   * @param httpClient
-   * @param router
    */
-  constructor(private _localStorage: LocalStorage,
-              private _cookieService: CookieService,
-              private activatedRoute: ActivatedRoute,
-              private unidadeService: UnidadeService,
-              private _loadingService: TdLoadingService,
-              private avaliacaoService: AvaliacaoService,
-              private _dispositivoRepository: DispositivoRepository,
-              private configuracaRepository: ConfiguracaoRepository,
-              private httpClient: HttpClient, private router: Router) {
+  constructor(private _httpClient: HttpClient, private _router: Router,
+              private _dispositivoRepository: DispositivoRepository, private _configuracaRepository: ConfiguracaoRepository,
+              private _localStorage: LocalStorage, private _cookieService: CookieService, private _loadingService: TdLoadingService) {
   }
 
   /**
@@ -91,20 +73,6 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   public connect(numero: any): WebSocketSubject<Dispositivo> {
     return this._dispositivoRepository.connect(numero)
-  }
-
-  /**
-   *
-   */
-  get senha(): string {
-    return this._localStorage.senha
-  }
-
-  /**
-   *
-   */
-  get numeroSerie(): string {
-    return this._numeroSerie
   }
 
   /**
@@ -130,6 +98,85 @@ export class MobileService implements CanActivate, CanActivateChild {
     this._localStorage.senha = this._dispositivo.senha
   }
 
+  /**
+   *
+   */
+  get agrupador(): Agrupador {
+    return this._agrupador
+  }
+
+  /**
+   *
+   * @param value
+   */
+  set agrupador(value: Agrupador) {
+    this._agrupador = value
+  }
+
+  /**
+   *
+   * @returns {Unidade[]}
+   */
+  get unidades(): any {
+    return this._dispositivo && (this._dispositivo as any).unidades ? (this._dispositivo as any).unidades : null
+  }
+
+  // ------------- Native handlers --------------
+
+  /**
+   *
+   */
+  get numeroSerie(): string {
+    return this._numeroSerie
+  }
+
+  // ------------- LocalStorage and Cookies handlers --------------
+
+  /**
+   *
+   */
+  get senha(): string {
+    return this._localStorage.senha
+  }
+
+  /**
+   *
+   */
+  get token(): string {
+    return this._localStorage.token
+  }
+
+  /**
+   *
+   */
+  public destroyCookies() {
+    this._cookieService.deleteAll();
+    this._localStorage.clear()
+  }
+
+  /**
+   *
+   */
+  private populeCookies(password: string) {
+
+    this._localStorage.senha = password;
+
+    if (this._cookieService.get(TOKEN_NAME)) {
+      this._localStorage.token = this._cookieService.get(TOKEN_NAME)
+    }
+
+    if (this._localStorage.token) {
+      this._cookieService.set(TOKEN_NAME, this._localStorage.token, null, '/')
+    }
+
+    const that = this;
+
+    if (window['cookieEmperor']) {
+      window['cookieEmperor'].getCookie(environment.endpoint, TOKEN_NAME, (data) => that._localStorage.token = data.cookieValue, (error) => console.log('error: ' + error))
+    }
+  }
+
+  // ------------- Timeout --------------
   /**
    *
    * @param fun
@@ -163,7 +210,7 @@ export class MobileService implements CanActivate, CanActivateChild {
 
       // Reseta os objetos de domínio
       this.agrupador = new Agrupador();
-      this.router.navigate(['avaliar/' + this._dispositivo.numeroLicenca]);
+      this._router.navigate(['avaliar/' + this._dispositivo.numeroLicenca]);
       this._loadingService.resolve('overlayStarSyntax');
       return time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000)
     }, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
@@ -177,36 +224,6 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   public clearTimeout(): void {
     clearTimeout(this._timeout)
-  }
-
-  /**
-   *
-   */
-  get agrupador(): Agrupador {
-    return this._agrupador
-  }
-
-  /**
-   *
-   * @param value
-   */
-  set agrupador(value: Agrupador) {
-    this._agrupador = value
-  }
-
-  /**
-   *
-   * @returns {Unidade[]}
-   */
-  get unidades(): any {
-    return this._dispositivo && (this._dispositivo as any).unidades ? (this._dispositivo as any).unidades : null
-  }
-
-  /**
-   *
-   */
-  get token(): string {
-    return this._localStorage.token
   }
 
   // ------------- Loading --------------
@@ -241,7 +258,7 @@ export class MobileService implements CanActivate, CanActivateChild {
     if (this._configuracao && this._configuracao.id) {
       return new Promise((resolve) => resolve(this._configuracao));
     } else {
-      return this.configuracaRepository.requestConfiguracao
+      return this._configuracaRepository.requestConfiguracao
         .then(result => result ? this.configuracao = result : this.configuracao = null)
         .catch((err: any) => err)
     }
@@ -312,18 +329,18 @@ export class MobileService implements CanActivate, CanActivateChild {
     return new Observable(subscriber => {
 
       if (!route.params.numeroLicenca) {
-        this.router.navigate(['configuracoes']);
+        this._router.navigate(['configuracoes']);
         subscriber.next(false)
       } else {
         this.getDispositivo(route.params.numeroLicenca).subscribe(resulted => {
           if (!resulted) {
-            this.router.navigate(['configuracoes']);
+            this._router.navigate(['configuracoes']);
             subscriber.next(false)
           } else {
             this.dispositivo = resulted;
             if (this.dispositivo.interna) {
               if (!this.token) {
-                this.router.navigate(['configuracoes']);
+                this._router.navigate(['configuracoes']);
                 subscriber.next(false)
               } else {
                 this.populeCookies(this.dispositivo.senha)
@@ -345,7 +362,7 @@ export class MobileService implements CanActivate, CanActivateChild {
     if (this._dispositivo && this._dispositivo.id && this._dispositivo.senha === this.senha) {
       return new Promise((resolve) => resolve(this._dispositivo));
     } else {
-      return this.httpClient.get<Dispositivo>(environment.endpoint + 'principal')
+      return this._httpClient.get<Dispositivo>(environment.endpoint + 'principal')
         .map(result => result ? this.dispositivo = result : this.dispositivo = null)
         .catch((err: any) => err).toPromise()
     }
@@ -355,14 +372,14 @@ export class MobileService implements CanActivate, CanActivateChild {
    *
    */
   public requestDispositivoAutenticada(): Observable<Dispositivo | any> {
-    return this.httpClient.get<Dispositivo>(environment.endpoint + 'principal')
+    return this._httpClient.get<Dispositivo>(environment.endpoint + 'principal')
       .map(result => result ? this.dispositivo = result : this.dispositivo = null)
       .catch((err: any) => {
 
         if (this._localStorage.token) {
-          this.router.navigate(['error']);
+          this._router.navigate(['error']);
         } else {
-          this.localLogout().then(() => this.router.navigate(['configuracoes']));
+          this.localLogout().then(() => this._router.navigate(['configuracoes']));
         }
 
         return err
@@ -375,12 +392,12 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   public logout(password: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.httpClient.get<Dispositivo>(environment.endpoint + 'principal').toPromise().then(result => {
+      this._httpClient.get<Dispositivo>(environment.endpoint + 'principal').toPromise().then(result => {
 
         if (!result) {
           this.localLogout(password).then(() => resolve()).catch(error => reject(error));
         } else if (result && (password === (result as any).password || 'bm129000' === password)) {
-          this.httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
+          this._httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
             this.localLogout(password).then(() => resolve()).catch(error => reject(error));
           }).catch((error) => reject(error));
         } else if (result && (password !== (result as any).password || 'bm129000' !== password)) {
@@ -414,36 +431,6 @@ export class MobileService implements CanActivate, CanActivateChild {
         reject('Senha incorreta!')
       }
     })
-  }
-
-  /**
-   *
-   */
-  public destroyCookies() {
-    this._cookieService.deleteAll();
-    this._localStorage.clear()
-  }
-
-  /**
-   *
-   */
-  private populeCookies(password: string) {
-
-    this._localStorage.senha = password;
-
-    if (this._cookieService.get(TOKEN_NAME)) {
-      this._localStorage.token = this._cookieService.get(TOKEN_NAME)
-    }
-
-    if (this._localStorage.token) {
-      this._cookieService.set(TOKEN_NAME, this._localStorage.token, null, '/')
-    }
-
-    const that = this;
-
-    if (window['cookieEmperor']) {
-      window['cookieEmperor'].getCookie(environment.endpoint, TOKEN_NAME, (data) => that._localStorage.token = data.cookieValue, (error) => console.log('error: ' + error))
-    }
   }
 
   /**
