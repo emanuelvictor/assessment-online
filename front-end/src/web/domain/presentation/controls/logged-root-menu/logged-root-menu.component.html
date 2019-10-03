@@ -115,9 +115,8 @@
         </div>
       </mat-list-item>
     </div>
-    <mat-divider class="bgc-blue-grey-300 push-top push-bottom pad-left"></mat-divider>
 
-    <mat-list-item class="push-bottom"
+    <mat-list-item class='push-bottom'
                    routerLink="/dashboard/configuracoes"
                    routerLinkActive #rlaSettings="routerLinkActive"
                    [ngClass]="{'menu-active': rlaSettings.isActive}">
@@ -128,13 +127,38 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item routerLinkActive #rlaAssinatura='routerLinkActive'
+    <mat-divider class="bgc-blue-grey-300 push-top push-bottom pad-left"></mat-divider>
+
+    <mat-list-item *ngIf='authenticatedUser?.isAdministrador'
+                   routerLinkActive #rlaFatura='routerLinkActive'
+                   [ngClass]="{'menu-active': rlaFatura.isActive}"
+                   class='push-bottom' routerLink='/dashboard/faturas'>
+      <div layout='row' flex class='pad-left'>
+        <span flex='10'></span>
+        <mat-icon matListAvatar flex>attach_money</mat-icon>
+        <h3 matLine style='color: white' flex='85'> Minhas Faturas </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item *ngIf='authenticatedUser?.isAdministrador'
+                   routerLinkActive #rlaAssinatura='routerLinkActive'
                    [ngClass]="{'menu-active': rlaAssinatura.isActive}"
                    class='push-bottom' routerLink='/dashboard/assinatura'>
       <div layout='row' flex class='pad-left'>
         <span flex='10'></span>
         <mat-icon matListAvatar flex>shopping_cart</mat-icon>
-        <h3 matLine style='color: white' flex='85'> Assinatura </h3>
+        <h3 matLine style='color: white' flex='85'> Minha Assinatura </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item *ngIf='authenticatedUser?.isRoot'
+                   routerLinkActive #rlaCupom='routerLinkActive'
+                   [ngClass]="{'menu-active': rlaCupom.isActive}"
+                   class='push-bottom' routerLink='/dashboard/cupons'>
+      <div layout='row' flex class='pad-left'>
+        <span flex='10'></span>
+        <mat-icon matListAvatar flex>whatshot</mat-icon>
+        <h3 matLine style='color: white' flex='85'> Cupons </h3>
       </div>
     </mat-list-item>
 

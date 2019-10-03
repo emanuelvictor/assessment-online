@@ -81,9 +81,7 @@
       </div>
     </mat-list-item>
 
-    <mat-divider class="bgc-blue-grey-300 push-top push-bottom pad-left" *ngIf='authenticatedUser?.isAdministrador'></mat-divider>
-
-    <mat-list-item class="push-bottom"
+    <mat-list-item class='push-bottom'
                    routerLink="/dashboard/configuracoes"
                    *ngIf='authenticatedUser?.isAdministrador'
                    routerLinkActive #rlaSettings="routerLinkActive"
@@ -92,6 +90,19 @@
         <span flex="10"></span>
         <mat-icon matListAvatar flex>settings</mat-icon>
         <h3 matLine style="color: white" flex="85"> Configurações </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-divider class="bgc-blue-grey-300 push-top push-bottom pad-left" *ngIf='authenticatedUser?.isAdministrador'></mat-divider>
+
+    <mat-list-item *ngIf='authenticatedUser?.isAdministrador'
+                   routerLinkActive #rlaFatura='routerLinkActive'
+                   [ngClass]="{'menu-active': rlaFatura.isActive}"
+                   class='push-bottom' routerLink='/dashboard/faturas'>
+      <div layout='row' flex class='pad-left'>
+        <span flex='10'></span>
+        <mat-icon matListAvatar flex>attach_money</mat-icon>
+        <h3 matLine style='color: white' flex='85'> Minhas Faturas </h3>
       </div>
     </mat-list-item>
 
