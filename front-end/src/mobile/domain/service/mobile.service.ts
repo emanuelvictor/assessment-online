@@ -70,30 +70,32 @@ export class MobileService implements CanActivate, CanActivateChild {
 
   /**
    *
-   * @param numeroLicenca
    */
-  public connect(numeroLicenca: any): void {
-    this._webSocketSubject = this._dispositivoRepository.connect(numeroLicenca);
+  public async connect() {
+    const dispositivo: Dispositivo = (await this.getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca());
+    if (dispositivo.interna) {
+      this._webSocketSubject = this._dispositivoRepository.connect(dispositivo.numeroLicenca);
 
-    this._webSocketSubject.subscribe(result => {
-      // Se não tiver número de série e for interna, então desloga tudo
-      if (!result.numeroSerie && result.interna){
-        this._httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
-          this.destroyCookies();
-          this.agrupador = new Agrupador();
-          this.dispositivo = new Dispositivo();
-          this._router.navigate(['configuracoes'])
-        }).catch((error) => {
-          this.destroyCookies();
-          this.agrupador = new Agrupador();
-          this.dispositivo = new Dispositivo();
-          this._router.navigate(['configuracoes'])
-        });
+      this._webSocketSubject.subscribe(result => {
+        // Se não tiver número de série e for interna, então desloga tudo
+        if (!result.numeroSerie && result.interna) {
+          this._httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
+            this.destroyCookies();
+            this.agrupador = new Agrupador();
+            this.dispositivo = new Dispositivo();
+            this._router.navigate(['configuracoes'])
+          }).catch((error) => {
+            this.destroyCookies();
+            this.agrupador = new Agrupador();
+            this.dispositivo = new Dispositivo();
+            this._router.navigate(['configuracoes'])
+          });
 
-        // Desubscreve o websocket
-        this._webSocketSubject.unsubscribe()
-      }
-    })
+          // Desubscreve o websocket
+          this._webSocketSubject.unsubscribe()
+        }
+      })
+    }
   }
 
   /**
@@ -344,9 +346,6 @@ export class MobileService implements CanActivate, CanActivateChild {
 
         // Popula os cookies
         this.populeCookies(senha);
-
-        // Conecta o webscoket
-        this.connect(numeroLicenca);
 
         // Resolve a promise
         resolve(result)
