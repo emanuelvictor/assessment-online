@@ -129,10 +129,10 @@
 
     <mat-divider class="bgc-blue-grey-300 push-top push-bottom pad-left"></mat-divider>
 
-    <mat-list-item *ngIf='authenticatedUser?.isAdministrador'
-                   routerLinkActive #rlaFatura='routerLinkActive'
+    <mat-list-item  routerLinkActive #rlaFatura='routerLinkActive'
                    [ngClass]="{'menu-active': rlaFatura.isActive}"
-                   class='push-bottom' routerLink='/dashboard/faturas'>
+                   class='push-bottom' routerLink='/dashboard/faturas'
+                   *ngIf="esquema !== 'public' && authenticatedUser?.isAdministrador">
       <div layout='row' flex class='pad-left'>
         <span flex='10'></span>
         <mat-icon matListAvatar flex>attach_money</mat-icon>
@@ -140,10 +140,10 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item *ngIf='authenticatedUser?.isAdministrador'
-                   routerLinkActive #rlaAssinatura='routerLinkActive'
+    <mat-list-item routerLinkActive #rlaAssinatura='routerLinkActive'
                    [ngClass]="{'menu-active': rlaAssinatura.isActive}"
-                   class='push-bottom' routerLink='/dashboard/assinatura'>
+                   class='push-bottom' routerLink='/dashboard/assinatura'
+                   *ngIf="esquema !== 'public' && authenticatedUser?.isAdministrador">
       <div layout='row' flex class='pad-left'>
         <span flex='10'></span>
         <mat-icon matListAvatar flex>shopping_cart</mat-icon>
