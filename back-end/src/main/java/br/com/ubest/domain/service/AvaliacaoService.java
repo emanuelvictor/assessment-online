@@ -3,7 +3,6 @@ package br.com.ubest.domain.service;
 import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.Agrupador;
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
-import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +67,6 @@ public class AvaliacaoService {
         return this.avaliacaoRepository.findById(id);
     }
 
-    // TODO método falcatruado pq ainda não consegui resolver o B.O da recursividade
 
     /**
      * @param agrupador
@@ -76,32 +74,47 @@ public class AvaliacaoService {
      */
     public Mono<Agrupador> save(final Agrupador agrupador) {
 
-        return ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication).switchIfEmpty(Mono.empty()).map(authentication -> {
-
-            // Código para validação da avaliação
-            if (agrupador.getRecap() != null) {
-                if (this.dispositivoRepository.findById(agrupador.avaliacoes.get(0).avaliacoesAvaliaveis.get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo().getId()).orElseThrow().isInterna())
-                    throw new RuntimeException("Licença interna");
-                if (!recaptchaService.checkRecaptcha(agrupador.getRecap()))
-                    throw new RuntimeException("Você é um robô?");
-            } else if (authentication != null) {
-                if (!this.dispositivoRepository.findById(agrupador.avaliacoes.get(0).avaliacoesAvaliaveis.get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo().getId()).orElseThrow().isInterna())
-                    throw new RuntimeException("Licença externa");
-            }
-
-            // Popula recursividade removida
-            agrupador.getAvaliacoes().forEach(avaliacao -> {
-                        avaliacao.setAgrupador(agrupador);
-                        if (avaliacao.getAvaliacoesAvaliaveis() != null && !avaliacao.getAvaliacoesAvaliaveis().isEmpty())
-                            avaliacao.getAvaliacoesAvaliaveis().forEach(avaliacaoAvaliavel -> avaliacaoAvaliavel.setAvaliacao(avaliacao));
-                    }
-            );
+        if (agrupador.getRecap() != null) {
+            this.validateRecaptcha(agrupador);
 
             tenantIdentifierResolver.setSchema(agrupador.avaliacoes.get(0).avaliacoesAvaliaveis.get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo().getTenant());
-            return saveInner(agrupador);
-
-        });
+            return Mono.just(saveInner(preSave(agrupador)));
+        } else {
+            return ReactiveSecurityContextHolder.getContext()
+                    .map(SecurityContext::getAuthentication)
+                    .switchIfEmpty(Mono.empty())
+                    .map(authentication -> saveInner(preSave(agrupador)));
+        }
     }
+
+    /**
+     *
+     * @param agrupador
+     */
+    @Transactional(readOnly = true)
+    void validateRecaptcha(final Agrupador agrupador) {
+        if (this.dispositivoRepository.findById(agrupador.avaliacoes.get(0).avaliacoesAvaliaveis.get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo().getId()).orElseThrow().isInterna())
+            throw new RuntimeException("Licença interna");
+        if (!recaptchaService.checkRecaptcha(agrupador.getRecap()))
+            throw new RuntimeException("Você é um robô?");
+    }
+
+    /**
+     * @param agrupador
+     * @return
+     */
+    private static Agrupador preSave(final Agrupador agrupador) {
+        // Popula recursividade removida
+        agrupador.getAvaliacoes().forEach(avaliacao -> {
+                    avaliacao.setAgrupador(agrupador);
+                    if (avaliacao.getAvaliacoesAvaliaveis() != null && !avaliacao.getAvaliacoesAvaliaveis().isEmpty())
+                        avaliacao.getAvaliacoesAvaliaveis().forEach(avaliacaoAvaliavel -> avaliacaoAvaliavel.setAvaliacao(avaliacao));
+                }
+        );
+
+        return agrupador;
+    }
+
 
     /**
      * @param agrupador
