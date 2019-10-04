@@ -41,6 +41,9 @@ import {AlterarDispositivoComponent} from "./presentation/dashboard/dispositivo/
 import {ConsultarDispositivosComponent} from "./presentation/dashboard/dispositivo/consultar-dispositivos/consultar-dispositivos.component";
 import {AssinaturaComponent} from "./presentation/dashboard/assinatura/assinatura.component";
 import {ErrorComponent} from "./presentation/controls/error/error.component";
+import {ConsultarFaturasComponent} from "./presentation/dashboard/fatura/consultar-faturas/consultar-faturas.component";
+import {FaturaViewComponent} from "./presentation/dashboard/fatura/fatura-view.component";
+import {VisualizarFaturaComponent} from "./presentation/dashboard/fatura/visualizar-fatura/visualizar-fatura.component";
 
 
 const routes: Routes = [
@@ -132,7 +135,15 @@ const routes: Routes = [
         },
         {
           path: 'assinatura', component: AssinaturaComponent,
-        }
+        },
+        {
+          path: 'faturas', component: FaturaViewComponent,
+          children: [
+            {path: '', component: ConsultarFaturasComponent},
+            {path: ':id', component: VisualizarFaturaComponent}
+          ]
+        },
+        { path: 'cupons', loadChildren: '../domain/presentation/dashboard/cupom/cupom.module#CupomModule'},
       ]
   },
   {

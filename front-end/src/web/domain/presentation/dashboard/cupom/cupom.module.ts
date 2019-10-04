@@ -1,0 +1,43 @@
+import {NgModule} from "@angular/core";
+import {RouterModule, Routes} from "@angular/router";
+import {VisualizarCupomComponent} from "./visualizar-cupom/visualizar-cupom.component";
+import {AlterarCupomComponent} from "./alterar-cupom/alterar-cupom.component";
+import {ConsultarCuponsComponent} from "./consultar-cupons/consultar-cupons.component";
+import {InserirCupomComponent} from "./inserir-cupom/inserir-cupom.component";
+import {CommonModule} from "@angular/common";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {CupomViewComponent} from "./cupom-view.component";
+import {CupomFormComponent} from "./inserir-cupom/cupom-form/cupom-form.component";
+import {WebSharedModule} from "../../../../application/web.shared.module";
+
+
+const routes: Routes = [
+  { path: ':id', component: VisualizarCupomComponent },
+  { path: ':id/alterar', component: AlterarCupomComponent },
+  { path: '', component: ConsultarCuponsComponent },
+  { path: 'inserir', component: InserirCupomComponent }
+];
+
+@NgModule({
+  declarations: [
+    // Cupons
+    CupomViewComponent,
+    ConsultarCuponsComponent,
+    VisualizarCupomComponent,
+    AlterarCupomComponent,
+    InserirCupomComponent,
+    CupomFormComponent,
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    WebSharedModule,
+    RouterModule.forChild(routes)
+  ],
+  exports: [
+  ],
+  entryComponents: [
+  ],
+})
+export class CupomModule {}

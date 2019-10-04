@@ -1,21 +1,18 @@
 import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {UnidadeService} from '../../../../service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import 'moment/locale/pt-br';
-import {ConfiguracaoService} from "../../../../service/configuracao.service";
-import {UsuarioService} from "../../../../service/usuario.service";
 import {Subject} from "rxjs";
-import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
-import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
+import {Cupom} from "../../../../entity/assinatura/cupom.model";
+import {CupomRepository} from "../../../../repository/cupom.repository";
 
 @Component({
-  selector: 'consultar-dispositivos',
-  templateUrl: './consultar-dispositivos.component.html',
-  styleUrls: ['./consultar-dispositivos.component.css']
+  selector: 'consultar-cupons',
+  templateUrl: './consultar-cupons.component.html',
+  styleUrls: ['./consultar-cupons.component.css']
 })
-export class ConsultarDispositivosComponent implements OnInit {
+export class ConsultarCuponsComponent implements OnInit {
 
   /**
    *
@@ -48,9 +45,9 @@ export class ConsultarDispositivosComponent implements OnInit {
   /**
    *
    * dataSource com os usuários
-   * @type {MatTableDataSource<Dispositivo>}
+   * @type {MatTableDataSource<Cupom>}
    */
-  dataSource = new MatTableDataSource<Dispositivo>();
+  dataSource = new MatTableDataSource<Cupom>();
 
   /**
    * Bind com o objeto paginator
@@ -74,13 +71,11 @@ export class ConsultarDispositivosComponent implements OnInit {
    *
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
-   * @param {dispositivoRepository} dispositivoRepository
-   * @param {ConfiguracaoService} configuracaoService
+   * @param {cupomRepository} cupomRepository
    */
   constructor(private domSanitizer: DomSanitizer,
               private iconRegistry: MatIconRegistry,
-              private configuracaoService: ConfiguracaoService,
-              private dispositivoRepository: DispositivoRepository) {
+              private cupomRepository: CupomRepository) {
 
   }
 
@@ -98,7 +93,7 @@ export class ConsultarDispositivosComponent implements OnInit {
     /**
      * Listagem inicial
      */
-    this.listDispositivosByFilters(this.pageRequest);
+    this.listCupomsByFilters(this.pageRequest);
 
     /**
      * Sobrescreve o sortChange do sort bindado
@@ -110,7 +105,7 @@ export class ConsultarDispositivosComponent implements OnInit {
         'direction': this.sort.direction
       };
 
-      this.listDispositivosByFilters(this.pageRequest)
+      this.listCupomsByFilters(this.pageRequest)
     });
 
     /**
@@ -122,9 +117,9 @@ export class ConsultarDispositivosComponent implements OnInit {
       pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); // TODO falcatruassa para os objetos internos
       pageRequest.defaultFilter.push(model);
 
-      this.dispositivoRepository.listByFilters(pageRequest)
+      this.cupomRepository.listByFilters(pageRequest)
         .subscribe((result) => {
-          this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
+          this.dataSource = new MatTableDataSource<Cupom>(result.content);
           this.page = result
         })
     })
@@ -138,9 +133,9 @@ export class ConsultarDispositivosComponent implements OnInit {
 
     this.pageRequest.page = 0;
 
-    this.dispositivoRepository.listByFilters(this.pageRequest)
+    this.cupomRepository.listByFilters(this.pageRequest)
       .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
+        this.dataSource = new MatTableDataSource<Cupom>(result.content);
         this.page = result
       })
   }
@@ -149,14 +144,14 @@ export class ConsultarDispositivosComponent implements OnInit {
    * Consulta de usuarios
    *
    */
-  public listDispositivosByFilters(pageRequest: any) {
+  public listCupomsByFilters(pageRequest?: any) {
 
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;
 
-    this.dispositivoRepository.listByFilters(pageRequest)
+    this.cupomRepository.listByFilters(pageRequest)
       .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
+        this.dataSource = new MatTableDataSource<Cupom>(result.content);
         this.page = result
       })
   }

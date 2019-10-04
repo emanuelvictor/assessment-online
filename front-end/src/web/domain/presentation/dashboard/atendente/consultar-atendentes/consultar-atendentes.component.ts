@@ -154,7 +154,7 @@ export class ConsultarAtendentesComponent implements OnInit {
     this.iconRegistry.addSvgIconInNamespace('assets', 'regular', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/regular.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'bom', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/bom.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
-    this.iconRegistry.addSvgIconInNamespace('assets', 'media', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/baseline-bar_chart-24px.svg'));
+    this.iconRegistry.addSvgIconInNamespace('assets', 'media', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/baseline-bar_chart-24px.svg'))
 
   }
 
@@ -170,6 +170,7 @@ export class ConsultarAtendentesComponent implements OnInit {
       this.pageRequest.unidadesFilter = (await this.unidadeRepository.listLightByFilters({idsFilter: this.pageRequest.unidadesFilter}).toPromise()).content;
     }
 
+    //
     if (this.pageRequest.tiposAvaliacoesFilter.length) {
       this.pageRequest.tiposAvaliacoesFilter = (await this.tipoAvaliacaoRepository.listLightByFilters({idsFilter: this.pageRequest.tiposAvaliacoesFilter}).toPromise()).content;
     }

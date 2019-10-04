@@ -26,39 +26,76 @@ public class Avaliacao extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -951100332065317651L;
 
+    /**
+     *
+     */
     @OneToMany(targetEntity = AvaliacaoAvaliavel.class, mappedBy = "avaliacao", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     public List<AvaliacaoAvaliavel> avaliacoesAvaliaveis;
 
+    /**
+     *
+     */
     @ManyToOne(optional = false)
     @JoinColumn(name = "agrupador_id")
     private Agrupador agrupador;
 
+    /**
+     *
+     */
     @NotNull
     @Column(nullable = false, columnDefinition = "NUMERIC(19,0)")
     private int nota;
 
+    /**
+     *
+     */
     @NotNull
     @Column(nullable = false)
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime data;
 
+    /**
+     *
+     */
     @Column
     @JsonIgnore
     private byte[] foto;
 
+    /**
+     *
+     */
     @Column
     private String fotoPath;
 
+    /**
+     *
+     */
     @Transient
     private Unidade unidade;
 
+    /**
+     *
+     */
     @Transient
     private TipoAvaliacao tipoAvaliacao;
 
+    /**
+     *
+     */
     public Avaliacao() {
     }
 
+    /**
+     *
+     * @param id
+     * @param fotoPath
+     * @param nota
+     * @param data
+     * @param agrupador
+     * @param unidade
+     * @param tipoAvaliacao
+     */
     public Avaliacao(final long id, final String fotoPath, final @NotNull int nota, final @NotNull LocalDateTime data, final Agrupador agrupador, final Unidade unidade, final TipoAvaliacao tipoAvaliacao) {
         super(id);
         this.nota = nota;
@@ -69,6 +106,9 @@ public class Avaliacao extends AbstractEntity implements Serializable {
         this.agrupador = agrupador;
     }
 
+    /**
+     *
+     */
     @PrePersist
     public void prePersist() {
 

@@ -7,7 +7,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {MobileRoutingModule} from './mobile.routing.module';
 import {DateAdapter, MatRippleModule} from '@angular/material';
-import {SharedModule} from '../../shared/shared.module';
+import {WebSharedModule} from '../../web/application/web.shared.module';
 import {EnderecoService} from '../../web/domain/service/endereco.service';
 import {UsuarioService} from '../../web/domain/service/usuario.service';
 import {UnidadeService} from '../../web/domain/service/unidade.service';
@@ -81,7 +81,7 @@ import {ConclusaoComponent} from "./presentation/avaliacao/avaliar/executar-aval
     EllipsisModule,
     MatRippleModule,
     MatGridListModule,
-    SharedModule,
+    WebSharedModule,
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,

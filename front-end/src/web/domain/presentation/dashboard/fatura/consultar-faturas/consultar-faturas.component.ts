@@ -1,21 +1,19 @@
 import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {UnidadeService} from '../../../../service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import 'moment/locale/pt-br';
 import {ConfiguracaoService} from "../../../../service/configuracao.service";
-import {UsuarioService} from "../../../../service/usuario.service";
 import {Subject} from "rxjs";
-import {Dispositivo} from "../../../../entity/avaliacao/dispositivo.model";
-import {DispositivoRepository} from "../../../../repository/dispositivo.repository";
+import {FaturaRepository} from "../../../../repository/fatura.repository";
+import {Fatura} from "../../../../entity/assinatura/fatura.model";
 
 @Component({
-  selector: 'consultar-dispositivos',
-  templateUrl: './consultar-dispositivos.component.html',
-  styleUrls: ['./consultar-dispositivos.component.css']
+  selector: 'consultar-faturas',
+  templateUrl: './consultar-faturas.component.html',
+  styleUrls: ['./consultar-faturas.component.css']
 })
-export class ConsultarDispositivosComponent implements OnInit {
+export class ConsultarFaturasComponent implements OnInit {
 
   /**
    *
@@ -48,9 +46,9 @@ export class ConsultarDispositivosComponent implements OnInit {
   /**
    *
    * dataSource com os usuários
-   * @type {MatTableDataSource<Dispositivo>}
+   * @type {MatTableDataSource<Fatura>}
    */
-  dataSource = new MatTableDataSource<Dispositivo>();
+  dataSource = new MatTableDataSource<Fatura>();
 
   /**
    * Bind com o objeto paginator
@@ -74,13 +72,13 @@ export class ConsultarDispositivosComponent implements OnInit {
    *
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
-   * @param {dispositivoRepository} dispositivoRepository
+   * @param {faturaRepository} faturaRepository
    * @param {ConfiguracaoService} configuracaoService
    */
   constructor(private domSanitizer: DomSanitizer,
               private iconRegistry: MatIconRegistry,
-              private configuracaoService: ConfiguracaoService,
-              private dispositivoRepository: DispositivoRepository) {
+              private faturaRepository: FaturaRepository,
+              private configuracaoService: ConfiguracaoService) {
 
   }
 
@@ -98,7 +96,7 @@ export class ConsultarDispositivosComponent implements OnInit {
     /**
      * Listagem inicial
      */
-    this.listDispositivosByFilters(this.pageRequest);
+    this.listFaturasByFilters(this.pageRequest);
 
     /**
      * Sobrescreve o sortChange do sort bindado
@@ -110,7 +108,7 @@ export class ConsultarDispositivosComponent implements OnInit {
         'direction': this.sort.direction
       };
 
-      this.listDispositivosByFilters(this.pageRequest)
+      this.listFaturasByFilters(this.pageRequest)
     });
 
     /**
@@ -122,9 +120,9 @@ export class ConsultarDispositivosComponent implements OnInit {
       pageRequest.defaultFilter = Object.assign([], pageRequest.defaultFilter); // TODO falcatruassa para os objetos internos
       pageRequest.defaultFilter.push(model);
 
-      this.dispositivoRepository.listByFilters(pageRequest)
+      this.faturaRepository.listByFilters(pageRequest)
         .subscribe((result) => {
-          this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
+          this.dataSource = new MatTableDataSource<Fatura>(result.content);
           this.page = result
         })
     })
@@ -138,9 +136,9 @@ export class ConsultarDispositivosComponent implements OnInit {
 
     this.pageRequest.page = 0;
 
-    this.dispositivoRepository.listByFilters(this.pageRequest)
+    this.faturaRepository.listByFilters(this.pageRequest)
       .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
+        this.dataSource = new MatTableDataSource<Fatura>(result.content);
         this.page = result
       })
   }
@@ -149,14 +147,14 @@ export class ConsultarDispositivosComponent implements OnInit {
    * Consulta de usuarios
    *
    */
-  public listDispositivosByFilters(pageRequest: any) {
+  public listFaturasByFilters(pageRequest: any) {
 
     pageRequest.page = this.paginator.pageIndex;
     pageRequest.size = this.paginator.pageSize;
 
-    this.dispositivoRepository.listByFilters(pageRequest)
+    this.faturaRepository.listByFilters(pageRequest)
       .subscribe((result) => {
-        this.dataSource = new MatTableDataSource<Dispositivo>(result.content);
+        this.dataSource = new MatTableDataSource<Fatura>(result.content);
         this.page = result
       })
   }

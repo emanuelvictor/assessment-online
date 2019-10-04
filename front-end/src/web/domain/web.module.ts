@@ -1,6 +1,5 @@
-import {CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import 'hammerjs';
-import {HeaderComponent} from './presentation/controls/header/header.component';
 import {AuthenticationService} from './service/authentication.service';
 import {DateAdapter, MatStepperModule} from '@angular/material';
 import {DashboardViewComponent} from './presentation/dashboard/dashboard-view.component';
@@ -24,16 +23,13 @@ import {LongPressDirective} from './presentation/controls/long-press/long-press.
 import {CurrencyFormatPipe} from './presentation/controls/currency-pipe-brl/currency-pipe-brl';
 import {GroupByPipe} from './presentation/controls/group-by-pipe/group-by';
 import {OrderByPipe} from './presentation/controls/order-by-pipe/order-by';
-import {AddButtonComponent} from './presentation/controls/add-button/add-button.component';
-import {CloseButtonComponent} from './presentation/controls/close-button/close-button.component';
-import {LoggedMenuComponent} from './presentation/controls/logged-menu/logged-menu.component';
 import {ConfirmDialogComponent} from './presentation/controls/confirm-dialog/confirm-dialog.component';
 import {CnpjValidator, CpfValidator, DataNascimentoValidator} from './presentation/controls/validators/validators';
 import {SomenteNumerosPositivos} from './presentation/controls/patterns/somente-numeros-positivos';
 import {Interceptor} from '../application/interceptor/interceptor';
 import {WebRoutingModule} from './web.routing.module';
 import {WebComponent} from './presentation/web.component';
-import {SharedModule} from '../../shared/shared.module';
+import {WebSharedModule} from '../application/web.shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {CommonModule, registerLocaleData} from '@angular/common';
@@ -59,11 +55,9 @@ import {AvaliacaoService} from './service/avaliacao.service';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {EstatisticasUnidadeComponent} from './presentation/dashboard/unidade/visualizar-unidade/estatisticas/estatisticas-unidade.component';
 import localePt from '@angular/common/locales/pt';
-import {EvDatepicker} from './presentation/controls/ev-datepicker/ev-datepicker';
 import {ListaUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/lista-unidades/lista-unidades.component';
 import {ConsultarUnidadesComponent} from './presentation/dashboard/unidade/consultar-unidades/consultar-unidades.component';
 import {MinhasEstatisticasComponent} from './presentation/dashboard/minha-conta/visualizar-minha-conta/estatisticas/minhas-estatisticas.component';
-import {SearchBarComponent} from './presentation/controls/search-bar/search-bar.component';
 import {FilterPipe} from './presentation/controls/filter-pipe/filter';
 import {AutofocusDirective} from './presentation/controls/autofocus/autofocus';
 import {UsuarioRepository} from './repository/usuario.repository';
@@ -81,7 +75,6 @@ import {WebLoginComponent} from './presentation/login/web-login/web-login.compon
 import {ConfiguracaoRepository} from "./repository/configuracao.repository";
 import {ConfiguracaoService} from "./service/configuracao.service";
 import {ConfiguracaoComponent} from "./presentation/dashboard/configuracao/configuracao.component";
-import {BrandComponent} from './presentation/controls/brand/brand.component';
 import {AvaliacaoViewComponent} from "./presentation/dashboard/avaliacao/avaliacao-view.component";
 import {ConsultarAvaliacoesComponent} from "./presentation/dashboard/avaliacao/consultar-avaliacoes/consultar-avaliacoes.component";
 import {VisualizarAvaliacaoComponent} from "./presentation/dashboard/avaliacao/visualizar-avaliacao/visualizar-avaliacao.component";
@@ -102,12 +95,10 @@ import {VisualizarDadosClienteComponent} from "./presentation/dashboard/cliente/
 import {ConsultarClientesComponent} from "./presentation/dashboard/cliente/consultar-clientes/consultar-clientes.component";
 import {VisualizarClienteComponent} from "./presentation/dashboard/cliente/visualizar-cliente/visualizar-cliente.component";
 import {ClienteViewComponent} from "./presentation/dashboard/cliente/cleinte-view.component";
-import {LoggedRootMenuComponent} from "./presentation/controls/logged-root-menu/logged-root-menu.component";
 import {UsuarioPessoaJuridicaFormComponent} from "./presentation/dashboard/cliente/inserir-cliente/cliente-form/pessoa-juridica/usuario-pessoa-juridica-form.component";
 import {UsuarioPessoaFisicaFormComponent} from "./presentation/dashboard/cliente/inserir-cliente/cliente-form/pessoa-fisica/usuario-pessoa-fisica-form.component";
 import {RecaptchaModule} from "ng-recaptcha";
 import {ConsultarUsuariosComponent} from "./presentation/dashboard/atendente/consultar-atendentes/consultar-usuarios.component";
-import {NoRecordsFoundComponent} from "./presentation/controls/no-records-found/no-records-found.component";
 import {DispositivoRepository} from "./repository/dispositivo.repository";
 import {DispositivoViewComponent} from "./presentation/dashboard/dispositivo/dispositivo-view.component";
 import {OrderModule} from "ngx-order-pipe";
@@ -127,6 +118,11 @@ import {ConsultarDispositivosComponent} from "./presentation/dashboard/dispositi
 import {InserirDispositivoComponent} from "./presentation/dashboard/dispositivo/inserir-dispositivo/inserir-dispositivo.component";
 import {VisualizarDispositivoComponent} from "./presentation/dashboard/dispositivo/visualizar-dispositivo/visualizar-dispositivo.component";
 import {ErrorComponent} from "./presentation/controls/error/error.component";
+import {FaturaViewComponent} from "./presentation/dashboard/fatura/fatura-view.component";
+import {ConsultarFaturasComponent} from "./presentation/dashboard/fatura/consultar-faturas/consultar-faturas.component";
+import {VisualizarFaturaComponent} from "./presentation/dashboard/fatura/visualizar-fatura/visualizar-fatura.component";
+import {FaturaRepository} from "./repository/fatura.repository";
+import {CupomRepository} from "./repository/cupom.repository";
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -163,19 +159,6 @@ registerLocaleData(localePt, 'pt-BR');
 
     // Settings
     ConfiguracaoComponent,
-
-    // Controls
-    CloseButtonComponent,
-    AddButtonComponent,
-    LoggedMenuComponent,
-    LoggedRootMenuComponent,
-    ConfirmDialogComponent,
-    WebComponent,
-    HeaderComponent,
-    FotoLoadingComponent,
-    EvDatepicker,
-    SearchBarComponent,
-    BrandComponent,
 
     // atendente
     AtendenteViewComponent,
@@ -258,12 +241,15 @@ registerLocaleData(localePt, 'pt-BR');
     CartaoComponent,
     PlanosComponent,
 
-    NoRecordsFoundComponent,
+    // Faturas
+    FaturaViewComponent,
+    ConsultarFaturasComponent,
+    VisualizarFaturaComponent,
 
     ErrorComponent
   ],
   imports: [
-    SharedModule,
+    WebSharedModule,
     CommonModule,
     BrowserModule,
     OrderModule,
@@ -273,7 +259,6 @@ registerLocaleData(localePt, 'pt-BR');
     RecaptchaModule,
     MatStepperModule
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent, InserirTipoAvaliacaoComponent],
   providers: [
 
@@ -291,6 +276,8 @@ registerLocaleData(localePt, 'pt-BR');
     EnderecoRepository,
     UnidadeRepository,
     UsuarioRepository,
+    FaturaRepository,
+    CupomRepository,
     DispositivoRepository,
     ContaRepository,
     PlanoRepository,

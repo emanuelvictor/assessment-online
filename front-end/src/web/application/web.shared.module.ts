@@ -1,6 +1,6 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import 'hammerjs';
-import {LoginComponent} from '../web/domain/presentation/login/login.component';
+import {LoginComponent} from '../domain/presentation/login/login.component';
 import {MAT_DATE_LOCALE, MatAutocompleteModule, MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatOptionModule, MatPaginatorModule, MatProgressBarModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatToolbarModule, MatTooltipModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
 import {CovalentMarkdownModule} from '@covalent/markdown';
@@ -9,15 +9,27 @@ import {TextMaskModule} from 'angular2-text-mask';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
-import {NoSubmitDirective} from '../web/domain/presentation/controls/no-sumbit/no-submit.directive';
-import {DocumentoPipe} from '../web/domain/presentation/controls/documento-pipe/documento-pipe';
-import {VirgulaPipe} from '../web/domain/presentation/controls/virgula-pipe/peso-pipe';
-import {AvatarComponent} from '../web/domain/presentation/controls/avatar/avatar.component';
-import {NoWhiteSpace} from '../web/domain/presentation/controls/patterns/no-white-space';
-import {LocalStorage} from "../web/infrastructure/local-storage/local-storage";
+import {NoSubmitDirective} from '../domain/presentation/controls/no-sumbit/no-submit.directive';
+import {DocumentoPipe} from '../domain/presentation/controls/documento-pipe/documento-pipe';
+import {VirgulaPipe} from '../domain/presentation/controls/virgula-pipe/peso-pipe';
+import {AvatarComponent} from '../domain/presentation/controls/avatar/avatar.component';
+import {NoWhiteSpace} from '../domain/presentation/controls/patterns/no-white-space';
+import {LocalStorage} from "../infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
-import {TOKEN_NAME} from "../web/domain/presentation/controls/utils";
+import {TOKEN_NAME} from "../domain/presentation/controls/utils";
 import {MatKeyboardModule} from "@ngx-material-keyboard/core";
+import {CloseButtonComponent} from "../domain/presentation/controls/close-button/close-button.component";
+import {AddButtonComponent} from "../domain/presentation/controls/add-button/add-button.component";
+import {LoggedMenuComponent} from "../domain/presentation/controls/logged-menu/logged-menu.component";
+import {LoggedRootMenuComponent} from "../domain/presentation/controls/logged-root-menu/logged-root-menu.component";
+import {ConfirmDialogComponent} from "../domain/presentation/controls/confirm-dialog/confirm-dialog.component";
+import {WebComponent} from "../domain/presentation/web.component";
+import {HeaderComponent} from "../domain/presentation/controls/header/header.component";
+import {FotoLoadingComponent} from "../domain/presentation/controls/foto-loading/foto-loading.component";
+import {EvDatepicker} from "../domain/presentation/controls/ev-datepicker/ev-datepicker";
+import {SearchBarComponent} from "../domain/presentation/controls/search-bar/search-bar.component";
+import {BrandComponent} from "../domain/presentation/controls/brand/brand.component";
+import {NoRecordsFoundComponent} from "../domain/presentation/controls/no-records-found/no-records-found.component";
 
 /**
  *
@@ -30,6 +42,18 @@ import {MatKeyboardModule} from "@ngx-material-keyboard/core";
     VirgulaPipe,
     NoWhiteSpace,
     AvatarComponent,
+    CloseButtonComponent,
+    AddButtonComponent,
+    LoggedMenuComponent,
+    LoggedRootMenuComponent,
+    ConfirmDialogComponent,
+    WebComponent,
+    HeaderComponent,
+    FotoLoadingComponent,
+    EvDatepicker,
+    SearchBarComponent,
+    BrandComponent,
+    NoRecordsFoundComponent,
 
     // Authentication
     LoginComponent
@@ -125,8 +149,23 @@ import {MatKeyboardModule} from "@ngx-material-keyboard/core";
     MatChipsModule,
     MatAutocompleteModule,
     MatProgressBarModule,
-    TextMaskModule
+    TextMaskModule,
+
+    // Controls
+    CloseButtonComponent,
+    AddButtonComponent,
+    LoggedMenuComponent,
+    LoggedRootMenuComponent,
+    ConfirmDialogComponent,
+    WebComponent,
+    HeaderComponent,
+    FotoLoadingComponent,
+    EvDatepicker,
+    SearchBarComponent,
+    BrandComponent,
+    NoRecordsFoundComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
 
     // The locale would typically be provided on the root module of your application. We do it at
@@ -134,7 +173,7 @@ import {MatKeyboardModule} from "@ngx-material-keyboard/core";
     {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
   ]
 })
-export class SharedModule {
+export class WebSharedModule {
 
   constructor(private tokenStorage: LocalStorage, private cookieService: CookieService) {
 

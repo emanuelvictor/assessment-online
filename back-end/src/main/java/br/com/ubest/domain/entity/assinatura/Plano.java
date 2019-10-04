@@ -60,7 +60,7 @@ public class Plano extends AbstractEntity implements Serializable {
      *
      * @param id
      */
-    public Plano(Long id) {
+    public Plano(final long id) {
         super(id);
     }
 }
