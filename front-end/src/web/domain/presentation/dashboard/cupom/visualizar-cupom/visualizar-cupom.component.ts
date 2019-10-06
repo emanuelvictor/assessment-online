@@ -49,15 +49,14 @@ export class VisualizarCupomComponent implements OnInit {
    * @param {number} id
    */
   public find(id: number) {
-    this.cupomRepository.findById(id).subscribe(result =>
-      this.cupom = result
-    )
+    this.cupomRepository.findById(id)
+      .subscribe(result => this.cupom = result)
   }
 
   /**
    *
    */
-  public remove() {
+  public remove(id: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
         data: {
@@ -70,10 +69,10 @@ export class VisualizarCupomComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(remover => {
       if (remover) {
-        this.cupomRepository.delete(this.cupom.id)
+        this.cupomRepository.delete(id)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-            this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {
+            this.snackBar.open('Cupom excluído com sucesso', 'Fechar', {
               duration: 3000
             })
           })

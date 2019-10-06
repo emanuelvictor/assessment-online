@@ -1,13 +1,14 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.domain.entity.assinatura.Cupom;
-import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.domain.repository.CupomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,6 @@ public class CupomService {
     }
 
     /**
-     *
      * @param id
      */
     @Transactional
@@ -38,12 +38,20 @@ public class CupomService {
     }
 
     /**
-     *
      * @param cupom
      * @return
      */
     @Transactional
     public Cupom save(final Cupom cupom) {
         return this.cupomRepository.save(cupom);
+    }
+
+    /**
+     * @param id Long
+     * @return Optional<Cupom>
+     */
+    @Transactional(readOnly = true)
+    public Optional<Cupom> findById(final long id) {
+        return this.cupomRepository.findById(id);
     }
 }

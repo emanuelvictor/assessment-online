@@ -9,6 +9,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 import static br.com.ubest.domain.entity.usuario.Perfil.ADMINISTRADOR_VALUE;
 import static br.com.ubest.domain.entity.usuario.Perfil.ATENDENTE_VALUE;
 
@@ -65,4 +67,13 @@ public class CupomResource extends AbstractResource<Cupom> {
         return Mono.just(cupomService.listByFilters(defaultFilter, getPageable()));
     }
 
+    /**
+     * @param id Long
+     * @return Mono<Optional < Cupom>>
+     */
+    @GetMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('" + ATENDENTE_VALUE + "')")
+    Mono<Optional<Cupom>> findById(@PathVariable final long id) {
+        return Mono.just(cupomService.findById(id));
+    }
 }

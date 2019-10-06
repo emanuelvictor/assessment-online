@@ -50,7 +50,8 @@ export class AlterarCupomComponent implements OnInit {
    * @param {number} id
    */
   public find(id: number) {
-    this.cupomRepository.findById(id).subscribe((cupom: Cupom) => this.cupom = cupom)
+    this.cupomRepository.findById(id)
+      .subscribe((cupom: Cupom) => this.cupom = cupom)
   }
 
   /**
