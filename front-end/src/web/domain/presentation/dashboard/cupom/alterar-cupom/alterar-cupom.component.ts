@@ -58,16 +58,10 @@ export class AlterarCupomComponent implements OnInit {
    *
    */
   public save(): void {
-    // delete (this.cupom as any).assinatura;
-    // delete this.cupom.unidadesTiposAvaliacoesCupom;
-    // delete this.cupom.numeroSerie;
-    // delete this.cupom.numero;
-    // delete this.cupom.senha;
-    // delete this.cupom.unidades;
     this.cupomRepository.save(this.cupom)
       .then(result => {
         this.cupom = result;
-        this.success('Cupom inserido com sucesso')
+        this.success('Cupom alterado com sucesso')
       })
   }
 

@@ -14,14 +14,8 @@
               </button>
             </div>
 
-            <div layout='column' layout-gt-xs="row"
-                 layout-align="start center" flex-gt-xs="100">
-
-              <div layout='row'
-                   layout-margin
-                   flex flex-gt-xs='80'
-                   style='margin-top: 0'
-                   layout-align='start center'>
+            <div layout='column' layout-gt-xs='row' layout-align='start center' flex-gt-xs='100'>
+              <div layout='row' layout-margin flex flex-gt-xs='80' style='margin-top: 0' layout-align='start center'>
 
                 <div layout='column' flex>
                   <div layout='row' layout-align='start center'>
@@ -30,11 +24,12 @@
                         {{cupom?.codigo}}
                       </h1>
                       <h2 flex='100' class='mat-subheading-2 tc-blue-grey-500 no-margin'>
-                        {{cupom?.percentualDesconto}} %
+                        {{cupom?.percentualDesconto}}%
                       </h2>
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
 
@@ -57,11 +52,6 @@
                       <mat-icon>delete</mat-icon>
                       <span>Remover</span>
                     </button>
-                    <!--<button (click)='publish()'-->
-                    <!--mat-menu-item color='primary'>-->
-                    <!--<mat-icon>delete</mat-icon>-->
-                    <!--<span>Publicar</span>-->
-                    <!--</button>-->
                   </mat-menu>
                 </div>
               </div>
