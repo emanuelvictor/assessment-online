@@ -123,6 +123,12 @@ import {ConsultarFaturasComponent} from "./presentation/dashboard/fatura/consult
 import {VisualizarFaturaComponent} from "./presentation/dashboard/fatura/visualizar-fatura/visualizar-fatura.component";
 import {FaturaRepository} from "./repository/fatura.repository";
 import {CupomRepository} from "./repository/cupom.repository";
+import {CupomViewComponent} from "./presentation/dashboard/cupom/cupom-view.component";
+import {ConsultarCuponsComponent} from "./presentation/dashboard/cupom/consultar-cupons/consultar-cupons.component";
+import {VisualizarCupomComponent} from "./presentation/dashboard/cupom/visualizar-cupom/visualizar-cupom.component";
+import {AlterarCupomComponent} from "./presentation/dashboard/cupom/alterar-cupom/alterar-cupom.component";
+import {InserirCupomComponent} from "./presentation/dashboard/cupom/inserir-cupom/inserir-cupom.component";
+import {CupomFormComponent} from "./presentation/dashboard/cupom/inserir-cupom/cupom-form/cupom-form.component";
 
 registerLocaleData(localePt, 'pt-BR');
 

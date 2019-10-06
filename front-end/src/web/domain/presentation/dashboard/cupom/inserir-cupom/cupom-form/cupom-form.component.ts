@@ -59,8 +59,8 @@ export class CupomFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      nome: ['nome', [Validators.required]],
-      time: ['time', [Validators.required, this.timeoutValidator()]]
+      codigo: ['codigo', [Validators.required]],
+      percentualDesconto: ['percentualDesconto', [Validators.required, this.percentualDescontoValidator()]]
     });
 
   }
@@ -69,13 +69,13 @@ export class CupomFormComponent implements OnInit {
    *
    * @param exception
    */
-  timeoutValidator(exception?: string): ValidatorFn {
+  percentualDescontoValidator(exception?: string): ValidatorFn {
     return (c: AbstractControl): { [key: string]: any } => {
       if (c.value || c.value === 0) {
-        if (c.value < 5) {
-          return {exception: exception ? exception : 'O tempo deve ultrapassar 5 segundos'};
-        } else if (c.value > 600) {
-          return {exception: exception ? exception : 'O tempo não deve ultrapassar 10 minutos (600 segundos)'};
+        if (c.value <= 0) {
+          return {exception: exception ? exception : 'O percentual deve ser maior ou igual á 0'};
+        } else if (c.value > 100) {
+          return {exception: exception ? exception : 'O percentual deve ser menor que 100)'};
         }
       }
     }
@@ -88,16 +88,16 @@ export class CupomFormComponent implements OnInit {
 
     // TODO provisório
     let valid = true;
-    let controls: any = [];
+    const controls: any = [];
     Object.keys(form.controls).map(function (key) {
       if (form.controls[key].invalid) {
-        let control = form.controls[key];
+        const control = form.controls[key];
         control.key = '#' + key;
         if (control.controls) {
-          Object.keys(control.controls).map(function (key) {
-            if (control.controls[key].invalid) {
-              let controlInner = control.controls[key];
-              controlInner.key = '#' + key;
+          Object.keys(control.controls).map(function (keyInner) {
+            if (control.controls[keyInner].invalid) {
+              const controlInner = control.controls[keyInner];
+              controlInner.key = '#' + keyInner;
               controls.push(controlInner);
             }
           });
@@ -107,25 +107,27 @@ export class CupomFormComponent implements OnInit {
       }
     });
 
-    for (let control of controls) {
+    for (const control of controls) {
       if (control) {
         const element = this.element.nativeElement.querySelector(control.key);
         if (element && control.invalid) {
           this.renderer.invokeElementMethod(element, 'focus', []);
           valid = false;
-          if (control.errors.exception)
+          if (control.errors.exception) {
             this.error(control.errors.exception);
+          }
           break;
         }
         if (control.controls && control.invalid) {
-          for (let controlInner of control.controls) {
-            const element = this.element.nativeElement.querySelector(controlInner.key);
-            if (element && controlInner.invalid) {
-              this.renderer.invokeElementMethod(element, 'focus', []);
+          for (const controlInner of control.controls) {
+            const elementInner = this.element.nativeElement.querySelector(controlInner.key);
+            if (elementInner && controlInner.invalid) {
+              this.renderer.invokeElementMethod(elementInner, 'focus', []);
               valid = false;
-              if (controlInner.errors.exception)
+              if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception);
-              break;
+              }
+              break
             }
           }
         }
@@ -133,7 +135,7 @@ export class CupomFormComponent implements OnInit {
     }
 
     if (valid) {
-      this.save.emit(this.cupom);
+      this.save.emit(this.cupom)
     }
   }
 

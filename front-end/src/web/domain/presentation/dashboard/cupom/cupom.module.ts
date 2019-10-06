@@ -12,10 +12,10 @@ import {WebSharedModule} from "../../../../application/web.shared.module";
 
 
 const routes: Routes = [
-  { path: ':id', component: VisualizarCupomComponent },
-  { path: ':id/alterar', component: AlterarCupomComponent },
-  { path: '', component: ConsultarCuponsComponent },
-  { path: 'inserir', component: InserirCupomComponent }
+  {path: '', component: ConsultarCuponsComponent},
+  {path: 'inserir', component: InserirCupomComponent},
+  {path: ':id/alterar', component: AlterarCupomComponent},
+  {path: ':id', component: VisualizarCupomComponent}
 ];
 
 @NgModule({
@@ -35,9 +35,8 @@ const routes: Routes = [
     WebSharedModule,
     RouterModule.forChild(routes)
   ],
-  exports: [
-  ],
-  entryComponents: [
-  ],
+  exports: [],
+  entryComponents: [],
 })
-export class CupomModule {}
+export class CupomModule {
+}

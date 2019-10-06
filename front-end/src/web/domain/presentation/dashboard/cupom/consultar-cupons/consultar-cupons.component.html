@@ -2,7 +2,8 @@
 
   <mat-form-field [ngStyle]="{'margin-top': (pageRequest?.defaultFilter?.length ? '16px' : '32px')}"
                   style='margin-left:0; margin-top: 32px' flex-sm='90' flex-md='90' flex-gt-md='90' flex-gt-lg='90'>
-    <mat-chip-list #defaultFilterChipList aria-label='Pesquisar pelo nome ou enunciado'>
+
+    <mat-chip-list #defaultFilterChipList aria-label='Pesquisar pelo código do cupom ou e-mail do cliente'>
 
       <mat-chip *ngFor='let defaultFilter of pageRequest.defaultFilter'
                 (removed)='removeDefaultFilter(defaultFilter)' style='max-width: 100%'>
@@ -12,9 +13,9 @@
 
       <input (ngModelChange)='defaultFilterChanged($event)'
              (matChipInputTokenEnd)='addDefaultFilter($event)'
-             placeholder='Pesquisar pelo nome ou número do cupom'
+             placeholder='Pesquisar pelo código do cupom ou e-mail do cliente'
              [(ngModel)]='defaultFilter' [ngModelOptions]='{standalone: true}'
-             [matChipInputFor]='defaultFilterChipList' [matChipInputAddOnBlur]='true'>
+             [matChipInputFor]='defaultFilterChipList' [matChipInputAddOnBlur]='true'/>
 
     </mat-chip-list>
 
@@ -46,32 +47,32 @@
                  matSortDisableClear matSortActive='data'
                  matSortDirection='asc' [dataSource]='dataSource'>
 
-        <ng-container matColumnDef='nome'>
+        <ng-container matColumnDef='codigo'>
           <mat-header-cell flex-xl='30' flex-gt-md='30' flex-md='20' flex-sm='30'
                            layout-align='start center' *matHeaderCellDef mat-sort-header>
             <div layout-margin layout='column'>
-              Nome
+              Código
             </div>
           </mat-header-cell>
-          <mat-cell flex-xl='30' flex-gt-md='30' flex-md='30' flex-sm='30'
-                    layout-align='start center' *matCellDef='let cupom'>
+          <mat-cell layout-align='start center' *matCellDef='let cupom'
+                    flex-xl='30' flex-gt-md='30' flex-md='30' flex-sm='30'>
             <div layout-margin layout='column'>
-              {{cupom?.nome}}
+              {{cupom?.codigo}}
             </div>
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef='publico'>
-          <mat-header-cell flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'
+        <ng-container matColumnDef='percentualDesconto'>
+          <mat-header-cell flex-xl='30' flex-gt-md='30' flex-md='20' flex-sm='30'
                            layout-align='start center' *matHeaderCellDef mat-sort-header>
             <div layout-margin layout='column'>
-              Público
+              Percentual de Desconto
             </div>
           </mat-header-cell>
-          <mat-cell flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'
-                    layout-align='start center' *matCellDef='let cupom'>
+          <mat-cell layout-align='start center' *matCellDef='let cupom'
+                    flex-xl='30' flex-gt-md='30' flex-md='30' flex-sm='30'>
             <div layout-margin layout='column'>
-              {{cupom?.publico ? 'Sim' : 'Não'}}
+              {{cupom?.percentualDesconto}}
             </div>
           </mat-cell>
         </ng-container>
@@ -80,7 +81,7 @@
         </mat-header-row>
 
         <mat-row *matRowDef='let cupom; columns: displayedColumns'
-                 routerLink='{{cupom.numeroLicenca}}' style='cursor: pointer'>
+                 routerLink='{{cupom.id}}' style='cursor: pointer'>
         </mat-row>
       </mat-table>
       <no-records-found [dataSource]='dataSource?.data'></no-records-found>

@@ -7,6 +7,6 @@ import {Cupom} from "../entity/assinatura/cupom.model";
 export class CupomRepository extends BaseRepository<Cupom> {
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, 'cupom');
+    super(httpClient, 'cupons');
   }
 }

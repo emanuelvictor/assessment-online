@@ -1,10 +1,6 @@
-import {Component, ElementRef, Inject, OnInit, Renderer} from '@angular/core';
+import {Component} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-
-import {DomSanitizer} from "@angular/platform-browser";
-import {MatIconRegistry, MatSnackBar} from "@angular/material";
-
-import {FormBuilder} from "@angular/forms";
+import {MatSnackBar} from "@angular/material";
 import {CupomRepository} from "../../../../repository/cupom.repository";
 import {ActivatedRoute, Router} from "@angular/router";
 import {viewAnimation} from "../../../controls/utils";
@@ -21,7 +17,7 @@ import {Cupom} from "../../../../entity/assinatura/cupom.model";
     viewAnimation
   ]
 })
-export class InserirCupomComponent implements OnInit {
+export class InserirCupomComponent {
 
   /**
    *
@@ -31,32 +27,22 @@ export class InserirCupomComponent implements OnInit {
   /**
    *
    * @param {MatSnackBar} snackBar
-   * @param {ElementRef} element
    * @param {CupomRepository} cupomRepository
-   * @param {Renderer} renderer
-   * @param {FormBuilder} fb
-   * @param {MatIconRegistry} iconRegistry
-   * @param {DomSanitizer} domSanitizer
    * @param {Router} router
    * @param {ActivatedRoute} activatedRoute
    */
-  constructor(private cupomRepository: CupomRepository,
-              @Inject(ElementRef) private element: ElementRef,
-              private activatedRoute: ActivatedRoute, private router: Router,
-              private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
-              private snackBar: MatSnackBar, private renderer: Renderer, private fb: FormBuilder) {
-  }
-
-  /**
-   *
-   */
-  ngOnInit(): void {
+  constructor(private activatedRoute: ActivatedRoute,
+              private cupomRepository: CupomRepository,
+              private snackBar: MatSnackBar, private router: Router) {
   }
 
   /**
    *
    */
   public save($event): void {
+    this.cupomRepository.save($event).then( () => {
+      this.success('Cupom inserido com sucesso!')
+    })
   }
 
   /**

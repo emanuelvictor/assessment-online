@@ -1,56 +1,40 @@
-<!--<dispositivo-form [dispositivo]='dispositivo' (save)='save($event)'>-->
+<cupom-form [cupom]='cupom' (save)='save($event)'>
 
-<!--  &lt;!&ndash;cabeçalho div&ndash;&gt;-->
-<!--  <div layout='column' layout-margin header>-->
-<!--    <div layout='row' layout-align='start center'>-->
+  <!--cabeçalho div-->
+  <div layout='column' layout-margin header>
+    <div layout='row' layout-align='start center'>
 
-<!--      <button type='button' routerLink='../'-->
-<!--              color='primary' mat-icon-button-->
-<!--              class='mat-headline tc-grey-500'>-->
-<!--        <mat-icon>arrow_back</mat-icon>-->
-<!--      </button>-->
+      <button type='button' routerLink='../'
+              color='primary' mat-icon-button
+              class='mat-headline tc-grey-500'>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
 
-<!--      <div layout='row' layout-margin>-->
-<!--        <h1 class='mat-headline tc-grey-500' flex> Inserir Dispositivo</h1>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
+      <div layout='row' layout-margin>
+        <h1 class='mat-headline tc-grey-500' flex> Inserir Cupom</h1>
+      </div>
+    </div>
+  </div>
 
-<!--  <mat-divider *ngIf='vincularUnidadeTipoSvaliacao' [inset]='true' divider-->
-<!--               style='margin-top: 8px; margin-left: -25px; margin-right: -25px; margin-bottom: 8px; position: inherit;width: auto'>-->
-<!--  </mat-divider>-->
+  <!--actions div-->
+  <div flex layout-margin actions>
 
-<!--  <mat-card configurarUnidadesTiposAvaliacoes class='bgc-grey-50' *ngIf='vincularUnidadeTipoSvaliacao'>-->
+    <div layout-gt-xs='row' flex layout-margin>
 
-<!--    <vincular-unidade-tipo-avaliacao [(unidades)]='unidades'-->
-<!--                                     (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'>-->
-<!--    </vincular-unidade-tipo-avaliacao>-->
+      <span flex='70'></span>
 
-<!--  </mat-card>-->
+      <button routerLink='../'
+              mat-raised-button
+              flex type='button'>
+        Cancelar
+      </button>
+      <button mat-raised-button
+              flex color='accent'
+              style='margin-right: 0'>
+        Salvar
+      </button>
 
-<!--  <mat-divider *ngIf='vincularUnidadeTipoSvaliacao' [inset]='true' divider2-->
-<!--               style='margin-top: 11px; margin-left: -25px; margin-right: -25px; margin-bottom: 14px; position: inherit;width: auto'>-->
-<!--  </mat-divider>-->
+    </div>
+  </div>
 
-<!--  &lt;!&ndash;actions div&ndash;&gt;-->
-<!--  <div flex layout-margin actions>-->
-
-<!--    <div layout-gt-xs='row' flex layout-margin>-->
-
-<!--      <span flex='70'></span>-->
-
-<!--      <button routerLink='../'-->
-<!--              mat-raised-button-->
-<!--              flex type='button'>-->
-<!--        Cancelar-->
-<!--      </button>-->
-<!--      <button mat-raised-button-->
-<!--              flex color='accent'-->
-<!--              style='margin-right: 0'>-->
-<!--        Salvar-->
-<!--      </button>-->
-
-<!--    </div>-->
-<!--  </div>-->
-
-<!--</dispositivo-form>-->
+</cupom-form>
