@@ -1,35 +1,30 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import 'hammerjs';
-import {LoginComponent} from '../domain/presentation/login/login.component';
-import {MAT_DATE_LOCALE, MatAutocompleteModule, MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatOptionModule, MatPaginatorModule, MatProgressBarModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatToolbarModule, MatTooltipModule} from '@angular/material';
+import {MAT_DATE_LOCALE, MatAutocompleteModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatOptionModule, MatPaginatorModule, MatProgressBarModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatToolbarModule, MatTooltipModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
 import {CovalentMarkdownModule} from '@covalent/markdown';
 import {CovalentChipsModule, CovalentCommonModule, CovalentFileModule, CovalentLoadingModule, CovalentMediaModule} from '@covalent/core';
-import {TextMaskModule} from 'angular2-text-mask';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {HttpClientModule} from '@angular/common/http';
-import {NoSubmitDirective} from '../domain/presentation/controls/no-sumbit/no-submit.directive';
-import {DocumentoPipe} from '../domain/presentation/controls/documento-pipe/documento-pipe';
-import {VirgulaPipe} from '../domain/presentation/controls/virgula-pipe/peso-pipe';
-import {AvatarComponent} from '../domain/presentation/controls/avatar/avatar.component';
-import {NoWhiteSpace} from '../domain/presentation/controls/patterns/no-white-space';
-import {LocalStorage} from "../infrastructure/local-storage/local-storage";
+import {NoSubmitDirective} from '../controls/no-sumbit/no-submit.directive';
+import {DocumentoPipe} from '../controls/documento-pipe/documento-pipe';
+import {VirgulaPipe} from '../controls/virgula-pipe/peso-pipe';
+import {NoWhiteSpace} from '../controls/patterns/no-white-space';
+import {LocalStorage} from "../../../infrastructure/local-storage/local-storage";
 import {CookieService} from "ngx-cookie-service";
-import {TOKEN_NAME} from "../domain/presentation/controls/utils";
+import {TOKEN_NAME} from "../controls/utils";
 import {MatKeyboardModule} from "@ngx-material-keyboard/core";
-import {CloseButtonComponent} from "../domain/presentation/controls/close-button/close-button.component";
-import {AddButtonComponent} from "../domain/presentation/controls/add-button/add-button.component";
-import {LoggedMenuComponent} from "../domain/presentation/controls/logged-menu/logged-menu.component";
-import {LoggedRootMenuComponent} from "../domain/presentation/controls/logged-root-menu/logged-root-menu.component";
-import {ConfirmDialogComponent} from "../domain/presentation/controls/confirm-dialog/confirm-dialog.component";
-import {WebComponent} from "../domain/presentation/web.component";
-import {HeaderComponent} from "../domain/presentation/controls/header/header.component";
-import {FotoLoadingComponent} from "../domain/presentation/controls/foto-loading/foto-loading.component";
-import {EvDatepicker} from "../domain/presentation/controls/ev-datepicker/ev-datepicker";
-import {SearchBarComponent} from "../domain/presentation/controls/search-bar/search-bar.component";
-import {BrandComponent} from "../domain/presentation/controls/brand/brand.component";
-import {NoRecordsFoundComponent} from "../domain/presentation/controls/no-records-found/no-records-found.component";
+import {CloseButtonComponent} from "../controls/close-button/close-button.component";
+import {AddButtonComponent} from "../controls/add-button/add-button.component";
+import {LoggedMenuComponent} from "../controls/logged-menu/logged-menu.component";
+import {LoggedRootMenuComponent} from "../controls/logged-root-menu/logged-root-menu.component";
+import {ConfirmDialogComponent} from "../controls/confirm-dialog/confirm-dialog.component";
+import {HeaderComponent} from "../controls/header/header.component";
+import {FotoLoadingComponent} from "../controls/foto-loading/foto-loading.component";
+import {EvDatepicker} from "../controls/ev-datepicker/ev-datepicker";
+import {SearchBarComponent} from "../controls/search-bar/search-bar.component";
+import {NoRecordsFoundComponent} from "../controls/no-records-found/no-records-found.component";
+import {WebSharedModule} from "../../web.shared.module";
 
 /**
  *
@@ -41,26 +36,20 @@ import {NoRecordsFoundComponent} from "../domain/presentation/controls/no-record
     DocumentoPipe,
     VirgulaPipe,
     NoWhiteSpace,
-    AvatarComponent,
     CloseButtonComponent,
     AddButtonComponent,
     LoggedMenuComponent,
     LoggedRootMenuComponent,
     ConfirmDialogComponent,
-    WebComponent,
     HeaderComponent,
     FotoLoadingComponent,
     EvDatepicker,
     SearchBarComponent,
-    BrandComponent,
-    NoRecordsFoundComponent,
-
-    // Authentication
-    LoginComponent
+    NoRecordsFoundComponent
   ],
   imports: [
+    WebSharedModule,
     CommonModule,
-    ReactiveFormsModule,
     CovalentLoadingModule,
     MatGridListModule,
     MatSliderModule,
@@ -69,12 +58,10 @@ import {NoRecordsFoundComponent} from "../domain/presentation/controls/no-record
     MatRadioModule,
     MatCheckboxModule,
     MatExpansionModule,
-    MatInputModule,
     CovalentFileModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    HttpClientModule,
     CovalentChipsModule,
     CovalentMediaModule,
     CovalentCommonModule,
@@ -83,11 +70,8 @@ import {NoRecordsFoundComponent} from "../domain/presentation/controls/no-record
     MatMenuModule,
     MatSidenavModule,
     MatDialogModule,
-    MatCardModule,
-    MatButtonModule,
     MatToolbarModule,
     MatListModule,
-    FormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatTooltipModule,
@@ -98,17 +82,14 @@ import {NoRecordsFoundComponent} from "../domain/presentation/controls/no-record
     MatChipsModule,
     MatAutocompleteModule,
     MatProgressBarModule,
-    TextMaskModule,
-    MatKeyboardModule
+    MatKeyboardModule,
   ],
   exports: [
     NoWhiteSpace,
-    AvatarComponent,
 
     NoSubmitDirective,
     DocumentoPipe,
     VirgulaPipe,
-    LoginComponent,
 
     CommonModule,
     ReactiveFormsModule,
@@ -125,7 +106,6 @@ import {NoRecordsFoundComponent} from "../domain/presentation/controls/no-record
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    HttpClientModule,
     CovalentChipsModule,
     CovalentMediaModule,
     CovalentCommonModule,
@@ -134,8 +114,6 @@ import {NoRecordsFoundComponent} from "../domain/presentation/controls/no-record
     MatMenuModule,
     MatSidenavModule,
     MatDialogModule,
-    MatCardModule,
-    MatButtonModule,
     MatToolbarModule,
     MatListModule,
     FormsModule,
@@ -149,7 +127,6 @@ import {NoRecordsFoundComponent} from "../domain/presentation/controls/no-record
     MatChipsModule,
     MatAutocompleteModule,
     MatProgressBarModule,
-    TextMaskModule,
 
     // Controls
     CloseButtonComponent,
@@ -157,13 +134,13 @@ import {NoRecordsFoundComponent} from "../domain/presentation/controls/no-record
     LoggedMenuComponent,
     LoggedRootMenuComponent,
     ConfirmDialogComponent,
-    WebComponent,
     HeaderComponent,
     FotoLoadingComponent,
     EvDatepicker,
     SearchBarComponent,
-    BrandComponent,
     NoRecordsFoundComponent,
+
+    WebSharedModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
@@ -173,7 +150,7 @@ import {NoRecordsFoundComponent} from "../domain/presentation/controls/no-record
     {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
   ]
 })
-export class WebSharedModule {
+export class DashboardSharedModule {
 
   constructor(private tokenStorage: LocalStorage, private cookieService: CookieService) {
 

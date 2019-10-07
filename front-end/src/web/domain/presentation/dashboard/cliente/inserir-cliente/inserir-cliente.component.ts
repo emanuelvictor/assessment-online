@@ -48,7 +48,7 @@ export class InserirClienteComponent implements OnInit {
     this.cliente.conta = new Conta();
 
     this.usuarioRepository.getSiteKey()
-      .subscribe(result => this.cliente.siteKey = result);
+      .subscribe(result => this.cliente.siteKey = result)
   }
 
   /**
@@ -66,7 +66,7 @@ export class InserirClienteComponent implements OnInit {
         // }).catch(() => this._loadingService.resolve('overlayStarSyntax'));
 
         this._loadingService.resolve('overlayStarSyntax');
-      }).catch(() => this._loadingService.resolve('overlayStarSyntax'));
+      }).catch(() => this._loadingService.resolve('overlayStarSyntax'))
   }
 
   /**
@@ -75,7 +75,7 @@ export class InserirClienteComponent implements OnInit {
    */
   public success(message: string) {
     this.openSnackBar(message);
-    this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+    this.router.navigate(['../'], {relativeTo: this.activatedRoute})
   }
 
   /**
@@ -85,7 +85,7 @@ export class InserirClienteComponent implements OnInit {
   public openSnackBar(message: string) {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
-    });
+    })
   }
 
 }
