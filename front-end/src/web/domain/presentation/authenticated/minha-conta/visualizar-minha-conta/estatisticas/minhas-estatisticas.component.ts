@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import 'moment/locale/pt-br';
 import {AuthenticationService} from "../../../../../service/authentication.service";
 import {single} from "../../../../controls/utils";
+import {MatSort} from "@angular/material";
 
 @Component({
   selector: 'minhas-estatisticas',
@@ -119,11 +120,11 @@ export class MinhasEstatisticasComponent implements OnInit {
   /**
    *
    */
-  @ViewChild('dataInicio') dataInicio: EvDatepicker;
+  @ViewChild('dataInicio', {static: false}) dataInicio: EvDatepicker;
   /**
    *
    */
-  @ViewChild('dataTermino') dataTermino: EvDatepicker;
+  @ViewChild('dataTermino', {static: false}) dataTermino: EvDatepicker;
 
   /**
    *

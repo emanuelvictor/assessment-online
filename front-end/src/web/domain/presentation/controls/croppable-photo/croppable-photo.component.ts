@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
+import {MatSort} from "@angular/material";
 
 
 @Component({
@@ -43,7 +44,7 @@ export class CroppablePhotoComponent implements OnInit {
 
   Cropper: any = window['Cropper'];
 
-  @ViewChild('image')
+  @ViewChild('image', {static: true})
   image: any;
 
   /**

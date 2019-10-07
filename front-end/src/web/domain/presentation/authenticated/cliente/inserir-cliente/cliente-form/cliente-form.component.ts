@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer, ViewChild} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import {MatSnackBar, MatSort} from '@angular/material';
 
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/forms';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
@@ -55,7 +55,7 @@ export class ClienteFormComponent implements OnInit {
   /**
    *
    */
-  @ViewChild('reCaptcha')
+  @ViewChild('reCaptcha', {static: false})
   reCaptcha: RecaptchaComponent;
 
   /**

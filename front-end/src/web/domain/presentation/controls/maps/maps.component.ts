@@ -17,6 +17,7 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn} from 
 import {EnderecoService} from '../../../service/endereco.service';
 import {Cidade} from '../../../entity/endereco/cidade.model';
 import {obrigatorio} from "../validators/validators";
+import {MatSort} from "@angular/material";
 
 
 @Component({
@@ -34,7 +35,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
   /**
    *
    */
-  @ViewChild('autocomplete')
+  @ViewChild('autocomplete', {static: false})
   inputAutocomplete;
 
   /**

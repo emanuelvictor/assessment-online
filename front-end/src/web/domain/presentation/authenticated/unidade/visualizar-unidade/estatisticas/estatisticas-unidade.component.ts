@@ -10,6 +10,7 @@ import {EvDatepicker} from "../../../../controls/ev-datepicker/ev-datepicker";
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
 import {single} from "../../../../controls/utils";
+import {MatSort} from "@angular/material";
 
 @Component({
   selector: 'estatisticas-unidade',
@@ -79,11 +80,11 @@ export class EstatisticasUnidadeComponent implements OnInit {
   /**
    *
    */
-  @ViewChild('dataInicio') dataInicio: EvDatepicker;
+  @ViewChild('dataInicio', {static: false}) dataInicio: EvDatepicker;
   /**
    *
    */
-  @ViewChild('dataTermino') dataTermino: EvDatepicker;
+  @ViewChild('dataTermino', {static: false}) dataTermino: EvDatepicker;
 
   /**
    *

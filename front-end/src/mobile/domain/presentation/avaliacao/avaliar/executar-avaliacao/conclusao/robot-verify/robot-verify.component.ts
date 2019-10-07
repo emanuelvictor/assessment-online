@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {RecaptchaComponent} from "ng-recaptcha";
-import {FormBuilder, Validators} from "@angular/forms";
 import {MobileService} from "../../../../../../service/mobile.service";
 import {viewAnimation} from "../../../../../../../../web/domain/presentation/controls/utils";
 import {UsuarioRepository} from "../../../../../../../../web/domain/repository/usuario.repository";
+import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {RecaptchaComponent} from "ng-recaptcha";
 import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'robot-verify',
@@ -24,7 +24,7 @@ export class RobotVerifyComponent implements OnInit, OnDestroy {
   /**
    *
    */
-  @ViewChild('reCaptcha')
+  @ViewChild('reCaptcha', {static: false})
   reCaptcha: RecaptchaComponent;
 
   /**

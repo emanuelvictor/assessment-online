@@ -53,12 +53,12 @@ export class ConsultarFaturasComponent implements OnInit {
   /**
    * Bind com o objeto paginator
    */
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   /**
    * Bind com objeto sort
    */
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   /**
    *

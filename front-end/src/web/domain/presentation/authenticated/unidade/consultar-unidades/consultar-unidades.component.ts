@@ -91,26 +91,26 @@ export class ConsultarUnidadesComponent implements OnInit {
   /**
    * Bind com o objeto paginator
    */
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   /**
    * Bind com objeto sort
    */
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   /**
    */
-  @ViewChild('dataInicio') dataInicio: EvDatepicker;
-
-  /**
-   *
-   */
-  @ViewChild('dataTermino') dataTermino: EvDatepicker;
+  @ViewChild('dataInicio', {static: false}) dataInicio: EvDatepicker;
 
   /**
    *
    */
-  @ViewChild('tiposAvaliacoesInput') tiposAvaliacoesInput: ElementRef<HTMLInputElement>;
+  @ViewChild('dataTermino', {static: false}) dataTermino: EvDatepicker;
+
+  /**
+   *
+   */
+  @ViewChild('tiposAvaliacoesInput', {static: false}) tiposAvaliacoesInput: ElementRef<HTMLInputElement>;
 
   /**
    *
