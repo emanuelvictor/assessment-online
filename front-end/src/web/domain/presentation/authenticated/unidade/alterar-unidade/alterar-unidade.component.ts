@@ -82,7 +82,7 @@ export class AlterarUnidadeComponent implements OnInit {
    */
   public success(message: string) {
     this.openSnackBar(message);
-    this.router.navigate(['dashboard/unidades/' + this.unidade.id]);
+    this.router.navigate(['authenticated/unidades/' + this.unidade.id]);
   }
 
   /**

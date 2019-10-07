@@ -1,6 +1,6 @@
 <mat-nav-list class="pad-none" *ngIf='authenticatedUser?.id'>
   <mat-list class="pad-none">
-    <mat-list-item routerLink="/dashboard/minha-conta"
+    <mat-list-item routerLink="/authenticated/minha-conta"
                    #rla="routerLinkActive" routerLinkActive
                    class="push-top push-bottom minha-conta"
                    [ngClass]="{'menu-active': rla.isActive}">
@@ -20,7 +20,7 @@
 
     <mat-list-item class="push-bottom"
                    *ngIf='authenticatedUser?.root'
-                   routerLink='/dashboard/clientes'
+                   routerLink='/authenticated/clientes'
                    routerLinkActive #rlaClientes="routerLinkActive"
                    [ngClass]="{'menu-active': rlaClientes.isActive}">
       <div layout="row" flex class="pad-left">
@@ -35,7 +35,7 @@
     <mat-list-item class='push-bottom'
                    *ngIf="esquema === 'public'"
                    [matTooltipPosition]="'left'"
-                   routerLink='/dashboard/usuarios'
+                   routerLink='/authenticated/usuarios'
                    routerLinkActive #rlaUsuarios='routerLinkActive'
                    [ngClass]="{'menu-active': rlaUsuarios.isActive}">
       <div class='pad-left'
@@ -51,7 +51,7 @@
     <mat-list-item class="push-bottom"
                    *ngIf="esquema !== 'public'"
                    [matTooltipPosition]="'left'"
-                   routerLink='/dashboard/avaliaveis'
+                   routerLink='/authenticated/avaliaveis'
                    routerLinkActive #rlaUsuarios='routerLinkActive'
                    [ngClass]="{'menu-active': rlaUsuarios.isActive}"
                    matTooltip='Atendentes, professores, quesitos, itens de buffet, etc ...'>
@@ -67,7 +67,7 @@
 
     <div *ngIf="esquema !== 'public'">
       <mat-list-item class="push-bottom"
-                     routerLink="/dashboard/unidades"
+                     routerLink="/authenticated/unidades"
                      routerLinkActive #rlaFornecedores="routerLinkActive"
                      [ngClass]="{'menu-active': rlaFornecedores.isActive}">
         <div layout="row" flex class="pad-left">
@@ -80,7 +80,7 @@
       </mat-list-item>
 
       <mat-list-item class="push-bottom"
-                     routerLink="/dashboard/avaliacoes"
+                     routerLink="/authenticated/avaliacoes"
                      *ngIf='authenticatedUser?.isAdministrador'
                      routerLinkActive #rlaAvaliacoes="routerLinkActive"
                      [ngClass]="{'menu-active': rlaAvaliacoes.isActive}">
@@ -92,7 +92,7 @@
       </mat-list-item>
 
       <mat-list-item class='push-bottom'
-                     routerLink='/dashboard/dispositivos'
+                     routerLink='/authenticated/dispositivos'
                      *ngIf='authenticatedUser?.isAdministrador'
                      routerLinkActive #rlaDispositivos='routerLinkActive'
                      [ngClass]="{'menu-active': rlaDispositivos.isActive}">
@@ -104,7 +104,7 @@
       </mat-list-item>
 
       <mat-list-item class="push-bottom"
-                     routerLink="/dashboard/resultados"
+                     routerLink="/authenticated/resultados"
                      routerLinkActive #rlaResultados="routerLinkActive"
                      [ngClass]="{'menu-active': rlaResultados.isActive}">
         <div layout="row" flex class="pad-left">
@@ -117,7 +117,7 @@
     </div>
 
     <mat-list-item class='push-bottom'
-                   routerLink="/dashboard/configuracoes"
+                   routerLink="/authenticated/configuracoes"
                    routerLinkActive #rlaSettings="routerLinkActive"
                    [ngClass]="{'menu-active': rlaSettings.isActive}">
       <div layout="row" flex class="pad-left">
@@ -131,7 +131,7 @@
 
     <mat-list-item  routerLinkActive #rlaFatura='routerLinkActive'
                    [ngClass]="{'menu-active': rlaFatura.isActive}"
-                   class='push-bottom' routerLink='/dashboard/faturas'
+                   class='push-bottom' routerLink='/authenticated/faturas'
                    *ngIf="esquema !== 'public' && authenticatedUser?.isAdministrador">
       <div layout='row' flex class='pad-left'>
         <span flex='10'></span>
@@ -142,7 +142,7 @@
 
     <mat-list-item routerLinkActive #rlaAssinatura='routerLinkActive'
                    [ngClass]="{'menu-active': rlaAssinatura.isActive}"
-                   class='push-bottom' routerLink='/dashboard/assinatura'
+                   class='push-bottom' routerLink='/authenticated/assinatura'
                    *ngIf="esquema !== 'public' && authenticatedUser?.isAdministrador">
       <div layout='row' flex class='pad-left'>
         <span flex='10'></span>
@@ -154,7 +154,7 @@
     <mat-list-item *ngIf='authenticatedUser?.isRoot'
                    routerLinkActive #rlaCupom='routerLinkActive'
                    [ngClass]="{'menu-active': rlaCupom.isActive}"
-                   class='push-bottom' routerLink='/dashboard/cupons'>
+                   class='push-bottom' routerLink='/authenticated/cupons'>
       <div layout='row' flex class='pad-left'>
         <span flex='10'></span>
         <mat-icon matListAvatar flex>whatshot</mat-icon>

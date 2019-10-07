@@ -25,6 +25,8 @@ import {EvDatepicker} from "../controls/ev-datepicker/ev-datepicker";
 import {SearchBarComponent} from "../controls/search-bar/search-bar.component";
 import {NoRecordsFoundComponent} from "../controls/no-records-found/no-records-found.component";
 import {WebSharedModule} from "../../web.shared.module";
+import {OrderModule} from "ngx-order-pipe";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 /**
  *
@@ -83,6 +85,9 @@ import {WebSharedModule} from "../../web.shared.module";
     MatAutocompleteModule,
     MatProgressBarModule,
     MatKeyboardModule,
+
+    OrderModule,
+    NgxChartsModule,
   ],
   exports: [
     NoWhiteSpace,
@@ -127,6 +132,10 @@ import {WebSharedModule} from "../../web.shared.module";
     MatChipsModule,
     MatAutocompleteModule,
     MatProgressBarModule,
+    MatKeyboardModule,
+
+    OrderModule,
+    NgxChartsModule,
 
     // Controls
     CloseButtonComponent,
@@ -150,7 +159,7 @@ import {WebSharedModule} from "../../web.shared.module";
     {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
   ]
 })
-export class DashboardSharedModule {
+export class AuthenticatedSharedModule {
 
   constructor(private tokenStorage: LocalStorage, private cookieService: CookieService) {
 

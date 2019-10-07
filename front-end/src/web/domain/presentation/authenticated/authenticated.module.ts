@@ -16,7 +16,7 @@ import {SomenteNumerosPositivos} from "../controls/patterns/somente-numeros-posi
 import {CroppablePhotoComponent} from "../controls/croppable-photo/croppable-photo.component";
 import {ConfiguracaoComponent} from "./configuracao/configuracao.component";
 import {AtendenteViewComponent} from "./atendente/atendente-view.component";
-import {DashboardViewComponent} from "./dashboard-view.component";
+import {AuthenticatedViewComponent} from "./authenticated-view.component";
 import {MinhaContaViewComponent} from "./minha-conta/minha-conta-view.component";
 import {VisualizarDadosUsuarioComponent} from "./atendente/visualizar-atendente/visualizar-dados-usuario/visualizar-dados-usuario.component";
 import {VisualizarMinhaContaComponent} from "./minha-conta/visualizar-minha-conta/visualizar-minha-conta.component";
@@ -73,7 +73,7 @@ import {PlanosComponent} from "./assinatura/planos/planos.component";
 import {FaturaViewComponent} from "./fatura/fatura-view.component";
 import {ConsultarFaturasComponent} from "./fatura/consultar-faturas/consultar-faturas.component";
 import {VisualizarFaturaComponent} from "./fatura/visualizar-fatura/visualizar-fatura.component";
-import {DashboardSharedModule} from "./dashboard.shared.module";
+import {AuthenticatedSharedModule} from "./authenticated.shared.module";
 import {OrderModule} from "ngx-order-pipe";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {MatStepperModule} from "@angular/material";
@@ -109,7 +109,7 @@ import {LocalStorage} from "../../../infrastructure/local-storage/local-storage"
 import {ContaService} from "../../service/conta.service";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {Interceptor} from "../../../application/interceptor/interceptor";
-import {DashboardRoutingModule} from "./dashboard.routing.module";
+import {AuthenticatedRoutingModule} from "./authenticated.routing.module";
 
 
 /**
@@ -143,7 +143,7 @@ import {DashboardRoutingModule} from "./dashboard.routing.module";
 
     // atendente
     AtendenteViewComponent,
-    DashboardViewComponent,
+    AuthenticatedViewComponent,
     MinhaContaViewComponent,
     VisualizarDadosUsuarioComponent,
     VisualizarMinhaContaComponent,
@@ -220,13 +220,10 @@ import {DashboardRoutingModule} from "./dashboard.routing.module";
     VisualizarFaturaComponent
   ],
   imports: [
-    DashboardSharedModule,
+    AuthenticatedSharedModule,
     CommonModule,
 
-    OrderModule,
-    NgxChartsModule,
-    MatStepperModule,
-    DashboardRoutingModule,
+    AuthenticatedRoutingModule,
   ],
   entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent, InserirTipoAvaliacaoComponent],
   providers: [
@@ -271,5 +268,5 @@ import {DashboardRoutingModule} from "./dashboard.routing.module";
     }
   ]
 })
-export class DashboardModule {
+export class AuthenticatedModule {
 }

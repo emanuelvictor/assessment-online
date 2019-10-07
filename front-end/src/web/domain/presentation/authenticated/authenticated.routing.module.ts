@@ -38,93 +38,101 @@ import {AssinaturaComponent} from "./assinatura/assinatura.component";
 import {FaturaViewComponent} from "./fatura/fatura-view.component";
 import {ConsultarFaturasComponent} from "./fatura/consultar-faturas/consultar-faturas.component";
 import {VisualizarFaturaComponent} from "./fatura/visualizar-fatura/visualizar-fatura.component";
+import {AuthenticatedViewComponent} from "./authenticated-view.component";
 
 
 const routes: Routes = [
   {
-    path: 'clientes', component: ClienteViewComponent,
+    path: '', component: AuthenticatedViewComponent,
     children: [
-      {path: '', component: ConsultarClientesComponent},
-      {path: ':id', component: VisualizarClienteComponent}
+      {
+        path: 'clientes', component: ClienteViewComponent,
+        children: [
+          {path: '', component: ConsultarClientesComponent},
+          {path: ':id', component: VisualizarClienteComponent}
+        ]
+      },
+      {
+        path: 'minha-conta', component: MinhaContaViewComponent,
+        children: [
+          {path: '', component: VisualizarMinhaContaComponent},
+          {path: 'alterar', component: AlterarMinhaContaComponent},
+          {path: 'minhas-estatisticas', component: MinhasEstatisticasComponent}
+        ]
+      },
+      {
+        path: 'avaliaveis', component: AtendenteViewComponent,
+        children: [
+          {path: '', component: ConsultarAtendentesComponent},
+          {path: 'inserir', component: InserirAtendenteComponent},
+          {path: ':id/alterar', component: AlterarAtendenteComponent},
+          {path: ':id', component: VisualizarAtendenteComponent},
+          {path: ':id/estatisticas', component: EstatisticasAtendenteComponent}
+        ]
+      },
+      {
+        path: 'usuarios', component: AtendenteViewComponent,
+        children: [
+          {path: '', component: ConsultarUsuariosComponent},
+          {path: 'inserir', component: InserirAtendenteComponent},
+          {path: ':id/alterar', component: AlterarAtendenteComponent},
+          {path: ':id', component: VisualizarAtendenteComponent},
+          {path: ':id/estatisticas', component: EstatisticasAtendenteComponent}
+        ]
+      },
+      {
+        path: 'unidades', component: UnidadeViewComponent,
+        children: [
+          {path: '', component: ConsultarUnidadesComponent},
+          {path: 'inserir', component: InserirUnidadeComponent},
+          {path: ':id/alterar', component: AlterarUnidadeComponent},
+          {path: ':id', component: VisualizarUnidadeComponent},
+          {path: ':id/estatisticas', component: EstatisticasUnidadeComponent}
+        ]
+      },
+      {
+        path: 'avaliacoes', component: TipoAvaliacaoViewComponent,
+        children: [
+          {path: '', component: ConsultarTiposAvaliacoesComponent},
+          {path: 'inserir', component: InserirTipoAvaliacaoComponent},
+          {path: ':id', component: VisualizarTipoAvaliacaoComponent},
+          {path: ':id/alterar', component: AlterarTipoAvaliacaoComponent}
+        ]
+      },
+      {
+        path: 'dispositivos', component: DispositivoViewComponent,
+        children: [
+          {path: '', component: ConsultarDispositivosComponent},
+          {path: 'inserir', component: InserirDispositivoComponent},
+          {path: ':numeroLicenca', component: VisualizarDispositivoComponent},
+          {path: ':numeroLicenca/alterar', component: AlterarDispositivoComponent}
+        ]
+      },
+      {
+        path: 'resultados', component: AvaliacaoViewComponent,
+        children: [
+          {path: '', component: ConsultarAvaliacoesComponent},
+          {path: ':id', component: VisualizarAvaliacaoComponent}
+        ]
+      },
+      {
+        path: 'configuracoes', component: ConfiguracaoComponent,
+      },
+      {
+        path: 'assinatura', component: AssinaturaComponent,
+      },
+      {
+        path: 'faturas', component: FaturaViewComponent,
+        children: [
+          {path: '', component: ConsultarFaturasComponent},
+          {path: ':id', component: VisualizarFaturaComponent}
+        ]
+      },
+      {
+        path: 'cupons', loadChildren: '../../../domain/presentation/authenticated/cupom/cupom.module#CupomModule'
+      }
     ]
-  },
-  {
-    path: 'minha-conta', component: MinhaContaViewComponent,
-    children: [
-      {path: '', component: VisualizarMinhaContaComponent},
-      {path: 'alterar', component: AlterarMinhaContaComponent},
-      {path: 'minhas-estatisticas', component: MinhasEstatisticasComponent}
-    ]
-  },
-  {
-    path: 'avaliaveis', component: AtendenteViewComponent,
-    children: [
-      {path: '', component: ConsultarAtendentesComponent},
-      {path: 'inserir', component: InserirAtendenteComponent},
-      {path: ':id/alterar', component: AlterarAtendenteComponent},
-      {path: ':id', component: VisualizarAtendenteComponent},
-      {path: ':id/estatisticas', component: EstatisticasAtendenteComponent}
-    ]
-  },
-  {
-    path: 'usuarios', component: AtendenteViewComponent,
-    children: [
-      {path: '', component: ConsultarUsuariosComponent},
-      {path: 'inserir', component: InserirAtendenteComponent},
-      {path: ':id/alterar', component: AlterarAtendenteComponent},
-      {path: ':id', component: VisualizarAtendenteComponent},
-      {path: ':id/estatisticas', component: EstatisticasAtendenteComponent}
-    ]
-  },
-  {
-    path: 'unidades', component: UnidadeViewComponent,
-    children: [
-      {path: '', component: ConsultarUnidadesComponent},
-      {path: 'inserir', component: InserirUnidadeComponent},
-      {path: ':id/alterar', component: AlterarUnidadeComponent},
-      {path: ':id', component: VisualizarUnidadeComponent},
-      {path: ':id/estatisticas', component: EstatisticasUnidadeComponent}
-    ]
-  },
-  {
-    path: 'avaliacoes', component: TipoAvaliacaoViewComponent,
-    children: [
-      {path: '', component: ConsultarTiposAvaliacoesComponent},
-      {path: 'inserir', component: InserirTipoAvaliacaoComponent},
-      {path: ':id', component: VisualizarTipoAvaliacaoComponent},
-      {path: ':id/alterar', component: AlterarTipoAvaliacaoComponent}
-    ]
-  },
-  {
-    path: 'dispositivos', component: DispositivoViewComponent,
-    children: [
-      {path: '', component: ConsultarDispositivosComponent},
-      {path: 'inserir', component: InserirDispositivoComponent},
-      {path: ':numeroLicenca', component: VisualizarDispositivoComponent},
-      {path: ':numeroLicenca/alterar', component: AlterarDispositivoComponent}
-    ]
-  },
-  {
-    path: 'resultados', component: AvaliacaoViewComponent,
-    children: [
-      {path: '', component: ConsultarAvaliacoesComponent},
-      {path: ':id', component: VisualizarAvaliacaoComponent}
-    ]
-  },
-  {
-    path: 'configuracoes', component: ConfiguracaoComponent,
-  },
-  {
-    path: 'assinatura', component: AssinaturaComponent,
-  },
-  {
-    path: 'faturas', component: FaturaViewComponent,
-    children: [
-      {path: '', component: ConsultarFaturasComponent},
-      {path: ':id', component: VisualizarFaturaComponent}
-    ]
-  },
-  {path: 'cupons', loadChildren: '../../../domain/presentation/dashboard/cupom/cupom.module#CupomModule'},
+  }
 ];
 
 /**
@@ -135,5 +143,5 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class DashboardRoutingModule {
+export class AuthenticatedRoutingModule {
 }

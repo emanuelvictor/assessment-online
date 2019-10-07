@@ -117,7 +117,7 @@ export class InserirUnidadeComponent {
    */
   public success(message: string) {
     this.openSnackBar(message);
-    this.router.navigate(['/dashboard/unidades']);
+    this.router.navigate(['/authenticated/unidades']);
   }
 
   /**

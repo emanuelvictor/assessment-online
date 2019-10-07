@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {InserirClienteComponent} from './presentation/dashboard/cliente/inserir-cliente/inserir-cliente.component';
+import {InserirClienteComponent} from './presentation/authenticated/cliente/inserir-cliente/inserir-cliente.component';
 import {WebLoginComponent} from './presentation/login/web-login/web-login.component';
 import {ErrorComponent} from "./presentation/controls/error/error.component";
 import {AuthenticationService} from "./service/authentication.service";
@@ -8,7 +8,7 @@ import {AuthenticationService} from "./service/authentication.service";
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'authentication', pathMatch: 'full'
+    path: '', redirectTo: 'authenticated/minha-conta', pathMatch: 'full'
   },
   {
     path: 'cadastre-se', component: InserirClienteComponent,
@@ -20,7 +20,7 @@ const routes: Routes = [
     path: 'error', component: ErrorComponent
   },
   {
-    path: 'dashboard', loadChildren: '../domain/presentation/dashboard/dashboard.module#DashboardModule', canActivate: [AuthenticationService],
+    path: 'authenticated', loadChildren: '../domain/presentation/authenticated/authenticated.module#AuthenticatedModule', canActivate: [AuthenticationService],
   }
 ];
 

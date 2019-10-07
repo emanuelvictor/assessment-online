@@ -6,12 +6,12 @@ import {routerAnimation} from "../controls/utils";
 
 
 @Component({
-  selector: 'dashboard-view',
-  templateUrl: './dashboard-view.component.html',
-  styleUrls: ['./dashboard-view.component.scss'],
+  selector: 'authenticated-view',
+  templateUrl: './authenticated-view.component.html',
+  styleUrls: ['./authenticated-view.component.scss'],
   animations: [routerAnimation]
 })
-export class DashboardViewComponent implements OnInit, OnDestroy {
+export class AuthenticatedViewComponent implements OnInit, OnDestroy {
 
   /**
    *

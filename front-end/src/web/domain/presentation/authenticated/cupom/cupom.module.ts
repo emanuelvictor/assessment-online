@@ -8,7 +8,7 @@ import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CupomViewComponent} from "./cupom-view.component";
 import {CupomFormComponent} from "./inserir-cupom/cupom-form/cupom-form.component";
-import {DashboardSharedModule} from "../dashboard.shared.module";
+import {AuthenticatedSharedModule} from "../authenticated.shared.module";
 
 
 const routes: Routes = [
@@ -32,7 +32,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    DashboardSharedModule,
+    AuthenticatedSharedModule,
     RouterModule.forChild(routes)
   ],
   exports: [],

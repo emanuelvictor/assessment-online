@@ -6,8 +6,8 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'web-root',
-  templateUrl: './web.component.html',
-  styleUrls: ['./web.component.scss'],
+  template: `<router-outlet></router-outlet>`,
+  styleUrls: ['web.component.scss'],
 })
 export class WebComponent implements OnInit {
 

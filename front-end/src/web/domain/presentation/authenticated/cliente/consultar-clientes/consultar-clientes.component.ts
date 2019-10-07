@@ -181,10 +181,10 @@ export class ConsultarClientesComponent implements OnInit {
         if (result) {
           if (esquema === 'public') {
             this.openSnackBar('Conta administrativa selecionada');
-            this.router.navigate(['dashboard/minha-conta']);
+            this.router.navigate(['authenticated/minha-conta']);
           } else {
             this.openSnackBar('Cliente ' + '\'' + esquema + '\'' + ' selecionado');
-            this.router.navigate(['dashboard/avaliaveis']);
+            this.router.navigate(['authenticated/avaliaveis']);
           }
         }
       })
