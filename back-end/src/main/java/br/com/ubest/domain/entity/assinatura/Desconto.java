@@ -2,16 +2,16 @@ package br.com.ubest.domain.entity.assinatura;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import br.com.ubest.domain.entity.usuario.Conta;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Set;
+import java.time.LocalDate;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
@@ -22,7 +22,7 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
         @UniqueConstraint(columnNames = {"conta_id", "cupom_id"})
 })
-public class CupomConta extends AbstractEntity implements Serializable {
+public class Desconto extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -3875941812123465798L;
 
@@ -43,13 +43,27 @@ public class CupomConta extends AbstractEntity implements Serializable {
     /**
      *
      */
-    public CupomConta() {
+    @NotNull
+    @Column(nullable = false, name = "percentual_desconto")
+    private BigDecimal percentualDesconto;
+
+    /**
+     *
+     */
+    @Column
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataVencimento;
+
+    /**
+     *
+     */
+    public Desconto() {
     }
 
     /**
      * @param id
      */
-    public CupomConta(final long id) {
+    public Desconto(final long id) {
         super(id);
     }
 }

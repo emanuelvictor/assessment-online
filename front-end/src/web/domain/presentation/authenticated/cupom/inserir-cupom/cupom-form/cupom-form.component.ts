@@ -59,27 +59,26 @@ export class CupomFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      codigo: ['codigo', [Validators.required]],
-      percentualDesconto: ['percentualDesconto', [Validators.required, this.percentualDescontoValidator()]]
+      codigo: ['codigo', [Validators.required]]
     });
 
   }
 
-  /**
-   *
-   * @param exception
-   */
-  percentualDescontoValidator(exception?: string): ValidatorFn {
-    return (c: AbstractControl): { [key: string]: any } => {
-      if (c.value || c.value === 0) {
-        if (c.value <= 0) {
-          return {exception: exception ? exception : 'O percentual deve ser maior ou igual á 0'};
-        } else if (c.value > 100) {
-          return {exception: exception ? exception : 'O percentual deve ser menor que 100)'};
-        }
-      }
-    }
-  }
+  // /**
+  //  * TODO usar  no vínculo
+  //  * @param exception
+  //  */
+  // percentualDescontoValidator(exception?: string): ValidatorFn {
+  //   return (c: AbstractControl): { [key: string]: any } => {
+  //     if (c.value || c.value === 0) {
+  //       if (c.value <= 0) {
+  //         return {exception: exception ? exception : 'O percentual deve ser maior ou igual á 0'};
+  //       } else if (c.value > 100) {
+  //         return {exception: exception ? exception : 'O percentual deve ser menor que 100)'};
+  //       }
+  //     }
+  //   }
+  // }
 
   /**
    *

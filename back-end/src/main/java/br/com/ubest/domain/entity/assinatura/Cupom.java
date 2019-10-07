@@ -1,6 +1,7 @@
 package br.com.ubest.domain.entity.assinatura;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Set;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
@@ -26,8 +28,8 @@ public class Cupom extends AbstractEntity implements Serializable {
     /**
      *
      */
-    @OneToMany(targetEntity = CupomConta.class, mappedBy = "cupom", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CupomConta> cupomContas;
+    @OneToMany(targetEntity = Desconto.class, mappedBy = "cupom", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Desconto> descontos;
 
     /**
      *
@@ -36,13 +38,6 @@ public class Cupom extends AbstractEntity implements Serializable {
     @Length(max = 150)
     @Column(nullable = false, unique = true)
     private String codigo;
-
-    /**
-     *
-     */
-    @NotNull
-    @Column(nullable = false, name = "percentual_desconto")
-    private BigDecimal percentualDesconto;
 
     /**
      *
@@ -60,11 +55,9 @@ public class Cupom extends AbstractEntity implements Serializable {
     /**
      * @param id
      * @param codigo
-     * @param percentualDesconto
      */
-    public Cupom(final Long id, final @NotNull @Length(max = 150) String codigo, final @NotNull BigDecimal percentualDesconto) {
+    public Cupom(final Long id, final @NotNull @Length(max = 150) String codigo) {
         super(id);
         this.codigo = codigo;
-        this.percentualDesconto = percentualDesconto;
     }
 }

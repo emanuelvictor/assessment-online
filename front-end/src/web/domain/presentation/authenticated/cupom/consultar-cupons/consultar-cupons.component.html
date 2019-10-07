@@ -62,21 +62,6 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef='percentualDesconto'>
-          <mat-header-cell flex-xl='30' flex-gt-md='30' flex-md='20' flex-sm='30'
-                           layout-align='start center' *matHeaderCellDef mat-sort-header>
-            <div layout-margin layout='column'>
-              Percentual de Desconto
-            </div>
-          </mat-header-cell>
-          <mat-cell layout-align='start center' *matCellDef='let cupom'
-                    flex-xl='30' flex-gt-md='30' flex-md='30' flex-sm='30'>
-            <div layout-margin layout='column'>
-              {{cupom?.percentualDesconto}}
-            </div>
-          </mat-cell>
-        </ng-container>
-
         <mat-header-row *matHeaderRowDef='displayedColumns'>
         </mat-header-row>
 

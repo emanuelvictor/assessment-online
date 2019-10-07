@@ -16,16 +16,15 @@ public interface CupomRepository extends JpaRepository<Cupom, Long> {
      */
     @Query("SELECT new Cupom( " +
             "   cupom.id, " +
-            "   cupom.codigo, " +
-            "   cupom.percentualDesconto" +
+            "   cupom.codigo " +
             ") FROM Cupom cupom" +
             "   WHERE" +
             "   (   " +
             "       (" +
-            "           FILTER(:defaultFilter, cupom.codigo, cupom.percentualDesconto) = TRUE" +
+            "           FILTER(:defaultFilter, cupom.codigo) = TRUE" +
             "       )" +
             "   )" +
-            "GROUP BY cupom.id, cupom.codigo, cupom.percentualDesconto"
+            "GROUP BY cupom.id, cupom.codigo"
     )
     Page<Cupom> listByFilters(@Param("defaultFilter") final String defaultFilter, final Pageable pageable);
 
