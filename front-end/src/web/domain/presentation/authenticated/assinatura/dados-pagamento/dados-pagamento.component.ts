@@ -77,7 +77,7 @@ export class DadosPagamentoComponent implements OnInit {
     const formGroup = new FormGroup({
       codigoArea: new FormControl('codigoArea', [obrigatorio('O código de área do número de telefone é obrigatório')]),
       telefone: new FormControl('telefone', [obrigatorio('O telefone é obrigatório')]),
-      diaUtilVencimentoFatura: new FormControl('diaUtilVencimentoFatura', [obrigatorio('Qual é o dia útil para o vencimento da fatura?'), this.diaUtilVencimentoFaturaValidator()])
+      diaVencimentoFatura: new FormControl('diaVencimentoFatura', [obrigatorio('Qual é o dia útil para o vencimento da fatura?'), this.diaVencimentoFaturaValidator()])
     });
 
     if (!this.form) {
@@ -177,7 +177,7 @@ export class DadosPagamentoComponent implements OnInit {
    * @param exception
    * @param validatorFn
    */
-  public diaUtilVencimentoFaturaValidator(exception?: string, validatorFn?: ValidatorFn): ValidatorFn {
+  public diaVencimentoFaturaValidator(exception?: string, validatorFn?: ValidatorFn): ValidatorFn {
 
     if (validatorFn) {
       return validatorFn

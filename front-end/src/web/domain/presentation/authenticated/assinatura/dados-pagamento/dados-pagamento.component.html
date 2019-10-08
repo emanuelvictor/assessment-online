@@ -44,12 +44,12 @@
       </mat-form-field>
 
       <mat-form-field flex>
-        <input [(ngModel)]='assinatura.diaUtilVencimentoFatura'
-               placeholder='Dia útil para o vencimento da fatura'
-               id='diaUtilVencimentoFatura' name='diaUtilVencimentoFatura'
-               type='number' matInput required formControlName='diaUtilVencimentoFatura'>
-        <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['diaUtilVencimentoFatura']?.hasError('exception')">
-          {{form?.controls?.secondFormGroup?.controls['diaUtilVencimentoFatura']?.errors.exception}}
+        <input [(ngModel)]='assinatura.diaVencimentoFatura'
+               placeholder='Dia para o vencimento da fatura'
+               id='diaVencimentoFatura' name='diaVencimentoFatura'
+               type='number' matInput required formControlName='diaVencimentoFatura'>
+        <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['diaVencimentoFatura']?.hasError('exception')">
+          {{form?.controls?.secondFormGroup?.controls['diaVencimentoFatura']?.errors.exception}}
         </mat-error>
       </mat-form-field>
     </div>

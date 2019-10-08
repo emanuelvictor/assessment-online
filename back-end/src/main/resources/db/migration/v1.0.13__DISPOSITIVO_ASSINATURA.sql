@@ -13,7 +13,7 @@ create table if not exists assinatura
     hash                           varchar,
     documento_titular_cartao       varchar(20),
     sou_empresa                    boolean,
-    dia_util_vencimento_fatura     smallint not null default 5,
+    dia_vencimento_fatura          smallint  not null default 5,
     data_nascimento_titular_cartao date,
     codigo_area                    smallint,
     telefone                       bigint,
@@ -35,7 +35,7 @@ create table if not exists assinatura_aud
     documento_titular_cartao       varchar(20),
     hash                           varchar,
     sou_empresa                    boolean,
-    dia_util_vencimento_fatura     smallint,
+    dia_vencimento_fatura          smallint,
     data_nascimento_titular_cartao date,
     codigo_area                    smallint,
     telefone                       bigint,
@@ -109,7 +109,7 @@ alter table dispositivo
 
 -- Insere os dispositivos de acordo com as unidades
 INSERT INTO public.dispositivo (unidade_id, created, nome, interna, modo_quiosque, modo_insonia, time,
-                            quebrar_linha_na_selecao_de_item_avaliavel, tenant, assinatura_id)
+                                quebrar_linha_na_selecao_de_item_avaliavel, tenant, assinatura_id)
     (
         SELECT (unidade.id) || current_schema(),
                NOW()       AS created,
@@ -132,7 +132,7 @@ INSERT INTO unidade_tipo_avaliacao_dispositivo (id, created, ordem, unidade_tipo
                NOW()                       AS created,
                1                           AS ordem,
                unidade_tipo_avaliacao.id   AS unidade_tipo_avaliacao_id,
-               public.dispositivo.id           AS dispositivo_id,
+               public.dispositivo.id       AS dispositivo_id,
                true                        AS ativo
         FROM unidade
                  INNER JOIN unidade_tipo_avaliacao ON unidade_tipo_avaliacao.unidade_id = unidade.id

@@ -47,7 +47,7 @@ public class Assinatura extends AbstractEntity implements Serializable {
     @Max(28)
     @NotNull
     @Column(nullable = false)
-    private short diaUtilVencimentoFatura = 5;
+    private short diaVencimentoFatura = 5;
 
     /**
      *
