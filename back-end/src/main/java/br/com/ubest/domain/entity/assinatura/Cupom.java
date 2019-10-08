@@ -19,8 +19,10 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Data
 @Entity
 @Audited
-@Table(schema = DEFAULT_TENANT_ID)
 @EqualsAndHashCode(callSuper = true)
+@Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"tenant", "codigo"})
+})
 public class Cupom extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -3875941812412341566L;
@@ -28,8 +30,10 @@ public class Cupom extends AbstractEntity implements Serializable {
     /**
      *
      */
-    @OneToMany(targetEntity = Desconto.class, mappedBy = "cupom", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Desconto> descontos;
+    @NotNull
+    @Length(max = 150)
+    @Column(nullable = false, updatable = false)
+    private String tenant;
 
     /**
      *
@@ -38,6 +42,20 @@ public class Cupom extends AbstractEntity implements Serializable {
     @Length(max = 150)
     @Column(nullable = false, unique = true)
     private String codigo;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false, name = "percentual_desconto")
+    private BigDecimal percentualDesconto;
+
+    /**
+     *
+     */
+    @Column
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataVencimento;
 
     /**
      *

@@ -69,8 +69,16 @@ public class Fatura extends AbstractEntity implements Serializable {
      *
      */
     @ManyToOne
-    @JoinColumn(name = "desconto_id")
-    private Desconto desconto;
+    @JoinColumn(name = "cupom_id")
+    private Cupom cupom;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private StatusFatura status;
 
     /**
      *
