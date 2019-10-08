@@ -10,6 +10,16 @@ export class Cupom extends Abstract {
   /**
    *
    */
+  public percentualDesconto : number;
+
+  /**
+   *
+   */
+  public dataVencimento: any;
+
+  /**
+   *
+   */
   constructor() {
     super()
   }

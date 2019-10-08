@@ -7,6 +7,7 @@ import {MatIconRegistry, MatSnackBar} from "@angular/material";
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from "@angular/forms";
 import {FileRepository} from "../../../../../../infrastructure/repository/file/file.repository";
 import {Cupom} from "../../../../../entity/assinatura/cupom.model";
+import {ContaService} from "../../../../../service/conta.service";
 
 /**
  *
@@ -26,6 +27,11 @@ export class CupomFormComponent implements OnInit {
   /**
    *
    */
+  clientes: any = [];
+
+  /**
+   *
+   */
   @Output()
   save: EventEmitter<any> = new EventEmitter();
 
@@ -39,6 +45,7 @@ export class CupomFormComponent implements OnInit {
   /**
    *
    * @param {MatSnackBar} snackBar
+   * @param contaService
    * @param {FileRepository} fileRepository
    * @param {ElementRef} element
    * @param {Renderer} renderer
@@ -47,6 +54,7 @@ export class CupomFormComponent implements OnInit {
    * @param {DomSanitizer} domSanitizer
    */
   constructor(private snackBar: MatSnackBar,
+              private contaService: ContaService,
               private fileRepository: FileRepository,
               @Inject(ElementRef) private element: ElementRef,
               private renderer: Renderer, private fb: FormBuilder,
@@ -59,26 +67,28 @@ export class CupomFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      codigo: ['codigo', [Validators.required]]
+      codigo: ['codigo', [Validators.required]],
+      percentualDesconto: ['percentualDesconto', [this.percentualDescontoValidator()]]
     });
+
+    this.listClientesByFilters()
 
   }
 
-  // /**
-  //  * TODO usar  no vínculo
-  //  * @param exception
-  //  */
-  // percentualDescontoValidator(exception?: string): ValidatorFn {
-  //   return (c: AbstractControl): { [key: string]: any } => {
-  //     if (c.value || c.value === 0) {
-  //       if (c.value <= 0) {
-  //         return {exception: exception ? exception : 'O percentual deve ser maior ou igual á 0'};
-  //       } else if (c.value > 100) {
-  //         return {exception: exception ? exception : 'O percentual deve ser menor que 100)'};
-  //       }
-  //     }
-  //   }
-  // }
+  /**
+   * @param exception
+   */
+  percentualDescontoValidator(exception?: string): ValidatorFn {
+    return (c: AbstractControl): { [key: string]: any } => {
+      if (c.value || c.value === 0) {
+        if (c.value <= 0) {
+          return {exception: exception ? exception : 'O percentual deve ser maior ou igual á 0'};
+        } else if (c.value > 100) {
+          return {exception: exception ? exception : 'O percentual deve ser menor que 100)'};
+        }
+      }
+    }
+  }
 
   /**
    *
@@ -136,6 +146,17 @@ export class CupomFormComponent implements OnInit {
     if (valid) {
       this.save.emit(this.cupom)
     }
+  }
+
+  /**
+   * Consulta de usuarios
+   *
+   */
+  public listClientesByFilters() {
+    this.contaService.listByFilters({})
+      .subscribe((result) => {
+        this.clientes = result.content
+      })
   }
 
   /**

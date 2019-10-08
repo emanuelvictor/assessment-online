@@ -23,7 +23,7 @@ create table cupom
     updated             timestamp,
     data_vencimento     date,
     percentual_desconto numeric(19, 2) not null,
-    tenant              varchar(150)   not null,
+    tenant              varchar(150),
     primary key (id)
 );
 create table cupom_aud
@@ -38,9 +38,10 @@ create table cupom_aud
     primary key (id, rev)
 );
 alter table cupom
-    drop constraint if exists unique_constraint_codigo_tenant;
+    drop constraint if exists unique_constraint_tenant;
 alter table cupom
-    add constraint unique_constraint_codigo_tenant unique (codigo, tenant);
+    add constraint unique_constraint_tenant unique (tenant);
+
 alter table cupom_aud
     add constraint FKah81ra2app32enfw3abx7cawo foreign key (rev) references public.revision;
 

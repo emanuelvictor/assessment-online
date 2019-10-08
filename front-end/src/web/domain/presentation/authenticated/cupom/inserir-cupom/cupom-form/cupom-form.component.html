@@ -11,9 +11,8 @@
               <!--cabeçalho div-->
               <ng-content select="[header]"></ng-content>
 
-              <div layout='row' layout-align='start center'>
-                <div layout='row' flex class='push-left'>
-
+              <div layout='row' flex layout-align='start center'>
+                <div layout='column' flex>
                   <mat-form-field flex layout-margin>
                     <input [(ngModel)]='cupom.codigo'
                            placeholder='Codigo do cupom'
@@ -24,6 +23,26 @@
                     </mat-error>
                   </mat-form-field>
 
+                  <mat-form-field flex layout-margin>
+                    <input type='number' matInput
+                           formControlName='percentualDesconto'
+                           [(ngModel)]='cupom.percentualDesconto'
+                           placeholder='Percentual de desconto do cupom'
+                           name='percentualDesconto' id='percentualDesconto'>
+                    <mat-error>
+                      Campo obrigatório
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field flex layout-margin>
+                    <mat-label>Clientes</mat-label>
+                    <mat-select [(value)]='cupom.tenant'>
+                      <mat-option [value]='cliente.tenant'
+                                  *ngFor='let cliente of clientes'>
+                        {{cliente?.tenant}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
               </div>
 

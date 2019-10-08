@@ -95,14 +95,14 @@
 
     <mat-divider class="bgc-blue-grey-300 push-top push-bottom pad-left" *ngIf='authenticatedUser?.isAdministrador'></mat-divider>
 
-    <mat-list-item *ngIf='authenticatedUser?.isAdministrador'
+    <mat-list-item *ngIf='authenticatedUser?.isRoot'
                    routerLinkActive #rlaCupom='routerLinkActive'
                    [ngClass]="{'menu-active': rlaCupom.isActive}"
                    class='push-bottom' routerLink='/authenticated/cupons'>
       <div layout='row' flex class='pad-left'>
         <span flex='10'></span>
         <mat-icon matListAvatar flex>whatshot</mat-icon>
-        <h3 matLine style='color: white' flex='85'> Meus Cupons de Desconto</h3>
+        <h3 matLine style='color: white' flex='85'> Cupons </h3>
       </div>
     </mat-list-item>
 

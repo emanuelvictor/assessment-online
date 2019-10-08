@@ -19,10 +19,8 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Data
 @Entity
 @Audited
+@Table(schema = DEFAULT_TENANT_ID)
 @EqualsAndHashCode(callSuper = true)
-@Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"tenant", "codigo"})
-})
 public class Cupom extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -3875941812412341566L;
@@ -30,9 +28,8 @@ public class Cupom extends AbstractEntity implements Serializable {
     /**
      *
      */
-    @NotNull
     @Length(max = 150)
-    @Column(nullable = false, updatable = false)
+    @Column(unique = true)
     private String tenant;
 
     /**
@@ -40,7 +37,7 @@ public class Cupom extends AbstractEntity implements Serializable {
      */
     @NotNull
     @Length(max = 150)
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String codigo;
 
     /**
