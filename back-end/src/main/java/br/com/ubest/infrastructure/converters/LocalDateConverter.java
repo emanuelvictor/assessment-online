@@ -1,4 +1,4 @@
-package br.com.ubest.application.converters;
+package br.com.ubest.infrastructure.converters;
 
 import org.springframework.core.convert.converter.Converter;
 

@@ -1,4 +1,4 @@
-package br.com.ubest.application.converters;
+package br.com.ubest.infrastructure.converters;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

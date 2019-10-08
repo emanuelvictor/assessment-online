@@ -1,6 +1,6 @@
 package br.com.ubest.application.websocket;
 
-import br.com.ubest.application.converters.JsonConverter;
+import br.com.ubest.infrastructure.converters.JsonConverter;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.DispositivoRepository;

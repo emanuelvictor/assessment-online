@@ -1,6 +1,6 @@
 package br.com.ubest.application.resource;
 
-import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.application.hibernate.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;

@@ -1,4 +1,4 @@
-package br.com.ubest.application.formatter;
+package br.com.ubest.infrastructure.formatter;
 
 import org.springframework.format.Formatter;
 

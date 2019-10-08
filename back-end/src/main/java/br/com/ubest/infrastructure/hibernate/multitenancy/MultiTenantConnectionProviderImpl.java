@@ -1,4 +1,4 @@
-package br.com.ubest.application.multitenancy;
+package br.com.ubest.infrastructure.hibernate.multitenancy;
 
 
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
-
 
 @Component
 @RequiredArgsConstructor

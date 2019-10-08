@@ -1,4 +1,4 @@
-package br.com.ubest.application.hibernate;
+package br.com.ubest.infrastructure.hibernate;
 
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ public class DataSourceConfig {
     public DataSource dataSource() {
         final HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName(env.getProperty("spring.datasource.driver-class-name"));
-        dataSource.setMaximumPoolSize(Integer.valueOf(Objects.requireNonNull(env.getProperty("spring.datasource.hikari.maximum-pool-size"))));
+        dataSource.setMaximumPoolSize(Integer.parseInt(Objects.requireNonNull(env.getProperty("spring.datasource.hikari.maximum-pool-size"))));
         dataSource.setPoolName(env.getProperty("spring.datasource.hikari.pool-name"));
         dataSource.setJdbcUrl(env.getProperty("spring.datasource.url"));
         dataSource.setUsername(env.getProperty("spring.datasource.username"));

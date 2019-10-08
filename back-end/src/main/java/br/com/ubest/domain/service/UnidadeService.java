@@ -1,15 +1,13 @@
 package br.com.ubest.domain.service;
 
-import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.application.hibernate.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.domain.repository.UnidadeRepository;
-import br.com.ubest.domain.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;

@@ -1,6 +1,6 @@
 package br.com.ubest.application.websocket;
 
-import br.com.ubest.application.converters.JsonConverter;
+import br.com.ubest.infrastructure.converters.JsonConverter;
 import lombok.Getter;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.UnicastProcessor;

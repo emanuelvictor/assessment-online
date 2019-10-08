@@ -1,6 +1,6 @@
 package br.com.ubest.application.websocket;
 
-import br.com.ubest.application.converters.JsonConverter;
+import br.com.ubest.infrastructure.converters.JsonConverter;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.DispositivoRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -71,7 +71,7 @@ public class DispositivoWebSocketHandler extends GenericWebSocketHandler<Disposi
 
 //package br.com.ubest.application.websocket;
 //
-//import br.com.ubest.application.converters.JsonConverter;
+//import br.com.ubest.infrastructure.converters.JsonConverter;
 //import br.com.ubest.domain.entity.unidade.Dispositivo;
 //import br.com.ubest.domain.repository.DispositivoRepository;
 //import org.springframework.data.jpa.repository.JpaRepository;

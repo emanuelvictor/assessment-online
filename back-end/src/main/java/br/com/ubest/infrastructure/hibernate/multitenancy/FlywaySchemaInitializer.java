@@ -1,4 +1,4 @@
-package br.com.ubest.application.multitenancy;
+package br.com.ubest.infrastructure.hibernate.multitenancy;
 
 import br.com.ubest.infrastructure.tenant.TenantDetailsService;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package br.com.ubest.application.multitenancy;
+package br.com.ubest.application.hibernate.multitenancy;
 
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.stereotype.Component;

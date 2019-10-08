@@ -1,6 +1,6 @@
 package br.com.ubest.application.websocket;
 
-import br.com.ubest.application.converters.JsonConverter;
+import br.com.ubest.infrastructure.converters.JsonConverter;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.reactive.socket.WebSocketHandler;

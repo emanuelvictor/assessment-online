@@ -1,7 +1,6 @@
-package br.com.ubest.application.hibernate;
+package br.com.ubest.infrastructure.hibernate;
 
-import br.com.ubest.application.multitenancy.MultiTenantConnectionProviderImpl;
-import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.application.hibernate.multitenancy.TenantIdentifierResolver;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.MultiTenancyStrategy;
@@ -14,6 +13,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import br.com.ubest.infrastructure.hibernate.multitenancy.MultiTenantConnectionProviderImpl;
 
 import javax.sql.DataSource;
 import java.util.HashMap;

@@ -1,6 +1,6 @@
 package br.com.ubest.application.resource;
 
-import br.com.ubest.application.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.application.hibernate.multitenancy.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.configuracao.Configuracao;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.service.ConfiguracaoService;

@@ -1,7 +1,7 @@
 package br.com.ubest.application.flux;
 
-import br.com.ubest.application.formatter.LocalDateFormatter;
-import br.com.ubest.application.formatter.LocalDateTimeFormatter;
+import br.com.ubest.infrastructure.formatter.LocalDateFormatter;
+import br.com.ubest.infrastructure.formatter.LocalDateTimeFormatter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -10,8 +10,8 @@ import org.springframework.web.reactive.config.ViewResolverRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.result.view.freemarker.FreeMarkerConfigurer;
 
-import static br.com.ubest.application.formatter.LocalDateFormatter.LOCAL_DATE_PATTERN;
-import static br.com.ubest.application.formatter.LocalDateTimeFormatter.LOCAL_DATE_TIME_PATTERN;
+import static br.com.ubest.infrastructure.formatter.LocalDateFormatter.LOCAL_DATE_PATTERN;
+import static br.com.ubest.infrastructure.formatter.LocalDateTimeFormatter.LOCAL_DATE_TIME_PATTERN;
 
 @Configuration
 @EnableWebFlux
