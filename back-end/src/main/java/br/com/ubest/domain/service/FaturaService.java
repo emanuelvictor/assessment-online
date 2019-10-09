@@ -41,6 +41,9 @@ public class FaturaService {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(FaturaService.class);
 
+    /**
+     *
+     */
     public void fecharFaturas() {
         tenantDetailsService.getAllTenants().forEach(tenant -> {
             tenantIdentifierResolver.setSchema(tenant);
