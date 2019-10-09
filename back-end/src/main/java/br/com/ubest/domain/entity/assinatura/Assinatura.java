@@ -110,7 +110,7 @@ public class Assinatura extends AbstractEntity implements Serializable {
      *
      */
     @JoinColumn(name = "endereco_id")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Endereco.class )
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Endereco.class)
     private Endereco endereco;
 
     /**
@@ -125,5 +125,14 @@ public class Assinatura extends AbstractEntity implements Serializable {
 //    @EqualsAndHashCode.Exclude
 //    @OneToMany(targetEntity = Dispositivo.class, mappedBy = "assinatura", fetch = FetchType.EAGER, orphanRemoval = true)
 //    private Set<Dispositivo> dispositivos;
+
+    /**
+     * Retorna a data de vencimento da fatura do mês corrente
+     *
+     * @return
+     */
+    public LocalDate getDataVencimentoFatura() {
+        return LocalDate.now().withDayOfMonth(this.diaVencimentoFatura);
+    }
 
 }
