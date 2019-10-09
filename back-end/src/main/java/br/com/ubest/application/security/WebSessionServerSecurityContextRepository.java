@@ -1,6 +1,6 @@
 package br.com.ubest.application.security;
 
-import br.com.ubest.application.hibernate.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.infrastructure.org.springframework.data.domain.PageRequest;
 import br.com.ubest.infrastructure.resource.PageComponent;
 import br.com.ubest.infrastructure.tenant.TenantDetails;

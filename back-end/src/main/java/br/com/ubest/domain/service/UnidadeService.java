@@ -1,6 +1,6 @@
 package br.com.ubest.domain.service;
 
-import br.com.ubest.application.hibernate.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.ContaRepository;

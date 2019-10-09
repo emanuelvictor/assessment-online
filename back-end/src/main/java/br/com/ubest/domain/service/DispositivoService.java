@@ -1,6 +1,6 @@
 package br.com.ubest.domain.service;
 
-import br.com.ubest.application.hibernate.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.application.websocket.WrapperHandler;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.DispositivoRepository;

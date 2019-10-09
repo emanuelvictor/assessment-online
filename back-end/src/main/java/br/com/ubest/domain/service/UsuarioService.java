@@ -1,7 +1,7 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.application.aspect.exceptions.PasswordNotFound;
-import br.com.ubest.application.hibernate.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import br.com.ubest.domain.entity.configuracao.Configuracao;

@@ -30,6 +30,9 @@
         <json-simple.version>1.1.1</json-simple.version>
 
         <stella.version>2.1.2</stella.version>
+
+        <!--        versão do quartz-->
+        <quartz.version>2.2.3</quartz.version>
     </properties>
 
     <profiles>
@@ -233,6 +236,13 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <!-- quartz -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${quartz.version}</version>
         </dependency>
 
         <!--gson-->

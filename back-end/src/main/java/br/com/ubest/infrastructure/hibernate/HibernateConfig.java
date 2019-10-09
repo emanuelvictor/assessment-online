@@ -1,6 +1,6 @@
 package br.com.ubest.infrastructure.hibernate;
 
-import br.com.ubest.application.hibernate.multitenancy.TenantIdentifierResolver;
+import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.MultiTenancyStrategy;
