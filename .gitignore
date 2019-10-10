@@ -21,6 +21,14 @@ i# See http://help.github.com/ignore-files/ for more about ignoring files.
 /mobile/plugins
 /mobile/www
 
+# Mobile
+/mobile.old/node_modules
+/mobile.old/platforms
+/mobile.old/res
+/mobile.old/package-lock.json
+/mobile.old/plugins
+/mobile.old/www
+
 # IDEs and editors
 /front-end/.idea
 /back-end/.idea
