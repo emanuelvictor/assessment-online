@@ -1,0 +1,17 @@
+<header-component>
+  <mat-sidenav-container [@routerAnimation]="o.isActivated ? o.activatedRoute : ''">
+
+    <mat-sidenav *ngIf='conta?.usuario?.isOperador || conta?.isAdministrador'
+                 [opened]='isSmallScreen' class='mat-elevation-z5'
+                 mode='side'>
+
+      <logged-menu *ngIf='!conta?.root'></logged-menu>
+
+      <logged-root-menu *ngIf='conta?.root'></logged-root-menu>
+
+    </mat-sidenav>
+
+    <router-outlet #o="outlet"></router-outlet>
+
+  </mat-sidenav-container>
+</header-component>

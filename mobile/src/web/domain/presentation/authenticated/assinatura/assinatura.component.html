@@ -1,0 +1,67 @@
+<div [@fadeInOut] layout-align='center center' layout-gt-xs='row' layout-margin>
+  <div flex-gt-xs='80' layout='row' layout-margin>
+    <div flex layout-margin>
+
+      <mat-card class='bgc-grey-50'>
+
+        <mat-horizontal-stepper #stepper [class.mat-elevation-z2]='true' linear>
+
+          <ng-template matStepperIcon='edit'>
+            <mat-icon>done</mat-icon>
+          </ng-template>
+
+          <ng-template matStepperIcon='done'>
+            <mat-icon>done_all</mat-icon>
+          </ng-template>
+
+          <mat-step>
+
+            <ng-template matStepLabel>
+              Plano
+            </ng-template>
+
+            <planos [(assinatura)]='assinatura' [form]='form'></planos>
+
+          </mat-step>
+
+          <mat-step [stepControl]='form'>
+
+            <ng-template matStepLabel>
+              Dados de Pagamento
+            </ng-template>
+
+            <dados-pagamento [assinatura]='assinatura' [form]='form' [publicKey]='publicKey'></dados-pagamento>
+
+          </mat-step>
+
+          <mat-step>
+
+            <ng-template matStepLabel>
+              Conclusão
+            </ng-template>
+            <div layout='row' layout-align='center center'>
+              <div class='visualizar-compra-container' flex>
+                <div layout='column' layout-align='center center' layout-margin>
+                  <img alt='Imagem grande check' class='push-top'
+                       src='https://www.thefullclass.com/static/images/big-check.png'>
+                  <h1 class='tc-light-green-800' flex style='font-size: 34px'>Parabéns</h1>
+                  <span class='tc-light-green-800 text-center mat-title' flex style='line-height: 20px'>
+                    Sua assinatura foi realizada com sucesso! :)
+                  </span>
+                  <span *ngIf="assinatura && assinatura.formaPagamento === 'BOLETO'" class='tc-light-green-800 text-center mat-subhead'
+                        flex>
+                    Você receberá os boletos em seu e-mail
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </mat-step>
+
+        </mat-horizontal-stepper>
+
+      </mat-card>
+
+    </div>
+  </div>
+</div>

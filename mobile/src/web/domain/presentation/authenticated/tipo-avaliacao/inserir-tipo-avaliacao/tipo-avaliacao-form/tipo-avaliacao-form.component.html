@@ -1,0 +1,76 @@
+<div layout-align="center center" layout-gt-xs="row" layout-margin>
+  <div flex-gt-xs="80" layout="row" layout-margin>
+    <div flex layout-margin>
+
+      <mat-card class="bgc-grey-50">
+        <form (ngSubmit)='saveForm(form)' [formGroup]='form' novalidate>
+
+          <mat-card-content>
+
+            <div layout='column' layout-margin style='/*margin-top: 20px; padding-bottom: 25px*/'>
+
+              <!--cabeçalho div-->
+              <ng-content select="[header]"></ng-content>
+
+              <div layout='row' layout-align='start center'>
+
+                <div class='push-left' flex layout='column'>
+
+                  <div layout='row' layout-align='center center'>
+                    <div class='push-right' flex="25" layout='column'>
+                      <mat-form-field layout-margin>
+                        <input [(ngModel)]='tipoAvaliacao.nome'
+                               [matTooltipPosition]="'below'"
+                               formControlName='nome' id='nome' matInput
+                               matTooltip='Identificador utilizado apenas na plataforma web!'
+                               maxlength='144' name='nome'
+                               placeholder='Nome da avaliação'>
+                        <mat-error>
+                          Campo obrigatório
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                    <div class='push-right' flex="75" layout='column'>
+                      <mat-form-field layout-margin>
+                        <input [(ngModel)]='tipoAvaliacao.enunciado'
+                               [matTooltipPosition]="'below'"
+                               formControlName='enunciado'
+                               id='enunciado' matInput matTooltip='Enunciado a ser exibido no aplicativo móvel!'
+                               maxlength='144' name='enunciado'
+                               placeholder='Enunciado da avaliação'>
+                        <mat-error>
+                          Campo obrigatório
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class='push-right' flex="75" layout='column'>
+                    <mat-form-field layout-margin>
+                      <input [(ngModel)]='tipoAvaliacao.selecao'
+                             [matTooltipPosition]="'below'"
+                             formControlName='selecao'
+                             id='selecao' matInput matTooltip='Frase de seleção dos Itens Avaliaveis, a serem exibidos no aplicativo móvel!' maxlength='144'
+                             name='selecao'
+                             placeholder='Frase de seleção dos Itens Avaliáveis (atendentes, quesitos, professores, itens, sabores ...)'>
+                      <mat-error>
+                        Campo obrigatório
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- actions -->
+            <ng-content select="[actions]"></ng-content>
+
+          </mat-card-content>
+        </form>
+      </mat-card>
+
+    </div>
+  </div>
+</div>

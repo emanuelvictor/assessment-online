@@ -1,0 +1,90 @@
+<div layout-align='center center' layout-gt-xs='row' layout-margin>
+  <div flex-gt-xs='80' layout='row' layout-margin>
+    <div flex layout='column' layout-align='center center' layout-margin>
+      <mat-card class='bgc-grey-50' layout-margin style='width: calc(100% - 15px)'>
+
+        <!--card informações-->
+        <mat-card-content>
+
+          <div layout='row'>
+            <div layout='column' style='min-width: 17px'>
+              <button *ngIf='activatedRoute?.snapshot?.params?.id'
+                      [@fadeInOut]
+                      class='mat-headline tc-grey-500' color='primary'
+                      mat-icon-button routerLink='../' type='button'>
+                <mat-icon>arrow_back</mat-icon>
+              </button>
+            </div>
+            <visualizar-dados-usuario *ngIf='atendente?.id' [@fadeInOut] [usuario]='atendente' flex>
+
+              <!--options-->
+              <div *ngIf='authenticatedUser?.isAdministrador || !atendente?.isAdministrador' [@fadeInOut] flex layout='column'
+                   layout-align='start end'>
+                <div layout='row'>
+                  <button *ngIf='!atendente?.conta?.root'
+                          class='tc-blue-grey-900' hide-sm
+                          hide-xs mat-button routerLink='estatisticas'>
+                    <mat-icon>show_chart</mat-icon>
+                    <span>Estatísticas</span>
+                  </button>
+
+                  <button class='tc-blue-grey-900' mat-icon-button routerLink='alterar'>
+                    <mat-icon>mode_edit</mat-icon>
+                  </button>
+                  <button [matMenuTriggerFor]='menu' class='tc-blue-grey-900' mat-icon-button>
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu='matMenu'>
+                    <button *ngIf='!atendente?.conta?.root' color='primary'
+                            hide-gt-sm mat-menu-item routerLink='estatisticas'>
+                      <mat-icon>show_chart</mat-icon>
+                      <span>Estatísticas</span>
+                    </button>
+                    <button (click)='alteraSenha()' *ngIf='atendente?.conta?.email' [@fadeInOut]
+                            color='primary' mat-menu-item>
+                      <mat-icon>vpn_key</mat-icon>
+                      <span>Alterar senha</span>
+                    </button>
+                    <button (click)='remove(atendente)' color='primary' mat-menu-item>
+                      <mat-icon>delete</mat-icon>
+                      <span>Remover</span>
+                    </button>
+                  </mat-menu>
+                </div>
+              </div>
+            </visualizar-dados-usuario>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <div *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'
+           [@fadeInOut]
+           flex layout='row' layout-align='center center'
+           style='width: 100%'>
+
+        <mat-form-field flex style='margin-bottom: 0'>
+          <input [(ngModel)]='filter.unidade.nome' [ngModelOptions]='{standalone: true}' id='filter'
+                 matInput
+                 maxlength='200'
+                 name='filter' placeholder='Filtre as unidades por nome'>
+        </mat-form-field>
+
+      </div>
+
+      <mat-card *ngIf='vincularUnidadeTipoAvaliacaoDispositivo' class='bgc-grey-50' style='width: 100%'>
+
+        <vincular-unidade (removeOperador)='removeOperador($event)'
+                          (saveOperador)='saveOperador($event)'
+                          (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'
+                          *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'
+                          [avaliaveis]='avaliaveis'
+                          [filter]='filter' [operadores]='operadores'
+                          [unidades]='unidades'
+                          [usuario]='atendente'>
+        </vincular-unidade>
+
+      </mat-card>
+
+    </div>
+  </div>
+</div>

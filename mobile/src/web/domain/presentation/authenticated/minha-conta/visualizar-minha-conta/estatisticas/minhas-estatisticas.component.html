@@ -1,0 +1,105 @@
+<search-bar>
+  <div class='push-right'
+       layout='column'
+       style='min-width: 17px'>
+    <button class='mat-headline tc-grey-500' color='primary'
+            mat-icon-button routerLink='../'
+            type='button'>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+
+  <div class='tc-grey-600 push-left' layout='row'
+       style='margin-top: 3px'>
+    {{ rankeavel?.nome }}
+  </div>
+
+  <div layout='row' layout-margin
+       style='margin-left: 41px; margin-top: 15px'>
+
+    <ev-datepicker #dataInicio (dataInputChange)='listByDates()'
+                   [(dataInput)]='pageRequest.dataInicioFilter'
+                   flex layout='row'
+                   style='margin-left: -2px'>
+      <mat-form-field style='width: 225px'>
+        <input [(ngModel)]='pageRequest.dataInicioFilter'
+               [textMask]='{mask: masks.date, guide: false}'
+               id='dataInicio' matInput name='dataInicio'
+               placeholder='Data da avaliação - Início'>
+      </mat-form-field>
+    </ev-datepicker>
+
+    <ev-datepicker #dataTermino (dataInputChange)='listByDates()' [(dataInput)]='pageRequest.dataTerminoFilter'
+                   flex
+                   layout='row'>
+      <mat-form-field style='width: 235px'>
+        <input [(ngModel)]='pageRequest.dataTerminoFilter'
+               [textMask]='{mask: masks.date, guide: false}'
+               id='dataTermino' matInput name='dataTermino'
+               placeholder='Data da avaliação - Término'>
+      </mat-form-field>
+    </ev-datepicker>
+
+  </div>
+
+  <div flex-gt-md></div>
+  <div class='tc-grey-600 push-left' layout='row'
+       style='margin-top: 3px'>
+    Média: {{rankeavel?.media > 0 ? (rankeavel?.media | number:'1.0-2' :'pt-BR').replace(',', '.') : 0}}
+  </div>
+  <mat-slide-toggle *ngIf="(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) != 0" [(ngModel)]='pizza'
+                    layout-margin>
+    <span class='tc-grey-600'>{{pizza ? 'Pizza' : 'Em barras' }}</span>
+  </mat-slide-toggle>
+
+  <button (click)='pageRequest.dataInicioFilter = null; pageRequest.dataTerminoFilter = null; resetDates(); listByDates()'
+          mat-raised-button>
+    Limpar filtros
+  </button>
+
+</search-bar>
+
+<div layout-gt-xs='row'>
+  <div flex-gt-xs='100'>
+    <div layout='row' layout-align='center start'>
+      <div flex='90' layout='column'>
+
+        <div class='tc-grey-500 size-height-50'
+             layout='row' layout-align='start center'>
+          <div flex></div>
+          <span> {{(rankeavel?.avaliacoes1 + rankeavel?.avaliacoes2 + rankeavel?.avaliacoes3 + rankeavel?.avaliacoes4 + rankeavel?.avaliacoes5) === 0 ? '' : (rankeavel?.avaliacoes1 + rankeavel?.avaliacoes2 + rankeavel?.avaliacoes3 + rankeavel?.avaliacoes4 + rankeavel?.avaliacoes5) + ' avaliações'}} </span>
+        </div>
+
+        <mat-card>
+          <div
+              *ngIf="(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) != 0">
+
+            <div *ngIf='!pizza' style='height:500px;'>
+              <ngx-charts-bar-vertical (select)="onSelect($event)"
+                                       [results]="single"
+                                       [scheme]="{ domain: [ '#c21c1f', '#e96d01', '#d4c40d', '#8fc82c', '#5ee924' ]}"
+                                       [showXAxisLabel]="true"
+                                       [showYAxisLabel]="true"
+                                       [xAxisLabel]="'Avaliações'"
+                                       [xAxis]="true"
+                                       [yAxis]="true">
+              </ngx-charts-bar-vertical>
+            </div>
+
+            <ngx-charts-advanced-pie-chart
+                *ngIf='pizza' [results]="single"
+                [scheme]="{ domain: [ '#c21c1f', '#e96d01', '#d4c40d', '#8fc82c', '#5ee924' ]}">
+            </ngx-charts-advanced-pie-chart>
+          </div>
+        </mat-card>
+
+        <div *ngIf='(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) === 0'
+             class='tc-grey-500 size-height-50' layout='row'
+             layout-align='center center'>
+          <span> Sem estatísticas por aqui =( </span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

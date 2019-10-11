@@ -1,0 +1,12 @@
+<mat-checkbox (change)="dispositivo.modoQuiosque ? dispositivo.modoInsonia = true : ''" *ngIf='dispositivo' [(ngModel)]='dispositivo.modoQuiosque' [@fadeInOut]
+              [ngModelOptions]='{standalone: true}'
+              flex='20' matTooltip='O tablet não sai do aplicativo'>
+  Modo Quiosque
+</mat-checkbox>
+
+<mat-checkbox (change)="!dispositivo.modoInsonia ? dispositivo.modoQuiosque = false : ''" *ngIf='dispositivo' [(ngModel)]='dispositivo.modoInsonia'
+              [@fadeInOut] [ngModelOptions]='{standalone: true}'
+              flex='10'
+              flex-sm='30' matTooltip='Enquanto estiver no aplicativo, a tela não adormece'>
+  Modo Insônia
+</mat-checkbox>

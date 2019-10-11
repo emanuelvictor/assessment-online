@@ -1,0 +1,11 @@
+<ng-content></ng-content>
+<mat-form-field id='date-filters'>
+  <input (ngModelChange)='changeData(data)'
+         [(ngModel)]='data'
+         [matDatepicker]='datePicker'
+         id='datePicker' matInput
+         name='datePicker' style='display: none'>
+
+  <mat-datepicker-toggle [for]='datePicker' matSuffix></mat-datepicker-toggle>
+  <mat-datepicker #datePicker></mat-datepicker>
+</mat-form-field>

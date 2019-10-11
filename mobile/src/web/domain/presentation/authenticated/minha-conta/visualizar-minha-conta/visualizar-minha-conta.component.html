@@ -1,0 +1,71 @@
+<div layout-align="center center" layout-gt-xs="row" layout-margin>
+  <div flex-gt-xs="80" layout="row" layout-margin>
+    <div flex layout='column' layout-align='center center' layout-margin>
+
+      <div *ngIf='message'
+           flex
+           layout='row' layout-align='center center' layout-margin>
+        <div layout='row'>
+
+          <h1 class='mat-headline tc-blue-grey-800 no-margin' flex>{{message}}</h1>
+
+          <button (click)='assumirEsquemaPublico()' class='push-left' mat-raised-button>
+            <span>Voltar ao acesso administrativo</span>
+          </button>
+
+        </div>
+      </div>
+
+      <mat-card *ngIf='usuario?.id' class="bgc-grey-50" layout-margin style="width: calc(100% - 15px)">
+        <mat-card-content style="margin-left: 35px">
+
+          <visualizar-dados-usuario *ngIf='usuario?.id' [usuario]='usuario'>
+
+            <!--options-->
+            <div flex layout="column" layout-align="start end">
+              <div layout="row">
+                <button *ngIf='!usuario?.conta?.root' class='tc-blue-grey-900' hide-sm hide-xs
+                        mat-button routerLink='minhas-estatisticas'>
+                  <mat-icon>show_chart</mat-icon>
+                  <span>Minhas estatísticas</span>
+                </button>
+
+                <button class="tc-blue-grey-900" mat-icon-button routerLink="alterar">
+                  <mat-icon>mode_edit</mat-icon>
+                </button>
+                <button [matMenuTriggerFor]="menu" class="tc-blue-grey-900" mat-icon-button>
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #menu="matMenu">
+                  <button *ngIf='!usuario?.conta?.root' color='primary'
+                          hide-gt-sm
+                          mat-menu-item routerLink='minhas-estatisticas'>
+                    <mat-icon>show_chart</mat-icon>
+                    <span>Minhas estatísticas</span>
+                  </button>
+
+                  <button (click)="alterarMinhaSenha()" color="primary" mat-menu-item>
+                    <mat-icon>vpn_key</mat-icon>
+                    <span>Alterar minha senha</span>
+                  </button>
+                </mat-menu>
+              </div>
+            </div>
+
+          </visualizar-dados-usuario>
+
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card *ngIf='unidades?.length' class='bgc-grey-50' style='width: 100%'>
+        <visualizar-vinculo-unidade [(avaliaveis)]='avaliaveis'
+                                    [(operadores)]='operadores'
+                                    [(unidades)]='unidades'
+                                    [usuario]='usuario'>
+        </visualizar-vinculo-unidade>
+      </mat-card>
+    </div>
+  </div>
+</div>
+

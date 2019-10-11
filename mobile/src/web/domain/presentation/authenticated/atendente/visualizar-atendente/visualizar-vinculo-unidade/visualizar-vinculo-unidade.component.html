@@ -1,0 +1,44 @@
+<mat-nav-list *ngIf='unidades?.length'>
+  <div *ngFor='let unidade of unidades'>
+
+    <mat-list-item *ngIf='(unidade.avaliavelValue || unidade.operadorValue)' disableRipple layout='row' layout-margin>
+      <h3 *ngIf='unidade.avaliavelValue && !unidade.operadorValue' matLine>
+        <strong style='color: rgb(94, 124, 139)'> Atendente</strong>
+        {{'em: ' + unidade?.nome}}
+      </h3>
+      <h3 *ngIf='!unidade.avaliavelValue && unidade.operadorValue' matLine>
+        <strong style='color: #c00'> Operador</strong>
+        {{'em: ' + unidade?.nome}}
+      </h3>
+      <h3 *ngIf='unidade.avaliavelValue && unidade.operadorValue' matLine>
+        <strong style='color: #c00'> Operador </strong> e <strong style='color: rgb(94, 124, 139)'> atendente </strong>
+        {{'em: ' + unidade?.nome}}
+      </h3>
+      <p *ngIf='unidade?.endereco?.cidade?.nome' matLine>
+        {{unidade?.endereco?.logradouro ? unidade?.endereco?.logradouro + ', ' : ''}}
+        {{unidade?.endereco?.numero ? unidade?.endereco?.numero + ', ' : ''}}
+        {{unidade?.endereco?.bairro ? unidade?.endereco?.bairro + ', ' : ''}}
+        {{unidade?.endereco?.cidade?.nome + ' - '}}{{unidade?.endereco?.cidade?.estado?.uf}}
+      </p>
+    </mat-list-item>
+
+    <mat-accordion>
+      <mat-expansion-panel (opened)='changeAvaliavel(unidade)' [expanded]='unidade.avaliavelValue' class='bgc-grey-100'>
+
+        <mat-card-content>
+          <section *ngIf='unidade?.unidadesTiposAvaliacoes?.length' class='example-section'>
+            <div *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes'>
+              <mat-checkbox *ngIf='unidadeTipoAvaliacao.checked'
+                            [(ngModel)]='unidadeTipoAvaliacao.checked' [disabled]='true'
+                            class='example-margin'>
+                {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
+              </mat-checkbox>
+            </div>
+          </section>
+        </mat-card-content>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </div>
+</mat-nav-list>

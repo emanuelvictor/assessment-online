@@ -1,0 +1,87 @@
+<form (ngSubmit)='save(form?.controls?.secondFormGroup)'
+      *ngIf='form?.controls?.secondFormGroup'
+      [formGroup]='form?.controls?.secondFormGroup' novalidate>
+
+  <div layout="row" layout-margin>
+    <mat-radio-group [(ngModel)]="assinatura.formaPagamento"
+                     [ngModelOptions]="{standalone: true}" flex layout="row"
+                     name="formaPagamento">
+      <mat-radio-button [value]="'BOLETO'" color="primary" flex name="formaPagamento">
+        <span class="tc-grey-800">Boleto</span>
+      </mat-radio-button>
+      <mat-radio-button [value]="'CARTAO'" color="primary" flex name="formaPagamento">
+        <span class="tc-grey-800">Cartão de crédito</span>
+      </mat-radio-button>
+    </mat-radio-group>
+    <div flex hide-xs></div>
+  </div>
+
+  <!-- Cartão de crédito -->
+  <cartao *ngIf="assinatura.formaPagamento === 'CARTAO' && publicKey" [@fadeInOut]
+          [assinatura]='assinatura' [form]='form?.controls?.secondFormGroup'
+          [publicKey]='publicKey'>
+  </cartao>
+
+  <!-- Boleto -->
+  <div layout="row">
+    <div layout-gt-xs="row" layout-margin>
+      <mat-form-field flex>
+        <input [(ngModel)]='assinatura.codigoArea' formControlName='codigoArea'
+               id='codigoArea' matInput maxlength='2' minlength='1'
+               name='codigoArea' pattern='\d*' placeholder='DDD' required>
+        <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['codigoArea']?.hasError('exception')">
+          {{form?.controls?.secondFormGroup?.controls['codigoArea']?.errors.exception}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field flex>
+        <input [(ngModel)]='assinatura.telefone' formControlName='telefone'
+               id='telefone' matInput maxlength='9'
+               minlength='7' name='telefone' pattern="\d*" placeholder='Número do telefone' required>
+        <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['telefone']?.hasError('exception')">
+          {{form?.controls?.secondFormGroup?.controls['telefone']?.errors.exception}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field flex>
+        <input [(ngModel)]='assinatura.diaVencimentoFatura'
+               formControlName='diaVencimentoFatura'
+               id='diaVencimentoFatura' matInput
+               name='diaVencimentoFatura' placeholder='Dia para o vencimento da fatura' required type='number'>
+        <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['diaVencimentoFatura']?.hasError('exception')">
+          {{form?.controls?.secondFormGroup?.controls['diaVencimentoFatura']?.errors.exception}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div flex hide-xs>
+      <div layout="row" layout-align="start center" style='margin-top: 11px'>
+        <div class="push-left" layout="row" layout-align="center center" layout-margin>
+          <span style="margin-top: 20px;">Pagamento via</span>
+        </div>
+        <a href="http://wirecard.com.br" style='margin-top: 14px' target='_blank'>
+          <img alt='Logo marca WIRECARD' class='size-height-32 logo-image'
+               src='https://upload.wikimedia.org/wikipedia/commons/d/d7/Wirecard_Logo.svg'>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div layout="row" layout-margin>
+    <b class="pagamento-title" flex>Endereço</b>
+  </div>
+
+  <maps-component [(endereco)]='assinatura.endereco'
+                  [allRequired]='true'
+                  [form]='form?.controls?.secondFormGroup'>
+  </maps-component>
+
+  <!--actions div-->
+  <div flex layout-gt-xs='row' layout-margin>
+
+    <span flex='70'></span>
+
+    <button flex mat-button matStepperPrevious type='button'>Voltar</button>
+    <button color='accent' flex mat-raised-button matStepperNext>Próximo</button>
+  </div>
+
+</form>

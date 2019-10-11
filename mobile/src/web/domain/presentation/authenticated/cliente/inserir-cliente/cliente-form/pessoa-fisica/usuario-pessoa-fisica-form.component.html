@@ -1,0 +1,14 @@
+<div [formGroup]='form.controls.pessoaFisica' layout='column'>
+  <div layout='row' layout-margin>
+    <mat-form-field flex>
+      <input (keyup)='documentoChange.emit(documento)' [(ngModel)]='documento' [textMask]='{mask: masks.cpf, guide: false}'
+             formControlName='cpf' id='cpf'
+             matInput
+             name='cpf' placeholder='CPF'
+             required>
+      <mat-error *ngIf="form?.controls?.pessoaFisica?.controls['cpf']?.hasError('exception')">
+        {{form?.controls?.pessoaFisica?.controls['cpf']?.errors?.exception}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<div *ngIf='dispositivo' layout-align="center center" layout-gt-xs="row" layout-margin>
+  <div flex-gt-xs="80" layout="row" layout-margin>
+    <div flex layout-margin>
+
+      <mat-card class="bgc-grey-50">
+        <form (ngSubmit)='saveForm(form)' [formGroup]='form' novalidate>
+          <mat-card-content>
+
+            <div layout='column' layout-margin style='/*margin-top: 20px; padding-bottom: 25px*/'>
+
+              <!--cabeçalho div-->
+              <ng-content select="[header]"></ng-content>
+
+              <div layout='row' layout-align='start center'>
+                <div class='push-left' flex layout='row'>
+
+                  <mat-form-field flex layout-margin>
+                    <input [(ngModel)]='dispositivo.nome'
+                           formControlName='nome' id='nome' matInput
+                           maxlength='144'
+                           name='nome' placeholder='Nome do dispositivo'>
+                    <mat-error>
+                      Campo obrigatório
+                    </mat-error>
+                  </mat-form-field>
+
+                </div>
+              </div>
+
+              <div layout='row' layout-align='start center'>
+                <div class='push-left' flex layout='row'>
+                  <mat-form-field flex='30' layout-margin>
+                    <input [(ngModel)]='dispositivo.time' formControlName='time' id='time' matInput
+                           name='time' placeholder='Tempo de espera entre as avaliações (Em segundos)'
+                           type='number'>
+                    <mat-error *ngIf="form.controls['time']?.hasError('exception')">
+                      {{form?.controls['time']?.errors.exception}}
+                    </mat-error>
+                    <mat-error *ngIf="form?.controls['time']?.hasError('required')">
+                      Campo obrigatório
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-checkbox [(ngModel)]='dispositivo.quebrarLinhaNaSelecaoDeItemAvaliavel' [ngModelOptions]='{standalone: true}'
+                                flex
+                                style='padding: 20px'>
+                    Quebrar linha durante a seleção de itens avaliáveis
+                  </mat-checkbox>
+                </div>
+              </div>
+
+              <mat-divider [inset]='true'
+                           style='margin-top: 11px; margin-left: -25px; margin-right: -25px; margin-bottom: 14px; position: inherit;width: auto'>
+              </mat-divider>
+
+              <div layout='row' layout-align='start center'>
+                <div class='push-left' flex layout='row' layout-margin>
+
+                  <mat-slide-toggle [(ngModel)]='dispositivo.interna' [ngModelOptions]='{standalone: true}'
+                                    layout-margin>
+                    <span
+                        class='tc-grey-600'>{{dispositivo.interna ? 'Interna: De uso exclusivo para o aplicativo móvel' : 'De uso externo (sites, homepages, etc ...)'  }}</span>
+                  </mat-slide-toggle>
+
+                  <opcoes-mobile *ngIf='dispositivo.interna' [dispositivo]='dispositivo' layout-margin></opcoes-mobile>
+
+                  <opcoes-site *ngIf='!dispositivo.interna' [dispositivo]='dispositivo' layout-margin></opcoes-site>
+
+                </div>
+              </div>
+
+              <!--divider-->
+              <ng-content select="[divider]"></ng-content>
+
+              <ng-content select="[configurarUnidadesTiposAvaliacoes]"></ng-content>
+
+              <ng-content select="[divider2]"></ng-content>
+
+            </div>
+
+            <!-- actions -->
+            <ng-content select="[actions]"></ng-content>
+
+          </mat-card-content>
+        </form>
+      </mat-card>
+
+    </div>
+  </div>
+</div>

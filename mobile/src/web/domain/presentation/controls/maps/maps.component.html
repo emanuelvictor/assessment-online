@@ -1,0 +1,67 @@
+<div [formGroup]='form.controls.endereco'>
+
+  <div layout-gt-xs='row' layout-margin>
+    <mat-form-field *ngIf='endereco' flex>
+      <input (blur)='getAdressByCep(endereco?.cep)'
+             [(ngModel)]='endereco.cep' [ngModelOptions]='{standalone: true}' [textMask]='{mask: masks.cep, guide: false}' id='cep'
+             matInput
+             name='cep'
+             noSubmit placeholder='CEP'>
+    </mat-form-field>
+    <mat-form-field *ngIf='endereco' flex>
+      <input [(ngModel)]='endereco.logradouro'
+             formControlName='logradouro' id='logradouro' matInput
+             maxlength='45' name='logradouro' placeholder='Logradouro (rua, avenida, linha, etc ...)'>
+      <mat-error *ngIf="form?.controls?.endereco?.controls['logradouro']?.hasError('exception')">
+        {{form?.controls?.endereco?.controls['logradouro']?.errors?.exception}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf='endereco' flex>
+      <input [(ngModel)]='endereco.numero'
+             [textMask]='{mask: masks.streetNumber, guide: false}' formControlName='numero'
+             id='numero' matInput name='numero' placeholder='Número'>
+      <mat-error *ngIf="form?.controls?.endereco?.controls['numero']?.hasError('exception')">
+        {{form?.controls?.endereco?.controls['numero']?.errors?.exception}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf='endereco' flex>
+      <input [(ngModel)]='endereco.bairro' formControlName='bairro'
+             id='bairro' matInput maxlength='45'
+             name='bairro' placeholder='Bairro'>
+      <mat-error *ngIf="form?.controls?.endereco?.controls['bairro']?.hasError('exception')">
+        {{form?.controls?.endereco?.controls['bairro']?.errors?.exception}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div layout-gt-xs='row' layout-margin>
+    <mat-form-field *ngIf='endereco' flex>
+      <input [(ngModel)]='endereco.complemento'
+             [ngModelOptions]='{standalone: true}'
+             id='complemento' matInput maxlength='45'
+             name='complemento' placeholder='Complemento'>
+      <mat-hint align='end'>{{endereco.complemento ? endereco.complemento.length : 0}} / 45</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div layout-gt-xs='row' layout-margin>
+    <mat-form-field flex='80'>
+      <input (blur)='findCidadeByNomeAndEstadoUf(endereco?.cidade?.nome, endereco?.cidade?.estado?.uf)' (ngModelChange)='validateEstado()' [(ngModel)]='endereco.cidade.nome'
+             formControlName='cidade' id='cidade' matInput
+             name='cidade' placeholder='Cidade'
+             somenteLetras>
+      <mat-error *ngIf="form?.controls?.endereco?.controls['cidade']?.hasError('exception')">
+        {{form?.controls?.endereco?.controls['cidade']?.errors.exception}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field flex='20'>
+      <input (blur)='findCidadeByNomeAndEstadoUf(endereco?.cidade?.nome, endereco?.cidade?.estado?.uf)'
+             [(ngModel)]='endereco.cidade.estado.uf' formControlName='estado' id='estado'
+             matInput name='estado' placeholder='Estado'
+             somenteLetras>
+      <mat-error *ngIf="form.controls.endereco.controls['estado'].hasError('exception')">
+        {{form?.controls?.endereco?.controls['estado']?.errors.exception}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>

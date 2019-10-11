@@ -1,0 +1,291 @@
+<search-bar>
+
+  <mat-form-field [ngStyle]="{'margin-top': (pageRequest?.usuariosFilter?.length ? '16px' : '32px')}" flex flex-gt-md='25' flex-md='25' flex-sm='25'
+                  style='margin-left: 0'>
+    <mat-chip-list #usuariosChipList aria-label='Pesquisar por Itens Avaliáveis'>
+
+      <mat-chip (removed)='removeUsuarioFilter(usuario)'
+                *ngFor='let usuario of pageRequest?.usuariosFilter' style='max-width: 100%'>
+        {{usuario?.nome}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+
+      <input #usuariosInput
+             (keyup)='usuarioFilterAsyncChanged(usuarioFiltro)' [(ngModel)]='usuarioFiltro'
+             [matAutocomplete]='auto' [matChipInputFor]='usuariosChipList'
+             [ngModelOptions]='{standalone: true}' placeholder='Pesquisar por Itens Avaliáveis'>
+
+    </mat-chip-list>
+
+    <mat-autocomplete #auto='matAutocomplete' (optionSelected)='addUsuarioFilter($event)'>
+      <mat-option *ngFor='let option of usuariosFilteredAsync' [value]='option'>
+        {{option?.nome}}
+      </mat-option>
+    </mat-autocomplete>
+
+  </mat-form-field>
+
+  <mat-form-field [ngStyle]="{'margin-top': (pageRequest?.unidadesFilter?.length ? '16px' : '32px')}" flex flex-gt-md='25' flex-md='25'
+                  flex-sm='25'>
+    <mat-chip-list #chipList aria-label='Pesquisar por Unidades'>
+
+      <mat-chip (removed)='remove(unidade)'
+                *ngFor='let unidade of pageRequest.unidadesFilter' style='max-width: 100%'>
+        {{unidade?.nome}}
+        <!--({{unidade?.endereco?.cidade?.nome }} - {{unidade?.endereco?.cidade?.estado?.uf}})-->
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+
+      <input #unidadesInput
+             (keyup)='filterUnidadesAsync(filtro)' [(ngModel)]='filtro'
+             [matAutocomplete]='autoCompleteUnidades' [matChipInputFor]='chipList'
+             [ngModelOptions]='{standalone: true}' placeholder='Pesquisar por Unidades'>
+
+    </mat-chip-list>
+
+    <mat-autocomplete #autoCompleteUnidades='matAutocomplete' (optionSelected)='add($event)'>
+      <mat-option *ngFor='let option of unidadesFilteredAsync' [value]='option'>
+        {{option?.nome}} ({{option?.endereco?.cidade?.nome }} - {{option?.endereco?.cidade?.estado?.uf}})
+      </mat-option>
+    </mat-autocomplete>
+
+  </mat-form-field>
+
+  <mat-form-field [ngStyle]="{'margin-top': (pageRequest?.defaultFilter?.length ? '16px' : '32px')}"
+                  flex flex-gt-md='15' flex-md='25' flex-sm='15'
+                  style='margin-top: 32px'>
+    <mat-chip-list #defaultFilterChipList aria-label='Pesquisar pelo feedback'>
+
+      <mat-chip (removed)='removeDefaultFilter(defaultFilter)'
+                *ngFor='let defaultFilter of pageRequest.defaultFilter' style='max-width: 100%'>
+        {{defaultFilter}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+
+      <input (matChipInputTokenEnd)='addDefaultFilter($event)'
+             (ngModelChange)='defaultFilterChanged($event)'
+             [(ngModel)]='defaultFilter'
+             [matChipInputAddOnBlur]='true' [matChipInputFor]='defaultFilterChipList'
+             [ngModelOptions]='{standalone: true}' placeholder='Pesquisar pelo feedback'>
+
+    </mat-chip-list>
+
+  </mat-form-field>
+
+  <span flex hide-gt-md></span>
+
+  <mat-slide-toggle (change)='onChangeFilters()' [(ngModel)]='pageRequest.hasFeedback' flex hide-md layout-margin>
+    <span class='tc-grey-600'>Somente com feedback</span>
+  </mat-slide-toggle>
+
+  <button (click)='toggleShowPesquisaAvancada()'
+          class='bgc-blue-grey-50' mat-raised-button>
+    Pesquisa avançada
+    <!--<label hide-md>Pesquisa avançada</label>-->
+    <!--<mat-icon>filter_list</mat-icon>-->
+  </button>
+
+</search-bar>
+
+<!--Pesquisa avançada-->
+<mat-card *ngIf='showPesquisaAvancada' [@fadeInOut]
+          class='push-none bgc-grey-50 filters-card-avanced'
+          style='height: 95px; border-top: 0 !important'>
+  <div layout='row' layout-align='center center'>
+    <div flex='90' layout='row' layout-align-gt-sm='start center'>
+
+      <div layout='row' layout-margin style='margin-top: 15px'>
+
+        <ev-datepicker #dataInicio (dataInputChange)='listAvaliacoesByDates()'
+                       [(dataInput)]='pageRequest.dataInicioFilter' flex
+                       layout='row'
+                       style='margin-left: -8px'>
+          <mat-form-field style='width: 225px'>
+            <input [(ngModel)]='pageRequest.dataInicioFilter'
+                   [textMask]='{mask: masks.date, guide: false}'
+                   id='dataInicio' matInput name='dataInicio'
+                   placeholder='Data da avaliação - Início'>
+          </mat-form-field>
+        </ev-datepicker>
+
+        <ev-datepicker #dataTermino (dataInputChange)='listAvaliacoesByDates()' [(dataInput)]='pageRequest.dataTerminoFilter'
+                       flex
+                       layout='row'>
+          <mat-form-field style='width: 235px'>
+            <input [(ngModel)]='pageRequest.dataTerminoFilter'
+                   [textMask]='{mask: masks.date, guide: false}'
+                   id='dataTermino' matInput name='dataTermino'
+                   placeholder='Data da avaliação - Término'>
+          </mat-form-field>
+        </ev-datepicker>
+
+      </div>
+
+      <mat-form-field [ngStyle]="{'margin-top': (pageRequest?.tiposAvaliacoesFilter?.length ? '-7px' : '7px')}"
+                      flex='30'>
+        <mat-chip-list #tiposAvaliacoesFilterChipList aria-label='Pesquisar por Tipos de Avaliações'>
+
+          <mat-chip (removed)='removeTipoAvaliacaoFilter(tipoAvaliacao)'
+                    *ngFor='let tipoAvaliacao of pageRequest.tiposAvaliacoesFilter' style='max-width: 100%'>
+            {{tipoAvaliacao?.nome}}
+            <!--            ({{tipoAvaliacao?.enunciado }} - {{tipoAvaliacao?.selecao}})-->
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+
+          <input #tiposAvaliacoesInput
+                 (keyup)='filterTiposAvaliacoesAsync(tiposAvaliacoesFilter)' [(ngModel)]='tiposAvaliacoesFilter'
+                 [matAutocomplete]='autoCompleteTiposAvaliacoes' [matChipInputFor]='tiposAvaliacoesFilterChipList'
+                 [ngModelOptions]='{standalone: true}' placeholder='Pesquisar por Tipos de Avaliações'>
+
+        </mat-chip-list>
+
+        <mat-autocomplete #autoCompleteTiposAvaliacoes='matAutocomplete'
+                          (optionSelected)='addTipoAvaliacaoFilter($event)'>
+          <mat-option *ngFor='let option of filteredTiposAvaliacoesAsync' [value]='option'>
+            {{option?.nome}} ({{option?.enunciado }} - {{option?.selecao}})
+          </mat-option>
+        </mat-autocomplete>
+
+      </mat-form-field>
+
+      <mat-slide-toggle (change)='onChangeFilters()' [(ngModel)]='pageRequest.hasFeedback' flex hide-gt-md
+                        layout-margin>
+        <span class='tc-grey-600'>Somente com feedback</span>
+      </mat-slide-toggle>
+
+      <close-button (click)='hidePesquisaAvancada()' hide-sm hide-xs></close-button>
+    </div>
+  </div>
+</mat-card>
+
+<!--Listagem-->
+<div layout='row'
+     layout-align='center start'>
+  <div flex='90' layout='column'>
+
+    <div class='tc-grey-500 size-height-50'
+         layout='row' layout-align='start center'>
+      <span> Resultado da pesquisa </span>
+      <div flex></div>
+      <span> {{ page?.totalElements}} resultados </span>
+    </div>
+
+    <div class='mat-elevation-z4'>
+
+      <mat-table #table
+                 [dataSource]='dataSource'
+                 class='bgc-grey-50'
+                 matSort matSortActive='data'
+                 matSortDirection='asc' matSortDisableClear>
+
+        <ng-container matColumnDef='unidade.nome'>
+          <mat-header-cell *matHeaderCellDef
+                           flex-gt-md='35' flex-md='35'
+                           flex-sm='35' flex-xl='35' layout-align="start center" mat-sort-header>
+            <div layout='column' layout-margin>
+              Unidade
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef='let avaliacao' flex-gt-md='35' flex-md='35' flex-sm='35'
+                    flex-xl='35' layout-align='start center'>
+            <div layout='column' layout-margin>
+              {{avaliacao?.unidade?.nome}}
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='nota'>
+          <mat-header-cell *matHeaderCellDef
+                           [matTooltipPosition]='"left"'
+                           flex-gt-md='50' flex-md='50'
+                           flex-sm='50'
+                           flex-xl='50' layout-align="start center" mat-sort-header matTooltip='Ordernar pela nota da avaliação'>
+            <div layout='column' layout-margin>
+              Nota e ítens avaliáveis
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef='let avaliacao'
+                    flex-gt-md='50'
+                    flex-md='50' flex-sm='50' flex-xl='50' layout-align='start center'>
+            <avatar [size]='0.2'
+                    [usuario]="{'id': avaliacao?.id , 'foto': avaliacao?.fotoPath}" class='image-cover' layout-margin
+                    style='margin-left: 0;margin-bottom: 3px;'>
+            </avatar>
+            <div layout='row' layout-align='start center' layout-margin>
+              <div layout='column' layout-align='center center'>
+                <mat-icon
+                    [ngStyle]="{'fill': avaliacao?.nota === 5 ? '#5ee924' : (avaliacao?.nota === 4 ? '#8fc82c' : (avaliacao?.nota === 3 ? '#d4c40d' : (avaliacao?.nota === 2 ? '#e96d01' : '#c21c1f')))}"
+                    svgIcon="assets:{{avaliacao?.nota === 5 ? 'otimo' : (avaliacao?.nota === 4 ? 'bom' : (avaliacao?.nota === 3 ? 'regular' : (avaliacao?.nota === 2 ? 'ruim' : 'pessimo')))}}">
+                </mat-icon>
+              </div>
+              <span>&nbsp;{{avaliacao?.atendentes}}</span>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='agrupador.feedback'>
+          <mat-header-cell *matHeaderCellDef flex-gt-md='40' flex-md='40' flex-sm='40'
+                           flex-xl='40' layout-align='start center' mat-sort-header>
+            <div layout='column' layout-margin>
+              Feedback
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef='let avaliacao'
+                    flex-gt-md='40'
+                    flex-md='40' flex-sm='40' flex-xl='40' layout-align='start center'>
+            <div layout='column' layout-margin>
+              {{avaliacao?.agrupador?.feedback}}
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='data'>
+          <mat-header-cell *matHeaderCellDef
+                           flex-gt-md='20' flex-md='20'
+                           flex-sm='20' flex-xl='20' layout-align="start center" mat-sort-header>
+            <div layout='column' layout-margin>
+              Data
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef='let avaliacao'
+                    flex-gt-md='20'
+                    flex-md='20' flex-sm='20' flex-xl='20' layout-align="start center">
+            <div layout='column' layout-margin>
+              {{avaliacao?.data}}
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='tipoAvaliacao.nome'>
+          <mat-header-cell *matHeaderCellDef
+                           flex-gt-md='50' flex-md='50'
+                           flex-sm='50' flex-xl='50' layout-align='start center' mat-sort-header>
+            <div layout='column' layout-margin>
+              Tipo de Avaliação
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef='let avaliacao' flex-gt-md='50'
+                    flex-md='50'
+                    flex-sm='50'
+                    flex-xl='50' layout-align='start center'>
+            <div layout='column' layout-margin>
+              {{avaliacao?.tipoAvaliacao?.nome + ' - ' + avaliacao?.tipoAvaliacao?.enunciado}}
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef='displayedColumns'>
+        </mat-header-row>
+
+        <mat-row *matRowDef='let avaliacao; columns: displayedColumns'
+                 routerLink='{{avaliacao.id}}' style='cursor: pointer'>
+        </mat-row>
+      </mat-table>
+      <no-records-found [dataSource]='dataSource?.data'></no-records-found>
+      <mat-paginator (page)='listAvaliacoesByFilters(pageRequest)'
+                     [length]='page.totalElements' [pageSizeOptions]='[5, 20, 50, 100]'
+                     class='bgc-grey-50' style='border-radius: 2px'>
+      </mat-paginator>
+    </div>
+  </div>
+</div>

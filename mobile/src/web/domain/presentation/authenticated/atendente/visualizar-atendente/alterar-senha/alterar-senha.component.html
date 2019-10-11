@@ -1,0 +1,33 @@
+<div layout-margin>
+  <h3 flex mat-dialog-title> Alterar senha </h3>
+</div>
+<form #f="ngForm" (ngSubmit)="alterarMinhaSenha($event)">
+  <mat-dialog-content>
+    <div class="dialog-container" layout="column" layout-margin>
+      <mat-form-field flex>
+        <input [(ngModel)]="newPassword" matInput minlength="6" name="newPassword" password placeholder="Nova senha"
+               required type="password">
+        <mat-hint *ngIf="newPassword?.length < 6" class="mat-hint">
+          Mínimo 6 caracteres
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field flex>
+        <input [(ngModel)]="newPasswordConfirm" matInput name="newPasswordConfirm" password placeholder="Confirme a nova senha"
+               required
+               type="password">
+        <mat-hint *ngIf="newPasswordConfirm && newPasswordConfirm != newPassword" class="mat-hint-error">
+          As senhas não conferem
+        </mat-hint>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <div flex layout="row" layout-align="end end">
+      <div flex></div>
+      <button mat-button mat-dialog-close type="button"><b>CANCELAR</b></button>
+      <button [disabled]="!f.valid || (newPasswordConfirm && newPasswordConfirm != newPassword)" color="primary" mat-button
+              type="submit"><b>ALTERAR</b></button>
+    </div>
+  </mat-dialog-actions>
+</form>

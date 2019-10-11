@@ -1,0 +1,96 @@
+<div layout-align="center center" layout-gt-xs="row" layout-margin>
+  <div flex-gt-xs="80" layout="row" layout-margin>
+    <div flex layout-margin>
+      <mat-card class="bgc-grey-50" layout-margin style="max-width: 1200px">
+        <form (ngSubmit)="saveUnidade(form)" [formGroup]="form" novalidate>
+          <mat-card-content>
+            <div layout-margin>
+              <!--cabeçalho div-->
+              <div flex layout="column" layout-margin>
+
+                <div layout="row" layout-align="start center">
+                  <ng-content></ng-content>
+                </div>
+
+              </div>
+
+              <!--dados e foto div-->
+              <div flex layout-gt-xs="row">
+                <!--dados div-->
+                <div flex layout="column">
+                  <div layout-gt-sm="row" layout-margin layout-sm="column" layout-xs="column">
+                    <mat-form-field flex>
+                      <input [(ngModel)]="unidade.nome" formControlName="nome"
+                             id="nome"
+                             matInput maxlength="200" name="nome"
+                             placeholder="Nome" required>
+                      <mat-error>
+                        Esse campo é obrigatório
+                      </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field flex-gt-sm='30'>
+                      <input [(ngModel)]="unidade.documento"
+                             [textMask]='{mask: masks.cnpj, guide: false}' formControlName="cnpj" id="cnpj"
+                             matInput
+                             maxlength="200" name="cnpj"
+                             placeholder="CNPJ">
+                      <mat-error *ngIf="form?.controls['cnpj']?.hasError('exception')">
+                        {{form?.controls['cnpj']?.errors?.exception}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <!--divider-->
+              <ng-content select="[divider]"></ng-content>
+
+              <ng-content select="[unidadesTiposAvaliacoes]"></ng-content>
+
+              <ng-content select="[divider2]"></ng-content>
+
+              <div flex>
+
+                <!--endereço div-->
+                <div class="push-top" flex>
+                  <!--<div layout="column" flex class="push-top">-->
+                  <!--<div layout="row" layout-margin>-->
+                  <!--<div flex>-->
+                  <!--<h1 class="mat-subheading-2 tc-grey-500">ENDEREÇO</h1>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--</div>-->
+
+                  <maps-component [(endereco)]='unidade.endereco' [form]='form'></maps-component>
+                </div>
+              </div>
+
+              <!--actions div-->
+              <div flex layout-margin>
+
+                <div flex layout-gt-xs="row" layout-margin>
+
+                  <span flex="70"></span>
+                  <button flex
+                          mat-raised-button
+                          routerLink='../' type="button">
+                    Cancelar
+                  </button>
+                  <button color="accent"
+                          flex
+                          mat-raised-button>
+                    Salvar
+                  </button>
+
+                </div>
+
+              </div>
+            </div>
+          </mat-card-content>
+        </form>
+      </mat-card>
+    </div>
+  </div>
+</div>
+

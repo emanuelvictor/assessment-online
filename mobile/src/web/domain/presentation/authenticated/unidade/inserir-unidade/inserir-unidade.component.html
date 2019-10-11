@@ -1,0 +1,25 @@
+<unidade-form (save)='save($event)' [unidade]='unidade'>
+  <!--cabeçalho div-->
+  <button class='mat-headline tc-grey-500' color='primary' mat-icon-button routerLink='../' type='button'>
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <div layout='row' layout-margin>
+    <h1 class='mat-headline tc-grey-500' flex> Inserir unidade</h1>
+  </div>
+
+  <mat-divider *ngIf='tiposAvaliacoes && tiposAvaliacoes.length && tiposAvaliacoes.length > 1' [inset]='true' divider
+               style='margin-bottom: 8px; margin-left: -25px; margin-right: -25px; margin-top: 40px; position: inherit;width: auto'>
+  </mat-divider>
+
+  <mat-divider *ngIf='tiposAvaliacoes && tiposAvaliacoes.length && tiposAvaliacoes.length > 1' [inset]='true' divider2
+               style='margin-top: 8px; margin-left: -25px; margin-right: -25px; margin-bottom: 40px; position: inherit;width: auto'>
+  </mat-divider>
+
+  <vincular-tipo-avaliacao (saveUnidadeTipoAvaliacao)='saveUnidadeTipoAvaliacao($event)'
+                           *ngIf='tiposAvaliacoes && tiposAvaliacoes.length && tiposAvaliacoes.length > 1' [(tiposAvaliacoes)]='tiposAvaliacoes'
+                           [matTooltipPosition]="'above'"
+                           matTooltip='Vincule a unidade á ao menos uma avaliação' unidadesTiposAvaliacoes>
+  </vincular-tipo-avaliacao>
+
+</unidade-form>

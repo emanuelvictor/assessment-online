@@ -1,0 +1,28 @@
+<!--Listagem-->
+<div layout="row" layout-align="center start">
+
+  <div flex="90" layout="column">
+
+    <ng-content>
+
+    </ng-content>
+
+
+    <mat-card class="push-none bgc-grey-50">
+      <mat-nav-list>
+        <div *ngFor="let unidade of unidades | filter:filter | orderBy:'nome':false:'case-insensitive'"
+             routerLink="{{unidade?.id}}">
+          <mat-list-item>
+            <h3 matLine> {{unidade?.nome}} </h3>
+            <h2 *ngIf='unidade?.cnpj' class="mat-subheading-2 tc-blue-grey-500 no-margin" flex matLine>CNPJ:
+              {{unidade?.cnpj | documento}}</h2>
+            <p *ngIf="unidade?.endereco?.cidade?.nome" matLine>
+              {{unidade?.endereco?.logradouro}}, {{unidade?.endereco?.numero}}, {{unidade?.endereco?.bairro}} -
+              {{unidade?.endereco?.cidade?.nome}} - {{unidade?.endereco?.cidade?.estado?.uf}} </p>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-nav-list>
+    </mat-card>
+  </div>
+</div>

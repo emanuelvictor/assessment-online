@@ -1,0 +1,134 @@
+<mat-nav-list *ngIf='authenticatedUser?.id' class="pad-none">
+  <mat-list class="pad-none">
+    <mat-list-item #rla="routerLinkActive"
+                   [ngClass]="{'menu-active': rla.isActive}" class="push-top push-bottom minha-conta"
+                   routerLink="/authenticated/minha-conta"
+                   routerLinkActive>
+      <div class="pad-left" flex layout="row">
+        <span flex="10"></span>
+        <mat-icon flex matListAvatar>person</mat-icon>
+        <h3 flex="85" matLine style="color: white"> Minha conta </h3>
+      </div>
+    </mat-list-item>
+    <mat-divider class="bgc-blue-grey-300"></mat-divider>
+    <mat-list-item disableRipple>
+      <div class="push-top push-bottom pad-left" flex layout="row">
+        <span flex="10"></span>
+        <span class="mat-caption tc-blue-grey-100"> ADMINISTRATIVO </span>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item #rlaUsuarios="routerLinkActive"
+                   [matTooltipPosition]="'left'"
+                   [ngClass]="{'menu-active': rlaUsuarios.isActive}"
+                   class='push-bottom' matTooltip='Atendentes, professores, quesitos, itens de buffet, etc ...'
+                   routerLink="/authenticated/avaliaveis"
+                   routerLinkActive>
+      <div class="pad-left" flex layout="row">
+        <span flex="10"></span>
+        <mat-icon flex matListAvatar>supervisor_account</mat-icon>
+        <h3 flex="85" matLine style="color: white">
+          {{authenticatedUser?.isAdministrador ? 'Itens avaliáveis' : 'Meus itens avaliáveis'}}
+        </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item #rlaFornecedores="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaFornecedores.isActive}"
+                   class="push-bottom" routerLink="/authenticated/unidades"
+                   routerLinkActive>
+      <div class="pad-left" flex layout="row">
+        <span flex="10"></span>
+        <mat-icon flex matListAvatar>store</mat-icon>
+        <h3 flex="85" matLine style="color: white">
+          {{authenticatedUser?.isAdministrador ? 'Unidades' : 'Minhas unidades'}}
+        </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item #rlaAvaliacoes="routerLinkActive"
+                   *ngIf='authenticatedUser?.isAdministrador'
+                   [ngClass]="{'menu-active': rlaAvaliacoes.isActive}"
+                   class="push-bottom" routerLink="/authenticated/avaliacoes"
+                   routerLinkActive>
+      <div class="pad-left" flex layout="row">
+        <span flex="10"></span>
+        <mat-icon flex matListAvatar>assessment</mat-icon>
+        <h3 flex="85" matLine style="color: white"> Tipos de Avaliações </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item #rlaDispositivos='routerLinkActive'
+                   *ngIf='authenticatedUser?.isAdministrador'
+                   [ngClass]="{'menu-active': rlaDispositivos.isActive}"
+                   class='push-bottom' routerLink='/authenticated/dispositivos'
+                   routerLinkActive>
+      <div class='pad-left' flex layout='row'>
+        <span flex='10'></span>
+        <mat-icon flex matListAvatar>devices</mat-icon>
+        <h3 flex='85' matLine style='color: white'> Dispositivos </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item #rlaResultados="routerLinkActive"
+                   [ngClass]="{'menu-active': rlaResultados.isActive}"
+                   class="push-bottom" routerLink="/authenticated/resultados"
+                   routerLinkActive>
+      <div class="pad-left" flex layout="row">
+        <span flex="10"></span>
+        <mat-icon flex matListAvatar>pie_chart</mat-icon>
+        <h3 flex="85" matLine
+            style="color: white"> {{authenticatedUser?.isAdministrador ? 'Resultados' : 'Meus resultados'}} </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item #rlaSettings="routerLinkActive"
+                   *ngIf='authenticatedUser?.isAdministrador'
+                   [ngClass]="{'menu-active': rlaSettings.isActive}"
+                   class='push-bottom' routerLink="/authenticated/configuracoes"
+                   routerLinkActive>
+      <div class="pad-left" flex layout="row">
+        <span flex="10"></span>
+        <mat-icon flex matListAvatar>settings</mat-icon>
+        <h3 flex="85" matLine style="color: white"> Configurações </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-divider *ngIf='authenticatedUser?.isAdministrador'
+                 class="bgc-blue-grey-300 push-top push-bottom pad-left"></mat-divider>
+
+    <mat-list-item #rlaCupom='routerLinkActive'
+                   *ngIf='authenticatedUser?.isRoot' [ngClass]="{'menu-active': rlaCupom.isActive}"
+                   class='push-bottom'
+                   routerLink='/authenticated/cupons' routerLinkActive>
+      <div class='pad-left' flex layout='row'>
+        <span flex='10'></span>
+        <mat-icon flex matListAvatar>whatshot</mat-icon>
+        <h3 flex='85' matLine style='color: white'> Cupons </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item #rlaFatura='routerLinkActive'
+                   *ngIf='authenticatedUser?.isAdministrador' [ngClass]="{'menu-active': rlaFatura.isActive}"
+                   class='push-bottom'
+                   routerLink='/authenticated/faturas' routerLinkActive>
+      <div class='pad-left' flex layout='row'>
+        <span flex='10'></span>
+        <mat-icon flex matListAvatar>attach_money</mat-icon>
+        <h3 flex='85' matLine style='color: white'> Minhas Faturas </h3>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item #rlaAssinatura='routerLinkActive'
+                   *ngIf='authenticatedUser?.isAdministrador' [ngClass]="{'menu-active': rlaAssinatura.isActive}"
+                   class='push-bottom'
+                   routerLink='/authenticated/assinatura' routerLinkActive>
+      <div class='pad-left' flex layout='row'>
+        <span flex='10'></span>
+        <mat-icon flex matListAvatar>shopping_cart</mat-icon>
+        <h3 flex='85' matLine style='color: white'> Minha Assinatura </h3>
+      </div>
+    </mat-list-item>
+
+  </mat-list>
+</mat-nav-list>

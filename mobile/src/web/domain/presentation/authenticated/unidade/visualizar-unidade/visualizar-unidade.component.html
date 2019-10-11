@@ -1,0 +1,116 @@
+<div layout-align="center center" layout-gt-xs="row" layout-margin>
+  <div flex-gt-xs="80" layout="row" layout-margin>
+    <div flex layout-margin>
+
+      <mat-card class="bgc-grey-50" layout-margin>
+
+        <!--card informações-->
+        <mat-card-content>
+
+          <div layout="row">
+
+            <div layout="column" style="min-width: 17px">
+              <button *ngIf="activatedRoute?.snapshot?.params?.id"
+                      class="mat-headline tc-grey-500" color="primary"
+                      mat-icon-button routerLink="../" type="button">
+                <mat-icon>arrow_back</mat-icon>
+              </button>
+            </div>
+
+            <!--div foto e informações-->
+            <div flex-gt-xs="80" layout-align="start center" layout-gt-xs="row">
+              <div flex layout="row" layout-align="start center" layout-margin>
+                <div layout="column">
+                  <h1 *ngIf="unidade?.media" class="mat-headline no-margin\" flex>
+                    Média: <span class="tc-purple-500"> {{unidade?.media| number:'.1-3' : 'en-US'}}</span>
+                  </h1>
+                  <h1 class="mat-headline tc-blue-grey-800 no-margin" flex>{{unidade?.nome}}</h1>
+                  <h2 *ngIf='unidade?.documento' class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>CNPJ:
+                    {{unidade?.documento | documento}}</h2>
+                  <h3 *ngIf="unidade?.endereco?.cidade?.nome" class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>
+                    {{unidade?.endereco?.logradouro ? unidade?.endereco?.logradouro + ', ' : ''}}
+                    {{unidade?.endereco?.numero ? unidade?.endereco?.numero + ', ' : ''}}
+                    {{unidade?.endereco?.bairro ? unidade?.endereco?.bairro + ', ' : ''}}
+                    {{unidade?.endereco?.cidade?.nome + ' - '}}{{unidade?.endereco?.cidade?.estado?.uf}}
+                  </h3>
+                  <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>
+                    {{(
+                      (unidade?.avaliacoes1 ? unidade?.avaliacoes1 : 0) +
+                      (unidade?.avaliacoes2 ? unidade?.avaliacoes2 : 0) +
+                      (unidade?.avaliacoes3 ? unidade?.avaliacoes3 : 0) +
+                      (unidade?.avaliacoes4 ? unidade?.avaliacoes4 : 0) +
+                      (unidade?.avaliacoes5 ? unidade?.avaliacoes5 : 0)
+                  )
+                  === 0 ? '' :
+                      (
+                          (unidade?.avaliacoes1 ? unidade?.avaliacoes1 : 0) +
+                          (unidade?.avaliacoes2 ? unidade?.avaliacoes2 : 0) +
+                          (unidade?.avaliacoes3 ? unidade?.avaliacoes3 : 0) +
+                          (unidade?.avaliacoes4 ? unidade?.avaliacoes4 : 0) +
+                          (unidade?.avaliacoes5 ? unidade?.avaliacoes5 : 0)
+                      ) + ' avaliações'}}
+                  </h2>
+                </div>
+              </div>
+            </div>
+            <!--div opções-->
+            <div flex="40" layout="row">
+              <div flex layout="column" layout-align="start end">
+                <div layout="row">
+                  <button class='tc-blue-grey-900' hide-sm hide-xs mat-button routerLink='estatisticas'>
+                    <mat-icon>show_chart</mat-icon>
+                    <span>Estatísticas</span>
+                  </button>
+
+                  <button class="tc-blue-grey-900" mat-icon-button routerLink="alterar">
+                    <mat-icon>mode_edit</mat-icon>
+                  </button>
+                  <button [matMenuTriggerFor]="menu" class="tc-blue-grey-900" mat-icon-button>
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button class="tc-blue-grey-900" hide-gt-sm mat-menu-item routerLink='estatisticas'>
+                      <mat-icon>show_chart</mat-icon>
+                      <span>Estatísticas</span>
+                    </button>
+
+                    <button (click)="remove(unidade?.id)"
+                            class='tc-blue-grey-900' mat-menu-item>
+                      <mat-icon>delete</mat-icon>
+                      <span>Remover</span>
+                    </button>
+
+                  </mat-menu>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </mat-card-content>
+      </mat-card>
+
+      <div *ngIf='tiposAvaliacoes && tiposAvaliacoes.length && tiposAvaliacoes.length > 1' [@fadeInOut] flex layout='row'
+           layout-align='center center'>
+
+        <mat-form-field flex style='margin-bottom: 0'>
+          <input [(ngModel)]="filter.nome" [ngModelOptions]='{standalone: true}' id="filter"
+                 matInput
+                 maxlength="200" name="filter"
+                 placeholder="Filtre as avaliações pelo nome">
+        </mat-form-field>
+
+      </div>
+
+      <mat-accordion *ngIf='tiposAvaliacoes && tiposAvaliacoes.length && tiposAvaliacoes.length > 1' [@fadeInOut]>
+        <mat-expansion-panel [expanded]='true' class='bgc-grey-50'>
+
+          <vincular-tipo-avaliacao (saveUnidadeTipoAvaliacao)='saveUnidadeTipoAvaliacao($event)'
+                                   *ngIf='unidade?.id' [(tiposAvaliacoes)]='tiposAvaliacoes' [filter]='filter'>
+          </vincular-tipo-avaliacao>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+
+    </div>
+  </div>
+</div>

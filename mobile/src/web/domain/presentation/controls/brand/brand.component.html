@@ -1,0 +1,20 @@
+<svg height="210" transform="scale(1)" width="200">
+  <defs>
+    <pattern fill="red" height="1"
+             id="{{identifier + '1'}}" patternUnits="objectBoundingBox" width="1" x="0" y="0">
+      <image [attr.xlink:href]="pathFile"
+             height="100" width="200" x="0" y="50">
+      </image>
+    </pattern>
+    <pattern height="200" id="{{identifier}}" patternUnits="userSpaceOnUse" width="200" x="0" y="0">
+      <image [attr.xlink:href]="configuracao.logoPath" height="200" preserveAspectRatio="xMidYMid slice"
+             width="200"></image>
+    </pattern>
+  </defs>
+  <!--todo cor hardcoded-->
+  <circle *ngIf="!configuracao.logoPath" cx="100" cy="100" fill="rgb(223, 229, 231)" r="99"></circle>
+
+  <circle *ngIf="configuracao.logoPath" [style.fill]="'url(#'+identifier+')'" cx="100" cy="100" r="100"></circle>
+
+  <circle *ngIf="!configuracao.logoPath" [style.fill]="'url(#'+identifier+ '1)'" cx="100" cy="100" r="100"></circle>
+</svg>

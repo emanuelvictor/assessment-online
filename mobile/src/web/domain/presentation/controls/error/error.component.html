@@ -1,0 +1,33 @@
+<div layout='column' layout-align='center center'>
+  <div layout='column' layout-align='center center'>
+    <mat-card>
+      <mat-card-title class='push'>
+        Ops, aconteceu alguma coisa!
+      </mat-card-title>
+      <mat-card-subtitle class='push'>
+        Parece que houve um problema ao buscar o usuário logado ou a conexão da internet não está ok!
+      </mat-card-subtitle>
+
+      <mat-card-content>
+        <div>
+          <button (click)='tryAgain()'
+                  class='push-left'
+                  color='accent' flex
+                  mat-raised-button>
+            Tentar novamente
+          </button>
+          <span class='push-left' flex>ou</span>
+          <button (click)='logout()'
+                  class='push-left' flex
+                  mat-raised-button>
+            Sair da aplicação
+          </button>
+        </div>
+        <div layout="row">
+          <span class='push'>Se o problema persistir entre em contato conosco: suporte@ubest.com.br</span>
+        </div>
+      </mat-card-content>
+
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<div layout-align='center center' layout-gt-xs='row' layout-margin>
+  <div flex-gt-xs='80' layout='row' layout-margin>
+    <div flex layout-margin>
+      <mat-card class='bgc-grey-50' layout-margin>
+        <form (ngSubmit)='saveAtendente(form)' *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'" [formGroup]='form'
+              novalidate>
+          <mat-card-content>
+            <div layout-margin>
+
+              <!--cabeçalho div-->
+              <ng-content select="[header]"></ng-content>
+
+              <!--dados e foto div-->
+              <div flex layout-gt-sm='row'>
+
+                <!--<croppable-photo [usuario]="{'id': usuario.id , 'foto': fotoPath}"></croppable-photo>-->
+
+                <div flex layout='column' layout-align='center center'>
+                  <div flex>
+                    <avatar [usuario]="{'id': usuario.id , 'foto': fotoPath}"></avatar>
+                  </div>
+                  <div *ngIf='fotoPath' flex>
+                    <button (click)='removeFile()' class='tc-grey-500' mat-button type='button'>
+                      REMOVER FOTO
+                    </button>
+                  </div>
+                  <div *ngIf='!fotoPath' flex>
+                    <td-file-upload #singleFileUpload
+                                    (change)='fileChange($event)' accept='.png, .gif, .jpg, .jpeg'
+                                    defaultColor='primary'
+                                    name='file'>
+                      <span>{{ singleFileUpload?.files?.name }}</span>
+                      <ng-template td-file-input-label>
+                        <mat-icon>attach_file</mat-icon>
+                        <span>Adicionar foto</span>
+                      </ng-template>
+                    </td-file-upload>
+                  </div>
+                </div>
+
+                <!--dados div-->
+                <div flex-gt-sm='70' layout='column'>
+                  <div layout='row' layout-margin>
+                    <mat-form-field flex>
+                      <input [(ngModel)]='usuario.nome'
+                             formControlName='nome'
+                             id='nome' matInput
+                             maxlength='200'
+                             name='nome' placeholder='Nome' required>
+                      <mat-error>
+                        Esse campo é obrigatório
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div layout='row' layout-margin>
+                    <mat-form-field flex>
+                      <input (keyup)="form.controls['password'].get('password')?.updateValueAndValidity()" [(ngModel)]='usuario.conta.email' formControlName='email'
+                             id='email'
+                             matInput maxlength='144'
+                             name='email' pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'
+                             placeholder='E-mail'
+                             type='email'>
+                      <mat-error *ngIf="form.controls['email'].hasError('pattern')">
+                        E-mail inválido, utilize o formato 'email@email.com'
+                      </mat-error>
+                      <mat-error *ngIf="form.controls['email'].hasError('exception')">
+                        O e-mail é obrigatório caso o Item Avaliavel seja administrador
+                      </mat-error>
+                    </mat-form-field>
+                    <div *ngIf="usuarioLogado?.isAdministrador" layout="column" layout-align="center center">
+                      <mat-checkbox
+                          (change)="form.controls['password'].get('password')?.updateValueAndValidity(); form.get('email')?.updateValueAndValidity()"
+                          [(ngModel)]='usuario.conta.administrador' [ngModelOptions]="{standalone: true}">
+                        Administrador
+                      </mat-checkbox>
+                    </div>
+                  </div>
+                  <password-form *ngIf='showPassword' [conta]='usuario?.conta' [form]='form'></password-form>
+                </div>
+              </div>
+
+              <!--divider-->
+              <ng-content select="[divider]"></ng-content>
+
+              <!--unidade-->
+              <ng-content select="[unidades]"></ng-content>
+
+              <!-- actions -->
+              <ng-content select="[actions]"></ng-content>
+
+            </div>
+
+          </mat-card-content>
+        </form>
+      </mat-card>
+    </div>
+  </div>
+</div>

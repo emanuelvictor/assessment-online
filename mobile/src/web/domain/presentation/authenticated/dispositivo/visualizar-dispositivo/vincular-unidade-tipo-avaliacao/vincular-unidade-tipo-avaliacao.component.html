@@ -1,0 +1,42 @@
+<mat-nav-list *ngIf='unidades?.length'>
+  <div *ngFor='let unidade of unidades '
+       [ngStyle]="{'background-color': unidade.unidadeTipoAvaliacaoDispositivoValue ? 'aliceblue' : '#fafafa' }">
+    <mat-list-item (click)='unidade.unidadeTipoAvaliacaoDispositivoValue = !unidade.unidadeTipoAvaliacaoDispositivoValue; changeUnidadeTipoAvaliacao(unidade)' disableRipple layout='row'
+                   layout-margin>
+
+      <h3 matLine>{{unidade?.nome}}</h3>
+      <p matLine>
+        {{unidade?.endereco?.logradouro ? unidade?.endereco?.logradouro + ', ' : ''}}
+        {{unidade?.endereco?.numero ? unidade?.endereco?.numero + ', ' : ''}}
+        {{unidade?.endereco?.bairro ? unidade?.endereco?.bairro + ', ' : ''}}
+        {{unidade?.endereco?.cidade ? (unidade?.endereco?.cidade?.nome + ' - ' + unidade?.endereco?.cidade?.estado?.uf) : ''}}
+      </p>
+
+      <mat-slide-toggle [(ngModel)]='unidade.unidadeTipoAvaliacaoDispositivoValue'
+                        [disabled]='true' flex style='opacity: 1 !important; cursor: pointer'>
+      </mat-slide-toggle>
+
+    </mat-list-item>
+
+    <mat-accordion>
+      <mat-expansion-panel [expanded]='unidade?.unidadeTipoAvaliacaoDispositivoValue && unidade?.unidadesTiposAvaliacoes?.length > 1'
+                           style='background-color: aliceblue'>
+
+        <section *ngIf='unidade?.unidadesTiposAvaliacoes?.length'
+                 layout='column' layout-align='start start'
+                 style='padding: 16px'>
+          <mat-checkbox (ngModelChange)='changeUnidadeTipoAvaliacaoDispositivo(unidadeTipoAvaliacao, unidade)'
+                        *ngFor="let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes | orderBy:'unidadeTipoAvaliacaoDispositivo.ordem'"
+                        [(ngModel)]='unidadeTipoAvaliacao.unidadeTipoAvaliacaoDispositivo.ativo'
+                        style='margin-left: 10px; padding: 5px; background-color: aliceblue'>
+            {{unidadeTipoAvaliacao?.unidadeTipoAvaliacaoDispositivo?.ordem ? unidadeTipoAvaliacao?.unidadeTipoAvaliacaoDispositivo?.ordem + ' - ' : ''}}
+            {{unidadeTipoAvaliacao?.ordem ? unidadeTipoAvaliacao?.ordem + ' - ' : ''}}
+            {{ unidadeTipoAvaliacao?.tipoAvaliacao?.nome + ': ' + unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado }}
+          </mat-checkbox>
+        </section>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+</mat-nav-list>

@@ -1,0 +1,18 @@
+<mat-nav-list [@fadeInOut]>
+  <div (click)='tipoAvaliacao.ativo = !tipoAvaliacao.ativo; saveUnidadeTipoAvaliacaoInner(tipoAvaliacao)'
+       *ngFor="let tipoAvaliacao of tiposAvaliacoes | filter:filter"
+       [ngStyle]="{'background-color': tipoAvaliacao?.ativo ? 'aliceblue' : '#fafafa' }">
+    <mat-list-item layout='row' layout-margin>
+
+      <h3 matLine>{{tipoAvaliacao?.nome}} </h3>
+      <p matLine>{{tipoAvaliacao?.enunciado}}</p>
+
+      <mat-slide-toggle (ngModelChange)='saveUnidadeTipoAvaliacaoInner(tipoAvaliacao)'
+                        [(ngModel)]='tipoAvaliacao.ativo' [disabled]='true'
+                        style='opacity: 1 !important;'>
+        <!--{{tipoAvaliacao?.ativo ? 'Vincular' : 'Desvincular'}}-->
+      </mat-slide-toggle>
+
+    </mat-list-item>
+  </div>
+</mat-nav-list>

@@ -1,0 +1,60 @@
+<div *ngIf='cupom' layout-align="center center" layout-gt-xs="row" layout-margin>
+  <div flex-gt-xs="80" layout="row" layout-margin>
+    <div flex layout-margin>
+
+      <mat-card class="bgc-grey-50">
+        <form (ngSubmit)='saveForm(form)' [formGroup]='form' novalidate>
+          <mat-card-content>
+
+            <div layout='column' layout-margin style='/*margin-top: 20px; padding-bottom: 25px*/'>
+
+              <!--cabeçalho div-->
+              <ng-content select="[header]"></ng-content>
+
+              <div flex layout='row' layout-align='start center'>
+                <div flex layout='column'>
+                  <mat-form-field flex layout-margin>
+                    <input [(ngModel)]='cupom.codigo'
+                           formControlName='codigo'
+                           id='codigo' matInput maxlength='144'
+                           name='codigo' placeholder='Codigo do cupom'>
+                    <mat-error>
+                      Campo obrigatório
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field flex layout-margin>
+                    <input [(ngModel)]='cupom.percentualDesconto' formControlName='percentualDesconto'
+                           id='percentualDesconto'
+                           matInput
+                           name='percentualDesconto'
+                           placeholder='Percentual de desconto do cupom' type='number'>
+                    <mat-error>
+                      Campo obrigatório
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field flex layout-margin>
+                    <mat-label>Clientes</mat-label>
+                    <mat-select [(value)]='cupom.tenant'>
+                      <mat-option *ngFor='let cliente of clientes'
+                                  [value]='cliente.tenant'>
+                        {{cliente?.tenant}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- actions -->
+            <ng-content select="[actions]"></ng-content>
+
+          </mat-card-content>
+        </form>
+      </mat-card>
+
+    </div>
+  </div>
+</div>

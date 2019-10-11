@@ -1,0 +1,43 @@
+<cliente-form (save)="save()" *ngIf='cliente?.siteKey' [cliente]="cliente">
+
+  <!--cabeçalho div-->
+  <div header layout='column' layout-margin>
+    <div layout='row' layout-align='start center'>
+
+      <button class="mat-headline tc-grey-500"
+              color="primary" mat-icon-button
+              routerLink="../authentication" type="button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <div layout="row" layout-margin>
+        <h1 class="mat-headline tc-grey-500" flex> Cadastre-se</h1>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider divider style='margin-left: -25px; margin-right: -25px; margin-bottom: 40px; margin-top: 40px;'>
+  </mat-divider>
+
+  <!--actions div-->
+  <div actions flex layout-margin>
+
+    <div flex layout-gt-xs='row' layout-margin>
+
+      <span flex='70'></span>
+
+      <button flex
+              mat-raised-button
+              routerLink='../authentication'
+              type='button'>
+        Cancelar
+      </button>
+      <button color='accent'
+              flex
+              mat-raised-button>
+        Salvar
+      </button>
+
+    </div>
+  </div>
+</cliente-form>

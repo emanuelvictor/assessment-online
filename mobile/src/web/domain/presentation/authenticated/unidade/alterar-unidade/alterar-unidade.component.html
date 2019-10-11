@@ -1,0 +1,13 @@
+<unidade-form (save)="save(unidade)" *ngIf="unidade?.id" [unidade]="unidade">
+  <!--cabeçalho div-->
+  <button class="mat-headline tc-grey-500"
+          color="primary" mat-icon-button
+          routerLink="../" type="button">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <div layout="row" layout-margin>
+    <h1 class="mat-headline tc-grey-500" flex> Alterar unidade</h1>
+  </div>
+
+</unidade-form>

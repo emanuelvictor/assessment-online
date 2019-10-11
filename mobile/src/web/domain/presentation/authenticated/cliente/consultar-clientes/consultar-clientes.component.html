@@ -1,0 +1,80 @@
+<search-bar>
+
+  <mat-form-field [ngStyle]="{'margin-top': (pageRequest?.defaultFilter?.length ? '14px' : '28px')}" flex
+                  style='margin-left:0; margin-right: 0'>
+    <mat-chip-list #defaultFilterChipList aria-label='Pesquisar por e-mail'>
+
+      <mat-chip (removed)='removeDefaultFilter(defaultFilter)'
+                *ngFor='let defaultFilter of pageRequest.defaultFilter' style='max-width: 100%'>
+        {{defaultFilter}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+
+      <input (matChipInputTokenEnd)='addDefaultFilter($event)'
+             (ngModelChange)='defaultFilterChanged($event)'
+             [(ngModel)]='defaultFilter'
+             [matChipInputAddOnBlur]='true' [matChipInputFor]='defaultFilterChipList'
+             [ngModelOptions]='{standalone: true}' placeholder='Pesquisar por e-mail'>
+
+    </mat-chip-list>
+  </mat-form-field>
+
+</search-bar>
+
+<!--Listagem-->
+<div layout='row' layout-align='center start'>
+  <div flex='90' layout='column'>
+
+    <div class='tc-grey-500 size-height-50'
+         layout='row' layout-align='start center'>
+      <span> Resultado da pesquisa </span>
+      <div flex></div>
+      <span> {{ page?.totalElements}} resultados </span>
+    </div>
+
+    <div class='mat-elevation-z4' id='default-table'>
+
+      <mat-table #table
+                 [dataSource]='dataSource'
+                 class='bgc-grey-50'
+                 matSort
+                 matSortActive='nome' matSortDirection='asc' matSortDisableClear>
+
+        <ng-container matColumnDef='email'>
+          <mat-header-cell *matHeaderCellDef
+                           [matTooltipPosition]='"left"'
+                           flex-gt-md='40' flex-md='40'
+                           flex-sm='40' flex-xl='40' mat-sort-header matTooltip='Ordernar pelo nome'>
+            Cliente
+          </mat-header-cell>
+          <mat-cell *matCellDef='let conta'
+                    flex-gt-md='40' flex-md='40' flex-sm='40' flex-xl='40'>
+            <avatar [size]='0.2'
+                    [usuario]="{'id': conta?.id , 'foto': conta?.usuario?.thumbnailPath}" class='image-cover' layout-margin
+                    style='margin-left: 0;margin-bottom: 3px;'>
+            </avatar>
+            <div layout='column' layout-margin>
+              <span>{{conta?.usuario?.nome}}</span>
+              <span *ngIf='conta?.usuario?.documento' [@fadeInOut]
+                    style='color: #607d8b'>CPF: {{conta?.usuario?.documento | documento}}</span>
+              <span style='color: gray'>{{conta?.email}}</span>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef='displayedColumns'>
+        </mat-header-row>
+
+        <mat-row (click)='assumirEsquema(conta?.esquema)'
+                 *matRowDef='let conta; columns: displayedColumns' matTooltip='Selecione o cliente e começe a visualizar seus dados'
+                 style='cursor: pointer'>
+        </mat-row>
+      </mat-table>
+      <no-records-found [dataSource]='dataSource?.data'></no-records-found>
+      <mat-paginator (page)='listClientesByFilters(pageRequest)'
+                     [length]='page.totalElements' [pageSizeOptions]='[5, 20, 50, 100]'
+                     class='bgc-grey-50' style='border-radius: 2px'>
+      </mat-paginator>
+    </div>
+  </div>
+</div>

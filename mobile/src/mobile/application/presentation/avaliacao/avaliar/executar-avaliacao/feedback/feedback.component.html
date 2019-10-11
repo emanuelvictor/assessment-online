@@ -1,0 +1,75 @@
+<form (ngSubmit)='proximo()' [@fadeInOut] [formGroup]='form' layout='column' layout-align='center center' novalidate>
+  <mat-card *ngIf='mobileService?.configuracao?.tipoFeedback' style='width: 600px'>
+    <!--<mat-card-title class="push">-->
+    <!--{{configuracao?.feedbackEnunciado}}-->
+    <!--</mat-card-title>-->
+    <mat-card-content style='margin-bottom: 0'>
+      <div layout="column" layout-margin>
+        <mat-form-field *ngIf="mobileService?.configuracao?.tipoFeedback === 'TEXTO'" flex>
+          <textarea (keyup)='modelChanged.next()'
+                    *ngIf='mobileService?.agrupador' [(ngModel)]='mobileService.agrupador.feedback'
+                    formControlName='feedback' id='feedback'
+                    matInput maxlength='250'
+                    name='feedback' placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}'
+                    style='min-height: 100px'>
+          </textarea>
+          <mat-error>
+            Campo obrigatório
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="mobileService?.configuracao?.tipoFeedback === 'EMAIL'" flex>
+          <input (keyup)='modelChanged.next()'
+                 *ngIf='mobileService?.agrupador'
+                 [(ngModel)]='mobileService.agrupador.feedback' formControlName='feedback' id='feedback' matInput
+                 maxlength='250'
+                 name='feedback'
+                 pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'
+                 placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}' style='min-height: 100px'>
+          <mat-error *ngIf="form.controls['feedback'].hasError('pattern')">
+            E-mail inválido, utilize o formato 'email@email.com'
+          </mat-error>
+          <mat-error *ngIf="form?.controls['feedback']?.hasError('required')">
+            Campo obrigatório
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="mobileService?.configuracao?.tipoFeedback === 'CPF'" flex>
+          <input (keyup)='modelChanged.next()'
+                 *ngIf='mobileService?.agrupador'
+                 [(ngModel)]='mobileService.agrupador.feedback'
+                 [textMask]='{mask: masks.cpf, guide: false}' formControlName='feedback' id='feedback' matInput
+                 maxlength='250'
+                 name='feedback' placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}'
+                 style='min-height: 100px'>
+          <mat-error *ngIf="form?.controls['feedback']?.hasError('exception')">
+            {{form?.controls['feedback']?.errors?.exception}}
+          </mat-error>
+          <mat-error *ngIf="form?.controls['feedback']?.hasError('required')">
+            Campo obrigatório
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="mobileService?.configuracao?.tipoFeedback === 'TELEFONE'" flex>
+          <input (keyup)='modelChanged.next()'
+                 *ngIf='mobileService?.agrupador'
+                 [(ngModel)]='mobileService.agrupador.feedback'
+                 [textMask]='{mask: (this.mobileService.agrupador.feedback && (this.mobileService.agrupador.feedback.length === 15) ?  masks.phone8 : masks.phone9 ), guide: false}'
+                 formControlName='feedback' id='feedback'
+                 matInput
+                 maxlength='250' name='feedback' placeholder='{{mobileService?.configuracao?.feedbackEnunciado}}'
+                 style='min-height: 100px'>
+          <mat-error>
+            Campo obrigatório
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions style='margin-top: -30px'>
+      <div flex layout='row' layout-align='center center'>
+        <div flex layout='column' layout-align='center end' layout-margin>
+          <button color='primary' layout-align='center end' mat-button>
+            Concluir
+          </button>
+        </div>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</form>

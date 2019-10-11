@@ -1,0 +1,40 @@
+<cupom-form (save)='save($event)' [cupom]='cupom'>
+
+  <!--cabeçalho div-->
+  <div header layout='column' layout-margin>
+    <div layout='row' layout-align='start center'>
+
+      <button class='mat-headline tc-grey-500' color='primary'
+              mat-icon-button routerLink='../'
+              type='button'>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <div layout='row' layout-margin>
+        <h1 class='mat-headline tc-grey-500' flex> Inserir Cupom</h1>
+      </div>
+    </div>
+  </div>
+
+  <!--actions div-->
+  <div actions flex layout-margin>
+
+    <div flex layout-gt-xs='row' layout-margin>
+
+      <span flex='70'></span>
+
+      <button flex
+              mat-raised-button
+              routerLink='../' type='button'>
+        Cancelar
+      </button>
+      <button color='accent'
+              flex mat-raised-button
+              style='margin-right: 0'>
+        Salvar
+      </button>
+
+    </div>
+  </div>
+
+</cupom-form>

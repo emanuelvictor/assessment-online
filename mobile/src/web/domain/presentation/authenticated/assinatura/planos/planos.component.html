@@ -1,0 +1,55 @@
+<!-- Cartão de crédito -->
+<form (ngSubmit)='save()' [formGroup]='form?.controls?.firstFormGroup' novalidate>
+  <mat-grid-list *ngIf='planos?.length' cols='3' rowHeight='400px'>
+    <mat-radio-group [(ngModel)]='assinatura.plano.id' [ngModelOptions]="{standalone: true}" flex
+                     layout='row'
+                     name='plano'>
+
+      <mat-grid-tile *ngFor='let plano of planos' style='margin-left: 60px'>
+        <mat-radio-button *ngIf='plano?.quantidadeDispositivos' [@fadeInOut] [value]='plano.id' color='primary'
+                          name='plano'>
+          <div layout='column' layout-align='center center' layout-margin
+               style='border: 2px solid #60338e !important; box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)'>
+            <div flex>
+              <b>
+                {{plano.nome}}
+              </b>
+            </div>
+            <div *ngIf='plano?.descricao' flex>
+              {{plano.descricao}}
+            </div>
+            <div style='width: 100%; background-color: #dfe5e7; text-align: center; padding: 20px'>
+              {{plano.valorMensal | currency:'BRL':true}}
+            </div>
+            <div flex>
+              {{plano.quantidadeAvaliacoes}} avaliações por mês
+            </div>
+            <div flex>
+              {{plano.valorAvaliacoesExcedentes | currency:'BRL':true}} por avaliação excedente
+            </div>
+            <div *ngIf='plano?.quantidadeDispositivos' flex
+                 style='width: 100%;background-color: aliceblue;text-align: center;padding: 20px;margin: 0; padding-bottom: 0'>
+              {{plano.quantidadeDispositivos}} (licenças) x {{plano.valorMensal | currency:'BRL':true}}
+            </div>
+            <div flex style='width: 100%;background-color: aliceblue;text-align: center;margin: 0'>
+              =
+            </div>
+            <div flex
+                 style='width: 100%;background-color: aliceblue;text-align: center;padding: 20px;margin: 0; padding-top: 0'>
+              {{(plano.quantidadeDispositivos * plano.valorMensal) | currency:'BRL':true}}
+            </div>
+          </div>
+        </mat-radio-button>
+      </mat-grid-tile>
+
+    </mat-radio-group>
+  </mat-grid-list>
+
+  <!--actions div-->
+  <div flex layout-gt-xs='row' layout-margin>
+
+    <span flex='80'></span>
+
+    <button color='accent' flex mat-raised-button matStepperNext>Próximo</button>
+  </div>
+</form>

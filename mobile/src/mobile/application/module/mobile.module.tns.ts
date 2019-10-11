@@ -1,7 +1,7 @@
 import {NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import {NativeScriptModule} from 'nativescript-angular/nativescript.module';
 
-import {RootViewComponent} from '@src/mobile/application/bootstrap/root-view.component';
+import {RootViewComponent} from '@src/mobile/application/presentation/root-view.component';
 import {MobileRoutingModule} from '@src/mobile/application/module/routing/mobile-routing.module';
 import {HomeComponent} from '@src/mobile/application/presentation/home/home.component';
 

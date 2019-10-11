@@ -1,0 +1,39 @@
+<mat-toolbar class="mat-elevation-z2" style="background-color : white">
+  <button (click)="sidenav.toggle()" *ngIf="conta?.isOperador || conta?.isAdministrador"
+          hide-gt-md mat-icon-button>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <img *ngIf='configuracao?.logoPath' class="size-height-50 logo-image"
+       hide-md hide-sm hide-xs routerLink="" src="{{configuracao?.logoPath}}">
+  <span flex> </span>
+  <label *ngIf="conta"
+         [matMenuTriggerFor]="menu" class="mat-body-2 name-user">
+    {{conta?.usuario?.nome ? conta?.usuario?.nome : conta?.email}}
+  </label>
+  <div *ngIf="conta"
+       [matMenuTriggerFor]="menu" class="avatar"
+       layout="row" layout-align="center center"
+       layout-margin style="cursor: pointer">
+    <avatar [size]="0.2" [usuario]="{'id': conta?.id , 'foto': conta?.usuario?.thumbnailPath}"
+            style="margin-top:10px">
+    </avatar>
+  </div>
+  <mat-menu #menu="matMenu">
+    <button (click)="logout()" color="primary" mat-menu-item>
+      <mat-icon>power_settings_new</mat-icon>
+      <span>Sair</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav (click)="sidenav.toggle()" class="mat-elevation-z5"
+               mode="over" style="background-color: #0c3e6f">
+    <logged-menu *ngIf='conta?.id && !conta?.root'></logged-menu>
+
+    <logged-root-menu *ngIf='conta?.id && conta?.root'></logged-root-menu>
+
+  </mat-sidenav>
+
+  <!--Tag será substiuída pelo content da tag pai chamada-->
+  <ng-content></ng-content>
+</mat-sidenav-container>
