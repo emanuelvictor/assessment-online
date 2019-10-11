@@ -1,6 +1,6 @@
 // this import should be first in order to load some required settings (like globals and reflect-metadata)
 import {platformNativeScriptDynamic} from 'nativescript-angular/platform';
-import {MobileModule} from '@src/mobile/application/module/mobile.module';
+import {MobileModule} from '@src/mobile/application/presentation/mobile.module';
 
 
 // A traditional NativeScript application starts by initializing global objects,
