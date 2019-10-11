@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {InserirClienteComponent} from './presentation/authenticated/cliente/inserir-cliente/inserir-cliente.component';
 import {WebLoginComponent} from './presentation/login/web-login/web-login.component';
 import {ErrorComponent} from "./presentation/controls/error/error.component";
-import {AuthenticationService} from "./service/authentication.service";
+import {AuthenticationService} from './service/authentication.service';
 
 
 const routes: Routes = [

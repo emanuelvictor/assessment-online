@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {RecaptchaComponent} from 'ng-recaptcha';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
-import {viewAnimation} from '@src/web/domain/presentation/controls/utils';
+import {viewAnimation} from '@src/web/application/presentation/controls/utils';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {UsuarioRepository} from '@src/web/domain/repository/usuario.repository';
 

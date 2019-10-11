@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {Configuracao} from '@src/web/domain/entity/configuracao/configuracao.model';
-import {viewAnimation} from '@src/web/domain/presentation/controls/utils';
+import {viewAnimation} from '@src/web/application/presentation/controls/utils';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {Unidade} from '@src/web/domain/entity/unidade/unidade.model';
 

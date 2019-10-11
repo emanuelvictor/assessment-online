@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {viewAnimation} from '@src/web/domain/presentation/controls/utils';
+import {viewAnimation} from '@src/web/application/presentation/controls/utils';
 
 @Component({
   selector: 'conclusao-view',

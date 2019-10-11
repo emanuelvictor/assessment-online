@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {viewAnimation} from '@src/web/domain/presentation/controls/utils';
+import {viewAnimation} from '@src/web/application/presentation/controls/utils';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {AgrupadorRepository} from '@src/mobile/domain/repository/agrupador.repository';
 import {Agrupador} from '@src/web/domain/entity/avaliacao/agrupador.model';

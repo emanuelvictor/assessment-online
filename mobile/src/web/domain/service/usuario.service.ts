@@ -4,7 +4,7 @@ import {MatSnackBar} from '@angular/material';
 import {FileRepository} from '@src/web/infrastructure/repository/file/file.repository';
 import {UsuarioRepository} from '@src/web/domain/repository/usuario.repository';
 import {Usuario} from '@src/web/domain/entity/usuario/usuario.model';
-import {FotoLoadingComponent} from '@src/web/domain/presentation/controls/foto-loading/foto-loading.component';
+import {FotoLoadingComponent} from '@src/web/application/presentation/controls/foto-loading/foto-loading.component';
 import {environment} from '@src/environments/environment';
 
 /**

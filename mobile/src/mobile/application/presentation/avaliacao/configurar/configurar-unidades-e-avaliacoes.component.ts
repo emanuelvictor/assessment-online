@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatSnackBar} from '@angular/material';
-import {getIdentifier, viewAnimation} from '@src/web/domain/presentation/controls/utils';
+import {getIdentifier, viewAnimation} from '@src/web/application/presentation/controls/utils';
 import {Dispositivo} from '@src/web/domain/entity/avaliacao/dispositivo.model';
 import {environment} from '@src/environments/environment';
 import {ConfiguracaoRepository} from '@src/web/domain/repository/configuracao.repository';

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {PASSWORD_NAME, TOKEN_NAME} from '../../domain/presentation/controls/utils';
+import {PASSWORD_NAME, TOKEN_NAME} from '../../application/presentation/controls/utils';
 
 @Injectable()
 export class LocalStorage {

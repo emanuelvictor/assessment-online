@@ -6,7 +6,7 @@ import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {UnidadeTipoAvaliacaoRepository} from '@src/web/domain/repository/unidade-tipo-avaliacao.repository';
 import {Agrupador} from '@src/web/domain/entity/avaliacao/agrupador.model';
 import {AvaliacaoAvaliavel} from '@src/web/domain/entity/avaliacao/avaliacao-avaliavel.model';
-import {viewAnimation} from '@src/web/domain/presentation/controls/utils';
+import {viewAnimation} from '@src/web/application/presentation/controls/utils';
 
 @Component({
   selector: 'selecionar-atendentes',

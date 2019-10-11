@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {environment} from '@src/environments/environment';
-import {getIdentifier} from '@src/web/domain/presentation/controls/utils';
+import {getIdentifier} from '@src/web/application/presentation/controls/utils';
 
 @Component({
   selector: 'app-avaliacao',

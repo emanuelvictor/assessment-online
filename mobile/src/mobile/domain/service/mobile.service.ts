@@ -15,7 +15,7 @@ import {DispositivoRepository} from '@src/web/domain/repository/dispositivo.repo
 import {ConfiguracaoRepository} from '@src/web/domain/repository/configuracao.repository';
 import {LocalStorage} from '@src/web/infrastructure/local-storage/local-storage';
 import {environment} from '@src/environments/environment';
-import {TOKEN_NAME} from '@src/web/domain/presentation/controls/utils';
+import {TOKEN_NAME} from '@src/web/application/presentation/controls/utils';
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
