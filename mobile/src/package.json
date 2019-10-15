@@ -1,5 +1,5 @@
 {
-  "main": "mobile/application/main.tns.js",
+  "main": "mobile/application/mobile-main.tns.js",
   "android": {
     "v8Flags": "--expose_gc",
     "markingMode": "none"

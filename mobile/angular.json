@@ -126,7 +126,7 @@
           "options": {
             "outputPath": "dist/mobile",
             "index": "src/mobile/index.html",
-            "main": "src/mobile/application/web-main.ts",
+            "main": "src/mobile/application/mobile-main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [

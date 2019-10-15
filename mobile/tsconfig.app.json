@@ -15,7 +15,7 @@
     "src/web/application/web-main.ts",
     "src/web/application/presentation/authenticated/authenticated.module.ts",
     "src/web/application/presentation/authenticated/cupom/cupom.module.ts",
-    "src/mobile/application/main.ts",
+    "src/mobile/application/mobile-main.ts",
     "src/polyfills.ts"
   ]
 }

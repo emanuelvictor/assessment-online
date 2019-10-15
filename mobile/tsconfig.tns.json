@@ -11,6 +11,6 @@
     }
   },
   "files": [
-    "src/mobile/application/main.tns.ts"
+    "src/mobile/application/mobile-main.tns.ts"
   ]
 }
