@@ -1,0 +1,78 @@
+<div [style.background-image]='getBackground(backgroundPath)'
+     class='login' layout='column' layout-align='center center'>
+
+  <div layout='column' layout-align='center center'>
+
+    <mat-card style='width: 600px'>
+      <mat-card-content>
+
+        <div layout='column' layout-margin>
+
+          <div layout='column' layout-align='center center' layout-margin>
+
+            <div flex layout='row' layout-margin>
+              <img class='logo' src='{{logoImage}}'>
+            </div>
+
+            <div flex layout='row' layout-margin>
+              <h1 class='mat-title tc-grey-600' flex>
+                <b>Insira a senha do dispositivo para sair do aplicativo</b>
+              </h1>
+            </div>
+          </div>
+
+          <div flex layout='row' layout-margin style='margin-top: 34px'>
+            <mat-form-field flex>
+              <input (ngModelChange)='modelChanged.next($event)' [(ngModel)]='password'
+                     [ngModelOptions]='{standalone: true}'
+                     matInput
+                     placeholder='Insira a senha do dispositivo'/>
+              <mat-error>
+                Insira a senha
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div flex
+             layout='row' layout-margin>
+          <button (click)='cancelar()'
+                  color='accent' flex
+                  mat-raised-button style='height: 55px'>
+            Cancelar
+          </button>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!--<mat-card [@fadeInOut]-->
+<!--          *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">-->
+<!--  <div layout='column' layout-margin>-->
+
+<!--    <label flex>-->
+<!--      Insira a senha do dispositivo para sair do aplicativo-->
+<!--    </label>-->
+
+<!--    <div flex layout='row'>-->
+<!--      <mat-form-field flex>-->
+<!--        <input [(ngModel)]='password' matInput-->
+<!--               [ngModelOptions]='{standalone: true}'-->
+<!--               (ngModelChange)='modelChanged.next($event)'-->
+<!--               placeholder='Insira a senha do dispositivo'/>-->
+<!--        <mat-error>-->
+<!--          Insira a senha-->
+<!--        </mat-error>-->
+<!--      </mat-form-field>-->
+
+<!--      <button flex='20' mat-button class='push-left'-->
+<!--              type='button' (click)='cancelar()'-->
+<!--              style='height: 40px;margin-top: 6px'>-->
+<!--        Cancelar-->
+<!--      </button>-->
+<!--    </div>-->
+
+<!--  </div>-->
+<!--</mat-card>-->

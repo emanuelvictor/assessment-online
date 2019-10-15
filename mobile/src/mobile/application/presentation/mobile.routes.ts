@@ -18,67 +18,67 @@ import {RobotVerifyComponent} from '@src/mobile/application/presentation/avaliac
 import {ConclusaoComponent} from '@src/mobile/application/presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao/conclusao.component';
 
 
-export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full',
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
-  },
-];
-
-
 // export const routes: Routes = [
 //   {
-//     path: '', redirectTo: 'configuracoes', pathMatch: 'full'
+//     path: '',
+//     redirectTo: '/home',
+//     pathMatch: 'full',
 //   },
 //   {
-//     path: 'configuracoes', component: ConfiguracoesComponent,
-//     children:
-//       [
-//         {
-//           path: '', component: ConfigurarUnidadesEAvaliacoesComponent
-//         },
-//         {
-//           path: 'authenticate', component: AuthenticateToLogoutComponent
-//         }
-//       ]
+//     path: 'home',
+//     component: HomeComponent,
 //   },
-//   {
-//     path: 'avaliar', component: AvaliacaoComponent,
-//     children: [
-//       {
-//         path: ':numeroLicenca', component: AvaliarComponent, canActivate: [MobileService],
-//         children: [
-//           {path: '', component: SelecionarUnidadeComponent},
-//           {
-//             path: ':unidadeId', component: ExecutarAvaliacaoComponent,
-//             children: [
-//               {
-//                 path: 'ordem/:ordem', component: SelecionarNotaEItensAvaliaveisComponent,
-//                 children: [
-//                   {path: '', component: SelecionarNotaComponent},
-//                   {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
-//                 ]
-//               },
-//               {
-//                 path: 'conclusao', component: ConclusaoViewComponent,
-//                 children: [
-//                   {path: '', component: ConclusaoComponent},
-//                   {path: 'robot-verify', component: RobotVerifyComponent},
-//                 ]
-//               },
-//               {path: 'feedback', component: FeedbackComponent},
-//             ]
-//           }
-//         ]
-//       }
-//     ]
-//   },
-//   {
-//     path: 'error', component: MobileErrorComponent
-//   }
 // ];
+
+
+export const routes: Routes = [
+  {
+    path: '', redirectTo: 'configuracoes', pathMatch: 'full'
+  },
+  {
+    path: 'configuracoes', component: ConfiguracoesComponent,
+    children:
+      [
+        {
+          path: '', component: ConfigurarUnidadesEAvaliacoesComponent
+        },
+        // {
+        //   path: 'authenticate', component: AuthenticateToLogoutComponent
+        // }
+      ]
+  },
+  // {
+  //   path: 'avaliar', component: AvaliacaoComponent,
+  //   children: [
+  //     {
+  //       path: ':numeroLicenca', component: AvaliarComponent, canActivate: [MobileService],
+  //       children: [
+  //         {path: '', component: SelecionarUnidadeComponent},
+  //         {
+  //           path: ':unidadeId', component: ExecutarAvaliacaoComponent,
+  //           children: [
+  //             {
+  //               path: 'ordem/:ordem', component: SelecionarNotaEItensAvaliaveisComponent,
+  //               children: [
+  //                 {path: '', component: SelecionarNotaComponent},
+  //                 {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
+  //               ]
+  //             },
+  //             {
+  //               path: 'conclusao', component: ConclusaoViewComponent,
+  //               children: [
+  //                 {path: '', component: ConclusaoComponent},
+  //                 {path: 'robot-verify', component: RobotVerifyComponent},
+  //               ]
+  //             },
+  //             {path: 'feedback', component: FeedbackComponent},
+  //           ]
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: 'error', component: MobileErrorComponent
+  // }
+];
