@@ -4,6 +4,18 @@ import {NativeScriptModule} from 'nativescript-angular/nativescript.module';
 import {RootViewComponent} from '@src/mobile/application/presentation/root-view.component';
 import {HomeComponent} from '@src/mobile/application/presentation/home/home.component';
 import {MobileRoutingModule} from '@src/mobile/application/presentation/mobile-routing.module';
+import {ConfigurarUnidadesEAvaliacoesComponent} from '@src/mobile/application/presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component';
+import {ConfiguracoesComponent} from '@src/mobile/application/presentation/avaliacao/configurar/configuracoes/configuracoes.component';
+import {CommonModule} from '@angular/common';
+import {BrowserModule} from '@angular/platform-browser';
+import {MobileService} from '@src/mobile/domain/service/mobile.service';
+import {HttpClientModule} from '@angular/common/http';
+import {DispositivoRepository} from '@src/web/domain/repository/dispositivo.repository';
+import {ConfiguracaoRepository} from '@src/web/domain/repository/configuracao.repository';
+import {LocalStorage} from '@src/web/infrastructure/local-storage/local-storage';
+import {CookieService} from 'ngx-cookie-service';
+import {CovalentLoadingModule, TdLoadingService} from '@covalent/core';
+import {MatSnackBarModule} from '@angular/material';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -16,12 +28,26 @@ import {MobileRoutingModule} from '@src/mobile/application/presentation/mobile-r
   declarations: [
     RootViewComponent,
     HomeComponent,
+    ConfiguracoesComponent,
+    ConfigurarUnidadesEAvaliacoesComponent,
   ],
   imports: [
+    CommonModule,
+    BrowserModule,
+    HttpClientModule,
+    CovalentLoadingModule,
+    MatSnackBarModule,
+
     NativeScriptModule,
     MobileRoutingModule,
   ],
-  providers: [],
+  providers: [
+    MobileService,
+    DispositivoRepository,
+    ConfiguracaoRepository,
+    LocalStorage,
+    CookieService
+  ],
   bootstrap: [RootViewComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
