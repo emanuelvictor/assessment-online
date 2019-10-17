@@ -1,6 +1,6 @@
 import {Abstract} from '../abstract/abstract.model';
-import {UnidadeTipoAvaliacaoDispositivo} from "./unidade-tipo-avaliacao-dispositivo.model";
-import {Unidade} from "../unidade/unidade.model";
+import {UnidadeTipoAvaliacaoDispositivo} from './unidade-tipo-avaliacao-dispositivo.model';
+import {Unidade} from '../unidade/unidade.model';
 
 export class Dispositivo extends Abstract {
 

@@ -60,7 +60,7 @@ export class FileRepository {
     formData.append('file', file, file.name);
 
     return this.httpClient
-      .post("import", formData, {responseType: 'text'})
+      .post('import', formData, {responseType: 'text'})
       .toPromise();
 
   }

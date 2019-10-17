@@ -28,7 +28,9 @@ export abstract class Pessoa extends Abstract {
  */
 export function calcularMedia(avaliavel): number {
 
-  if (!avaliavel) return 0;
+  if (!avaliavel) {
+    return 0;
+  }
 
   let avaliacoes1 = 0;
 

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {PASSWORD_NAME, TOKEN_NAME} from "../../domain/presentation/controls/utils";
+import {PASSWORD_NAME, TOKEN_NAME} from '../../application/presentation/controls/utils';
 
 @Injectable()
 export class LocalStorage {
@@ -8,12 +8,8 @@ export class LocalStorage {
     return window.localStorage[PASSWORD_NAME];
   }
 
-  set senha(senha:string) {
+  set senha(senha: string) {
     window.localStorage[PASSWORD_NAME] = senha;
-  }
-
-  removeSenha() {
-    window.localStorage.removeItem(PASSWORD_NAME);
   }
 
   get token() {
@@ -22,6 +18,10 @@ export class LocalStorage {
 
   set token(token) {
     window.localStorage[TOKEN_NAME] = token;
+  }
+
+  removeSenha() {
+    window.localStorage.removeItem(PASSWORD_NAME);
   }
 
   removeToken() {

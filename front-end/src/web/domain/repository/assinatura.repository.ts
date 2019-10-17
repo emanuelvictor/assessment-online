@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Assinatura} from "../entity/assinatura/assinatura.model";
-import {Observable} from "rxjs";
+import {HttpClient} from '@angular/common/http';
+import {Assinatura} from '../entity/assinatura/assinatura.model';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class AssinaturaRepository extends BaseRepository<Assinatura> {

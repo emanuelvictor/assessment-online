@@ -18,18 +18,18 @@ export class PageSerialize {
             // Se não for um array mas for um objeto
           } else if (typeof object[key] === 'object') {
             // Se for um objeto de ordenação
-            if (key === 'sort')
+            if (key === 'sort') {
               params = params.set(key, object[key]['properties'] + ',' + object[key]['direction']);
-            // Restante
+            }// Restante
             else {
               params = PageSerialize.getHttpParamsFromPageable(object[key])
             }
           } else {
             if (key.indexOf('data') > -1) {
               params = params.set(key, object[key] ? object[key] : '');
-            }
-            else
+            } else {
               params = params.set(key, object[key] ? object[key] : '');
+            }
           }
         }
       });

@@ -5,10 +5,13 @@ import {isNullOrUndefined} from 'util';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Conta} from '../entity/usuario/conta.model';
-import {environment} from "../../../environments/environment";
-import {LocalStorage} from "../../infrastructure/local-storage/local-storage";
-import {CookieService} from "ngx-cookie-service";
-import {TOKEN_NAME} from "../presentation/controls/utils";
+import {environment} from '@src/environments/environment';
+import {LocalStorage} from '@src/web/infrastructure/local-storage/local-storage';
+import {CookieService} from 'ngx-cookie-service';
+import {TOKEN_NAME} from '@src/web/application/presentation/controls/utils';
+
+import 'rxjs/add/operator/map';
+
 
 @Injectable()
 export class AuthenticationService implements CanActivate, CanActivateChild {
@@ -110,14 +113,22 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
    *
    */
   public requestContaAutenticada(): Observable<any | Conta> {
-    return this.httpClient.get<Conta>(environment.endpoint + 'principal').catch((err: any) => {
-      // simple logging, but you can do a lot more, see below
-      if (this.localStorage.token) {
-        this.router.navigate(['error'])
-      } else {
-        this.router.navigate(['authentication'])
-      }
-      return err
+    return new Observable(subscriber => {
+      this.httpClient.get<Conta>(environment.endpoint + 'principal')
+        .toPromise()
+        .then(result => {
+          subscriber.next(result);
+          subscriber.complete()
+        })
+        .catch((err: any) => {
+          // simple logging, but you can do a lot more, see below
+          if (this.localStorage.token) {
+            this.router.navigate(['error'])
+          } else {
+            this.router.navigate(['authentication'])
+          }
+          subscriber.error(err)
+        })
     })
   }
 
@@ -169,16 +180,6 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
         })
         .catch(error => reject(error))
     })
-  }
-
-  /**
-   *
-   * @param unidadeId
-   * @param password
-   * @returns {Promise<{}>}
-   */
-  public authenticateByUnidade(unidadeId, password): Promise<any> {
-    return this.httpClient.get(environment.endpoint + 'unidades/authenticate/' + unidadeId + '?password=' + password).toPromise()
   }
 
   /**

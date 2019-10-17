@@ -1,7 +1,7 @@
 import {Endereco} from '../endereco/endereco.model';
 import {Cidade} from '../endereco/cidade.model';
 import {Pessoa} from '../abstract/pessoa.model';
-import {UnidadeTipoAvaliacao} from "../avaliacao/unidade-tipo-avaliacao.model";
+import {UnidadeTipoAvaliacao} from '../avaliacao/unidade-tipo-avaliacao.model';
 
 export class Unidade extends Pessoa {
 

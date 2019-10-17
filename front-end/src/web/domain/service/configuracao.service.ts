@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/Rx';
-import {Configuracao} from '../entity/configuracao/configuracao.model';
-import {ConfiguracaoRepository} from "../repository/configuracao.repository";
-import {FileRepository} from "../../infrastructure/repository/file/file.repository";
-import {environment} from "../../../environments/environment";
+import {FileRepository} from '@src/web/infrastructure/repository/file/file.repository';
+import {ConfiguracaoRepository} from '@src/web/domain/repository/configuracao.repository';
+import {Configuracao} from '@src/web/domain/entity/configuracao/configuracao.model';
+import {environment} from '@src/environments/environment';
 
 /**
  *
@@ -68,6 +67,7 @@ export class ConfiguracaoService {
               .then(uploaded => {
                 toSave.logoPath = uploaded;
                 this.fileRepository.save(environment.endpoint + 'configuracoes/background', backgroundImageFile)
+                // tslint:disable-next-line:no-shadowed-variable
                   .then(uploaded => {
                     toSave.backgroundImagePath = uploaded;
                     resolve(toSave);
@@ -107,9 +107,9 @@ export class ConfiguracaoService {
                 toSave.logoPath = null;
                 resolve(toSave);
               })
+          } else {
+            resolve(result);
           }
-
-          else resolve(result);
 
         })
 

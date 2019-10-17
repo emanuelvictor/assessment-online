@@ -1,4 +1,4 @@
-import {Pais} from "./pais.model";
+import {Pais} from './pais.model';
 import {Abstract} from '../abstract/abstract.model';
 
 export class Estado extends Abstract {

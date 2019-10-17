@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {BaseRepository} from "../../infrastructure/repository/base/base.repository";
-import {HttpClient} from "@angular/common/http";
-import {Configuracao} from "../entity/configuracao/configuracao.model";
+import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
+import {HttpClient} from '@angular/common/http';
+import {Configuracao} from '../entity/configuracao/configuracao.model';
 import {Observable, Subject} from 'rxjs';
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
 
 /**
  */
@@ -24,7 +24,7 @@ export class ConfiguracaoRepository extends BaseRepository<Configuracao> {
     this.httpClient.get<Configuracao>(environment.endpoint + ConfiguracaoRepository.collection)
       .subscribe(result => this.observerConfiguracao.next(result));
 
-    this.httpClient.get(environment.endpoint + ConfiguracaoRepository.collection + '/scheme', {responseType: "text"})
+    this.httpClient.get(environment.endpoint + ConfiguracaoRepository.collection + '/scheme', {responseType: 'text'})
       .subscribe(scheme => {
         this.observerEsquema.next(scheme);
       });

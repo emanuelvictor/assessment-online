@@ -1,12 +1,13 @@
 import {Observable, throwError as observableThrowError} from 'rxjs';
-import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/catch';
 
-
-import {MatSnackBar} from "@angular/material";
-import {Router} from "@angular/router";
-import {environment} from "../../../environments/environment";
-import {LocalStorage} from "../../infrastructure/local-storage/local-storage";
+import {MatSnackBar} from '@angular/material';
+import {Router} from '@angular/router';
+import {LocalStorage} from '../../infrastructure/local-storage/local-storage';
+import {environment} from '@src/environments/environment';
+import {Injectable} from '@angular/core';
 
 /**
  *
@@ -53,7 +54,7 @@ export class Interceptor implements HttpInterceptor {
         }
 
       })
-      .catch(this.catchErrors());
+      .catch(this.catchErrors())
   }
 
   /**
@@ -61,7 +62,7 @@ export class Interceptor implements HttpInterceptor {
    * @param message
    */
   public error(message: string) {
-    this.openSnackBar(message);
+    this.openSnackBar(message)
   }
 
   /**
@@ -69,9 +70,9 @@ export class Interceptor implements HttpInterceptor {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.snackBar.open(message, 'Fechar', {
       duration: 5000
-    });
+    })
   }
 
   /**
@@ -97,9 +98,9 @@ export class Interceptor implements HttpInterceptor {
         }
       }
 
-      return observableThrowError(res);
+      return observableThrowError(res)
 
-    };
+    }
 
   }
 

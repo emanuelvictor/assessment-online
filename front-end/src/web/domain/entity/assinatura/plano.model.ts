@@ -1,6 +1,4 @@
-import {Abstract} from "../abstract/abstract.model";
-import {Endereco} from "../endereco/endereco.model";
-import {Dispositivo} from "../avaliacao/dispositivo.model";
+import {Abstract} from '../abstract/abstract.model';
 
 export class Plano extends Abstract {
 

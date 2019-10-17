@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Usuario} from '../entity/usuario/usuario.model';
-import {FileRepository} from '../../infrastructure/repository/file/file.repository';
-import {ContaRepository} from '../repository/conta.repository';
-import {Conta} from '../entity/usuario/conta.model';
-import {environment} from "../../../environments/environment";
-import {ConfiguracaoRepository} from "../repository/configuracao.repository";
+import {ContaRepository} from '@src/web/domain/repository/conta.repository';
+import {FileRepository} from '@src/web/infrastructure/repository/file/file.repository';
+import {ConfiguracaoRepository} from '@src/web/domain/repository/configuracao.repository';
+import {Conta} from '@src/web/domain/entity/usuario/conta.model';
+import {Usuario} from '@src/web/domain/entity/usuario/usuario.model';
+import {environment} from '@src/environments/environment';
 
 /**
  *
@@ -110,15 +110,15 @@ export class ContaService {
     });
 
   }
+
 // Verificar se não pode ser em outro lugar, ou aqui mesmo TODO
   assumirEsquema(esquema: string): Promise<any> {
 
     // Altero o esquema
-    return this.contaRepository.assumirEsquema(esquema).then (() =>
+    return this.contaRepository.assumirEsquema(esquema).then(() =>
 
       // Depois atualizo a configuração;
       this.configuracaoRepository.configuracao
-
     );
 
   }

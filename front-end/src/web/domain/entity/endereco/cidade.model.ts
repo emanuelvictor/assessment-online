@@ -1,4 +1,4 @@
-import {Estado} from "./estado.model";
+import {Estado} from './estado.model';
 import {Abstract} from '../abstract/abstract.model';
 
 export class Cidade extends Abstract {

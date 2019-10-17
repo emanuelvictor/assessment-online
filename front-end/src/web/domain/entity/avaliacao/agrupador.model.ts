@@ -1,5 +1,5 @@
 import {Abstract} from '../abstract/abstract.model';
-import {Avaliacao} from "./avaliacao.model";
+import {Avaliacao} from './avaliacao.model';
 
 export class Agrupador extends Abstract {
 

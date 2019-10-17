@@ -1,4 +1,4 @@
-import {Abstract} from "../abstract/abstract.model";
+import {Abstract} from '../abstract/abstract.model';
 
 export class Cupom extends Abstract {
 
@@ -10,7 +10,7 @@ export class Cupom extends Abstract {
   /**
    *
    */
-  public percentualDesconto : number;
+  public percentualDesconto: number;
 
   /**
    *

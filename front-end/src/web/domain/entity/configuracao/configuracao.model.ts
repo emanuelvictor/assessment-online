@@ -1,5 +1,5 @@
-import {Abstract} from "../abstract/abstract.model";
-import {TipoFeedback} from "./tipo-feedback.enum";
+import {Abstract} from '../abstract/abstract.model';
+import {TipoFeedback} from './tipo-feedback.enum';
 
 export class Configuracao extends Abstract {
   /**

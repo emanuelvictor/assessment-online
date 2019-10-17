@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Unidade} from '../entity/unidade/unidade.model';
-import {UnidadeRepository} from '../repository/unidade.repository';
+import {UnidadeRepository} from '@src/web/domain/repository/unidade.repository';
+import {Unidade} from '@src/web/domain/entity/unidade/unidade.model';
 
 /**
  *
@@ -64,14 +64,6 @@ export class UnidadeService {
    */
   public delete(unidadeId: number): Promise<void> {
     return this.unidadeRepository.delete(unidadeId);
-  }
-
-  /**
-   *
-   * @param unidadeId
-   */
-  public getHashsByUnidadeId(unidadeId: number): Observable<string[]> {
-    return this.unidadeRepository.getHashsByUnidadeId(unidadeId);
   }
 
   /**

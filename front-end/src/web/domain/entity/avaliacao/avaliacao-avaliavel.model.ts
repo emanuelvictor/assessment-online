@@ -1,6 +1,6 @@
 import {Abstract} from '../abstract/abstract.model';
 import {Avaliacao} from './avaliacao.model';
-import {Avaliavel} from "../usuario/vinculo/avaliavel.model";
+import {Avaliavel} from '../usuario/vinculo/avaliavel.model';
 
 export class AvaliacaoAvaliavel extends Abstract {
 

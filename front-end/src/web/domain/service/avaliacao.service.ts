@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Avaliacao} from '../entity/avaliacao/avaliacao.model';
-import 'rxjs/Rx';
-import {AvaliacaoRepository} from '../repository/avaliacao.repository';
-import {AvaliacaoAvaliavelRepository} from '../repository/avaliacao-avaliavel-repository.service';
+import {AvaliacaoAvaliavelRepository} from '@src/web/domain/repository/avaliacao-avaliavel-repository.service';
+import {AvaliacaoRepository} from '@src/web/domain/repository/avaliacao.repository';
+import {Avaliacao} from '@src/web/domain/entity/avaliacao/avaliacao.model';
 
 @Injectable()
 export class AvaliacaoService {

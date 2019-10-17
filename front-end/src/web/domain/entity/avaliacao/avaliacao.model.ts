@@ -1,6 +1,6 @@
 import {Abstract} from '../abstract/abstract.model';
-import {AvaliacaoAvaliavel} from "./avaliacao-avaliavel.model";
-import {Agrupador} from "./agrupador.model";
+import {AvaliacaoAvaliavel} from './avaliacao-avaliavel.model';
+import {Agrupador} from './agrupador.model';
 
 export class Avaliacao extends Abstract {
 

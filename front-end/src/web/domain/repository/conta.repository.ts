@@ -4,7 +4,7 @@ import {Usuario} from '../entity/usuario/usuario.model';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
 import {Conta} from '../entity/usuario/conta.model';
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
 
 
 @Injectable()

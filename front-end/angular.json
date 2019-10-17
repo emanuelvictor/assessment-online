@@ -2,13 +2,20 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
+  "cli": {
+    "defaultCollection": "@nativescript/schematics"
+  },
   "projects": {
     "web": {
       "root": "web",
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "web",
-      "schematics": {},
+      "schematics": {
+        "@nativescript/schematics:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -17,14 +24,14 @@
             "index": "src/web/index.html",
             "main": "src/web/application/web-main.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/assets/favicon.ico",
               "src/assets"
             ],
             "styles": [
               "./node_modules/@covalent/core/common/platform.scss",
-              "src/web/application/web-theme.scss",
+              "src/web/application/theming/web-theme.scss",
               "./node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
               "src/assets/styles/nprogress.css",
               "src/assets/styles/cropper.css"
@@ -77,14 +84,14 @@
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/web/application/theming/web-theme.scss"
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
+              "src/assets/favicon.ico",
               "src/assets"
             ]
           }
@@ -93,8 +100,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "tsconfig.app.json",
+              "tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -108,28 +115,32 @@
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "mobile",
-      "schematics": {},
+      "schematics": {
+        "@nativescript/schematics:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "../mobile/www",
+            "outputPath": "dist/mobile",
             "index": "src/mobile/index.html",
             "main": "src/mobile/application/mobile-main.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/assets/favicon.ico",
               "src/assets"
             ],
             "styles": [
               "./node_modules/@covalent/core/common/platform.scss",
-              "src/mobile/application/mobile-theme.scss",
+              "src/mobile/application/theming/mobile-theme.scss",
               "./node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
               "src/assets/styles/nprogress.css"
             ],
             "scripts": [
-              "./node_modules/nprogress/nprogress.js"
+              "src/assets/scripts/nprogress.js"
             ]
           },
           "configurations": {
@@ -138,40 +149,6 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            },
-            "prod.mobile": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.mobile.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
-            },
-            "dev.mobile": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev.mobile.ts"
                 }
               ],
               "optimization": true,
@@ -208,14 +185,14 @@
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/mobile/application/theming/mobile-theme.scss"
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
+              "src/assets/favicon.ico",
               "src/assets"
             ]
           }
@@ -224,9 +201,36 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "tsconfig.app.json",
+              "tsconfig.spec.json"
             ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "mobile-e2e": {
+      "root": "e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "mobile:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "mobile:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]
@@ -235,5 +239,5 @@
       }
     }
   },
-  "defaultProject": "web"
+  "defaultProject": "mobile"
 }

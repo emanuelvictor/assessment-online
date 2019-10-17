@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Usuario} from '../entity/usuario/usuario.model';
-import {FileRepository} from '../../infrastructure/repository/file/file.repository';
 import {MatSnackBar} from '@angular/material';
-import {UsuarioRepository} from '../repository/usuario.repository';
-import {FotoLoadingComponent} from '../presentation/controls/foto-loading/foto-loading.component';
-import {environment} from "../../../environments/environment";
+import {FileRepository} from '@src/web/infrastructure/repository/file/file.repository';
+import {UsuarioRepository} from '@src/web/domain/repository/usuario.repository';
+import {Usuario} from '@src/web/domain/entity/usuario/usuario.model';
+import {FotoLoadingComponent} from '@src/web/application/presentation/controls/foto-loading/foto-loading.component';
+import {environment} from '@src/environments/environment';
 
 /**
  *
@@ -82,10 +82,11 @@ export class UsuarioService {
     delete toSave.fotoPath;
 
     return new Promise((resolve, reject) => {
-      if (arquivoFile)
+      if (arquivoFile) {
         this.snackBar.openFromComponent(FotoLoadingComponent, {
           duration: 60000,
         });
+      }
 
       this.usuarioRepository.save(toSave)
         .then(result => {
@@ -114,9 +115,9 @@ export class UsuarioService {
                   console.log(error);
                   reject(error);
                 });
+            } else {
+              resolve(result);
             }
-
-            else resolve(result);
 
           }
 

@@ -2,21 +2,20 @@
  * Created by emanuel on 13/06/17.
  */
 import {Injectable} from '@angular/core';
-import {Unidade} from '../../../web/domain/entity/unidade/unidade.model';
-import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from "@angular/router";
-import {TdLoadingService} from "@covalent/core";
-import {ConfiguracaoRepository} from "../../../web/domain/repository/configuracao.repository";
-import {Configuracao} from "../../../web/domain/entity/configuracao/configuracao.model";
-import {Agrupador} from "../../../web/domain/entity/avaliacao/agrupador.model";
-import {DispositivoRepository} from "../../../web/domain/repository/dispositivo.repository";
-import {Dispositivo} from "../../../web/domain/entity/avaliacao/dispositivo.model";
-import {WebSocketSubject} from "rxjs/webSocket";
-import {Observable} from "rxjs";
-import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {LocalStorage} from "../../../web/infrastructure/local-storage/local-storage";
-import {CookieService} from "ngx-cookie-service";
-import {TOKEN_NAME} from "../../../web/domain/presentation/controls/utils";
+import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
+import {TdLoadingService} from '@covalent/core';
+import {WebSocketSubject} from 'rxjs/webSocket';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {CookieService} from 'ngx-cookie-service';
+import {Agrupador} from '@src/web/domain/entity/avaliacao/agrupador.model';
+import {Dispositivo} from '@src/web/domain/entity/avaliacao/dispositivo.model';
+import {Configuracao} from '@src/web/domain/entity/configuracao/configuracao.model';
+import {DispositivoRepository} from '@src/web/domain/repository/dispositivo.repository';
+import {ConfiguracaoRepository} from '@src/web/domain/repository/configuracao.repository';
+import {LocalStorage} from '@src/web/infrastructure/local-storage/local-storage';
+import {environment} from '@src/environments/environment';
+import {TOKEN_NAME} from '@src/web/application/presentation/controls/utils';
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -29,7 +28,7 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  private _numeroSerie: string = '234537';
+  private _numeroSerie = '234537';
 
   /**
    *
@@ -51,6 +50,8 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   private _timeout: number;
 
+  _webSocketSubject: WebSocketSubject<Dispositivo>;
+
   /**
    *
    * @param _httpClient
@@ -66,7 +67,56 @@ export class MobileService implements CanActivate, CanActivateChild {
               private _localStorage: LocalStorage, private _cookieService: CookieService, private _loadingService: TdLoadingService) {
   }
 
-  _webSocketSubject: WebSocketSubject<Dispositivo>;
+  // ------------- Timeout --------------
+
+  /**
+   *
+   * @param fun
+   * @param time
+   */
+  public static setTimeout(fun: () => {}, time?): any {
+    return setTimeout(fun, time ? time : 30000)
+  }
+
+  /**
+   *
+   * @param fun
+   * @param time
+   */
+  public createTimeout(fun: () => {}, time?: number): number {
+    return MobileService.setTimeout(fun, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
+  }
+
+  /**
+   * Zera o timeout, e volta para tela inicial
+   */
+  public restartTimeout(time?: number): number {
+
+    // Limpa o timeout
+    if (this._timeout) {
+      this.clearTimeout();
+    }
+
+    // Cria um novo timeout
+    this._timeout = this.createTimeout(() => {
+
+      // Reseta os objetos de domínio
+      this.agrupador = new Agrupador();
+      this._router.navigate(['avaliar/' + this._dispositivo.numeroLicenca]);
+      this._loadingService.resolve('overlayStarSyntax');
+      return time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000)
+    }, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
+
+    //
+    return this._timeout
+  }
+
+  /**
+   * Mata o timeout
+   */
+  public clearTimeout(): void {
+    clearTimeout(this._timeout)
+  }
 
   /**
    *
@@ -84,7 +134,7 @@ export class MobileService implements CanActivate, CanActivateChild {
             this.agrupador = new Agrupador();
             this.dispositivo = new Dispositivo();
             this._router.navigate(['configuracoes'])
-          }).catch((error) => {
+          }).catch(() => {
             this.destroyCookies();
             this.agrupador = new Agrupador();
             this.dispositivo = new Dispositivo();
@@ -228,56 +278,6 @@ export class MobileService implements CanActivate, CanActivateChild {
     if (window['cookieEmperor']) {
       window['cookieEmperor'].getCookie(environment.endpoint, TOKEN_NAME, (data) => that._localStorage.token = data.cookieValue, (error) => console.log('error: ' + error))
     }
-  }
-
-  // ------------- Timeout --------------
-  /**
-   *
-   * @param fun
-   * @param time
-   */
-  public createTimeout(fun: () => {}, time?: number): number {
-    return MobileService.setTimeout(fun, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
-  }
-
-  /**
-   *
-   * @param fun
-   * @param time
-   */
-  public static setTimeout(fun: () => {}, time?): number {
-    return setTimeout(fun, time ? time : 30000);
-  }
-
-  /**
-   * Zera o timeout, e volta para tela inicial
-   */
-  public restartTimeout(time?: number): number {
-
-    // Limpa o timeout
-    if (this._timeout) {
-      this.clearTimeout();
-    }
-
-    // Cria um novo timeout
-    this._timeout = this.createTimeout(() => {
-
-      // Reseta os objetos de domínio
-      this.agrupador = new Agrupador();
-      this._router.navigate(['avaliar/' + this._dispositivo.numeroLicenca]);
-      this._loadingService.resolve('overlayStarSyntax');
-      return time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000)
-    }, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
-
-    //
-    return this._timeout
-  }
-
-  /**
-   * Mata o timeout
-   */
-  public clearTimeout(): void {
-    clearTimeout(this._timeout)
   }
 
   // ------------- Loading --------------

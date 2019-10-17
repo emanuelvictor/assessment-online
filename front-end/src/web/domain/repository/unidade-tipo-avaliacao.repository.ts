@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BaseRepository} from '../../infrastructure/repository/base/base.repository';
 import {HttpClient} from '@angular/common/http';
-import {UnidadeTipoAvaliacao} from "../entity/avaliacao/unidade-tipo-avaliacao.model";
-import {Observable} from "rxjs/Rx";
-import {PageSerialize} from "../../infrastructure/page-serialize/page-serialize";
+import {UnidadeTipoAvaliacao} from '../entity/avaliacao/unidade-tipo-avaliacao.model';
+import {Observable} from 'rxjs/Rx';
+import {PageSerialize} from '../../infrastructure/page-serialize/page-serialize';
 
 @Injectable()
 export class UnidadeTipoAvaliacaoRepository extends BaseRepository<UnidadeTipoAvaliacao> {
