@@ -14,20 +14,12 @@ i# See http://help.github.com/ignore-files/ for more about ignoring files.
 /bower_components
 
 # Mobile
-/mobile/node_modules
-/mobile/platforms
-/mobile/res
-/mobile/package-lock.json
-/mobile/plugins
-/mobile/www
-
-# Mobile
-/mobile.old/node_modules
-/mobile.old/platforms
-/mobile.old/res
-/mobile.old/package-lock.json
-/mobile.old/plugins
-/mobile.old/www
+/mobile-cordova/node_modules
+/mobile-cordova/platforms
+/mobile-cordova/res
+/mobile-cordova/package-lock.json
+/mobile-cordova/plugins
+/mobile-cordova/www
 
 # IDEs and editors
 /front-end/.idea
