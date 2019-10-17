@@ -119,6 +119,10 @@ public class Assinatura extends AbstractEntity implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Plano plano;
 
+    /**
+     *
+     */
+    private boolean cancelada;
 //    /**
 //     * TODO testar
 //     */

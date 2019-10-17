@@ -38,21 +38,7 @@ public class Fatura extends AbstractEntity implements Serializable {
     private String linkBoleto;
 
     /**
-     *
-     */
-    @Column
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataInicio;
-
-    /**
-     *
-     */
-    @Column
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataTermino;
-
-    /**
-     *
+     * Inserida quando o cara paga
      */
     @Column
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -73,7 +59,21 @@ public class Fatura extends AbstractEntity implements Serializable {
     private Cupom cupom;
 
     /**
-     *
+     * TODO acho que não é necessário
+     */
+    @Column
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataInicio;
+
+    /**
+     * TODO acho que não é necessário
+     */
+    @Column
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataTermino;
+
+    /**
+     * TODO não é necessário
      */
     @NotNull
     @Column(nullable = false)
@@ -87,10 +87,20 @@ public class Fatura extends AbstractEntity implements Serializable {
     }
 
     /**
-     *
      * @param id
      */
     public Fatura(final long id) {
         super(id);
+    }
+
+    /**
+     * @param tenant
+     * @param assinatura
+     */
+    public Fatura(final @NotNull @Length(max = 150) String tenant, final Assinatura assinatura) {
+        this.tenant = tenant;
+        this.assinatura = assinatura;
+        if (this.assinatura.isCancelada())
+            this.status = StatusFatura.CANCELADA;
     }
 }

@@ -10,4 +10,5 @@ public enum StatusFatura {
     EM_CRIACAO,
     EM_ABERTO,
     PAGA,
+    CANCELADA
 }
