@@ -58,27 +58,34 @@ public class Fatura extends AbstractEntity implements Serializable {
     @JoinColumn(name = "cupom_id")
     private Cupom cupom;
 
-    /**
-     * TODO acho que não é necessário
-     */
-    @Column
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataInicio;
+//    /**
+//     * TODO acho que não é necessário
+//     */
+//    @Column
+//    @JsonFormat(pattern = "dd/MM/yyyy")
+//    private LocalDate dataInicio;
+//
+//    /**
+//     * TODO acho que não é necessário
+//     */
+//    @Column
+//    @JsonFormat(pattern = "dd/MM/yyyy")
+//    private LocalDate dataTermino;
+//
+//    /**
+//     * todo DESCENSSÁRIO
+//     */
+//    @NotNull
+//    @Column(nullable = false)
+//    @Enumerated(EnumType.ORDINAL)
+//    private StatusFatura status;
 
     /**
-     * TODO acho que não é necessário
-     */
-    @Column
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataTermino;
-
-    /**
-     * TODO não é necessário
+     *
      */
     @NotNull
     @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    private StatusFatura status;
+    private boolean cancelada;
 
     /**
      *
@@ -100,7 +107,6 @@ public class Fatura extends AbstractEntity implements Serializable {
     public Fatura(final @NotNull @Length(max = 150) String tenant, final Assinatura assinatura) {
         this.tenant = tenant;
         this.assinatura = assinatura;
-        if (this.assinatura.isCancelada())
-            this.status = StatusFatura.CANCELADA;
+        this.cancelada = this.assinatura.isCancelada();
     }
 }

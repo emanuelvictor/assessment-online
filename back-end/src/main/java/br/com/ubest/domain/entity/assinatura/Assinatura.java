@@ -122,6 +122,8 @@ public class Assinatura extends AbstractEntity implements Serializable {
     /**
      *
      */
+    @NotNull
+    @Column(nullable = false)
     private boolean cancelada;
 //    /**
 //     * TODO testar

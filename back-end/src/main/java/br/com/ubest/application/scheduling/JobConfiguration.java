@@ -68,7 +68,7 @@ public class JobConfiguration {
         private final FaturaService faturaService;
 
         public void execute(final JobExecutionContext context) {
-            faturaService.fecharFaturas();
+            faturaService.verificarFaturas();
 //            faturaService.gerarFaturas();
 //            faturaService.executarPagamentos();
         }

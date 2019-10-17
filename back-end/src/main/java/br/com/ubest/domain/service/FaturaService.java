@@ -46,7 +46,7 @@ public class FaturaService {
     /**
      *
      */
-    public void fecharFaturas() {
+    public void verificarFaturas() {
         LOGGER.info("Verificando faturas fechadas");
         tenantDetailsService.getAllTenants().forEach(tenant -> {
             tenantIdentifierResolver.setSchema(tenant);
