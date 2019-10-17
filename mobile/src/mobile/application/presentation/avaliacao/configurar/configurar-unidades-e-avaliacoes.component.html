@@ -22,25 +22,26 @@
           </div>
 
           <div flex layout='row' layout-margin style='margin-top: 34px'>
+
             <mat-form-field flex>
-              <input (ngModelChange)='inputNumeroLicencaChanged($event)'
-                     [(ngModel)]='mobileService.dispositivo.numeroLicenca'
-                     [ngModelOptions]='{standalone: true}' matInput name='numero' noWhiteSpace
+              <input [ngModelOptions]='{standalone: true}'
                      placeholder='Insira o número da licença'
-                     required/>
+                     matInput name='numero' noWhiteSpace required
+                     (ngModelChange)='inputNumeroLicencaChanged($event)'
+                     [(ngModel)]='mobileService.dispositivo.numeroLicenca'/>
             </mat-form-field>
+
           </div>
 
-          <div *ngIf='mobileService?.dispositivo?.interna' flex layout='column'
-               layout-margin>
-
+          <div flex layout='column' layout-margin
+               *ngIf='mobileService?.dispositivo?.interna'>
             <div flex layout='row'>
 
-              <mat-form-field *ngIf='mobileService?.dispositivo?.id' flex>
-                <input (ngModelChange)='inputSenhaChanged($event)'
-                       [(ngModel)]='senha'
-                       [ngModelOptions]='{standalone: true}' matInput name='senha' noWhiteSpace
-                       placeholder='Insira a senha' required/>
+              <mat-form-field flex *ngIf='mobileService?.dispositivo?.id'>
+                <input [ngModelOptions]='{standalone: true}'
+                       (ngModelChange)='inputSenhaChanged($event)'
+                       matInput name='senha' noWhiteSpace required
+                       [(ngModel)]='senha' placeholder='Insira a senha'/>
                 <mat-hint align='end'>Acesse o dispositivo pela plataforma WEB e visualize a senha</mat-hint>
               </mat-form-field>
 
@@ -51,5 +52,6 @@
 
       </mat-card-content>
     </mat-card>
+
   </div>
 </div>
