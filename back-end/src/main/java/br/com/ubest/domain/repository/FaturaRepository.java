@@ -12,6 +12,6 @@ public interface FaturaRepository extends JpaRepository<Fatura, Long> {
     /**
      *
      */
-    @Query("SELECT max(fatura.creted) FROM Fatura fatura ")
+    @Query("SELECT max(fatura.created) FROM Fatura fatura ")
     Optional<Fatura> findLast();
 }

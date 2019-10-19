@@ -50,8 +50,8 @@ alter table assinatura
     add constraint UK_numero_cartao unique (numero_cartao);
 
 -- Inserir assinatura
-INSERT INTO assinatura (id, created)
-VALUES (1, NOW());
+INSERT INTO assinatura (id, created, cancelada)
+VALUES (1, NOW(), false);
 
 alter table dispositivo
     add column assinatura_id bigint not null default 1;
@@ -116,11 +116,11 @@ INSERT INTO public.dispositivo (unidade_id, created, nome, interna, modo_quiosqu
         SELECT (unidade.id) || current_schema(),
                NOW()       AS created,
                pessoa.nome AS nome,
-               false       AS interna,
-               false       AS modo_quiosque,
-               false       AS modo_insonia,
+               true        AS interna,
+               true        AS modo_quiosque,
+               true        AS modo_insonia,
                30          AS time,
-               false       AS quebrar_linha_na_selecao_de_item_avaliavel,
+               true       AS quebrar_linha_na_selecao_de_item_avaliavel,
                current_schema(),
                1
         FROM unidade
