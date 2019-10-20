@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 
+import javax.validation.constraints.AssertTrue;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -265,7 +266,7 @@ public class UsuarioService {
     public Usuario createAccount(final ServerWebExchange exchange, final Usuario usuario) {
 
         // Verifica se não é um robô
-        this.recaptchaService.checkRecaptcha(usuario.getRecap());
+        Assert.isTrue(this.recaptchaService.checkRecaptcha(usuario.getRecap()), "Você é um robô?");
 
         // Verifica se a conta já existe
         if (this.contaRepository.findByEmailIgnoreCase(usuario.getConta().getEmail()) != null)

@@ -31,6 +31,10 @@ public class RecaptchaService {
     public boolean checkRecaptcha(final String recap) {
 
         try {
+
+            if (recap == null)
+                return false;
+
             final String urlGoogle = this.urlToVerify + "?secret=%s&response=%s";
             final String urlFormatada = String.format(urlGoogle, this.secretKey, recap);
             final HttpURLConnection conn = (HttpURLConnection) new URL(urlFormatada).openConnection();

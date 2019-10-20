@@ -42,43 +42,43 @@ export const routes: Routes = [
         {
           path: '', component: ConfigurarUnidadesEAvaliacoesComponent
         },
-        // {
-        //   path: 'authenticate', component: AuthenticateToLogoutComponent
-        // }
+        {
+          path: 'authenticate', component: AuthenticateToLogoutComponent
+        }
       ]
   },
-  // {
-  //   path: 'avaliar', component: AvaliacaoComponent,
-  //   children: [
-  //     {
-  //       path: ':numeroLicenca', component: AvaliarComponent, canActivate: [MobileService],
-  //       children: [
-  //         {path: '', component: SelecionarUnidadeComponent},
-  //         {
-  //           path: ':unidadeId', component: ExecutarAvaliacaoComponent,
-  //           children: [
-  //             {
-  //               path: 'ordem/:ordem', component: SelecionarNotaEItensAvaliaveisComponent,
-  //               children: [
-  //                 {path: '', component: SelecionarNotaComponent},
-  //                 {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
-  //               ]
-  //             },
-  //             {
-  //               path: 'conclusao', component: ConclusaoViewComponent,
-  //               children: [
-  //                 {path: '', component: ConclusaoComponent},
-  //                 {path: 'robot-verify', component: RobotVerifyComponent},
-  //               ]
-  //             },
-  //             {path: 'feedback', component: FeedbackComponent},
-  //           ]
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: 'error', component: MobileErrorComponent
-  // }
+  {
+    path: 'avaliar', component: AvaliacaoComponent,
+    children: [
+      {
+        path: ':numeroLicenca', component: AvaliarComponent, canActivate: [MobileService],
+        children: [
+          {path: '', component: SelecionarUnidadeComponent},
+          {
+            path: ':unidadeId', component: ExecutarAvaliacaoComponent,
+            children: [
+              {
+                path: 'ordem/:ordem', component: SelecionarNotaEItensAvaliaveisComponent,
+                children: [
+                  {path: '', component: SelecionarNotaComponent},
+                  {path: 'selecionar-atendentes', component: SelecionarAtendentesComponent},
+                ]
+              },
+              {
+                path: 'conclusao', component: ConclusaoViewComponent,
+                children: [
+                  {path: '', component: ConclusaoComponent},
+                  {path: 'robot-verify', component: RobotVerifyComponent},
+                ]
+              },
+              {path: 'feedback', component: FeedbackComponent},
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: 'error', component: MobileErrorComponent
+  }
 ];
