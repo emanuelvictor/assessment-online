@@ -34,7 +34,7 @@ export class Assinatura extends Abstract {
   /**
    *
    */
-  public nomeTitularCartao: string;
+  public nomeTitular: string;
 
   /**
    *
@@ -44,12 +44,12 @@ export class Assinatura extends Abstract {
   /**
    *
    */
-  public documentoTitularCartao: string;
+  public documentoTitular: string;
 
   /**
    *
    */
-  public dataNascimentoTitularCartao: any;
+  public dataNascimentoTitular: any;
 
   /**
    *

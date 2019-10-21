@@ -77,7 +77,9 @@ export class DadosPagamentoComponent implements OnInit {
     const formGroup = new FormGroup({
       codigoArea: new FormControl('codigoArea', [obrigatorio('O código de área do número de telefone é obrigatório')]),
       telefone: new FormControl('telefone', [obrigatorio('O telefone é obrigatório')]),
-      diaVencimentoFatura: new FormControl('diaVencimentoFatura', [obrigatorio('Qual é o dia útil para o vencimento da fatura?'), this.diaVencimentoFaturaValidator()])
+      diaVencimentoFatura: new FormControl('diaVencimentoFatura', [obrigatorio('Qual é o dia útil para o vencimento da fatura?'), this.diaVencimentoFaturaValidator()]),
+      nomeTitular: new FormControl('nomeTitular', [obrigatorio('O nome do titular é obrigatório')]),
+      dataNascimentoTitular: new FormControl('dataNascimentoTitular', [this.dataNascimentoTitularValidator()])
     });
 
     if (!this.form) {
@@ -191,6 +193,35 @@ export class DadosPagamentoComponent implements OnInit {
               exception: exception ? exception : 'O dia para o vencimento da fatura devem estar entre o dia 1 e o dia 28'
             };
           }
+        }
+      }
+
+      return null
+    }
+  }
+
+  /**
+   *
+   * @param exception
+   * @param validatorFn
+   */
+  public dataNascimentoTitularValidator(exception?: string, validatorFn?: ValidatorFn): ValidatorFn {
+
+    if (validatorFn) {
+      return validatorFn
+    }
+
+    return (c: AbstractControl): { [key: string]: any } => {
+
+      if (!c || !c.value) {
+        return {
+          exception: exception ? exception : 'Defina uma data'
+        }
+      }
+
+      if (c.value.length < 8) {
+        return {
+          exception: 'Data inválida'
         }
       }
 

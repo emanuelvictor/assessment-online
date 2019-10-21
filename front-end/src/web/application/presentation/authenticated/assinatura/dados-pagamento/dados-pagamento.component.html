@@ -17,10 +17,58 @@
   </div>
 
   <!-- Cartão de crédito -->
-  <cartao *ngIf="assinatura.formaPagamento === 'CARTAO' && publicKey" [@fadeInOut]
-          [assinatura]='assinatura' [form]='form?.controls?.secondFormGroup'
-          [publicKey]='publicKey'>
+  <cartao [@fadeInOut] [publicKey]='publicKey'
+          *ngIf="assinatura.formaPagamento === 'CARTAO' && publicKey"
+          [assinatura]='assinatura' [form]='form?.controls?.secondFormGroup'>
   </cartao>
+
+  <div layout="column">
+    <div layout-gt-xs="row" layout-margin>
+      <mat-form-field flex>
+        <input [(ngModel)]="assinatura.nomeTitular" formControlName='nomeTitular'
+               matInput
+               maxlength="80" name="nomeTitular" placeholder="Nome (impresso no cartão)"
+               required
+               somenteLetras>
+        <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['nomeTitular']?.hasError('exception')">
+          {{form?.controls?.secondFormGroup?.controls['nomeTitular']?.errors?.exception}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div layout="row">
+      <div flex layout='row'>
+        <usuario-pessoa-juridica-form *ngIf='assinatura.souEmpresa' [(documento)]='assinatura.documentoTitular'
+                                      [form]='form'
+                                      flex='20'>
+        </usuario-pessoa-juridica-form>
+
+        <usuario-pessoa-fisica-form *ngIf='!assinatura.souEmpresa' [(documento)]='assinatura.documentoTitular'
+                                    [form]='form'
+                                    flex='20'>
+        </usuario-pessoa-fisica-form>
+
+        <ev-datepicker [(dataInput)]='assinatura.dataNascimentoTitular' style='margin-top: 13px'>
+          <mat-form-field flex>
+            <input [(ngModel)]='assinatura.dataNascimentoTitular'
+                   [textMask]='{mask: masks.date, guide: false}' flex formControlName='dataNascimentoTitular'
+                   id='dataNascimentoTitular'
+                   matInput name='dataNascimentoTitular'
+                   placeholder='Data de nascimento' required/>
+            <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['dataNascimentoTitular']?.hasError('exception')">
+              {{form?.controls?.secondFormGroup?.controls['dataNascimentoTitular']?.errors.exception}}
+            </mat-error>
+          </mat-form-field>
+        </ev-datepicker>
+
+        <mat-checkbox [(ngModel)]='assinatura.souEmpresa'
+                      [ngModelOptions]='{standalone: true}' style='margin-top: 35px; margin-right: 20px; margin-left:30px'>
+          Sou empresa
+        </mat-checkbox>
+      </div>
+
+    </div>
+  </div>
 
   <!-- Boleto -->
   <div layout="row">

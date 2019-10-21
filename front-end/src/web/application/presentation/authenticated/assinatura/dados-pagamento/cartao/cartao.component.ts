@@ -64,8 +64,6 @@ export class CartaoComponent implements OnInit, OnDestroy {
       mesValidade: new FormControl('mesValidade', [obrigatorio('O mês de validade é obrigatório')]),
       anoValidade: new FormControl('anoValidade', [obrigatorio('O ano de validade é obrigatório')]),
       codigoSeguranca: new FormControl('codigoSeguranca', [this.codigoSegurancaObrigatorio('O código de segurança é obrigatório')]),
-      nomeTitularCartao: new FormControl('nomeTitularCartao', [obrigatorio('O nome do titular é obrigatório')]),
-      dataNascimentoTitularCartao: new FormControl('dataNascimentoTitularCartao', [this.dataNascimentoTitularCartaoValidator()])
     });
 
     if (!this.form) {
@@ -118,35 +116,6 @@ export class CartaoComponent implements OnInit, OnDestroy {
           }
         } else if (cc.isValid()) {
           this.assinatura.hash = cc.hash()
-        }
-      }
-
-      return null
-    }
-  }
-
-  /**
-   *
-   * @param exception
-   * @param validatorFn
-   */
-  public dataNascimentoTitularCartaoValidator(exception?: string, validatorFn?: ValidatorFn): ValidatorFn {
-
-    if (validatorFn) {
-      return validatorFn
-    }
-
-    return (c: AbstractControl): { [key: string]: any } => {
-
-      if (!c || !c.value) {
-        return {
-          exception: exception ? exception : 'Defina uma data'
-        }
-      }
-
-      if (c.value.length < 8) {
-        return {
-          exception: 'Data inválida'
         }
       }
 
