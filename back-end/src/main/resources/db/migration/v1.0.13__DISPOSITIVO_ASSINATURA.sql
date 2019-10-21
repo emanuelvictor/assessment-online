@@ -5,6 +5,7 @@ create table if not exists assinatura
     updated                        timestamp,
     primary key (id),
     forma_pagamento                int4      not null DEFAULT 0,
+    payment_gateway_id             varchar(50),
     mes_validade                   varchar(20),
     ano_validade                   varchar(50),
     data_vencimento                timestamp,
@@ -28,6 +29,7 @@ create table if not exists assinatura_aud
     revtype                        int2,
     primary key (id, rev),
     forma_pagamento                int4,
+    payment_gateway_id             varchar(50),
     mes_validade                   varchar(20),
     ano_validade                   varchar(50),
     data_vencimento                timestamp,
@@ -120,7 +122,7 @@ INSERT INTO public.dispositivo (unidade_id, created, nome, interna, modo_quiosqu
                true        AS modo_quiosque,
                true        AS modo_insonia,
                30          AS time,
-               true       AS quebrar_linha_na_selecao_de_item_avaliavel,
+               true        AS quebrar_linha_na_selecao_de_item_avaliavel,
                current_schema(),
                1
         FROM unidade

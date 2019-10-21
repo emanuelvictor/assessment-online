@@ -4,6 +4,7 @@ import br.com.ubest.application.payment.PaymentGatewayConfiguration;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.repository.AssinaturaRepository;
+import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
 import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,12 +25,17 @@ public class AssinaturaResource extends AbstractResource<Assinatura> {
     /**
      *
      */
-    private final PaymentGatewayConfiguration paymentGatewayConfiguration;
+    private final AssinaturaRepository assinaturaRepository;
+
+    /**
+     * TODO mudar o nome da classe
+     */
+    private final IPaymentGatewayRepository gatewayPaymentRepository;
 
     /**
      *
      */
-    private final AssinaturaRepository assinaturaRepository;
+    private final PaymentGatewayConfiguration paymentGatewayConfiguration;
 
     /**
      * @param id         Long
@@ -43,6 +49,10 @@ public class AssinaturaResource extends AbstractResource<Assinatura> {
         assinatura.setId(id);
         if (assinatura.getEndereco().getCidade() != null && assinatura.getEndereco().getCidade().getId() == null)
             assinatura.getEndereco().setCidade(null);
+
+        // Salvo na wirecard
+        assinatura.setPaymentGatewayId(gatewayPaymentRepository.createAccount(assinatura).getPaymentGatewayId());
+
         return Mono.just(this.assinaturaRepository.save(assinatura));
     }
 

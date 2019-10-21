@@ -49,30 +49,30 @@ alter table cupom_aud
 
 create table fatura
 (
-    id              bigserial    not null,
-    created         timestamp    not null,
-    updated         timestamp,
-    cancelada       boolean      not null,
-    data_vencimento date         not null,
-    data_pagamento  date,
-    link_boleto     varchar(255),
-    tenant          varchar(150) not null,
-    assinatura_id   int8         not null,
-    cupom_id        int8,
+    id                 bigserial   not null,
+    created            timestamp   not null,
+    updated            timestamp,
+    cancelada          boolean     not null,
+    data_vencimento    date        not null,
+    data_pagamento     date,
+    link_boleto        varchar(255),
+    tenant             varchar(65) not null,
+    assinatura_id      int8        not null,
+    cupom_id           int8,
     primary key (id)
 );
 create table fatura_aud
 (
-    id              int8 not null,
-    rev             int8 not null,
-    cancelada       boolean,
-    revtype         int2,
-    data_vencimento date,
-    data_pagamento  date,
-    link_boleto     varchar(255),
-    tenant          varchar(255),
-    assinatura_id   int8,
-    cupom_id        int8,
+    id                 int8 not null,
+    rev                int8 not null,
+    cancelada          boolean,
+    revtype            int2,
+    data_vencimento    date,
+    data_pagamento     date,
+    link_boleto        varchar(255),
+    tenant             varchar(65),
+    assinatura_id      int8,
+    cupom_id           int8,
     primary key (id, rev)
 );
 alter table fatura

@@ -32,6 +32,12 @@ public class Assinatura extends AbstractEntity implements Serializable {
      *
      */
     @Column
+    private String paymentGatewayId;
+
+    /**
+     *
+     */
+    @Column
     private String mesValidade;
 
     /**
@@ -139,6 +145,77 @@ public class Assinatura extends AbstractEntity implements Serializable {
      */
     public LocalDate getDataVencimentoProximaFatura() {
         return LocalDate.now().withDayOfMonth(this.diaVencimentoFatura).plusMonths(1);
+    }
+
+    /**
+     * @return
+     */
+    @Transient
+    public boolean isCompleted() {
+
+        if (this.endereco == null)
+            return false;
+
+        if (this.endereco.getLogradouro() == null)
+            return false;
+        if (this.endereco.getBairro() == null)
+            return false;
+        if (this.endereco.getCep() == null)
+            return false;
+        if (this.endereco.getNumero() == null)
+            return false;
+
+        if (this.endereco.getCidade() == null)
+            return false;
+        if (this.endereco.getCidade().getNome() == null)
+            return false;
+
+        if (this.endereco.getCidade().getEstado() == null)
+            return false;
+        if (this.endereco.getCidade().getEstado().getNome() == null)
+            return false;
+        if (this.endereco.getCidade().getEstado().getUf() == null)
+            return false;
+
+        if (this.endereco.getCidade().getEstado().getPais() == null)
+            return false;
+        if (this.endereco.getCidade().getEstado().getPais().getNome() == null)
+            return false;
+
+        if (this.codigoArea == null)
+            return false;
+        if (this.telefone == null)
+            return false;
+
+        if (this.plano == null)
+            return false;
+
+        if (this.formaPagamento == null)
+            return false;
+
+        if (this.formaPagamento.equals(FormaPagamento.CARTAO)) {
+            if (this.hash == null)
+                return false;
+            if (this.documentoTitularCartao == null)
+                return false;
+            if (this.dataNascimentoTitularCartao == null)
+                return false;
+            if (this.numeroCartao == null)
+                return false;
+            if (this.nomeTitularCartao == null)
+                return false;
+            return this.anoValidade != null;
+        }
+
+        return true;
+    }
+
+    /**
+     * @return
+     */
+    @Transient
+    public boolean isTransactioned() {
+        return isCompleted() && paymentGatewayId != null;
     }
 
 }

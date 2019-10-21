@@ -21,11 +21,11 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Data
 @Entity
 @Audited
+@EqualsAndHashCode(callSuper = true)
 @Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
         @UniqueConstraint(columnNames = {"nome", "pais_id"})
 })
-@EqualsAndHashCode(callSuper = true)
-class Estado extends AbstractEntity implements Serializable {
+public class Estado extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 8414044637595122330L;
 
