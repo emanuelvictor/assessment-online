@@ -73,7 +73,7 @@ public class Assinatura extends AbstractEntity implements Serializable {
      *
      */
     @Column
-    private String nomeTitularCartao;
+    private String nomeTitular;
 
     /**
      *
@@ -85,14 +85,14 @@ public class Assinatura extends AbstractEntity implements Serializable {
      *
      */
     @Column
-    private String documentoTitularCartao;
+    private String documentoTitular;
 
     /**
      *
      */
     @Column
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataNascimentoTitularCartao;
+    private LocalDate dataNascimentoTitular;
 
     /**
      *
@@ -196,13 +196,13 @@ public class Assinatura extends AbstractEntity implements Serializable {
         if (this.formaPagamento.equals(FormaPagamento.CARTAO)) {
             if (this.hash == null)
                 return false;
-            if (this.documentoTitularCartao == null)
+            if (this.documentoTitular == null)
                 return false;
-            if (this.dataNascimentoTitularCartao == null)
+            if (this.dataNascimentoTitular == null)
                 return false;
             if (this.numeroCartao == null)
                 return false;
-            if (this.nomeTitularCartao == null)
+            if (this.nomeTitular == null)
                 return false;
             return this.anoValidade != null;
         }

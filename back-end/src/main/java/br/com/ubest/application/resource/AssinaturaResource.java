@@ -1,10 +1,8 @@
 package br.com.ubest.application.resource;
 
-import br.com.ubest.application.payment.PaymentGatewayConfiguration;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.usuario.Perfil;
-import br.com.ubest.domain.repository.AssinaturaRepository;
-import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
+import br.com.ubest.domain.service.AssinaturaService;
 import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,17 +23,7 @@ public class AssinaturaResource extends AbstractResource<Assinatura> {
     /**
      *
      */
-    private final AssinaturaRepository assinaturaRepository;
-
-    /**
-     * TODO mudar o nome da classe
-     */
-    private final IPaymentGatewayRepository gatewayPaymentRepository;
-
-    /**
-     *
-     */
-    private final PaymentGatewayConfiguration paymentGatewayConfiguration;
+    private final AssinaturaService assinaturaService;
 
     /**
      * @param id         Long
@@ -47,13 +35,7 @@ public class AssinaturaResource extends AbstractResource<Assinatura> {
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Assinatura> save(@PathVariable("id") long id, @RequestBody final Assinatura assinatura) {
         assinatura.setId(id);
-        if (assinatura.getEndereco().getCidade() != null && assinatura.getEndereco().getCidade().getId() == null)
-            assinatura.getEndereco().setCidade(null);
-
-        // Salvo na wirecard
-        assinatura.setPaymentGatewayId(gatewayPaymentRepository.createAccount(assinatura).getPaymentGatewayId());
-
-        return Mono.just(this.assinaturaRepository.save(assinatura));
+        return Mono.just(this.assinaturaService.save(assinatura));
     }
 
     /**
@@ -62,7 +44,7 @@ public class AssinaturaResource extends AbstractResource<Assinatura> {
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Assinatura> getAssinatura() {
-        return Mono.just(this.assinaturaRepository.findAll().stream().findFirst().orElse(new Assinatura()));
+        return Mono.just(this.assinaturaService.getAssinatura());
     }
 
     /**
@@ -71,7 +53,7 @@ public class AssinaturaResource extends AbstractResource<Assinatura> {
     @GetMapping("public-key")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<String> getPublicKey() {
-        return Mono.just(this.paymentGatewayConfiguration.getPublicKey());
+        return Mono.just(this.assinaturaService.getPublicKey());
     }
 
 }

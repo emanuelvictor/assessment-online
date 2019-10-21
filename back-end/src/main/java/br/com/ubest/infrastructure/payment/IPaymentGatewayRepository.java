@@ -16,17 +16,12 @@ public interface IPaymentGatewayRepository {
     Fatura execute(final Fatura fatura);
 
     /**
+     *
      * @param assinatura
+     * @param conta
      * @return
      */
-	Assinatura createAccount(final Assinatura assinatura);
-
-
-    /**
-     * @param assinatura
-     * @return
-     */
-    Assinatura createBankAccount(final Assinatura assinatura);
+	Assinatura createAccount(final Assinatura assinatura, final Conta conta);
 
 //	/**
 //	 *
