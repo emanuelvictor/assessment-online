@@ -137,8 +137,8 @@ public class Assinatura extends AbstractEntity implements Serializable {
      *
      * @return
      */
-    public LocalDate getDataVencimentoFatura() {
-        return LocalDate.now().withDayOfMonth(this.diaVencimentoFatura);
+    public LocalDate getDataVencimentoProximaFatura() {
+        return LocalDate.now().withDayOfMonth(this.diaVencimentoFatura).plusMonths(1);
     }
 
 }

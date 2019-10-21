@@ -1,12 +1,13 @@
+import 'rxjs/add/operator/distinctUntilChanged';
 import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import 'moment/locale/pt-br';
-import {ConfiguracaoService} from '../../../../../domain/service/configuracao.service';
+import {ConfiguracaoService} from '@src/web/domain/service/configuracao.service';
 import {Subject} from 'rxjs';
-import {Dispositivo} from '../../../../../domain/entity/avaliacao/dispositivo.model';
-import {DispositivoRepository} from '../../../../../domain/repository/dispositivo.repository';
+import {Dispositivo} from '@src/web/domain/entity/avaliacao/dispositivo.model';
+import {DispositivoRepository} from '@src/web/domain/repository/dispositivo.repository';
 
 @Component({
   selector: 'consultar-dispositivos',

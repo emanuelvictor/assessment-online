@@ -1,10 +1,11 @@
+import 'rxjs/add/operator/distinctUntilChanged';
 import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Usuario} from '../../../../../domain/entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
-
+import 'rxjs/add/operator/distinctUntilChanged';
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
 import {Configuracao} from '../../../../../domain/entity/configuracao/configuracao.model';

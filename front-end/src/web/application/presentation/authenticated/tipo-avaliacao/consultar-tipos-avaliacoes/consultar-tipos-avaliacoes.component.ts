@@ -1,15 +1,16 @@
+import 'rxjs/add/operator/distinctUntilChanged';
 import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {UnidadeService} from '../../../../../domain/service/unidade.service';
+import {UnidadeService} from '@src/web/domain/service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import 'moment/locale/pt-br';
-import {Configuracao} from '../../../../../domain/entity/configuracao/configuracao.model';
-import {ConfiguracaoService} from '../../../../../domain/service/configuracao.service';
-import {UsuarioService} from '../../../../../domain/service/usuario.service';
-import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
+import {Configuracao} from '@src/web/domain/entity/configuracao/configuracao.model';
+import {ConfiguracaoService} from '@src/web/domain/service/configuracao.service';
+import {UsuarioService} from '@src/web/domain/service/usuario.service';
+import {TipoAvaliacaoRepository} from '@src/web/domain/repository/tipo-avaliacao.repository';
 import {Subject} from 'rxjs';
-import {TipoAvaliacao} from '../../../../../domain/entity/avaliacao/tipo-avaliacao.model';
+import {TipoAvaliacao} from '@src/web/domain/entity/avaliacao/tipo-avaliacao.model';
 
 @Component({
   selector: 'consultar-tipos-avaliacoes',

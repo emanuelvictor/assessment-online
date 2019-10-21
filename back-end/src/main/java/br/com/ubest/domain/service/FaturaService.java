@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-
 @Service
 @RequiredArgsConstructor
 public class FaturaService {
@@ -47,40 +45,48 @@ public class FaturaService {
      *
      */
     public void verificarFaturas() {
-        LOGGER.info("Verificando faturas fechadas");
+        // Percorre todos os tenant's
         tenantDetailsService.getAllTenants().forEach(tenant -> {
+
+            LOGGER.info("Verificando faturas fechadas do cliente: " + tenant);
+
+            // Seta o tennnt
             tenantIdentifierResolver.setSchema(tenant);
 
+            // Pega a assinatura
             final Assinatura assinatura = assinaturaRepository.findAll().stream().findFirst().orElseThrow();
-            if (LocalDate.now().isAfter(assinatura.getDataVencimentoFatura())) {
 
-                final var ultimaFatura = this.faturaRepository.findLast();
+            // Pego a última fatura em aberto
+            this.faturaRepository.findLastByTenant(tenant).stream().findFirst().ifPresentOrElse(ultimaFatura -> {
 
-                ultimaFatura.ifPresentOrElse(fatura -> {
-                    if (fatura.getDataPagamento() != null) {
-                        this.inserirFatura(new Fatura(tenant, assinatura));
-                    }
-                }, () -> {
-                    this.inserirPrimeiraFatura(new Fatura(tenant, assinatura));
-                });
-            }
+                        // Já tem uma fatura criada para 30 dias (ou u mês) do dia da assinatura? Se não, continua o fluxo de criação.
+                        if (!ultimaFatura.getDataVencimento().isEqual(assinatura.getDataVencimentoProximaFatura())) {
 
+                            // Então a última fatura, foi paga? Se sim, cria a próxima fatura
+                            if (ultimaFatura.getDataPagamento() != null) {
+                                this.inserirProximaFatura(new Fatura(tenant, assinatura));
+                            }
+
+                            // Se a fatura anterior não foi paga, então tenta executar a mesma.
+                            else this.executarFatura(ultimaFatura);
+                        }
+
+//                        // Se a última fatura foi paga, então gera uma próxima fatura
+//                        if (ultimaFatura.getDataPagamento() != null) {
+//                            // A última fatura paga deve estar á 30 dias anteriores
+//                            if ((LocalDate.now().isAfter(assinatura.getDataVencimentoProximaFatura().minusMonths(1))))
+//                                this.inserirProximaFatura(new Fatura(tenant, assinatura));
+//                        }
+//                        // Se a última fatura não foi paga, então tenta executar
+//                        else this.executarFatura(ultimaFatura);
+
+                    },
+
+                    // Se não há primeira fatura, insiro a primeira
+                    () -> this.inserirPrimeiraFatura(new Fatura(tenant, assinatura))
+
+            );
         });
-//        LOGGER.info("Verificando fornecedores vencidos");
-//        final List<Fornecedor> fornecedoresVencidos = this.fornecedorRepository.listFornecedoresAVencer(LocalDateTime.now().plusYears(-1), LocalDateTime.now().plusYears(-1).plusMonths(1));
-//
-//        if (!fornecedoresVencidos.isEmpty()) {
-//
-//            LOGGER.info(fornecedoresVencidos.size() + " fornecedores vencidos encontrados!");
-//            LOGGER.info("Enviando e-mail para os seguintes fornecedores" + fornecedoresVencidos.stream().map(fornecedor -> fornecedor.getUsuario().getEmail()).collect(Collectors.joining(",")));
-//
-//            fornecedoresVencidos.forEach(fornecedor -> {
-//
-//                this.fornecedorMailRepository.sendMailToFornecedoresVencidos(fornecedor, this.url);
-//
-//                this.fornecedorRepository.updateSentEmailVencido(fornecedor.getId());
-//            });
-//        }
     }
 
     /**
@@ -88,7 +94,18 @@ public class FaturaService {
      * @return
      */
     @Transactional
-    Fatura inserirFatura(final Fatura fatura) {
+    Fatura executarFatura(final Fatura fatura) {
+        LOGGER.info("Executando fatura");
+        fatura.setDataPagamento(fatura.getCreated().plusMonths(1).toLocalDate());
+        return this.faturaRepository.save(fatura);
+    }
+
+    /**
+     * @param fatura
+     * @return
+     */
+    @Transactional
+    Fatura inserirProximaFatura(final Fatura fatura) {
         LOGGER.info("Inserindo próxima fatura");
         return this.faturaRepository.save(fatura);
     }

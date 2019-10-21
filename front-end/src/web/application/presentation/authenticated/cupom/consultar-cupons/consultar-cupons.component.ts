@@ -1,11 +1,12 @@
+import 'rxjs/add/operator/distinctUntilChanged';
 import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import 'moment/locale/pt-br';
 import {Subject} from 'rxjs';
-import {Cupom} from '../../../../../domain/entity/assinatura/cupom.model';
-import {CupomRepository} from '../../../../../domain/repository/cupom.repository';
+import {Cupom} from '@src/web/domain/entity/assinatura/cupom.model';
+import {CupomRepository} from '@src/web/domain/repository/cupom.repository';
 
 @Component({
   selector: 'consultar-cupons',

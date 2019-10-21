@@ -40,6 +40,14 @@ public class Fatura extends AbstractEntity implements Serializable {
     /**
      * Inserida quando o cara paga
      */
+    @NotNull
+    @Column(nullable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataVencimento;
+
+    /**
+     * Inserida quando o cara paga
+     */
     @Column
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataPagamento;
@@ -107,6 +115,7 @@ public class Fatura extends AbstractEntity implements Serializable {
     public Fatura(final @NotNull @Length(max = 150) String tenant, final Assinatura assinatura) {
         this.tenant = tenant;
         this.assinatura = assinatura;
-        this.cancelada = this.assinatura.isCancelada();
+        this.dataVencimento = assinatura.getDataVencimentoProximaFatura();
+        this.cancelada = assinatura.isCancelada();
     }
 }

@@ -1,22 +1,22 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {UnidadeService} from '../../../../../domain/service/unidade.service';
-import {Unidade} from '../../../../../domain/entity/unidade/unidade.model';
+import {UnidadeService} from '@src/web/domain/service/unidade.service';
+import {Unidade} from '@src/web/domain/entity/unidade/unidade.model';
 import {DomSanitizer} from '@angular/platform-browser';
 import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
 import {textMasks} from '../../../controls/text-masks/text-masks';
-
+import 'rxjs/add/operator/distinctUntilChanged';
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
-import {Configuracao} from '../../../../../domain/entity/configuracao/configuracao.model';
-import {ConfiguracaoService} from '../../../../../domain/service/configuracao.service';
-import {AuthenticationService} from '../../../../../domain/service/authentication.service';
+import {Configuracao} from '@src/web/domain/entity/configuracao/configuracao.model';
+import {ConfiguracaoService} from '@src/web/domain/service/configuracao.service';
+import {AuthenticationService} from '@src/web/domain/service/authentication.service';
 import {viewAnimation} from '../../../controls/utils';
-import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
+import {TipoAvaliacaoRepository} from '@src/web/domain/repository/tipo-avaliacao.repository';
 import {Subject} from 'rxjs';
-import {TipoAvaliacao} from '../../../../../domain/entity/avaliacao/tipo-avaliacao.model';
+import {TipoAvaliacao} from '@src/web/domain/entity/avaliacao/tipo-avaliacao.model';
 import {ActivatedRoute} from '@angular/router';
-import {LocalStorage} from '../../../../../infrastructure/local-storage/local-storage';
+import {LocalStorage} from '@src/web/infrastructure/local-storage/local-storage';
 
 @Component({
   selector: 'consultar-unidades',
@@ -99,6 +99,7 @@ export class ConsultarUnidadesComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   /**
+   *
    */
   @ViewChild('dataInicio', {static: false}) dataInicio: EvDatepicker;
 
@@ -112,6 +113,7 @@ export class ConsultarUnidadesComponent implements OnInit {
    */
   @ViewChild('tiposAvaliacoesInput', {static: false}) tiposAvaliacoesInput: ElementRef<HTMLInputElement>;
   filteredTiposAvaliacoesAsync: string[];
+
   /**
    *
    */
@@ -119,11 +121,13 @@ export class ConsultarUnidadesComponent implements OnInit {
   defaultFilter: any;
   enderecoFilter: any;
   tiposAvaliacoesFilter: any;
+
   /**
    *
    * @type {Subject<string>}
    */
   private defaultFilterModelChanged: Subject<string> = new Subject<string>();
+
   /**
    *
    * @type {Subject<string>}
@@ -159,9 +163,7 @@ export class ConsultarUnidadesComponent implements OnInit {
     this.iconRegistry.addSvgIconInNamespace('assets', 'otimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/otimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'media', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/baseline-bar_chart-24px.svg'));
 
-    /**
-     *
-     */
+    //
     this.defaultFilterModelChanged.debounceTime(500).distinctUntilChanged().subscribe(model => {
       const pageRequest: any = Object.assign({}, this.pageRequest);
       pageRequest.page = 0;

@@ -1,16 +1,17 @@
+import 'rxjs/add/operator/distinctUntilChanged';
 import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {UsuarioService} from '../../../../../domain/service/usuario.service';
+import {UsuarioService} from '@src/web/domain/service/usuario.service';
 import {DomSanitizer} from '@angular/platform-browser';
-import {UnidadeService} from '../../../../../domain/service/unidade.service';
+import {UnidadeService} from '@src/web/domain/service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import 'moment/locale/pt-br';
 import {viewAnimation} from '../../../controls/utils';
-import {ContaService} from '../../../../../domain/service/conta.service';
-import {Conta} from '../../../../../domain/entity/usuario/conta.model';
+import {ContaService} from '@src/web/domain/service/conta.service';
+import {Conta} from '@src/web/domain/entity/usuario/conta.model';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
-import {LocalStorage} from '../../../../../infrastructure/local-storage/local-storage';
+import {LocalStorage} from '@src/web/infrastructure/local-storage/local-storage';
 
 @Component({
   selector: 'consultar-clientes',

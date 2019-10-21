@@ -1,12 +1,13 @@
+import 'rxjs/add/operator/distinctUntilChanged';
 import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import 'moment/locale/pt-br';
-import {ConfiguracaoService} from '../../../../../domain/service/configuracao.service';
+import {ConfiguracaoService} from '@src/web/domain/service/configuracao.service';
 import {Subject} from 'rxjs';
-import {FaturaRepository} from '../../../../../domain/repository/fatura.repository';
-import {Fatura} from '../../../../../domain/entity/assinatura/fatura.model';
+import {FaturaRepository} from '@src/web/domain/repository/fatura.repository';
+import {Fatura} from '@src/web/domain/entity/assinatura/fatura.model';
 
 @Component({
   selector: 'consultar-faturas',

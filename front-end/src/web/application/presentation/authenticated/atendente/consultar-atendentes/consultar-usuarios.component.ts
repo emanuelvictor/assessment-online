@@ -1,21 +1,21 @@
 import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {UsuarioService} from '../../../../../domain/service/usuario.service';
-import {Usuario} from '../../../../../domain/entity/usuario/usuario.model';
+import {UsuarioService} from '@src/web/domain/service/usuario.service';
+import {Usuario} from '@src/web/domain/entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
-import {UnidadeService} from '../../../../../domain/service/unidade.service';
+import {UnidadeService} from '@src/web/domain/service/unidade.service';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
-
+import 'rxjs/add/operator/distinctUntilChanged';
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
-import {Configuracao} from '../../../../../domain/entity/configuracao/configuracao.model';
-import {ConfiguracaoService} from '../../../../../domain/service/configuracao.service';
+import {Configuracao} from '@src/web/domain/entity/configuracao/configuracao.model';
+import {ConfiguracaoService} from '@src/web/domain/service/configuracao.service';
 import {viewAnimation} from '../../../controls/utils';
-import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
-import {Unidade} from '../../../../../domain/entity/unidade/unidade.model';
+import {TipoAvaliacaoRepository} from '@src/web/domain/repository/tipo-avaliacao.repository';
+import {Unidade} from '@src/web/domain/entity/unidade/unidade.model';
 import {Subject} from 'rxjs';
-import {TipoAvaliacao} from '../../../../../domain/entity/avaliacao/tipo-avaliacao.model';
+import {TipoAvaliacao} from '@src/web/domain/entity/avaliacao/tipo-avaliacao.model';
 
 @Component({
   selector: 'consultar-usuarios',
