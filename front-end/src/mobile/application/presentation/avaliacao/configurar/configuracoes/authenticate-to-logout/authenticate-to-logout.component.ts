@@ -8,6 +8,7 @@ import {viewAnimation} from '@src/web/application/presentation/controls/utils';
 import {environment} from '@src/environments/environment';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {Agrupador} from '@src/web/domain/entity/avaliacao/agrupador.model';
+import {Dispositivo} from "@src/web/domain/entity/avaliacao/dispositivo.model";
 
 @Component({
   selector: 'authenticate-to-logout',
@@ -88,6 +89,7 @@ export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
 
         this.mobileService.logout(model).then(() => {
           this.mobileService.agrupador = new Agrupador();
+          this.mobileService.dispositivo = new Dispositivo();
 
           // Resolve o loading
           this.mobileService.resolve('overlayStarSyntax');

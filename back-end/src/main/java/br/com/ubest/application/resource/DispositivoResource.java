@@ -152,7 +152,7 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
      * @return
      */
     @GetMapping("{numeroSerie}/desvincular")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.DISPOSITIVO_VALUE + "')")
     Mono<Optional<Dispositivo>> desvincular(@PathVariable final String numeroSerie) {
         return Mono.just(Optional.of(this.dispositivoService.desvincular(numeroSerie)));
     }

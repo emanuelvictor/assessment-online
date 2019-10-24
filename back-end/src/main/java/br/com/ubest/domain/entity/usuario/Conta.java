@@ -141,19 +141,21 @@ public class Conta extends AbstractEntity implements TenantDetails, Serializable
         final Set<Perfil> authorities = new HashSet<>();
 
         authorities.add(Perfil.ATENDENTE);
+        authorities.add(Perfil.DISPOSITIVO);
 
-        if (getIsOperador())
-            authorities.add(Perfil.OPERADOR);
-
-        if (this.getIsAdministrador()) {
-            authorities.add(Perfil.ADMINISTRADOR);
+        if (getIsOperador()) {
             authorities.add(Perfil.OPERADOR);
         }
 
-        if (this.getIsRoot()) {
-            authorities.add(Perfil.ADMINISTRADOR);
+        if (this.getIsAdministrador()) {
             authorities.add(Perfil.OPERADOR);
+            authorities.add(Perfil.ADMINISTRADOR);
+        }
+
+        if (this.getIsRoot()) {
             authorities.add(Perfil.ROOT);
+            authorities.add(Perfil.OPERADOR);
+            authorities.add(Perfil.ADMINISTRADOR);
         }
 
         return authorities;

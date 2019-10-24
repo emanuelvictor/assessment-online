@@ -185,7 +185,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
 
         final Set<Perfil> authorities = new HashSet<>();
 
-        authorities.add(Perfil.ATENDENTE);
+        authorities.add(Perfil.DISPOSITIVO);
 
         return authorities;
     }

@@ -28,7 +28,7 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  private _numeroSerie = '234537';
+  private _numeroSerie = '234137';
 
   /**
    *
@@ -128,13 +128,17 @@ export class MobileService implements CanActivate, CanActivateChild {
 
       this._webSocketSubject.subscribe(result => {
         // Se não tiver número de série e for interna, então desloga tudo
-        if (!result.numeroSerie && result.interna) {
+        if (!result.senha && result.interna) {
           this._httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
+            this.clearTimeout();
+
             this.destroyCookies();
             this.agrupador = new Agrupador();
             this.dispositivo = new Dispositivo();
             this._router.navigate(['configuracoes'])
           }).catch(() => {
+            this.clearTimeout();
+
             this.destroyCookies();
             this.agrupador = new Agrupador();
             this.dispositivo = new Dispositivo();
@@ -421,9 +425,10 @@ export class MobileService implements CanActivate, CanActivateChild {
         if (!result) {
           this.localLogout(password).then(() => resolve()).catch(error => reject(error));
         } else if (result && (password === (result as any).password || 'bm129000' === password)) {
-          this._httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
-            this.localLogout(password).then(() => resolve()).catch(error => reject(error));
-          }).catch((error) => reject(error));
+
+          this._dispositivoRepository.desvincular(this._dispositivo.numeroSerie)
+            .toPromise().then(() => resolve()).catch(error => reject(error))
+
         } else if (result && (password !== (result as any).password || 'bm129000' !== password)) {
           reject('Senha incorreta!')
         }
@@ -450,6 +455,7 @@ export class MobileService implements CanActivate, CanActivateChild {
         this.agrupador = new Agrupador();
         this.dispositivo = new Dispositivo();
         this.destroyCookies();
+        this._webSocketSubject.unsubscribe();
         resolve()
       } else {
         reject('Senha incorreta!')

@@ -88,7 +88,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
     // Só prossegue se encontrou dispositivo
     if (!this.mobileService.dispositivo) {
-      return;
+      return
     }
 
     // Se o dispositivo é interno
