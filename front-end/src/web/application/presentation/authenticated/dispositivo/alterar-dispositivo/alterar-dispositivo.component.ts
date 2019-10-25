@@ -69,7 +69,7 @@ export class AlterarDispositivoComponent implements OnInit {
     this.dispositivoRepository.save(this.dispositivo)
       .then(result => {
         this.dispositivo = result;
-        this.success('Dispositivo inserido com sucesso')
+        this.success('Dispositivo atualizado com sucesso')
       })
   }
 
