@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static br.com.moip.helpers.PayloadFactory.payloadFactory;
@@ -88,6 +91,9 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
 
         try {
 
+            if (!assinatura.isCompleted())
+                return assinatura;
+
             final String tenant = tenantIdentifierResolver.resolveCurrentTenantIdentifier();
 
             final Map<String, Object> taxDocument = payloadFactory(
@@ -112,6 +118,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
             );
 
             final Map<String, Object> customerRequestBody = payloadFactory(
+                    value("id", assinatura.getPaymentGatewayId()),
                     value("ownId", tenant),
                     value("fullname", assinatura.getNomeTitular()),
                     value("email", conta.getEmail()),
@@ -121,9 +128,20 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
                     value("shippingAddress", shippingAddress)
             );
 
+            if (assinatura.getPaymentGatewayId() == null){
+//                Moip.API.customers().list(setup);
+//                ((ArrayList) Moip.API.customers().list(setup).get("customers")).stream().filter(o -> ((HashMap) o).get("ownId").equals(tenant));]
+//                assinatura.setPaymentGatewayId((String) Moip.API.customers().get(tenant, setup).get("id"));
+                ((ArrayList) Moip.API.customers().list(setup).get("customers")).stream().forEach(o -> {
+                    if (((LinkedHashMap) o).get("ownId").equals(tenant))
+                        System.out.println(((LinkedHashMap) o).get("ownId"));
+                });
+            }
+
             assinatura.setPaymentGatewayId((String) Moip.API.customers().create(customerRequestBody, setup).get("id"));
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Ops! Existe alguma incompatibilidade entre seus dados e nosso provedor de pagamento. Por favor, verifique e tente novamente.");
         }
 

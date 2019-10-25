@@ -97,9 +97,9 @@ google:
 #GATEWAY PAYMENT
 gateway-payment:
   checkout-boleto-uri: https://checkout-sandbox.moip.com.br/boleto/ #todo
-  tfc-moip-account-id: MPA-4C4A976D8BAB #todo
-  app-id: APP-JH1X7M53XT1K #todo
-  access-token: 7f9b6963d3544e6d8d9974f4a092eedc_v2
+  moip-account-id: MPA-4C4A976D8BAB #todo
+  app-id: APP-73E207H60PSG
+  access-token: 6dcb445ebe914958a8d68c7ed3c8d7c0_v2
   # access-token: ab50b7b83b2446249ea5045d0586ebbf_v2  secret: gerado pelo oauth: fb000268955440378d38db5991510c4c
   token: UHITM12AKI5DVUPENUCJE7XWV7UFJGMA
   key: LEWES7PIANC8CBLZK04U7FLCVNWJPMGPGWGABNEW
@@ -117,3 +117,15 @@ gateway-payment:
               awIDAQAB
               -----END PUBLIC KEY-----
 
+
+#  {
+#    "id": "APP-73E207H60PSG",
+#    "website": "https://ubest.com.br",
+#    "accessToken": "6dcb445ebe914958a8d68c7ed3c8d7c0_v2",
+#    "description": "Aplicação de Avaliações Online",
+#    "name": "ubest",
+#    "secret": "41940871b505479683a9d0987e01e6c1",
+#    "redirectUri": "https://ubest.com.br/retorno",
+#    "createdAt": "2019-10-25T20:19:28.237Z",
+#    "updatedAt": "2019-10-25T20:19:28.237Z"
+#  }
