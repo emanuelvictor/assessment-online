@@ -10,7 +10,7 @@
   "scripts": {
     "web": "ng serve --proxy-config proxy.conf.json web --open",
     "mobile": "ng serve --proxy-config proxy.conf.json mobile --port 9000 --open",
-    "build": "node node_modules/.bin/ng build web --prod && node node_modules/.bin/ng build mobile --prod --output-path='../back-end/src/main/resources/public/sistema/mobile'",
+    "build": "ng build web --prod && ng build mobile --prod --output-path='../back-end/src/main/resources/public/sistema/mobile'",
     "build.all": "npm run build && npm run prod.mobile",
     "prod.mobile": "ng build --configuration=prod.mobile --prod mobile",
     "dev.mobile": "node node_modules/.bin/ng build --configuration=dev.mobile --prod mobile",
