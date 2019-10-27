@@ -39,32 +39,77 @@
                  matSort matSortActive='data'
                  matSortDirection='asc' matSortDisableClear>
 
-        <ng-container matColumnDef='nome'>
+        <ng-container matColumnDef='linkBoleto'>
           <mat-header-cell *matHeaderCellDef flex-gt-md='30' flex-md='20' flex-sm='30'
                            flex-xl='30' layout-align='start center' mat-sort-header>
             <div layout='column' layout-margin>
-              Nome
+              Boleto
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let fatura' flex-gt-md='30' flex-md='30' flex-sm='30'
                     flex-xl='30' layout-align='start center'>
             <div layout='column' layout-margin>
-              {{fatura?.nome}}
+              {{fatura?.linkBoleto ? fatura?.linkBoleto : 'Pagamento via cartão'}}
             </div>
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef='publico'>
+        <ng-container matColumnDef='cancelada'>
           <mat-header-cell *matHeaderCellDef flex-gt-md='70' flex-md='70' flex-sm='70'
                            flex-xl='70' layout-align='start center' mat-sort-header>
             <div layout='column' layout-margin>
-              Público
+              Cancelada
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef='let fatura' flex-gt-md='70' flex-md='70' flex-sm='70'
                     flex-xl='70' layout-align='start center'>
             <div layout='column' layout-margin>
-              {{fatura?.publico ? 'Sim' : 'Não'}}
+              {{fatura?.cancelada ? 'Sim' : 'Não'}}
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='created'>
+          <mat-header-cell *matHeaderCellDef flex-gt-md='70' flex-md='70' flex-sm='70'
+                           flex-xl='70' layout-align='start center' mat-sort-header>
+            <div layout='column' layout-margin>
+              Criação
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef='let fatura' flex-gt-md='70' flex-md='70' flex-sm='70'
+                    flex-xl='70' layout-align='start center'>
+            <div layout='column' layout-margin>
+              {{fatura?.created}}
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='dataVencimento'>
+          <mat-header-cell *matHeaderCellDef flex-gt-md='70' flex-md='70' flex-sm='70'
+                           flex-xl='70' layout-align='start center' mat-sort-header>
+            <div layout='column' layout-margin>
+              Data de Vencimento
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef='let fatura' flex-gt-md='70' flex-md='70' flex-sm='70'
+                    flex-xl='70' layout-align='start center'>
+            <div layout='column' layout-margin>
+              {{fatura?.dataVencimento | date:'dd/mm/yyyy'}}
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='dataPagamento'>
+          <mat-header-cell *matHeaderCellDef flex-gt-md='70' flex-md='70' flex-sm='70'
+                           flex-xl='70' layout-align='start center' mat-sort-header>
+            <div layout='column' layout-margin>
+              Data de Pagamento
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef='let fatura' flex-gt-md='70' flex-md='70' flex-sm='70'
+                    flex-xl='70' layout-align='start center'>
+            <div layout='column' layout-margin>
+              {{fatura?.dataPagamento ? fatura?.dataPagamento : 'Em aberto'}}
             </div>
           </mat-cell>
         </ng-container>
@@ -73,7 +118,7 @@
         </mat-header-row>
 
         <mat-row *matRowDef='let fatura; columns: displayedColumns'
-                 routerLink='{{fatura.numeroLicenca}}' style='cursor: pointer'>
+                 routerLink='{{fatura?.id}}' style='cursor: pointer'>
         </mat-row>
       </mat-table>
       <no-records-found [dataSource]='dataSource?.data'></no-records-found>

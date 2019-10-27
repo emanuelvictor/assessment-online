@@ -7,6 +7,6 @@ import {Fatura} from '../entity/assinatura/fatura.model';
 export class FaturaRepository extends BaseRepository<Fatura> {
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, 'fatura');
+    super(httpClient, 'faturas');
   }
 }

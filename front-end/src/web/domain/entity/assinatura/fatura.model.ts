@@ -7,32 +7,37 @@ export class Fatura extends Abstract {
   /**
    *
    */
-  private linkBoleto: string;
+  public cancelada: boolean;
 
   /**
    *
    */
-  private dataInicio: any;
+  public linkBoleto: string;
 
   /**
    *
    */
-  private dataTermino: any;
+  public created: any;
 
   /**
    *
    */
-  private dataPagamento: any;
+  public dataVencimento: any;
 
   /**
    *
    */
-  private assinatura: Assinatura;
+  public dataPagamento: any;
 
   /**
    *
    */
-  private cupom: Cupom;
+  public assinatura: Assinatura;
+
+  /**
+   *
+   */
+  public cupom: Cupom;
 
   /**
    *
