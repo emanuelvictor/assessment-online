@@ -3,6 +3,7 @@ package br.com.ubest.domain.service;
 import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.assinatura.Fatura;
+import br.com.ubest.domain.entity.assinatura.Produto;
 import br.com.ubest.domain.repository.AssinaturaRepository;
 import br.com.ubest.domain.repository.FaturaRepository;
 import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Optional;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
@@ -28,6 +31,11 @@ public class FaturaService {
      *
      */
     private final FaturaRepository faturaRepository;
+
+    /**
+     *
+     */
+    private final DispositivoService dispositivoService;
 
     /**
      *
@@ -111,8 +119,6 @@ public class FaturaService {
         LOGGER.info("Executando fatura");
         fatura.setDataPagamento(fatura.getCreated().plusMonths(1).toLocalDate());
 
-        this.paymentGatewayRepository.execute(fatura);
-
         return this.faturaRepository.save(fatura);
     }
 
@@ -133,6 +139,27 @@ public class FaturaService {
     @Transactional
     Fatura inserirPrimeiraFatura(final Fatura fatura) {
         LOGGER.info("Inserindo primeira fatura");
+
+        dispositivoService.listByFilters(null, null).getContent().forEach(dispositivo -> {
+
+            final Produto produto = new Produto();
+            produto.setDispositivo(dispositivo);
+            produto.setFatura(fatura);
+
+//            final BigDecimal preco = fatura.getAssinatura().getPlano().getValorMensal() + (0.25 * );
+//            preco.
+
+            produto.setPreco(fatura.getAssinatura().getPlano().getValorMensal()); // TODO colocar valor dos excedentes
+
+            if (fatura.getProdutos() == null)
+                fatura.setProdutos(new HashSet<>());
+
+            fatura.getProdutos().add(produto);
+
+        });
+
+        this.paymentGatewayRepository.execute(fatura);
+
         return this.faturaRepository.save(fatura);
     }
 

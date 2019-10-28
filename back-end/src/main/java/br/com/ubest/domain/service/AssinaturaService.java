@@ -23,17 +23,7 @@ public class AssinaturaService {
     /**
      *
      */
-    private final ContaRepository contaRepository;
-
-    /**
-     *
-     */
     private final AssinaturaRepository assinaturaRepository;
-
-    /**
-     *
-     */
-    private final TenantIdentifierResolver tenantIdentifierResolver;
 
     /**
      *
@@ -56,12 +46,11 @@ public class AssinaturaService {
         if (assinatura.getEndereco().getCidade() != null && assinatura.getEndereco().getCidade().getId() == null)
             assinatura.getEndereco().setCidade(null);
 
-        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
-
         // Salvo na wirecard
-        assinatura.setPaymentGatewayId(paymentGatewayRepository.createAccount(assinatura, conta).getPaymentGatewayId());
+        assinatura.setPaymentGatewayId(paymentGatewayRepository.createAccount(assinatura).getPaymentGatewayId());
 
         return this.assinaturaRepository.save(assinatura);
+
     }
 
     /**

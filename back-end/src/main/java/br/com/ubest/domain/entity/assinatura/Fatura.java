@@ -10,7 +10,9 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Set;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
@@ -22,6 +24,12 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 public class Fatura extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -3875995612412345616L;
+
+    /**
+     *
+     */
+    @Column
+    private String paymentGatewayId;
 
     /**
      *
@@ -98,6 +106,13 @@ public class Fatura extends AbstractEntity implements Serializable {
     /**
      *
      */
+    @EqualsAndHashCode.Exclude
+    @OneToMany(targetEntity = Produto.class, mappedBy = "fatura", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<Produto> produtos;
+
+    /**
+     *
+     */
     public Fatura() {
     }
 
@@ -117,5 +132,26 @@ public class Fatura extends AbstractEntity implements Serializable {
         this.assinatura = assinatura;
         this.dataVencimento = assinatura.getDataVencimentoProximaFatura();
         this.cancelada = assinatura.isCancelada();
+    }
+
+    /**
+     * @return
+     */
+    public BigDecimal getValor() {
+        final BigDecimal valor = new BigDecimal(0);
+        if (produtos != null)
+            this.produtos.forEach(produto ->
+                    valor.add(produto.getPreco())
+            );
+        return valor;
+    }
+
+    /**
+     * @return
+     */
+    public BigDecimal getValorComDesconto() {
+        if (this.cupom != null)
+            return getValor().divideToIntegralValue(this.cupom.getPercentualDesconto()); //TODO verificar se é assim mesmo
+        return getValor();
     }
 }
