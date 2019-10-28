@@ -5,6 +5,7 @@ import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.assinatura.Fatura;
 import br.com.ubest.domain.repository.AssinaturaRepository;
 import br.com.ubest.domain.repository.FaturaRepository;
+import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
 import br.com.ubest.infrastructure.tenant.TenantDetails;
 import br.com.ubest.infrastructure.tenant.TenantDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,11 @@ public class FaturaService {
      *
      */
     private final TenantIdentifierResolver tenantIdentifierResolver;
+
+    /**
+     *
+     */
+    private final IPaymentGatewayRepository paymentGatewayRepository;
 
     /**
      *
@@ -104,6 +110,9 @@ public class FaturaService {
     Fatura executarFatura(final Fatura fatura) {
         LOGGER.info("Executando fatura");
         fatura.setDataPagamento(fatura.getCreated().plusMonths(1).toLocalDate());
+
+        this.paymentGatewayRepository.execute(fatura);
+
         return this.faturaRepository.save(fatura);
     }
 

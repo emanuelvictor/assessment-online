@@ -2,7 +2,6 @@ package br.com.ubest.infrastructure.payment;
 
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.assinatura.Fatura;
-import br.com.ubest.domain.entity.usuario.Conta;
 
 /**
  * @author Emanuel Victor
@@ -10,6 +9,7 @@ import br.com.ubest.domain.entity.usuario.Conta;
 public interface IPaymentGatewayRepository {
 
     /**
+     *
      * @param fatura
      * @return
      */
@@ -18,10 +18,9 @@ public interface IPaymentGatewayRepository {
     /**
      *
      * @param assinatura
-     * @param conta
      * @return
      */
-	Assinatura createAccount(final Assinatura assinatura, final Conta conta);
+	Assinatura createAccount(final Assinatura assinatura);
 
 //	/**
 //	 *

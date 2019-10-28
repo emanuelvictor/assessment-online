@@ -8,6 +8,7 @@ import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.assinatura.Fatura;
 import br.com.ubest.domain.entity.usuario.Conta;
+import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -37,6 +38,11 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
     /**
      *
      */
+    private final ContaRepository contaRepository;
+
+    /**
+     *
+     */
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
     /**
@@ -44,6 +50,8 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
      */
     @Override
     public Fatura execute(final Fatura fatura) {
+
+        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
 
 //        Map<String, Object> taxDocument = payloadFactory(
 //                value("type", "CPF"),
@@ -88,7 +96,9 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
      *
      */
     @Override
-    public Assinatura createAccount(final Assinatura assinatura, final Conta conta) {
+    public Assinatura createAccount(final Assinatura assinatura) {
+
+        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
 
         try {
 
