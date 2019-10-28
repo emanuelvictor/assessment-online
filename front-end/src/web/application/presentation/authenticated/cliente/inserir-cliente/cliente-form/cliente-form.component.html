@@ -2,7 +2,9 @@
   <div flex-gt-xs='80' layout='row' layout-margin>
     <div flex layout-margin>
       <mat-card class='bgc-grey-50' layout-margin>
-        <form (ngSubmit)='saveCliente(form)' *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'" [formGroup]='form'
+        <form (ngSubmit)='saveCliente(form)'
+              *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'"
+              [formGroup]='form'
               novalidate>
           <mat-card-content>
             <div layout-margin>
@@ -23,10 +25,8 @@
                     </button>
                   </div>
                   <div *ngIf='!fotoPath' flex>
-                    <td-file-upload #singleFileUpload
-                                    (change)='fileChange($event)' accept='.png, .gif, .jpg, .jpeg'
-                                    defaultColor='primary'
-                                    name='file'>
+                    <td-file-upload #singleFileUpload name='file' defaultColor='primary'
+                                    (change)='fileChange($event)' accept='.png, .gif, .jpg, .jpeg'>
                       <span>{{ singleFileUpload?.files?.name }}</span>
                       <ng-template td-file-input-label>
                         <mat-icon>attach_file</mat-icon>
@@ -40,11 +40,11 @@
                 <div flex-gt-sm='70' layout='column'>
                   <div layout='row' layout-margin>
                     <mat-form-field flex>
-                      <input [(ngModel)]='cliente.nome'
+                      <input id='nome' matInput
                              formControlName='nome'
-                             id='nome' matInput
-                             maxlength='200'
-                             name='nome' placeholder='Nome' required>
+                             required maxlength='200'
+                             [(ngModel)]='cliente.nome'
+                             name='nome' placeholder='Nome'>
                       <mat-error>
                         Nome é obrigatório
                       </mat-error>
@@ -54,9 +54,9 @@
                     <mat-form-field flex>
                       <input [(ngModel)]='cliente.conta.email'
                              formControlName='email' id='email'
-                             matInput maxlength='144'
-                             name='email' pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$' placeholder='E-mail' required
-                             type='email'>
+                             required name='email' type='email'
+                             matInput maxlength='144' placeholder='E-mail'
+                             pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'>
                       <mat-error *ngIf="form.controls['email'].hasError('pattern')">
                         E-mail inválido, utilize o formato 'email@email.com'
                       </mat-error>
@@ -67,30 +67,30 @@
                   </div>
                   <div layout="row">
                     <div flex>
-                      <usuario-pessoa-juridica-form *ngIf='cliente.souEmpresa' [(documento)]='cliente.documento'
-                                                    [form]='form' flex>
+                      <usuario-pessoa-juridica-form [form]='form' flex
+                                                    *ngIf='cliente.souEmpresa'
+                                                    [(documento)]='cliente.documento'>
                       </usuario-pessoa-juridica-form>
 
-                      <usuario-pessoa-fisica-form *ngIf='!cliente.souEmpresa' [(documento)]='cliente.documento'
-                                                  [form]='form' flex>
+                      <usuario-pessoa-fisica-form [form]='form' flex
+                                                  *ngIf='!cliente.souEmpresa'
+                                                  [(documento)]='cliente.documento'>
                       </usuario-pessoa-fisica-form>
                     </div>
 
                     <div layout='column'>
-                      <mat-checkbox [(ngModel)]='cliente.souEmpresa' [ngModelOptions]='{standalone: true}'
-                                    flex
-                                    name='isEmpresa'
-                                    style='margin-top: 35px; margin-right: 20px;'>
+                      <mat-checkbox flex name='isEmpresa'
+                                    style='margin-top: 35px; margin-right: 20px;'
+                                    [(ngModel)]='cliente.souEmpresa' [ngModelOptions]='{standalone: true}'>
                         Sou empresa
                       </mat-checkbox>
                     </div>
                   </div>
-                  <div layout="row" layout-margin>
+                  <div layout='row' layout-margin>
                     <mat-form-field flex>
-                      <input [(ngModel)]="cliente.conta.password"
-                             formControlName="password" id="password"
-                             matInput name="password" placeholder="Senha da conta"
-                             required type="password">
+                      <input formControlName='password' id='password'
+                             required type='password' matInput name='password'
+                             [(ngModel)]='cliente.conta.password' placeholder='Senha da conta'>
                       <mat-error *ngIf="form?.controls['password'].hasError('exception')">
                         {{form?.controls['password']?.errors.exception}}
                       </mat-error>
@@ -100,11 +100,12 @@
                     </mat-form-field>
 
                     <mat-form-field flex>
-                      <input [(ngModel)]="confirmacaoPassword"
-                             formControlName="confirmacaoPassword"
-                             id="confirmacaoPassword" matInput
-                             matTooltip="Confirmação de senha da conta" name="confirmacaoPassword" placeholder="Confirmação de senha da conta"
-                             required type="password">
+                      <input required name='confirmacaoPassword'
+                             formControlName='confirmacaoPassword'
+                             type='password' id='confirmacaoPassword'
+                             matInput [(ngModel)]='confirmacaoPassword'
+                             matTooltip='Confirmação de senha da conta'
+                             placeholder='Confirmação de senha da conta'>
                       <mat-error *ngIf="form?.controls['confirmacaoPassword'].hasError('exception')">
                         {{form?.controls['confirmacaoPassword']?.errors.exception}}
                       </mat-error>
@@ -114,9 +115,10 @@
                     </mat-form-field>
                   </div>
                   <div flex layout='row' layout-align='end center' layout-margin>
-                    <re-captcha #reCaptcha (resolved)='resolved($event)'
-                                id='recaptchaReactive' layout-align='end center'
-                                required siteKey='{{cliente?.siteKey}}' style='margin-right: 6px; margin-top: -12px'>
+                    <re-captcha required siteKey='{{cliente?.siteKey}}'
+                                #reCaptcha (resolved)='resolved($event)'
+                                style='margin-right: 6px; margin-top: -12px'
+                                id='recaptchaReactive' layout-align='end center'>
                     </re-captcha>
                   </div>
                 </div>

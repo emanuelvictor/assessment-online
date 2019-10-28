@@ -2,15 +2,14 @@
       *ngIf='form?.controls?.secondFormGroup'
       [formGroup]='form?.controls?.secondFormGroup' novalidate>
 
-  <div layout="row" layout-margin>
-    <mat-radio-group [(ngModel)]="assinatura.formaPagamento"
-                     [ngModelOptions]="{standalone: true}" flex layout="row"
-                     name="formaPagamento">
-      <mat-radio-button [value]="'BOLETO'" color="primary" flex name="formaPagamento">
-        <span class="tc-grey-800">Boleto</span>
+  <div layout='row' layout-margin>
+    <mat-radio-group [ngModelOptions]='{standalone: true}' flex layout='row'
+                     name='formaPagamento' [(ngModel)]='assinatura.formaPagamento'>
+      <mat-radio-button [value]="'BOLETO'" color='primary' flex name='formaPagamento'>
+        <span class='tc-grey-800'>Boleto</span>
       </mat-radio-button>
-      <mat-radio-button [value]="'CARTAO'" color="primary" flex name="formaPagamento">
-        <span class="tc-grey-800">Cartão de crédito</span>
+      <mat-radio-button [value]="'CARTAO'" color='primary' flex name='formaPagamento'>
+        <span class='tc-grey-800'>Cartão de crédito</span>
       </mat-radio-button>
     </mat-radio-group>
     <div flex hide-xs></div>
@@ -22,14 +21,14 @@
           [assinatura]='assinatura' [form]='form?.controls?.secondFormGroup'>
   </cartao>
 
-  <div layout="column">
-    <div layout-gt-xs="row" layout-margin>
+  <div layout='column'>
+    <div layout-gt-xs='row' layout-margin>
       <mat-form-field flex>
-        <input [(ngModel)]="assinatura.nomeTitular" formControlName='nomeTitular'
-               matInput
-               maxlength="80" name="nomeTitular" placeholder="Nome (impresso no cartão)"
-               required
-               somenteLetras>
+        <input formControlName='nomeTitular'
+               matInput required somenteLetras
+               maxlength='80' name='nomeTitular'
+               [(ngModel)]='assinatura.nomeTitular'
+               placeholder='Nome (impresso no cartão)'>
         <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['nomeTitular']?.hasError('exception')">
           {{form?.controls?.secondFormGroup?.controls['nomeTitular']?.errors?.exception}}
         </mat-error>
@@ -38,31 +37,34 @@
 
     <div layout="row">
       <div flex layout='row'>
-        <usuario-pessoa-juridica-form *ngIf='assinatura.souEmpresa' [(documento)]='assinatura.documentoTitular'
-                                      [form]='form'
-                                      flex='20'>
+        <usuario-pessoa-juridica-form [form]='form' flex='20'
+                                      *ngIf='assinatura.souEmpresa'
+                                      [(documento)]='assinatura.documentoTitular'>
         </usuario-pessoa-juridica-form>
 
-        <usuario-pessoa-fisica-form *ngIf='!assinatura.souEmpresa' [(documento)]='assinatura.documentoTitular'
-                                    [form]='form'
-                                    flex='20'>
+        <usuario-pessoa-fisica-form [form]='form' flex='20'
+                                    *ngIf='!assinatura.souEmpresa'
+                                    [(documento)]='assinatura.documentoTitular'>
         </usuario-pessoa-fisica-form>
 
         <ev-datepicker [(dataInput)]='assinatura.dataNascimentoTitular' style='margin-top: 13px'>
           <mat-form-field flex>
-            <input [(ngModel)]='assinatura.dataNascimentoTitular'
-                   [textMask]='{mask: masks.date, guide: false}' flex formControlName='dataNascimentoTitular'
-                   id='dataNascimentoTitular'
+            <input id='dataNascimentoTitular' required
                    matInput name='dataNascimentoTitular'
-                   placeholder='Data de nascimento' required/>
-            <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['dataNascimentoTitular']?.hasError('exception')">
+                   placeholder='Data de nascimento' flex
+                   formControlName='dataNascimentoTitular'
+                   [textMask]='{mask: masks.date, guide: false}'
+                   [(ngModel)]='assinatura.dataNascimentoTitular'/>
+            <mat-error
+                *ngIf="form?.controls?.secondFormGroup?.controls['dataNascimentoTitular']?.hasError('exception')">
               {{form?.controls?.secondFormGroup?.controls['dataNascimentoTitular']?.errors.exception}}
             </mat-error>
           </mat-form-field>
         </ev-datepicker>
 
         <mat-checkbox [(ngModel)]='assinatura.souEmpresa'
-                      [ngModelOptions]='{standalone: true}' style='margin-top: 35px; margin-right: 20px; margin-left:30px'>
+                      [ngModelOptions]='{standalone: true}'
+                      style='margin-top: 35px; margin-right: 20px; margin-left:30px'>
           Sou empresa
         </mat-checkbox>
       </div>
@@ -74,39 +76,40 @@
   <div layout="row">
     <div layout-gt-xs="row" layout-margin>
       <mat-form-field flex>
-        <input [(ngModel)]='assinatura.codigoArea' formControlName='codigoArea'
-               id='codigoArea' matInput maxlength='2' minlength='1'
-               name='codigoArea' pattern='\d*' placeholder='DDD' required>
+        <input id='codigoArea' matInput maxlength='2' minlength='1'
+               name='codigoArea' pattern='\d*' placeholder='DDD' required
+               [(ngModel)]='assinatura.codigoArea' formControlName='codigoArea'>
         <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['codigoArea']?.hasError('exception')">
           {{form?.controls?.secondFormGroup?.controls['codigoArea']?.errors.exception}}
         </mat-error>
       </mat-form-field>
 
       <mat-form-field flex>
-        <input [(ngModel)]='assinatura.telefone' formControlName='telefone'
-               id='telefone' matInput maxlength='9'
-               minlength='7' name='telefone' pattern="\d*" placeholder='Número do telefone' required>
+        <input id='telefone' matInput maxlength='9' required
+               [(ngModel)]='assinatura.telefone' formControlName='telefone'
+               minlength='7' name='telefone' pattern="\d*" placeholder='Número do telefone'>
         <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['telefone']?.hasError('exception')">
           {{form?.controls?.secondFormGroup?.controls['telefone']?.errors.exception}}
         </mat-error>
       </mat-form-field>
 
       <mat-form-field flex>
-        <input [(ngModel)]='assinatura.diaVencimentoFatura'
+        <input matInput required type='number'
                formControlName='diaVencimentoFatura'
-               id='diaVencimentoFatura' matInput
-               name='diaVencimentoFatura' placeholder='Dia para o vencimento da fatura' required type='number'>
+               [(ngModel)]='assinatura.diaVencimentoFatura'
+               placeholder='Dia para o vencimento da fatura'
+               id='diaVencimentoFatura' name='diaVencimentoFatura'>
         <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['diaVencimentoFatura']?.hasError('exception')">
           {{form?.controls?.secondFormGroup?.controls['diaVencimentoFatura']?.errors.exception}}
         </mat-error>
       </mat-form-field>
     </div>
     <div flex hide-xs>
-      <div layout="row" layout-align="start center" style='margin-top: 11px'>
-        <div class="push-left" layout="row" layout-align="center center" layout-margin>
-          <span style="margin-top: 20px;">Pagamento via</span>
+      <div layout='row' layout-align='start center' style='margin-top: 11px'>
+        <div class='push-left' layout='row' layout-align='center center' layout-margin>
+          <span style='margin-top: 20px'>Pagamento via</span>
         </div>
-        <a href="http://wirecard.com.br" style='margin-top: 14px' target='_blank'>
+        <a href='http://wirecard.com.br' style='margin-top: 14px' target='_blank'>
           <img alt='Logo marca WIRECARD' class='size-height-32 logo-image'
                src='https://upload.wikimedia.org/wikipedia/commons/d/d7/Wirecard_Logo.svg'>
         </a>
@@ -118,8 +121,8 @@
     <b class="pagamento-title" flex>Endereço</b>
   </div>
 
-  <maps-component [(endereco)]='assinatura.endereco'
-                  [allRequired]='true'
+  <maps-component [allRequired]='true'
+                  [(endereco)]='assinatura.endereco'
                   [form]='form?.controls?.secondFormGroup'>
   </maps-component>
 
