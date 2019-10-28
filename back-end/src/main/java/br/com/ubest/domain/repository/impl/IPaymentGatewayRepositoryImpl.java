@@ -1,6 +1,7 @@
 package br.com.ubest.domain.repository.impl;
 
 import br.com.moip.Moip;
+import br.com.moip.exception.ValidationException;
 import br.com.moip.models.NotificationPreferences;
 import br.com.moip.models.Setup;
 import br.com.ubest.application.tenant.TenantIdentifierResolver;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -83,6 +83,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
 //        Map<String, Object> newPay = Moip.API.payments().pay(payment, "order_id", setup);
         return null;
     }
+
     /**
      *
      */
@@ -92,6 +93,12 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
         try {
 
             if (!assinatura.isCompleted())
+                return assinatura;
+
+            // Se já tiver o gateway id não atualiza
+            // A wirecard não provê a funcionalidade de se atualizar o cliente.
+            // A não ser que seja através do pedido
+            if (assinatura.getPaymentGatewayId() != null)
                 return assinatura;
 
             final String tenant = tenantIdentifierResolver.resolveCurrentTenantIdentifier();
@@ -128,21 +135,19 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
                     value("shippingAddress", shippingAddress)
             );
 
-            if (assinatura.getPaymentGatewayId() == null){
-//                Moip.API.customers().list(setup);
-//                ((ArrayList) Moip.API.customers().list(setup).get("customers")).stream().filter(o -> ((HashMap) o).get("ownId").equals(tenant));]
-//                assinatura.setPaymentGatewayId((String) Moip.API.customers().get(tenant, setup).get("id"));
-                ((ArrayList) Moip.API.customers().list(setup).get("customers")).stream().forEach(o -> {
-                    if (((LinkedHashMap) o).get("ownId").equals(tenant))
-                        System.out.println(((LinkedHashMap) o).get("ownId"));
-                });
-            }
-
             assinatura.setPaymentGatewayId((String) Moip.API.customers().create(customerRequestBody, setup).get("id"));
 
         } catch (Exception e) {
+            if (e instanceof ValidationException)
+                if (((ValidationException) e).getErrors().getErrors().stream().anyMatch(error -> error.getPath().equals("customer.ownId"))) {
+                    ((ArrayList) Moip.API.customers().list(setup).get("customers")).forEach((o) -> {
+                        if (((LinkedHashMap) o).get("ownId").equals(tenantIdentifierResolver.resolveCurrentTenantIdentifier())) {
+                            assinatura.setPaymentGatewayId((String) ((LinkedHashMap) o).get("id"));
+                        }
+                    });
+                }
+
             e.printStackTrace();
-            throw new RuntimeException("Ops! Existe alguma incompatibilidade entre seus dados e nosso provedor de pagamento. Por favor, verifique e tente novamente.");
         }
 
         return assinatura;
