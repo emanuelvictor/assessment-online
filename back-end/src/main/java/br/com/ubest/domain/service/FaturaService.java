@@ -7,7 +7,6 @@ import br.com.ubest.domain.entity.assinatura.Produto;
 import br.com.ubest.domain.repository.AssinaturaRepository;
 import br.com.ubest.domain.repository.FaturaRepository;
 import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
-import br.com.ubest.infrastructure.tenant.TenantDetails;
 import br.com.ubest.infrastructure.tenant.TenantDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -119,6 +118,31 @@ public class FaturaService {
         LOGGER.info("Executando fatura");
         fatura.setDataPagamento(fatura.getCreated().plusMonths(1).toLocalDate());
 
+        dispositivoService.listByFilters(null, null).getContent().forEach(dispositivo -> {
+
+            final Produto produto = new Produto();
+            produto.setDispositivo(dispositivo);
+            produto.setFatura(fatura);
+
+            final int contAvaliacoes = 0;
+
+            final BigDecimal preco = fatura.getAssinatura().getPlano().getValorMensal();
+            if (contAvaliacoes > fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes()) {
+                final int contAvaliacoesExcedentes = contAvaliacoes - fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes();
+                preco.add(fatura.getAssinatura().getPlano().getValorAvaliacoesExcedentes().multiply(new BigDecimal(contAvaliacoesExcedentes)));
+            }
+
+            produto.setPreco(preco);
+
+            if (fatura.getProdutos() == null)
+                fatura.setProdutos(new HashSet<>());
+
+            fatura.getProdutos().add(produto);
+
+        });
+
+        this.paymentGatewayRepository.execute(fatura);
+
         return this.faturaRepository.save(fatura);
     }
 
@@ -146,10 +170,7 @@ public class FaturaService {
             produto.setDispositivo(dispositivo);
             produto.setFatura(fatura);
 
-//            final BigDecimal preco = fatura.getAssinatura().getPlano().getValorMensal() + (0.25 * );
-//            preco.
-
-            produto.setPreco(fatura.getAssinatura().getPlano().getValorMensal()); // TODO colocar valor dos excedentes
+            produto.setPreco(fatura.getAssinatura().getPlano().getValorMensal());
 
             if (fatura.getProdutos() == null)
                 fatura.setProdutos(new HashSet<>());
