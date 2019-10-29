@@ -7,11 +7,8 @@ import br.com.moip.models.Setup;
 import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.assinatura.Fatura;
-import br.com.ubest.domain.entity.assinatura.Produto;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.ContaRepository;
-import br.com.ubest.domain.repository.DispositivoRepository;
-import br.com.ubest.domain.service.DispositivoService;
 import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -102,14 +99,14 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
 
         final List<Map<String, Object>> items = new ArrayList<>();
 
-        fatura.getProdutos().forEach( produto -> {
+        fatura.getItems().forEach(item -> {
 
             final Map<String, Object> product = payloadFactory(
-                    value("product", "Licença para Uso de Software - Ubest Avaliações Online"),
+                    value("product", item.getDispositivo().getNome()),
                     value("category", "INTERNET"),
                     value("quantity", 1),
-                    value("detail", produto.getDispositivo().getNome()),
-                    value("price", produto.getPreco())
+                    value("detail", "Licença para Uso de Software - Ubest Avaliações Online"),
+                    value("price", item.getPreco())
             );
 
             items.add(product);
@@ -128,7 +125,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
 
         final Map<String, Object> responseCreation = Moip.API.orders().create(order, setup);
 
-        fatura.setPaymentGatewayId((String) responseCreation.get("id"));
+        fatura.setOrderId((String) responseCreation.get("id"));
 
         return fatura;
     }

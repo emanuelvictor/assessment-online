@@ -3,7 +3,7 @@ package br.com.ubest.domain.service;
 import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.assinatura.Fatura;
-import br.com.ubest.domain.entity.assinatura.Produto;
+import br.com.ubest.domain.entity.assinatura.Item;
 import br.com.ubest.domain.repository.AssinaturaRepository;
 import br.com.ubest.domain.repository.FaturaRepository;
 import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -109,6 +111,18 @@ public class FaturaService {
         });
     }
 
+
+    /**
+     * @param fatura
+     * @return
+     */
+    @Transactional
+    Fatura fecharFatura(final Fatura fatura) {
+        LOGGER.info("Fechando fatura");
+        fatura.setDataFechamento(LocalDate.now());
+        return this.faturaRepository.save(fatura);
+    }
+
     /**
      * @param fatura
      * @return
@@ -117,32 +131,6 @@ public class FaturaService {
     Fatura executarFatura(final Fatura fatura) {
         LOGGER.info("Executando fatura");
         fatura.setDataPagamento(fatura.getCreated().plusMonths(1).toLocalDate());
-
-        dispositivoService.listByFilters(null, null).getContent().forEach(dispositivo -> {
-
-            final Produto produto = new Produto();
-            produto.setDispositivo(dispositivo);
-            produto.setFatura(fatura);
-
-            final int contAvaliacoes = 0;
-
-            final BigDecimal preco = fatura.getAssinatura().getPlano().getValorMensal();
-            if (contAvaliacoes > fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes()) {
-                final int contAvaliacoesExcedentes = contAvaliacoes - fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes();
-                preco.add(fatura.getAssinatura().getPlano().getValorAvaliacoesExcedentes().multiply(new BigDecimal(contAvaliacoesExcedentes)));
-            }
-
-            produto.setPreco(preco);
-
-            if (fatura.getProdutos() == null)
-                fatura.setProdutos(new HashSet<>());
-
-            fatura.getProdutos().add(produto);
-
-        });
-
-        this.paymentGatewayRepository.execute(fatura);
-
         return this.faturaRepository.save(fatura);
     }
 
@@ -153,6 +141,32 @@ public class FaturaService {
     @Transactional
     Fatura inserirProximaFatura(final Fatura fatura) {
         LOGGER.info("Inserindo próxima fatura");
+
+        dispositivoService.listByFilters(null, null).getContent().forEach(dispositivo -> {
+
+            final Item item = new Item();
+            item.setDispositivo(dispositivo);
+            item.setFatura(fatura);
+
+            final int totalAvaliacoes = 0;
+
+            final BigDecimal preco = fatura.getAssinatura().getPlano().getValorMensal();
+            if (totalAvaliacoes > fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes()) {
+                final int valiacoesExcedentes = totalAvaliacoes - fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes();
+                preco.add(fatura.getAssinatura().getPlano().getValorAvaliacoesExcedentes().multiply(new BigDecimal(valiacoesExcedentes)));
+            }
+
+            item.setPreco(preco);
+
+            if (fatura.getItems() == null)
+                fatura.setItems(new HashSet<>());
+
+            fatura.getItems().add(item);
+
+        });
+
+        this.paymentGatewayRepository.execute(fatura);
+
         return this.faturaRepository.save(fatura);
     }
 
@@ -163,25 +177,7 @@ public class FaturaService {
     @Transactional
     Fatura inserirPrimeiraFatura(final Fatura fatura) {
         LOGGER.info("Inserindo primeira fatura");
-
-        dispositivoService.listByFilters(null, null).getContent().forEach(dispositivo -> {
-
-            final Produto produto = new Produto();
-            produto.setDispositivo(dispositivo);
-            produto.setFatura(fatura);
-
-            produto.setPreco(fatura.getAssinatura().getPlano().getValorMensal());
-
-            if (fatura.getProdutos() == null)
-                fatura.setProdutos(new HashSet<>());
-
-            fatura.getProdutos().add(produto);
-
-        });
-
-        this.paymentGatewayRepository.execute(fatura);
-
-        return this.faturaRepository.save(fatura);
+        return this.inserirProximaFatura(fatura);
     }
 
     /**

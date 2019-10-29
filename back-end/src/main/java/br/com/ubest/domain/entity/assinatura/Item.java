@@ -25,9 +25,9 @@ import java.util.stream.Collectors;
 @Audited
 @EqualsAndHashCode(callSuper = true)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"dispositivo_id", "fatura_id", "nome"})
+        @UniqueConstraint(columnNames = {"dispositivo_id", "fatura_id"})
 })
-public class Produto extends AbstractEntity implements Serializable {
+public class Item extends AbstractEntity implements Serializable {
 
     /**
      *
@@ -56,13 +56,13 @@ public class Produto extends AbstractEntity implements Serializable {
     /**
      *
      */
-    public Produto() {
+    public Item() {
     }
 
     /**
      * @param id Long
      */
-    public Produto(final Long id) {
+    public Item(final Long id) {
         super(id);
     }
 

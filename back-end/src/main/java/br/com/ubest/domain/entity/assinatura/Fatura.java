@@ -29,7 +29,13 @@ public class Fatura extends AbstractEntity implements Serializable {
      *
      */
     @Column
-    private String paymentGatewayId;
+    private String orderId;
+
+    /**
+     *
+     */
+    @Column
+    private String paymentId;
 
     /**
      *
@@ -44,6 +50,15 @@ public class Fatura extends AbstractEntity implements Serializable {
      */
     @Column(unique = true)
     private String linkBoleto;
+
+    /**
+     * Inserida quando a fatura é fechada,
+     * Nesse momento também é inserido o pedido.
+     */
+    @NotNull
+    @Column(nullable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataFechamento;
 
     /**
      * Inserida quando o cara paga
@@ -75,20 +90,6 @@ public class Fatura extends AbstractEntity implements Serializable {
     private Cupom cupom;
 
 //    /**
-//     * TODO acho que não é necessário
-//     */
-//    @Column
-//    @JsonFormat(pattern = "dd/MM/yyyy")
-//    private LocalDate dataInicio;
-//
-//    /**
-//     * TODO acho que não é necessário
-//     */
-//    @Column
-//    @JsonFormat(pattern = "dd/MM/yyyy")
-//    private LocalDate dataTermino;
-//
-//    /**
 //     * todo DESCENSSÁRIO
 //     */
 //    @NotNull
@@ -107,8 +108,8 @@ public class Fatura extends AbstractEntity implements Serializable {
      *
      */
     @EqualsAndHashCode.Exclude
-    @OneToMany(targetEntity = Produto.class, mappedBy = "fatura", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
-    private Set<Produto> produtos;
+    @OneToMany(targetEntity = Item.class, mappedBy = "fatura", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<Item> items;
 
     /**
      *
@@ -139,10 +140,8 @@ public class Fatura extends AbstractEntity implements Serializable {
      */
     public BigDecimal getValor() {
         final BigDecimal valor = new BigDecimal(0);
-        if (produtos != null)
-            this.produtos.forEach(produto ->
-                    valor.add(produto.getPreco())
-            );
+        if (items != null)
+            this.items.forEach(item -> valor.add(item.getPreco()));
         return valor;
     }
 
