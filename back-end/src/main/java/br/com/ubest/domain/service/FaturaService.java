@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -27,6 +29,11 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Service
 @RequiredArgsConstructor
 public class FaturaService {
+
+    /**
+     *
+     */
+    private final AvaliacaoService avaliacaoService;
 
     /**
      *
@@ -81,26 +88,23 @@ public class FaturaService {
             // Pego a última fatura em aberto
             this.faturaRepository.findLastByTenant(tenant).stream().findFirst().ifPresentOrElse(ultimaFatura -> {
 
-                        // Já tem uma fatura criada para 30 dias (ou u mês) do dia da assinatura? Se não, continua o fluxo de criação.
-                        if (!ultimaFatura.getDataVencimento().isEqual(assinatura.getDataVencimentoProximaFatura())) {
+                        // Hoje é o dia 1 do mês seguinte ao da criação dela ou é depois?
+                        if (LocalDateTime.now().isAfter(ultimaFatura.getCreated().plusMonths(1).withDayOfMonth(1))) {
 
-                            // Então a última fatura, foi paga? Se sim, cria a próxima fatura
-                            if (ultimaFatura.getDataPagamento() != null) {
+                            // A data de fechamento está nula? (Se estiver nula então ainda não foi fechada)
+                            if (ultimaFatura.getDataFechamento() == null) {
+                                this.fecharFatura(ultimaFatura);
                                 this.inserirProximaFatura(new Fatura(tenant, assinatura));
+                            } else {
+                                // É dia (ou depois) do vencimento da fatura
+                                if (LocalDate.now().isEqual(ultimaFatura.getDataVencimento()) || LocalDate.now().isAfter(ultimaFatura.getDataVencimento())) {
+                                    // A data de pagamento está nula?
+                                    if (ultimaFatura.getDataPagamento() == null) {
+                                        this.executarFatura(ultimaFatura);
+                                    }
+                                }
                             }
-
-                            // Se a fatura anterior não foi paga, então tenta executar a mesma.
-                            else this.executarFatura(ultimaFatura);
                         }
-
-//                        // Se a última fatura foi paga, então gera uma próxima fatura
-//                        if (ultimaFatura.getDataPagamento() != null) {
-//                            // A última fatura paga deve estar á 30 dias anteriores
-//                            if ((LocalDate.now().isAfter(assinatura.getDataVencimentoProximaFatura().minusMonths(1))))
-//                                this.inserirProximaFatura(new Fatura(tenant, assinatura));
-//                        }
-//                        // Se a última fatura não foi paga, então tenta executar
-//                        else this.executarFatura(ultimaFatura);
 
                     },
 
@@ -119,7 +123,25 @@ public class FaturaService {
     @Transactional
     Fatura fecharFatura(final Fatura fatura) {
         LOGGER.info("Fechando fatura");
-        fatura.setDataFechamento(LocalDate.now());
+        fatura.setDataFechamento(fatura.getCreated().plusMonths(1).withDayOfMonth(1).toLocalDate());
+
+        fatura.getItems().forEach(item -> {
+
+            //TODO testar
+            final int totalAvaliacoesDispositivo = avaliacaoService.listByFilters(null, null, Collections.singletonList(item.getDispositivo().getId()), null, null, null, fatura.getCreated(), fatura.getDataFechamento().plusDays(1).atStartOfDay(), null).getSize();
+
+            final BigDecimal preco = fatura.getAssinatura().getPlano().getValorMensal();
+            if (totalAvaliacoesDispositivo > fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes()) {
+                final int valiacoesExcedentes = totalAvaliacoesDispositivo - fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes();
+                preco.add(fatura.getAssinatura().getPlano().getValorAvaliacoesExcedentes().multiply(new BigDecimal(valiacoesExcedentes)));
+            }
+
+            item.setPreco(preco);
+
+        });
+
+        fatura.setOrderId(this.paymentGatewayRepository.fecharFatura(fatura).getOrderId());
+
         return this.faturaRepository.save(fatura);
     }
 
@@ -130,7 +152,11 @@ public class FaturaService {
     @Transactional
     Fatura executarFatura(final Fatura fatura) {
         LOGGER.info("Executando fatura");
-        fatura.setDataPagamento(fatura.getCreated().plusMonths(1).toLocalDate());
+
+//        fatura.setPaymentId(this.paymentGatewayRepository.executarFatura(fatura).getPaymentId()); TODO concluir
+//        fatura.setDataPagamento(LocalDate.now());
+
+        fatura.setDataPagamento(fatura.getCreated().plusMonths(1).toLocalDate()); //TODO remover
         return this.faturaRepository.save(fatura);
     }
 
@@ -142,21 +168,12 @@ public class FaturaService {
     Fatura inserirProximaFatura(final Fatura fatura) {
         LOGGER.info("Inserindo próxima fatura");
 
-        dispositivoService.listByFilters(null, null).getContent().forEach(dispositivo -> {
+        dispositivoService.listByFilters(null, null).getContent().forEach(dispositivo -> { // TODO colocar datas
 
             final Item item = new Item();
             item.setDispositivo(dispositivo);
             item.setFatura(fatura);
-
-            final int totalAvaliacoes = 0;
-
-            final BigDecimal preco = fatura.getAssinatura().getPlano().getValorMensal();
-            if (totalAvaliacoes > fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes()) {
-                final int valiacoesExcedentes = totalAvaliacoes - fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes();
-                preco.add(fatura.getAssinatura().getPlano().getValorAvaliacoesExcedentes().multiply(new BigDecimal(valiacoesExcedentes)));
-            }
-
-            item.setPreco(preco);
+            item.setPreco(fatura.getAssinatura().getPlano().getValorMensal());
 
             if (fatura.getItems() == null)
                 fatura.setItems(new HashSet<>());
@@ -164,8 +181,6 @@ public class FaturaService {
             fatura.getItems().add(item);
 
         });
-
-        this.paymentGatewayRepository.execute(fatura);
 
         return this.faturaRepository.save(fatura);
     }

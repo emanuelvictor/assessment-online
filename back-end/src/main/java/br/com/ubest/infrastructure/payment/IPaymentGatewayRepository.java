@@ -13,7 +13,7 @@ public interface IPaymentGatewayRepository {
      * @param fatura
      * @return
      */
-    Fatura execute(final Fatura fatura);
+    Fatura fecharFatura(final Fatura fatura);
 
     /**
      *

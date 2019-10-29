@@ -49,30 +49,36 @@ alter table cupom_aud
 
 create table fatura
 (
-    id                 bigserial   not null,
-    created            timestamp   not null,
-    updated            timestamp,
-    cancelada          boolean     not null,
-    data_vencimento    date        not null,
-    data_pagamento     date,
-    link_boleto        varchar(255),
-    tenant             varchar(65) not null,
-    assinatura_id      int8        not null,
-    cupom_id           int8,
+    id              bigserial   not null,
+    order_id        varchar(255),
+    payment_id      varchar(255),
+    created         timestamp   not null,
+    updated         timestamp,
+    cancelada       boolean     not null,
+    data_fechamento date,
+    data_vencimento date        not null,
+    data_pagamento  date,
+    link_boleto     varchar(255),
+    tenant          varchar(65) not null,
+    assinatura_id   int8        not null,
+    cupom_id        int8,
     primary key (id)
 );
 create table fatura_aud
 (
-    id                 int8 not null,
-    rev                int8 not null,
-    cancelada          boolean,
-    revtype            int2,
-    data_vencimento    date,
-    data_pagamento     date,
-    link_boleto        varchar(255),
-    tenant             varchar(65),
-    assinatura_id      int8,
-    cupom_id           int8,
+    id              int8 not null,
+    rev             int8 not null,
+    order_id        varchar(255),
+    payment_id      varchar(255),
+    cancelada       boolean,
+    revtype         int2,
+    data_fechamento date,
+    data_vencimento date,
+    data_pagamento  date,
+    link_boleto     varchar(255),
+    tenant          varchar(65),
+    assinatura_id   int8,
+    cupom_id        int8,
     primary key (id, rev)
 );
 alter table fatura
@@ -85,3 +91,34 @@ alter table fatura
     add constraint FKo8dtp7m6pml44xvkj080k9yme foreign key (cupom_id) references public.cupom;
 alter table fatura_aud
     add constraint FKlp9hb25syyvcyaspl4e91iwm foreign key (rev) references public.revision;
+
+create table item
+(
+    id             bigserial not null,
+    created        timestamp not null,
+    updated        timestamp,
+    preco          numeric(19, 2),
+    dispositivo_id int8      not null,
+    fatura_id      int8      not null,
+    primary key (id)
+);
+create table item_aud
+(
+    id             int8 not null,
+    rev            int8 not null,
+    revtype        int2,
+    preco          numeric(19, 2),
+    dispositivo_id int8,
+    fatura_id      int8,
+    primary key (id, rev)
+);
+alter table item
+    drop constraint if exists UK58octu7vv21ickfdgvxfclr8c;
+alter table item
+    add constraint UK58octu7vv21ickfdgvxfclr8c unique (dispositivo_id, fatura_id);
+alter table item
+    add constraint FKn42t0ctwoqyll1vdpum621nsf foreign key (dispositivo_id) references public.dispositivo;
+alter table item
+    add constraint FKmjftulusmdcglxksogwura8tm foreign key (fatura_id) references public.fatura;
+alter table item_aud
+    add constraint FKb4tfxb8mfygec3h6efbsdps5e foreign key (rev) references public.revision;

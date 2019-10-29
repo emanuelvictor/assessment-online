@@ -50,7 +50,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
      *
      */
     @Override
-    public Fatura execute(final Fatura fatura) {
+    public Fatura fecharFatura(final Fatura fatura) {
 
         final String tenant = tenantIdentifierResolver.resolveCurrentTenantIdentifier();
 

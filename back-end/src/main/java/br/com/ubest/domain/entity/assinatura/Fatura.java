@@ -55,8 +55,7 @@ public class Fatura extends AbstractEntity implements Serializable {
      * Inserida quando a fatura é fechada,
      * Nesse momento também é inserido o pedido.
      */
-    @NotNull
-    @Column(nullable = false)
+    @Column
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataFechamento;
 
