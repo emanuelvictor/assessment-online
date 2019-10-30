@@ -12,7 +12,9 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
@@ -138,13 +140,16 @@ public class Fatura extends AbstractEntity implements Serializable {
      * @return
      */
     public BigDecimal getValor() {
-        final BigDecimal valor = new BigDecimal(0);
+        BigDecimal valor = new BigDecimal(0);
         if (items != null)
-            this.items.forEach(item -> valor.add(item.getPreco()));
+            for (int i = 0; i < items.size(); i++) {
+                valor = valor.add(new ArrayList<>(items).get(i).getPreco());
+            }
         return valor;
     }
 
     /**
+     * TODO alterar para pegar somente o desconto, ou criar outro
      * @return
      */
     public BigDecimal getValorComDesconto() {

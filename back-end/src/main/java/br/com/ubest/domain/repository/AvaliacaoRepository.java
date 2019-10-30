@@ -1,8 +1,6 @@
 package br.com.ubest.domain.repository;
 
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
-import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
-import br.com.ubest.domain.entity.unidade.Unidade;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -125,5 +122,55 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
                                   @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
                                   @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter,
                                   final Pageable pageable);
+
+    /**
+     * @param dispositivoId
+     * @param dataInicioFilter
+     * @param dataTerminoFilter
+     * @return
+     */
+    @Query("SELECT COUNT(avaliacao.id) FROM Avaliacao avaliacao " +
+            "       INNER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliacao.id = avaliacao.id " +
+            "       INNER JOIN Agrupador agrupador ON avaliacao.agrupador.id = agrupador.id " +
+            "       INNER JOIN Unidade unidade ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id = unidade.id " +
+            "       INNER JOIN Dispositivo dispositivo ON avaliacaoAvaliavel.avaliavel.unidadeTipoAvaliacaoDispositivo.dispositivo.id = dispositivo.id " +
+            "   WHERE " +
+            "   (   " +
+            "       (" +
+            "           (" +
+            "               ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
+            "               AND " +
+            "               (" +
+            "                   (" +
+            "                           (cast(:dataInicioFilter AS date)) IS NOT NULL " +
+            "                       AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
+            "                       AND :dataInicioFilter <= avaliacao.data AND avaliacao.data <= :dataTerminoFilter" +
+            "                   )" +
+            "                   OR" +
+            "                   (" +
+            "                           (cast(:dataInicioFilter AS date)) IS NOT NULL " +
+            "                       AND (cast(:dataTerminoFilter AS date)) IS NULL " +
+            "                       AND :dataInicioFilter <= avaliacao.data " +
+            "                   )" +
+            "                   OR" +
+            "                   (" +
+            "                           (cast(:dataInicioFilter AS date)) IS NULL " +
+            "                       AND (cast(:dataTerminoFilter AS date)) IS NOT NULL " +
+            "                       AND avaliacao.data <= :dataTerminoFilter " +
+            "                   )" +
+            "               )" +
+            "           )" +
+            "           OR ((cast(:dataInicioFilter AS date)) IS NULL AND (cast(:dataTerminoFilter AS date)) IS NULL)" +
+            "       )" +
+            "       AND " +
+            "       (" +
+            "           dispositivo.id = :dispositivoId" +
+            "       )" +
+            "   )"
+    )
+    int countByDispositivoIdAndDates(@Param("dispositivoId") final long dispositivoId,
+                                   @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
+                                   @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter);
+
 
 }

@@ -5,6 +5,7 @@ import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.assinatura.Fatura;
 import br.com.ubest.domain.entity.assinatura.Item;
 import br.com.ubest.domain.repository.AssinaturaRepository;
+import br.com.ubest.domain.repository.AvaliacaoRepository;
 import br.com.ubest.domain.repository.FaturaRepository;
 import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
 import br.com.ubest.infrastructure.tenant.TenantDetailsService;
@@ -19,8 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -33,17 +32,17 @@ public class FaturaService {
     /**
      *
      */
-    private final AvaliacaoService avaliacaoService;
-
-    /**
-     *
-     */
     private final FaturaRepository faturaRepository;
 
     /**
      *
      */
     private final DispositivoService dispositivoService;
+
+    /**
+     *
+     */
+    private final AvaliacaoRepository avaliacaoRepository;
 
     /**
      *
@@ -122,13 +121,14 @@ public class FaturaService {
      */
     @Transactional
     Fatura fecharFatura(final Fatura fatura) {
+
         LOGGER.info("Fechando fatura");
+
         fatura.setDataFechamento(fatura.getCreated().plusMonths(1).withDayOfMonth(1).toLocalDate());
 
         fatura.getItems().forEach(item -> {
 
-            //TODO testar
-            final int totalAvaliacoesDispositivo = avaliacaoService.listByFilters(null, null, Collections.singletonList(item.getDispositivo().getId()), null, null, null, fatura.getCreated(), fatura.getDataFechamento().plusDays(1).atStartOfDay(), null).getSize();
+            final int totalAvaliacoesDispositivo = this.avaliacaoRepository.countByDispositivoIdAndDates(item.getDispositivo().getId(), fatura.getDataFechamento().minusMonths(1).atStartOfDay(), fatura.getDataFechamento().atStartOfDay());
 
             final BigDecimal preco = fatura.getAssinatura().getPlano().getValorMensal();
             if (totalAvaliacoesDispositivo > fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes()) {

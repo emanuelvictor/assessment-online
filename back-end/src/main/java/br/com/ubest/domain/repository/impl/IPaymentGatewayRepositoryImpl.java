@@ -52,6 +52,9 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
     @Override
     public Fatura fecharFatura(final Fatura fatura) {
 
+        if (!fatura.getAssinatura().isCompleted())
+            throw new RuntimeException("A assinatura está incompleta!");
+
         final String tenant = tenantIdentifierResolver.resolveCurrentTenantIdentifier();
 
         final Conta conta = contaRepository.findByEmailIgnoreCase(tenant);
@@ -63,8 +66,8 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
 
         final Map<String, Object> phone = payloadFactory(
                 value("countryCode", "55"),
-                value("areaCode", fatura.getAssinatura().getCodigoArea()),
-                value("number", fatura.getAssinatura().getTelefone())
+                value("areaCode", fatura.getAssinatura().getCodigoArea().toString()),
+                value("number", fatura.getAssinatura().getTelefone().toString())
         );
 
         final Map<String, Object> shippingAddress = payloadFactory(
@@ -79,48 +82,48 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
 
         final Map<String, Object> customerRequestBody = payloadFactory(
                 value("id", fatura.getAssinatura().getPaymentGatewayId()),
-                value("ownId", tenant),
-                value("fullname", fatura.getAssinatura().getNomeTitular()),
-                value("email", conta.getEmail()),
-                value("birthDate", fatura.getAssinatura().getDataNascimentoTitular().format(DateTimeFormatter.ISO_DATE)),
-                value("taxDocument", taxDocument),
+//                value("ownId", tenant),
+//                value("fullname", fatura.getAssinatura().getNomeTitular()),
+//                value("email", conta.getEmail()),
+//                value("birthDate", fatura.getAssinatura().getDataNascimentoTitular().format(DateTimeFormatter.ISO_DATE)),
+//                value("taxDocument", taxDocument),
                 value("phone", phone),
                 value("shippingAddress", shippingAddress)
         );
 
-        final Map<String, Object> subtotals = payloadFactory(
-                value("shipping", fatura.getValorComDesconto())
-        );
+//        final Map<String, Object> subtotals = payloadFactory(
+//                value("shipping", fatura.getValor().intValueExact())
+//        );
 
         final Map<String, Object> amount = payloadFactory(
-                value("currency", "BRL"),
-                value("subtotals", subtotals)
+                value("currency", "BRL")
+
+//              ,  value("subtotals", subtotals)
         );
 
-        final List<Map<String, Object>> items = new ArrayList<>();
+        final List<Map<String, Object>> itens = new ArrayList<>();
 
         fatura.getItems().forEach(item -> {
 
             final Map<String, Object> product = payloadFactory(
                     value("product", item.getDispositivo().getNome()),
-                    value("category", "INTERNET"),
                     value("quantity", 1),
                     value("detail", "Licença para Uso de Software - Ubest Avaliações Online"),
-                    value("price", item.getPreco())
+                    value("price", item.getPreco().toString().replace(".", ""))
             );
 
-            items.add(product);
+            itens.add(product);
         });
 
-        final Map<String, Object> customer = payloadFactory(
-                value("id", customerRequestBody.get("id"))
-        );
+//        final Map<String, Object> customer = payloadFactory(
+//                value("id", customerRequestBody.get("id"))
+//        );
 
         final Map<String, Object> order = payloadFactory(
-                value("ownId", tenant),
+                value("ownId", fatura.getId()),
                 value("amount", amount),
-                value("items", items),
-                value("customer", customer)
+                value("items", itens),
+                value("customer", customerRequestBody)
         );
 
         final Map<String, Object> responseCreation = Moip.API.orders().create(order, setup);
@@ -136,20 +139,20 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
     @Override
     public Assinatura createAccount(final Assinatura assinatura) {
 
+        if (!assinatura.isCompleted())
+            return assinatura;
+
+        // Se já tiver o gateway id não atualiza
+        // A wirecard não provê a funcionalidade de se atualizar o cliente.
+        // A não ser que seja através do pedido
+        if (assinatura.getPaymentGatewayId() != null)
+            return assinatura;
+
         final String tenant = tenantIdentifierResolver.resolveCurrentTenantIdentifier();
 
         final Conta conta = contaRepository.findByEmailIgnoreCase(tenant);
 
         try {
-
-            if (!assinatura.isCompleted())
-                return assinatura;
-
-            // Se já tiver o gateway id não atualiza
-            // A wirecard não provê a funcionalidade de se atualizar o cliente.
-            // A não ser que seja através do pedido
-            if (assinatura.getPaymentGatewayId() != null)
-                return assinatura;
 
             final Map<String, Object> taxDocument = payloadFactory(
                     value("type", assinatura.getSouEmpresa() != null && assinatura.getSouEmpresa() ? "CNPJ" : "CPF"),
