@@ -139,15 +139,6 @@ public class Assinatura extends AbstractEntity implements Serializable {
 //    private Set<Dispositivo> dispositivos;
 
     /**
-     * Retorna a data de vencimento da fatura do mês corrente
-     *
-     * @return
-     */
-    public LocalDate getDataVencimentoProximaFatura() {
-        return LocalDate.now().withDayOfMonth(this.diaVencimentoFatura).plusMonths(1);
-    }
-
-    /**
      * @return
      */
     @Transient

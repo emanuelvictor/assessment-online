@@ -88,7 +88,7 @@ public class FaturaService {
             this.faturaRepository.findLastByTenant(tenant).stream().findFirst().ifPresentOrElse(ultimaFatura -> {
 
                         // Hoje é o dia 1 do mês seguinte ao da criação dela ou é depois?
-                        if (LocalDateTime.now().isAfter(ultimaFatura.getCreated().plusMonths(1).withDayOfMonth(1))) {
+                        if (LocalDate.now().isAfter(ultimaFatura.getDataAbertura().plusMonths(1).withDayOfMonth(1))) {
 
                             // A data de fechamento está nula? (Se estiver nula então ainda não foi fechada)
                             if (ultimaFatura.getDataFechamento() == null) {
@@ -124,7 +124,7 @@ public class FaturaService {
 
         LOGGER.info("Fechando fatura");
 
-        fatura.setDataFechamento(fatura.getCreated().plusMonths(1).withDayOfMonth(1).toLocalDate());
+        fatura.setDataFechamento(fatura.getDataAbertura().plusMonths(1).withDayOfMonth(1));
 
         fatura.getItens().forEach(item -> {
 
@@ -156,7 +156,7 @@ public class FaturaService {
 //        fatura.setPaymentId(this.paymentGatewayRepository.executarFatura(fatura).getPaymentId()); TODO concluir
 //        fatura.setDataPagamento(LocalDate.now());
 
-        fatura.setDataPagamento(fatura.getCreated().plusMonths(1).toLocalDate()); //TODO remover
+        fatura.setDataPagamento(fatura.getDataAbertura().plusMonths(1)); //TODO remover
         return this.faturaRepository.save(fatura);
     }
 

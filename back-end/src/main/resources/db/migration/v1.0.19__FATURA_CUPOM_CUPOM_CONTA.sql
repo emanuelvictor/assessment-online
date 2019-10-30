@@ -55,6 +55,7 @@ create table fatura
     created         timestamp   not null,
     updated         timestamp,
     cancelada       boolean     not null,
+    data_abertura   date        not null,
     data_fechamento date,
     data_vencimento date        not null,
     data_pagamento  date,
@@ -72,6 +73,7 @@ create table fatura_aud
     payment_id      varchar(255),
     cancelada       boolean,
     revtype         int2,
+    data_abertura   date,
     data_fechamento date,
     data_vencimento date,
     data_pagamento  date,
@@ -81,6 +83,7 @@ create table fatura_aud
     cupom_id        int8,
     primary key (id, rev)
 );
+
 alter table fatura
     drop constraint if exists UK_1u0ot1pv169mhi8d5plwc4oib;
 alter table fatura
@@ -92,6 +95,13 @@ alter table fatura
 alter table fatura_aud
     add constraint FKlp9hb25syyvcyaspl4e91iwm foreign key (rev) references public.revision;
 
+alter table fatura drop constraint if exists UKctgmklexj8hk7l1q799wjxeqw;
+alter table fatura add constraint UKctgmklexj8hk7l1q799wjxeqw unique (tenant, data_abertura);
+alter table fatura drop constraint if exists UK8xa8ig0ghjrlstktg9a1kfixe;
+alter table fatura add constraint UK8xa8ig0ghjrlstktg9a1kfixe unique (tenant, data_fechamento);
+alter table fatura drop constraint if exists UKtfx0qgk7hl0vtc3cu3vtrki5b;
+alter table fatura add constraint UKtfx0qgk7hl0vtc3cu3vtrki5b unique (tenant, data_vencimento);
+
 create table item
 (
     id             bigserial not null,
@@ -102,6 +112,7 @@ create table item
     fatura_id      int8      not null,
     primary key (id)
 );
+
 create table item_aud
 (
     id             int8 not null,
