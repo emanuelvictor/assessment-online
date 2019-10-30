@@ -126,7 +126,7 @@ public class FaturaService {
 
         fatura.setDataFechamento(fatura.getCreated().plusMonths(1).withDayOfMonth(1).toLocalDate());
 
-        fatura.getItems().forEach(item -> {
+        fatura.getItens().forEach(item -> {
 
             final int totalAvaliacoesDispositivo = this.avaliacaoRepository.countByDispositivoIdAndDates(item.getDispositivo().getId(), fatura.getDataFechamento().minusMonths(1).atStartOfDay(), fatura.getDataFechamento().atStartOfDay());
 
@@ -175,10 +175,10 @@ public class FaturaService {
             item.setFatura(fatura);
             item.setPreco(fatura.getAssinatura().getPlano().getValorMensal());
 
-            if (fatura.getItems() == null)
-                fatura.setItems(new HashSet<>());
+            if (fatura.getItens() == null)
+                fatura.setItens(new HashSet<>());
 
-            fatura.getItems().add(item);
+            fatura.getItens().add(item);
 
         });
 

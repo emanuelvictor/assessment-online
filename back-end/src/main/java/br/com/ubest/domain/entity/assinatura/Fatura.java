@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
@@ -110,7 +109,7 @@ public class Fatura extends AbstractEntity implements Serializable {
      */
     @EqualsAndHashCode.Exclude
     @OneToMany(targetEntity = Item.class, mappedBy = "fatura", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
-    private Set<Item> items;
+    private Set<Item> itens;
 
     /**
      *
@@ -141,9 +140,9 @@ public class Fatura extends AbstractEntity implements Serializable {
      */
     public BigDecimal getValor() {
         BigDecimal valor = new BigDecimal(0);
-        if (items != null)
-            for (int i = 0; i < items.size(); i++) {
-                valor = valor.add(new ArrayList<>(items).get(i).getPreco());
+        if (itens != null)
+            for (int i = 0; i < itens.size(); i++) {
+                valor = valor.add(new ArrayList<>(itens).get(i).getPreco());
             }
         return valor;
     }

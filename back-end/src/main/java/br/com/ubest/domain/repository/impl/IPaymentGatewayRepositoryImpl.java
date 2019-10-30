@@ -82,11 +82,11 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
 
         final Map<String, Object> customerRequestBody = payloadFactory(
                 value("id", fatura.getAssinatura().getPaymentGatewayId()),
-//                value("ownId", tenant),
-//                value("fullname", fatura.getAssinatura().getNomeTitular()),
-//                value("email", conta.getEmail()),
-//                value("birthDate", fatura.getAssinatura().getDataNascimentoTitular().format(DateTimeFormatter.ISO_DATE)),
-//                value("taxDocument", taxDocument),
+                value("ownId", tenant),
+                value("fullname", fatura.getAssinatura().getNomeTitular()),
+                value("email", conta.getEmail()),
+                value("birthDate", fatura.getAssinatura().getDataNascimentoTitular().format(DateTimeFormatter.ISO_DATE)),
+                value("taxDocument", taxDocument),
                 value("phone", phone),
                 value("shippingAddress", shippingAddress)
         );
@@ -103,7 +103,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
 
         final List<Map<String, Object>> itens = new ArrayList<>();
 
-        fatura.getItems().forEach(item -> {
+        fatura.getItens().forEach(item -> {
 
             final Map<String, Object> product = payloadFactory(
                     value("product", item.getDispositivo().getNome()),

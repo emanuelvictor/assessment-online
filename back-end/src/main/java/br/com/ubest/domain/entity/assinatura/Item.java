@@ -1,29 +1,28 @@
 package br.com.ubest.domain.entity.assinatura;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.domain.entity.generic.EntityIdResolver;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
-import br.com.ubest.domain.entity.unidade.Unidade;
-import br.com.ubest.domain.entity.usuario.Perfil;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Data
 @Entity
 @Audited
 @EqualsAndHashCode(callSuper = true)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id",
+        scope = Item.class,
+        resolver = EntityIdResolver.class
+)
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"dispositivo_id", "fatura_id"})
 })
