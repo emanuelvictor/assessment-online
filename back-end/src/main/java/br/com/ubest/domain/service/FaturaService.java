@@ -130,10 +130,10 @@ public class FaturaService {
 
             final int totalAvaliacoesDispositivo = this.avaliacaoRepository.countByDispositivoIdAndDates(item.getDispositivo().getId(), fatura.getDataFechamento().minusMonths(1).atStartOfDay(), fatura.getDataFechamento().atStartOfDay());
 
-            final BigDecimal preco = fatura.getAssinatura().getPlano().getValorMensal();
+            BigDecimal preco = fatura.getAssinatura().getPlano().getValorMensal();
             if (totalAvaliacoesDispositivo > fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes()) {
                 final int valiacoesExcedentes = totalAvaliacoesDispositivo - fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes();
-                preco.add(fatura.getAssinatura().getPlano().getValorAvaliacoesExcedentes().multiply(new BigDecimal(valiacoesExcedentes)));
+                preco = preco.add(fatura.getAssinatura().getPlano().getValorAvaliacoesExcedentes().multiply(new BigDecimal(valiacoesExcedentes)));
             }
 
             item.setPreco(preco);
