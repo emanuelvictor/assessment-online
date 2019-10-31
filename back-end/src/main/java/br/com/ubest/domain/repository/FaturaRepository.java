@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface FaturaRepository extends JpaRepository<Fatura, Long> {
 
@@ -16,12 +15,14 @@ public interface FaturaRepository extends JpaRepository<Fatura, Long> {
     /**
      *
      */
-    @Query("FROM Fatura fatura WHERE fatura.tenant = :tenant ORDER BY (fatura.created) DESC")
-    List<Fatura> findLastByTenant(@Param("tenant") final String tenant);
+    @Query("FROM Fatura fatura WHERE fatura.tenant = :tenant " +
+            "AND (" +
+            "   fatura.dataAbertura = (SELECT MAX(faturaInner.dataAbertura) FROM Fatura faturaInner WHERE faturaInner.tenant = :tenant)" +
+            ")")
+    List<Fatura> findLastsFaturasByTenant(@Param("tenant") final String tenant);
 
     /**
      * @param tenant
-     * @param defaultFilter
      * @param pageable
      * @return
      */

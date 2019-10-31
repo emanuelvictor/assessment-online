@@ -19,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
@@ -84,33 +84,35 @@ public class FaturaService {
             // Pega a assinatura
             final Assinatura assinatura = assinaturaRepository.findAll().stream().findFirst().orElseThrow();
 
-            // Pego a última fatura em aberto
-            this.faturaRepository.findLastByTenant(tenant).stream().findFirst().ifPresentOrElse(ultimaFatura -> {
+            // Pego as últimas faturas em aberto
+            final List<Fatura> ultimasFaturas = this.faturaRepository.findLastsFaturasByTenant(tenant);
 
-                        // Hoje é o dia 1 do mês seguinte ao da criação dela ou é depois?
-                        if (LocalDate.now().isAfter(ultimaFatura.getDataAbertura().plusMonths(1).withDayOfMonth(1))) {
+            // Se tem faturas em aberto
+            if (!ultimasFaturas.isEmpty())
+                ultimasFaturas.forEach(ultimaFatura -> {
 
-                            // A data de fechamento está nula? (Se estiver nula então ainda não foi fechada)
-                            if (ultimaFatura.getDataFechamento() == null) {
-                                this.fecharFatura(ultimaFatura);
-                                this.inserirProximaFatura(new Fatura(tenant, assinatura));
-                            } else {
-                                // É dia (ou depois) do vencimento da fatura
-                                if (LocalDate.now().isEqual(ultimaFatura.getDataVencimento()) || LocalDate.now().isAfter(ultimaFatura.getDataVencimento())) {
-                                    // A data de pagamento está nula?
-                                    if (ultimaFatura.getDataPagamento() == null) {
-                                        this.executarFatura(ultimaFatura);
-                                    }
+                    // Hoje é o dia 1 do mês seguinte ao da criação dela ou é depois?
+                    if (LocalDate.now().isAfter(ultimaFatura.getDataAbertura().plusMonths(1).withDayOfMonth(1))) {
+
+                        // A data de fechamento está nula? (Se estiver nula então ainda não foi fechada)
+                        if (ultimaFatura.getDataFechamento() == null) {
+                            this.fecharFatura(ultimaFatura);
+                            this.inserirProximaFatura(new Fatura(tenant, assinatura));
+                        } else {
+                            // É dia (ou depois) do vencimento da fatura
+                            if (LocalDate.now().isEqual(ultimaFatura.getDataVencimento()) || LocalDate.now().isAfter(ultimaFatura.getDataVencimento())) {
+                                // A data de pagamento está nula?
+                                if (ultimaFatura.getDataPagamento() == null) {
+                                    this.executarFatura(ultimaFatura);
                                 }
                             }
                         }
+                    }
 
-                    },
+                });
 
-                    // Se não há primeira fatura, insiro a primeira
-                    () -> this.inserirPrimeiraFatura(new Fatura(tenant, assinatura))
-
-            );
+                // Se não há primeira fatura, insiro a primeira TODO
+            else this.inserirPrimeiraFatura(new Fatura(tenant, assinatura));
         });
     }
 
