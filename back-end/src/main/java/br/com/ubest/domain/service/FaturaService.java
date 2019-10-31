@@ -4,7 +4,7 @@ import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.assinatura.Fatura;
 import br.com.ubest.domain.entity.assinatura.Item;
-import br.com.ubest.domain.repository.AssinaturaRepository;
+import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.AvaliacaoRepository;
 import br.com.ubest.domain.repository.FaturaRepository;
 import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -37,17 +38,17 @@ public class FaturaService {
     /**
      *
      */
+    private final AssinaturaService assinaturaService;
+
+    /**
+     *
+     */
     private final DispositivoService dispositivoService;
 
     /**
      *
      */
     private final AvaliacaoRepository avaliacaoRepository;
-
-    /**
-     *
-     */
-    private final AssinaturaRepository assinaturaRepository;
 
     /**
      *
@@ -82,7 +83,7 @@ public class FaturaService {
             tenantIdentifierResolver.setSchema(tenant);
 
             // Pega a assinatura
-            final Assinatura assinatura = assinaturaRepository.findAll().stream().findFirst().orElseThrow();
+            final Assinatura assinatura = assinaturaService.getAssinatura();
 
             // Pego as últimas faturas em aberto
             final List<Fatura> ultimasFaturas = this.faturaRepository.findLastsFaturasByTenant(tenant);
@@ -97,7 +98,12 @@ public class FaturaService {
                         // A data de fechamento está nula? (Se estiver nula então ainda não foi fechada)
                         if (ultimaFatura.getDataFechamento() == null) {
                             this.fecharFatura(ultimaFatura);
-                            this.inserirProximaFatura(new Fatura(tenant, assinatura));
+
+                            if (this.assinaturaService.getAssinatura().isAgruparFaturas())
+                                this.inserirProximaFaturaAgrupada(new Fatura(tenant, assinatura));
+                            else
+                                this.inserirProximaFatura(ultimaFatura);
+
                         } else {
                             // É dia (ou depois) do vencimento da fatura
                             if (LocalDate.now().isEqual(ultimaFatura.getDataVencimento()) || LocalDate.now().isAfter(ultimaFatura.getDataVencimento())) {
@@ -111,8 +117,28 @@ public class FaturaService {
 
                 });
 
-                // Se não há primeira fatura, insiro a primeira TODO
-            else this.inserirPrimeiraFatura(new Fatura(tenant, assinatura));
+                // Se não há primeira fatura, insiro a primeira
+            else {
+                if (this.assinaturaService.getAssinatura().isAgruparFaturas())
+                    this.inserirPrimeiraFaturaAgrupada(new Fatura(tenant, assinatura));
+                else {
+                    dispositivoService.listByFilters(null, null).getContent().forEach(dispositivo -> {
+                        final Fatura proximaFatura = new Fatura(tenant, assinatura);
+                        proximaFatura.setItens(new HashSet<>());
+
+                        if (dispositivo.isEnabled()) {
+                            final Item item = new Item();
+                            item.setDispositivo(dispositivo);
+                            item.setFatura(proximaFatura);
+                            item.setPreco(proximaFatura.getAssinatura().getPlano().getValorMensal());
+
+                            proximaFatura.getItens().add(item);
+
+                            this.inserirPrimeiraFatura(proximaFatura);
+                        }
+                    });
+                }
+            }
         });
     }
 
@@ -163,28 +189,84 @@ public class FaturaService {
     }
 
     /**
+     * Insere uma fatura com base na última
+     *
      * @param fatura
      * @return
      */
     @Transactional
     Fatura inserirProximaFatura(final Fatura fatura) {
-        LOGGER.info("Inserindo próxima fatura");
+        LOGGER.info("Inserindo próxima fatura com base na última");
 
-        dispositivoService.listByFilters(null, null).getContent().forEach(dispositivo -> { // TODO colocar datas
+        final Fatura proximaFatura = new Fatura(fatura.getTenant(), fatura.getAssinatura());
+        proximaFatura.setItens(new HashSet<>());
 
-            final Item item = new Item();
-            item.setDispositivo(dispositivo);
-            item.setFatura(fatura);
-            item.setPreco(fatura.getAssinatura().getPlano().getValorMensal());
+        final List<Item> itensDaFatura = new ArrayList<>(fatura.getItens());
 
-            if (fatura.getItens() == null)
-                fatura.setItens(new HashSet<>());
+        for (Item value : itensDaFatura) {
+            if (value.getDispositivo().isEnabled()) {
+                final Item item = new Item();
+                item.setDispositivo(value.getDispositivo());
+                item.setFatura(proximaFatura);
+                item.setPreco(proximaFatura.getAssinatura().getPlano().getValorMensal());
 
-            fatura.getItens().add(item);
+                proximaFatura.getItens().add(item);
+            }
+        }
 
+        // Só insere se houver itens, e se a assinatura não estiver cancelada
+        if (!proximaFatura.getItens().isEmpty() && !proximaFatura.getAssinatura().isCancelada())
+            // Se eu tenho uma fatura posterior á anterior, então não insere.
+            // Pois já foi inserida a próxima fatura agrupada
+            return this.faturaRepository.save(proximaFatura);
+
+        return null;
+    }
+
+    /**
+     * Insere uma fatura que agrupa todas as licenças
+     *
+     * @param fatura
+     * @return
+     */
+    @Transactional
+    Fatura inserirProximaFaturaAgrupada(final Fatura fatura) {
+        LOGGER.info("Inserindo próxima fatura agrupada");
+
+        final Fatura proximaFatura = new Fatura(fatura.getTenant(), fatura.getAssinatura());
+        proximaFatura.setItens(new HashSet<>());
+
+        final List<Dispositivo> dispositivos = dispositivoService.listByFilters(null, null).getContent();
+        dispositivos.forEach(dispositivo -> {
+            if (dispositivo.isEnabled()) {
+                final Item item = new Item();
+                item.setDispositivo(dispositivo);
+                item.setFatura(proximaFatura);
+                item.setPreco(proximaFatura.getAssinatura().getPlano().getValorMensal());
+
+                proximaFatura.getItens().add(item);
+            }
         });
 
-        return this.faturaRepository.save(fatura);
+        // Só insere se houver itens, e se a assinatura não estiver cancelada
+        if (!proximaFatura.getItens().isEmpty() && !proximaFatura.getAssinatura().isCancelada()) {
+            // Se eu tenho uma fatura posterior á anterior, então não insere.
+            // Pois já foi inserida a próxima fatura agrupada
+            if (this.faturaRepository.next(proximaFatura.getTenant(), fatura.getDataAbertura()).isEmpty())
+                return this.faturaRepository.save(proximaFatura);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param fatura
+     * @return
+     */
+    @Transactional
+    Fatura inserirPrimeiraFaturaAgrupada(final Fatura fatura) {
+        LOGGER.info("Inserindo primeira fatura");
+        return this.inserirProximaFaturaAgrupada(fatura);
     }
 
     /**

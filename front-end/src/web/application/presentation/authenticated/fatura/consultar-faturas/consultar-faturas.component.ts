@@ -40,8 +40,9 @@ export class ConsultarFaturasComponent implements OnInit {
    * Serve para armazenar as colunas que serão exibidas na tabela
    */
   public displayedColumns: string[] = [
-    'created',
     'cancelada',
+    'dataAbertura',
+    'dataFechamento',
     'dataVencimento',
     'dataPagamento',
     'linkBoleto',

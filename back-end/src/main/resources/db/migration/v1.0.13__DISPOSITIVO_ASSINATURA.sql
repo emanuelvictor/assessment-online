@@ -13,7 +13,7 @@ create table if not exists assinatura
     nome_titular            varchar(150),
     hash                    varchar,
     documento_titular       varchar(20),
-    agrupar_faturas         boolean   not null default true,
+    agrupar_faturas         boolean   not null default false,
     sou_empresa             boolean,
     cancelada               boolean   not null,
     dia_vencimento_fatura   smallint  not null default 5,

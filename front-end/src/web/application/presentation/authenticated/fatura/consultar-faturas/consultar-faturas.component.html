@@ -10,11 +10,11 @@
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
 
-      <input (matChipInputTokenEnd)='addDefaultFilter($event)'
-             (ngModelChange)='defaultFilterChanged($event)'
-             [(ngModel)]='defaultFilter'
-             [matChipInputAddOnBlur]='true' [matChipInputFor]='defaultFilterChipList'
-             [ngModelOptions]='{standalone: true}' placeholder='Pesquisar pelo nome ou número do fatura'>
+      <input (ngModelChange)='defaultFilterChanged($event)'
+             (matChipInputTokenEnd)='addDefaultFilter($event)'
+             placeholder='Pesquisar pelo nome ou número do fatura'
+             [(ngModel)]='defaultFilter' [ngModelOptions]='{standalone: true}'
+             [matChipInputAddOnBlur]='true' [matChipInputFor]='defaultFilterChipList'>
 
     </mat-chip-list>
 
@@ -35,78 +35,107 @@
 
     <div class='mat-elevation-z4'>
 
-      <mat-table #table [dataSource]='dataSource' class='bgc-grey-50'
-                 matSort matSortActive='data'
-                 matSortDirection='asc' matSortDisableClear>
+      <mat-table #table [dataSource]='dataSource'
+                 matSortDirection='asc' matSortDisableClear
+                 matSort matSortActive='data' class='bgc-grey-50'>
 
         <ng-container matColumnDef='linkBoleto'>
-          <mat-header-cell *matHeaderCellDef flex-gt-md='30' flex-md='20' flex-sm='30'
-                           flex-xl='30' layout-align='start center' mat-sort-header>
+          <mat-header-cell *matHeaderCellDef flex-gt-md='30'
+                           flex-xl='30' layout-align='start center'
+                           flex-md='20' flex-sm='30' mat-sort-header>
             <div layout='column' layout-margin>
               Boleto
             </div>
           </mat-header-cell>
-          <mat-cell *matCellDef='let fatura' flex-gt-md='30' flex-md='30' flex-sm='30'
+          <mat-cell flex-md='30' flex-sm='30'
+                    *matCellDef='let fatura' flex-gt-md='30'
                     flex-xl='30' layout-align='start center'>
             <div layout='column' layout-margin>
-              {{fatura?.linkBoleto ? fatura?.linkBoleto : 'Pagamento via cartão'}}
+              {{fatura?.assinatura?.formaPagamento === 'BOLETO' ? (fatura?.linkBoleto) : 'Pagamento via cartão'}}
             </div>
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef='cancelada'>
-          <mat-header-cell *matHeaderCellDef flex-gt-md='70' flex-md='70' flex-sm='70'
-                           flex-xl='70' layout-align='start center' mat-sort-header>
+          <mat-header-cell *matHeaderCellDef flex-gt-md='70'
+                           flex-xl='70' layout-align='start center'
+                           flex-md='70' flex-sm='70' mat-sort-header>
             <div layout='column' layout-margin>
               Cancelada
             </div>
           </mat-header-cell>
-          <mat-cell *matCellDef='let fatura' flex-gt-md='70' flex-md='70' flex-sm='70'
-                    flex-xl='70' layout-align='start center'>
+          <mat-cell *matCellDef='let fatura'
+                    flex-xl='70' layout-align='start center'
+                    flex-gt-md='70' flex-md='70' flex-sm='70'>
             <div layout='column' layout-margin>
               {{fatura?.cancelada ? 'Sim' : 'Não'}}
             </div>
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef='created'>
-          <mat-header-cell *matHeaderCellDef flex-gt-md='70' flex-md='70' flex-sm='70'
-                           flex-xl='70' layout-align='start center' mat-sort-header>
+        <ng-container matColumnDef='dataAbertura'>
+          <mat-header-cell mat-sort-header
+                           flex-md='70' flex-sm='70'
+                           *matHeaderCellDef flex-gt-md='70'
+                           flex-xl='70' layout-align='start center'>
             <div layout='column' layout-margin>
-              Criação
+              Data Abertura
             </div>
           </mat-header-cell>
-          <mat-cell *matCellDef='let fatura' flex-gt-md='70' flex-md='70' flex-sm='70'
+          <mat-cell flex-md='70' flex-sm='70'
+                    flex-gt-md='70' *matCellDef='let fatura'
                     flex-xl='70' layout-align='start center'>
             <div layout='column' layout-margin>
-              {{fatura?.created}}
+              {{fatura?.dataAbertura}}
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='dataFechamento'>
+          <mat-header-cell mat-sort-header
+                           flex-gt-md='70' flex-md='70'
+                           *matHeaderCellDef flex-sm='70'
+                           flex-xl='70' layout-align='start center'>
+            <div layout='column' layout-margin>
+              Data Fechamento
+            </div>
+          </mat-header-cell>
+          <mat-cell flex-md='70' flex-sm='70'
+                    flex-gt-md='70' *matCellDef='let fatura'
+                    flex-xl='70' layout-align='start center'>
+            <div layout='column' layout-margin>
+              {{fatura?.dataFechamento}}
             </div>
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef='dataVencimento'>
-          <mat-header-cell *matHeaderCellDef flex-gt-md='70' flex-md='70' flex-sm='70'
-                           flex-xl='70' layout-align='start center' mat-sort-header>
+          <mat-header-cell *matHeaderCellDef flex-gt-md='70'
+                           flex-xl='70' layout-align='start center'
+                           flex-md='70' flex-sm='70' mat-sort-header>
             <div layout='column' layout-margin>
               Data de Vencimento
             </div>
           </mat-header-cell>
-          <mat-cell *matCellDef='let fatura' flex-gt-md='70' flex-md='70' flex-sm='70'
+          <mat-cell flex-md='70' flex-sm='70'
+                    flex-gt-md='70' *matCellDef='let fatura'
                     flex-xl='70' layout-align='start center'>
             <div layout='column' layout-margin>
-              {{fatura?.dataVencimento | date:'dd/mm/yyyy'}}
+              {{fatura?.dataVencimento}}
             </div>
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef='dataPagamento'>
-          <mat-header-cell *matHeaderCellDef flex-gt-md='70' flex-md='70' flex-sm='70'
-                           flex-xl='70' layout-align='start center' mat-sort-header>
+          <mat-header-cell *matHeaderCellDef flex-gt-md='70'
+                           flex-xl='70' layout-align='start center'
+                           flex-md='70' flex-sm='70' mat-sort-header>
             <div layout='column' layout-margin>
               Data de Pagamento
             </div>
           </mat-header-cell>
-          <mat-cell *matCellDef='let fatura' flex-gt-md='70' flex-md='70' flex-sm='70'
+          <mat-cell flex-gt-md='70' flex-md='70'
+                    *matCellDef='let fatura' flex-sm='70'
                     flex-xl='70' layout-align='start center'>
             <div layout='column' layout-margin>
               {{fatura?.dataPagamento ? fatura?.dataPagamento : 'Em aberto'}}
@@ -123,8 +152,8 @@
       </mat-table>
       <no-records-found [dataSource]='dataSource?.data'></no-records-found>
       <mat-paginator (page)='listFaturasByFilters(pageRequest)'
-                     [length]='page.totalElements' [pageSizeOptions]='[5, 20, 50, 100]'
-                     class='bgc-grey-50' style='border-radius: 2px'>
+                     class='bgc-grey-50' style='border-radius: 2px'
+                     [length]='page.totalElements' [pageSizeOptions]='[5, 20, 50, 100]'>
       </mat-paginator>
     </div>
   </div>
