@@ -44,6 +44,11 @@ export class Assinatura extends Abstract {
   /**
    *
    */
+  public agruparFaturas: boolean;
+
+  /**
+   *
+   */
   public documentoTitular: string;
 
   /**

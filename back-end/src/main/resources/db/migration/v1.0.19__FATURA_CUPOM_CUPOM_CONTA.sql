@@ -95,13 +95,6 @@ alter table fatura
 alter table fatura_aud
     add constraint FKlp9hb25syyvcyaspl4e91iwm foreign key (rev) references public.revision;
 
-alter table fatura drop constraint if exists UKctgmklexj8hk7l1q799wjxeqw;
-alter table fatura add constraint UKctgmklexj8hk7l1q799wjxeqw unique (tenant, data_abertura);
-alter table fatura drop constraint if exists UK8xa8ig0ghjrlstktg9a1kfixe;
-alter table fatura add constraint UK8xa8ig0ghjrlstktg9a1kfixe unique (tenant, data_fechamento);
-alter table fatura drop constraint if exists UKtfx0qgk7hl0vtc3cu3vtrki5b;
-alter table fatura add constraint UKtfx0qgk7hl0vtc3cu3vtrki5b unique (tenant, data_vencimento);
-
 create table item
 (
     id             bigserial not null,

@@ -20,12 +20,8 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Data
 @Entity
 @Audited
+@Table(schema = DEFAULT_TENANT_ID)
 @EqualsAndHashCode(callSuper = true)
-@Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"tenant", "data_abertura"}),
-        @UniqueConstraint(columnNames = {"tenant", "data_fechamento"}),
-        @UniqueConstraint(columnNames = {"tenant", "data_vencimento"}),
-})
 public class Fatura extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -3875995612412345616L;

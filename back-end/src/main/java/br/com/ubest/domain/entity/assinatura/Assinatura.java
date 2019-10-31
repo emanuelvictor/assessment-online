@@ -78,6 +78,13 @@ public class Assinatura extends AbstractEntity implements Serializable {
     /**
      *
      */
+    @NotNull
+    @Column(nullable = false)
+    private boolean agruparFaturas = true;
+
+    /**
+     *
+     */
     @Column
     private Boolean souEmpresa = false;
 

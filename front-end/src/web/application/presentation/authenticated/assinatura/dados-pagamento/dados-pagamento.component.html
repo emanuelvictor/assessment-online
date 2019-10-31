@@ -24,11 +24,10 @@
   <div layout='column'>
     <div layout-gt-xs='row' layout-margin>
       <mat-form-field flex>
-        <input formControlName='nomeTitular'
-               matInput required somenteLetras
+        <input matInput required somenteLetras
                maxlength='80' name='nomeTitular'
                [(ngModel)]='assinatura.nomeTitular'
-               placeholder='Nome (impresso no cartão)'>
+               placeholder='Nome' formControlName='nomeTitular'>
         <mat-error *ngIf="form?.controls?.secondFormGroup?.controls['nomeTitular']?.hasError('exception')">
           {{form?.controls?.secondFormGroup?.controls['nomeTitular']?.errors?.exception}}
         </mat-error>
@@ -66,6 +65,12 @@
                       [ngModelOptions]='{standalone: true}'
                       style='margin-top: 35px; margin-right: 20px; margin-left:30px'>
           Sou empresa
+        </mat-checkbox>
+
+        <mat-checkbox [ngModelOptions]='{standalone: true}'
+                      [(ngModel)]='assinatura.agruparFaturas'
+                      style='margin-top: 35px; margin-right: 20px; margin-left:30px'>
+          Agrupar faturas
         </mat-checkbox>
       </div>
 
