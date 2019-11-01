@@ -41,7 +41,7 @@ public interface FaturaRepository extends JpaRepository<Fatura, Long> {
      */
     @Query("FROM Fatura fatura WHERE fatura.tenant = :tenant " +
             "AND (" +
-            "   fatura.dataAbertura > :date" +
+            "   fatura.dataAbertura >= :date" +
             ")")
     List<Fatura> next(@Param("tenant") final String tenant, @Param("date") final LocalDate date);
 }

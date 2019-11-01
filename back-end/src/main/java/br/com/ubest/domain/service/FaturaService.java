@@ -99,7 +99,7 @@ public class FaturaService {
                         if (ultimaFatura.getDataFechamento() == null) {
                             this.fecharFatura(ultimaFatura);
 
-                            if (this.assinaturaService.getAssinatura().isAgruparFaturas())
+                            if (assinatura.isAgruparFaturas())
                                 this.inserirProximaFaturaAgrupada(new Fatura(tenant, assinatura));
                             else
                                 this.inserirProximaFatura(ultimaFatura);
