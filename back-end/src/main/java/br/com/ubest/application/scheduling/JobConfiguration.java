@@ -54,7 +54,7 @@ public class JobConfiguration {
                 .forJob(job)
                 .withIdentity(LocalJob.class.getName())
                 .withSchedule(simpleSchedule()
-                        .repeatForever().withIntervalInSeconds(30))
+                        .repeatForever().withIntervalInSeconds(300))
 //                        .repeatForever().withIntervalInHours(24))
                 .build();
     }

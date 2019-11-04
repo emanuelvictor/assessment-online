@@ -1,11 +1,8 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.application.payment.PaymentGatewayConfiguration;
-import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
-import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.AssinaturaRepository;
-import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,7 +44,7 @@ public class AssinaturaService {
             assinatura.getEndereco().setCidade(null);
 
         // Salvo na wirecard
-        assinatura.setPaymentGatewayId(paymentGatewayRepository.createAccount(assinatura).getPaymentGatewayId());
+        assinatura.setClientId(paymentGatewayRepository.createAccount(assinatura).getClientId());
 
         return this.assinaturaRepository.save(assinatura);
 

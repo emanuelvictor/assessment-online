@@ -1,7 +1,7 @@
 package br.com.ubest.infrastructure.payment;
 
 import br.com.ubest.domain.entity.assinatura.Assinatura;
-import br.com.ubest.domain.entity.assinatura.Fatura;
+import br.com.ubest.domain.entity.assinatura.fatura.Fatura;
 
 /**
  * @author Emanuel Victor
@@ -14,6 +14,13 @@ public interface IPaymentGatewayRepository {
      * @return
      */
     Fatura fecharFatura(final Fatura fatura);
+
+    /**
+     *
+     * @param fatura
+     * @return
+     */
+    Fatura executarFatura(final Fatura fatura);
 
     /**
      *

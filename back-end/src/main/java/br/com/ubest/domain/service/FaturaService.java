@@ -2,8 +2,9 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
-import br.com.ubest.domain.entity.assinatura.Fatura;
-import br.com.ubest.domain.entity.assinatura.Item;
+import br.com.ubest.domain.entity.assinatura.FormaPagamento;
+import br.com.ubest.domain.entity.assinatura.fatura.Fatura;
+import br.com.ubest.domain.entity.assinatura.fatura.Item;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.AvaliacaoRepository;
 import br.com.ubest.domain.repository.FaturaRepository;
@@ -150,7 +151,6 @@ public class FaturaService {
      */
     @Transactional
     Fatura fecharFatura(final Fatura fatura) {
-
         LOGGER.info("Fechando fatura");
 
         fatura.setDataFechamento(fatura.getDataAbertura().plusMonths(1).withDayOfMonth(1));
@@ -170,6 +170,13 @@ public class FaturaService {
         });
 
         fatura.setOrderId(this.paymentGatewayRepository.fecharFatura(fatura).getOrderId());
+
+        if (fatura.getAssinatura().getFormaPagamento().equals(FormaPagamento.BOLETO)){
+            final Fatura faturaComBoleto = this.paymentGatewayRepository.executarFatura(fatura);
+            fatura.setPaymentId(faturaComBoleto.getPaymentId());
+            fatura.setLinkBoleto(faturaComBoleto.getLinkBoleto());
+//            fatura.setS
+        }
 
         return this.faturaRepository.save(fatura);
     }

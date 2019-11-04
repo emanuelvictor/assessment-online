@@ -6,7 +6,8 @@ import br.com.moip.models.NotificationPreferences;
 import br.com.moip.models.Setup;
 import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
-import br.com.ubest.domain.entity.assinatura.Fatura;
+import br.com.ubest.domain.entity.assinatura.FormaPagamento;
+import br.com.ubest.domain.entity.assinatura.fatura.Fatura;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.ContaRepository;
 import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
@@ -14,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static br.com.moip.helpers.PayloadFactory.payloadFactory;
 import static br.com.moip.helpers.PayloadFactory.value;
@@ -45,6 +43,72 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
      *
      */
     private final TenantIdentifierResolver tenantIdentifierResolver;
+
+    /**
+     *
+     */
+    @Override
+    public Fatura executarFatura(final Fatura fatura) {
+
+        if (!fatura.getAssinatura().isCompleted())
+            throw new RuntimeException("A assinatura está incompleta!");
+
+        final Map<String, Object> fundingInstrument;
+
+        if (fatura.getAssinatura().getFormaPagamento().equals(FormaPagamento.BOLETO)) {
+
+            final Map<String, Object> boleto = payloadFactory(
+                    value("expirationDate", fatura.getDataVencimento().format(DateTimeFormatter.ISO_DATE))
+            );
+
+            fundingInstrument = payloadFactory(
+                    value("method", "BOLETO"),
+                    value("boleto", boleto)
+            );
+        } else { //TODO
+
+            final Map<String, Object> taxDocument = payloadFactory(
+                    value("type", fatura.getAssinatura().getSouEmpresa() != null && fatura.getAssinatura().getSouEmpresa() ? "CNPJ" : "CPF"),
+                    value("number", fatura.getAssinatura().getDocumentoTitular())
+            );
+
+            final Map<String, Object> phone = payloadFactory(
+                    value("countryCode", "55"),
+                    value("areaCode", fatura.getAssinatura().getCodigoArea().toString()),
+                    value("number", fatura.getAssinatura().getTelefone().toString())
+            );
+
+            final Map<String, Object> holder = payloadFactory(
+                    value("fullname", "Portador Teste Moip"),
+                    value("birthdate", "1988-12-30"),
+                    value("taxDocument", taxDocument),
+                    value("phone", phone)
+            );
+
+
+            final Map<String, Object> creditCard = payloadFactory(
+                    value("hash", "CREDIT_CARD_HASH"),
+                    value("holder", holder)
+            );
+
+            fundingInstrument = payloadFactory(
+                    value("method", "CARTAO"),
+                    value("creditCard", creditCard)
+            );
+        }
+
+        final Map<String, Object> payment = payloadFactory(
+                value("fundingInstrument", fundingInstrument)
+        );
+
+        final Map<String, Object> newPay = Moip.API.payments().pay(payment, fatura.getOrderId(), setup);
+
+        fatura.setPaymentId((String) newPay.get("id"));
+        fatura.setLinkBoleto((String) ((HashMap) ((HashMap) newPay.get("_links")).get("payBoleto")).get("printHref"));
+
+        return fatura;
+    }
+
 
     /**
      *
@@ -81,7 +145,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
         );
 
         final Map<String, Object> customerRequestBody = payloadFactory(
-                value("id", fatura.getAssinatura().getPaymentGatewayId()),
+                value("id", fatura.getAssinatura().getClientId()),
                 value("ownId", tenant),
                 value("fullname", fatura.getAssinatura().getNomeTitular()),
                 value("email", conta.getEmail()),
@@ -145,7 +209,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
         // Se já tiver o gateway id não atualiza
         // A wirecard não provê a funcionalidade de se atualizar o cliente.
         // A não ser que seja através do pedido
-        if (assinatura.getPaymentGatewayId() != null)
+        if (assinatura.getClientId() != null)
             return assinatura;
 
         final String tenant = tenantIdentifierResolver.resolveCurrentTenantIdentifier();
@@ -176,7 +240,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
             );
 
             final Map<String, Object> customerRequestBody = payloadFactory(
-                    value("id", assinatura.getPaymentGatewayId()),
+                    value("id", assinatura.getClientId()),
                     value("ownId", tenant),
                     value("fullname", assinatura.getNomeTitular()),
                     value("email", conta.getEmail()),
@@ -186,14 +250,14 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
                     value("shippingAddress", shippingAddress)
             );
 
-            assinatura.setPaymentGatewayId((String) Moip.API.customers().create(customerRequestBody, setup).get("id"));
+            assinatura.setClientId((String) Moip.API.customers().create(customerRequestBody, setup).get("id"));
 
         } catch (Exception e) {
             if (e instanceof ValidationException)
                 if (((ValidationException) e).getErrors().getErrors().stream().anyMatch(error -> error.getPath().equals("customer.ownId"))) {
                     ((ArrayList) Moip.API.customers().list(setup).get("customers")).forEach((o) -> {
                         if (((LinkedHashMap) o).get("ownId").equals(tenant)) {
-                            assinatura.setPaymentGatewayId((String) ((LinkedHashMap) o).get("id"));
+                            assinatura.setClientId((String) ((LinkedHashMap) o).get("id"));
                         }
                     });
                 }

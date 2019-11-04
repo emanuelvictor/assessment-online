@@ -1,6 +1,6 @@
 package br.com.ubest.domain.repository;
 
-import br.com.ubest.domain.entity.assinatura.Fatura;
+import br.com.ubest.domain.entity.assinatura.fatura.Fatura;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

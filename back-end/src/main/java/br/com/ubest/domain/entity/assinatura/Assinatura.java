@@ -32,7 +32,7 @@ public class Assinatura extends AbstractEntity implements Serializable {
      *
      */
     @Column
-    private String paymentGatewayId;
+    private String clientId;
 
     /**
      *
@@ -213,7 +213,7 @@ public class Assinatura extends AbstractEntity implements Serializable {
      */
     @Transient
     public boolean isTransactioned() {
-        return isCompleted() && paymentGatewayId != null;
+        return isCompleted() && clientId != null;
     }
 
 }

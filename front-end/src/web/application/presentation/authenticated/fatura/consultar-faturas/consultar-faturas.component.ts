@@ -44,8 +44,7 @@ export class ConsultarFaturasComponent implements OnInit {
     'dataAbertura',
     'dataFechamento',
     'dataVencimento',
-    'dataPagamento',
-    'linkBoleto',
+    'dataPagamento'
   ];
 
   /**

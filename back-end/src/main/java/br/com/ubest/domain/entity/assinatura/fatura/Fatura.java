@@ -1,5 +1,6 @@
-package br.com.ubest.domain.entity.assinatura;
+package br.com.ubest.domain.entity.assinatura.fatura;
 
+import br.com.ubest.domain.entity.assinatura.*;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -100,20 +101,21 @@ public class Fatura extends AbstractEntity implements Serializable {
     @JoinColumn(name = "cupom_id")
     private Cupom cupom;
 
-//    /**
-//     * todo DESCENSSÁRIO
-//     */
-//    @NotNull
-//    @Column(nullable = false)
-//    @Enumerated(EnumType.ORDINAL)
-//    private StatusFatura status;
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     /**
      *
      */
     @NotNull
     @Column(nullable = false)
-    private boolean cancelada;
+    @Enumerated(EnumType.ORDINAL)
+    private FormaPagamento formaPagamento;
 
     /**
      *
@@ -144,7 +146,14 @@ public class Fatura extends AbstractEntity implements Serializable {
         this.assinatura = assinatura;
         this.dataAbertura = LocalDate.now().withDayOfMonth(1);
         this.dataVencimento = LocalDate.now().plusMonths(2).withDayOfMonth(this.assinatura.getDiaVencimentoFatura());
-        this.cancelada = assinatura.isCancelada();
+
+        if (assinatura.isCancelada())
+            this.status = Status.CANCELLED;
+        else {
+            status = Status.CREATED;
+        }
+
+        this.formaPagamento = this.assinatura.getFormaPagamento();
     }
 
     /**
@@ -158,7 +167,14 @@ public class Fatura extends AbstractEntity implements Serializable {
         this.assinatura = assinatura;
         this.dataAbertura = LocalDate.now().withDayOfMonth(1);
         this.dataVencimento = LocalDate.now().plusMonths(2).withDayOfMonth(this.assinatura.getDiaVencimentoFatura());
-        this.cancelada = assinatura.isCancelada();
+
+        if (assinatura.isCancelada())
+            this.status = Status.CANCELLED;
+        else {
+            status = Status.CREATED;
+        }
+
+        this.formaPagamento = this.assinatura.getFormaPagamento();
 
         this.itens = itens;
     }

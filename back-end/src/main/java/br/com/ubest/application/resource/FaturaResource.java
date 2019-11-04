@@ -1,7 +1,6 @@
 package br.com.ubest.application.resource;
 
-import br.com.ubest.domain.entity.assinatura.Cupom;
-import br.com.ubest.domain.entity.assinatura.Fatura;
+import br.com.ubest.domain.entity.assinatura.fatura.Fatura;
 import br.com.ubest.domain.service.FaturaService;
 import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ import reactor.core.publisher.Mono;
 import java.util.Optional;
 
 import static br.com.ubest.domain.entity.usuario.Perfil.ADMINISTRADOR_VALUE;
-import static br.com.ubest.domain.entity.usuario.Perfil.ATENDENTE_VALUE;
 
 /**
  * @author Emanuel Victor

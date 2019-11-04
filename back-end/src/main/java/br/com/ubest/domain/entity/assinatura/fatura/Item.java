@@ -1,4 +1,4 @@
-package br.com.ubest.domain.entity.assinatura;
+package br.com.ubest.domain.entity.assinatura.fatura;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import br.com.ubest.domain.entity.generic.EntityIdResolver;

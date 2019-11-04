@@ -39,22 +39,26 @@
                  matSortDirection='asc' matSortDisableClear
                  matSort matSortActive='data' class='bgc-grey-50'>
 
-        <ng-container matColumnDef='linkBoleto'>
-          <mat-header-cell *matHeaderCellDef flex-gt-md='30'
-                           flex-xl='30' layout-align='start center'
-                           flex-md='20' flex-sm='30' mat-sort-header>
-            <div layout='column' layout-margin>
-              Boleto
-            </div>
-          </mat-header-cell>
-          <mat-cell flex-md='30' flex-sm='30'
-                    *matCellDef='let fatura' flex-gt-md='30'
-                    flex-xl='30' layout-align='start center'>
-            <div layout='column' layout-margin>
-              {{fatura?.assinatura?.formaPagamento === 'BOLETO' ? (fatura?.linkBoleto) : 'Pagamento via cartão'}}
-            </div>
-          </mat-cell>
-        </ng-container>
+<!--        <ng-container matColumnDef='linkBoleto'>-->
+<!--          <mat-header-cell *matHeaderCellDef flex-gt-md='60'-->
+<!--                           flex-xl='60' layout-align='start center'-->
+<!--                           flex-md='40' flex-sm='60' mat-sort-header>-->
+<!--            <div layout='column' layout-margin>-->
+<!--              Boleto-->
+<!--            </div>-->
+<!--          </mat-header-cell>-->
+<!--          <mat-cell flex-md='60' flex-sm='60'-->
+<!--                    *matCellDef='let fatura' flex-gt-md='60'-->
+<!--                    flex-xl='60' layout-align='start center'>-->
+<!--            <div layout='column' layout-margin>-->
+<!--              <a href='{{fatura?.linkBoleto}}' target='_blank'-->
+<!--                 *ngIf="fatura?.assinatura?.formaPagamento === 'BOLETO'">-->
+<!--                {{fatura?.linkBoleto}}-->
+<!--              </a>-->
+<!--              {{fatura?.assinatura?.formaPagamento === 'BOLETO' ? '' : 'Pagamento via cartão'}}-->
+<!--            </div>-->
+<!--          </mat-cell>-->
+<!--        </ng-container>-->
 
         <ng-container matColumnDef='cancelada'>
           <mat-header-cell *matHeaderCellDef flex-gt-md='70'
