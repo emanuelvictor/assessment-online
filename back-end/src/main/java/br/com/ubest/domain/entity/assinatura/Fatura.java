@@ -148,6 +148,22 @@ public class Fatura extends AbstractEntity implements Serializable {
     }
 
     /**
+     *
+     * @param tenant
+     * @param assinatura
+     * @param itens
+     */
+    public Fatura(final @NotNull @Length(max = 150) String tenant, final Assinatura assinatura, final Set<Item> itens) {
+        this.tenant = tenant;
+        this.assinatura = assinatura;
+        this.dataAbertura = LocalDate.now().withDayOfMonth(1);
+        this.dataVencimento = LocalDate.now().plusMonths(2).withDayOfMonth(this.assinatura.getDiaVencimentoFatura());
+        this.cancelada = assinatura.isCancelada();
+
+        this.itens = itens;
+    }
+
+    /**
      * @return
      */
     public BigDecimal getValor() {
