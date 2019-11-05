@@ -86,6 +86,9 @@ public class FaturaService {
             // Pega a assinatura
             final Assinatura assinatura = assinaturaService.getAssinatura();
 
+            if(!assinatura.isCompleted())
+                return;
+
             // Pego as últimas faturas em aberto
             final List<Fatura> ultimasFaturas = this.faturaRepository.findLastsFaturasByTenant(tenant);
 
@@ -122,7 +125,7 @@ public class FaturaService {
 
                 // Se não há primeira fatura, insiro a primeira
             else {
-                if (this.assinaturaService.getAssinatura().isAgruparFaturas())
+                if (assinatura.isAgruparFaturas())
                     this.inserirProximaFaturaAgrupada(tenant, assinatura, dispositivos);
                 else {
                     dispositivos.forEach(dispositivo -> {
@@ -161,10 +164,13 @@ public class FaturaService {
 
             BigDecimal preco = fatura.getAssinatura().getPlano().getValorMensal();
             if (totalAvaliacoesDispositivo > fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes()) {
-                final int valiacoesExcedentes = totalAvaliacoesDispositivo - fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes();
-                preco = preco.add(fatura.getAssinatura().getPlano().getValorAvaliacoesExcedentes().multiply(new BigDecimal(valiacoesExcedentes)));
+                final int avaliacoesExcedentes = totalAvaliacoesDispositivo - fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes();
+                preco = preco.add(fatura.getAssinatura().getPlano().getValorAvaliacoesExcedentes().multiply(new BigDecimal(avaliacoesExcedentes)));
+                item.setAvaliacoesExcedentes(avaliacoesExcedentes);
             }
 
+            item.setQuantidadeMaximaAvaliacoes(fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes());
+            item.setTotalAvaliacoes(totalAvaliacoesDispositivo);
             item.setPreco(preco);
 
         });
@@ -175,7 +181,6 @@ public class FaturaService {
             final Fatura faturaComBoleto = this.paymentGatewayRepository.executarFatura(fatura);
             fatura.setPaymentId(faturaComBoleto.getPaymentId());
             fatura.setLinkBoleto(faturaComBoleto.getLinkBoleto());
-//            fatura.setS
         }
 
         return this.faturaRepository.save(fatura);
@@ -264,28 +269,8 @@ public class FaturaService {
         return null;
     }
 
-//    /**
-//     * @param fatura
-//     * @return
-//     */
-//    @Transactional
-//    Fatura inserirPrimeiraFaturaAgrupada(final Fatura fatura) {
-//        LOGGER.info("Inserindo primeira fatura");
-//        return this.inserirProximaFaturaAgrupada(fatura);
-//    }
-//
-//    /**
-//     * @param fatura
-//     * @return
-//     */
-//    @Transactional
-//    Fatura inserirPrimeiraFatura(final Fatura fatura) {
-//        LOGGER.info("Inserindo primeira fatura");
-//        return this.inserirProximaFatura(fatura);
-//    }
-
     /**
-     * r
+     *
      *
      * @param defaultFilter
      * @param pageable

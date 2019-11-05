@@ -7,10 +7,8 @@
 
 
     <!--div foto e informações-->
-    <div flex="60"
-         layout="row"
-         layout-align="start center"
-         layout-margin>
+    <div layout-align="start center"
+         flex="60" layout="row" layout-margin>
       <div layout="column">
         <h1 *ngIf="usuario?.media" class="mat-headline no-margin" flex>
           Média: <span class="tc-purple-500"> {{usuario?.media| number:'.1-3' : 'en-US'}}</span>

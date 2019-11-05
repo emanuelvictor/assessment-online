@@ -50,6 +50,22 @@ public class Item extends AbstractEntity implements Serializable {
     /**
      *
      */
+    @Column
+    private Integer avaliacoesExcedentes;
+
+    /**
+     *
+     */
+    private Integer quantidadeMaximaAvaliacoes;
+
+    /**
+     *
+     */
+    private Integer totalAvaliacoes;
+
+    /**
+     *
+     */
     private BigDecimal preco;
 
     /**

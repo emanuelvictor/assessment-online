@@ -48,7 +48,9 @@ public class FaturaResource extends AbstractResource<Fatura> {
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + ADMINISTRADOR_VALUE + "')")
     Mono<Optional<Fatura>> findById(@PathVariable final long id) {
-        return Mono.just(faturaService.findById(id));
+        final Optional<Fatura> fatura = faturaService.findById(id);
+        fatura.orElseThrow().getItens().forEach(item -> item.setFatura(null));
+        return Mono.just(fatura);
     }
 
 }

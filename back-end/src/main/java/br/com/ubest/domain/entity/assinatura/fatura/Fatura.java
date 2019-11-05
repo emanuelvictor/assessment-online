@@ -83,7 +83,7 @@ public class Fatura extends AbstractEntity implements Serializable {
     /**
      * Inserida quando a fatura é executada
      */
-    @Column
+    @Column(name = "data_pagamento")
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataPagamento;
 

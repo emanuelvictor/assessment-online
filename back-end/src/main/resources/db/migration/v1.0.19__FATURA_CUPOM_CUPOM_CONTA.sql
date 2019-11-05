@@ -99,23 +99,29 @@ alter table fatura_aud
 
 create table item
 (
-    id             bigserial not null,
-    created        timestamp not null,
-    updated        timestamp,
-    preco          numeric(19, 2),
-    dispositivo_id int8      not null,
-    fatura_id      int8      not null,
+    id                           bigserial not null,
+    created                      timestamp not null,
+    updated                      timestamp,
+    preco                        numeric(19, 2),
+    total_avaliacoes             int4,
+    quantidade_maxima_avaliacoes int4,
+    avaliacoes_excedentes        int4,
+    dispositivo_id               int8      not null,
+    fatura_id                    int8      not null,
     primary key (id)
 );
 
 create table item_aud
 (
-    id             int8 not null,
-    rev            int8 not null,
-    revtype        int2,
-    preco          numeric(19, 2),
-    dispositivo_id int8,
-    fatura_id      int8,
+    id                           int8 not null,
+    rev                          int8 not null,
+    revtype                      int2,
+    preco                        numeric(19, 2),
+    total_avaliacoes             int4,
+    quantidade_maxima_avaliacoes int4,
+    avaliacoes_excedentes        int4,
+    dispositivo_id               int8,
+    fatura_id                    int8,
     primary key (id, rev)
 );
 alter table item
