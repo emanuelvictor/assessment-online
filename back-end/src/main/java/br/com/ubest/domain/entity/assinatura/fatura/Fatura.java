@@ -208,7 +208,6 @@ public class Fatura extends AbstractEntity implements Serializable {
     }
 
     /**
-     *
      * @param status
      */
     public void setStatus(final Status status) {
@@ -216,13 +215,10 @@ public class Fatura extends AbstractEntity implements Serializable {
     }
 
     /**
-     *
      * @param status
      */
     public void setStatus(final String status) {
-        if(status == null)
-            return;
-        if (status.equals("AUTHORIZED"))
-            this.status = Status.AUTHORIZED;
+        if (status != null)
+            this.status = Status.valueOf(status);
     }
 }

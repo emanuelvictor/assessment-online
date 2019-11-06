@@ -306,27 +306,54 @@ public class FaturaService {
 
     /**
      * @param authentication
-     * @param notification
+     * @param paymentNotification
      * @return
      */
     @Transactional
-    public Fatura updateByNotification(final String authentication, final Object notification) {
+    public Fatura updatePaymentByNotification(final String authentication, final Object paymentNotification) {
 
         this.authenticateTokenOfNotification(authentication);
 
-        return this.updateByNotification(notification);
+        return this.updatePaymentByNotification(paymentNotification);
     }
 
     /**
-     * @param notification
+     * @param paymentNotification
      * @return
      */
     @Transactional
-    public Fatura updateByNotification(final Object notification) {
+    public Fatura updatePaymentByNotification(final Object paymentNotification) {
 
-        final Fatura fatura = this.faturaRepository.findByPaymentId((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) notification).get("resource")).get("payment")).get("id"))).orElseThrow();
+        final Fatura fatura = this.faturaRepository.findByPaymentId((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("payment")).get("id"))).orElseThrow();
 
-        fatura.setStatus((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) notification).get("resource")).get("payment")).get("status")));
+        fatura.setStatus((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("payment")).get("status")));
+
+        return faturaRepository.save(fatura);
+    }
+
+    /**
+     * @param authentication
+     * @param orderNotification
+     * @return
+     */
+    @Transactional
+    public Fatura updateOrderByNotification(final String authentication, final Object orderNotification) {
+
+        this.authenticateTokenOfNotification(authentication);
+
+        return this.updateOrderByNotification(orderNotification);
+    }
+
+    /**
+     * @param orderNotification
+     * @return
+     */
+    @Transactional
+    public Fatura updateOrderByNotification(final Object orderNotification) {
+
+        final Fatura fatura = this.faturaRepository.findByOrderId((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) orderNotification).get("resource")).get("order")).get("id"))).orElseThrow();
+
+        fatura.setStatus((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) orderNotification).get("resource")).get("order")).get("status")));
 
         return faturaRepository.save(fatura);
     }

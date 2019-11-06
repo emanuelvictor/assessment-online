@@ -52,4 +52,11 @@ public interface FaturaRepository extends JpaRepository<Fatura, Long> {
      * @return
      */
     Optional<Fatura> findByPaymentId(final String paymentId);
+
+    /**
+     *
+     * @param orderId
+     * @return
+     */
+    Optional<Fatura> findByOrderId(final String orderId);
 }
