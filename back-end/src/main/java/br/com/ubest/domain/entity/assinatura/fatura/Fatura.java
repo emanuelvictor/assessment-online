@@ -144,7 +144,7 @@ public class Fatura extends AbstractEntity implements Serializable {
      * @param tenant
      * @param assinatura
      */
-    public Fatura(final @NotNull @Length(max = 150) String tenant, final Assinatura assinatura) {
+    public Fatura(final @NotNull @Length(max = 150) String tenant, final Cupom cupom, final Assinatura assinatura) {
         this.tenant = tenant;
         this.assinatura = assinatura;
         this.dataAbertura = LocalDate.now().withDayOfMonth(1);
@@ -156,6 +156,8 @@ public class Fatura extends AbstractEntity implements Serializable {
             status = Status.CREATED;
 
         this.formaPagamento = this.assinatura.getFormaPagamento();
+
+        this.cupom = cupom;
     }
 
     /**
@@ -163,7 +165,7 @@ public class Fatura extends AbstractEntity implements Serializable {
      * @param assinatura
      * @param itens
      */
-    public Fatura(final @NotNull @Length(max = 150) String tenant, final Assinatura assinatura, final Set<Item> itens) {
+    public Fatura(final @NotNull @Length(max = 150) String tenant, final Assinatura assinatura, final Cupom cupom, final Set<Item> itens) {
         this.tenant = tenant;
         this.assinatura = assinatura;
         this.dataAbertura = LocalDate.now().withDayOfMonth(1);
@@ -177,6 +179,8 @@ public class Fatura extends AbstractEntity implements Serializable {
         this.formaPagamento = this.assinatura.getFormaPagamento();
 
         this.itens = itens;
+
+        this.cupom = cupom;
     }
 
     /**
@@ -196,7 +200,7 @@ public class Fatura extends AbstractEntity implements Serializable {
      */
     public BigDecimal getDesconto() {
         if (this.cupom != null)
-            return getValor().multiply(this.cupom.getPercentualDesconto());
+            return this.getValor().add((this.getValor().multiply(new BigDecimal(0.30)).multiply(new BigDecimal(-1))));
         return BigDecimal.ZERO;
     }
 

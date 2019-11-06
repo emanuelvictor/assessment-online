@@ -22,4 +22,11 @@ public interface CupomRepository extends JpaRepository<Cupom, Long> {
     )
     Page<Cupom> listByFilters(@Param("defaultFilter") final String defaultFilter, final Pageable pageable);
 
+    /**
+     *
+     * @param tenant
+     * @return
+     */
+    Cupom findByTenant(final String tenant);
+
 }

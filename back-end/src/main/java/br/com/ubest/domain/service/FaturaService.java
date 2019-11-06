@@ -2,12 +2,14 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
+import br.com.ubest.domain.entity.assinatura.Cupom;
 import br.com.ubest.domain.entity.assinatura.FormaPagamento;
 import br.com.ubest.domain.entity.assinatura.fatura.Fatura;
 import br.com.ubest.domain.entity.assinatura.fatura.Item;
 import br.com.ubest.domain.entity.assinatura.fatura.Status;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.AvaliacaoRepository;
+import br.com.ubest.domain.repository.CupomRepository;
 import br.com.ubest.domain.repository.FaturaRepository;
 import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
 import br.com.ubest.infrastructure.tenant.TenantDetailsService;
@@ -28,6 +30,11 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Service
 @RequiredArgsConstructor
 public class FaturaService {
+
+    /**
+     *
+     */
+    private final CupomRepository cupomRepository;
 
     /**
      *
@@ -87,6 +94,8 @@ public class FaturaService {
             if (!assinatura.isCompleted())
                 return;
 
+            final Cupom cupom = this.cupomRepository.findByTenant(tenant);
+
             // Pego as últimas faturas em aberto
             final List<Fatura> ultimasFaturas = this.faturaRepository.findLastsFaturasByTenant(tenant);
 
@@ -104,9 +113,9 @@ public class FaturaService {
                             this.fecharFatura(ultimaFatura);
 
                             if (assinatura.isAgruparFaturas())
-                                this.inserirProximaFaturaAgrupada(tenant, assinatura, dispositivos);
+                                this.inserirProximaFaturaAgrupada(tenant, assinatura, cupom, dispositivos);
                             else
-                                this.inserirProximaFaturaNaoAgrupada(tenant, assinatura, dispositivos);
+                                this.inserirProximaFaturaNaoAgrupada(tenant, assinatura, cupom, dispositivos);
 
                         } else {
                             // É dia (ou depois) do vencimento da fatura
@@ -124,10 +133,10 @@ public class FaturaService {
                 // Se não há primeira fatura, insiro a primeira
             else {
                 if (assinatura.isAgruparFaturas())
-                    this.inserirProximaFaturaAgrupada(tenant, assinatura, dispositivos);
+                    this.inserirProximaFaturaAgrupada(tenant, assinatura, cupom, dispositivos);
                 else {
                     dispositivos.forEach(dispositivo -> {
-                        final Fatura proximaFatura = new Fatura(tenant, assinatura, new HashSet<>());
+                        final Fatura proximaFatura = new Fatura(tenant, assinatura,cupom, new HashSet<>());
 
                         if (dispositivo.isEnabled()) {
                             final Item item = new Item();
@@ -148,10 +157,9 @@ public class FaturaService {
 
     /**
      * @param fatura
-     * @return
      */
     @Transactional
-    Fatura fecharFatura(final Fatura fatura) {
+    void fecharFatura(final Fatura fatura) {
         LOGGER.info("Fechando fatura");
 
         fatura.setDataFechamento(fatura.getDataAbertura().plusMonths(1).withDayOfMonth(1));
@@ -181,40 +189,36 @@ public class FaturaService {
             fatura.setLinkBoleto(faturaComBoleto.getLinkBoleto());
         }
 
-        return this.faturaRepository.save(fatura);
+        this.faturaRepository.save(fatura);
     }
 
     /**
      * @param fatura
-     * @return
      */
     @Transactional
-    Fatura executarFatura(final Fatura fatura) {
+    void executarFatura(final Fatura fatura) {
         LOGGER.info("Executando fatura");
 
 //        fatura.setPaymentId(this.paymentGatewayRepository.executarFatura(fatura).getPaymentId()); TODO concluir
 //        fatura.setDataPagamento(LocalDate.now());
 
         fatura.setDataPagamento(fatura.getDataAbertura().plusMonths(1)); //TODO remover
-        return this.faturaRepository.save(fatura);
+        this.faturaRepository.save(fatura);
     }
 
     /**
      * @param tenant
      * @param assinatura
      * @param dispositivos
-     * @return
      */
     @Transactional
-    Set<Fatura> inserirProximaFaturaNaoAgrupada(final String tenant, final Assinatura assinatura, final Set<Dispositivo> dispositivos) {
+    void inserirProximaFaturaNaoAgrupada(final String tenant, final Assinatura assinatura, final Cupom cupom, final Set<Dispositivo> dispositivos) {
         LOGGER.info("Inserindo próxima fatura com base na última");
-
-        final Set<Fatura> faturas = new HashSet<>();
 
         for (final Dispositivo dispositivo : dispositivos) {
             if (dispositivo.isEnabled()) {
 
-                final Fatura proximaFatura = new Fatura(tenant, assinatura, new HashSet<>());
+                final Fatura proximaFatura = new Fatura(tenant, assinatura, cupom, new HashSet<>());
 
                 final Item item = new Item();
                 item.setDispositivo(dispositivo);
@@ -226,24 +230,22 @@ public class FaturaService {
                 // Só insere se houver itens, e se a assinatura não estiver cancelada
                 if (!proximaFatura.getItens().isEmpty() && !proximaFatura.getAssinatura().isCancelada())
                     if (this.faturaRepository.next(proximaFatura.getTenant(), proximaFatura.getDataAbertura()).size() != dispositivos.size())
-                        faturas.add(this.faturaRepository.save(proximaFatura));
+                        this.faturaRepository.save(proximaFatura);
             }
         }
 
-        return new HashSet<>(faturas);
     }
 
     /**
      * @param tenant
      * @param assinatura
      * @param dispositivos
-     * @return
      */
     @Transactional
-    Fatura inserirProximaFaturaAgrupada(final String tenant, final Assinatura assinatura, final Set<Dispositivo> dispositivos) {
+    void inserirProximaFaturaAgrupada(final String tenant, final Assinatura assinatura, final Cupom cupom, final Set<Dispositivo> dispositivos) {
         LOGGER.info("Inserindo próxima fatura agrupada");
 
-        final Fatura proximaFatura = new Fatura(tenant, assinatura, new HashSet<>());
+        final Fatura proximaFatura = new Fatura(tenant, assinatura, cupom, new HashSet<>());
 
         dispositivos.forEach(dispositivo -> {
             if (dispositivo.isEnabled()) {
@@ -260,11 +262,11 @@ public class FaturaService {
         if (!proximaFatura.getItens().isEmpty() && !proximaFatura.getAssinatura().isCancelada()) {
             // Se eu tenho uma fatura posterior á anterior, então não insere.
             // Pois já foi inserida a próxima fatura agrupada
-            if (this.faturaRepository.next(proximaFatura.getTenant(), proximaFatura.getDataAbertura()).isEmpty())
-                return this.faturaRepository.save(proximaFatura);
+            if (this.faturaRepository.next(proximaFatura.getTenant(), proximaFatura.getDataAbertura()).isEmpty()) {
+                this.faturaRepository.save(proximaFatura);
+            }
         }
 
-        return null;
     }
 
     /**
