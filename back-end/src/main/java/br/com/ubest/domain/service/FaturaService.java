@@ -20,10 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
@@ -86,7 +83,7 @@ public class FaturaService {
             // Pega a assinatura
             final Assinatura assinatura = assinaturaService.getAssinatura();
 
-            if(!assinatura.isCompleted())
+            if (!assinatura.isCompleted())
                 return;
 
             // Pego as últimas faturas em aberto
@@ -177,7 +174,7 @@ public class FaturaService {
 
         fatura.setOrderId(this.paymentGatewayRepository.fecharFatura(fatura).getOrderId());
 
-        if (fatura.getAssinatura().getFormaPagamento().equals(FormaPagamento.BOLETO)){
+        if (fatura.getAssinatura().getFormaPagamento().equals(FormaPagamento.BOLETO)) {
             final Fatura faturaComBoleto = this.paymentGatewayRepository.executarFatura(fatura);
             fatura.setPaymentId(faturaComBoleto.getPaymentId());
             fatura.setLinkBoleto(faturaComBoleto.getLinkBoleto());
@@ -270,8 +267,6 @@ public class FaturaService {
     }
 
     /**
-     *
-     *
      * @param defaultFilter
      * @param pageable
      * @return
@@ -290,5 +285,49 @@ public class FaturaService {
     @Transactional(readOnly = true)
     public Optional<Fatura> findById(final long id) {
         return this.faturaRepository.findById(id);
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Optional<Fatura> findByPaymentId(final String id) {
+        return this.faturaRepository.findByPaymentId(id);
+    }
+
+    /**
+     * @return
+     */
+    public void authenticateTokenOfNotification(final String authentication) {
+        if (this.paymentGatewayRepository.getNotificationPreferences().stream().noneMatch(stringObjectMap -> stringObjectMap.get("token").equals(authentication)))
+            throw new RuntimeException("Token para autenticacao inválido");
+    }
+
+    /**
+     * @param authentication
+     * @param notification
+     * @return
+     */
+    @Transactional
+    public Fatura updateByNotification(final String authentication, final Object notification) {
+
+        this.authenticateTokenOfNotification(authentication);
+
+        return this.updateByNotification(notification);
+    }
+
+    /**
+     * @param notification
+     * @return
+     */
+    @Transactional
+    public Fatura updateByNotification(final Object notification) {
+
+        final Fatura fatura = this.faturaRepository.findByPaymentId((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) notification).get("resource")).get("payment")).get("id"))).orElseThrow();
+
+        fatura.setStatus((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) notification).get("resource")).get("payment")).get("status")));
+
+        return faturaRepository.save(fatura);
     }
 }

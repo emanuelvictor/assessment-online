@@ -206,4 +206,23 @@ public class Fatura extends AbstractEntity implements Serializable {
     public String getItensString() {
         return this.getItens().stream().map(item -> item.getDispositivo().getNome() + " - " + " R$ " + item.getPreco()).collect(Collectors.joining(", "));
     }
+
+    /**
+     *
+     * @param status
+     */
+    public void setStatus(final Status status) {
+        this.status = status;
+    }
+
+    /**
+     *
+     * @param status
+     */
+    public void setStatus(final String status) {
+        if(status == null)
+            return;
+        if (status.equals("AUTHORIZED"))
+            this.status = Status.AUTHORIZED;
+    }
 }

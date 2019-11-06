@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface FaturaRepository extends JpaRepository<Fatura, Long> {
 
@@ -44,4 +45,11 @@ public interface FaturaRepository extends JpaRepository<Fatura, Long> {
             "   fatura.dataAbertura >= :date" +
             ")")
     List<Fatura> next(@Param("tenant") final String tenant, @Param("date") final LocalDate date);
+
+    /**
+     *
+     * @param paymentId
+     * @return
+     */
+    Optional<Fatura> findByPaymentId(final String paymentId);
 }

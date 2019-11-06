@@ -2,7 +2,6 @@ package br.com.ubest.domain.repository.impl;
 
 import br.com.moip.Moip;
 import br.com.moip.exception.ValidationException;
-import br.com.moip.models.NotificationPreferences;
 import br.com.moip.models.Setup;
 import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
@@ -279,7 +278,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
     /**
      * @return
      */
-    public NotificationPreferences getNotificationPreferences() {
-        return Moip.API.notificationPreferences();
+    public List<Map<String, Object>> getNotificationPreferences() {
+        return Moip.API.notificationPreferences().list(this.setup);
     }
 }

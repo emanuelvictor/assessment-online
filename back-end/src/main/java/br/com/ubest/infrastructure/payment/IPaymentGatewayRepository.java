@@ -3,6 +3,9 @@ package br.com.ubest.infrastructure.payment;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.assinatura.fatura.Fatura;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Emanuel Victor
  */
@@ -29,11 +32,11 @@ public interface IPaymentGatewayRepository {
      */
 	Assinatura createAccount(final Assinatura assinatura);
 
-//	/**
-//	 *
-//	 * @return
-//	 */
-//	List<NotificationPreferences> getNotificationPreferences();
+    /**
+     *
+     * @return
+     */
+	List<Map<String, Object>> getNotificationPreferences();
 //
 //	/**
 //	 *
