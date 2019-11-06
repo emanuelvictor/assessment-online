@@ -12,31 +12,33 @@ import java.util.Map;
 public interface IPaymentGatewayRepository {
 
     /**
-     *
      * @param fatura
      * @return
      */
     Fatura fecharFatura(final Fatura fatura);
 
     /**
-     *
      * @param fatura
      * @return
      */
     Fatura executarFatura(final Fatura fatura);
 
     /**
-     *
      * @param assinatura
      * @return
      */
-	Assinatura createAccount(final Assinatura assinatura);
+    Assinatura createAccount(final Assinatura assinatura);
 
     /**
-     *
      * @return
      */
-	List<Map<String, Object>> getNotificationPreferences();
+    Map<String, Object> getNotificationPreferenceById(final String notificationPreferenceId);
+
+    /**
+     * @return
+     */
+    List<Map<String, Object>> getNotificationPreferences();
+
 //
 //	/**
 //	 *

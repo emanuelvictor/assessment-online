@@ -8,14 +8,14 @@ package br.com.ubest.domain.entity.assinatura.fatura;
  */
 public enum Status {
 
-    //   TANTO PARA PAGAMENTO OU PEDIDO. Primeiro evento de um pagamento ou pedido, indica que o mesmo foi criado.
+    //   TANTO PARA PAGAMENTO OU PEDIDO. Primeiro evento de um pagamento ou pedido, indica que o mesmo foi criado. TODO não precisa
     CREATED,
 
     // PAGAMENTO    Atualização de status para Aguardando, indica que a Wirecard está aguardando confirmação de pagamento.
     // PEDIDO    Pedido aguardando confirmação de pagamento. Indica que há um pagamento de cartão em análise ou um boleto que ainda não foi confirmado pelo banco.
     WAITING,
 
-    //    Status Em Análise, indica que o pagamento está passando por uma análise de risco dentro da Wirecard, podendo ser automática ou manual.
+    //    Status Em Análise, indica que o pagamento está passando por uma análise de risco dentro da Wirecard, podendo ser automática ou manual. TODO não precisa
     IN_ANALYSIS,
 
     //    Pré-autorizado: esse status indica a reserva do valor do pagamento no cartão do cliente.
@@ -36,16 +36,16 @@ public enum Status {
     //    Atualização de status de pagamento para Estornado(o estorno é a contestação do pagamento feita pelo comprador direto na operadora de cartão, como por exemplo pelo motivo de não reconhecimento do pagamento em sua fatura).
     REVERSED,
 
-    //    Atualização de status de pagamento para Concluído, valor disponível para transferência em conta bancária(saque).
+    //    Atualização de status de pagamento para Concluído, valor disponível para transferência em conta bancária(saque). TODO não precisa
     SETTLED,
 
     // Pedido pago. O pagamento criado nesse pedido foi autorizado.
     PAID,
 
-    // Pedido não pago.O pagamento criado nesse pedido foi cancelado(Pagamentos com cartão podem ser cancelados pela Wirecard ou pelo emissor do cartão, boletos são cancelados 5 dias após vencimento, débito bancário é cancelado em caso de falha).
+    // Pedido não pago. O pagamento criado nesse pedido foi cancelado(Pagamentos com cartão podem ser cancelados pela Wirecard ou pelo emissor do cartão, boletos são cancelados 5 dias após vencimento, débito bancário é cancelado em caso de falha).
     NOT_PAID,
 
-    // Pedido revertido. Sofreu um chargeback ou foi completamente reembolsado .
+    // Pedido revertido. Sofreu um chargeback ou foi completamente reembolsado.
     REVERTED
 
 }

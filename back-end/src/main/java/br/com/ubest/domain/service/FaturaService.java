@@ -5,6 +5,7 @@ import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.assinatura.FormaPagamento;
 import br.com.ubest.domain.entity.assinatura.fatura.Fatura;
 import br.com.ubest.domain.entity.assinatura.fatura.Item;
+import br.com.ubest.domain.entity.assinatura.fatura.Status;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.AvaliacaoRepository;
 import br.com.ubest.domain.repository.FaturaRepository;
@@ -288,18 +289,9 @@ public class FaturaService {
     }
 
     /**
-     * @param id
      * @return
      */
-    @Transactional(readOnly = true)
-    public Optional<Fatura> findByPaymentId(final String id) {
-        return this.faturaRepository.findByPaymentId(id);
-    }
-
-    /**
-     * @return
-     */
-    public void authenticateTokenOfNotification(final String authentication) {
+    private void authenticateTokenOfNotification(final String authentication) {
         if (this.paymentGatewayRepository.getNotificationPreferences().stream().noneMatch(stringObjectMap -> stringObjectMap.get("token").equals(authentication)))
             throw new RuntimeException("Token para autenticacao inválido");
     }
@@ -324,11 +316,23 @@ public class FaturaService {
     @Transactional
     public Fatura updatePaymentByNotification(final Object paymentNotification) {
 
-        final Fatura fatura = this.faturaRepository.findByPaymentId((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("payment")).get("id"))).orElseThrow();
+        final Fatura fatura;
 
-        fatura.setStatus((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("payment")).get("status")));
+        if (((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("payment") != null) {
+            fatura = this.faturaRepository.findByPaymentId((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("payment")).get("id"))).orElseThrow();
+            fatura.setStatus((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("payment")).get("status")));
+        } else if (((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("order") != null) {
+            fatura = this.faturaRepository.findById(Long.valueOf((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("order")).get("ownId")))).orElseThrow();
+            fatura.setStatus((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("order")).get("status")));
+        } else {
+            System.out.println(" ------------ XABÚ ------------------");
+            return null;
+        }
 
-        return faturaRepository.save(fatura);
+        if (fatura.getStatus().equals(Status.PAID) || fatura.getStatus().equals(Status.AUTHORIZED))
+            fatura.setDataPagamento(LocalDate.now());
+
+        return this.faturaRepository.save(fatura);
     }
 
     /**
@@ -351,10 +355,13 @@ public class FaturaService {
     @Transactional
     public Fatura updateOrderByNotification(final Object orderNotification) {
 
-        final Fatura fatura = this.faturaRepository.findByOrderId((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) orderNotification).get("resource")).get("order")).get("id"))).orElseThrow();
+        final Fatura fatura = this.faturaRepository.findById(Long.valueOf((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) orderNotification).get("resource")).get("order")).get("ownId")))).orElseThrow();
 
         fatura.setStatus((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) orderNotification).get("resource")).get("order")).get("status")));
 
-        return faturaRepository.save(fatura);
+        if (fatura.getStatus().equals(Status.PAID) || fatura.getStatus().equals(Status.AUTHORIZED))
+            fatura.setDataPagamento(LocalDate.now());
+
+        return this.faturaRepository.save(fatura);
     }
 }

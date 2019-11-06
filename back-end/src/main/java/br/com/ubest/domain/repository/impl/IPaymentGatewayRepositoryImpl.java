@@ -118,9 +118,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
         if (!fatura.getAssinatura().isCompleted())
             throw new RuntimeException("A assinatura está incompleta!");
 
-        final String tenant = tenantIdentifierResolver.resolveCurrentTenantIdentifier();
-
-        final Conta conta = contaRepository.findByEmailIgnoreCase(tenant);
+        final Conta conta = contaRepository.findByEmailIgnoreCase(fatura.getTenant());
 
         final Map<String, Object> taxDocument = payloadFactory(
                 value("type", fatura.getAssinatura().getSouEmpresa() != null && fatura.getAssinatura().getSouEmpresa() ? "CNPJ" : "CPF"),
@@ -145,7 +143,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
 
         final Map<String, Object> customerRequestBody = payloadFactory(
                 value("id", fatura.getAssinatura().getClientId()),
-                value("ownId", tenant),
+                value("ownId", fatura.getTenant()),
                 value("fullname", fatura.getAssinatura().getNomeTitular()),
                 value("email", conta.getEmail()),
                 value("birthDate", fatura.getAssinatura().getDataNascimentoTitular().format(DateTimeFormatter.ISO_DATE)),
@@ -268,17 +266,16 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
     }
 
     /**
-     * @param paymentId
      * @return
      */
-    public Map<String, Object> findPaymentById(final String paymentId) {
-        return Moip.API.payments().get(paymentId, this.setup);
+    public Map<String, Object> getNotificationPreferenceById(final String preferenceId) {
+        return Moip.API.notificationPreferences().get(preferenceId, setup);
     }
 
     /**
      * @return
      */
     public List<Map<String, Object>> getNotificationPreferences() {
-        return Moip.API.notificationPreferences().list(this.setup);
+        return Moip.API.notificationPreferences().list(setup);
     }
 }
