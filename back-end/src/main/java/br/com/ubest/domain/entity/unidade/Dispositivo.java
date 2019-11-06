@@ -1,7 +1,9 @@
 package br.com.ubest.domain.entity.unidade;
 
 import br.com.ubest.domain.entity.assinatura.Assinatura;
+import br.com.ubest.domain.entity.assinatura.fatura.Item;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
+import br.com.ubest.domain.entity.generic.EntityIdResolver;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.infrastructure.tenant.TenantDetails;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -30,10 +32,15 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Entity
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id",
+        scope = Dispositivo.class,
+        resolver = EntityIdResolver.class
+)
 @Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
         @UniqueConstraint(columnNames = {"tenant", "nome"})
 })
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
 public class Dispositivo extends AbstractEntity implements Serializable, TenantDetails {
 
     /**

@@ -39,56 +39,35 @@
                  matSortDirection='asc' matSortDisableClear
                  matSort matSortActive='data' class='bgc-grey-50'>
 
-<!--        <ng-container matColumnDef='linkBoleto'>-->
-<!--          <mat-header-cell *matHeaderCellDef flex-gt-md='60'-->
-<!--                           flex-xl='60' layout-align='start center'-->
-<!--                           flex-md='40' flex-sm='60' mat-sort-header>-->
-<!--            <div layout='column' layout-margin>-->
-<!--              Boleto-->
-<!--            </div>-->
-<!--          </mat-header-cell>-->
-<!--          <mat-cell flex-md='60' flex-sm='60'-->
-<!--                    *matCellDef='let fatura' flex-gt-md='60'-->
-<!--                    flex-xl='60' layout-align='start center'>-->
-<!--            <div layout='column' layout-margin>-->
-<!--              <a href='{{fatura?.linkBoleto}}' target='_blank'-->
-<!--                 *ngIf="fatura?.assinatura?.formaPagamento === 'BOLETO'">-->
-<!--                {{fatura?.linkBoleto}}-->
-<!--              </a>-->
-<!--              {{fatura?.assinatura?.formaPagamento === 'BOLETO' ? '' : 'Pagamento via cartão'}}-->
-<!--            </div>-->
-<!--          </mat-cell>-->
-<!--        </ng-container>-->
-
-        <ng-container matColumnDef='cancelada'>
-          <mat-header-cell *matHeaderCellDef flex-gt-md='70'
-                           flex-xl='70' layout-align='start center'
-                           flex-md='70' flex-sm='70' mat-sort-header>
+        <ng-container matColumnDef='status'>
+          <mat-header-cell flex-gt-md='70' flex-xl='70' flex-md='70' flex-sm='70'
+                           *matHeaderCellDef layout-align='start center' mat-sort-header>
             <div layout='column' layout-margin>
-              Cancelada
+              Status
             </div>
           </mat-header-cell>
-          <mat-cell *matCellDef='let fatura'
-                    flex-xl='70' layout-align='start center'
-                    flex-gt-md='70' flex-md='70' flex-sm='70'>
+          <mat-cell *matCellDef='let fatura' layout-align='start center'
+                    flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'>
             <div layout='column' layout-margin>
-              {{fatura?.cancelada ? 'Sim' : 'Não'}}
+              <span>{{fatura?.valor | currency:'BRL'}}
+                <span style='color: #607d8b' *ngIf='fatura?.desconto'> Desconto: {{fatura?.desconto + '%'}}</span>
+                <span style='color: #607d8b'> - {{fatura?.status}}</span>
+                <span style='color: gray'> - {{fatura?.formaPagamento}}
+                  <!--                  <a *ngIf='fatura?.linkBoleto' href='{{fatura?.linkBoleto}}'>{{fatura?.linkBoleto}}</a>-->
+                </span>
+              </span>
+              <span style='color: #607d8b' class='text-truncate'>{{fatura?.itensString}}</span>
             </div>
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef='dataAbertura'>
-          <mat-header-cell mat-sort-header
-                           flex-md='70' flex-sm='70'
-                           *matHeaderCellDef flex-gt-md='70'
-                           flex-xl='70' layout-align='start center'>
+          <mat-header-cell mat-sort-header flex *matHeaderCellDef layout-align='start center'>
             <div layout='column' layout-margin>
               Data Abertura
             </div>
           </mat-header-cell>
-          <mat-cell flex-md='70' flex-sm='70'
-                    flex-gt-md='70' *matCellDef='let fatura'
-                    flex-xl='70' layout-align='start center'>
+          <mat-cell flex *matCellDef='let fatura' layout-align='start center'>
             <div layout='column' layout-margin>
               {{fatura?.dataAbertura}}
             </div>
@@ -96,17 +75,12 @@
         </ng-container>
 
         <ng-container matColumnDef='dataFechamento'>
-          <mat-header-cell mat-sort-header
-                           flex-gt-md='70' flex-md='70'
-                           *matHeaderCellDef flex-sm='70'
-                           flex-xl='70' layout-align='start center'>
+          <mat-header-cell mat-sort-header flex *matHeaderCellDef layout-align='start center'>
             <div layout='column' layout-margin>
               Data Fechamento
             </div>
           </mat-header-cell>
-          <mat-cell flex-md='70' flex-sm='70'
-                    flex-gt-md='70' *matCellDef='let fatura'
-                    flex-xl='70' layout-align='start center'>
+          <mat-cell flex *matCellDef='let fatura' layout-align='start center'>
             <div layout='column' layout-margin>
               {{fatura?.dataFechamento}}
             </div>
@@ -114,16 +88,12 @@
         </ng-container>
 
         <ng-container matColumnDef='dataVencimento'>
-          <mat-header-cell *matHeaderCellDef flex-gt-md='70'
-                           flex-xl='70' layout-align='start center'
-                           flex-md='70' flex-sm='70' mat-sort-header>
+          <mat-header-cell layout-align='start center' flex mat-sort-header *matHeaderCellDef>
             <div layout='column' layout-margin>
               Data de Vencimento
             </div>
           </mat-header-cell>
-          <mat-cell flex-md='70' flex-sm='70'
-                    flex-gt-md='70' *matCellDef='let fatura'
-                    flex-xl='70' layout-align='start center'>
+          <mat-cell flex *matCellDef='let fatura' layout-align='start center'>
             <div layout='column' layout-margin>
               {{fatura?.dataVencimento}}
             </div>
@@ -131,18 +101,14 @@
         </ng-container>
 
         <ng-container matColumnDef='dataPagamento'>
-          <mat-header-cell *matHeaderCellDef flex-gt-md='70'
-                           flex-xl='70' layout-align='start center'
-                           flex-md='70' flex-sm='70' mat-sort-header>
+          <mat-header-cell *matHeaderCellDef flex layout-align='start center' mat-sort-header>
             <div layout='column' layout-margin>
               Data de Pagamento
             </div>
           </mat-header-cell>
-          <mat-cell flex-gt-md='70' flex-md='70'
-                    *matCellDef='let fatura' flex-sm='70'
-                    flex-xl='70' layout-align='start center'>
+          <mat-cell flex *matCellDef='let fatura' layout-align='start center'>
             <div layout='column' layout-margin>
-              {{fatura?.dataPagamento ? fatura?.dataPagamento : 'Em aberto'}}
+              {{fatura?.dataPagamento ? fatura?.dataPagamento : ''}}
             </div>
           </mat-cell>
         </ng-container>

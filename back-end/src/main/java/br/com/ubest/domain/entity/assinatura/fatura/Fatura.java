@@ -1,6 +1,8 @@
 package br.com.ubest.domain.entity.assinatura.fatura;
 
-import br.com.ubest.domain.entity.assinatura.*;
+import br.com.ubest.domain.entity.assinatura.Assinatura;
+import br.com.ubest.domain.entity.assinatura.Cupom;
+import br.com.ubest.domain.entity.assinatura.FormaPagamento;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -15,6 +17,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 
@@ -149,15 +152,13 @@ public class Fatura extends AbstractEntity implements Serializable {
 
         if (assinatura.isCancelada())
             this.status = Status.CANCELLED;
-        else {
+        else
             status = Status.CREATED;
-        }
 
         this.formaPagamento = this.assinatura.getFormaPagamento();
     }
 
     /**
-     *
      * @param tenant
      * @param assinatura
      * @param itens
@@ -170,9 +171,8 @@ public class Fatura extends AbstractEntity implements Serializable {
 
         if (assinatura.isCancelada())
             this.status = Status.CANCELLED;
-        else {
+        else
             status = Status.CREATED;
-        }
 
         this.formaPagamento = this.assinatura.getFormaPagamento();
 
@@ -192,12 +192,18 @@ public class Fatura extends AbstractEntity implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public BigDecimal getDesconto() {
         if (this.cupom != null)
             return getValor().multiply(this.cupom.getPercentualDesconto());
         return BigDecimal.ZERO;
+    }
+
+    /**
+     * @return
+     */
+    public String getItensString() {
+        return this.getItens().stream().map(item -> item.getDispositivo().getNome() + " - " + " R$ " + item.getPreco()).collect(Collectors.joining(", "));
     }
 }
