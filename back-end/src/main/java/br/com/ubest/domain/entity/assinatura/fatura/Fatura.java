@@ -200,7 +200,8 @@ public class Fatura extends AbstractEntity implements Serializable {
      */
     public BigDecimal getDesconto() {
         if (this.cupom != null)
-            return this.getValor().add((this.getValor().multiply(new BigDecimal(0.30)).multiply(new BigDecimal(-1))));
+            return this.getValor().multiply(new BigDecimal(0.30)).multiply(new BigDecimal(-1));
+//            return this.getValor().add((this.getValor().multiply(new BigDecimal(0.30)).multiply(new BigDecimal(-1))));
         return BigDecimal.ZERO;
     }
 

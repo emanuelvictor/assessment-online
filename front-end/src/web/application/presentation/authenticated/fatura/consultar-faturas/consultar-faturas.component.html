@@ -50,7 +50,9 @@
                     flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'>
             <div layout='column' layout-margin>
               <span>{{fatura?.valor | currency:'BRL'}}
-                <span style='color: #607d8b' *ngIf='fatura?.desconto'> Desconto: {{fatura?.desconto + '%'}}</span>
+                <span style='color: #607d8b' *ngIf='fatura?.cupom?.percentualDesconto'>
+                  Percentual de desconto: {{fatura?.cupom?.percentualDesconto + '%'}}
+                </span>
                 <span style='color: #607d8b'> - {{fatura?.status}}</span>
                 <span style='color: gray'> - {{fatura?.formaPagamento}}
                   <!--                  <a *ngIf='fatura?.linkBoleto' href='{{fatura?.linkBoleto}}'>{{fatura?.linkBoleto}}</a>-->
