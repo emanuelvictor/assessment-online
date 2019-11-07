@@ -152,14 +152,13 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
                 value("shippingAddress", shippingAddress)
         );
 
-//        final Map<String, Object> subtotals = payloadFactory(
-//                value("shipping", fatura.getValor().intValueExact())
-//        );
+        final Map<String, Object> subtotals = payloadFactory(
+                value("discount", fatura.getValorDeDesconto().toString().replace(".", ""))
+        );
 
         final Map<String, Object> amount = payloadFactory(
                 value("currency", "BRL")
-
-//              ,  value("subtotals", subtotals)
+              ,  value("subtotals", subtotals)
         );
 
         final List<Map<String, Object>> itens = new ArrayList<>();
@@ -170,7 +169,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
                     value("product", item.getDispositivo().getNome()),
                     value("quantity", 1),
                     value("detail", "Licença para Uso de Software - Ubest Avaliações Online"),
-                    value("price", item.getPreco().toString().replace(".", ""))
+                    value("price", item.getPrecoComAcressimo().toString().replace(".", ""))
             );
 
             itens.add(product);

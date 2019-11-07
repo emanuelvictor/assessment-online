@@ -21,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -136,13 +135,12 @@ public class FaturaService {
                     this.inserirProximaFaturaAgrupada(tenant, assinatura, cupom, dispositivos);
                 else {
                     dispositivos.forEach(dispositivo -> {
-                        final Fatura proximaFatura = new Fatura(tenant, assinatura,cupom, new HashSet<>());
+                        final Fatura proximaFatura = new Fatura(tenant, assinatura, cupom, new HashSet<>());
 
                         if (dispositivo.isEnabled()) {
                             final Item item = new Item();
                             item.setDispositivo(dispositivo);
                             item.setFatura(proximaFatura);
-                            item.setPreco(proximaFatura.getAssinatura().getPlano().getValorMensal());
 
                             proximaFatura.getItens().add(item);
 
@@ -164,22 +162,11 @@ public class FaturaService {
 
         fatura.setDataFechamento(fatura.getDataAbertura().plusMonths(1).withDayOfMonth(1));
 
-        fatura.getItens().forEach(item -> {
+        fatura.getItens().forEach(item ->
 
-            final int totalAvaliacoesDispositivo = this.avaliacaoRepository.countByDispositivoIdAndDates(item.getDispositivo().getId(), fatura.getDataFechamento().minusMonths(1).atStartOfDay(), fatura.getDataFechamento().atStartOfDay());
+                item.setTotalAvaliacoes(this.avaliacaoRepository.countByDispositivoIdAndDates(item.getDispositivo().getId(), fatura.getDataFechamento().minusMonths(1).atStartOfDay(), fatura.getDataFechamento().atStartOfDay()))
 
-            BigDecimal preco = fatura.getAssinatura().getPlano().getValorMensal();
-            if (totalAvaliacoesDispositivo > fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes()) {
-                final int avaliacoesExcedentes = totalAvaliacoesDispositivo - fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes();
-                preco = preco.add(fatura.getAssinatura().getPlano().getValorAvaliacoesExcedentes().multiply(new BigDecimal(avaliacoesExcedentes)));
-                item.setAvaliacoesExcedentes(avaliacoesExcedentes);
-            }
-
-            item.setQuantidadeMaximaAvaliacoes(fatura.getAssinatura().getPlano().getQuantidadeAvaliacoes());
-            item.setTotalAvaliacoes(totalAvaliacoesDispositivo);
-            item.setPreco(preco);
-
-        });
+        );
 
         fatura.setOrderId(this.paymentGatewayRepository.fecharFatura(fatura).getOrderId());
 
@@ -223,7 +210,6 @@ public class FaturaService {
                 final Item item = new Item();
                 item.setDispositivo(dispositivo);
                 item.setFatura(proximaFatura);
-                item.setPreco(proximaFatura.getAssinatura().getPlano().getValorMensal());
 
                 proximaFatura.getItens().add(item);
 
@@ -252,7 +238,6 @@ public class FaturaService {
                 final Item item = new Item();
                 item.setDispositivo(dispositivo);
                 item.setFatura(proximaFatura);
-                item.setPreco(proximaFatura.getAssinatura().getPlano().getValorMensal());
 
                 proximaFatura.getItens().add(item);
             }

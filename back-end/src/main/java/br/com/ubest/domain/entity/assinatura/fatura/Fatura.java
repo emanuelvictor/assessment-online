@@ -130,6 +130,27 @@ public class Fatura extends AbstractEntity implements Serializable {
     /**
      *
      */
+    @NotNull
+    @Column(nullable = false)
+    private int quantidadeMaximaAvaliacoes;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
+    private BigDecimal valorMensal;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
+    private BigDecimal valorAvaliacoesExcedentes;
+
+    /**
+     *
+     */
     public Fatura() {
     }
 
@@ -156,6 +177,9 @@ public class Fatura extends AbstractEntity implements Serializable {
             status = Status.CREATED;
 
         this.formaPagamento = this.assinatura.getFormaPagamento();
+        this.valorMensal = this.assinatura.getPlano().getValorMensal();
+        this.valorAvaliacoesExcedentes = this.assinatura.getPlano().getValorAvaliacoesExcedentes();
+        this.quantidadeMaximaAvaliacoes = this.assinatura.getPlano().getQuantidadeAvaliacoes();
 
         this.cupom = cupom;
     }
@@ -177,6 +201,9 @@ public class Fatura extends AbstractEntity implements Serializable {
             status = Status.CREATED;
 
         this.formaPagamento = this.assinatura.getFormaPagamento();
+        this.valorMensal = this.assinatura.getPlano().getValorMensal();
+        this.valorAvaliacoesExcedentes = this.assinatura.getPlano().getValorAvaliacoesExcedentes();
+        this.quantidadeMaximaAvaliacoes = this.assinatura.getPlano().getQuantidadeAvaliacoes();
 
         this.itens = itens;
 
@@ -189,19 +216,24 @@ public class Fatura extends AbstractEntity implements Serializable {
     public BigDecimal getValor() {
         BigDecimal valor = new BigDecimal(0);
         if (itens != null)
-            for (int i = 0; i < itens.size(); i++) {
-                valor = valor.add(new ArrayList<>(itens).get(i).getPreco());
-            }
+            for (int i = 0; i < itens.size(); i++)
+                valor = valor.add(new ArrayList<>(itens).get(i).getPrecoComAcressimo());
         return valor;
     }
 
     /**
      * @return
      */
-    public BigDecimal getDesconto() {
+    public BigDecimal getValorComDesconto() {
+        return this.getValor().add(this.getValorDeDesconto().multiply(new BigDecimal(-1)));
+    }
+
+    /**
+     * @return
+     */
+    public BigDecimal getValorDeDesconto() {
         if (this.cupom != null)
-            return this.getValor().multiply(new BigDecimal(0.30)).multiply(new BigDecimal(-1));
-//            return this.getValor().add((this.getValor().multiply(new BigDecimal(0.30)).multiply(new BigDecimal(-1))));
+            return this.getValor().multiply(this.cupom.getPercentualDesconto().multiply(new BigDecimal(0.01)));
         return BigDecimal.ZERO;
     }
 
@@ -209,7 +241,9 @@ public class Fatura extends AbstractEntity implements Serializable {
      * @return
      */
     public String getItensString() {
-        return this.getItens().stream().map(item -> item.getDispositivo().getNome() + " - " + " R$ " + item.getPreco()).collect(Collectors.joining(", "));
+        if (this.itens != null)
+            return this.itens.stream().map(item -> item.getDispositivo().getNome() + " - " + " R$ " + this.valorMensal).collect(Collectors.joining(", "));
+        return null;
     }
 
     /**
@@ -225,5 +259,32 @@ public class Fatura extends AbstractEntity implements Serializable {
     public void setStatus(final String status) {
         if (status != null)
             this.status = Status.valueOf(status);
+    }
+
+    /**
+     * @return
+     */
+    public int getQuantidadeMaximaAvaliacoes() {
+        if (quantidadeMaximaAvaliacoes == 0)
+            quantidadeMaximaAvaliacoes = this.assinatura.getPlano().getQuantidadeAvaliacoes();
+        return quantidadeMaximaAvaliacoes;
+    }
+
+    /**
+     * @return
+     */
+    public BigDecimal getValorMensal() {
+        if (valorMensal == null)
+            this.valorMensal = this.assinatura.getPlano().getValorMensal();
+        return valorMensal;
+    }
+
+    /**
+     * @return
+     */
+    public BigDecimal getValorAvaliacoesExcedentes() {
+        if (valorAvaliacoesExcedentes == null)
+            this.valorAvaliacoesExcedentes = this.assinatura.getPlano().getValorAvaliacoesExcedentes();
+        return valorAvaliacoesExcedentes;
     }
 }

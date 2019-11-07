@@ -56,17 +56,15 @@ public class Item extends AbstractEntity implements Serializable {
     /**
      *
      */
-    private Integer quantidadeMaximaAvaliacoes;
-
-    /**
-     *
-     */
+    @Column
     private Integer totalAvaliacoes;
 
-    /**
-     *
-     */
-    private BigDecimal preco;
+//    /**
+//     *
+//     */
+//    @NotNull
+//    @Column(nullable = false)
+//    private BigDecimal preco;
 
     /**
      *
@@ -81,4 +79,35 @@ public class Item extends AbstractEntity implements Serializable {
         super(id);
     }
 
+    /**
+     * @return
+     */
+    public BigDecimal getPrecoComAcressimo() {
+        return this.fatura.getValorMensal().add(this.getValorDeAcressimo());
+    }
+
+    /**
+     * @return
+     */
+    public BigDecimal getValorDeAcressimo() {
+        final BigDecimal preco;
+
+        if (totalAvaliacoes != null && fatura != null && totalAvaliacoes > fatura.getQuantidadeMaximaAvaliacoes()) {
+            avaliacoesExcedentes = totalAvaliacoes - fatura.getQuantidadeMaximaAvaliacoes();
+            preco = fatura.getValorMensal().add(fatura.getValorAvaliacoesExcedentes().multiply(new BigDecimal(avaliacoesExcedentes)));
+        } else preco = BigDecimal.ZERO;
+
+        return preco;
+    }
+
+    /**
+     *
+     * @param totalAvaliacoes
+     */
+    public void setTotalAvaliacoes(Integer totalAvaliacoes) {
+        this.totalAvaliacoes = totalAvaliacoes;
+
+        // Calcula preços
+        this.getValorDeAcressimo();
+    }
 }

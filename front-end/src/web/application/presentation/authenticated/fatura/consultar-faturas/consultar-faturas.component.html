@@ -1,26 +1,26 @@
-<search-bar>
+<!--<search-bar>-->
 
-  <mat-form-field [ngStyle]="{'margin-top': (pageRequest?.defaultFilter?.length ? '16px' : '32px')}"
-                  flex-gt-lg='90' flex-gt-md='90' flex-md='90' flex-sm='90' style='margin-left:0; margin-top: 32px'>
-    <mat-chip-list #defaultFilterChipList aria-label='Pesquisar pelo nome ou enunciado'>
+<!--  <mat-form-field [ngStyle]="{'margin-top': (pageRequest?.defaultFilter?.length ? '16px' : '32px')}"-->
+<!--                  flex-gt-lg='90' flex-gt-md='90' flex-md='90' flex-sm='90' style='margin-left:0; margin-top: 32px'>-->
+<!--    <mat-chip-list #defaultFilterChipList aria-label='Pesquisar pelo nome ou enunciado'>-->
 
-      <mat-chip (removed)='removeDefaultFilter(defaultFilter)'
-                *ngFor='let defaultFilter of pageRequest.defaultFilter' style='max-width: 100%'>
-        {{defaultFilter}}
-        <mat-icon matChipRemove>cancel</mat-icon>
-      </mat-chip>
+<!--      <mat-chip (removed)='removeDefaultFilter(defaultFilter)'-->
+<!--                *ngFor='let defaultFilter of pageRequest.defaultFilter' style='max-width: 100%'>-->
+<!--        {{defaultFilter}}-->
+<!--        <mat-icon matChipRemove>cancel</mat-icon>-->
+<!--      </mat-chip>-->
 
-      <input (ngModelChange)='defaultFilterChanged($event)'
-             (matChipInputTokenEnd)='addDefaultFilter($event)'
-             placeholder='Pesquisar pelo nome ou número do fatura'
-             [(ngModel)]='defaultFilter' [ngModelOptions]='{standalone: true}'
-             [matChipInputAddOnBlur]='true' [matChipInputFor]='defaultFilterChipList'>
+<!--      <input (ngModelChange)='defaultFilterChanged($event)'-->
+<!--             (matChipInputTokenEnd)='addDefaultFilter($event)'-->
+<!--             placeholder='Pesquisar pelo nome ou número do fatura'-->
+<!--             [(ngModel)]='defaultFilter' [ngModelOptions]='{standalone: true}'-->
+<!--             [matChipInputAddOnBlur]='true' [matChipInputFor]='defaultFilterChipList'>-->
 
-    </mat-chip-list>
+<!--    </mat-chip-list>-->
 
-  </mat-form-field>
+<!--  </mat-form-field>-->
 
-</search-bar>
+<!--</search-bar>-->
 
 <!--Listagem-->
 <div layout='row' layout-align='center start'>
@@ -49,15 +49,18 @@
           <mat-cell *matCellDef='let fatura' layout-align='start center'
                     flex-xl='70' flex-gt-md='70' flex-md='70' flex-sm='70'>
             <div layout='column' layout-margin>
-              <span>{{fatura?.valor | currency:'BRL'}}
+
+              <span>{{fatura?.valorComDesconto ? (fatura?.valorComDesconto | currency:'BRL') : (fatura?.valor | currency:'BRL')}}
+                <span style='color: limegreen' *ngIf="fatura?.status === 'PAID' || fatura?.status === 'AUTHORIZED'"> - PAGO</span>
+                <span style='color: gray'> - {{fatura?.formaPagamento}} </span>
+              </span>
+              <span *ngIf='fatura?.cupom?.percentualDesconto'>
+                  Valor original: {{fatura?.valor | currency:'BRL'}}
                 <span style='color: #607d8b' *ngIf='fatura?.cupom?.percentualDesconto'>
-                  Percentual de desconto: {{fatura?.cupom?.percentualDesconto + '%'}}
-                </span>
-                <span style='color: #607d8b'> - {{fatura?.status}}</span>
-                <span style='color: gray'> - {{fatura?.formaPagamento}}
-                  <!--                  <a *ngIf='fatura?.linkBoleto' href='{{fatura?.linkBoleto}}'>{{fatura?.linkBoleto}}</a>-->
+                  - Percentual de desconto: {{fatura?.cupom?.percentualDesconto + '%'}}
                 </span>
               </span>
+
               <span style='color: #607d8b' class='text-truncate'>{{fatura?.itensString}}</span>
             </div>
           </mat-cell>

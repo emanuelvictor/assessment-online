@@ -26,6 +26,15 @@
                   <div layout='row' layout-align='start center'>
                     <div layout='column'>
 
+                      <h1 style='color: #6a1b9a' flex class='mat-headline no-margin'>
+                        {{fatura?.valorComDesconto ? (fatura?.valorComDesconto | currency:'BRL') : (fatura?.valor | currency:'BRL')}}
+                        <span style='color: limegreen' *ngIf="fatura?.status === 'PAID' || fatura?.status === 'AUTHORIZED'"> - PAGO</span>
+                      </h1>
+                      <h1 *ngIf='fatura?.cupom?.percentualDesconto' flex
+                          class='mat-headline tc-blue-grey-800 no-margin'>
+                        Valor original: {{fatura?.valor | currency:'BRL'}} - Percentual de
+                        desconto: {{fatura?.cupom?.percentualDesconto + '%'}}
+                      </h1>
                       <h1 flex class='mat-headline tc-blue-grey-800 no-margin' *ngIf='!fatura?.dataFechamento'>
                         Data de Abertura: {{fatura?.dataAbertura}}
                       </h1>
@@ -38,15 +47,15 @@
                       <h2 *ngIf='fatura?.dataPagamento' class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
                         Data de Pagamento: {{fatura?.dataPagamento}}
                       </h2>
-                      <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
-                        Valor total: {{fatura?.valor | currency:'BRL'}}
-                      </h2>
+                      <!--                      <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>-->
+                      <!--                        Valor total: {{fatura?.valor | currency:'BRL'}}-->
+                      <!--                      </h2>-->
                       <div layout='row' flex class='mat-subheading-2 tc-blue-grey-500 no-margin'
-                           *ngIf="fatura?.assinatura?.formaPagamento === 'BOLETO' && fatura?.linkBoleto">
+                           *ngIf="fatura?.status !== 'PAID' && fatura?.status !== 'AUTHORIZED' && fatura?.assinatura?.formaPagamento === 'BOLETO' && fatura?.linkBoleto">
                         Boleto: <a href='{{fatura?.linkBoleto}}' target='_blank'
                                    *ngIf="fatura?.assinatura?.formaPagamento === 'BOLETO'">
-                        {{' ' + fatura?.linkBoleto}}
-                      </a>
+                                  {{' ' + fatura?.linkBoleto}}
+                                </a>
                       </div>
 
                       <div layout='column'>
@@ -58,9 +67,9 @@
                               class='mat-subheading-2 tc-blue-grey-500 no-margin'>
                             <div layout='column'>
                             <span>
-                              {{item?.dispositivo?.nome}} - {{item?.preco | currency:'BRL'}}
+                              {{item?.dispositivo?.nome}} - {{item?.precoComAcressimo | currency:'BRL'}}
                             </span>
-                              {{ item?.totalAvaliacoes !== undefined && item?.totalAvaliacoes !== null ? ('Total de Avaliações: ' + item?.totalAvaliacoes) : ''}} {{ item?.quantidadeMaximaAvaliacoes ? (' - Quantidade Máxima de Avaliações: ' + item?.quantidadeMaximaAvaliacoes) : ''}} {{ item?.avaliacoesExcedentes ? (' - Avaliações Excedentes: ' + item?.avaliacoesExcedentes) : ''}}
+                              {{ item?.totalAvaliacoes !== undefined && item?.totalAvaliacoes !== null ? ('Total de Avaliações: ' + item?.totalAvaliacoes) : ''}} {{ item?.fatura?.quantidadeMaximaAvaliacoes ? (' - Quantidade Máxima de Avaliações: ' + item?.fatura?.quantidadeMaximaAvaliacoes) : ''}} {{ item?.avaliacoesExcedentes ? (' - Avaliações Excedentes: ' + item?.avaliacoesExcedentes) : ''}}
                             </div>
                           </li>
                         </ul>
