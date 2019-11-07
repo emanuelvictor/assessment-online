@@ -69,7 +69,7 @@
                             <span>
                               {{item?.dispositivo?.nome}} - {{item?.precoComAcressimo | currency:'BRL'}}
                             </span>
-                              {{ item?.totalAvaliacoes !== undefined && item?.totalAvaliacoes !== null ? ('Total de Avaliações: ' + item?.totalAvaliacoes) : ''}} {{ item?.fatura?.quantidadeMaximaAvaliacoes ? (' - Quantidade Máxima de Avaliações: ' + item?.fatura?.quantidadeMaximaAvaliacoes) : ''}} {{ item?.avaliacoesExcedentes ? (' - Avaliações Excedentes: ' + item?.avaliacoesExcedentes) : ''}}
+                              {{ item?.totalAvaliacoes !== undefined && item?.totalAvaliacoes !== null ? ('Total de Avaliações: ' + item?.totalAvaliacoes) + ' - ': ''}} {{ item?.fatura?.quantidadeMaximaAvaliacoes ? ('Quantidade Máxima de Avaliações: ' + item?.fatura?.quantidadeMaximaAvaliacoes) : ''}} {{ item?.avaliacoesExcedentes ? (' - Avaliações Excedentes: ' + item?.avaliacoesExcedentes) : ''}}
                             </div>
                           </li>
                         </ul>

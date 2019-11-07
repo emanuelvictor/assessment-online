@@ -39,7 +39,7 @@ public class FaturaResource extends AbstractResource<Fatura> {
     @PreAuthorize("hasAnyAuthority('" + ADMINISTRADOR_VALUE + "')")
     Mono<Page<Fatura>> listByFilters(final String defaultFilter) {
         final Page<Fatura> faturas = faturaService.listByFilters(defaultFilter, getPageable());
-        faturas.forEach(fatura -> fatura.getItens().forEach(item -> item.getFatura().setItens(null)));
+//        faturas.forEach(fatura -> fatura.getItens().forEach(item -> item.getFatura().setItens(null)));
         return Mono.just(faturas);
     }
 
@@ -51,7 +51,7 @@ public class FaturaResource extends AbstractResource<Fatura> {
     @PreAuthorize("hasAnyAuthority('" + ADMINISTRADOR_VALUE + "')")
     Mono<Optional<Fatura>> findById(@PathVariable final long id) {
         final Optional<Fatura> fatura = faturaService.findById(id);
-        fatura.orElseThrow().getItens().forEach(item -> item.getFatura().setItens(null));
+//        fatura.orElseThrow().getItens().forEach(item -> item.getFatura().getItens().forEach(item1 -> item1.setFatura(null)));
         return Mono.just(fatura);
     }
 

@@ -13,6 +13,7 @@ import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -153,7 +154,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
         );
 
         final Map<String, Object> subtotals = payloadFactory(
-                value("discount", fatura.getValorDeDesconto().toString().replace(".", ""))
+                value("discount", fatura.getValorDeDesconto().setScale(2, BigDecimal.ROUND_HALF_EVEN).toString().replace(".", ""))
         );
 
         final Map<String, Object> amount = payloadFactory(
@@ -169,7 +170,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
                     value("product", item.getDispositivo().getNome()),
                     value("quantity", 1),
                     value("detail", "Licença para Uso de Software - Ubest Avaliações Online"),
-                    value("price", item.getPrecoComAcressimo().toString().replace(".", ""))
+                    value("price", item.getPrecoComAcressimo().setScale(2, BigDecimal.ROUND_HALF_EVEN).toString().replace(".", ""))
             );
 
             itens.add(product);
