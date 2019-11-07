@@ -242,7 +242,7 @@ public class Fatura extends AbstractEntity implements Serializable {
      */
     public String getItensString() {
         if (this.itens != null)
-            return this.itens.stream().map(item -> item.getDispositivo().getNome() + " - " + " R$ " + this.valorMensal).collect(Collectors.joining(", "));
+            return this.itens.stream().map(item -> item.getDispositivo().getNome() + " - " + " R$ " + item.getPrecoComAcressimo()).collect(Collectors.joining(", "));
         return null;
     }
 
