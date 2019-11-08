@@ -8,6 +8,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -37,5 +38,12 @@ public class Agrupador extends AbstractEntity implements Serializable {
      */
     @Column(length = 300)
     private String feedback;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
+    private boolean ativo = true;
 
 }

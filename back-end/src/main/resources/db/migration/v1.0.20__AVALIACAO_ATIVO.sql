@@ -1,0 +1,5 @@
+ALTER TABLE agrupador
+    ADD COLUMN IF NOT EXISTS ativo boolean NOT NULL DEFAULT TRUE;
+
+ALTER TABLE agrupador_aud
+    ADD COLUMN IF NOT EXISTS ativo boolean DEFAULT TRUE;

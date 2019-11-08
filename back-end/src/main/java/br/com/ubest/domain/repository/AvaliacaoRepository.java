@@ -35,6 +35,10 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "   WHERE " +
             "   (   " +
             "       (" +
+            "           agrupador.ativo = true" +
+            "       )" +
+            "       AND " +
+            "       (" +
             "           (" +
             "               ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
             "               AND " +
@@ -169,8 +173,8 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "   )"
     )
     int countByDispositivoIdAndDates(@Param("dispositivoId") final long dispositivoId,
-                                   @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
-                                   @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter);
+                                     @Param("dataInicioFilter") final LocalDateTime dataInicioFilter,
+                                     @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter);
 
 
 }
