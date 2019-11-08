@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 import java.util.Optional;
 
 import static br.com.ubest.domain.entity.usuario.Perfil.ADMINISTRADOR_VALUE;
+import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 
 /**
  * @author Emanuel Victor
@@ -37,8 +38,8 @@ public class FaturaResource extends AbstractResource<Fatura> {
      */
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + ADMINISTRADOR_VALUE + "')")
-    Mono<Page<Fatura>> listByFilters(final String defaultFilter) {
-        final Page<Fatura> faturas = faturaService.listByFilters(defaultFilter, getPageable());
+    Mono<Page<Fatura>> listByFilters(final String defaultFilter, final Long[] dispositivosFilter) {
+        final Page<Fatura> faturas = faturaService.listByFilters(defaultFilter, getListFromArray(dispositivosFilter), getPageable());
 //        faturas.forEach(fatura -> fatura.getItens().forEach(item -> item.getFatura().setItens(null)));
         return Mono.just(faturas);
     }

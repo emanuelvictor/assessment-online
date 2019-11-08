@@ -287,4 +287,11 @@ public class Fatura extends AbstractEntity implements Serializable {
             this.valorAvaliacoesExcedentes = this.assinatura.getPlano().getValorAvaliacoesExcedentes();
         return valorAvaliacoesExcedentes;
     }
+
+    /**
+     * @return
+     */
+    public boolean isVencida() {
+        return (status != Status.AUTHORIZED && status != Status.PAID) && (this.dataPagamento == null) && LocalDate.now().isAfter(this.dataVencimento);
+    }
 }

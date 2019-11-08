@@ -31,8 +31,17 @@ public interface FaturaRepository extends JpaRepository<Fatura, Long> {
     @Query("FROM Fatura fatura WHERE " +
             "(" +
             "   ((:tenant IS NOT NULL AND fatura.tenant = :tenant) OR :tenant IS NULL)" +
+            "   AND " +
+            "   (" +
+            "      (" +
+            "           :dispositivosIds IS NOT NULL AND " +
+            "           (" +
+            "               fatura.id IN (SELECT item.fatura.id FROM Item item WHERE (item.dispositivo.id IN :dispositivosIds))" +
+            "           )" +
+            "       ) OR :dispositivosIds IS NULL " +
+            "   )" +
             ")")
-    Page<Fatura> listByFilters(@Param("tenant") final String tenant,/* @Param("defaultFilter") String defaultFilter, */final Pageable pageable);
+    Page<Fatura> listByFilters(@Param("tenant") final String tenant, @Param("dispositivosIds") final List<Long> dispositivosIds, /* @Param("defaultFilter") String defaultFilter, */final Pageable pageable);
 
     /**
      *

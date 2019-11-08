@@ -10,6 +10,7 @@ import br.com.ubest.domain.entity.assinatura.fatura.Status;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.AvaliacaoRepository;
 import br.com.ubest.domain.repository.CupomRepository;
+import br.com.ubest.domain.repository.DispositivoRepository;
 import br.com.ubest.domain.repository.FaturaRepository;
 import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
 import br.com.ubest.infrastructure.tenant.TenantDetailsService;
@@ -48,17 +49,17 @@ public class FaturaService {
     /**
      *
      */
-    private final DispositivoService dispositivoService;
-
-    /**
-     *
-     */
     private final AvaliacaoRepository avaliacaoRepository;
 
     /**
      *
      */
     private final TenantDetailsService tenantDetailsService;
+
+    /**
+     *
+     */
+    private final DispositivoRepository dispositivoRepository;
 
     /**
      *
@@ -98,7 +99,8 @@ public class FaturaService {
             // Pego as últimas faturas em aberto
             final List<Fatura> ultimasFaturas = this.faturaRepository.findLastsFaturasByTenant(tenant);
 
-            final Set<Dispositivo> dispositivos = new HashSet<>(dispositivoService.listByFilters(null, null).getContent());
+            // Pego os dispositivos
+            final Set<Dispositivo> dispositivos = new HashSet<>(this.dispositivoRepository.listByFilters(null, tenant, null).getContent());
 
             // Se tem faturas em aberto
             if (!ultimasFaturas.isEmpty())
@@ -260,10 +262,10 @@ public class FaturaService {
      * @return
      */
     @Transactional(readOnly = true)
-    public Page<Fatura> listByFilters(final String defaultFilter, final Pageable pageable) {
+    public Page<Fatura> listByFilters(final String defaultFilter, final List<Long> dispositivosId, final Pageable pageable) {
         if (this.tenantIdentifierResolver.resolveCurrentTenantIdentifier().equals(DEFAULT_TENANT_ID))
-            return this.faturaRepository.listByFilters(null, pageable);
-        return this.faturaRepository.listByFilters(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(), pageable);
+            return this.faturaRepository.listByFilters(null, dispositivosId, pageable);
+        return this.faturaRepository.listByFilters(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(),  dispositivosId, pageable);
     }
 
     /**

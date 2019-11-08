@@ -35,7 +35,7 @@ export class DispositivoRepository extends BaseRepository<Dispositivo> {
 
     return new Promise((resolve, reject) => {
 
-      const dispositivo: Dispositivo = new Dispositivo();
+      const dispositivo: any = {};
       dispositivo.senha = senha;
       dispositivo.numeroLicenca = numeroLicenca;
       dispositivo.numeroSerie = numeroSerie;

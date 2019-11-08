@@ -1,8 +1,10 @@
 package br.com.ubest.domain.service;
 
 import br.com.ubest.application.tenant.TenantIdentifierResolver;
+import br.com.ubest.domain.entity.assinatura.fatura.Fatura;
 import br.com.ubest.domain.entity.avaliacao.Agrupador;
 import br.com.ubest.domain.entity.avaliacao.Avaliacao;
+import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.usuario.Conta;
 import br.com.ubest.domain.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +18,18 @@ import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AvaliacaoService {
+
+    /**
+     *
+     */
+    private final FaturaService faturaService;
 
     /**
      *
@@ -74,21 +82,25 @@ public class AvaliacaoService {
      */
     public Mono<Agrupador> save(final Agrupador agrupador) {
 
+        final Dispositivo dispositivo = agrupador.avaliacoes.get(0).avaliacoesAvaliaveis.get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo();
+
+        // Verifica se há faturas vencidas para o dispositivo
+        final List<Fatura> faturas = this.faturaService.listByFilters(dispositivo.getTenant(), null, null).getContent();
+        agrupador.setAtivo(faturas.stream().noneMatch(Fatura::isVencida));
+
         if (agrupador.getRecap() != null) {
             this.validateRecaptcha(agrupador);
 
-            tenantIdentifierResolver.setSchema(agrupador.avaliacoes.get(0).avaliacoesAvaliaveis.get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo().getTenant());
+            tenantIdentifierResolver.setSchema(dispositivo.getTenant());
             return Mono.just(saveInner(preSave(agrupador)));
-        } else {
+        } else
             return ReactiveSecurityContextHolder.getContext()
                     .map(SecurityContext::getAuthentication)
                     .switchIfEmpty(Mono.empty())
                     .map(authentication -> saveInner(preSave(agrupador)));
-        }
     }
 
     /**
-     *
      * @param agrupador
      */
     @Transactional(readOnly = true)
@@ -140,30 +152,6 @@ public class AvaliacaoService {
         agrupador.setId(id);
         return this.agrupadorRepository.save(agrupador);
     }
-
-//    /**
-//     * @param avaliacao
-//     * @return
-//     */
-//    @Transactional
-//    public Avaliacao save(final Avaliacao avaliacao) {
-//
-//        if (avaliacao.getAvaliacoesAvaliaveis() != null)
-//            avaliacao.getAvaliacoesAvaliaveis().forEach(avaliacaoAvaliavel ->
-//                    avaliacaoAvaliavel.setAvaliacao(avaliacao)
-//            );
-//
-//        if (avaliacao.getAgrupador() != null && avaliacao.getAgrupador().getId() != null)
-//            avaliacao.setAgrupador(this.agrupadorRepository.findById(avaliacao.getAgrupador().getId()).orElse(null));
-//
-//        if (avaliacao.getAgrupador() == null) {
-//            var agrupador = new Agrupador();
-//            agrupador.setAvaliacoes(List.of(avaliacao));
-//            avaliacao.setAgrupador(agrupador);
-//        }
-//
-//        return this.save(avaliacao.getAgrupador()).getAvaliacoes().get(0);
-//    }
 
     /**
      * @param id

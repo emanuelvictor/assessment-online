@@ -3,3 +3,9 @@ ALTER TABLE agrupador
 
 ALTER TABLE agrupador_aud
     ADD COLUMN IF NOT EXISTS ativo boolean DEFAULT TRUE;
+
+ALTER TABLE dispositivo
+    ADD COLUMN IF NOT EXISTS ativo boolean NOT NULL DEFAULT TRUE;
+
+ALTER TABLE dispositivo_aud
+    ADD COLUMN IF NOT EXISTS ativo boolean DEFAULT TRUE;

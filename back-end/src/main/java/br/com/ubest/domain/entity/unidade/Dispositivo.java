@@ -32,21 +32,23 @@ import static br.com.ubest.Application.DEFAULT_TENANT_ID;
 @Entity
 @Audited
 @lombok.EqualsAndHashCode(callSuper = true)
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id",
-        scope = Dispositivo.class,
-        resolver = EntityIdResolver.class
-)
 @Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
         @UniqueConstraint(columnNames = {"tenant", "nome"})
 })
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
 public class Dispositivo extends AbstractEntity implements Serializable, TenantDetails {
 
     /**
      *
      */
     private static final long serialVersionUID = -12345852313456791L;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
+    private boolean ativo = true;
 
     /**
      *
@@ -202,7 +204,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
      */
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.ativo;
     }
 
     /**
