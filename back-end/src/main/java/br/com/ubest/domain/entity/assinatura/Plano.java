@@ -3,7 +3,6 @@ package br.com.ubest.domain.entity.assinatura;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.Column;
@@ -57,7 +56,6 @@ public class Plano extends AbstractEntity implements Serializable {
     }
 
     /**
-     *
      * @param id
      */
     public Plano(final long id) {

@@ -43,7 +43,6 @@ public abstract class AbstractEntity implements IEntity<Long> {
     }
 
     /**
-     *
      * @param id
      */
     public AbstractEntity(Long id) {

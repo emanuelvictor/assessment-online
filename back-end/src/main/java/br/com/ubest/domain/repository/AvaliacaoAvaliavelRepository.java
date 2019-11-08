@@ -37,7 +37,6 @@ public interface AvaliacaoAvaliavelRepository extends JpaRepository<AvaliacaoAva
     List<AvaliacaoAvaliavel> findAllByAvaliavelId(@Param("avaliavelId") final long avaliavelId);
 
     /**
-     *
      * @param avaliacaoId long
      * @return List<AvaliacaoAvaliavel>
      */

@@ -57,6 +57,17 @@ public class DispositivoService {
     private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
 
     /**
+     * Cria o contexto de autenticação a partir do Dispositivo
+     *
+     * @param userDetails {Dispositivo}
+     * @return SecurityContext
+     */
+    private static SecurityContext createSecurityContextByUserDetails(final UserDetails userDetails) {
+        final Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+        return new SecurityContextImpl(authentication);
+    }
+
+    /**
      * @param defaultFilter String
      * @param pageable      pageable
      * @return Page<Unidade>
@@ -184,18 +195,6 @@ public class DispositivoService {
     }
 
     /**
-     * Cria o contexto de autenticação a partir do Dispositivo
-     *
-     * @param userDetails {Dispositivo}
-     * @return SecurityContext
-     */
-    private static SecurityContext createSecurityContextByUserDetails(final UserDetails userDetails) {
-        final Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
-        return new SecurityContextImpl(authentication);
-    }
-
-    /**
-     *
      * @param numeroSerie
      * @return
      */

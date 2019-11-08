@@ -1,7 +1,6 @@
 package br.com.ubest.domain.entity.avaliacao;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
-import br.com.ubest.domain.entity.generic.EntityIdResolver;
 import br.com.ubest.domain.entity.unidade.Unidade;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -87,7 +86,6 @@ public class Avaliacao extends AbstractEntity implements Serializable {
     }
 
     /**
-     *
      * @param id
      * @param fotoPath
      * @param nota

@@ -1,9 +1,7 @@
 package br.com.ubest.domain.entity.unidade;
 
 import br.com.ubest.domain.entity.assinatura.Assinatura;
-import br.com.ubest.domain.entity.assinatura.fatura.Item;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
-import br.com.ubest.domain.entity.generic.EntityIdResolver;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.infrastructure.tenant.TenantDetails;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -145,6 +143,14 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     }
 
     /**
+     * @return String
+     */
+    private static String getRandomNumberInRange() {
+        final Random r = new Random();
+        return String.valueOf(r.nextInt((999999 - 100000) + 1) + 100000);
+    }
+
+    /**
      * @return Set<Unidade>
      */
     public Set<Unidade> getUnidades() {
@@ -163,14 +169,6 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
      */
     public void gerarSenhaAleatoria() {
         this.senha = getRandomNumberInRange();
-    }
-
-    /**
-     * @return String
-     */
-    private static String getRandomNumberInRange() {
-        final Random r = new Random();
-        return String.valueOf(r.nextInt((999999 - 100000) + 1) + 100000);
     }
 
     /**

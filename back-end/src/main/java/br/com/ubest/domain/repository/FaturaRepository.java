@@ -44,7 +44,6 @@ public interface FaturaRepository extends JpaRepository<Fatura, Long> {
     Page<Fatura> listByFilters(@Param("tenant") final String tenant, @Param("dispositivosIds") final List<Long> dispositivosIds, /* @Param("defaultFilter") String defaultFilter, */final Pageable pageable);
 
     /**
-     *
      * @param tenant
      * @param date
      * @return
@@ -56,14 +55,12 @@ public interface FaturaRepository extends JpaRepository<Fatura, Long> {
     List<Fatura> next(@Param("tenant") final String tenant, @Param("date") final LocalDate date);
 
     /**
-     *
      * @param paymentId
      * @return
      */
     Optional<Fatura> findByPaymentId(final String paymentId);
 
     /**
-     *
      * @param orderId
      * @return
      */

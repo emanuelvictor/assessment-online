@@ -3,7 +3,6 @@ package br.com.ubest.domain.repository;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,21 +14,18 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
 
 
     /**
-     *
      * @param numeroSerie
      * @return
      */
     Optional<Dispositivo> findByNumeroSerie(@Param("numeroSerie") final String numeroSerie);
 
     /**
-     *
      * @param numeroLicenca
      * @return
      */
     Optional<Dispositivo> findByNumeroLicenca(@Param("numeroLicenca") final Long numeroLicenca);
 
     /**
-     *
      * @param usuarioId {long}
      * @return List<Dispositivo>
      */
@@ -58,6 +54,7 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
      * @param dispositivoId {long}
      * @return List<String>
      */
+    @Deprecated
     @Query("SELECT operador.usuario.conta.password FROM Operador operador WHERE" +
             "   ( " +
             "       operador.unidade.id IN " +
@@ -72,11 +69,10 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
     List<String> getHashsByDispositivoId(@Param("dispositivoId") final long dispositivoId);
 
     /**
-     * @param usuarioId     {Long}
-     * @param perfil        String
-     * @param defaultFilter String
-     * @param pageable      Pageable
-     * @return Page<Unidade>
+     * @param defaultFilter
+     * @param tenant
+     * @param pageable
+     * @return
      */
     @Query(" FROM Dispositivo dispositivo " +
             "   WHERE " +

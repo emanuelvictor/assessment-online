@@ -159,7 +159,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
 
         final Map<String, Object> amount = payloadFactory(
                 value("currency", "BRL")
-              ,  value("subtotals", subtotals)
+                , value("subtotals", subtotals)
         );
 
         final List<Map<String, Object>> itens = new ArrayList<>();

@@ -46,7 +46,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       LEFT OUTER JOIN UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo ON unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacaoDispositivo.id = unidadeTipoAvaliacaoDispositivo.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
-            "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
+            "       LEFT OUTER JOIN Avaliacao avaliacao ON (avaliacao.id = avaliacaoAvaliavel.avaliacao.id) " +
             "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
             "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2) " +
             "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoAvaliavel.avaliacao.id AND av3.nota = 3) " +
@@ -54,6 +54,8 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoAvaliavel.avaliacao.id AND av5.nota = 5) " +
             "   WHERE" +
             "   (   " +
+            "       avaliacao.agrupador.ativo IS TRUE" +
+            "       AND " +
             "       (" +
             "           (" +
             "               ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
@@ -238,7 +240,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       LEFT OUTER JOIN UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo ON unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacaoDispositivo.id = unidadeTipoAvaliacaoDispositivo.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
-            "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
+            "       LEFT OUTER JOIN Avaliacao avaliacao ON (avaliacao.id = avaliacaoAvaliavel.avaliacao.id) " +
             "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
             "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2) " +
             "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoAvaliavel.avaliacao.id AND av3.nota = 3) " +
@@ -246,6 +248,8 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoAvaliavel.avaliacao.id AND av5.nota = 5) " +
             "   WHERE (" +
             "   (   " +
+            "       avaliacao.agrupador.ativo IS TRUE" +
+            "       AND " +
             "       (" +
             "           (" +
             "               ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
@@ -302,7 +306,7 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       LEFT OUTER JOIN UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo ON unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id = unidadeTipoAvaliacao.id " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacaoDispositivo.id = unidadeTipoAvaliacaoDispositivo.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
-            "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
+            "       LEFT OUTER JOIN Avaliacao avaliacao ON (avaliacao.id = avaliacaoAvaliavel.avaliacao.id) " +
             "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
             "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2) " +
             "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoAvaliavel.avaliacao.id AND av3.nota = 3) " +
@@ -310,6 +314,8 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoAvaliavel.avaliacao.id AND av5.nota = 5) " +
             "   WHERE " +
             "   ( " +
+            "       avaliacao.agrupador.ativo IS TRUE" +
+            "       AND " +
             "       unidade.id = :unidadeId" +
             "   )" +
             "GROUP BY unidade.id, unidade.nome, unidade.documento, endereco.id"
@@ -343,5 +349,6 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
      * @param nome String
      * @return List<Unidade>
      */
+    @Deprecated
     List<Unidade> findByNome(final String nome);
 }

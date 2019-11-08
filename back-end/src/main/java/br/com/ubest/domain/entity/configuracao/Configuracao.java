@@ -13,7 +13,6 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -23,7 +22,7 @@ import java.io.Serializable;
 @Entity
 @Audited
 @EqualsAndHashCode(callSuper = true)
-public class Configuracao extends AbstractEntity  implements Serializable {
+public class Configuracao extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -12345665432751632L;
 
@@ -32,80 +31,65 @@ public class Configuracao extends AbstractEntity  implements Serializable {
      *            Configurações de nomes das avaliações
      * --------------------------------------------------------------
      */
-
-    /**
-     *
-     */
-    private String um;
-
-    /**
-     *
-     */
-    private String dois;
-
-    /**
-     *
-     */
-    private String tres;
-
-    /**
-     *
-     */
-    private String quatro;
-
-    /**
-     *
-     */
-    private String cinco;
-
-    /**
-     *
-     */
-    @JsonIgnore
-    private byte[] logo;
-
-    /**
-     *
-     */
-    private String logoPath;
-
-    /**
-     *
-     */
-    @JsonIgnore
-    private byte[] backgroundImage;
-
-    /**
-     *
-     */
-    private String backgroundImagePath;
-
-    /**
-     *
-     */
-    private String agradecimento;
-
-    /**
-     *
-     */
-    private String feedbackEnunciado;
-
-    /**
-     *
-     */
-    private boolean feedback;
-
     /**
      *
      */
     public Boolean feedbackObrigatorio;
-
     /**
      *
      */
     @Enumerated(EnumType.ORDINAL)
     public TipoFeedback tipoFeedback = TipoFeedback.TEXTO;
-
+    /**
+     *
+     */
+    private String um;
+    /**
+     *
+     */
+    private String dois;
+    /**
+     *
+     */
+    private String tres;
+    /**
+     *
+     */
+    private String quatro;
+    /**
+     *
+     */
+    private String cinco;
+    /**
+     *
+     */
+    @JsonIgnore
+    private byte[] logo;
+    /**
+     *
+     */
+    private String logoPath;
+    /**
+     *
+     */
+    @JsonIgnore
+    private byte[] backgroundImage;
+    /**
+     *
+     */
+    private String backgroundImagePath;
+    /**
+     *
+     */
+    private String agradecimento;
+    /**
+     *
+     */
+    private String feedbackEnunciado;
+    /**
+     *
+     */
+    private boolean feedback;
     /**
      *
      */
@@ -197,7 +181,6 @@ public class Configuracao extends AbstractEntity  implements Serializable {
     }
 
     /**
-     *
      * @return int
      */
     public int getTimeInMilis() {

@@ -11,6 +11,14 @@ import java.util.List;
 
 public interface OperadorRepository extends JpaRepository<Operador, Long> {
 
+    /**
+     * @param defaultFilter
+     * @param enderecoFilter
+     * @param usuarioId
+     * @param unidadeId
+     * @param pageable
+     * @return
+     */
     @Query(" SELECT operador FROM Operador operador " +
             "       LEFT OUTER JOIN Endereco endereco ON operador.unidade.endereco.id = endereco.id " +
             "       LEFT OUTER JOIN Cidade cidade ON cidade.id = endereco.cidade.id " +
@@ -37,8 +45,16 @@ public interface OperadorRepository extends JpaRepository<Operador, Long> {
                                  @Param("unidadeId") final Long unidadeId,
                                  final Pageable pageable);
 
+    /**
+     * @param unidadeId
+     * @return
+     */
     List<Operador> findAllByUnidadeId(final long unidadeId);
 
+    /**
+     * @param usuarioId
+     * @return
+     */
     List<Operador> findAllByUsuarioId(final long usuarioId);
 
 }

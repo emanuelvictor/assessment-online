@@ -168,60 +168,6 @@ public class Usuario extends Pessoa implements Serializable {
      *-------------------------------------------------------------------*/
 
     /**
-     * @return String
-     */
-    @Transient
-    @JsonProperty
-    public String getUnidades() {
-
-        final Set<Unidade> unidades = new HashSet<>();
-
-        if (this.avaliaveis != null && !Objects.requireNonNull(this.avaliaveis).isEmpty())
-            unidades.addAll(this.avaliaveis.stream().map(avaliavel -> avaliavel.getUnidadeTipoAvaliacaoDispositivo().getUnidadeTipoAvaliacao().getUnidade()).collect(Collectors.toSet()));
-        if (this.operadores != null)
-            unidades.addAll(this.operadores.stream().map(Operador::getUnidade).collect(Collectors.toSet()));
-
-        if (unidades.isEmpty())
-            return null;
-        return unidades.stream().map(a -> a.nome).collect(Collectors.joining(", "));
-    }
-
-    /**
-     *
-     */
-    public boolean isOperador() {
-        return this.operadores != null && !this.operadores.isEmpty();
-    }
-
-    /**
-     *
-     */
-    public boolean isAtendente() {
-        return this.avaliaveis != null && !this.avaliaveis.isEmpty();
-    }
-
-    /**
-     *
-     */
-    public boolean getIsOperador() {
-        return this.isOperador();
-    }
-
-    /**
-     *
-     */
-    public boolean getIsAtendente() {
-        return this.isAtendente();
-    }
-
-    /**
-     *
-     */
-    public boolean getIsAdministrador() {
-        return this.conta != null && this.conta.isAdministrador();
-    }
-
-    /**
      * Remove '.', '/' e '-'
      *
      * @param documento {String}
@@ -274,6 +220,60 @@ public class Usuario extends Pessoa implements Serializable {
             throw new CpfCnpjException();
         }
         return doc;
+    }
+
+    /**
+     * @return String
+     */
+    @Transient
+    @JsonProperty
+    public String getUnidades() {
+
+        final Set<Unidade> unidades = new HashSet<>();
+
+        if (this.avaliaveis != null && !Objects.requireNonNull(this.avaliaveis).isEmpty())
+            unidades.addAll(this.avaliaveis.stream().map(avaliavel -> avaliavel.getUnidadeTipoAvaliacaoDispositivo().getUnidadeTipoAvaliacao().getUnidade()).collect(Collectors.toSet()));
+        if (this.operadores != null)
+            unidades.addAll(this.operadores.stream().map(Operador::getUnidade).collect(Collectors.toSet()));
+
+        if (unidades.isEmpty())
+            return null;
+        return unidades.stream().map(a -> a.nome).collect(Collectors.joining(", "));
+    }
+
+    /**
+     *
+     */
+    public boolean isOperador() {
+        return this.operadores != null && !this.operadores.isEmpty();
+    }
+
+    /**
+     *
+     */
+    public boolean isAtendente() {
+        return this.avaliaveis != null && !this.avaliaveis.isEmpty();
+    }
+
+    /**
+     *
+     */
+    public boolean getIsOperador() {
+        return this.isOperador();
+    }
+
+    /**
+     *
+     */
+    public boolean getIsAtendente() {
+        return this.isAtendente();
+    }
+
+    /**
+     *
+     */
+    public boolean getIsAdministrador() {
+        return this.conta != null && this.conta.isAdministrador();
     }
 
     /**

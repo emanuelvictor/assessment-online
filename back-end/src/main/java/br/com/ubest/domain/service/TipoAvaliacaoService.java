@@ -2,10 +2,8 @@ package br.com.ubest.domain.service;
 
 import br.com.ubest.domain.entity.avaliacao.TipoAvaliacao;
 import br.com.ubest.domain.entity.avaliacao.UnidadeTipoAvaliacao;
-import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import br.com.ubest.domain.repository.TipoAvaliacaoRepository;
 import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
-import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

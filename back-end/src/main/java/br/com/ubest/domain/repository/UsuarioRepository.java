@@ -15,7 +15,12 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     /**
-     *
+     * @param usuarioId
+     * @param perfil
+     * @param defaultFilter
+     * @param idsFilter
+     * @param pageable
+     * @return
      */
     @Query("SELECT new Usuario( " +
             "   usuario.id, " +
@@ -58,7 +63,15 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             final Pageable pageable);
 
     /**
-     *
+     * @param usuarioId
+     * @param perfil
+     * @param defaultFilter
+     * @param tiposAvaliacoesFilter
+     * @param unidadesFilter
+     * @param dataInicioFilter
+     * @param dataTerminoFilter
+     * @param pageable
+     * @return
      */
     @Query("SELECT new Usuario( " +
             "   usuario.id, " +
@@ -83,14 +96,16 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.id = unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id " +
             "       LEFT OUTER JOIN Unidade unidade ON unidade.id = unidadeTipoAvaliacao.unidade.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
-            "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
-            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
-            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2) " +
-            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoAvaliavel.avaliacao.id AND av3.nota = 3) " +
-            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoAvaliavel.avaliacao.id AND av4.nota = 4) " +
-            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoAvaliavel.avaliacao.id AND av5.nota = 5) " +
+            "       LEFT OUTER JOIN Avaliacao avaliacao ON (avaliacao.id = avaliacaoAvaliavel.avaliacao.id) " +
+            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1 ) " +
+            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2 ) " +
+            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoAvaliavel.avaliacao.id AND av3.nota = 3 ) " +
+            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoAvaliavel.avaliacao.id AND av4.nota = 4 ) " +
+            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoAvaliavel.avaliacao.id AND av5.nota = 5 ) " +
             "   WHERE " +
             "   (   " +
+            "       avaliacao.agrupador.ativo IS TRUE" +
+            "       AND " +
             "       (" +
             "           (" +
             "               ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
@@ -188,7 +203,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             final Pageable pageable);
 
     /**
-     *
+     * @param usuarioId
+     * @param dataInicioFilter
+     * @param dataTerminoFilter
+     * @return
      */
     @Query("SELECT new Usuario( " +
             "   usuario.id, " +
@@ -209,7 +227,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             ") FROM Usuario usuario " +
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.usuario.id = usuario.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
-            "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
+            "       LEFT OUTER JOIN Avaliacao avaliacao ON (avaliacao.id = avaliacaoAvaliavel.avaliacao.id) " +
             "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
             "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2) " +
             "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoAvaliavel.avaliacao.id AND av3.nota = 3) " +
@@ -217,6 +235,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoAvaliavel.avaliacao.id AND av5.nota = 5) " +
             "   WHERE (" +
             "   (   " +
+            "       avaliacao.agrupador.ativo IS TRUE" +
+            "       AND " +
             "       (" +
             "           (" +
             "               ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
@@ -252,7 +272,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                                       @Param("dataTerminoFilter") final LocalDateTime dataTerminoFilter);
 
     /**
-     *
+     * @param usuarioId
+     * @return
      */
     @Query("SELECT new Usuario( " +
             "   usuario.id, " +
@@ -274,7 +295,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       LEFT OUTER JOIN UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo ON unidadeTipoAvaliacaoDispositivo.id = avaliavel.unidadeTipoAvaliacaoDispositivo.id " +
             "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.id = unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id AND avaliavel.unidadeTipoAvaliacaoDispositivo.id = unidadeTipoAvaliacaoDispositivo.id" +
-            "       LEFT OUTER JOIN Avaliacao avaliacao ON avaliacao.id = avaliacaoAvaliavel.avaliacao.id " +
+            "       LEFT OUTER JOIN Avaliacao avaliacao ON (avaliacao.id = avaliacaoAvaliavel.avaliacao.id) " +
             "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
             "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2) " +
             "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoAvaliavel.avaliacao.id AND av3.nota = 3) " +
@@ -282,6 +303,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoAvaliavel.avaliacao.id AND av5.nota = 5) " +
             "   WHERE " +
             "   ( " +
+            "       avaliacao.agrupador.ativo IS TRUE" +
+            "       AND " +
             "       usuario.id = :usuarioId" +
             "   )" +
             "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath, usuario.documento"
@@ -289,7 +312,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findUsuarioByIdAndReturnAvaliacoes(@Param("usuarioId") final Long usuarioId);
 
     /**
-     * @return List<Usuario>jj
+     * @return List<Usuario>
      */
     @Query("FROM Usuario usuario WHERE usuario.conta.administrador = TRUE")
     List<Usuario> getAdministrators();
@@ -298,6 +321,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
      * @param nome String
      * @return List<Usuario>
      */
+    @Deprecated
     List<Usuario> findByNome(final String nome);
 
     /**
@@ -325,6 +349,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "           )"
     )
     List<Usuario> listUsuariosByDispositivoId(@Param("dispositivoId") final Long dispositivoId);
-
 
 }

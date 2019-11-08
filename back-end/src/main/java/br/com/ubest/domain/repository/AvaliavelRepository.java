@@ -11,6 +11,15 @@ import java.util.Set;
 
 public interface AvaliavelRepository extends JpaRepository<Avaliavel, Long> {
 
+    /**
+     * @param defaultFilter
+     * @param usuarioId
+     * @param unidadeId
+     * @param ativo
+     * @param unidadeTipoAvaliacaoDispositivoId
+     * @param pageable
+     * @return
+     */
     @Query(
             " SELECT avaliavel FROM Avaliavel avaliavel WHERE" +
                     "(" +
@@ -46,9 +55,17 @@ public interface AvaliavelRepository extends JpaRepository<Avaliavel, Long> {
                                   @Param("unidadeTipoAvaliacaoDispositivoId") final Long unidadeTipoAvaliacaoDispositivoId,
                                   final Pageable pageable);
 
+    /**
+     * @param unidadeTipoAvaliacaoId
+     * @return
+     */
     @Query(" SELECT avaliavel FROM Avaliavel avaliavel WHERE avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.id = :unidadeTipoAvaliacaoId")
     Set<Avaliavel> findAllByUnidadeTipoAvaliacaoId(@Param("unidadeTipoAvaliacaoId") final long unidadeTipoAvaliacaoId);
 
+    /**
+     * @param usuarioId
+     * @return
+     */
     Set<Avaliavel> findAllByUsuarioId(final long usuarioId);
 
 }

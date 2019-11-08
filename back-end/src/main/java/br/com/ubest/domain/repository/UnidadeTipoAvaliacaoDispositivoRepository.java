@@ -11,24 +11,15 @@ import java.util.List;
 
 public interface UnidadeTipoAvaliacaoDispositivoRepository extends JpaRepository<UnidadeTipoAvaliacaoDispositivo, Long> {
 
-//    @Query("FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE " +
-//            "   (   " +
-//            "       (" +
-//            "           FILTER(:defaultFilter, unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.nome) = TRUE" +
-//            "       )" +
-//            "       AND" +
-//            "       (" +
-//            "           :dispositivoId IS NOT NULL AND " +
-//            "           (" +
-//            "               unidadeTipoAvaliacaoDispositivo.dispositivo.id = :dispositivoId" +
-//            "           )" +
-//            "           OR :dispositivoId IS NULL " +
-//            "       )" +
-//            "   )")
-//    Page<UnidadeTipoAvaliacaoDispositivo> listByFilters(@Param("defaultFilter") final String defaultFilter,
-//                                                        @Param("dispositivoId") final Long dispositivoId,
-//                                                        final Pageable pageable);
-
+    /**
+     * @param defaultFilter
+     * @param dispositivoId
+     * @param unidadeTipoAvaliacaoId
+     * @param ativo
+     * @param withAvaliaveis
+     * @param pageable
+     * @return
+     */
     @Query("FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE " +
             "   (   " +
             "       (" +
@@ -67,9 +58,8 @@ public interface UnidadeTipoAvaliacaoDispositivoRepository extends JpaRepository
                                                         final Pageable pageable);
 
     /**
-     *
      * @param id
      * @return
      */
-     List<UnidadeTipoAvaliacaoDispositivo> findAllByUnidadeTipoAvaliacaoId(final long id);
+    List<UnidadeTipoAvaliacaoDispositivo> findAllByUnidadeTipoAvaliacaoId(final long id);
 }

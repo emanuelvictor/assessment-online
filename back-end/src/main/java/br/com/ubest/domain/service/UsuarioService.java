@@ -30,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 
-import javax.validation.constraints.AssertTrue;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -127,6 +126,17 @@ public class UsuarioService {
     private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
 
     /**
+     * Cria o contexto de autenticação a partir do UserDetails
+     *
+     * @param userDetails {UserDetails}
+     * @return SecurityContext
+     */
+    private static SecurityContext createSecurityContextByUserDetails(final UserDetails userDetails) {
+        final Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+        return new SecurityContextImpl(authentication);
+    }
+
+    /**
      * Serviço de alteração de senha
      *
      * @param usuarioId   Long
@@ -220,17 +230,6 @@ public class UsuarioService {
         }
 
         return usuario;
-    }
-
-    /**
-     * Cria o contexto de autenticação a partir do UserDetails
-     *
-     * @param userDetails {UserDetails}
-     * @return SecurityContext
-     */
-    private static SecurityContext createSecurityContextByUserDetails(final UserDetails userDetails) {
-        final Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
-        return new SecurityContextImpl(authentication);
     }
 
     /**

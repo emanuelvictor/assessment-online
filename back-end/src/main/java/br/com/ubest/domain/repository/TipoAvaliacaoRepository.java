@@ -10,7 +10,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TipoAvaliacaoRepository extends JpaRepository<TipoAvaliacao, Long> {
-
+    /**
+     * @param defaultFilter
+     * @param unidadesFilter
+     * @param pageable
+     * @return
+     */
     @Query("SELECT tipoAvaliacao FROM TipoAvaliacao tipoAvaliacao " +
             "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.tipoAvaliacao.id = tipoAvaliacao.id " +
             "       LEFT OUTER JOIN Unidade unidade ON unidadeTipoAvaliacao.unidade.id = unidade.id " +
@@ -31,6 +36,12 @@ public interface TipoAvaliacaoRepository extends JpaRepository<TipoAvaliacao, Lo
                                       final Pageable pageable);
 
 
+    /**
+     * @param defaultFilter
+     * @param idsFilter
+     * @param pageable
+     * @return
+     */
     @Query("SELECT new TipoAvaliacao(id, nome, enunciado, selecao) FROM TipoAvaliacao tipoAvaliacao " +
             "   WHERE" +
             "   (" +

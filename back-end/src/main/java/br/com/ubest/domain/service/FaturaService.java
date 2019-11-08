@@ -32,52 +32,43 @@ public class FaturaService {
     /**
      *
      */
+    private static final Logger LOGGER = LoggerFactory.getLogger(FaturaService.class);
+    /**
+     *
+     */
     private final CupomRepository cupomRepository;
-
     /**
      *
      */
     private final FaturaRepository faturaRepository;
-
     /**
      *
      */
     private final AssinaturaService assinaturaService;
-
     /**
      *
      */
     private final AgrupadorRepository agrupadorRepository;
-
     /**
      *
      */
     private final AvaliacaoRepository avaliacaoRepository;
-
     /**
      *
      */
     private final TenantDetailsService tenantDetailsService;
-
     /**
      *
      */
     private final DispositivoRepository dispositivoRepository;
-
     /**
      *
      */
     private final TenantIdentifierResolver tenantIdentifierResolver;
-
     /**
      *
      */
     private final IPaymentGatewayRepository paymentGatewayRepository;
-
-    /**
-     *
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(FaturaService.class);
 
     /**
      *

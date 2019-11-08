@@ -101,7 +101,6 @@ public class Item extends AbstractEntity implements Serializable {
     }
 
     /**
-     *
      * @param totalAvaliacoes
      */
     public void setTotalAvaliacoes(Integer totalAvaliacoes) {

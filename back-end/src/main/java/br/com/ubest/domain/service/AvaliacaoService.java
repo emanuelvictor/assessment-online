@@ -67,13 +67,28 @@ public class AvaliacaoService {
     private final AvaliacaoAvaliavelRepository avaliacaoAvaliavelRepository;
 
     /**
+     * @param agrupador
+     * @return
+     */
+    private static Agrupador preSave(final Agrupador agrupador) {
+        // Popula recursividade removida
+        agrupador.getAvaliacoes().forEach(avaliacao -> {
+                    avaliacao.setAgrupador(agrupador);
+                    if (avaliacao.getAvaliacoesAvaliaveis() != null && !avaliacao.getAvaliacoesAvaliaveis().isEmpty())
+                        avaliacao.getAvaliacoesAvaliaveis().forEach(avaliacaoAvaliavel -> avaliacaoAvaliavel.setAvaliacao(avaliacao));
+                }
+        );
+
+        return agrupador;
+    }
+
+    /**
      * @param id
      * @return
      */
     public Optional<Avaliacao> findById(final long id) {
         return this.avaliacaoRepository.findById(id);
     }
-
 
     /**
      * @param agrupador
@@ -109,23 +124,6 @@ public class AvaliacaoService {
         if (!recaptchaService.checkRecaptcha(agrupador.getRecap()))
             throw new RuntimeException("Você é um robô?");
     }
-
-    /**
-     * @param agrupador
-     * @return
-     */
-    private static Agrupador preSave(final Agrupador agrupador) {
-        // Popula recursividade removida
-        agrupador.getAvaliacoes().forEach(avaliacao -> {
-                    avaliacao.setAgrupador(agrupador);
-                    if (avaliacao.getAvaliacoesAvaliaveis() != null && !avaliacao.getAvaliacoesAvaliaveis().isEmpty())
-                        avaliacao.getAvaliacoesAvaliaveis().forEach(avaliacaoAvaliavel -> avaliacaoAvaliavel.setAvaliacao(avaliacao));
-                }
-        );
-
-        return agrupador;
-    }
-
 
     /**
      * @param agrupador

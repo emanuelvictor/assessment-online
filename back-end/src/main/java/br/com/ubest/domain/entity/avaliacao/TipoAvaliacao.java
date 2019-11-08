@@ -1,15 +1,13 @@
 package br.com.ubest.domain.entity.avaliacao;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
-import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import java.io.Serializable;
-import java.util.Set;
 
 @Data
 @Entity
@@ -47,7 +45,6 @@ public class TipoAvaliacao extends AbstractEntity implements Serializable {
 //    private Set<UnidadeTipoAvaliacao> unidadesTiposAvaliacoes;
 
     /**
-     *
      * @param id
      * @param nome
      * @param enunciado

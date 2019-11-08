@@ -2,15 +2,12 @@ package br.com.ubest.domain.entity.avaliacao;
 
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import br.com.ubest.domain.entity.unidade.Unidade;
-import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Set;
 
 @Data
 @Entity

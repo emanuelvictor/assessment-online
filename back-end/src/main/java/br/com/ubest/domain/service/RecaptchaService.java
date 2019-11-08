@@ -56,6 +56,13 @@ public class RecaptchaService {
     }
 
     /**
+     * @return String
+     */
+    public String getSiteKey() {
+        return this.siteKey;
+    }
+
+    /**
      * Classe auxiliar para o retorno do reCaptcha
      */
     private class CaptchaResponse {
@@ -77,12 +84,5 @@ public class RecaptchaService {
 //        public void setErrorCodes(String[] errorCodes) {
 //            this.errorCodes = errorCodes;
 //        }
-    }
-
-    /**
-     * @return String
-     */
-    public String getSiteKey() {
-        return this.siteKey;
     }
 }
