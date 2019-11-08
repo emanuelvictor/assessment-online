@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 import java.util.Optional;
 
 import static br.com.ubest.domain.entity.usuario.Perfil.ADMINISTRADOR_VALUE;
+import static br.com.ubest.domain.entity.usuario.Perfil.ATENDENTE_VALUE;
 import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 
 /**
@@ -57,6 +58,17 @@ public class FaturaResource extends AbstractResource<Fatura> {
             item.setFatura(fatura1);
         });
         return Mono.just(fatura);
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    @GetMapping("has-vencidas")
+    @PreAuthorize("hasAnyAuthority('" + ATENDENTE_VALUE + "')")
+    Mono<Boolean> hasVencidas() {
+        return Mono.just(faturaService.listByFilters(null, null, null).getContent().stream().anyMatch(Fatura::isVencida));
     }
 
 }

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UsuarioService} from '../../../../../domain/service/usuario.service';
+import {UsuarioService} from '@src/web/domain/service/usuario.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {Usuario} from '../../../../../domain/entity/usuario/usuario.model';

@@ -294,4 +294,11 @@ public class Fatura extends AbstractEntity implements Serializable {
     public boolean isVencida() {
         return (status != Status.AUTHORIZED && status != Status.PAID) && (this.dataPagamento == null) && LocalDate.now().isAfter(this.dataVencimento);
     }
+
+    /**
+     * @return
+     */
+    public boolean getIsVencida() {
+        return this.isVencida();
+    }
 }

@@ -11,6 +11,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {TOKEN_NAME} from '@src/web/application/presentation/controls/utils';
 
 import 'rxjs/add/operator/map';
+import {FaturaRepository} from '@src/web/domain/repository/fatura.repository';
 
 
 @Injectable()
@@ -22,16 +23,18 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
   public contaAutenticadaChanged: EventEmitter<any>;
   private baseUrl = environment.endpoint;
   private isOnline = false;
+  private faturasEmAtrasoVisualizadas = false;
 
   /**
    *
    * @param router
    * @param httpClient
+   * @param faturaRepository
    * @param localStorage
    * @param cookieService
    */
-  constructor(private router: Router, private httpClient: HttpClient,
-              private localStorage: LocalStorage, private cookieService: CookieService) {
+  constructor(private localStorage: LocalStorage, private cookieService: CookieService,
+              private router: Router, private httpClient: HttpClient, private faturaRepository: FaturaRepository) {
 
     this.contaAutenticadaChanged = new EventEmitter();
 
@@ -98,6 +101,14 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
           this.router.navigate(['authentication']);
           return false
         } else {
+          if (!this.faturasEmAtrasoVisualizadas) {
+            this.faturasEmAtrasoVisualizadas = true;
+            this.faturaRepository.hasVencidas().subscribe(result => {
+              if (result) {
+                this.router.navigate(['authenticated/faturas']);
+              }
+            })
+          }
           return true
         }
 

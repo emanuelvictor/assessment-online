@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/distinctUntilChanged';
-import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {textMasks} from '../../../controls/text-masks/text-masks';
@@ -72,12 +72,14 @@ export class ConsultarFaturasComponent implements OnInit {
 
   /**
    *
+   * @param snackBar
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    * @param {faturaRepository} faturaRepository
    * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private domSanitizer: DomSanitizer,
+  constructor(private snackBar: MatSnackBar,
+              private domSanitizer: DomSanitizer,
               private iconRegistry: MatIconRegistry,
               private faturaRepository: FaturaRepository,
               private configuracaoService: ConfiguracaoService) {
@@ -88,6 +90,12 @@ export class ConsultarFaturasComponent implements OnInit {
    *
    */
   ngOnInit() {
+
+    this.faturaRepository.hasVencidas().subscribe(value => {
+      if (value) {
+        this.openSnackBar('Você tem faturas em atraso!');
+      }
+    });
 
     /**
      * Seta o size do pageRequest no size do paginator
@@ -202,5 +210,15 @@ export class ConsultarFaturasComponent implements OnInit {
     if (filter && filter.length) {
       this.defaultFilterModelChanged.next(filter)
     }
+  }
+
+  /**
+   *
+   * @param message
+   */
+  public openSnackBar(message: string) {
+    this.snackBar.open(message, 'Fechar', {
+      duration: 5000
+    });
   }
 }
