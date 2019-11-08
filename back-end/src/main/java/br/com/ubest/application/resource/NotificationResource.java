@@ -1,5 +1,6 @@
 package br.com.ubest.application.resource;
 
+import br.com.ubest.application.tenant.TenantIdentifierResolver;
 import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.assinatura.fatura.Fatura;
 import br.com.ubest.domain.service.FaturaService;
@@ -24,12 +25,22 @@ public class NotificationResource extends AbstractResource<Assinatura> {
     private final FaturaService faturaService;
 
     /**
+     *
+     */
+    private final TenantIdentifierResolver tenantIdentifierResolver;
+
+    /**
      * @param notification
      * @return
      */
     @PostMapping("payments")
     public Mono<Fatura> updatePayment(@RequestHeader(value = "Authorization") final String authentication, @RequestBody final Object notification) {
-        return Mono.just(faturaService.updatePaymentByNotification(authentication, notification));
+
+        final Fatura fatura = faturaService.updatePaymentByNotification(authentication, notification);
+
+        tenantIdentifierResolver.setSchema(fatura.getTenant());
+
+        return Mono.just(faturaService.verifyInativos(fatura));
     }
 
     /**
@@ -39,7 +50,12 @@ public class NotificationResource extends AbstractResource<Assinatura> {
      */
     @PostMapping("orders")
     public Mono<Fatura> updateOrder(@RequestHeader(value = "Authorization") final String authentication, @RequestBody final Object notification) {
-        return Mono.just(faturaService.updateOrderByNotification(authentication, notification));
+
+        final Fatura fatura = faturaService.updateOrderByNotification(authentication, notification);
+
+        tenantIdentifierResolver.setSchema(fatura.getTenant());
+
+        return Mono.just(faturaService.verifyInativos(fatura));
     }
 
 }

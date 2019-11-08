@@ -7,11 +7,9 @@ import br.com.ubest.domain.entity.assinatura.FormaPagamento;
 import br.com.ubest.domain.entity.assinatura.fatura.Fatura;
 import br.com.ubest.domain.entity.assinatura.fatura.Item;
 import br.com.ubest.domain.entity.assinatura.fatura.Status;
+import br.com.ubest.domain.entity.avaliacao.Agrupador;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
-import br.com.ubest.domain.repository.AvaliacaoRepository;
-import br.com.ubest.domain.repository.CupomRepository;
-import br.com.ubest.domain.repository.DispositivoRepository;
-import br.com.ubest.domain.repository.FaturaRepository;
+import br.com.ubest.domain.repository.*;
 import br.com.ubest.infrastructure.payment.IPaymentGatewayRepository;
 import br.com.ubest.infrastructure.tenant.TenantDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +43,11 @@ public class FaturaService {
      *
      */
     private final AssinaturaService assinaturaService;
+
+    /**
+     *
+     */
+    private final AgrupadorRepository agrupadorRepository;
 
     /**
      *
@@ -265,7 +268,7 @@ public class FaturaService {
     public Page<Fatura> listByFilters(final String defaultFilter, final List<Long> dispositivosId, final Pageable pageable) {
         if (this.tenantIdentifierResolver.resolveCurrentTenantIdentifier().equals(DEFAULT_TENANT_ID))
             return this.faturaRepository.listByFilters(null, dispositivosId, pageable);
-        return this.faturaRepository.listByFilters(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(),  dispositivosId, pageable);
+        return this.faturaRepository.listByFilters(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(), dispositivosId, pageable);
     }
 
     /**
@@ -302,9 +305,19 @@ public class FaturaService {
      * @param paymentNotification
      * @return
      */
-    @Transactional
     public Fatura updatePaymentByNotification(final Object paymentNotification) {
 
+        final Fatura fatura = this.updatePaymentByNotificationTransaction(paymentNotification);
+
+        return fatura;
+    }
+
+    /**
+     * @param paymentNotification
+     * @return
+     */
+    @Transactional
+    public Fatura updatePaymentByNotificationTransaction(final Object paymentNotification) {
         final Fatura fatura;
 
         if (((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("payment") != null) {
@@ -341,9 +354,19 @@ public class FaturaService {
      * @param orderNotification
      * @return
      */
-    @Transactional
     public Fatura updateOrderByNotification(final Object orderNotification) {
 
+        final Fatura fatura = this.updateOrderByNotificationTransaction(orderNotification);
+
+        return fatura;
+    }
+
+    /**
+     * @param orderNotification
+     * @return
+     */
+    @Transactional
+    public Fatura updateOrderByNotificationTransaction(final Object orderNotification) {
         final Fatura fatura = this.faturaRepository.findById(Long.valueOf((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) orderNotification).get("resource")).get("order")).get("ownId")))).orElseThrow();
 
         fatura.setStatus((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) orderNotification).get("resource")).get("order")).get("status")));
@@ -352,5 +375,25 @@ public class FaturaService {
             fatura.setDataPagamento(LocalDate.now());
 
         return this.faturaRepository.save(fatura);
+    }
+
+    /**
+     * @param fatura
+     */
+    public Fatura verifyInativos(final Fatura fatura) {
+        // Verifica se há faturas vencidas para o dispositivo
+        final List<Fatura> faturas = this.faturaRepository.listByFilters(fatura.getTenant(), null, null).getContent();
+        if (faturas.stream().noneMatch(Fatura::isVencida)) {
+            this.asdfa();
+        }
+
+        return fatura;
+    }
+
+    @Transactional
+    public void asdfa() {
+        final List<Agrupador> agrupadores = agrupadorRepository.listAllInativos();
+        agrupadores.forEach(agrupador -> agrupador.setAtivo(true));
+        agrupadorRepository.saveAll(agrupadores);
     }
 }
