@@ -43,11 +43,11 @@ export class EvDatepicker implements OnChanges, OnInit {
   /**
    *
    */
-  changeData(date) {
-    if (EvDatepicker.validateDate(date)) {
-      this.dataInputChange.emit(moment(date, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY'));
+  changeData() {
+    if (EvDatepicker.validateDate(this.data)) {
+      this.dataInputChange.emit(moment(this.data, 'DD/MM/YYYY').locale('pt-BR').format('DD/MM/YYYY'));
     }
-    if (!date || date.length === 0) {
+    if (!this.data || this.data.length === 0) {
       this.dataInputChange.emit(null);
     }
   }
