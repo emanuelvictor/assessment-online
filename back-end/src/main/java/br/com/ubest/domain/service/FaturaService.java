@@ -182,11 +182,16 @@ public class FaturaService {
     void executarFatura(final Fatura fatura) {
         LOGGER.info("Executando fatura");
 
-//        fatura.setPaymentId(this.paymentGatewayRepository.executarFatura(fatura).getPaymentId()); TODO concluir
-//        fatura.setDataPagamento(LocalDate.now());
-
-        fatura.setDataPagamento(fatura.getDataAbertura().plusMonths(1)); //TODO remover
-        this.faturaRepository.save(fatura);
+        if (fatura.getAssinatura().getFormaPagamento().equals(FormaPagamento.BOLETO)) {
+            if (!fatura.getStatus().equals(Status.AUTHORIZED) && !fatura.getStatus().equals(Status.PAID)) {
+                fatura.setEmAtraso(true);
+                this.faturaRepository.save(fatura);
+            }
+        } else {
+            final Fatura faturaComPaymentId = this.paymentGatewayRepository.executarFatura(fatura);
+            fatura.setPaymentId(faturaComPaymentId.getPaymentId());
+            this.faturaRepository.save(fatura);
+        }
     }
 
     /**
@@ -374,13 +379,16 @@ public class FaturaService {
     public Fatura verifyInativos(final Fatura fatura) {
         // Verifica se há faturas vencidas para o dispositivo
         final List<Fatura> faturas = this.faturaRepository.listByFilters(fatura.getTenant(), null, null).getContent();
-        if (faturas.stream().noneMatch(Fatura::isVencida)) {
+        if (faturas.stream().noneMatch(Fatura::isEmAtraso)) {
             this.asdfa();
         }
 
         return fatura;
     }
 
+    /**
+     *
+     */
     @Transactional
     public void asdfa() {
         final List<Agrupador> agrupadores = agrupadorRepository.listAllInativos();

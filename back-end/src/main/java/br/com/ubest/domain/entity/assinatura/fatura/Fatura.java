@@ -53,6 +53,13 @@ public class Fatura extends AbstractEntity implements Serializable {
     /**
      *
      */
+    @NotNull
+    @Column(nullable = false)
+    private boolean emAtraso = false;
+
+    /**
+     *
+     */
     @Column(unique = true)
     private String linkBoleto;
 
@@ -291,14 +298,9 @@ public class Fatura extends AbstractEntity implements Serializable {
     /**
      * @return
      */
-    public boolean isVencida() {
-        return (status != Status.AUTHORIZED && status != Status.PAID) && (this.dataPagamento == null) && LocalDate.now().isAfter(this.dataVencimento);
-    }
-
-    /**
-     * @return
-     */
-    public boolean getIsVencida() {
-        return this.isVencida();
+    public boolean isEmAtraso() {
+        if (!emAtraso)
+            return (status != Status.AUTHORIZED && status != Status.PAID) && (this.dataPagamento == null) && LocalDate.now().isAfter(this.dataVencimento);
+        return true;
     }
 }

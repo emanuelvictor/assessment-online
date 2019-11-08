@@ -100,7 +100,7 @@ public class AvaliacaoService {
 
         // Verifica se há faturas vencidas para o dispositivo
         final List<Fatura> faturas = this.faturaService.listByFilters(dispositivo.getTenant(), null, null).getContent();
-        agrupador.setAtivo(faturas.stream().noneMatch(Fatura::isVencida));
+        agrupador.setAtivo(faturas.stream().noneMatch(Fatura::isEmAtraso));
 
         if (agrupador.getRecap() != null) {
             this.validateRecaptcha(agrupador);

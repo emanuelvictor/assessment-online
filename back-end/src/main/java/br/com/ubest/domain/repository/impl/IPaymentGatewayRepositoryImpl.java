@@ -79,20 +79,19 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
             );
 
             final Map<String, Object> holder = payloadFactory(
-                    value("fullname", "Portador Teste Moip"),
-                    value("birthdate", "1988-12-30"),
+                    value("fullname", fatura.getAssinatura().getNomeTitular()),
+                    value("birthdate", fatura.getAssinatura().getDataNascimentoTitular().format(DateTimeFormatter.ISO_DATE)),
                     value("taxDocument", taxDocument),
                     value("phone", phone)
             );
 
-
             final Map<String, Object> creditCard = payloadFactory(
-                    value("hash", "CREDIT_CARD_HASH"),
+                    value("hash", fatura.getAssinatura().getHash()),
                     value("holder", holder)
             );
 
             fundingInstrument = payloadFactory(
-                    value("method", "CARTAO"),
+                    value("method", "CREDIT_CARD"),
                     value("creditCard", creditCard)
             );
         }
@@ -104,7 +103,8 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
         final Map<String, Object> newPay = Moip.API.payments().pay(payment, fatura.getOrderId(), setup);
 
         fatura.setPaymentId((String) newPay.get("id"));
-        fatura.setLinkBoleto((String) ((HashMap) ((HashMap) newPay.get("_links")).get("payBoleto")).get("printHref"));
+        if (fatura.getAssinatura().getFormaPagamento().equals(FormaPagamento.BOLETO))
+            fatura.setLinkBoleto((String) ((HashMap) ((HashMap) newPay.get("_links")).get("payBoleto")).get("printHref"));
 
         return fatura;
     }

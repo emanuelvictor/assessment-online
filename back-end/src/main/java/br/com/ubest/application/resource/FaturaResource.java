@@ -68,7 +68,7 @@ public class FaturaResource extends AbstractResource<Fatura> {
     @GetMapping("has-vencidas")
     @PreAuthorize("hasAnyAuthority('" + ATENDENTE_VALUE + "')")
     Mono<Boolean> hasVencidas() {
-        return Mono.just(faturaService.listByFilters(null, null, null).getContent().stream().anyMatch(Fatura::isVencida));
+        return Mono.just(faturaService.listByFilters(null, null, null).getContent().stream().anyMatch(Fatura::isEmAtraso));
     }
 
 }
