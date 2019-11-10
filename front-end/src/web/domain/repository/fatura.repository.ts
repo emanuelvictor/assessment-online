@@ -15,7 +15,7 @@ export class FaturaRepository extends BaseRepository<Fatura> {
    *
    */
   hasVencidas(): Observable<boolean> {
-    return this.httpClient.get<boolean>(this.collectionName + '/has-vencidas');
+    return this.httpClient.get<boolean>(this.collectionName + '/has-em-atraso');
   }
 
 }
