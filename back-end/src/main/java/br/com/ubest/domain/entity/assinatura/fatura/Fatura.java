@@ -51,7 +51,7 @@ public class Fatura extends AbstractEntity implements Serializable {
     private String tenant;
 
     /**
-     *
+     * Variável auxiliar para ordenação de faturas em atraso
      */
     @NotNull
     @Column(nullable = false)
