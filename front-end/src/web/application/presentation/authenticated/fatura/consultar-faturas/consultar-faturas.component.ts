@@ -27,7 +27,7 @@ export class ConsultarFaturasComponent implements OnInit {
   public pageRequest = { // PageRequest
     size: 20,
     page: 0,
-    sort: {properties: 'emAtraso', direction: 'desc'},
+    sort: {properties: 'status', direction: 'desc'},
     defaultFilter: []
   };
 

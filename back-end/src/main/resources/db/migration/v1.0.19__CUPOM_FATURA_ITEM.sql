@@ -54,7 +54,6 @@ create table fatura
     payment_id                   varchar(255),
     created                      timestamp      not null,
     updated                      timestamp,
-    em_atraso                    boolean        not null default false,
     valor_mensal                 numeric(19, 2) not null,
     valor_avaliacoes_excedentes  numeric(19, 2) not null,
     quantidade_maxima_avaliacoes int4           not null,
@@ -74,7 +73,6 @@ create table fatura_aud
 (
     id                           int8 not null,
     rev                          int8 not null,
-    em_atraso                    boolean,
     order_id                     varchar(255),
     payment_id                   varchar(255),
     valor_mensal                 numeric(19, 2),

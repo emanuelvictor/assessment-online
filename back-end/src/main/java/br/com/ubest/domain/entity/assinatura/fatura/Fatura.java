@@ -51,13 +51,6 @@ public class Fatura extends AbstractEntity implements Serializable {
     private String tenant;
 
     /**
-     * Variável auxiliar para ordenação de faturas em atraso
-     */
-    @NotNull
-    @Column(nullable = false)
-    private boolean emAtraso = false;
-
-    /**
      *
      */
     @Column(unique = true)
@@ -299,7 +292,7 @@ public class Fatura extends AbstractEntity implements Serializable {
      * @return
      */
     public boolean isEmAtraso() {
-        if (!emAtraso)
+        if (!status.equals(Status.OVERDUE))
             return (status != Status.AUTHORIZED && status != Status.PAID) && (this.dataPagamento == null) && LocalDate.now().isAfter(this.dataVencimento);
         return true;
     }

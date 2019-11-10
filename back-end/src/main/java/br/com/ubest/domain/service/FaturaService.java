@@ -184,7 +184,7 @@ public class FaturaService {
 
         if (fatura.getAssinatura().getFormaPagamento().equals(FormaPagamento.BOLETO)) {
             if (!fatura.getStatus().equals(Status.AUTHORIZED) && !fatura.getStatus().equals(Status.PAID)) {
-                fatura.setEmAtraso(true);
+                fatura.setStatus(Status.OVERDUE);
                 this.faturaRepository.save(fatura);
             }
         } else {
@@ -327,9 +327,9 @@ public class FaturaService {
             return null;
         }
 
-        if (fatura.getStatus().equals(Status.PAID) || fatura.getStatus().equals(Status.AUTHORIZED)){
+        if (fatura.getStatus().equals(Status.PAID) || fatura.getStatus().equals(Status.AUTHORIZED)) {
             fatura.setDataPagamento(LocalDate.now());
-            fatura.setEmAtraso(false);
+            fatura.setStatus(Status.OVERDUE);
         }
 
         return this.faturaRepository.save(fatura);
@@ -369,9 +369,9 @@ public class FaturaService {
 
         fatura.setStatus((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) orderNotification).get("resource")).get("order")).get("status")));
 
-        if (fatura.getStatus().equals(Status.PAID) || fatura.getStatus().equals(Status.AUTHORIZED)){
+        if (fatura.getStatus().equals(Status.PAID) || fatura.getStatus().equals(Status.AUTHORIZED)) {
             fatura.setDataPagamento(LocalDate.now());
-            fatura.setEmAtraso(false);
+            fatura.setStatus(Status.OVERDUE);
         }
 
         return this.faturaRepository.save(fatura);

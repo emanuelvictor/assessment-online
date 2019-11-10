@@ -46,6 +46,9 @@ public enum Status {
     NOT_PAID,
 
     // Pedido revertido. Sofreu um chargeback ou foi completamente reembolsado.
-    REVERTED
+    REVERTED,
+
+    // Em atraso
+    OVERDUE
 
 }
