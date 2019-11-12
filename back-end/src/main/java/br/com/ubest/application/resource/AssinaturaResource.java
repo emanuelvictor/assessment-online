@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"**assinatura", "**sistema/assinatura", "**sistema/mobile/assinatura"})
+@RequestMapping({"**assinatura", "**public/assinatura", "**sistema/assinatura", "**sistema/mobile/assinatura"})
 public class AssinaturaResource extends AbstractResource<Assinatura> {
 
     /**
