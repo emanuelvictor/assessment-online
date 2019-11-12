@@ -22,11 +22,6 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
-  public interna: boolean;
-
-  /**
-   *
-   */
   public nome: string;
 
   /**
@@ -80,7 +75,6 @@ export class Dispositivo extends Abstract {
    */
   constructor(id?: number) {
     super();
-    this.interna = true;
     this.id = id
   }
 }

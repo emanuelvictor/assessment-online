@@ -87,13 +87,6 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
      */
     @NotNull
     @Column(nullable = false)
-    private boolean interna = false;
-
-    /**
-     *
-     */
-    @NotNull
-    @Column(nullable = false)
     private boolean modoQuiosque = false;
 
     /**
@@ -158,6 +151,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     }
 
     /**
+     * TODO falcatrua
      * @return Set<Unidade>
      */
     public void setUnidades(final Set<Unidade> unidades) {

@@ -91,42 +91,31 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
       return
     }
 
-    // Se o dispositivo é interno
-    if (this.mobileService.dispositivo.interna) {
-
-      // Se o número de série provindo do dispositivo está nulo
-      // Então Essa licença não está sendo utilizada por nenhum dispositivo ainda
-      if (!this.mobileService.dispositivo.numeroSerie) {
-        // Mando gerar uma senha para me autenticar
-        // A view irá exibir a senha logo em seguida
-        this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.numeroSerie).subscribe(resulted => {
-          // Atualiza o plano de fundo
-          this.requestBackground();
-          // Pega o dispositivo e copio para o escopo do angular
-          this.mobileService.dispositivo = resulted
-        })
-      }
-      // Caso contrário, e houver número de série no dispositivo do back-end, e este for igual ao local
-      else if (this.mobileService.dispositivo.numeroSerie && this.mobileService.dispositivo.numeroSerie === this.mobileService.numeroSerie) {
+    // Se o número de série provindo do dispositivo está nulo
+    // Então Essa licença não está sendo utilizada por nenhum dispositivo ainda
+    if (!this.mobileService.dispositivo.numeroSerie) {
+      // Mando gerar uma senha para me autenticar
+      // A view irá exibir a senha logo em seguida
+      this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.numeroSerie).subscribe(resulted => {
         // Atualiza o plano de fundo
         this.requestBackground();
-        // É o mesmo dispositivo, só mando autenticar
-        this.showMessage('Reconectar o dispositivo!')
-      }
-      // Caso contrário, e houver número de série no dispositivo do back-end, e este for DIFERENTE ao local
-      else if (this.mobileService.dispositivo.numeroSerie && this.mobileService.dispositivo.numeroSerie !== this.mobileService.numeroSerie) {
-        // O usuário está tentando utilizar o mesmo número de série em diferentes dispositivos
-        this.showMessage('Essa licença já está sendo utilizada em outro dispositivo');
-        // Reseta o dispositivo
-        this.mobileService.dispositivo = new Dispositivo()
-      }
+        // Pega o dispositivo e copio para o escopo do angular
+        this.mobileService.dispositivo = resulted
+      })
     }
-    // Se não, então deve procurar avaliações públicas (externas)
-    else if (!this.mobileService.dispositivo.interna) {
+    // Caso contrário, e houver número de série no dispositivo do back-end, e este for igual ao local
+    else if (this.mobileService.dispositivo.numeroSerie && this.mobileService.dispositivo.numeroSerie === this.mobileService.numeroSerie) {
       // Atualiza o plano de fundo
       this.requestBackground();
-      // Vai para execução da avaliação externa
-      await this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca])
+      // É o mesmo dispositivo, só mando autenticar
+      this.showMessage('Reconectar o dispositivo!')
+    }
+    // Caso contrário, e houver número de série no dispositivo do back-end, e este for DIFERENTE ao local
+    else if (this.mobileService.dispositivo.numeroSerie && this.mobileService.dispositivo.numeroSerie !== this.mobileService.numeroSerie) {
+      // O usuário está tentando utilizar o mesmo número de série em diferentes dispositivos
+      this.showMessage('Essa licença já está sendo utilizada em outro dispositivo');
+      // Reseta o dispositivo
+      this.mobileService.dispositivo = new Dispositivo()
     }
   }
 

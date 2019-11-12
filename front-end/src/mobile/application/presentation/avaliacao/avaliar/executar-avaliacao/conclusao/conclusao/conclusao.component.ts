@@ -38,10 +38,10 @@ export class ConclusaoComponent implements OnInit, OnDestroy {
     this.mobileService.register('overlayStarSyntax');
     this.mobileService.restartTimeout();
 
-    if (!this.mobileService.dispositivo.interna && !this.mobileService.agrupador.recap) {
-      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + this.activatedRoute.parent.parent.snapshot.params.unidadeId + '/conclusao/robot-verify']);
-      return
-    }
+    // if (!this.mobileService.agrupador.recap) {
+    //   this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + this.activatedRoute.parent.parent.snapshot.params.unidadeId + '/conclusao/robot-verify']);
+    //   return
+    // }
 
     const agrupador: Agrupador = Object.assign({}, this.mobileService.agrupador);
 

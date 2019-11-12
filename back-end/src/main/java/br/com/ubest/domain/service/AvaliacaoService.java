@@ -119,8 +119,6 @@ public class AvaliacaoService {
      */
     @Transactional(readOnly = true)
     void validateRecaptcha(final Agrupador agrupador) {
-        if (this.dispositivoRepository.findById(agrupador.avaliacoes.get(0).avaliacoesAvaliaveis.get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo().getId()).orElseThrow().isInterna())
-            throw new RuntimeException("Licença interna");
         if (!recaptchaService.checkRecaptcha(agrupador.getRecap()))
             throw new RuntimeException("Você é um robô?");
     }

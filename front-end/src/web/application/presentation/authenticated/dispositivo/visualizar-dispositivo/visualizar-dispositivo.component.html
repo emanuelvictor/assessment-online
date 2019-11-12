@@ -29,12 +29,9 @@
                       <h1 class='mat-headline tc-blue-grey-800 no-margin' flex='100'>
                         {{dispositivo?.nome}}
                       </h1>
-                      <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex='100'>
-                        {{dispositivo?.interna ? 'Dispositivo interno' : 'Dispositivo externo'}}
-                      </h2>
-                      <h2 *ngIf='dispositivo?.interna' class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>Modo
+                      <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>Modo
                         quiosque: {{dispositivo?.modoQuiosque ? 'Sim' : 'Não'}}</h2>
-                      <h2 *ngIf='dispositivo?.interna' class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>Modo
+                      <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>Modo
                         insônia: {{dispositivo?.modoInsonia ? 'Sim' : 'Não'}}</h2>
                       <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>Tempo de espera entre as avaliações
                         (Em segundos): {{dispositivo?.time}}</h2>
@@ -42,11 +39,11 @@
                         itens avaliáveis: {{dispositivo?.quebrarLinhaNaSelecaoDeItemAvaliavel ? 'Sim' : 'Não'}}</h2>
                       <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>Número da
                         licença: {{dispositivo?.numeroLicenca}}</h2>
-                      <h2 *ngIf='dispositivo?.interna && dispositivo?.senha' class="mat-subheading-2 tc-blue-grey-500 no-margin"
+                      <h2 *ngIf='dispositivo?.senha' class="mat-subheading-2 tc-blue-grey-500 no-margin"
                           flex>
                         Senha: {{dispositivo?.senha}}
                       </h2>
-                      <div *ngIf='dispositivo?.interna && dispositivo?.numeroSerie' flex layout='row'>
+                      <div *ngIf='dispositivo?.numeroSerie' flex layout='row'>
                         <h2 (click)='desvincular(dispositivo?.numeroSerie)'
                             class='mat-subheading-2 tc-dark-blue-grey-B65 no-margin' style='cursor: pointer'>
                           Número de série vinculado: {{dispositivo?.numeroSerie}}

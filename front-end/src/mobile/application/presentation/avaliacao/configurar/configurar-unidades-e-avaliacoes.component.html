@@ -33,11 +33,10 @@
 
           </div>
 
-          <div flex layout='column' layout-margin
-               *ngIf='mobileService?.dispositivo?.interna'>
+          <div flex layout='column' layout-margin *ngIf='mobileService?.dispositivo?.id'>
             <div flex layout='row'>
 
-              <mat-form-field flex *ngIf='mobileService?.dispositivo?.id'>
+              <mat-form-field flex>
                 <input [ngModelOptions]='{standalone: true}'
                        (ngModelChange)='inputSenhaChanged($event)'
                        matInput name='senha' noWhiteSpace required

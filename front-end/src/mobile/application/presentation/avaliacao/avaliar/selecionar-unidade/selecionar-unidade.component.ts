@@ -36,10 +36,7 @@ export class SelecionarUnidadeComponent implements OnInit, OnDestroy {
    */
   async ngOnInit() {
 
-    // Conecta o webscoket, se o dispositivo for interno.
-    if (this.mobileService.dispositivo.interna) {
-      this.mobileService.connect();
-    }
+    this.mobileService.connect();
 
     // Mata o timeout se houver (Aqui não precisa de timeout)
     this.mobileService.clearTimeout();

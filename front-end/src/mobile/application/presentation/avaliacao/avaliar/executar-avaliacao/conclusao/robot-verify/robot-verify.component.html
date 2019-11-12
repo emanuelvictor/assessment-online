@@ -4,8 +4,8 @@
       <div layout='row' layout-align='center center' layout-margin>
         <div *ngIf='mobileService?.agrupador?.siteKey' flex
              layout-align='center center'>
-          <re-captcha #reCaptcha (resolved)='resolved($event)'
-                      id='recaptchaReactive' layout-align='center center' required
+          <re-captcha #reCaptcha (resolved)='resolved($event)' required
+                      id='recaptchaReactive' layout-align='center center'
                       siteKey='{{mobileService?.agrupador?.siteKey}}' style='margin-right: 6px; margin-top: -12px'>
           </re-captcha>
         </div>

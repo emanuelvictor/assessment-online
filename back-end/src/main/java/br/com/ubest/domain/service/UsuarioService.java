@@ -338,7 +338,6 @@ public class UsuarioService {
         dispositivo.setModoInsonia(true);
         dispositivo.setModoQuiosque(true);
         dispositivo.setQuebrarLinhaNaSelecaoDeItemAvaliavel(true);
-        dispositivo.setInterna(true);
         dispositivo.setTime((short) 30);
         dispositivo.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
         this.dispositivoRepository.save(dispositivo);

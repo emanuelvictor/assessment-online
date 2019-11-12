@@ -95,7 +95,7 @@ public class DispositivoService {
         final Dispositivo dispositivo = this.getDispositivo(numeroLicenca);
 
         // Se está passando o número de série e o dispositivo é interno, então está tentando se conectar administrativamente
-        if (dispositivo.isInterna()) {
+        if (numeroSerie != null) {
 
             if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
                 throw new RuntimeException("Essa licença está sendo utilizada por outro dispositivo");
@@ -162,9 +162,6 @@ public class DispositivoService {
 
         // Pega o dispositivo da base
         final Dispositivo dispositivo = this.dispositivoRepository.findByNumeroLicenca(numeroLicenca).orElseThrow();
-
-        // Valida se o dispositivo é externo
-        Assert.isTrue(dispositivo.isInterna(), "A licença é para uso externo");
 
         // Verifico se a licença está sendo utilizada por outro aplicativo
         if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
