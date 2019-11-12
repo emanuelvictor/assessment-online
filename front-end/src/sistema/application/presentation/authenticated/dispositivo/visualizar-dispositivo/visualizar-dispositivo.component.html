@@ -1,27 +1,25 @@
 <div layout-align='center center' layout-gt-xs='row' layout-margin>
   <div flex-gt-xs='80' layout='row' layout-margin>
     <div flex layout='column' layout-align='center center' layout-margin>
-      <mat-card *ngIf='dispositivo?.numeroLicenca' [@fadeInOut] class='bgc-grey-50' layout-margin
-                style='width: calc(100% - 15px)'>
+      <mat-card [@fadeInOut] class='bgc-grey-50' layout-margin
+                style='width: calc(100% - 15px)' *ngIf='dispositivo?.numeroLicenca'>
         <mat-card-content>
 
           <div layout='row'>
             <div layout='column' style='min-width: 17px'>
-              <button *ngIf='activatedRoute?.snapshot?.params?.numeroLicenca' class='mat-headline tc-grey-500'
-                      color='primary' mat-icon-button routerLink='../'
-                      type='button'>
+              <button routerLink='../' type='button' color='primary'
+                      class='mat-headline tc-grey-500' mat-icon-button
+                      *ngIf='activatedRoute?.snapshot?.params?.numeroLicenca'>
                 <mat-icon>arrow_back</mat-icon>
               </button>
             </div>
 
-            <div flex-gt-xs="100" layout='column'
-                 layout-align="start center" layout-gt-xs="row">
+            <div flex-gt-xs='100' layout='column'
+                 layout-align='start center' layout-gt-xs='row'>
 
-              <div flex
-                   flex-gt-xs='80'
-                   layout='row' layout-align='start center'
-                   layout-margin
-                   style='margin-top: 0'>
+              <div flex flex-gt-xs='80'
+                   layout-margin style='margin-top: 0'
+                   layout='row' layout-align='start center'>
 
                 <div flex layout='column'>
                   <div layout='row' layout-align='start center'>
@@ -29,18 +27,23 @@
                       <h1 class='mat-headline tc-blue-grey-800 no-margin' flex='100'>
                         {{dispositivo?.nome}}
                       </h1>
-                      <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>Modo
-                        quiosque: {{dispositivo?.modoQuiosque ? 'Sim' : 'Não'}}</h2>
-                      <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>Modo
-                        insônia: {{dispositivo?.modoInsonia ? 'Sim' : 'Não'}}</h2>
-                      <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>Tempo de espera entre as avaliações
-                        (Em segundos): {{dispositivo?.time}}</h2>
-                      <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>Quebrar linha durante a seleção de
-                        itens avaliáveis: {{dispositivo?.quebrarLinhaNaSelecaoDeItemAvaliavel ? 'Sim' : 'Não'}}</h2>
-                      <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>Número da
-                        licença: {{dispositivo?.numeroLicenca}}</h2>
-                      <h2 *ngIf='dispositivo?.senha' class="mat-subheading-2 tc-blue-grey-500 no-margin"
-                          flex>
+                      <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
+                        Modo quiosque: {{dispositivo?.modoQuiosque ? 'Sim' : 'Não'}}
+                      </h2>
+                      <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
+                        Modo insônia: {{dispositivo?.modoInsonia ? 'Sim' : 'Não'}}
+                      </h2>
+                      <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
+                        Tempo de espera entre as avaliações (Em segundos): {{dispositivo?.time}}
+                      </h2>
+                      <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
+                        Quebrar linha durante a seleção de itens
+                        avaliáveis: {{dispositivo?.quebrarLinhaNaSelecaoDeItemAvaliavel ? 'Sim' : 'Não'}}
+                      </h2>
+                      <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
+                        Número da licença: {{dispositivo?.numeroLicenca}}
+                      </h2>
+                      <h2 *ngIf='dispositivo?.senha' class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
                         Senha: {{dispositivo?.senha}}
                       </h2>
                       <div *ngIf='dispositivo?.numeroSerie' flex layout='row'>
@@ -63,7 +66,7 @@
             <span flex></span>
 
             <!--div opções-->
-            <div flex='40' layout='row'>
+            <div flex='10' layout='row'>
               <!--options-->
               <div flex layout='column' layout-align='start end'>
                 <div layout='row'>
@@ -74,16 +77,14 @@
                     <mat-icon>more_vert</mat-icon>
                   </button>
                   <mat-menu #menu='matMenu'>
-                    <button (click)='remove()'
-                            color='primary' mat-menu-item>
+                    <button (click)='remove()' color='primary' mat-menu-item>
                       <mat-icon>delete</mat-icon>
                       <span>Remover</span>
                     </button>
-                    <!--<button (click)='publish()'-->
-                    <!--mat-menu-item color='primary'>-->
-                    <!--<mat-icon>delete</mat-icon>-->
-                    <!--<span>Publicar</span>-->
-                    <!--</button>-->
+                    <button (click)='publish()' color='primary' mat-menu-item>
+                      <mat-icon>block</mat-icon>
+                      <span>Desativar</span>
+                    </button>
                   </mat-menu>
                 </div>
               </div>
@@ -94,25 +95,23 @@
         </mat-card-content>
       </mat-card>
 
-      <div *ngIf='vincularUnidadeTipoSvaliacao' [@fadeInOut] flex
-           layout='row'
-           layout-align='center center' style='width: 100%'>
+      <div style='width: 100%' [@fadeInOut]
+           layout-align='center center' layout='row'
+           *ngIf='vincularUnidadeTipoSvaliacao' flex>
 
         <mat-form-field flex style='margin-bottom: 0'>
           <input [(ngModel)]='filter.unidade.nome'
-                 [ngModelOptions]='{standalone: true}' id='filter' matInput
-                 maxlength='200'
-                 name='filter' placeholder='Filtre as unidades por nome'>
+                 [ngModelOptions]='{standalone: true}'
+                 placeholder='Filtre as unidades por nome'
+                 id='filter' matInput maxlength='200' name='filter'>
         </mat-form-field>
       </div>
 
       <mat-card *ngIf='vincularUnidadeTipoSvaliacao' class='bgc-grey-50' style='width: 100%'>
 
-        <vincular-unidade-tipo-avaliacao
-            (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'
-            *ngIf='dispositivo?.numeroLicenca' [(unidades)]='unidades'
-            [(unidadesTiposAvaliacoesDispositivo)]='dispositivo.unidadesTiposAvaliacoesDispositivo'
-            [filter]='filter'>
+        <vincular-unidade-tipo-avaliacao *ngIf='dispositivo?.numeroLicenca' [(unidades)]='unidades' [filter]='filter'
+                                         [(unidadesTiposAvaliacoesDispositivo)]='dispositivo.unidadesTiposAvaliacoesDispositivo'
+                                         (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'>
         </vincular-unidade-tipo-avaliacao>
 
       </mat-card>

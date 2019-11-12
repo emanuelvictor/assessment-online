@@ -1,3 +1,19 @@
-<a href='{{url}}' target='_blank' *ngIf='dispositivo?.id' [@fadeInOut]>
-  {{url}}
-</a>
+<div layout='column' layout-align='center start' *ngIf='dispositivo?.id' [@fadeInOut]>
+  <div layout='row'>
+    <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>Link para execução pública: </h2>
+    <a style='margin-top: 5px; margin-left: 2px' flex href='{{url}}' target='_blank'>
+      {{url}}
+    </a>
+  </div>
+  <div layout='column'>
+    <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
+      Coloque o código a seguir para incorporação em seu site:
+    </h2>
+    <td-highlight lang='html'>
+      <![CDATA[
+      <iframe width='800' height='600' frameborder='0'
+              src='{{url}}'></iframe>
+      ]]>
+    </td-highlight>
+  </div>
+</div>

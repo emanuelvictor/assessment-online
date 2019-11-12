@@ -73,7 +73,6 @@ public class SecurityConfiguration {
     private final ServerAuthenticationFailureHandler serverAuthenticationFailureHandler;
 
     /**
-     *
      * @return LettuceConnectionFactory
      */
     @Bean
@@ -128,6 +127,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityWebFilterChain securityWebFiltersOrder(final ServerHttpSecurity httpSecurity) {
         return httpSecurity
+                .headers().frameOptions().disable().and()
                 .csrf().disable()
                 .httpBasic().disable()
                 .formLogin().disable()

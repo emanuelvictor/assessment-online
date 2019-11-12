@@ -27,6 +27,7 @@ import {NoRecordsFoundComponent} from '../controls/no-records-found/no-records-f
 import {SistemaSharedModule} from '../sistema.shared.module';
 import {OrderModule} from 'ngx-order-pipe';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {CovalentHighlightModule} from '@covalent/highlight';
 
 /**
  *
@@ -115,6 +116,7 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
     CovalentMediaModule,
     CovalentCommonModule,
     CovalentMarkdownModule,
+    CovalentHighlightModule,
     MatIconModule,
     MatMenuModule,
     MatSidenavModule,
