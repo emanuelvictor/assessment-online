@@ -13,7 +13,7 @@ import reactor.core.publisher.Flux;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"**planos", "**sistema/planos", "**sistema/mobile/planos"})
+@RequestMapping({"**planos", "**public/planos", "**sistema/planos", "**sistema/mobile/planos"})
 public class PlanoResource extends AbstractResource<Plano> {
 
     /**

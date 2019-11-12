@@ -17,7 +17,7 @@ import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"**unidade-tipos-avaliacoes", "**sistema/unidade-tipos-avaliacoes", "**sistema/mobile/unidade-tipos-avaliacoes"})
+@RequestMapping({"**unidade-tipos-avaliacoes", "**public/unidade-tipos-avaliacoes", "**sistema/unidade-tipos-avaliacoes", "**sistema/mobile/unidade-tipos-avaliacoes"})
 public class UnidadeTipoAvaliacaoResource extends AbstractResource<UnidadeTipoAvaliacao> {
 
     private final UnidadeTipoAvaliacaoService unidadeTipoAvaliacaoService;

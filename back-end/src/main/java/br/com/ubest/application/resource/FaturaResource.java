@@ -25,7 +25,7 @@ import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"**faturas", "**sistema/faturas", "**sistema/mobile/faturas"})
+@RequestMapping({"**faturas", "**public/faturas", "**sistema/faturas", "**sistema/mobile/faturas"})
 public class FaturaResource extends AbstractResource<Fatura> {
 
     /**

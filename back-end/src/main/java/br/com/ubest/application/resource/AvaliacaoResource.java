@@ -19,7 +19,7 @@ import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"**avaliacoes", "**sistema/avaliacoes", "**sistema/mobile/avaliacoes"})
+@RequestMapping({"**avaliacoes", "**public/avaliacoes", "**sistema/avaliacoes", "**sistema/mobile/avaliacoes"})
 public class AvaliacaoResource extends AbstractResource<Avaliacao> {
 
     /**

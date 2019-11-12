@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping({"**contas", "**sistema/contas", "**sistema/mobile/contas"})
+@RequestMapping({"**contas", "**public/contas", "**sistema/contas", "**sistema/mobile/contas"})
 public class ContaResource extends AbstractResource<Conta> {
 
     /**

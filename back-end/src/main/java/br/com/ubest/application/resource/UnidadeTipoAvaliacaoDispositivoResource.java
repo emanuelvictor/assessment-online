@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"**unidades-tipos-avaliacoes-dispositivo", "**sistema/unidades-tipos-avaliacoes-dispositivo", "**sistema/mobile/unidades-tipos-avaliacoes-dispositivo"})
+@RequestMapping({"**unidades-tipos-avaliacoes-dispositivo", "**public/unidades-tipos-avaliacoes-dispositivo", "**sistema/unidades-tipos-avaliacoes-dispositivo", "**sistema/mobile/unidades-tipos-avaliacoes-dispositivo"})
 public class UnidadeTipoAvaliacaoDispositivoResource extends AbstractResource<UnidadeTipoAvaliacaoDispositivo> {
 
     private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;

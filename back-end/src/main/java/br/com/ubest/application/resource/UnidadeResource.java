@@ -18,7 +18,7 @@ import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"**unidades", "**sistema/unidades", "**sistema/mobile/unidades"})
+@RequestMapping({"**unidades", "**public/unidades", "**sistema/unidades", "**sistema/mobile/unidades"})
 public class UnidadeResource extends AbstractResource<Unidade> {
 
     private final UnidadeService unidadeService;

@@ -16,7 +16,7 @@ import static br.com.ubest.domain.entity.usuario.Perfil.ATENDENTE_VALUE;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping({"**cupons", "**sistema/cupons", "**sistema/mobile/cupons"})
+@RequestMapping({"**cupons",  "**public/cupons", "**sistema/cupons", "**sistema/mobile/cupons"})
 public class CupomResource extends AbstractResource<Cupom> {
 
     /**

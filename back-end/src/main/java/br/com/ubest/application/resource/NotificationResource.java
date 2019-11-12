@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"**notifications", "**sistema/notifications", "**sistema/mobile/notifications"})
+@RequestMapping({"**notifications", "**public/notifications", "**sistema/notifications", "**sistema/mobile/notifications"})
 public class NotificationResource extends AbstractResource<Assinatura> {
 
     /**

@@ -27,7 +27,7 @@ import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"**usuarios", "**sistema/usuarios", "**sistema/mobile/usuarios"})
+@RequestMapping({"**usuarios", "**public/usuarios", "**sistema/usuarios", "**sistema/mobile/usuarios"})
 public class UsuarioResource extends AbstractResource<Usuario> {
 
     /**

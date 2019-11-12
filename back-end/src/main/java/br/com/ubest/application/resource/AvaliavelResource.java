@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping({"**avaliaveis", "**sistema/avaliaveis", "**sistema/mobile/avaliaveis"})
+@RequestMapping({"**avaliaveis", "**public/avaliaveis", "**sistema/avaliaveis", "**sistema/mobile/avaliaveis"})
 public class AvaliavelResource extends AbstractResource<Avaliavel> {
 
     /**

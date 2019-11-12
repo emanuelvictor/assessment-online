@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping({"**operadores", "**sistema/operadores", "**sistema/mobile/operadores"})
+@RequestMapping({"**operadores", "**public/operadores", "**sistema/operadores", "**sistema/mobile/operadores"})
 public class OperadorResource extends AbstractResource<Operador> {
 
     private final OperadorService operadorService;
