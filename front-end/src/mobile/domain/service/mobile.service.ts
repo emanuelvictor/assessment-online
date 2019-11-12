@@ -8,14 +8,14 @@ import {WebSocketSubject} from 'rxjs/webSocket';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
-import {Agrupador} from '@src/web/domain/entity/avaliacao/agrupador.model';
-import {Dispositivo} from '@src/web/domain/entity/avaliacao/dispositivo.model';
-import {Configuracao} from '@src/web/domain/entity/configuracao/configuracao.model';
-import {DispositivoRepository} from '@src/web/domain/repository/dispositivo.repository';
-import {ConfiguracaoRepository} from '@src/web/domain/repository/configuracao.repository';
-import {LocalStorage} from '@src/web/infrastructure/local-storage/local-storage';
+import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
+import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
+import {Configuracao} from '@src/sistema/domain/entity/configuracao/configuracao.model';
+import {DispositivoRepository} from '@src/sistema/domain/repository/dispositivo.repository';
+import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuracao.repository';
+import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
 import {environment} from '@src/environments/environment';
-import {TOKEN_NAME} from '@src/web/application/presentation/controls/utils';
+import {TOKEN_NAME} from '@src/sistema/application/presentation/controls/utils';
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.

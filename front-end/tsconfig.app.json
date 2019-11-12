@@ -6,15 +6,15 @@
     "types": [],
     "paths": {
       "@src/*": [
-        "src/*.web",
+        "src/*.sistema",
         "src/*"
       ]
     }
   },
   "files": [
-    "src/web/application/web-main.ts",
-    "src/web/application/presentation/authenticated/authenticated.module.ts",
-    "src/web/application/presentation/authenticated/cupom/cupom.module.ts",
+    "src/sistema/application/sistema-main.ts",
+    "src/sistema/application/presentation/authenticated/authenticated.module.ts",
+    "src/sistema/application/presentation/authenticated/cupom/cupom.module.ts",
     "src/public/application/public-main.ts",
     "src/mobile/application/mobile-main.ts",
     "src/polyfills.ts"

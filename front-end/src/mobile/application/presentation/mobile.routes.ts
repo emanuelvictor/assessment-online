@@ -1,5 +1,4 @@
 import {Routes} from '@angular/router';
-import {HomeComponent} from '@src/mobile/application/presentation/home/home.component';
 import {ConfiguracoesComponent} from '@src/mobile/application/presentation/avaliacao/configurar/configuracoes/configuracoes.component';
 import {ConfigurarUnidadesEAvaliacoesComponent} from '@src/mobile/application/presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component';
 import {AuthenticateToLogoutComponent} from '@src/mobile/application/presentation/avaliacao/configurar/configuracoes/authenticate-to-logout/authenticate-to-logout.component';

@@ -26,7 +26,7 @@ import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"**dispositivos", "**sistema/dispositivos", "**sistema/mobile/dispositivos"})
+@RequestMapping({"**dispositivos", "**public/dispositivos", "**sistema/dispositivos", "**sistema/mobile/dispositivos"})
 public class DispositivoResource extends AbstractResource<Dispositivo> {
 
     /**

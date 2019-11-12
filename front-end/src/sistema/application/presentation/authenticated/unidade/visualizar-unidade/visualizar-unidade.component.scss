@@ -1,0 +1,9 @@
+@import '../../../../theming/sistema-theme';
+
+.no-margin {
+  margin: 0;
+}
+
+mat-expansion-panel {
+  border-top: 3px solid $roxoclaro !important;
+}

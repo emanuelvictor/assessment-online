@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatSnackBar} from '@angular/material';
-import {getIdentifier, viewAnimation} from '@src/web/application/presentation/controls/utils';
-import {Dispositivo} from '@src/web/domain/entity/avaliacao/dispositivo.model';
+import {getIdentifier, viewAnimation} from '@src/sistema/application/presentation/controls/utils';
+import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
 import {environment} from '@src/environments/environment';
-import {ConfiguracaoRepository} from '@src/web/domain/repository/configuracao.repository';
+import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuracao.repository';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
-import {Agrupador} from '@src/web/domain/entity/avaliacao/agrupador.model';
+import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
 
 @Component({
   selector: 'configurar-unidades-e-avaliacoes',

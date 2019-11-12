@@ -2,9 +2,9 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {RecaptchaComponent} from 'ng-recaptcha';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
-import {viewAnimation} from '@src/web/application/presentation/controls/utils';
+import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
 import {PublicService} from '@src/public/domain/service/public.service';
-import {UsuarioRepository} from '@src/web/domain/repository/usuario.repository';
+import {UsuarioRepository} from '@src/sistema/domain/repository/usuario.repository';
 
 @Component({
   selector: 'robot-verify',

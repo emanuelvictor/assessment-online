@@ -1,0 +1,8 @@
+@import '../../../theming/sistema-theme';
+
+button {
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -sistemakit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+  color: $verde !important;
+}

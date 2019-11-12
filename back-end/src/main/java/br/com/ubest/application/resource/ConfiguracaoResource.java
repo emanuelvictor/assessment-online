@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping({"**configuracoes", "**sistema/configuracoes", "**sistema/mobile/configuracoes"})
+@RequestMapping({"**configuracoes", "**public/configuracoes", "**sistema/configuracoes", "**sistema/mobile/configuracoes"})
 public class ConfiguracaoResource extends AbstractResource<Configuracao> {
 
     /**
@@ -35,7 +35,6 @@ public class ConfiguracaoResource extends AbstractResource<Configuracao> {
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
     /**
-     *
      * @param configuracao
      * @return
      */
@@ -46,7 +45,6 @@ public class ConfiguracaoResource extends AbstractResource<Configuracao> {
     }
 
     /**
-     *
      * @param username
      * @return
      */
@@ -56,7 +54,6 @@ public class ConfiguracaoResource extends AbstractResource<Configuracao> {
     }
 
     /**
-     *
      * @return
      */
     @GetMapping

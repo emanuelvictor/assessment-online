@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {environment} from '@src/environments/environment';
-import {getIdentifier} from '@src/web/application/presentation/controls/utils';
+import {getIdentifier} from '@src/sistema/application/presentation/controls/utils';
 import {PublicService} from '@src/public/domain/service/public.service';
 
 @Component({

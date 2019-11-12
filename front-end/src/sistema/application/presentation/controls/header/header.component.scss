@@ -1,0 +1,42 @@
+@import "../../sistema.component";
+
+html, body, mat-sidenav-container {
+  margin: 0;
+  width: 100%;
+  height: calc(100% - #{$min-height-toolbar});
+}
+
+mat-toolbar {
+  z-index: 1000;
+  position: relative;
+  min-height: $min-height-toolbar;
+  padding-top: 2px;
+
+  //Inteligência do responsivo do mat-toolbar
+  @media only screen and (max-width: 860px) {
+    padding-top: 2px;
+  }
+  @media only screen and (max-width: 600px) {
+    padding-top: 6px;
+    padding-left: $header-margin-xs;
+    padding-right: $header-margin-xs;
+  }
+  @media only screen and (min-width: 600px) {
+    padding-left: $header-margin;
+    padding-right: $header-margin;
+  }
+}
+
+.logo-image {
+  cursor: pointer;
+  //Alinha com demais botões
+  margin-left: -20px;
+
+}
+
+.name-user {
+  cursor: pointer;
+  padding-top: 13px;
+  padding-bottom: 13px;
+}
+

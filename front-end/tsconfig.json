@@ -23,7 +23,7 @@
               "src/*.android.ts",
               "src/*.ios.ts",
               "src/*.tns.ts",
-              "src/*.web.ts",
+              "src/*.sistema.ts",
               "src/*.ts"
           ]
       }

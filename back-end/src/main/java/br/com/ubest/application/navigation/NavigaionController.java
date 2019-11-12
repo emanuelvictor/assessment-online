@@ -27,6 +27,16 @@ public class NavigaionController {
         return "sistema/index";
     }
 
+    @RequestMapping("/public")
+    String publicWithBar() {
+        return "redirect:/public/";
+    }
+
+    @RequestMapping("/public/")
+    String publicc() {
+        return "public/index";
+    }
+
     @RequestMapping("/sistema/mobile")
     String mobileWithBar() {
         return "redirect:/sistema/mobile/";

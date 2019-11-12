@@ -6,11 +6,11 @@
     "defaultCollection": "@nativescript/schematics"
   },
   "projects": {
-    "web": {
-      "root": "web",
+    "sistema": {
+      "root": "sistema",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "web",
+      "prefix": "sistema",
       "schematics": {
         "@nativescript/schematics:component": {
           "styleext": "scss"
@@ -21,8 +21,8 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "../back-end/src/main/resources/public/sistema",
-            "index": "src/web/index.html",
-            "main": "src/web/application/web-main.ts",
+            "index": "src/sistema/index.html",
+            "main": "src/sistema/application/sistema-main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -31,7 +31,7 @@
             ],
             "styles": [
               "./node_modules/@covalent/core/common/platform.scss",
-              "src/web/application/theming/web-theme.scss",
+              "src/sistema/application/theming/sistema-theme.scss",
               "./node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
               "src/assets/styles/nprogress.css",
               "src/assets/styles/cropper.css"
@@ -65,18 +65,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "web:build"
+            "browserTarget": "sistema:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "web:build:production"
+              "browserTarget": "sistema:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "web:build"
+            "browserTarget": "sistema:build"
           }
         },
         "test": {
@@ -87,7 +87,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "styles": [
-              "src/web/application/theming/web-theme.scss"
+              "src/sistema/application/theming/sistema-theme.scss"
             ],
             "scripts": [],
             "assets": [
@@ -124,7 +124,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mobile",
+            "outputPath": "../mobile-cordova/www",
             "index": "src/mobile/index.html",
             "main": "src/mobile/application/mobile-main.ts",
             "polyfills": "src/polyfills.ts",
@@ -149,6 +149,40 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "mobile.prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mobile.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "mobile.dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mobile.dev.ts"
                 }
               ],
               "optimization": true,
@@ -252,7 +286,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/public",
+            "outputPath": "../back-end/src/main/resources/public/public",
             "index": "src/public/index.html",
             "main": "src/public/application/public-main.ts",
             "polyfills": "src/polyfills.ts",

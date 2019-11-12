@@ -10,11 +10,11 @@ import {CommonModule} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {HttpClientModule} from '@angular/common/http';
-import {DispositivoRepository} from '@src/web/domain/repository/dispositivo.repository';
-import {ConfiguracaoRepository} from '@src/web/domain/repository/configuracao.repository';
-import {LocalStorage} from '@src/web/infrastructure/local-storage/local-storage';
+import {DispositivoRepository} from '@src/sistema/domain/repository/dispositivo.repository';
+import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuracao.repository';
+import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
 import {CookieService} from 'ngx-cookie-service';
-import {CovalentLoadingModule, TdLoadingService} from '@covalent/core';
+import {CovalentLoadingModule} from '@covalent/core';
 import {MatSnackBarModule} from '@angular/material';
 
 

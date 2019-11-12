@@ -4,11 +4,11 @@ import {Router} from '@angular/router';
 import {FormBuilder} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {DomSanitizer} from '@angular/platform-browser';
-import {viewAnimation} from '@src/web/application/presentation/controls/utils';
+import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
 import {environment} from '@src/environments/environment';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
-import {Agrupador} from '@src/web/domain/entity/avaliacao/agrupador.model';
-import {Dispositivo} from "@src/web/domain/entity/avaliacao/dispositivo.model";
+import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
+import {Dispositivo} from "@src/sistema/domain/entity/avaliacao/dispositivo.model";
 
 @Component({
   selector: 'authenticate-to-logout',

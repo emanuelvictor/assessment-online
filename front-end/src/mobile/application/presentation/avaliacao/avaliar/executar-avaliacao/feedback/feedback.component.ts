@@ -2,11 +2,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {textMasks} from '@src/web/application/presentation/controls/text-masks/text-masks';
+import {textMasks} from '@src/sistema/application/presentation/controls/text-masks/text-masks';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
-import {TipoFeedback} from '@src/web/domain/entity/configuracao/tipo-feedback.enum';
-import {cpfValidator, obrigatorio} from '@src/web/application/presentation/controls/validators/validators';
-import {viewAnimation} from '@src/web/application/presentation/controls/utils';
+import {TipoFeedback} from '@src/sistema/domain/entity/configuracao/tipo-feedback.enum';
+import {cpfValidator, obrigatorio} from '@src/sistema/application/presentation/controls/validators/validators';
+import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
 
 @Component({
   selector: 'app-feedback',

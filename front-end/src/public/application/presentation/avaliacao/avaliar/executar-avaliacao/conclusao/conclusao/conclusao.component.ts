@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {viewAnimation} from '@src/web/application/presentation/controls/utils';
+import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
 import {PublicService} from '@src/public/domain/service/public.service';
 import {AgrupadorRepository} from '@src/public/domain/repository/agrupador.repository';
-import {Agrupador} from '@src/web/domain/entity/avaliacao/agrupador.model';
-import {Avaliacao} from '@src/web/domain/entity/avaliacao/avaliacao.model';
-import {Dispositivo} from '@src/web/domain/entity/avaliacao/dispositivo.model';
+import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
+import {Avaliacao} from '@src/sistema/domain/entity/avaliacao/avaliacao.model';
+import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
 
 @Component({
   selector: 'app-conclusao',

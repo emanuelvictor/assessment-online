@@ -2,11 +2,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
-import {viewAnimation} from '@src/web/application/presentation/controls/utils';
-import {UnidadeTipoAvaliacaoDispositivo} from '@src/web/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
+import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
+import {UnidadeTipoAvaliacaoDispositivo} from '@src/sistema/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
 import {PublicService} from '@src/public/domain/service/public.service';
-import {Agrupador} from '@src/web/domain/entity/avaliacao/agrupador.model';
-import {Avaliacao} from '@src/web/domain/entity/avaliacao/avaliacao.model';
+import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
+import {Avaliacao} from '@src/sistema/domain/entity/avaliacao/avaliacao.model';
 
 @Component({
   selector: 'selecionar-nota',

@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
-import {Configuracao} from '@src/web/domain/entity/configuracao/configuracao.model';
-import {viewAnimation} from '@src/web/application/presentation/controls/utils';
+import {Configuracao} from '@src/sistema/domain/entity/configuracao/configuracao.model';
+import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
 import {PublicService} from '@src/public/domain/service/public.service';
-import {Unidade} from '@src/web/domain/entity/unidade/unidade.model';
+import {Unidade} from '@src/sistema/domain/entity/unidade/unidade.model';
 
 @Component({
   selector: 'selecionar-unidade',

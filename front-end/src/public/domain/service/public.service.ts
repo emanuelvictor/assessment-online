@@ -7,12 +7,12 @@ import {TdLoadingService} from '@covalent/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
-import {LocalStorage} from '@src/web/infrastructure/local-storage/local-storage';
-import {ConfiguracaoRepository} from '@src/web/domain/repository/configuracao.repository';
-import {DispositivoRepository} from '@src/web/domain/repository/dispositivo.repository';
-import {Agrupador} from '@src/web/domain/entity/avaliacao/agrupador.model';
-import {Dispositivo} from '@src/web/domain/entity/avaliacao/dispositivo.model';
-import {Configuracao} from '@src/web/domain/entity/configuracao/configuracao.model';
+import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
+import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuracao.repository';
+import {DispositivoRepository} from '@src/sistema/domain/repository/dispositivo.repository';
+import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
+import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
+import {Configuracao} from '@src/sistema/domain/entity/configuracao/configuracao.model';
 import {environment} from '@src/environments/environment';
 
 /**
