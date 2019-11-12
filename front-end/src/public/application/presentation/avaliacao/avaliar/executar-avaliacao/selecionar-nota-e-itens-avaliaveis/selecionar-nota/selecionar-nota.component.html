@@ -1,0 +1,55 @@
+<div [@fadeInOut] layout='column' layout-align='center center'>
+  <mat-card style='width: 600px'>
+    <mat-card-title class='push' layout-align='center center'>
+      <div layout='column' layout-align='center center'>
+        {{unidadeTipoAvaliacaoDispositivo?.unidadeTipoAvaliacao?.tipoAvaliacao?.enunciado}}
+      </div>
+    </mat-card-title>
+    <mat-card-content style='margin-bottom: 0'>
+      <div layout-gt-xs='row' layout-margin layout-xs='column'>
+        <button (click)='proximo(1)' mat-button>
+          <div layout='column' layout-align='center center'>
+            <mat-icon style='fill: #c21c1f' svgIcon='assets:pessimo'></mat-icon>
+            <span>{{publicService?.configuracao?.um}}</span>
+          </div>
+        </button>
+        <button (click)='proximo(2)' mat-button>
+          <div layout='column' layout-align='center center'>
+            <mat-icon style='fill: #e96d01' svgIcon='assets:ruim'></mat-icon>
+            <span>{{publicService?.configuracao?.dois}}</span>
+          </div>
+        </button>
+        <button (click)='proximo(3)' mat-button>
+          <div layout='column' layout-align='center center'>
+            <mat-icon style='fill: #d4c40d' svgIcon='assets:regular'></mat-icon>
+            <span>{{publicService?.configuracao?.tres}}</span>
+          </div>
+        </button>
+        <button (click)='proximo(4)' mat-button>
+          <div layout='column' layout-align='center center'>
+            <mat-icon style='fill: #8fc82c' svgIcon='assets:bom'></mat-icon>
+            <span>{{publicService?.configuracao?.quatro}}</span>
+          </div>
+        </button>
+        <button (click)='proximo(5)' mat-button>
+          <div layout='column' layout-align='center center'>
+            <mat-icon style='fill: #5ee924' svgIcon='assets:otimo'></mat-icon>
+            <span>{{publicService?.configuracao?.cinco}}</span>
+          </div>
+        </button>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div *ngIf='countTiposAvaliacoes > 1' flex
+           layout='row'
+           layout-align='center center'>
+        <div flex
+             layout='column' layout-align='end start'
+             layout-margin
+             style='font-size: 25px'>
+          {{activatedRoute?.parent?.snapshot?.params['ordem'] + '/' + countTiposAvaliacoes}}
+        </div>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>

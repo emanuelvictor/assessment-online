@@ -1,0 +1,26 @@
+<div [@fadeInOut] layout='column' layout-align='center center'>
+  <mat-card style='width: 600px'>
+    <mat-card-content class='no-margin' style='margin-bottom: 6px;margin-right: 7px'>
+
+      <mat-grid-list *ngIf='publicService?.dispositivo?.unidades?.length'
+                     cols='{{publicService?.dispositivo?.unidades?.length > 6 ? 4 : (publicService?.dispositivo?.unidades?.length === 2 ? 2 : 3)}}'
+                     rowHeight='100px'>
+        <mat-grid-tile (click)='unidade.selected = !unidade.selected; proximo(unidade);'
+                       *ngFor="let unidade of publicService?.dispositivo?.unidades | orderBy: 'nome'" [colspan]='1'
+                       [ngStyle]="{'background-color': (unidade.selected ? 'lightblue' : '')}"
+                       [rowspan]='2'
+                       mat-ripple
+                       style='border: 3px solid aliceblue; border-radius: 5px;'>
+          <div layout='column' layout-align='center center'>
+            <div
+                [ngClass]="{'broken-line': configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === true, 'text-truncate': configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === false}"
+                style='text-align: center; text-align: -webkit-center; padding: 10px; font-size: x-large'>
+              {{unidade?.nome}}
+            </div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+    </mat-card-content>
+  </mat-card>
+</div>

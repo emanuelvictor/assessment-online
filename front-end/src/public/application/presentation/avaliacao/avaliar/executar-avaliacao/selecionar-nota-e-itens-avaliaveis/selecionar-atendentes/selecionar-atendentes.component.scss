@@ -1,0 +1,33 @@
+mat-card-content {
+  margin-bottom: 0;
+  padding: 0;
+
+  mat-grid-list {
+    overflow: auto;
+    flex-grow: 1;
+    @media screen and (min-height: 400px) {
+      // Se estiver em landscape
+      max-height: 410px
+    }
+
+    @media screen and (min-height: 800px) {
+      // Se estiver em portrait
+      max-height: 610px
+    }
+  }
+}
+
+div {
+  font-size: 25px;
+}
+
+button {
+  height: 50px;
+  width: 125px;
+  font-size: 25px
+}
+
+.broken-line {
+  text-align: center;
+  word-break: break-word
+}

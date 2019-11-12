@@ -1,0 +1,13 @@
+mat-icon {
+  height: 100px;
+  width: 100px;
+  @media screen and (max-width: 599px) {
+    //smartphones
+    height: 50px;
+    width: 50px;
+  }
+}
+
+span {
+  font-size: 15px;
+}

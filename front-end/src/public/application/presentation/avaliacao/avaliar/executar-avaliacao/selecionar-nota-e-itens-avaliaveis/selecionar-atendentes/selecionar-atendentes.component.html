@@ -1,0 +1,48 @@
+<div [@fadeInOut] layout='column' layout-align='center center'>
+  <mat-card style='width: 600px'>
+    <mat-card-title *ngIf='avaliaveis?.length' class='push'>
+      <div layout='column' layout-align='center center'>
+        {{unidadeTipoAvaliacaoDispositivo?.unidadeTipoAvaliacao?.tipoAvaliacao?.selecao}}
+      </div>
+    </mat-card-title>
+    <mat-card-content *ngIf='avaliaveis?.length' class='no-margin' style='margin-bottom: 0'>
+
+      <mat-grid-list *ngIf='avaliaveis?.length' cols='{{avaliaveis.length > 6 ? 4 : 3}}' rowHeight='100px'>
+        <mat-grid-tile (click)='avaliavel.selected = !avaliavel.selected; publicService.restartTimeout()'
+                       *ngFor='let avaliavel of avaliaveis' [colspan]='1'
+                       [ngStyle]="{'background-color': (avaliavel.selected ? 'lightblue' : '')}" [rowspan]='2'
+                       mat-ripple>
+          <div layout='column' layout-align='center center'>
+            <div mat-list-avatar style='width: 120px; height: 120px'>
+              <avatar [size]='0.6' [tenant]='publicService?.dispositivo?.tenant'
+                      [usuario]="{'id': avaliavel?.usuario?.id , 'foto': avaliavel?.usuario?.avatarPath}"
+                      class='image-cover'>
+              </avatar>
+            </div>
+            <div
+                [ngClass]="{'broken-line': publicService?.configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === true, 'text-truncate': publicService?.configuracao?.quebrarLinhaNaSelecaoDeItenAvaliavel === false}">
+              {{avaliavel?.usuario?.nome}}
+            </div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+    </mat-card-content>
+
+    <mat-card-actions>
+      <div flex layout='row' layout-align='center center'>
+
+        <div *ngIf='countTiposAvaliacoes > 1' flex layout='column' layout-align='end start' layout-margin>
+          {{activatedRoute?.parent?.snapshot?.params?.ordem + '/' + countTiposAvaliacoes}}
+        </div>
+
+        <div flex layout='column' layout-align='center end' layout-margin>
+          <button (click)='proximo()' color='primary' layout-align='center end' mat-button>
+            Próximo
+          </button>
+        </div>
+
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
