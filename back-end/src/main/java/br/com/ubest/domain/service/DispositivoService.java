@@ -181,6 +181,8 @@ public class DispositivoService {
         if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
             throw new RuntimeException("Essa licença está sendo utilizada por outro dispositivo");
 
+        dispositivo.gerarSenhaAleatoria();
+
         //  seto o número de série aqui, e somente aqui, não n o carramento do dispositivo
         dispositivo.setNumeroSerie(numeroSerie);
 
