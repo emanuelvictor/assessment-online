@@ -21,7 +21,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
@@ -61,7 +64,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
      */
     @NotNull
     @Column(nullable = false, unique = true)
-    private UUID codigo;
+    private long codigo;
 
     /**
      *
@@ -154,9 +157,9 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     /**
      * @return String
      */
-    private static String getRandomNumberInRange() {
+    private static long getRandomNumberInRange() {
         final Random r = new Random();
-        return String.valueOf(r.nextInt((999999 - 100000) + 1) + 100000);
+        return r.nextInt((999999 - 100000) + 1) + 100000;
     }
 
     /**
@@ -179,7 +182,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
      *
      */
     public void gerarSenhaAleatoria() {
-        this.senha = getRandomNumberInRange();
+        this.senha = String.valueOf(getRandomNumberInRange());
     }
 
     /**
@@ -265,6 +268,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     @PreUpdate
     @PrePersist
     public void prePersistAndUpdate() {
-        this.codigo = UUID.randomUUID();
+        this.codigo = getRandomNumberInRange();
+        this.codigoExpiration = LocalDateTime.now().plusHours(1);
     }
 }

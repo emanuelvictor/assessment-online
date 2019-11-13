@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> {
 
@@ -25,6 +24,12 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
      * @return
      */
     Optional<Dispositivo> findByNumeroLicenca(@Param("numeroLicenca") final Long numeroLicenca);
+
+    /**
+     * @param codigo
+     * @return
+     */
+    Optional<Dispositivo> findByCodigo(@Param("codigo") final Long codigo);
 
     /**
      * @param usuarioId {long}
@@ -115,9 +120,4 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
             @Param("tenant") final String tenant, // TODO vai para o filtro do hibernate
             final Pageable pageable);
 
-    /**
-     * @param codigo
-     * @return
-     */
-    Dispositivo findByCodigo(final UUID codigo);
 }

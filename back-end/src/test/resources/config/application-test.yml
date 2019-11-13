@@ -3,7 +3,7 @@ spring:
 
   #DATA SOURCE
   datasource:
-    url: jdbc:postgresql://localhost:5432/assessment-test
+    url: jdbc:postgresql://localhost:5432/assessment.test
 
 #FLYWAY
 spring.flyway:

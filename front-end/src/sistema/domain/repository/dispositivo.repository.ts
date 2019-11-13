@@ -69,4 +69,26 @@ export class DispositivoRepository extends BaseRepository<Dispositivo> {
   desvincular(numeroSerie: string): Observable<Dispositivo> {
     return this.httpClient.get<Dispositivo>(this.collectionName + '/' + numeroSerie + '/desvincular')
   }
+
+  /**
+   *
+   * @param codigo
+   * @param numeroSerie
+   */
+  authenticateByCodigo(numeroSerie: any, codigo: number): Promise<Dispositivo> {
+
+    return new Promise((resolve, reject) => {
+
+      const dispositivo: any = {};
+      dispositivo.numeroSerie = numeroSerie;
+      dispositivo.codigo = codigo;
+
+      this.httpClient.post<Dispositivo>(this.collectionName + '/authenticate-by-codigo', dispositivo)
+        .toPromise()
+        .then(result => {
+          resolve(result)
+        })
+        .catch(error => reject(error))
+    })
+  }
 }

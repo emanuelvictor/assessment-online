@@ -57,8 +57,6 @@ alter table assinatura
 INSERT INTO assinatura (id, created, cancelada)
 VALUES (1, NOW(), false);
 
-create extension if not exists "uuid-ossp";
-
 alter table dispositivo
     add column assinatura_id bigint not null default 1;
 alter table dispositivo
@@ -78,7 +76,7 @@ alter table dispositivo
 alter table dispositivo
     add column senha varchar(10);
 alter table dispositivo
-    add column codigo uuid not null default (uuid_generate_v4());
+    add column codigo bigint not null default ((floor(random() * (999999 - 100000 + 1) + 100000)));
 alter table dispositivo
     add column codigo_expiration timestamp without time zone NOT NULL default now();
 
@@ -101,7 +99,7 @@ alter table dispositivo_aud
 alter table dispositivo_aud
     add column assinatura_id bigint not null default 0;
 alter table dispositivo_aud
-    add column codigo uuid;
+    add column codigo bigint;
 alter table dispositivo_aud
     add column codigo_expiration timestamp without time zone;
 

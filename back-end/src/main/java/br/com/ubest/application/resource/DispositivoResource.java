@@ -148,6 +148,16 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     }
 
     /**
+     * @param dispositivo
+     * @param exchange
+     * @return
+     */
+    @PostMapping("authenticate-by-codigo")
+    Mono<Optional<Dispositivo>> authenticateByCodigo(@RequestBody final Dispositivo dispositivo, final ServerWebExchange exchange) {
+        return Mono.just(Optional.of(this.dispositivoService.authenticate(dispositivo.getNumeroSerie(), dispositivo.getCodigo(), exchange)));
+    }
+
+    /**
      * @param numeroSerie
      * @return
      */

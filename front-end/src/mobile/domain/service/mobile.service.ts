@@ -127,7 +127,7 @@ export class MobileService implements CanActivate, CanActivateChild {
 
     this._webSocketSubject.subscribe(result => {
       // Se não tiver senha então desloga tudo
-      if (!result.senha) {
+      if (!result.numeroSerie || result.numeroSerie !== this._numeroSerie) {
         this._httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
           this.clearTimeout();
 
@@ -348,6 +348,28 @@ export class MobileService implements CanActivate, CanActivateChild {
 
         // Popula os cookies
         this.populeCookies(senha);
+
+        // Resolve a promise
+        resolve(result)
+
+      }).catch(error => reject(error))
+    })
+  }
+
+  /**
+   * Realiza a autenticação através do código (QRCode)
+   *
+   * @param codigo
+   * @param numeroSerie
+   */
+  public authenticateByCodigo(numeroSerie, codigo: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this._dispositivoRepository.authenticateByCodigo(numeroSerie, codigo).then(result => {
+
+        this._dispositivo = result;
+
+        // Popula os cookies
+        this.populeCookies(this._dispositivo.senha);
 
         // Resolve a promise
         resolve(result)

@@ -24,6 +24,18 @@
           <div flex layout='row' layout-margin style='margin-top: 34px'>
 
             <mat-form-field flex>
+              <input placeholder='Código' required
+                     matInput name='codigo' noWhiteSpace
+                     [ngModelOptions]='{standalone: true}'
+                     (ngModelChange)='inputCodigoChanged($event)'
+                     [(ngModel)]='mobileService.dispositivo.codigo'/>
+            </mat-form-field>
+
+          </div>
+
+          <div flex layout='row' layout-margin>
+
+            <mat-form-field flex>
               <input [ngModelOptions]='{standalone: true}'
                      placeholder='Insira o número da licença'
                      matInput name='numero' noWhiteSpace required

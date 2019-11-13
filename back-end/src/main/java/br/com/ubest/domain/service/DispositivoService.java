@@ -20,9 +20,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 
 import java.time.LocalDateTime;
-import java.util.*;
-
-import static java.util.Map.entry;
+import java.util.HashSet;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -100,7 +99,7 @@ public class DispositivoService {
         if (numeroSerie != null) {
 
             if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
-                throw new RuntimeException("Essa licença está sendo utilizada por outro dispositivo");
+                throw new RuntimeException("Essa licença está sendo utilizada em outro dispositivo");
 
             // Gera a senha aleatória
             dispositivo.gerarSenhaAleatoria();
@@ -119,30 +118,6 @@ public class DispositivoService {
     }
 
     /**
-     * @param codigo
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public Map<String, Object> getLicencaAndSenhaByCodigo(final String codigo, final String numeroSerie) {
-
-        Assert.notNull(codigo, "Código obrigatório!");
-        Assert.notNull(numeroSerie, "Número de série obrigatório!");
-
-        final Dispositivo dispositivo = this.dispositivoRepository.findByCodigo(UUID.fromString(codigo));
-
-        Assert.notNull(dispositivo, "Código inválido!");
-        Assert.isTrue(!dispositivo.getCodigoExpiration().isBefore(LocalDateTime.now().minusHours(1)), "Código expirado!"); //TODO arrumar data da aplicação
-
-        Assert.isTrue(dispositivo.getNumeroSerie() == null || dispositivo.getNumeroSerie().equals(numeroSerie), "Essa licença está sendo utilizada em outro dispositivo");
-
-        return new HashMap<>() {{
-            put("numeroLicenca", dispositivo.getNumeroLicenca());
-            put("senha", dispositivo.getSenha());
-        }};
-
-    }
-
-    /**
      * Carrega todas as informações necessárias do dispositivo para o funcionamento das avaliações.
      * Alterna entre os tenant's.
      *
@@ -154,6 +129,9 @@ public class DispositivoService {
         Dispositivo dispositivo = this.dispositivoRepository.findByNumeroLicenca(id).orElse(null);
         if (dispositivo == null)
             dispositivo = this.dispositivoRepository.findById(id).orElse(null);
+
+        if (dispositivo == null)
+            dispositivo = this.dispositivoRepository.findByCodigo(id).orElse(null);
 
         Assert.notNull(dispositivo, "Não encontrado");
 
@@ -175,6 +153,52 @@ public class DispositivoService {
         dispositivo.getUnidadesTiposAvaliacoesDispositivo().forEach(unidadeTipoAvaliacaoDispositivo ->
                 unidadeTipoAvaliacaoDispositivo.setAvaliaveis(new HashSet<>(this.avaliavelService.listByFilters(null, null, null, true, unidadeTipoAvaliacaoDispositivo.getId(), null).getContent()))
         );
+        return dispositivo;
+    }
+
+    /**
+     *
+     * @param numeroSerie
+     * @param codigo
+     * @param exchange
+     * @return
+     */
+    public Dispositivo authenticate(final String numeroSerie, final long codigo, final ServerWebExchange exchange) {
+
+        // Pega o dispositivo da base
+        final Dispositivo dispositivo = this.getDispositivo(codigo);
+
+        // Valida se o código está válido
+        Assert.notNull(dispositivo, "Código inválido!");
+
+        // Valida se o código não expirou
+        Assert.isTrue(!dispositivo.getCodigoExpiration().isBefore(LocalDateTime.now().minusHours(1)), "Código expirado!"); //TODO arrumar data da aplicação
+
+        // Valida se o usuário acertou o código
+        Assert.isTrue(dispositivo.getCodigo() == (codigo), "Còdigo inválido!");
+
+        // Verifico se a licença está sendo utilizada por outro aplicativo
+        if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
+            throw new RuntimeException("Essa licença está sendo utilizada por outro dispositivo");
+
+        //  seto o número de série aqui, e somente aqui, não n o carramento do dispositivo
+        dispositivo.setNumeroSerie(numeroSerie);
+
+        //  Salva no banco
+        save(dispositivo);
+
+        // Cria o contexto de segurança
+        final SecurityContext securityContext = createSecurityContextByUserDetails(dispositivo);
+
+        // Insere o contexto no repositório de contexto e retorna o usuário inserido
+        serverSecurityContextRepository.save(exchange, securityContext).block();
+
+        // Avisa os websockets
+        dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getNumeroLicenca())).findFirst().ifPresent(
+                t -> t.getMessagePublisher().onNext(dispositivo)
+        );
+
+        //
         return dispositivo;
     }
 
@@ -228,7 +252,7 @@ public class DispositivoService {
         dispositivo.setNumeroSerie(null);
         dispositivo.setSenha(null);
 
-        this.save(dispositivo);
+        save(dispositivo);
 
         // Avisa os websockets
         dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getNumeroLicenca())).findFirst().ifPresent(
@@ -244,7 +268,7 @@ public class DispositivoService {
      */
     @Transactional
     public Dispositivo save(final Dispositivo dispositivo) {
-        this.tenantIdentifierResolver.setSchema(dispositivo.getTenant());
+        this.tenantIdentifierResolver.setSchema(dispositivo.getTenant()); //TODO, acho que não serve pra nada
         return this.dispositivoRepository.save(dispositivo);
     }
 }

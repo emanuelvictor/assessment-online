@@ -103,6 +103,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
         this.mobileService.dispositivo = resulted
       })
     }
+
     // Caso contrário, e houver número de série no dispositivo do back-end, e este for igual ao local
     else if (this.mobileService.dispositivo.numeroSerie && this.mobileService.dispositivo.numeroSerie === this.mobileService.numeroSerie) {
       // Atualiza o plano de fundo
@@ -110,6 +111,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
       // É o mesmo dispositivo, só mando autenticar
       this.showMessage('Reconectar o dispositivo!')
     }
+
     // Caso contrário, e houver número de série no dispositivo do back-end, e este for DIFERENTE ao local
     else if (this.mobileService.dispositivo.numeroSerie && this.mobileService.dispositivo.numeroSerie !== this.mobileService.numeroSerie) {
       // O usuário está tentando utilizar o mesmo número de série em diferentes dispositivos
@@ -135,6 +137,20 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     if ($event && $event.length) {
       if ($event.length === 6) {
         this.getDispositivo($event)
+      }
+    }
+  }
+
+  /**
+   *
+   * @param {string} $event
+   */
+  public inputCodigoChanged($event) {
+    if ($event && $event.length) {
+      if ($event.length === 6) {
+        this.mobileService.authenticateByCodigo(this.mobileService.numeroSerie, $event).then(() =>
+          this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca])
+        )
       }
     }
   }
