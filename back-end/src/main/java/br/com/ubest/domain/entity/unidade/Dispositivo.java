@@ -4,6 +4,7 @@ import br.com.ubest.domain.entity.assinatura.Assinatura;
 import br.com.ubest.domain.entity.generic.AbstractEntity;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.infrastructure.tenant.TenantDetails;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -11,6 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -18,10 +20,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static br.com.ubest.Application.DEFAULT_TENANT_ID;
@@ -55,6 +55,22 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     @Length(max = 150)
     @Column(nullable = false, updatable = false)
     private String tenant;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false, unique = true)
+    private UUID codigo;
+
+    /**
+     *
+     */
+    @NotNull
+    @Column(nullable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime codigoExpiration;
 
     /**
      *
@@ -152,6 +168,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
 
     /**
      * TODO falcatrua
+     *
      * @return Set<Unidade>
      */
     public void setUnidades(final Set<Unidade> unidades) {
@@ -240,5 +257,14 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    /**
+     *
+     */
+    @PreUpdate
+    @PrePersist
+    public void prePersistAndUpdate() {
+        this.codigo = UUID.randomUUID();
     }
 }

@@ -1,0 +1,16 @@
+#GENERAL
+spring:
+
+  #DATA SOURCE
+  datasource:
+    url: jdbc:postgresql://localhost:5432/assessment-test
+
+#FLYWAY
+spring.flyway:
+  enabled: true
+
+  #JPA
+  jpa:
+    hibernate.ddl-auto: validate
+    show-sql: true
+    open-in-view: true

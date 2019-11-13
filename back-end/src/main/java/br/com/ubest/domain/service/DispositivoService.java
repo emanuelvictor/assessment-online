@@ -19,8 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 
-import java.util.HashSet;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
+
+import static java.util.Map.entry;
 
 @Service
 @RequiredArgsConstructor
@@ -114,6 +116,30 @@ public class DispositivoService {
         }
 
         return dispositivo;
+    }
+
+    /**
+     * @param codigo
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Map<String, Object> getLicencaAndSenhaByCodigo(final String codigo, final String numeroSerie) {
+
+        Assert.notNull(codigo, "Código obrigatório!");
+        Assert.notNull(numeroSerie, "Número de série obrigatório!");
+
+        final Dispositivo dispositivo = this.dispositivoRepository.findByCodigo(UUID.fromString(codigo));
+
+        Assert.notNull(dispositivo, "Código inválido!");
+        Assert.isTrue(!dispositivo.getCodigoExpiration().isBefore(LocalDateTime.now().minusHours(1)), "Código expirado!"); //TODO arrumar data da aplicação
+
+        Assert.isTrue(dispositivo.getNumeroSerie() == null || dispositivo.getNumeroSerie().equals(numeroSerie), "Essa licença está sendo utilizada em outro dispositivo");
+
+        return new HashMap<>() {{
+            put("numeroLicenca", dispositivo.getNumeroLicenca());
+            put("senha", dispositivo.getSenha());
+        }};
+
     }
 
     /**

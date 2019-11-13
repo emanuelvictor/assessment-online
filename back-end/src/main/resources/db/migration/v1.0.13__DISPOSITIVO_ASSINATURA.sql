@@ -57,6 +57,8 @@ alter table assinatura
 INSERT INTO assinatura (id, created, cancelada)
 VALUES (1, NOW(), false);
 
+create extension if not exists "uuid-ossp";
+
 alter table dispositivo
     add column assinatura_id bigint not null default 1;
 alter table dispositivo
@@ -75,6 +77,11 @@ alter table dispositivo
     add column tenant varchar(150) not null default current_schema();
 alter table dispositivo
     add column senha varchar(10);
+alter table dispositivo
+    add column codigo uuid not null default (uuid_generate_v4());
+alter table dispositivo
+    add column codigo_expiration timestamp without time zone NOT NULL default now();
+
 alter table dispositivo_aud
     add column senha varchar(10);
 alter table dispositivo_aud
@@ -93,6 +100,10 @@ alter table dispositivo_aud
     add column time int2;
 alter table dispositivo_aud
     add column assinatura_id bigint not null default 0;
+alter table dispositivo_aud
+    add column codigo uuid;
+alter table dispositivo_aud
+    add column codigo_expiration timestamp without time zone;
 
 alter table dispositivo
     drop constraint if exists UK_tcudt9flboi41o17wagkwx8tw;
@@ -104,6 +115,10 @@ alter table dispositivo
 alter table dispositivo
     add constraint dispositivo_tenant_nome_unique unique (nome, tenant);
 
+alter table dispositivo
+    drop constraint if exists dispositivo_codigo_unique;
+alter table dispositivo
+    add constraint dispositivo_codigo_unique unique (codigo);
 
 -- Coluna temporária para transferência
 alter table dispositivo
