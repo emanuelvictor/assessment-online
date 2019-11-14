@@ -104,11 +104,6 @@ alter table dispositivo_aud
     add column codigo_expiration timestamp without time zone;
 
 alter table dispositivo
-    drop constraint if exists UK_tcudt9flboi41o17wagkwx8tw;
-alter table dispositivo
-    add constraint UK_tcudt9flboi41o17wagkwx8tw unique (numero_licenca);
-
-alter table dispositivo
     drop constraint if exists dispositivo_tenant_nome_unique;
 alter table dispositivo
     add constraint dispositivo_tenant_nome_unique unique (nome, tenant);
@@ -144,7 +139,7 @@ INSERT INTO unidade_tipo_avaliacao_dispositivo (id, created, ordem, unidade_tipo
     (
         SELECT (unidade_tipo_avaliacao.id) as ide,
                NOW()                       AS created,
-               1                           AS ordem,
+               row_number() OVER (PARTITION BY public.dispositivo.id ORDER BY unidade_tipo_avaliacao.id)                           AS ordem,
                unidade_tipo_avaliacao.id   AS unidade_tipo_avaliacao_id,
                public.dispositivo.id       AS dispositivo_id,
                true                        AS ativo
