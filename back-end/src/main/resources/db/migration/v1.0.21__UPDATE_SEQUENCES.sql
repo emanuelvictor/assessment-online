@@ -1,0 +1,17 @@
+SELECT setval('unidade_tipo_avaliacao_dispositivo_id_seq', (SELECT MAX(id) FROM unidade_tipo_avaliacao_dispositivo)+1);
+SELECT setval('tipo_avaliacao_id_seq', (SELECT MAX(id) FROM tipo_avaliacao)+1);
+SELECT setval('plano_id_seq', (SELECT MAX(id) FROM plano)+1);
+SELECT setval('pessoa_id_seq', (SELECT MAX(id) FROM pessoa)+1);
+SELECT setval('operador_id_seq', (SELECT MAX(id) FROM operador)+1);
+SELECT setval('item_id_seq', (SELECT MAX(id) FROM item)+1);
+SELECT setval('fatura_id_seq', (SELECT MAX(id) FROM fatura)+1);
+SELECT setval('endereco_id_seq', (SELECT MAX(id) FROM endereco)+1);
+SELECT setval('dispositivo_id_seq', (SELECT MAX(id) FROM dispositivo)+1);
+SELECT setval('cupom_id_seq', (SELECT MAX(id) FROM cupom)+1);
+SELECT setval('conta_id_seq', (SELECT MAX(id) FROM conta)+1);
+SELECT setval('configuracao_id_seq', (SELECT MAX(id) FROM configuracao)+1);
+SELECT setval('avaliavel_id_seq', (SELECT MAX(id) FROM avaliavel)+1);
+SELECT setval('avaliacao_id_seq', (SELECT MAX(id) FROM avaliacao)+1);
+SELECT setval('avaliacao_avaliavel_id_seq', (SELECT MAX(id) FROM avaliacao_avaliavel)+1);
+SELECT setval('assinatura_id_seq', (SELECT MAX(id) FROM assinatura)+1);
+SELECT setval('agrupador_id_seq', (SELECT MAX(id) FROM agrupador)+1);
