@@ -172,13 +172,6 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     }
 
     /**
-     *
-     */
-    public void gerarSenhaAleatoria() {
-        this.senha = String.valueOf(getRandomNumberInRange());
-    }
-
-    /**
      * (non-Javadoc)
      *
      * @see org.springframework.security.core.userdetails.UserDetails#getUsername()

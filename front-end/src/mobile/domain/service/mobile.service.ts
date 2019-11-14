@@ -406,6 +406,7 @@ export class MobileService implements CanActivate, CanActivateChild {
             } else {
               this.populeCookies(this.dispositivo.senha)
             }
+            this.connect();
             this.getConfiguracaoAsync();
             subscriber.next(true)
           }

@@ -135,7 +135,7 @@ public class DispositivoService {
 
         // Seta o tenant atual do dispositivo
         this.tenantIdentifierResolver.setSchema(dispositivo.getTenant());
-        dispositivo = this.loadDispositivo(dispositivo);
+        dispositivo = this.loadDispositivo(dispositivo, true);
 
         return dispositivo;
     }
@@ -144,10 +144,12 @@ public class DispositivoService {
      * Carrega todas as informações necessárias do dispositivo para o funcionamento das avaliações.
      *
      * @param dispositivo
+     * @param ativo Pegar os vínculos ativos
+     * @return
      */
     @Transactional(readOnly = true)
-    Dispositivo loadDispositivo(final Dispositivo dispositivo) {
-        dispositivo.setUnidadesTiposAvaliacoesDispositivo(new HashSet<>(this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters(null, dispositivo.getId(), null, true, true, null).getContent()));
+    Dispositivo loadDispositivo(final Dispositivo dispositivo, final Boolean ativo) {
+        dispositivo.setUnidadesTiposAvaliacoesDispositivo(new HashSet<>(this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters(null, dispositivo.getId(), null, ativo, ativo, null).getContent()));
         dispositivo.getUnidadesTiposAvaliacoesDispositivo().forEach(unidadeTipoAvaliacaoDispositivo ->
                 unidadeTipoAvaliacaoDispositivo.setAvaliaveis(new HashSet<>(this.avaliavelService.listByFilters(null, null, null, true, unidadeTipoAvaliacaoDispositivo.getId(), null).getContent()))
         );
@@ -178,13 +180,12 @@ public class DispositivoService {
         if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
             throw new RuntimeException("Essa licença está sendo utilizada por outro dispositivo");
 
-        dispositivo.gerarSenhaAleatoria();
-
         //  seto o número de série aqui, e somente aqui, não n o carramento do dispositivo
         dispositivo.setNumeroSerie(numeroSerie);
 
         //  Salva no banco
-        save(dispositivo);
+//        this.tenantIdentifierResolver.setSchema(dispositivo.getTenant()); //TODO, acho que não serve pra nada
+        this.dispositivoRepository.save(this.loadDispositivo(dispositivo, null));
 
         // Cria o contexto de segurança
         final SecurityContext securityContext = createSecurityContextByUserDetails(dispositivo);

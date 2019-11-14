@@ -36,8 +36,6 @@ export class SelecionarUnidadeComponent implements OnInit, OnDestroy {
    */
   async ngOnInit() {
 
-    this.mobileService.connect();
-
     // Mata o timeout se houver (Aqui não precisa de timeout)
     this.mobileService.clearTimeout();
 
