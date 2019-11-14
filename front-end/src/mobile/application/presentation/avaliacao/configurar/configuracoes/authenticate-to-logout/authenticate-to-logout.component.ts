@@ -8,7 +8,7 @@ import {viewAnimation} from '@src/sistema/application/presentation/controls/util
 import {environment} from '@src/environments/environment';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
-import {Dispositivo} from "@src/sistema/domain/entity/avaliacao/dispositivo.model";
+import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
 
 @Component({
   selector: 'authenticate-to-logout',
@@ -118,7 +118,7 @@ export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
     this.mobileService.requestDispositivoAutenticada().toPromise().then(result => {
       if (result) {
         this.mobileService.dispositivo = result;
-        this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+        this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.id]);
         // Resolve o loading
         this.mobileService.resolve('overlayStarSyntax')
       } else {

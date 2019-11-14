@@ -51,7 +51,7 @@ export class MobileErrorComponent implements OnInit, OnDestroy {
         this.mobileService.requestDispositivoAutenticada().toPromise().then(dispositivoAutenticado => {
           if (dispositivoAutenticado) {
             this.mobileService.dispositivo = dispositivoAutenticado;
-            this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+            this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.id]);
           } else {
             this.openSnackBar('Não conseguimos nos autenticar, tente sair da aplicação e entrar novamente')
           }

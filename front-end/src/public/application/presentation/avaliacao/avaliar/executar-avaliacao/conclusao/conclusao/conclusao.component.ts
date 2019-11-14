@@ -39,7 +39,7 @@ export class ConclusaoComponent implements OnInit, OnDestroy {
     this.publicService.restartTimeout();
 
     if (!this.publicService.agrupador.recap) {
-      this.router.navigate(['avaliar/' + this.publicService.dispositivo.numeroLicenca + '/' + this.activatedRoute.parent.parent.snapshot.params.unidadeId + '/conclusao/robot-verify']);
+      this.router.navigate(['avaliar/' + this.publicService.dispositivo.id + '/' + this.activatedRoute.parent.parent.snapshot.params.unidadeId + '/conclusao/robot-verify']);
       return
     }
 

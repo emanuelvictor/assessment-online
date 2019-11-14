@@ -66,7 +66,7 @@ export class SelecionarNotaComponent implements OnInit, OnDestroy {
     // Se não tem avaliações, ou seja, deu F5, então vai pra tela inicial.
     if (!this.mobileService.agrupador.avaliacoes || (this.mobileService.agrupador.avaliacoes.length !== ((+this.activatedRoute.parent.snapshot.params.ordem) - 1))) {
       this.mobileService.agrupador = new Agrupador();
-      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca])
+      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.id])
     }
 
     // Se não tem unidades selecionadas vai para tela de selação de unidades
@@ -98,7 +98,7 @@ export class SelecionarNotaComponent implements OnInit, OnDestroy {
 
     // Se não está configurada a ordem, então volta para a tela inicial de configuração/seleção de unidades e tipos de avaliações vinculadas a essas.
     if (!this.activatedRoute.parent.parent.snapshot.params.unidadeId) {
-      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca]);
+      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.id]);
       this.mobileService.resolve('overlayStarSyntax');
       return
     }
@@ -129,7 +129,7 @@ export class SelecionarNotaComponent implements OnInit, OnDestroy {
 
     this.mobileService.agrupador.avaliacoes.push(avaliacao);
 
-    this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + (+this.activatedRoute.parent.parent.snapshot.params.unidadeId) + '/ordem/' + this.activatedRoute.parent.snapshot.params.ordem + '/selecionar-atendentes']);
+    this.router.navigate(['avaliar/' + this.mobileService.dispositivo.id + '/' + (+this.activatedRoute.parent.parent.snapshot.params.unidadeId) + '/ordem/' + this.activatedRoute.parent.snapshot.params.ordem + '/selecionar-atendentes']);
 
   }
 

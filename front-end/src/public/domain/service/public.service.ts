@@ -95,7 +95,7 @@ export class PublicService implements CanActivate, CanActivateChild {
 
       // Reseta os objetos de domínio
       this.agrupador = new Agrupador();
-      this._router.navigate(['avaliar/' + this._dispositivo.numeroLicenca]);
+      this._router.navigate(['avaliar/' + this._dispositivo.id]);
       this._loadingService.resolve('overlayStarSyntax');
       return time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000)
     }, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
@@ -123,11 +123,11 @@ export class PublicService implements CanActivate, CanActivateChild {
    *  Se não houver ninguém no escopo do angular pega do dispositivo autenticado
    *  Se naõ houver nignuém no dispositivo autenticado pega pela licença
    */
-  public async getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca(numeroLicenca?): Promise<Dispositivo | any> {
+  public async getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca(id?): Promise<Dispositivo | any> {
     if (this._dispositivo && this._dispositivo.id) {
       return new Promise((resolve) => resolve(this._dispositivo));
     } else {
-      return this._httpClient.get<Dispositivo>(environment.endpoint + 'dispositivos/' + numeroLicenca)
+      return this._httpClient.get<Dispositivo>(environment.endpoint + 'dispositivos/' + id)
         .map(result => result ? this.dispositivo = result : this.dispositivo = null)
         .catch((err: any) => err).toPromise()
     }
@@ -248,11 +248,11 @@ export class PublicService implements CanActivate, CanActivateChild {
 
     return new Observable(subscriber => {
 
-      if (!route.params.numeroLicenca) {
+      if (!route.params.id) {
         this._router.navigate(['configuracoes']);
         subscriber.next(false)
       } else {
-        this.getDispositivo(route.params.numeroLicenca).subscribe(resulted => {
+        this.getDispositivo(route.params.id).subscribe(resulted => {
           if (!resulted) {
             this._router.navigate(['configuracoes']);
             subscriber.next(false)

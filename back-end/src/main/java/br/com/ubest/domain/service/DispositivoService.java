@@ -83,39 +83,39 @@ public class DispositivoService {
 
     }
 
-    /**
-     * Método utilizado para gerar senha aleatória
-     *
-     * @param numeroLicenca
-     * @param numeroSerie
-     * @return
-     */
-    public Dispositivo getDispositivo(final long numeroLicenca, final String numeroSerie) {
-
-        // Pega o dispositivo da base
-        final Dispositivo dispositivo = this.getDispositivo(numeroLicenca);
-
-        // Se está passando o número de série e o dispositivo é interno, então está tentando se conectar administrativamente
-        if (numeroSerie != null) {
-
-            if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
-                throw new RuntimeException("Essa licença está sendo utilizada em outro dispositivo");
-
-            // Gera a senha aleatória
-            dispositivo.gerarSenhaAleatoria();
-
-            //  Salva no banco
-            save(dispositivo);
-
-            // Avisa os websockets
-            dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getNumeroLicenca())).findFirst().ifPresent(
-                    t -> t.getMessagePublisher().onNext(dispositivo)
-            );
-
-        }
-
-        return dispositivo;
-    }
+//    /**
+//     * Método utilizado para gerar senha aleatória
+//     *
+//     * @param id
+//     * @param numeroSerie
+//     * @return
+//     */
+//    public Dispositivo getDispositivo(final long id, final String numeroSerie) {
+//
+//        // Pega o dispositivo da base
+//        final Dispositivo dispositivo = this.getDispositivo(id);
+//
+//        // Se está passando o número de série e o dispositivo é interno, então está tentando se conectar administrativamente
+//        if (numeroSerie != null) {
+//
+//            if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
+//                throw new RuntimeException("Essa licença está sendo utilizada em outro dispositivo");
+//
+//            // Gera a senha aleatória
+//            dispositivo.gerarSenhaAleatoria();
+//
+//            //  Salva no banco
+//            save(dispositivo);
+//
+//            // Avisa os websockets
+//            dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getId())).findFirst().ifPresent(
+//                    t -> t.getMessagePublisher().onNext(dispositivo)
+//            );
+//
+//        }
+//
+//        return dispositivo;
+//    }
 
     /**
      * Carrega todas as informações necessárias do dispositivo para o funcionamento das avaliações.
@@ -126,9 +126,7 @@ public class DispositivoService {
      */
     public Dispositivo getDispositivo(final long id) {
         // Pega o dispositivo da base
-        Dispositivo dispositivo = this.dispositivoRepository.findByNumeroLicenca(id).orElse(null);
-        if (dispositivo == null)
-            dispositivo = this.dispositivoRepository.findById(id).orElse(null);
+        Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElse(null);
 
         if (dispositivo == null)
             dispositivo = this.dispositivoRepository.findByCodigo(id).orElse(null);
@@ -157,7 +155,6 @@ public class DispositivoService {
     }
 
     /**
-     *
      * @param numeroSerie
      * @param codigo
      * @param exchange
@@ -196,46 +193,7 @@ public class DispositivoService {
         serverSecurityContextRepository.save(exchange, securityContext).block();
 
         // Avisa os websockets
-        dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getNumeroLicenca())).findFirst().ifPresent(
-                t -> t.getMessagePublisher().onNext(dispositivo)
-        );
-
-        //
-        return dispositivo;
-    }
-
-    /**
-     * @param numeroLicenca
-     * @param senha
-     * @param exchange
-     * @return
-     */
-    public Dispositivo authenticate(final long numeroLicenca, final String numeroSerie, final String senha, final ServerWebExchange exchange) {
-
-        // Pega o dispositivo da base
-        final Dispositivo dispositivo = this.dispositivoRepository.findByNumeroLicenca(numeroLicenca).orElseThrow();
-
-        // Verifico se a licença está sendo utilizada por outro aplicativo
-        if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
-            throw new RuntimeException("Essa licença está sendo utilizada por outro dispositivo");
-
-        //  seto o número de série aqui, e somente aqui, não n o carramento do dispositivo
-        dispositivo.setNumeroSerie(numeroSerie);
-
-        // Valida se o usuário acertou a senha
-        Assert.isTrue(dispositivo.getSenha().equals(senha), "Senha incorreta!");
-
-        //  Salva no banco
-        save(dispositivo);
-
-        // Cria o contexto de segurança
-        final SecurityContext securityContext = createSecurityContextByUserDetails(dispositivo);
-
-        // Insere o contexto no repositório de contexto e retorna o usuário inserido
-        serverSecurityContextRepository.save(exchange, securityContext).block();
-
-        // Avisa os websockets
-        dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getNumeroLicenca())).findFirst().ifPresent(
+        dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getId())).findFirst().ifPresent(
                 t -> t.getMessagePublisher().onNext(dispositivo)
         );
 
@@ -257,7 +215,7 @@ public class DispositivoService {
         save(dispositivo);
 
         // Avisa os websockets
-        dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getNumeroLicenca())).findFirst().ifPresent(
+        dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getId())).findFirst().ifPresent(
                 t -> t.getMessagePublisher().onNext(dispositivo)
         );
 

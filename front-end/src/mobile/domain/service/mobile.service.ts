@@ -102,7 +102,7 @@ export class MobileService implements CanActivate, CanActivateChild {
 
       // Reseta os objetos de domínio
       this.agrupador = new Agrupador();
-      this._router.navigate(['avaliar/' + this._dispositivo.numeroLicenca]);
+      this._router.navigate(['avaliar/' + this._dispositivo.id]);
       this._loadingService.resolve('overlayStarSyntax');
       return time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000)
     }, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
@@ -123,7 +123,7 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   public async connect() {
     const dispositivo: Dispositivo = (await this.getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca());
-    this._webSocketSubject = this._dispositivoRepository.connect(dispositivo.numeroLicenca);
+    this._webSocketSubject = this._dispositivoRepository.connect(dispositivo.id);
 
     this._webSocketSubject.subscribe(result => {
       // Se não tiver senha então desloga tudo
@@ -162,15 +162,15 @@ export class MobileService implements CanActivate, CanActivateChild {
    *  Se não houver ninguém no escopo do angular pega do dispositivo autenticado
    *  Se naõ houver nignuém no dispositivo autenticado pega pela licença
    */
-  public async getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca(numeroLicenca?): Promise<Dispositivo | any> {
+  public async getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca(id?): Promise<Dispositivo | any> {
     if (this._dispositivo && this._dispositivo.id && this._dispositivo.senha === this.senha) {
       return new Promise((resolve) => resolve(this._dispositivo));
-    } else if (!numeroLicenca) {
+    } else if (!id) {
       return this._httpClient.get<Dispositivo>(environment.endpoint + 'principal')
         .map(result => result ? this.dispositivo = result : this.dispositivo = null)
         .catch((err: any) => err).toPromise()
     } else {
-      return this._httpClient.get<Dispositivo>(environment.endpoint + 'dispositivos/' + numeroLicenca)
+      return this._httpClient.get<Dispositivo>(environment.endpoint + 'dispositivos/' + id)
         .map(result => result ? this.dispositivo = result : this.dispositivo = null)
         .catch((err: any) => err).toPromise()
     }
@@ -335,26 +335,6 @@ export class MobileService implements CanActivate, CanActivateChild {
   }
 
   // ----------------------------------------------
-  /**
-   * Realiza a autenticação com o número da licença e a senha
-   *
-   * @param numeroLicenca
-   * @param numeroSerie
-   * @param senha
-   */
-  public authenticate(numeroLicenca: number, numeroSerie, senha: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this._dispositivoRepository.authenticate(numeroLicenca, numeroSerie, senha).then(result => {
-
-        // Popula os cookies
-        this.populeCookies(senha);
-
-        // Resolve a promise
-        resolve(result)
-
-      }).catch(error => reject(error))
-    })
-  }
 
   /**
    * Realiza a autenticação através do código (QRCode)
@@ -383,11 +363,11 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    * Requisita o dispositivo do back-end, para atenticação do mobile
    *
-   * @param numeroLiceca
+   * @param id
    * @param numeroSerie
    */
-  public getDispositivo(numeroLiceca: number, numeroSerie?: string): Observable<Dispositivo> {
-    return this._dispositivoRepository.getDispositivo(numeroLiceca, numeroSerie)
+  public getDispositivo(id: number, numeroSerie?: string): Observable<Dispositivo> {
+    return this._dispositivoRepository.getDispositivo(id, numeroSerie)
   }
 
   /**
@@ -410,11 +390,11 @@ export class MobileService implements CanActivate, CanActivateChild {
 
     return new Observable(subscriber => {
 
-      if (!route.params.numeroLicenca) {
+      if (!route.params.id) {
         this._router.navigate(['configuracoes']);
         subscriber.next(false)
       } else {
-        this.getDispositivo(route.params.numeroLicenca).subscribe(resulted => {
+        this.getDispositivo(route.params.id).subscribe(resulted => {
           if (!resulted) {
             this._router.navigate(['configuracoes']);
             subscriber.next(false)

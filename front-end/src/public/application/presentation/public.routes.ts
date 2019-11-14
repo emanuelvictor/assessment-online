@@ -21,7 +21,7 @@ export const routes: Routes = [
     path: 'avaliar', component: AvaliacaoComponent,
     children: [
       {
-        path: ':numeroLicenca', component: AvaliarComponent, canActivate: [PublicService],
+        path: ':id', component: AvaliarComponent, canActivate: [PublicService],
         children: [
           {path: '', component: SelecionarUnidadeComponent},
           {

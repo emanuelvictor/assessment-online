@@ -58,9 +58,9 @@ export class OpcoesSiteComponent implements OnInit {
    */
   ngOnInit(): void {
     if (environment.production) {
-      this.url = window.location.origin + '/public/#/avaliar/' + this.dispositivo.numeroLicenca;
+      this.url = window.location.origin + '/public/#/avaliar/' + this.dispositivo.id;
     } else {
-      this.url = 'http://localhost:9001/#/avaliar/' + this.dispositivo.numeroLicenca
+      this.url = 'http://localhost:9001/#/avaliar/' + this.dispositivo.id
     }
   }
 

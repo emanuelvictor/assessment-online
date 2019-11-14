@@ -20,12 +20,6 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
     Optional<Dispositivo> findByNumeroSerie(@Param("numeroSerie") final String numeroSerie);
 
     /**
-     * @param numeroLicenca
-     * @return
-     */
-    Optional<Dispositivo> findByNumeroLicenca(@Param("numeroLicenca") final Long numeroLicenca);
-
-    /**
      * @param codigo
      * @return
      */
@@ -84,7 +78,7 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
             "   WHERE " +
             "   (   " +
             "       (" +
-            "           FILTER(:defaultFilter, dispositivo.nome, dispositivo.numeroLicenca) = TRUE" +
+            "           FILTER(:defaultFilter, dispositivo.nome) = TRUE" +
             "       )" +
             "       AND (" +
             "           :tenant IS NOT NULL AND (:tenant = dispositivo.tenant)" +

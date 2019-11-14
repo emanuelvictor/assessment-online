@@ -50,7 +50,7 @@ export const routes: Routes = [
     path: 'avaliar', component: AvaliacaoComponent,
     children: [
       {
-        path: ':numeroLicenca', component: AvaliarComponent, canActivate: [MobileService],
+        path: ':id', component: AvaliarComponent, canActivate: [MobileService],
         children: [
           {path: '', component: SelecionarUnidadeComponent},
           {

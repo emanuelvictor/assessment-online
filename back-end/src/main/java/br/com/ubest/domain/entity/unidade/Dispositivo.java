@@ -91,13 +91,6 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
      *
      */
     @NotNull
-    @Column(insertable = false, updatable = false)
-    private long numeroLicenca;
-
-    /**
-     *
-     */
-    @NotNull
     @Column(nullable = false)
     private String nome;
 

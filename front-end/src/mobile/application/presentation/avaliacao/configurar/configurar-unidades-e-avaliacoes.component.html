@@ -9,15 +9,8 @@
         <div layout='column' layout-margin>
 
           <div layout='column' layout-align='center center' layout-margin>
-
             <div flex layout='row' layout-margin>
               <img class='logo' src='{{logoImage}}'>
-            </div>
-
-            <div flex layout='row' layout-margin>
-              <h1 class='mat-title tc-grey-600' flex>
-                <b>{{mobileService?.dispositivo?.nome}}</b>
-              </h1>
             </div>
           </div>
 
@@ -31,32 +24,6 @@
                      [(ngModel)]='mobileService.dispositivo.codigo'/>
             </mat-form-field>
 
-          </div>
-
-          <div flex layout='row' layout-margin>
-
-            <mat-form-field flex>
-              <input [ngModelOptions]='{standalone: true}'
-                     placeholder='Insira o número da licença'
-                     matInput name='numero' noWhiteSpace required
-                     (ngModelChange)='inputNumeroLicencaChanged($event)'
-                     [(ngModel)]='mobileService.dispositivo.numeroLicenca'/>
-            </mat-form-field>
-
-          </div>
-
-          <div flex layout='column' layout-margin *ngIf='mobileService?.dispositivo?.id'>
-            <div flex layout='row'>
-
-              <mat-form-field flex>
-                <input [ngModelOptions]='{standalone: true}'
-                       (ngModelChange)='inputSenhaChanged($event)'
-                       matInput name='senha' noWhiteSpace required
-                       [(ngModel)]='senha' placeholder='Insira a senha'/>
-                <mat-hint align='end'>Acesse o dispositivo pela plataforma WEB e visualize a senha</mat-hint>
-              </mat-form-field>
-
-            </div>
           </div>
 
         </div>

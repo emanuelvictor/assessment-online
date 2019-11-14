@@ -59,7 +59,7 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     if (!this.publicService.configuracao || !this.publicService.configuracao.tipoFeedback)
     // Se não tem configuração requisitada, vai para a tela de avaliação.
     {
-      this.router.navigate(['avaliar/' + this.publicService.dispositivo.numeroLicenca]);
+      this.router.navigate(['avaliar/' + this.publicService.dispositivo.id]);
       return
     }
 
@@ -116,7 +116,7 @@ export class FeedbackComponent implements OnInit, OnDestroy {
       return
     }
 
-    this.router.navigate(['avaliar/' + this.publicService.dispositivo.numeroLicenca + '/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/conclusao'])
+    this.router.navigate(['avaliar/' + this.publicService.dispositivo.id + '/' + (+this.activatedRoute.parent.snapshot.params.unidadeId) + '/conclusao'])
   }
 
   /**

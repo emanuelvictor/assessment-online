@@ -12,11 +12,6 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
-  public numeroLicenca: number;
-
-  /**
-   *
-   */
   public codigo: number;
 
   /**

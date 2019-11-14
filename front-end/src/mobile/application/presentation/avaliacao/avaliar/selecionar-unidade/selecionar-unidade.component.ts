@@ -56,7 +56,7 @@ export class SelecionarUnidadeComponent implements OnInit, OnDestroy {
 
     // Se só tem uma unidade selecionada, passa direito e vai pra tela de avaliação
     if (this.mobileService.dispositivo.unidades.length === 1) {
-      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + this.mobileService.dispositivo.unidades[0].id + '/ordem/1']);
+      this.router.navigate(['avaliar/' + this.mobileService.dispositivo.id + '/' + this.mobileService.dispositivo.unidades[0].id + '/ordem/1']);
       this.mobileService.resolve('overlayStarSyntax');
       return
     }
@@ -74,7 +74,7 @@ export class SelecionarUnidadeComponent implements OnInit, OnDestroy {
    * @param unidade
    */
   public proximo(unidade: Unidade) {
-    this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + unidade.id + '/ordem/1'])
+    this.router.navigate(['avaliar/' + this.mobileService.dispositivo.id + '/' + unidade.id + '/ordem/1'])
   }
 
   /**

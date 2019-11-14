@@ -68,7 +68,7 @@ export class RobotVerifyComponent implements OnInit, OnDestroy {
    */
   resolved(captchaResponse: string) {
     this.mobileService.agrupador.recap = captchaResponse;
-    this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + this.activatedRoute.parent.parent.snapshot.params.unidadeId + '/conclusao'])
+    this.router.navigate(['avaliar/' + this.mobileService.dispositivo.id + '/' + this.activatedRoute.parent.parent.snapshot.params.unidadeId + '/conclusao'])
   }
 
   /**

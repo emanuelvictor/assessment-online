@@ -39,7 +39,7 @@ export class ConclusaoComponent implements OnInit, OnDestroy {
     this.mobileService.restartTimeout();
 
     // if (!this.mobileService.agrupador.recap) {
-    //   this.router.navigate(['avaliar/' + this.mobileService.dispositivo.numeroLicenca + '/' + this.activatedRoute.parent.parent.snapshot.params.unidadeId + '/conclusao/robot-verify']);
+    //   this.router.navigate(['avaliar/' + this.mobileService.dispositivo.id + '/' + this.activatedRoute.parent.parent.snapshot.params.unidadeId + '/conclusao/robot-verify']);
     //   return
     // }
 

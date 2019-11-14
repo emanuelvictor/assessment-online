@@ -126,25 +126,12 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
      * @return
      */
     @GetMapping("{id}")
-    Mono<Optional<Dispositivo>> getDispositivo(@PathVariable final String id, @RequestParam(required = false) final String numeroSerie) {
+    Mono<Optional<Dispositivo>> getDispositivo(@PathVariable final String id/*, @RequestParam(required = false) final String numeroSerie*/) {
         try {
-            if (numeroSerie != null)
-                return Mono.just(Optional.of(this.dispositivoService.getDispositivo(Long.parseLong(id), numeroSerie)));
-            else
-                return Mono.just(Optional.of(this.dispositivoService.getDispositivo(Long.parseLong(id))));
+            return Mono.just(Optional.of(this.dispositivoService.getDispositivo(Long.parseLong(id))));
         } catch (NumberFormatException e) {
             return null;
         }
-    }
-
-    /**
-     * @param dispositivo
-     * @param exchange
-     * @return
-     */
-    @PostMapping("authenticate")
-    Mono<Optional<Dispositivo>> authenticate(@RequestBody final Dispositivo dispositivo, final ServerWebExchange exchange) {
-        return Mono.just(Optional.of(this.dispositivoService.authenticate(dispositivo.getNumeroLicenca(), dispositivo.getNumeroSerie(), dispositivo.getSenha(), exchange)));
     }
 
     /**

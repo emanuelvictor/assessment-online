@@ -104,8 +104,8 @@ const routes: Routes = [
         children: [
           {path: '', component: ConsultarDispositivosComponent},
           {path: 'inserir', component: InserirDispositivoComponent},
-          {path: ':numeroLicenca', component: VisualizarDispositivoComponent},
-          {path: ':numeroLicenca/alterar', component: AlterarDispositivoComponent}
+          {path: ':id', component: VisualizarDispositivoComponent},
+          {path: ':id/alterar', component: AlterarDispositivoComponent}
         ]
       },
       {

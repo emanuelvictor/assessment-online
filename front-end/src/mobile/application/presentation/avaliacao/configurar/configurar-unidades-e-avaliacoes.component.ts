@@ -63,8 +63,8 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
       this.mobileService.destroyCookies();
     } else if (this.mobileService.token && this.mobileService.senha) {
       const dispositivo: Dispositivo = (await this.mobileService.getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca());
-      if (dispositivo && dispositivo.numeroLicenca) {
-        await this.router.navigate(['/avaliar/' + dispositivo.numeroLicenca]);
+      if (dispositivo && dispositivo.id) {
+        await this.router.navigate(['/avaliar/' + dispositivo.id]);
         return
       }
     }
@@ -79,50 +79,6 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
   /**
    *
-   * @param model
-   */
-  async getDispositivo(model) {
-
-    // Pega o dispositivo e copio para o escopo do angular
-    this.mobileService.dispositivo = await this.mobileService.getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca(model as any);
-
-    // Só prossegue se encontrou dispositivo
-    if (!this.mobileService.dispositivo) {
-      return
-    }
-
-    // Se o número de série provindo do dispositivo está nulo
-    // Então Essa licença não está sendo utilizada por nenhum dispositivo ainda
-    if (!this.mobileService.dispositivo.numeroSerie) {
-      // Mando gerar uma senha para me autenticar
-      // A view irá exibir a senha logo em seguida
-      this.mobileService.getDispositivo(this.mobileService.dispositivo.numeroLicenca, this.mobileService.numeroSerie).subscribe(resulted => {
-        // Atualiza o plano de fundo
-        this.requestBackground();
-        // Pega o dispositivo e copio para o escopo do angular
-        this.mobileService.dispositivo = resulted
-      })
-    }
-
-    // Caso contrário, e houver número de série no dispositivo do back-end, e este for igual ao local
-    else if (this.mobileService.dispositivo.numeroSerie && this.mobileService.dispositivo.numeroSerie === this.mobileService.numeroSerie) {
-      // Atualiza o plano de fundo
-      this.requestBackground();
-      // É o mesmo dispositivo, só mando autenticar
-      this.showMessage('Reconectar o dispositivo!')
-    }
-
-    // Caso contrário, e houver número de série no dispositivo do back-end, e este for DIFERENTE ao local
-    else if (this.mobileService.dispositivo.numeroSerie && this.mobileService.dispositivo.numeroSerie !== this.mobileService.numeroSerie) {
-      // O usuário está tentando utilizar o mesmo número de série em diferentes dispositivos
-      this.showMessage('Essa licença já está sendo utilizada em outro dispositivo');
-      // Reseta o dispositivo
-      this.mobileService.dispositivo = new Dispositivo()
-    }
-  }
-
-  /**
-   *
    * @param image
    */
   getBackground(image) {
@@ -133,37 +89,11 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    * @param {string} $event
    */
-  public inputNumeroLicencaChanged($event) {
-    if ($event && $event.length) {
-      if ($event.length === 6) {
-        this.getDispositivo($event)
-      }
-    }
-  }
-
-  /**
-   *
-   * @param {string} $event
-   */
   public inputCodigoChanged($event) {
     if ($event && $event.length) {
       if ($event.length === 6) {
         this.mobileService.authenticateByCodigo(this.mobileService.numeroSerie, $event).then(() =>
-          this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca])
-        )
-      }
-    }
-  }
-
-  /**
-   *
-   * @param {string} $event
-   */
-  public inputSenhaChanged($event) {
-    if ($event && $event.length) {
-      if ($event.length === 6) {
-        this.mobileService.authenticate(this.mobileService.dispositivo.numeroLicenca, this.mobileService.numeroSerie, $event).then(() =>
-          this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.numeroLicenca])
+          this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.id])
         )
       }
     }
@@ -187,17 +117,4 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     })
   }
 
-  /**
-   *
-   */
-  private requestBackground() {
-    const identifier: string = getIdentifier();
-    this.logoImage = environment.endpoint + './configuracoes/logomarca?cliente=' + this.mobileService.dispositivo.tenant + '?nocache=' + identifier;
-
-    if (this.mobileService.dispositivo.tenant === 'public') {
-      this.backgroundPath = environment.endpoint + 'assets/images/banner.png';
-    } else {
-      this.backgroundPath = environment.endpoint + './configuracoes/background?cliente=' + this.mobileService.dispositivo.tenant + '?nocache=' + identifier
-    }
-  }
 }
