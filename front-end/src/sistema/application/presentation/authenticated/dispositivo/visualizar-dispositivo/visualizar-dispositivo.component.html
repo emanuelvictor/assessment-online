@@ -17,8 +17,8 @@
             <div flex-gt-xs='100' layout='column'
                  layout-align='start center' layout-gt-xs='row'>
 
-              <div class='push-top push-right push-bottom' flex>
-                <avatar [usuario]="{'id': dispositivo?.id , 'foto': dispositivo?.avatarPath}"></avatar>
+              <div class='push-top push-right push-bottom' flex *ngIf='dispositivo?.id'>
+                <qr-code [path]="'dispositivos/' + dispositivo?.id + '/qrcode'"></qr-code>
               </div>
 
               <div flex flex-gt-xs='80'

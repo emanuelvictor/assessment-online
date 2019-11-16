@@ -107,6 +107,7 @@ import {Interceptor} from '../../interceptor/interceptor';
 import {AuthenticatedRoutingModule} from './authenticated.routing.module';
 import {DataNascimentoValidator} from '@src/sistema/application/presentation/controls/validators/validators';
 import {ContaService} from '@src/sistema/domain/service/conta.service';
+import {QRCodeComponent} from '@src/sistema/application/presentation/controls/qr-code/qr-code.component';
 
 
 /**
@@ -120,6 +121,8 @@ import {ContaService} from '@src/sistema/domain/service/conta.service';
     AutofocusDirective,
     CurrencyFormatPipe,
     DataNascimentoValidator,
+    QRCodeComponent,
+
 
     RatingComponent,
     LongPressDirective,

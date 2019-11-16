@@ -170,11 +170,13 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     @RequestMapping(value = "{id}/qrcode", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> getQRCode(@PathVariable final long id) {
 
-        Assert.notNull(this.dispositivoService.getDispositivo(id), "Dispositivo não encontrado");
+        final Dispositivo dispositivo = this.dispositivoService.getDispositivo(id);
+
+        Assert.notNull(dispositivo, "Dispositivo não encontrado");
 
         try {
             return ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                    .body(dispositivoService.generateQRCodeAsync(String.valueOf(id), 256, 256).get());
+                    .body(dispositivoService.generateQRCodeAsync(String.valueOf(dispositivo.getCodigo()), 256, 256).get());
 
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();

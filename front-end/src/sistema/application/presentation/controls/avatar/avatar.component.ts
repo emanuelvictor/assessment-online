@@ -61,7 +61,6 @@ export class AvatarComponent implements OnInit {
     this.identifier = /*this.usuario.id;*/Math.floor(Math.random() * 2000).toString();
 
     if (this.usuario.foto) {
-      console.log(this.tenant);
       this.usuario.foto = environment.endpoint + this.usuario.foto + (this.tenant ? ('/' + this.tenant) : '') + '?nocache=' + this.identifier;
 
       this.httpClient.get(this.usuario.foto, {responseType: 'blob'}).subscribe(result => {

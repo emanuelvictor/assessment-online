@@ -15,18 +15,6 @@ export class QRCodeComponent implements OnInit {
 
   /**
    *
-   */
-  @Input()
-  public size: number = 0.8;
-
-  /**
-   *
-   */
-  @Input()
-  public tenant: string;
-
-  /**
-   *
    * Identificador da foto "person"
    */
   public identifier: string;
@@ -35,10 +23,7 @@ export class QRCodeComponent implements OnInit {
    *
    */
   @Input()
-  public usuario: any =
-    {
-      foto: null
-    };
+  public path: any;
 
   /**
    *
@@ -60,30 +45,26 @@ export class QRCodeComponent implements OnInit {
 
     this.identifier = /*this.usuario.id;*/Math.floor(Math.random() * 2000).toString();
 
-    if (this.usuario.foto) {
-      console.log(this.tenant);
-      this.usuario.foto = environment.endpoint + this.usuario.foto + (this.tenant ? ('/' + this.tenant) : '') + '?nocache=' + this.identifier;
+    if (this.path) {
+      this.path = environment.endpoint + this.path + '?nocache=' + this.identifier;
 
-      this.httpClient.get(this.usuario.foto, {responseType: 'blob'}).subscribe(result => {
+      this.httpClient.get(this.path, {responseType: 'blob'}).subscribe(result => {
 
         const urlCreator = window.URL;
 
           const blob = new Blob([result], {type: 'PNG'});
-        this.usuario.foto = new File([blob], this.usuario.nome, {type: result.type});
+        this.path = new File([blob], 'qr-code', {type: result.type});
         const reader = new FileReader();
         reader.readAsDataURL(blob);
         // reader.onload = () => this.anexo.caminho = reader.result.toString()
 
-        this.usuario.foto = (this._sanitizer.bypassSecurityTrustResourceUrl(urlCreator.createObjectURL(this.usuario.foto)) as any).changingThisBreaksApplicationSecurity;
+        this.path = (this._sanitizer.bypassSecurityTrustResourceUrl(urlCreator.createObjectURL(this.path)) as any).changingThisBreaksApplicationSecurity;
 
-        console.log(this.usuario.foto);
+        console.log(this.path);
 
         this.done = true;
       })
     }
 
-    if (!this.size) {
-      this.size = 1;
-    }
   }
 }
