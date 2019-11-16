@@ -5,9 +5,18 @@ import br.com.ubest.application.websocket.WrapperHandler;
 import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.repository.DispositivoRepository;
 import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageConfig;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -17,8 +26,11 @@ import org.springframework.security.web.server.context.ServerSecurityContextRepo
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.server.ServerWebExchange;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -144,7 +156,7 @@ public class DispositivoService {
      * Carrega todas as informações necessárias do dispositivo para o funcionamento das avaliações.
      *
      * @param dispositivo
-     * @param ativo Pegar os vínculos ativos
+     * @param ativo       Pegar os vínculos ativos
      * @return
      */
     @Transactional(readOnly = true)
@@ -231,4 +243,38 @@ public class DispositivoService {
         this.tenantIdentifierResolver.setSchema(dispositivo.getTenant()); //TODO, acho que não serve pra nada
         return this.dispositivoRepository.save(dispositivo);
     }
+
+    /**
+     * @param text
+     * @param width
+     * @param height
+     * @return
+     * @throws WriterException
+     * @throws IOException
+     */
+    public byte[] generateQRCode(final String text, final int width, final int height) throws WriterException, IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        BitMatrix matrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height);
+        MatrixToImageWriter.writeToStream(matrix, MediaType.IMAGE_PNG.getSubtype(), baos, new MatrixToImageConfig());
+        return baos.toByteArray();
+    }
+
+    /**
+     * @param text
+     * @param width
+     * @param height
+     * @return
+     * @throws Exception
+     */
+    @Async
+    public ListenableFuture<byte[]> generateQRCodeAsync(final String text, final int width, final int height) {
+        try {
+            return new AsyncResult<>(generateQRCode(text, width, height));
+        } catch (WriterException | IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }

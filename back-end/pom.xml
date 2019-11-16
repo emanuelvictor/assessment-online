@@ -300,11 +300,19 @@
             <version>1.1.0</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>br.com.moip</groupId>-->
-<!--            <artifactId>java-sdk</artifactId>-->
-<!--            <version>4.4.0</version>-->
-<!--        </dependency>-->
+        <!--        qrcode-->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+
+        <!--        <dependency>-->
+        <!--            <groupId>br.com.moip</groupId>-->
+        <!--            <artifactId>java-sdk</artifactId>-->
+        <!--            <version>4.4.0</version>-->
+        <!--        </dependency>-->
 
 
     </dependencies>

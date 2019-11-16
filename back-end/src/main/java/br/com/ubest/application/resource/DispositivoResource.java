@@ -12,8 +12,12 @@ import br.com.ubest.domain.service.DispositivoService;
 import br.com.ubest.infrastructure.resource.AbstractResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.CacheControl;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -21,6 +25,8 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import static br.com.ubest.infrastructure.suport.Utils.getListFromArray;
 
@@ -153,4 +159,28 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     Mono<Optional<Dispositivo>> desvincular(@PathVariable final String numeroSerie) {
         return Mono.just(Optional.of(this.dispositivoService.desvincular(numeroSerie)));
     }
+
+
+    /**
+     * Gera o qrcode
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "{id}/qrcode", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getQRCode(@PathVariable final long id) {
+
+        Assert.notNull(this.dispositivoService.getDispositivo(id), "Dispositivo não encontrado");
+
+        try {
+            return ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
+                    .body(dispositivoService.generateQRCodeAsync(String.valueOf(id), 256, 256).get());
+
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
 }

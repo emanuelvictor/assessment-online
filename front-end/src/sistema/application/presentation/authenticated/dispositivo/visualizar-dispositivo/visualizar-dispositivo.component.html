@@ -17,6 +17,10 @@
             <div flex-gt-xs='100' layout='column'
                  layout-align='start center' layout-gt-xs='row'>
 
+              <div class='push-top push-right push-bottom' flex>
+                <avatar [usuario]="{'id': dispositivo?.id , 'foto': dispositivo?.avatarPath}"></avatar>
+              </div>
+
               <div flex flex-gt-xs='80'
                    layout-margin style='margin-top: 0'
                    layout='row' layout-align='start center'>
