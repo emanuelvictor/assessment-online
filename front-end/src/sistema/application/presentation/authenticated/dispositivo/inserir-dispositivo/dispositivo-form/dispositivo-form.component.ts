@@ -60,6 +60,7 @@ export class DispositivoFormComponent implements OnInit {
 
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],
+      senha: ['senha', [Validators.required]],
       time: ['time', [Validators.required, this.timeoutValidator()]]
     });
 

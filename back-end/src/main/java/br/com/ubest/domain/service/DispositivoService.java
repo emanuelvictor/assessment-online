@@ -211,7 +211,6 @@ public class DispositivoService {
         final Dispositivo dispositivo = this.dispositivoRepository.findByNumeroSerie(numeroSerie).orElseThrow();
 
         dispositivo.setNumeroSerie(null);
-        dispositivo.setSenha(null);
 
         save(dispositivo);
 

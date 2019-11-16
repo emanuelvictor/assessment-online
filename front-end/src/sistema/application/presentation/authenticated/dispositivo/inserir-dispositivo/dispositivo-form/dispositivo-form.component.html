@@ -23,6 +23,17 @@
                     </mat-error>
                   </mat-form-field>
 
+                  <mat-form-field flex layout-margin>
+                    <input formControlName='senha' matInput maxlength='6'
+                           [(ngModel)]='dispositivo.senha' name='senha' id='senha'
+                           placeholder='Senha para realizar logout do aplitivo móvel'>
+                    <mat-hint>
+                      Utilizada para sair do aplicativo móvel
+                    </mat-hint>
+                    <mat-error>
+                      Campo obrigatório
+                    </mat-error>
+                  </mat-form-field>
                 </div>
               </div>
 

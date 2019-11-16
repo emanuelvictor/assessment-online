@@ -14,6 +14,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -84,7 +85,8 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     /**
      *
      */
-    @Column(length = 6)
+    @NotNull
+    @Column(length = 6, nullable = false)
     private String senha;
 
     /**
@@ -179,7 +181,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     @Override
     @Transient
     public String getUsername() {
-        return this.numeroSerie;
+        return String.valueOf(this.codigo);
     }
 
     /**
@@ -227,7 +229,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     @Override
     @JsonIgnore
     public boolean isAccountNonExpired() {
-        return true;
+        return !codigoExpiration.isBefore(LocalDateTime.now().minusHours(1)); //TODO arrumar data da aplicação;
     }
 
     /**
@@ -236,7 +238,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     @Override
     @JsonIgnore
     public boolean isAccountNonLocked() {
-        return true;
+        return true; //TODO arrumar data da aplicação;
     }
 
     /**

@@ -74,7 +74,7 @@ alter table dispositivo
 alter table dispositivo
     add column tenant varchar(150) not null default current_schema();
 alter table dispositivo
-    add column senha varchar(10);
+    add column senha varchar(6)  not null default ((floor(random() * (999999 - 100000 + 1) + 100000)));
 alter table dispositivo
     add column codigo bigint not null default ((floor(random() * (999999 - 100000 + 1) + 100000)));
 alter table dispositivo
