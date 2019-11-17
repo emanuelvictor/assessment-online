@@ -17,11 +17,10 @@
           <div flex layout='row' layout-margin style='margin-top: 34px'>
 
             <mat-form-field flex>
-              <input placeholder='Código' required
-                     matInput name='codigo' noWhiteSpace
-                     [ngModelOptions]='{standalone: true}'
-                     (ngModelChange)='inputCodigoChanged($event)'
-                     [(ngModel)]='mobileService.dispositivo.codigo'/>
+              <input (ngModelChange)='inputCodigoChanged($event)'
+                     [(ngModel)]='mobileService.dispositivo.codigo'
+                     [ngModelOptions]='{standalone: true}' matInput
+                     name='codigo' type='number' placeholder='Código'/>
             </mat-form-field>
 
           </div>

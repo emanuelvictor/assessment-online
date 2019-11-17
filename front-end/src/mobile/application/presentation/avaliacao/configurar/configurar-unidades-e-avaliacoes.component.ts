@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatSnackBar} from '@angular/material';
-import {getIdentifier, viewAnimation} from '@src/sistema/application/presentation/controls/utils';
+import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
 import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
 import {environment} from '@src/environments/environment';
 import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuracao.repository';
@@ -90,8 +90,8 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    * @param {string} $event
    */
   public inputCodigoChanged($event) {
-    if ($event && $event.length) {
-      if ($event.length === 6) {
+    if ($event) {
+      if ($event > 100000) {
         this.mobileService.authenticateByCodigo(this.mobileService.numeroSerie, $event).then(() =>
           this.router.navigate(['/avaliar/' + this.mobileService.dispositivo.id])
         )
@@ -99,22 +99,22 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     }
   }
 
-  /**
-   *
-   * @param message
-   */
-  public showMessage(message: string) {
-    this.openSnackBar(message)
-  }
-
-  /**
-   *
-   * @param message
-   */
-  public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 5000
-    })
-  }
+  // /**
+  //  *
+  //  * @param message
+  //  */
+  // public showMessage(message: string) {
+  //   this.openSnackBar(message)
+  // }
+  //
+  // /**
+  //  *
+  //  * @param message
+  //  */
+  // public openSnackBar(message: string) {
+  //   this.snackBar.open(message, 'Fechar', {
+  //     duration: 5000
+  //   })
+  // }
 
 }

@@ -24,8 +24,9 @@
                   </mat-form-field>
 
                   <mat-form-field flex layout-margin>
-                    <input formControlName='senha' matInput maxlength='6'
-                           [(ngModel)]='dispositivo.senha' name='senha' id='senha'
+                    <input name='senha' id='senha' type='number'
+                           [(ngModel)]='dispositivo.senha' matInput
+                           formControlName='senha'  min='100000' max='999999'
                            placeholder='Senha para realizar logout do aplitivo móvel'>
                     <mat-hint>
                       Utilizada para sair do aplicativo móvel

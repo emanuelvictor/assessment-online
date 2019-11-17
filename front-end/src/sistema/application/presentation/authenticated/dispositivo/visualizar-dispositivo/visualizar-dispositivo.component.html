@@ -14,18 +14,19 @@
               </button>
             </div>
 
-            <div flex-gt-xs='100' layout='column'  [@fadeInOut]
+            <div flex-gt-xs='100' layout='column' [@fadeInOut]
                  layout-align='start center' layout-gt-xs='row'>
 
-              <div *ngIf='dispositivoToCode?.id'  [@fadeInOut]
+              <div *ngIf='dispositivoToCode?.id' [@fadeInOut]
                    layout-align='center center' layout='column'
                    class='push-top push-right push-bottom' flex>
-<!--                <qr-code *ngIf='dispositivoToCode?.id'-->
-<!--                         [path]="'dispositivos/' + dispositivoToCode?.id + '/qrcode'">-->
-<!--                </qr-code>-->
+                <!--                <qr-code *ngIf='dispositivoToCode?.id'-->
+                <!--                         [path]="'dispositivos/' + dispositivoToCode?.id + '/qrcode'">-->
+                <!--                </qr-code>-->
                 <img style='max-width: 200px' src="{{path}}">
-                <h2 layout-align='center center' style='margin-top: 10px' class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
-                  {{dispositivoToCode?.codigo}}
+                <h2 layout-align='center center' style='margin-top: 10px'
+                    class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
+                  Código: {{dispositivoToCode?.codigo}}
                 </h2>
               </div>
 
@@ -39,31 +40,31 @@
 
                       <h1 class='mat-headline tc-blue-grey-800 no-margin' flex='100'>
                         {{dispositivo?.nome}}
-                      </h1>
-                      <h2 *ngIf='dispositivo?.senha' class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
-                        Senha: {{dispositivo?.senha}}
-                      </h2>
-                      <div *ngIf='dispositivoToCode?.numeroSerie' flex layout='row'>
-                        <h2 (click)='desvincular(dispositivoToCode?.numeroSerie)'
-                            class='mat-subheading-2 tc-dark-blue-grey-B65 no-margin' style='cursor: pointer'>
-                          Número de série vinculado: {{dispositivoToCode?.numeroSerie}}
+                        <span (click)='desvincular(dispositivoToCode?.numeroSerie)'
+                              class='mat-subheading-2 tc-dark-blue-grey-B65 no-margin'
+                              *ngIf='dispositivoToCode?.numeroSerie' style='cursor: pointer'
+                              [matTooltipPosition]="'below'" matTooltip='Clique para desvincular'>
+                        Número de série vinculado: {{dispositivoToCode?.numeroSerie}}
                           <a style='padding-left: 0'>
-                            (Desvincular)
-                          </a>
-                        </h2>
-                      </div>
-                      <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
-                        Modo quiosque: {{dispositivo?.modoQuiosque ? 'Sim' : 'Não'}}
-                      </h2>
-                      <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
+                          (Desvincular)
+                        </a>
+                      </span>
+                      </h1>
+                      <h2 *ngIf='!dispositivo?.modoQuiosque' class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
                         Modo insônia: {{dispositivo?.modoInsonia ? 'Sim' : 'Não'}}
                       </h2>
                       <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
-                        Tempo de espera entre as avaliações (Em segundos): {{dispositivo?.time}}
+                        Modo quiosque: {{dispositivo?.modoQuiosque ? 'Sim' : 'Não'}}
+                      </h2>
+                      <h2 *ngIf='dispositivo?.senha' class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
+                        Senha para sair do aplicativo: {{dispositivo?.senha}}
                       </h2>
                       <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
                         Quebrar linha durante a seleção de itens
                         avaliáveis: {{dispositivo?.quebrarLinhaNaSelecaoDeItemAvaliavel ? 'Sim' : 'Não'}}
+                      </h2>
+                      <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
+                        Tempo de espera entre as avaliações (Em segundos): {{dispositivo?.time}}
                       </h2>
 
                       <opcoes-site [dispositivo]='dispositivo' *ngIf='dispositivo?.id'></opcoes-site>

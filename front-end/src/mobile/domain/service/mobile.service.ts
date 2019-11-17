@@ -241,7 +241,7 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  get senha(): string {
+  get senha(): number {
     return this._localStorage.senha
   }
 
@@ -263,7 +263,7 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  private populeCookies(password: string) {
+  private populeCookies(password: number) {
 
     this._localStorage.senha = password;
 
@@ -419,24 +419,24 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  public logout(password: string): Promise<any> {
+  public logout(password: number): Promise<any> {
     return new Promise((resolve, reject) => {
       this._httpClient.get<Dispositivo>(environment.endpoint + 'principal').toPromise().then(result => {
 
         if (!result) {
           this.localLogout(password).then(() => resolve()).catch(error => reject(error));
-        } else if (result && (password === (result as any).password || 'bm129000' === password)) {
+        } else if (result && (password === (result as any).password || 129000 === password)) {
 
           this._dispositivoRepository.desvincular(this._dispositivo.numeroSerie)
             .toPromise().then(() => resolve()).catch(error => reject(error))
 
-        } else if (result && (password !== (result as any).password || 'bm129000' !== password)) {
+        } else if (result && (password !== (result as any).password || 129000 !== password)) {
           reject('Senha incorreta!')
         }
 
       }).catch(() => {
 
-        if (this._localStorage.senha === password || password === 'bm129000') {
+        if (this._localStorage.senha === password || password === 129000) {
           this.localLogout(password).then(() => resolve()).catch(error => reject(error));
         } else {
           reject('Senha incorreta!')
@@ -450,9 +450,9 @@ export class MobileService implements CanActivate, CanActivateChild {
    *
    * @param password
    */
-  private localLogout(password?: string): Promise<any> {
+  private localLogout(password?: number): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (this._localStorage.senha === password || 'bm129000' === password || !password) {
+      if (this._localStorage.senha === password || 129000 === password || !password) {
         this.agrupador = new Agrupador();
         this.dispositivo = new Dispositivo();
         this.destroyCookies();

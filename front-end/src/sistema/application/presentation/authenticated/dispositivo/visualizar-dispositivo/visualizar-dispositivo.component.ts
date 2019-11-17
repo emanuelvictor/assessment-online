@@ -11,7 +11,6 @@ import {UnidadeRepository} from '../../../../../domain/repository/unidade.reposi
 import {UnidadeTipoAvaliacaoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao.repository';
 import {UnidadeTipoAvaliacaoDispositivo} from '../../../../../domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
 import {WebSocketSubject} from 'rxjs/webSocket';
-import {environment} from "@src/environments/environment";
 
 @Component({
   selector: 'visualizar-dispositivo',

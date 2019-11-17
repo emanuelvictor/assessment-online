@@ -119,21 +119,6 @@ export class PublicService implements CanActivate, CanActivateChild {
   }
 
   /**
-   *  Pega o dispositivo no scopo do angular
-   *  Se não houver ninguém no escopo do angular pega do dispositivo autenticado
-   *  Se naõ houver nignuém no dispositivo autenticado pega pela licença
-   */
-  public async getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca(id?): Promise<Dispositivo | any> {
-    if (this._dispositivo && this._dispositivo.id) {
-      return new Promise((resolve) => resolve(this._dispositivo));
-    } else {
-      return this._httpClient.get<Dispositivo>(environment.endpoint + 'dispositivos/' + id)
-        .map(result => result ? this.dispositivo = result : this.dispositivo = null)
-        .catch((err: any) => err).toPromise()
-    }
-  }
-
-  /**
    *
    * @param value
    */

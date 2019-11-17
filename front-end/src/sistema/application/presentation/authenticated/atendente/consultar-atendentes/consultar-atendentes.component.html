@@ -54,12 +54,11 @@
     Filtros avançados
   </button>
 
-  <button (click)="toggleShowPesquisaAvancada()" [matTooltipPosition]="'below'"
-          color='accent' flex
-          hide-gt-sm
-          mat-icon-button
-          matTooltip='Filtros avançados'
-          style='color: #0c3e6f !important;'>
+  <button [matTooltipPosition]="'below'"
+          hide-gt-sm mat-icon-button flex
+          style='color: #0c3e6f !important'
+          (click)='toggleShowPesquisaAvancada()'
+          color='accent' matTooltip='Filtros avançados'>
     <mat-icon>filter_list</mat-icon>
   </button>
 

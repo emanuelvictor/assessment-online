@@ -17,7 +17,7 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
-  public senha: string;
+  public senha: number;
 
   /**
    *

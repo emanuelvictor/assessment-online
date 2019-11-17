@@ -14,7 +14,6 @@ import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -64,13 +63,6 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
      *
      */
     @NotNull
-    @Column(nullable = false, unique = true)
-    private long codigo;
-
-    /**
-     *
-     */
-    @NotNull
     @Column(nullable = false)
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -86,8 +78,19 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
      *
      */
     @NotNull
+    @Max(999999)
+    @Min(100000)
+    @Column(nullable = false, unique = true)
+    private long codigo;
+
+    /**
+     *
+     */
+    @NotNull
+    @Max(999999)
+    @Min(100000)
     @Column(length = 6, nullable = false)
-    private String senha;
+    private long senha;
 
     /**
      *
@@ -220,7 +223,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
      */
     @Override
     public String getPassword() {
-        return this.senha;
+        return String.valueOf(this.senha);
     }
 
     /**

@@ -8,7 +8,7 @@ export class LocalStorage {
     return window.localStorage[PASSWORD_NAME];
   }
 
-  set senha(senha: string) {
+  set senha(senha: number) {
     window.localStorage[PASSWORD_NAME] = senha;
   }
 
