@@ -2,8 +2,9 @@
   <div flex-gt-xs='80' layout='row' layout-margin>
     <div flex layout-margin>
       <mat-card class='bgc-grey-50' layout-margin>
-        <form (ngSubmit)='saveAtendente(form)' *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'" [formGroup]='form'
-              novalidate>
+        <form [formGroup]='form' novalidate
+              (ngSubmit)='saveAtendente(form)'
+              *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
           <mat-card-content>
             <div layout-margin>
 
@@ -26,9 +27,9 @@
                   </div>
                   <div *ngIf='!fotoPath' flex>
                     <td-file-upload #singleFileUpload
-                                    (change)='fileChange($event)' accept='.png, .gif, .jpg, .jpeg'
-                                    defaultColor='primary'
-                                    name='file'>
+                                    (change)='fileChange($event)'
+                                    accept='.png, .gif, .jpg, .jpeg'
+                                    defaultColor='primary' name='file'>
                       <span>{{ singleFileUpload?.files?.name }}</span>
                       <ng-template td-file-input-label>
                         <mat-icon>attach_file</mat-icon>
@@ -42,11 +43,11 @@
                 <div flex-gt-sm='70' layout='column'>
                   <div layout='row' layout-margin>
                     <mat-form-field flex>
-                      <input [(ngModel)]='usuario.nome'
+                      <input id='nome' matInput
                              formControlName='nome'
-                             id='nome' matInput
-                             maxlength='200'
-                             name='nome' placeholder='Nome' required>
+                             maxlength='200' required
+                             [(ngModel)]='usuario.nome'
+                             name='nome' placeholder='Nome'>
                       <mat-error>
                         Esse campo é obrigatório
                       </mat-error>
@@ -54,12 +55,10 @@
                   </div>
                   <div layout='row' layout-margin>
                     <mat-form-field flex>
-                      <input (keyup)="form.controls['password'].get('password')?.updateValueAndValidity()" [(ngModel)]='usuario.conta.email' formControlName='email'
-                             id='email'
-                             matInput maxlength='144'
+                      <input [(ngModel)]='usuario.conta.email' formControlName='email'
+                             placeholder='E-mail' id='email' type='email' matInput maxlength='144'
                              name='email' pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'
-                             placeholder='E-mail'
-                             type='email'>
+                             (keyup)="form.controls['password'].get('password')?.updateValueAndValidity()">
                       <mat-error *ngIf="form.controls['email'].hasError('pattern')">
                         E-mail inválido, utilize o formato 'email@email.com'
                       </mat-error>
@@ -68,9 +67,8 @@
                       </mat-error>
                     </mat-form-field>
                     <div *ngIf="usuarioLogado?.isAdministrador" layout="column" layout-align="center center">
-                      <mat-checkbox
-                          (change)="form.controls['password'].get('password')?.updateValueAndValidity(); form.get('email')?.updateValueAndValidity()"
-                          [(ngModel)]='usuario.conta.administrador' [ngModelOptions]="{standalone: true}">
+                      <mat-checkbox [(ngModel)]='usuario.conta.administrador' [ngModelOptions]="{standalone: true}"
+                                    (change)="form.controls['password'].get('password')?.updateValueAndValidity(); form.get('email')?.updateValueAndValidity()">
                         Administrador
                       </mat-checkbox>
                     </div>

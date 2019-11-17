@@ -60,10 +60,30 @@ export class DispositivoFormComponent implements OnInit {
 
     this.form = this.fb.group({
       nome: ['nome', [Validators.required]],
-      senha: ['senha', [Validators.required]],
+      senha: ['senha', [this.senhaValidator()]],
       time: ['time', [Validators.required, this.timeoutValidator()]]
     });
 
+  }
+
+  /**
+   *
+   * @param exception
+   */
+  senhaValidator(exception?: string): ValidatorFn {
+    return (c: AbstractControl): { [key: string]: any } => {
+      if (c.value || c.value === 0) {
+        if (c.value < 100000) {
+          return {exception: exception ? exception : 'A senha deve ser maior ou igual á 100000'};
+        } else if (c.value > 999999) {
+          return {exception: exception ? exception : 'A senha deve ser menor ou igual á 999999'};
+        }
+      }
+
+      if (!c || !c.value) {
+        return {exception: exception ? exception : 'A senha é obrigatória!'};
+      }
+    }
   }
 
   /**
