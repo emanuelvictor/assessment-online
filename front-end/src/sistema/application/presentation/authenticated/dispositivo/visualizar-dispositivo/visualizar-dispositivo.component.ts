@@ -11,6 +11,7 @@ import {UnidadeRepository} from '../../../../../domain/repository/unidade.reposi
 import {UnidadeTipoAvaliacaoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao.repository';
 import {UnidadeTipoAvaliacaoDispositivo} from '../../../../../domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
 import {WebSocketSubject} from 'rxjs/webSocket';
+import {environment} from "@src/environments/environment";
 
 @Component({
   selector: 'visualizar-dispositivo',
@@ -21,6 +22,17 @@ import {WebSocketSubject} from 'rxjs/webSocket';
   ]
 })
 export class VisualizarDispositivoComponent implements OnInit {
+
+  /**
+   *
+   * @type {Avaliacao}
+   */
+  dispositivoToCode: Dispositivo = new Dispositivo();
+
+  /**
+   *
+   */
+  path: any;
 
   /**
    *
@@ -87,8 +99,12 @@ export class VisualizarDispositivoComponent implements OnInit {
     this.webSocketSubject = this.dispositivoRepository.connect(id);
 
     this.webSocketSubject.subscribe(dispositivo => {
-      this.dispositivo = dispositivo;
+      this.dispositivoToCode = dispositivo;
 
+      this.path = 'dispositivos/' + this.dispositivoToCode.id + '/qrcode' + '?nocache=' + Math.floor(Math.random() * 2000).toString();
+    });
+
+    this.dispositivoRepository.findById(id).subscribe(dispositivo => {
       this.unidadeRepository.listLightByFilters({withUnidadesTiposAvaliacoesAtivasFilter: true}).subscribe(result => {
 
         this.unidades = result.content;

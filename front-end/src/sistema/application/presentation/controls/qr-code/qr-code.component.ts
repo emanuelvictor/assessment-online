@@ -27,11 +27,6 @@ export class QRCodeComponent implements OnInit {
 
   /**
    *
-   */
-  public done = false;
-
-  /**
-   *
    * @param httpClient
    * @param _sanitizer
    */
@@ -45,26 +40,7 @@ export class QRCodeComponent implements OnInit {
 
     this.identifier = /*this.usuario.id;*/Math.floor(Math.random() * 2000).toString();
 
-    if (this.path) {
-      this.path = environment.endpoint + this.path + '?nocache=' + this.identifier;
-
-      this.httpClient.get(this.path, {responseType: 'blob'}).subscribe(result => {
-
-        const urlCreator = window.URL;
-
-          const blob = new Blob([result], {type: 'PNG'});
-        this.path = new File([blob], 'qr-code', {type: result.type});
-        const reader = new FileReader();
-        reader.readAsDataURL(blob);
-        // reader.onload = () => this.anexo.caminho = reader.result.toString()
-
-        this.path = (this._sanitizer.bypassSecurityTrustResourceUrl(urlCreator.createObjectURL(this.path)) as any).changingThisBreaksApplicationSecurity;
-
-        console.log(this.path);
-
-        this.done = true;
-      })
-    }
+    this.path = environment.endpoint + this.path + '?nocache=' + this.identifier;
 
   }
 }
