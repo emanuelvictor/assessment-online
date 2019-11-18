@@ -109,7 +109,6 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
         return fatura;
     }
 
-
     /**
      *
      */
