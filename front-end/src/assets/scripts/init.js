@@ -1,4 +1,4 @@
-const TOKEN_NAME = 'ubest-token';
+const TOKEN_NAME = 'meavalia-token';
 const PASSWORD_NAME = 'senha';
 
 const app = {

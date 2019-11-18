@@ -37,7 +37,7 @@ export function getIdentifier(): string {
   return Math.floor(Math.random() * 2000).toString();
 }
 
-export const TOKEN_NAME = 'ubest-token';
+export const TOKEN_NAME = 'meavalia-token';
 
 export const PASSWORD_NAME = 'senha';
 
