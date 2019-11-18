@@ -2,14 +2,13 @@
   <div flex-gt-xs='80' layout='row' layout-margin>
     <div flex layout-margin>
       <mat-card class='bgc-grey-50' layout-margin>
-        <form [formGroup]='form' novalidate
-              (ngSubmit)='saveAtendente(form)'
+        <form [formGroup]='form' novalidate (ngSubmit)='saveAtendente(form)'
               *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
           <mat-card-content>
             <div layout-margin>
 
               <!--cabeçalho div-->
-              <ng-content select="[header]"></ng-content>
+              <ng-content select='[header]'></ng-content>
 
               <!--dados e foto div-->
               <div flex layout-gt-sm='row'>
@@ -26,10 +25,10 @@
                     </button>
                   </div>
                   <div *ngIf='!fotoPath' flex>
-                    <td-file-upload #singleFileUpload
+                    <td-file-upload defaultColor='primary'
                                     (change)='fileChange($event)'
-                                    accept='.png, .gif, .jpg, .jpeg'
-                                    defaultColor='primary' name='file'>
+                                    #singleFileUpload name='file'
+                                    accept='.png, .gif, .jpg, .jpeg'>
                       <span>{{ singleFileUpload?.files?.name }}</span>
                       <ng-template td-file-input-label>
                         <mat-icon>attach_file</mat-icon>
@@ -55,9 +54,9 @@
                   </div>
                   <div layout='row' layout-margin>
                     <mat-form-field flex>
-                      <input [(ngModel)]='usuario.conta.email' formControlName='email'
-                             placeholder='E-mail' id='email' type='email' matInput maxlength='144'
-                             name='email' pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'
+                      <input matInput placeholder='E-mail' type='email' maxlength='144'
+                             [(ngModel)]='usuario.conta.email' formControlName='email' id='email'
+                             pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$' name='email'
                              (keyup)="form.controls['password'].get('password')?.updateValueAndValidity()">
                       <mat-error *ngIf="form.controls['email'].hasError('pattern')">
                         E-mail inválido, utilize o formato 'email@email.com'
@@ -66,8 +65,8 @@
                         O e-mail é obrigatório caso o Item Avaliavel seja administrador
                       </mat-error>
                     </mat-form-field>
-                    <div *ngIf="usuarioLogado?.isAdministrador" layout="column" layout-align="center center">
-                      <mat-checkbox [(ngModel)]='usuario.conta.administrador' [ngModelOptions]="{standalone: true}"
+                    <div *ngIf='usuarioLogado?.isAdministrador' layout='column' layout-align='center center'>
+                      <mat-checkbox [(ngModel)]='usuario.conta.administrador' [ngModelOptions]='{standalone: true}'
                                     (change)="form.controls['password'].get('password')?.updateValueAndValidity(); form.get('email')?.updateValueAndValidity()">
                         Administrador
                       </mat-checkbox>
@@ -78,13 +77,13 @@
               </div>
 
               <!--divider-->
-              <ng-content select="[divider]"></ng-content>
+              <ng-content select='[divider]'></ng-content>
 
               <!--unidade-->
-              <ng-content select="[unidades]"></ng-content>
+              <ng-content select='[unidades]'></ng-content>
 
               <!-- actions -->
-              <ng-content select="[actions]"></ng-content>
+              <ng-content select='[actions]'></ng-content>
 
             </div>
 

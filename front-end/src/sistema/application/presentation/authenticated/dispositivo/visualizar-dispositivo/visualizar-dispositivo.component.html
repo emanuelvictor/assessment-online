@@ -7,9 +7,9 @@
 
           <div layout='row'>
             <div layout='column' style='min-width: 17px'>
-              <button routerLink='../' type='button' color='primary'
-                      class='mat-headline tc-grey-500' mat-icon-button
-                      *ngIf='activatedRoute?.snapshot?.params?.id'>
+              <button *ngIf='activatedRoute?.snapshot?.params?.id'
+                      routerLink='../' type='button' color='primary'
+                      class='mat-headline tc-grey-500' mat-icon-button>
                 <mat-icon>arrow_back</mat-icon>
               </button>
             </div>
@@ -17,12 +17,10 @@
             <div flex-gt-xs='100' layout='column' [@fadeInOut]
                  layout-align='start center' layout-gt-xs='row'>
 
-              <div *ngIf='dispositivoToCode?.id' [@fadeInOut]
-                   layout-align='center center' layout='column'
-                   class='push-top push-right push-bottom' flex>
-                <!--                <qr-code *ngIf='dispositivoToCode?.id'-->
-                <!--                         [path]="'dispositivos/' + dispositivoToCode?.id + '/qrcode'">-->
-                <!--                </qr-code>-->
+              <div *ngIf='dispositivoToCode?.id'
+                   class='push-left push-right push-bottom'
+                   style='margin-top: -10px' [@fadeInOut] flex
+                   layout-align='center center' layout='column'>
                 <img style='max-width: 200px' src="{{path}}">
                 <h2 layout-align='center center' style='margin-top: 10px'
                     class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
