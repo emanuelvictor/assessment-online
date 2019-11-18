@@ -6,7 +6,6 @@ import br.com.ubest.domain.entity.unidade.Dispositivo;
 import br.com.ubest.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import br.com.ubest.domain.entity.usuario.Perfil;
 import br.com.ubest.domain.repository.AssinaturaRepository;
-import br.com.ubest.domain.repository.DispositivoRepository;
 import br.com.ubest.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
 import br.com.ubest.domain.service.DispositivoService;
 import br.com.ubest.infrastructure.resource.AbstractResource;
@@ -48,11 +47,6 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     /**
      *
      */
-    private final DispositivoRepository dispositivoRepository;
-
-    /**
-     *
-     */
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
     /**
@@ -71,7 +65,7 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
         dispositivo.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
         dispositivo.getUnidadesTiposAvaliacoesDispositivo().forEach(unidadeTipoAvaliacaoDispositivo -> unidadeTipoAvaliacaoDispositivo.setDispositivo(dispositivo));
         dispositivo.setAssinatura(this.assinaturaRepository.findAll().stream().findFirst().orElse(new Assinatura()));
-        return Mono.just(this.dispositivoRepository.save(dispositivo));
+        return Mono.just(this.dispositivoService.save(dispositivo));
     }
 
     /**
@@ -103,17 +97,17 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
         Objects.requireNonNull(unidadeTipoAvaliacaoDispositivos).forEach(unidadeTipoAvaliacaoDispositivo -> unidadeTipoAvaliacaoDispositivo.setDispositivo(new Dispositivo(id)));
         return Mono.just(this.unidadeTipoAvaliacaoDispositivoRepository.saveAll(unidadeTipoAvaliacaoDispositivos));
     }
-
-    /**
-     * @param id
-     * @return
-     */
-    @DeleteMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    public Mono<Boolean> delete(@PathVariable long id) {
-        this.dispositivoRepository.deleteById(id);
-        return Mono.just(true);
-    }
+//
+//    /**
+//     * @param id
+//     * @return
+//     */
+//    @DeleteMapping("{id}")
+//    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+//    public Mono<Boolean> delete(@PathVariable long id) {
+//        this.dispositivoRepository.deleteById(id);
+//        return Mono.just(true);
+//    }
 
     /**
      * @param defaultFilter
