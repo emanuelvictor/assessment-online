@@ -23,9 +23,10 @@
 
           <div flex layout='row' layout-margin style='margin-top: 34px'>
             <mat-form-field flex>
-              <input (ngModelChange)='modelChanged.next($event)' [(ngModel)]='password'
+              <input matInput type='number'
+                     [(ngModel)]='password'
                      [ngModelOptions]='{standalone: true}'
-                     matInput
+                     (ngModelChange)='modelChanged.next($event)'
                      placeholder='Insira a senha do dispositivo'/>
               <mat-error>
                 Insira a senha
@@ -34,10 +35,9 @@
           </div>
         </div>
 
-        <div flex
-             layout='row' layout-margin>
-          <button (click)='cancelar()'
-                  color='accent' flex
+        <div flex layout='row' layout-margin>
+          <button color='accent' flex
+                  (click)='cancelar()'
                   mat-raised-button style='height: 55px'>
             Cancelar
           </button>

@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -265,6 +266,15 @@ public class FaturaService {
         if (this.tenantIdentifierResolver.resolveCurrentTenantIdentifier().equals(DEFAULT_TENANT_ID))
             return this.faturaRepository.listByFilters(null, dispositivosId, pageable);
         return this.faturaRepository.listByFilters(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(), dispositivosId, pageable);
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public boolean hasEmAtraso() {
+        return this.listByFilters(null, null, null).getContent().stream().anyMatch(Fatura::isEmAtraso);
     }
 
     /**

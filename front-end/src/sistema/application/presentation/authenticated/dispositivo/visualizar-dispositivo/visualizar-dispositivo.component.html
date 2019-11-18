@@ -17,13 +17,16 @@
             <div flex-gt-xs='100' layout='column' [@fadeInOut]
                  layout-align='start center' layout-gt-xs='row'>
 
-              <div *ngIf='dispositivoToCode?.id'
+              <div style='margin-top: -10px'
+                   *ngIf='path' [@fadeInOut] flex
                    class='push-left push-right push-bottom'
-                   style='margin-top: -10px' [@fadeInOut] flex
                    layout-align='center center' layout='column'>
-                <img style='max-width: 200px' src="{{path}}">
-                <h2 layout-align='center center' style='margin-top: 10px'
-                    class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
+                <img src='{{path}}'
+                     style='max-width: 200px; cursor:pointer'
+                     (click)='updateCodigo(dispositivoToCode?.id)'>
+                <h2 layout-align='center center'
+                    style='margin-top: 10px' flex
+                    class='mat-subheading-2 tc-blue-grey-500 no-margin'>
                   Código: {{dispositivoToCode?.codigo}}
                 </h2>
               </div>
@@ -86,13 +89,13 @@
                     <mat-icon>more_vert</mat-icon>
                   </button>
                   <mat-menu #menu='matMenu'>
-<!--                    <button (click)='remove()' color='primary' mat-menu-item>-->
-<!--                      <mat-icon>delete</mat-icon>-->
-<!--                      <span>Remover</span>-->
-<!--                    </button>-->
-                    <button (click)='publish()' color='primary' mat-menu-item>
-                      <mat-icon>block</mat-icon>
-                      <span>Desativar</span>
+                    <!--                    <button (click)='remove()' color='primary' mat-menu-item>-->
+                    <!--                      <mat-icon>delete</mat-icon>-->
+                    <!--                      <span>Remover</span>-->
+                    <!--                    </button>-->
+                    <button (click)='updateStatusAtivo(dispositivo?.id)' color='primary' mat-menu-item>
+                      <mat-icon>{{dispositivo?.ativo ? 'block' : 'replay'}} </mat-icon>
+                      <span>{{dispositivo?.ativo ? 'Desativar' : 'Reativar'}}</span>
                     </button>
                   </mat-menu>
                 </div>

@@ -88,7 +88,6 @@ export class VisualizarDispositivoComponent implements OnInit {
     const id: number = this.activatedRoute.snapshot.params['id'];
     this.find(id)
   }
-
   /**
    *
    * @param {number} id
@@ -99,8 +98,9 @@ export class VisualizarDispositivoComponent implements OnInit {
 
     this.webSocketSubject.subscribe(dispositivo => {
       this.dispositivoToCode = dispositivo;
-
       this.path = 'dispositivos/' + this.dispositivoToCode.id + '/qrcode' + '?nocache=' + Math.floor(Math.random() * 2000).toString();
+
+      console.log(this.path);
     });
 
     this.dispositivoRepository.findById(id).subscribe(dispositivo => {
@@ -249,5 +249,25 @@ export class VisualizarDispositivoComponent implements OnInit {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
     })
+  }
+
+  /**
+   *
+   */
+  updateStatusAtivo(id: number) {
+    this.dispositivoRepository.updateStatusAtivo(id).subscribe(result =>
+      this.dispositivo = result
+    )
+  }
+
+  /**
+   *
+   * @param id
+   */
+  updateCodigo(id: number) {
+    this.dispositivoRepository.updateCodigo(id).subscribe(result => {
+      }
+      // this.dispositivo = result
+    )
   }
 }

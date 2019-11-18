@@ -81,7 +81,7 @@ export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
 
     // Debounce da digitação, toda vez que o usuário digita alguma coisa, depois de 300 milisegundos ele executa isso.
     this.modelChanged.debounceTime(300).subscribe(model => {
-      if (model && model.length && (model.length === 6 || model.length === 8)) {
+      if (model && model > 100000) {
 
         // Restarta o timeout e Registra o loading
         this.mobileService.restartTimeout();

@@ -241,7 +241,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     @Override
     @JsonIgnore
     public boolean isAccountNonLocked() {
-        return true; //TODO arrumar data da aplicação;
+        return true;
     }
 
     /**

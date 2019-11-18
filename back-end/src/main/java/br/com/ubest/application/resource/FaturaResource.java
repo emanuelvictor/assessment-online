@@ -62,13 +62,12 @@ public class FaturaResource extends AbstractResource<Fatura> {
 
 
     /**
-     *
      * @return
      */
     @GetMapping("has-em-atraso")
     @PreAuthorize("hasAnyAuthority('" + ATENDENTE_VALUE + "')")
     Mono<Boolean> hasEmAtraso() {
-        return Mono.just(faturaService.listByFilters(null, null, null).getContent().stream().anyMatch(Fatura::isEmAtraso));
+        return Mono.just(faturaService.hasEmAtraso());
     }
 
 }

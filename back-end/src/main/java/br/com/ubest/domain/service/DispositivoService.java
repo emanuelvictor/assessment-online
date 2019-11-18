@@ -31,13 +31,17 @@ import org.springframework.web.server.ServerWebExchange;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class DispositivoService {
+
+    /**
+     *
+     */
+    private final FaturaService faturaService;
 
     /**
      *
@@ -182,11 +186,14 @@ public class DispositivoService {
         // Valida se o código está válido
         Assert.notNull(dispositivo, "Código inválido!");
 
+        // Valida se o usuário acertou o código
+        Assert.isTrue(dispositivo.getCodigo() == (codigo), "Código inválido!");
+
         // Valida se o código não expirou
-        Assert.isTrue(!dispositivo.getCodigoExpiration().isBefore(LocalDateTime.now().minusHours(1)), "Código expirado!"); //TODO arrumar data da aplicação
+        Assert.isTrue(dispositivo.isAccountNonExpired(), "Código expirado!"); //TODO arrumar data da aplicação
 
         // Valida se o usuário acertou o código
-        Assert.isTrue(dispositivo.getCodigo() == (codigo), "Còdigo inválido!");
+        Assert.isTrue(dispositivo.isEnabled(), "Dispositivo desativado!");
 
         // Verifico se a licença está sendo utilizada por outro aplicativo
         if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
@@ -196,14 +203,14 @@ public class DispositivoService {
         dispositivo.setNumeroSerie(numeroSerie);
 
         //  Salva no banco
-//        this.tenantIdentifierResolver.setSchema(dispositivo.getTenant()); //TODO, acho que não serve pra nada
         this.dispositivoRepository.save(this.loadDispositivo(dispositivo, null));
 
         // Cria o contexto de segurança
         final SecurityContext securityContext = createSecurityContextByUserDetails(dispositivo);
 
         // Insere o contexto no repositório de contexto e retorna o usuário inserido
-        serverSecurityContextRepository.save(exchange, securityContext).block();
+        if (exchange != null)
+            serverSecurityContextRepository.save(exchange, securityContext).block();
 
         // Avisa os websockets
         dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getId())).findFirst().ifPresent(
@@ -212,6 +219,20 @@ public class DispositivoService {
 
         //
         return dispositivo;
+    }
+
+    /**
+     * @param dispositivo
+     * @return
+     */
+    @Transactional
+    public Dispositivo save(final Dispositivo dispositivo) {
+
+        // Não pode inserir se houverem faturas em atraso
+        if (dispositivo.getId() == null && faturaService.hasEmAtraso())
+            throw new RuntimeException("Existem faturas em atraso!");
+
+        return this.dispositivoRepository.save(dispositivo);
     }
 
     /**
@@ -224,7 +245,7 @@ public class DispositivoService {
 
         dispositivo.setNumeroSerie(null);
 
-        save(dispositivo);
+        this.dispositivoRepository.save(dispositivo);
 
         // Avisa os websockets
         dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getId())).findFirst().ifPresent(
@@ -235,13 +256,58 @@ public class DispositivoService {
     }
 
     /**
-     * @param dispositivo
+     * @param id
      * @return
      */
-    @Transactional
-    public Dispositivo save(final Dispositivo dispositivo) {
-        this.tenantIdentifierResolver.setSchema(dispositivo.getTenant()); //TODO, acho que não serve pra nada
-        return this.dispositivoRepository.save(dispositivo);
+    public Dispositivo updateStatusAtivo(final long id) {
+
+        final Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElseThrow();
+
+        dispositivo.setAtivo(!dispositivo.isAtivo());
+
+        this.dispositivoRepository.save(dispositivo);
+
+        // Avisa os websockets
+        dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getId())).findFirst().ifPresent(
+                t -> t.getMessagePublisher().onNext(dispositivo)
+        );
+
+        return dispositivo;
+    }
+
+//
+//
+//    /**
+//     * @param id
+//     */
+//    @Transactional
+//    public void delete(final long id) {
+//
+//        // Não pode deletar se houverem faturas em atraso
+//        if (faturaService.hasEmAtraso())
+//            throw new RuntimeException("Existem faturas em atraso!");
+//
+//        // Deleta todos os operadores
+//        this.dispositivoRepository.deleteById(id);
+//    }
+
+
+    /**
+     * @param id
+     * @return
+     */
+    public Dispositivo updateCodigo(final long id) {
+
+        final Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElseThrow();
+
+        this.dispositivoRepository.save(dispositivo);
+
+        // Avisa os websockets
+        dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getId())).findFirst().ifPresent(
+                t -> t.getMessagePublisher().onNext(dispositivo)
+        );
+
+        return dispositivo;
     }
 
     /**
@@ -252,7 +318,7 @@ public class DispositivoService {
      * @throws WriterException
      * @throws IOException
      */
-    public byte[] generateQRCode(final String text, final int width, final int height) throws WriterException, IOException {
+    private byte[] generateQRCode(final String text, final int width, final int height) throws WriterException, IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BitMatrix matrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height);
         MatrixToImageWriter.writeToStream(matrix, MediaType.IMAGE_PNG.getSubtype(), baos, new MatrixToImageConfig());

@@ -348,8 +348,6 @@ export class MobileService implements CanActivate, CanActivateChild {
 
         this._dispositivo = result;
 
-        console.log('SENHA ---> ' + this._dispositivo.senha);
-
         // Popula os cookies
         this.populeCookies(this._dispositivo.senha);
 

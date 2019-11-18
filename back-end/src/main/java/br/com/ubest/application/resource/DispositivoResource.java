@@ -122,11 +122,10 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
 
     /**
      * @param id
-     * @param numeroSerie
      * @return
      */
     @GetMapping("{id}")
-    Mono<Optional<Dispositivo>> getDispositivo(@PathVariable final String id/*, @RequestParam(required = false) final String numeroSerie*/) {
+    Mono<Optional<Dispositivo>> getDispositivo(@PathVariable final String id) {
         try {
             return Mono.just(Optional.of(this.dispositivoService.getDispositivo(Long.parseLong(id))));
         } catch (NumberFormatException e) {
@@ -142,6 +141,26 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     @PostMapping("authenticate-by-codigo")
     Mono<Optional<Dispositivo>> authenticateByCodigo(@RequestBody final Dispositivo dispositivo, final ServerWebExchange exchange) {
         return Mono.just(Optional.of(this.dispositivoService.authenticate(dispositivo.getNumeroSerie(), dispositivo.getCodigo(), exchange)));
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    @GetMapping("{id}/update-status-ativo")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    public Mono<Dispositivo> updateStatusAtivo(@PathVariable final long id) {
+        return Mono.just(this.dispositivoService.updateStatusAtivo(id));
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    @GetMapping("{id}/update-codigo")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    public Mono<Dispositivo> updateCodigo(@PathVariable final long id) {
+        return Mono.just(this.dispositivoService.updateCodigo(id));
     }
 
     /**
