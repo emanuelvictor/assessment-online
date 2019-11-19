@@ -14,7 +14,7 @@
     "build.sistema.prod": "ng build sistema --prod",
     "build.public.prod": "ng build public --prod",
     "build.mobile.prod": "ng build mobile --prod --configuration=mobile.prod",
-    "build.mobile.dev": "ng build mobile --prod --configuration=mobile.dev",
+    "build.mobile.dev": "ng build mobile --configuration=mobile.dev",
     "build.all.prod": "npm run build.sistema.prod && npm run build.mobile.prod && npm run build.public.prod"
   },
   "private": true,

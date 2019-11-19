@@ -390,7 +390,7 @@ export class MobileService implements CanActivate, CanActivateChild {
 
       if (!route.params.id) {
         this._router.navigate(['configuracoes']);
-        subscriber.next(false)
+        subscriber.next(false);
       } else {
         this.getDispositivo(route.params.id).subscribe(resulted => {
           if (!resulted) {
@@ -406,6 +406,8 @@ export class MobileService implements CanActivate, CanActivateChild {
             }
             this.connect();
             this.getConfiguracaoAsync();
+            console.log(window);
+            // window.plugins['insomnia'].keepAwake();
             subscriber.next(true)
           }
         })
