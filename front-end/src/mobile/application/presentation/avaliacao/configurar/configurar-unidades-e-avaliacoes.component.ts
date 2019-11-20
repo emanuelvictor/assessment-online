@@ -76,15 +76,15 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     this.mobileService.dispositivo = new Dispositivo();
 
 
-    // // Se está nessa tela, então libera os bloqueios do tablet
-    // if ((window as any) && (window as any).plugins && (window as any).plugins['insomnia']) {
-    //   (window as any).plugins['insomnia'].allowSleepAgain();
-    // }
-    //
-    // // Se está nessa tela, então libera os bloqueios do tablet
-    // if (window && window['KioskPlugin']) {
-    //   window['KioskPlugin'].exitKiosk()
-    // }
+    // Se está nessa tela, então libera os bloqueios do tablet
+    if ((window as any) && (window as any).plugins && (window as any).plugins['insomnia']) {
+      (window as any).plugins['insomnia'].allowSleepAgain();
+    }
+
+    // Se está nessa tela, então libera os bloqueios do tablet
+    if (window && window['Kiosk']) {
+      window['Kiosk'].setKioskEnabled(false)
+    }
 
   }
 

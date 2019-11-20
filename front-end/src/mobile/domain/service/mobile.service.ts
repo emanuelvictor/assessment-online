@@ -404,22 +404,23 @@ export class MobileService implements CanActivate, CanActivateChild {
             this.connect();
             this.getConfiguracaoAsync();
 
-            // if ((window as any) && (window as any).plugins && (window as any).plugins['insomnia']) {
-            //   if (resulted.modoInsonia) {
-            //     (window as any).plugins['insomnia'].keepAwake();
-            //   } else {
-            //     (window as any).plugins['insomnia'].allowSleepAgain();
-            //   }
-            // }
-            //
-            // if (window && window['KioskPlugin']) {
-            //   if (!resulted.modoQuiosque) {
-            //     (window as any).plugins['insomnia'].allowSleepAgain();
-            //     window['KioskPlugin'].exitKiosk();
-            //   } else {
-            //     (window as any).plugins['insomnia'].keepAwake();
-            //   }
-            // }
+            if ((window as any) && (window as any).plugins && (window as any).plugins['insomnia']) {
+              if (resulted.modoInsonia) {
+                (window as any).plugins['insomnia'].keepAwake();
+              } else {
+                (window as any).plugins['insomnia'].allowSleepAgain();
+              }
+            }
+
+            if (window && window['Kiosk']) {
+              if (!resulted.modoQuiosque) {
+                (window as any).plugins['insomnia'].allowSleepAgain();
+                window['Kiosk'].setKioskEnabled(false);
+              } else {
+                (window as any).plugins['insomnia'].keepAwake();
+                window['Kiosk'].setKioskEnabled(true);
+              }
+            }
 
             subscriber.next(true)
           }

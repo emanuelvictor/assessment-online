@@ -26,7 +26,10 @@ const app = {
 
     console.log('Received Event: ' + id);
     window.plugins.insomnia.keepAwake();
-    window['KioskPlugin'].setAllowedKeys([0x4]);
+    console.log(window['KioskPlugin']);
+    console.log(window['Kiosk']);
+    console.log(window['Kiosk'].setAllowedKeys);
+    // window['KioskPlugin'].setAllowedKeys([0x4]);
 
     window.addEventListener('native.keyboardshow', function (e) {
 
@@ -62,7 +65,7 @@ const app = {
       e.preventDefault();
 
       if (window.location.hash === '#/configuracoes')
-        window['KioskPlugin'].exitKiosk();
+        window['Kiosk'].setKioskEnabled(false);
 
       else if (!window.location.hash.includes('#/configuracoes')) {
         if (localStorage.getItem(TOKEN_NAME) != null && localStorage.getItem(PASSWORD_NAME) != null)
@@ -80,7 +83,7 @@ const app = {
         if (results.buttonIndex === 2 || results.buttonIndex === 0)
           return;
 
-        if (results.input1 === 'bm129000' || results.input1 === localStorage.getItem(PASSWORD_NAME))
+        if (parseInt(results.input1) === 129000 || parseInt(results.input1) === localStorage.getItem(PASSWORD_NAME))
           logout()
       }
 
