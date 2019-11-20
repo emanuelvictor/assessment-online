@@ -30,11 +30,6 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  private _numeroSerie = '234137';
-
-  /**
-   *
-   */
   private _agrupador: Agrupador = new Agrupador();
 
   /**
@@ -129,7 +124,7 @@ export class MobileService implements CanActivate, CanActivateChild {
 
     this._webSocketSubject.subscribe(result => {
       // Se não tiver senha então desloga tudo
-      if (!result.numeroSerie || result.numeroSerie !== this._numeroSerie) {
+      if (!result.numeroSerie || result.numeroSerie !== this.numeroSerie) {
         this._httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
           this.clearTimeout();
 
@@ -235,7 +230,7 @@ export class MobileService implements CanActivate, CanActivateChild {
    *
    */
   get numeroSerie(): string {
-    return this._numeroSerie
+    return this._localStorage.numeroSerie
   }
 
   // ------------- LocalStorage and Cookies handlers --------------
@@ -422,11 +417,8 @@ export class MobileService implements CanActivate, CanActivateChild {
    *
    */
   public logout(password: number): Promise<any> {
-    console.log('password '  , password);
-    console.log('this._localStorage.senha '  , this._localStorage.senha);
     return new Promise((resolve, reject) => {
       this._httpClient.get<Dispositivo>(environment.endpoint + 'principal').toPromise().then(result => {
-        console.log('result '  , result);
         if (!result) {
           this.localLogout(password).then(() => resolve()).catch(error => reject(error));
         } else if (result && (password === result.senha || 129000 === password)) {

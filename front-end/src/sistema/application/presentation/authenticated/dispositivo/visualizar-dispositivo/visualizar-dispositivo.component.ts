@@ -99,8 +99,6 @@ export class VisualizarDispositivoComponent implements OnInit {
     this.webSocketSubject.subscribe(dispositivo => {
       this.dispositivoToCode = dispositivo;
       this.path = 'dispositivos/' + this.dispositivoToCode.id + '/qrcode' + '?nocache=' + Math.floor(Math.random() * 2000).toString();
-
-      console.log(this.path);
     });
 
     this.dispositivoRepository.findById(id).subscribe(dispositivo => {

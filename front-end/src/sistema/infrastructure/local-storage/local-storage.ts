@@ -1,8 +1,32 @@
 import {Injectable} from '@angular/core';
-import {PASSWORD_NAME, TOKEN_NAME} from '../../application/presentation/controls/utils';
+import {PASSWORD_NAME, SERIAL_NUMBER_NAME, TOKEN_NAME} from '../../application/presentation/controls/utils';
 
 @Injectable()
 export class LocalStorage {
+
+  get numeroSerie(): string {
+    // Handler de população do número de série
+    const device = window['device'];
+    if (device) {
+      if (!window.localStorage[SERIAL_NUMBER_NAME]) {
+        if (!device.serial || device.serial === 'unknown') {
+          localStorage.setItem(SERIAL_NUMBER_NAME, device.uuid)
+        } else {
+          localStorage.setItem(SERIAL_NUMBER_NAME, device.serial)
+        }
+      }
+    } else {
+      if (!window.localStorage[SERIAL_NUMBER_NAME]) {
+        localStorage.setItem(SERIAL_NUMBER_NAME, 'device.serial')
+      }
+    }
+
+    return window.localStorage[SERIAL_NUMBER_NAME];
+  }
+
+  set numeroSerie(numeroSerie: string) {
+    window.localStorage[SERIAL_NUMBER_NAME] = numeroSerie;
+  }
 
   get senha(): number {
     // tslint:disable-next-line:radix
@@ -19,6 +43,10 @@ export class LocalStorage {
 
   set token(token) {
     window.localStorage[TOKEN_NAME] = token;
+  }
+
+  removeNumeroSerie() {
+    window.localStorage.removeItem(SERIAL_NUMBER_NAME);
   }
 
   removeSenha() {
