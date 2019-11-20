@@ -31,6 +31,7 @@ import org.springframework.web.server.ServerWebExchange;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 
@@ -241,7 +242,10 @@ public class DispositivoService {
      */
     public Dispositivo desvincular(final String numeroSerie) {
 
-        final Dispositivo dispositivo = this.dispositivoRepository.findByNumeroSerie(numeroSerie).orElseThrow();
+        final Dispositivo dispositivo = this.dispositivoRepository.findByNumeroSerie(numeroSerie).orElse(null);
+
+        if (dispositivo == null)
+            return null;
 
         dispositivo.setNumeroSerie(null);
 
@@ -299,7 +303,7 @@ public class DispositivoService {
     public Dispositivo updateCodigo(final long id) {
 
         final Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElseThrow();
-
+dispositivo.setUpdated(LocalDateTime.now());
         this.dispositivoRepository.save(dispositivo);
 
         // Avisa os websockets

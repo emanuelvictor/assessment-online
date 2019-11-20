@@ -9,6 +9,7 @@ import {environment} from '@src/environments/environment';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
 import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'authenticate-to-logout',
@@ -90,6 +91,9 @@ export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
         this.mobileService.logout(model).then(() => {
           this.mobileService.agrupador = new Agrupador();
           this.mobileService.dispositivo = new Dispositivo();
+
+          // todo FALCATRUA
+          this.mobileService.destroyCookies();
 
           // Resolve o loading
           this.mobileService.resolve('overlayStarSyntax');

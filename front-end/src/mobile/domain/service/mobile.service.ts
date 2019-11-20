@@ -16,6 +16,8 @@ import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuraca
 import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
 import {environment} from '@src/environments/environment';
 import {TOKEN_NAME} from '@src/sistema/application/presentation/controls/utils';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -420,17 +422,19 @@ export class MobileService implements CanActivate, CanActivateChild {
    *
    */
   public logout(password: number): Promise<any> {
+    console.log('password '  , password);
+    console.log('this._localStorage.senha '  , this._localStorage.senha);
     return new Promise((resolve, reject) => {
       this._httpClient.get<Dispositivo>(environment.endpoint + 'principal').toPromise().then(result => {
-
+        console.log('result '  , result);
         if (!result) {
           this.localLogout(password).then(() => resolve()).catch(error => reject(error));
-        } else if (result && (password === (result as any).password || 129000 === password)) {
+        } else if (result && (password === result.senha || 129000 === password)) {
 
           this._dispositivoRepository.desvincular(this._dispositivo.numeroSerie)
             .toPromise().then(() => resolve()).catch(error => reject(error))
 
-        } else if (result && (password !== (result as any).password || 129000 !== password)) {
+        } else if (result && (password !== result.senha || 129000 !== password)) {
           reject('Senha incorreta!')
         }
 

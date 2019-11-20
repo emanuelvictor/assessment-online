@@ -1,6 +1,8 @@
 package online.meavalia.application.resource;
 
+import lombok.RequiredArgsConstructor;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
+import online.meavalia.domain.entity.assinatura.Assinatura;
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import online.meavalia.domain.entity.usuario.Perfil;
@@ -8,8 +10,6 @@ import online.meavalia.domain.repository.AssinaturaRepository;
 import online.meavalia.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
 import online.meavalia.domain.service.DispositivoService;
 import online.meavalia.infrastructure.resource.AbstractResource;
-import online.meavalia.domain.entity.assinatura.Assinatura;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
@@ -169,8 +169,11 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
      */
     @GetMapping("{numeroSerie}/desvincular")
     @PreAuthorize("hasAnyAuthority('" + Perfil.DISPOSITIVO_VALUE + "')")
-    Mono<Optional<Dispositivo>> desvincular(@PathVariable final String numeroSerie) {
-        return Mono.just(Optional.of(this.dispositivoService.desvincular(numeroSerie)));
+    Mono<Dispositivo> desvincular(@PathVariable final String numeroSerie) {
+        final Dispositivo dispositivo = this.dispositivoService.desvincular(numeroSerie);
+        if (dispositivo != null)
+            return Mono.just(dispositivo);
+        return Mono.empty();
     }
 
 

@@ -4,8 +4,9 @@ import {PASSWORD_NAME, TOKEN_NAME} from '../../application/presentation/controls
 @Injectable()
 export class LocalStorage {
 
-  get senha() {
-    return window.localStorage[PASSWORD_NAME];
+  get senha(): number {
+    // tslint:disable-next-line:radix
+    return parseInt(window.localStorage[PASSWORD_NAME]);
   }
 
   set senha(senha: number) {
