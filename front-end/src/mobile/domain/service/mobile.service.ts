@@ -403,8 +403,24 @@ export class MobileService implements CanActivate, CanActivateChild {
             }
             this.connect();
             this.getConfiguracaoAsync();
-            console.log(window);
-            // window.plugins['insomnia'].keepAwake();
+
+            // if ((window as any) && (window as any).plugins && (window as any).plugins['insomnia']) {
+            //   if (resulted.modoInsonia) {
+            //     (window as any).plugins['insomnia'].keepAwake();
+            //   } else {
+            //     (window as any).plugins['insomnia'].allowSleepAgain();
+            //   }
+            // }
+            //
+            // if (window && window['KioskPlugin']) {
+            //   if (!resulted.modoQuiosque) {
+            //     (window as any).plugins['insomnia'].allowSleepAgain();
+            //     window['KioskPlugin'].exitKiosk();
+            //   } else {
+            //     (window as any).plugins['insomnia'].keepAwake();
+            //   }
+            // }
+
             subscriber.next(true)
           }
         })

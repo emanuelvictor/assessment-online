@@ -73,7 +73,18 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     this.mobileService.agrupador = new Agrupador();
 
     // Zera o dispositivo
-    this.mobileService.dispositivo = new Dispositivo()
+    this.mobileService.dispositivo = new Dispositivo();
+
+
+    // // Se está nessa tela, então libera os bloqueios do tablet
+    // if ((window as any) && (window as any).plugins && (window as any).plugins['insomnia']) {
+    //   (window as any).plugins['insomnia'].allowSleepAgain();
+    // }
+    //
+    // // Se está nessa tela, então libera os bloqueios do tablet
+    // if (window && window['KioskPlugin']) {
+    //   window['KioskPlugin'].exitKiosk()
+    // }
 
   }
 

@@ -12,6 +12,7 @@
     "dependencies": {
         "cordova-android": "^6.4.0",
         "cordova-plugin-cookieemperor": "git+https://github.com/rtk/cordova-cookie-emperor.git",
+        "cordova-plugin-device": "^2.0.3",
         "cordova-plugin-dialogs": "^2.0.2",
         "cordova-plugin-insomnia": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
         "cordova-plugin-ionic-keyboard": "^2.2.0",
@@ -30,7 +31,8 @@
             "cordova-plugin-cookieemperor": {},
             "cordova-plugin-dialogs": {},
             "cordova-plugin-x-toast": {},
-            "cordova-plugin-ionic-keyboard": {}
+            "cordova-plugin-ionic-keyboard": {},
+            "cordova-plugin-device": {}
         },
         "platforms": [
             "android"
