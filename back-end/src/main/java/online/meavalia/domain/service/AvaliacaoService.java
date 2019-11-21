@@ -53,6 +53,11 @@ public class AvaliacaoService {
     /**
      *
      */
+    private final DispositivoRepository dispositivoRepository;
+
+    /**
+     *
+     */
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
     // todo REMOVER e DELETAR depois que aprender a fazer funcionar o cascade
@@ -91,7 +96,9 @@ public class AvaliacaoService {
      */
     public Mono<Agrupador> save(final Agrupador agrupador) {
 
-        final Dispositivo dispositivo = agrupador.avaliacoes.get(0).avaliacoesAvaliaveis.get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo();
+        final Dispositivo dispositivo = this.dispositivoRepository.findById(agrupador.avaliacoes.get(0).avaliacoesAvaliaveis.get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo().getId()).orElseThrow(() -> new RuntimeException("Dispositivo não  encontrado"));
+
+        Assert.isTrue(dispositivo.isEnabled(), "Dispositivo desativado!");
 
         // Verifica se há faturas vencidas para o dispositivo
         final List<Fatura> faturas = this.faturaService.listByFilters(dispositivo.getTenant(), null, null).getContent();
@@ -112,7 +119,6 @@ public class AvaliacaoService {
     /**
      * @param agrupador
      */
-    @Transactional(readOnly = true)
     void validateRecaptcha(final Agrupador agrupador) {
         if (!recaptchaService.checkRecaptcha(agrupador.getRecap()))
             throw new RuntimeException("Você é um robô?");
