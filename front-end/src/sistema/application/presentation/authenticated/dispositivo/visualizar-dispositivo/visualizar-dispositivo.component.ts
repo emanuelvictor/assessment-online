@@ -107,7 +107,7 @@ export class VisualizarDispositivoComponent implements OnInit {
 
         this.unidades = result.content;
 
-        this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters({dispositivoId: this.dispositivo.id}).subscribe(page => {
+        this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters({dispositivoId: dispositivo.id}).subscribe(page => {
           dispositivo.unidadesTiposAvaliacoesDispositivo = page.content;
 
           for (let i = 0; i < this.unidades.length; i++) {
