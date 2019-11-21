@@ -47,14 +47,15 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacaoDispositivo.id = unidadeTipoAvaliacaoDispositivo.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
             "       LEFT OUTER JOIN Avaliacao avaliacao ON (avaliacao.id = avaliacaoAvaliavel.avaliacao.id) " +
-            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
-            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2) " +
-            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoAvaliavel.avaliacao.id AND av3.nota = 3) " +
-            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoAvaliavel.avaliacao.id AND av4.nota = 4) " +
-            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoAvaliavel.avaliacao.id AND av5.nota = 5) " +
+            "       LEFT OUTER JOIN Agrupador agrupador ON (agrupador.id = avaliacao.agrupador.id) " +
+            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacao.id AND av1.nota = 1) " +
+            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacao.id AND av2.nota = 2) " +
+            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacao.id AND av3.nota = 3) " +
+            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacao.id AND av4.nota = 4) " +
+            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacao.id AND av5.nota = 5) " +
             "   WHERE" +
             "   (   " +
-            "       avaliacao.agrupador.ativo IS TRUE" +
+            "       ((agrupador IS NOT NULL AND agrupador.ativo IS TRUE) OR agrupador IS NULL)" +
             "       AND " +
             "       (" +
             "           (" +
@@ -241,14 +242,15 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacaoDispositivo.id = unidadeTipoAvaliacaoDispositivo.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
             "       LEFT OUTER JOIN Avaliacao avaliacao ON (avaliacao.id = avaliacaoAvaliavel.avaliacao.id) " +
-            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
-            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2) " +
-            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoAvaliavel.avaliacao.id AND av3.nota = 3) " +
-            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoAvaliavel.avaliacao.id AND av4.nota = 4) " +
-            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoAvaliavel.avaliacao.id AND av5.nota = 5) " +
+            "       LEFT OUTER JOIN Agrupador agrupador ON (agrupador.id = avaliacao.agrupador.id) " +
+            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacao.id AND av1.nota = 1) " +
+            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacao.id AND av2.nota = 2) " +
+            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacao.id AND av3.nota = 3) " +
+            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacao.id AND av4.nota = 4) " +
+            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacao.id AND av5.nota = 5) " +
             "   WHERE (" +
             "   (   " +
-            "       avaliacao.agrupador.ativo IS TRUE" +
+            "       ((agrupador IS NOT NULL AND agrupador.ativo IS TRUE) OR agrupador IS NULL)" +
             "       AND " +
             "       (" +
             "           (" +
@@ -307,14 +309,15 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       LEFT OUTER JOIN Avaliavel avaliavel ON avaliavel.unidadeTipoAvaliacaoDispositivo.id = unidadeTipoAvaliacaoDispositivo.id " +
             "       LEFT OUTER JOIN AvaliacaoAvaliavel avaliacaoAvaliavel ON avaliacaoAvaliavel.avaliavel.id = avaliavel.id " +
             "       LEFT OUTER JOIN Avaliacao avaliacao ON (avaliacao.id = avaliacaoAvaliavel.avaliacao.id) " +
-            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacaoAvaliavel.avaliacao.id AND av1.nota = 1) " +
-            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacaoAvaliavel.avaliacao.id AND av2.nota = 2) " +
-            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacaoAvaliavel.avaliacao.id AND av3.nota = 3) " +
-            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacaoAvaliavel.avaliacao.id AND av4.nota = 4) " +
-            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacaoAvaliavel.avaliacao.id AND av5.nota = 5) " +
+            "       LEFT OUTER JOIN Agrupador agrupador ON (agrupador.id = avaliacao.agrupador.id) " +
+            "       LEFT OUTER JOIN Avaliacao av1 ON (av1.id = avaliacao.id AND av1.nota = 1) " +
+            "       LEFT OUTER JOIN Avaliacao av2 ON (av2.id = avaliacao.id AND av2.nota = 2) " +
+            "       LEFT OUTER JOIN Avaliacao av3 ON (av3.id = avaliacao.id AND av3.nota = 3) " +
+            "       LEFT OUTER JOIN Avaliacao av4 ON (av4.id = avaliacao.id AND av4.nota = 4) " +
+            "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacao.id AND av5.nota = 5) " +
             "   WHERE " +
             "   ( " +
-            "       avaliacao.agrupador.ativo IS TRUE" +
+            "       ((agrupador IS NOT NULL AND agrupador.ativo IS TRUE) OR agrupador IS NULL)" +
             "       AND " +
             "       unidade.id = :unidadeId" +
             "   )" +
