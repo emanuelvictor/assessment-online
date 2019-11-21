@@ -22,8 +22,10 @@
                    class='push-left push-right push-bottom'
                    layout-align='center center' layout='column'>
                 <img src='{{path}}'
+                     [matTooltipPosition]="'below'"
                      style='max-width: 200px; cursor:pointer'
-                     (click)='updateCodigo(dispositivoToCode?.id)'>
+                     (click)='updateCodigo(dispositivoToCode?.id)'
+                     matTooltip='Clique para gerar um novo código'>
                 <h2 layout-align='center center'
                     style='margin-top: 10px' flex
                     class='mat-subheading-2 tc-blue-grey-500 no-margin'>
