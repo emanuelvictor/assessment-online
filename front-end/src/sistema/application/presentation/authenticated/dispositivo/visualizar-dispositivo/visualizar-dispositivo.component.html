@@ -17,10 +17,9 @@
             <div flex-gt-xs='100' layout='column' [@fadeInOut]
                  layout-align='start center' layout-gt-xs='row'>
 
-              <div style='margin-top: -10px'
-                   *ngIf='path' [@fadeInOut] flex
-                   class='push-left push-right push-bottom'
-                   layout-align='center center' layout='column'>
+              <div *ngIf='path' [@fadeInOut] flex
+                   layout-align='center center' layout='column'
+                   class='push-top push-left push-right push-bottom'>
                 <img src='{{path}}'
                      [matTooltipPosition]="'below'"
                      style='max-width: 200px; cursor:pointer'

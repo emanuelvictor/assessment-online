@@ -88,6 +88,7 @@ export class VisualizarDispositivoComponent implements OnInit {
     const id: number = this.activatedRoute.snapshot.params['id'];
     this.find(id)
   }
+
   /**
    *
    * @param {number} id
@@ -263,9 +264,6 @@ export class VisualizarDispositivoComponent implements OnInit {
    * @param id
    */
   updateCodigo(id: number) {
-    this.dispositivoRepository.updateCodigo(id).subscribe(result => {
-      }
-      // this.dispositivo = result
-    )
+    this.dispositivoRepository.updateCodigo(id).subscribe()
   }
 }
