@@ -41,7 +41,7 @@ export class ConsultarDispositivosComponent implements OnInit {
    */
   public displayedColumns: string[] = [
     'nome',
-    'publico'
+    'ativo'
   ];
 
   /**

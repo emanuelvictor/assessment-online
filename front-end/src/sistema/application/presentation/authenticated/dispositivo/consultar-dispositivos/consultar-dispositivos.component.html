@@ -47,31 +47,45 @@
                  matSortDirection='asc' matSortDisableClear>
 
         <ng-container matColumnDef='nome'>
-          <mat-header-cell *matHeaderCellDef flex-gt-md='30' flex-md='20' flex-sm='30'
-                           flex-xl='30' layout-align='start center' mat-sort-header>
+          <mat-header-cell *matHeaderCellDef flex-gt-md='70' flex-md='70' flex-sm='70'
+                           flex-xl='70' layout-align='start center' mat-sort-header>
             <div layout='column' layout-margin>
               Nome
             </div>
           </mat-header-cell>
-          <mat-cell *matCellDef='let dispositivo' flex-gt-md='30' flex-md='30' flex-sm='30'
-                    flex-xl='30' layout-align='start center'>
+          <mat-cell *matCellDef='let dispositivo'
+                    flex-gt-md='70' flex-md='70' flex-sm='70'
+                    flex-xl='70' layout-align='start center'>
             <div layout='column' layout-margin>
-              {{dispositivo?.nome}}
+              <span>{{dispositivo?.nome}}
+                <!--                <span *ngIf='dispositivo?.codigo'-->
+                <!--                      style='color: #607d8b'> - Data para reativação: {{dispositivo?.dataReativacao}}-->
+                <!--                </span>-->
+              </span>
+              <span style='color: gray'
+                    *ngIf='dispositivo?.numeroSerie'>
+                {{dispositivo?.numeroSerie ? ('Número de série: ' + dispositivo?.numeroSerie) : ''}}
+              </span>
+              <span style='color: gray'>Código: {{dispositivo?.codigo}} Senha: {{dispositivo?.senha}}</span>
+
+              <!--                <span style='color: #607d8b'>{{usuario?.unidades}}</span>-->
             </div>
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef='publico'>
-          <mat-header-cell *matHeaderCellDef flex-gt-md='70' flex-md='70' flex-sm='70'
-                           flex-xl='70' layout-align='start center' mat-sort-header>
+        <ng-container matColumnDef='ativo'>
+          <mat-header-cell *matHeaderCellDef flex-gt-md='30' flex-md='30' flex-sm='30'
+                           flex-xl='30' layout-align='start center' mat-sort-header>
             <div layout='column' layout-margin>
-              Público
+              Ativo
             </div>
           </mat-header-cell>
-          <mat-cell *matCellDef='let dispositivo' flex-gt-md='70' flex-md='70' flex-sm='70'
-                    flex-xl='70' layout-align='start center'>
+          <mat-cell *matCellDef='let dispositivo'
+                    flex-gt-md='30' flex-md='30' flex-sm='30'
+                    flex-xl='30' layout-align='start center'>
             <div layout='column' layout-margin>
-              {{dispositivo?.publico ? 'Sim' : 'Não'}}
+              {{dispositivo?.ativo ? 'Sim' : 'Não'}}
+              {{!dispositivo?.ativo ? (' - Data para reativação: ' + dispositivo?.dataReativacao) : ''}}
             </div>
           </mat-cell>
         </ng-container>

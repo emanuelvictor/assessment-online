@@ -52,7 +52,7 @@
 
               <span>{{fatura?.valorComDesconto ? (fatura?.valorComDesconto | currency:'BRL') : (fatura?.valor | currency:'BRL')}}
                 <span style='color: limegreen' *ngIf="fatura?.status === 'PAID' || fatura?.status === 'AUTHORIZED'"> - PAGO</span>
-                <span style='color: red' *ngIf="fatura?.emAtraso"> - EM ATRASO</span>
+                <span style='color: red' *ngIf='fatura?.emAtraso'> - EM ATRASO</span>
                 <span style='color: gray'> - {{fatura?.formaPagamento}} </span>
               </span>
               <span *ngIf='fatura?.cupom?.percentualDesconto'>

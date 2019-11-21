@@ -21,6 +21,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -49,6 +50,14 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     @NotNull
     @Column(nullable = false)
     private boolean ativo = true;
+
+    /**
+     *
+     */
+    @Column
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate dataDesativacao;
 
     /**
      *
@@ -249,5 +258,16 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
 
         if (senha == null)
             senha = getRandomNumberInRange();
+    }
+
+    /**
+     * @return
+     */
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    public LocalDate getDataReativacao() {
+        if (this.dataDesativacao == null)
+            return null;
+        return this.dataDesativacao.plusMonths(6);
     }
 }

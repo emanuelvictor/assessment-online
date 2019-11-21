@@ -17,6 +17,11 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
+  public ativo: boolean;
+
+  /**
+   *
+   */
   public senha: number;
 
   /**
@@ -39,10 +44,7 @@ export class Dispositivo extends Abstract {
    */
   public time = 30;
 
-  /**
-   *
-   */
-  public emUso: boolean;
+  public dataDesativacao: any;
 
   /**
    *

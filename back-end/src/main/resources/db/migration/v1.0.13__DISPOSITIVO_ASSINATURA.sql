@@ -75,6 +75,8 @@ alter table dispositivo
     add column codigo bigint not null default ((floor(random() * (999999 - 100000 + 1) + 100000)));
 alter table dispositivo
     add column codigo_expiration timestamp without time zone NOT NULL default now();
+alter table dispositivo
+    add column data_desativacao date;
 
 alter table dispositivo_aud
     add column senha bigint;
@@ -94,6 +96,8 @@ alter table dispositivo_aud
     add column codigo bigint;
 alter table dispositivo_aud
     add column codigo_expiration timestamp without time zone;
+alter table dispositivo_aud
+    add column data_desativacao date;
 
 alter table dispositivo
     drop constraint if exists dispositivo_tenant_nome_unique;

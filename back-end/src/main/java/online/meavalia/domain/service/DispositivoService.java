@@ -1,10 +1,5 @@
 package online.meavalia.domain.service;
 
-import online.meavalia.application.tenant.TenantIdentifierResolver;
-import online.meavalia.domain.entity.unidade.Dispositivo;
-import online.meavalia.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
-import online.meavalia.application.websocket.WrapperHandler;
-import online.meavalia.domain.repository.DispositivoRepository;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -12,6 +7,11 @@ import com.google.zxing.client.j2se.MatrixToImageConfig;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import lombok.RequiredArgsConstructor;
+import online.meavalia.application.tenant.TenantIdentifierResolver;
+import online.meavalia.application.websocket.WrapperHandler;
+import online.meavalia.domain.entity.unidade.Dispositivo;
+import online.meavalia.domain.repository.DispositivoRepository;
+import online.meavalia.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -31,7 +31,9 @@ import org.springframework.web.server.ServerWebExchange;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 
@@ -267,6 +269,15 @@ public class DispositivoService {
 
         final Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElseThrow();
 
+        if (dispositivo.getDataDesativacao() != null)
+            Assert.isTrue(dispositivo.getDataDesativacao().isBefore(LocalDate.now().minusMonths(6)), "Você só pode reativar o dispositivo a partir do dia " + dispositivo.getDataReativacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
+        // Se está desativando, seta a data de desativação
+        if (dispositivo.isAtivo())
+            dispositivo.setDataDesativacao(LocalDate.now());
+        else
+            dispositivo.setDataDesativacao(null);
+
         dispositivo.setAtivo(!dispositivo.isAtivo());
 
         this.dispositivoRepository.save(dispositivo);
@@ -303,7 +314,7 @@ public class DispositivoService {
     public Dispositivo updateCodigo(final long id) {
 
         final Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElseThrow();
-dispositivo.setUpdated(LocalDateTime.now());
+        dispositivo.setUpdated(LocalDateTime.now());
         this.dispositivoRepository.save(dispositivo);
 
         // Avisa os websockets
