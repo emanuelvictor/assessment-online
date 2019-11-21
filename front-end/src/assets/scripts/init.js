@@ -64,8 +64,10 @@ const app = {
 
       e.preventDefault();
 
-      if (window.location.hash === '#/configuracoes')
-        window['Kiosk'].setKioskEnabled(false);
+      if (window.location.hash === '#/configuracoes'){
+        window['Kiosk'].switchLauncher();
+        console.log('modo quiosque desligado')
+      }
 
       else if (!window.location.hash.includes('#/configuracoes')) {
         if (localStorage.getItem(TOKEN_NAME) != null && localStorage.getItem(PASSWORD_NAME) != null)

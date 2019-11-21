@@ -83,6 +83,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
 
     // Se está nessa tela, então libera os bloqueios do tablet
     if (window && window['Kiosk']) {
+      console.log('modo quiosque desligado');
       window['Kiosk'].setKioskEnabled(false)
     }
 

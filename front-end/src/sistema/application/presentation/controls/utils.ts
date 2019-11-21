@@ -41,8 +41,6 @@ export const TOKEN_NAME = 'meavalia-token';
 
 export const PASSWORD_NAME = 'senha';
 
-export const SERIAL_NUMBER_NAME = 'numeroSerie';
-
 /**
  * -----------------------------------------------------------------------------------------
  *                                        Animações

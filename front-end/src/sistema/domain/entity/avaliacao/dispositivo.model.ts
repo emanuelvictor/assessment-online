@@ -27,16 +27,6 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
-  public modoQuiosque: boolean;
-
-  /**
-   *
-   */
-  public modoInsonia: boolean;
-
-  /**
-   *
-   */
   public latitude: boolean;
 
   /**

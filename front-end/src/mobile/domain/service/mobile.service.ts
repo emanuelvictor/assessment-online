@@ -404,23 +404,14 @@ export class MobileService implements CanActivate, CanActivateChild {
             this.connect();
             this.getConfiguracaoAsync();
 
-            if ((window as any) && (window as any).plugins && (window as any).plugins['insomnia']) {
-              if (resulted.modoInsonia) {
-                (window as any).plugins['insomnia'].keepAwake();
-              } else {
-                (window as any).plugins['insomnia'].allowSleepAgain();
-              }
+            if (window && (window as any).plugins && (window as any).plugins['insomnia']) {
+              (window as any).plugins['insomnia'].keepAwake();
+            }
+            if (window && window['Kiosk']) {
+              window['Kiosk'].setKioskEnabled(true);
             }
 
-            if (window && window['Kiosk']) {
-              if (!resulted.modoQuiosque) {
-                (window as any).plugins['insomnia'].allowSleepAgain();
-                window['Kiosk'].setKioskEnabled(false);
-              } else {
-                (window as any).plugins['insomnia'].keepAwake();
-                window['Kiosk'].setKioskEnabled(true);
-              }
-            }
+            console.log('modo quiosque ligado');
 
             subscriber.next(true)
           }

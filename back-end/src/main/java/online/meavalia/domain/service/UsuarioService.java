@@ -335,8 +335,6 @@ public class UsuarioService {
         final Dispositivo dispositivo = new Dispositivo();
         dispositivo.setAssinatura(assinaturaRepository.findAll().get(0));
         dispositivo.setNome("Meu primeiro dispositivo");
-        dispositivo.setModoInsonia(true);
-        dispositivo.setModoQuiosque(true);
         dispositivo.setQuebrarLinhaNaSelecaoDeItemAvaliavel(true);
         dispositivo.setTime((short) 30);
         dispositivo.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());

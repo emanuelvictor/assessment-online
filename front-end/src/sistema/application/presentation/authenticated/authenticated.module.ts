@@ -59,7 +59,6 @@ import {DispositivoFormComponent} from './dispositivo/inserir-dispositivo/dispos
 import {ConsultarDispositivosComponent} from './dispositivo/consultar-dispositivos/consultar-dispositivos.component';
 import {AlterarDispositivoComponent} from './dispositivo/alterar-dispositivo/alterar-dispositivo.component';
 import {VincularUnidadeTipoAvaliacaoComponent} from './dispositivo/visualizar-dispositivo/vincular-unidade-tipo-avaliacao/vincular-unidade-tipo-avaliacao.component';
-import {OpcoesMobileComponent} from './dispositivo/inserir-dispositivo/opcoes-mobile/opcoes-mobile.component';
 import {OpcoesSiteComponent} from './dispositivo/inserir-dispositivo/opcoes-site/opcoes-site.component';
 import {ClienteViewComponent} from './cliente/cleinte-view.component';
 import {VisualizarClienteComponent} from './cliente/visualizar-cliente/visualizar-cliente.component';
@@ -197,7 +196,6 @@ import {ContaService} from '@src/sistema/domain/service/conta.service';
     ConsultarDispositivosComponent,
     AlterarDispositivoComponent,
     VincularUnidadeTipoAvaliacaoComponent,
-    OpcoesMobileComponent,
     OpcoesSiteComponent,
 
     // Cliente
