@@ -1,16 +1,16 @@
 package online.meavalia.domain.entity.unidade;
 
-import online.meavalia.Application;
-import online.meavalia.domain.entity.usuario.Perfil;
-import online.meavalia.domain.entity.assinatura.Assinatura;
-import online.meavalia.domain.entity.generic.AbstractEntity;
-import online.meavalia.infrastructure.tenant.TenantDetails;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import online.meavalia.Application;
+import online.meavalia.domain.entity.assinatura.Assinatura;
+import online.meavalia.domain.entity.generic.AbstractEntity;
+import online.meavalia.domain.entity.usuario.Perfil;
+import online.meavalia.infrastructure.tenant.TenantDetails;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -89,7 +89,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     @Max(999999)
     @Min(100000)
     @Column(length = 6, nullable = false)
-    private long senha;
+    private Long senha;
 
     /**
      *
@@ -246,5 +246,8 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     public void prePersistAndUpdate() {
         this.codigo = getRandomNumberInRange();
         this.codigoExpiration = LocalDateTime.now().plusHours(1);
+
+        if (senha == null)
+            senha = getRandomNumberInRange();
     }
 }

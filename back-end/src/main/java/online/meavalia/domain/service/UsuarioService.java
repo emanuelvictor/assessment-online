@@ -226,7 +226,8 @@ public class UsuarioService {
         if (Objects.requireNonNull(usuarioDB).getConta().getUsername() != null && Objects.requireNonNull(usuarioDB).getConta().getUsername().equals(this.tenantIdentifierResolver.getUsername())) {
             // Cria o contexto de segurança
             final SecurityContext context = createSecurityContextByUserDetails(usuario.getConta());
-            Objects.requireNonNull(exchange.getSession().block()).getAttributes().put(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME, context);
+            exchange.getSession().subscribe(webSession -> webSession.getAttributes().put(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME, context));
+//            Objects.requireNonNull(exchange.getSession().block()).getAttributes().put(DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME, context);
         }
 
         return usuario;
@@ -293,7 +294,7 @@ public class UsuarioService {
         final SecurityContext securityContext = createSecurityContextByUserDetails(usuario.getConta());
 
         // Insere o contexto no repositório de contexto e retorna o usuário inserido
-        serverSecurityContextRepository.save(exchange, securityContext).block();
+        serverSecurityContextRepository.save(exchange, securityContext).subscribe();
 
         tenantIdentifierResolver.setSchema(usuario.getConta().getEsquema());
 
