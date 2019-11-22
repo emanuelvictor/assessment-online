@@ -17,26 +17,25 @@
   <div layout='row' layout-margin
        style='margin-left: 41px; margin-top: 15px'>
 
-    <ev-datepicker #dataInicio (dataInputChange)='listByDates()'
+    <ev-datepicker flex layout='row' style='margin-left: -2px'
                    [(dataInput)]='pageRequest.dataInicioFilter'
-                   flex layout='row'
-                   style='margin-left: -2px'>
+                   #dataInicio (dataInputChange)='listByDates()'>
       <mat-form-field style='width: 225px'>
-        <input [(ngModel)]='pageRequest.dataInicioFilter'
-               [textMask]='{mask: masks.date, guide: false}'
+        <input placeholder='Data da avaliação - Início'
+               [(ngModel)]='pageRequest.dataInicioFilter'
                id='dataInicio' matInput name='dataInicio'
-               placeholder='Data da avaliação - Início'>
+               [textMask]='{mask: masks.date, guide: false}'>
       </mat-form-field>
     </ev-datepicker>
 
-    <ev-datepicker #dataTermino (dataInputChange)='listByDates()' [(dataInput)]='pageRequest.dataTerminoFilter'
-                   flex
-                   layout='row'>
+    <ev-datepicker flex layout='row'
+                   [(dataInput)]='pageRequest.dataTerminoFilter'
+                   #dataTermino (dataInputChange)='listByDates()'>
       <mat-form-field style='width: 235px'>
-        <input [(ngModel)]='pageRequest.dataTerminoFilter'
-               [textMask]='{mask: masks.date, guide: false}'
+        <input placeholder='Data da avaliação - Término'
+               [(ngModel)]='pageRequest.dataTerminoFilter'
                id='dataTermino' matInput name='dataTermino'
-               placeholder='Data da avaliação - Término'>
+               [textMask]='{mask: masks.date, guide: false}'>
       </mat-form-field>
     </ev-datepicker>
 
@@ -47,13 +46,13 @@
        style='margin-top: 3px'>
     Média: {{rankeavel?.media > 0 ? (rankeavel?.media | number:'1.0-2' :'pt-BR').replace(',', '.') : 0}}
   </div>
-  <mat-slide-toggle *ngIf="(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) != 0" [(ngModel)]='pizza'
-                    layout-margin>
+  <mat-slide-toggle layout-margin [(ngModel)]='pizza'
+                    *ngIf='(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) != 0'>
     <span class='tc-grey-600'>{{pizza ? 'Pizza' : 'Em barras' }}</span>
   </mat-slide-toggle>
 
-  <button (click)='pageRequest.dataInicioFilter = null; pageRequest.dataTerminoFilter = null; resetDates(); listByDates()'
-          mat-raised-button>
+  <button mat-raised-button
+          (click)='pageRequest.dataInicioFilter = null; pageRequest.dataTerminoFilter = null; resetDates(); listByDates()'>
     Limpar filtros
   </button>
 
@@ -93,9 +92,10 @@
           </div>
         </mat-card>
 
-        <div *ngIf='(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) === 0'
-             class='tc-grey-500 size-height-50' layout='row'
-             layout-align='center center'>
+        <div
+            *ngIf='(rankeavel?.avaliacoes1+rankeavel?.avaliacoes2+rankeavel?.avaliacoes3+rankeavel?.avaliacoes4+rankeavel?.avaliacoes5) === 0'
+            class='tc-grey-500 size-height-50' layout='row'
+            layout-align='center center'>
           <span> Sem estatísticas por aqui =( </span>
         </div>
 
