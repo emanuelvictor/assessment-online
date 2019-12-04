@@ -8,7 +8,7 @@
     <version>1.0.1.RELEASE</version>
     <packaging>jar</packaging>
 
-    <name>Me Avalia</name>
+    <name>MEAvalia</name>
     <description>Sistema Online de Avaliações</description>
 
     <parent>
