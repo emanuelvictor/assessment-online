@@ -141,7 +141,7 @@ public class ConfiguracaoService {
 
         if (logomarca == null) {
             try {
-                return IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/ubest1.png"));
+                return IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/logomarca.png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }

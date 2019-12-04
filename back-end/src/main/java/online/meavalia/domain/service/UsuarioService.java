@@ -364,7 +364,7 @@ public class UsuarioService {
             final URL backgroundImageURL = getClass().getResource("../../../../../public/sistema/assets/images/banner.png");
             if (backgroundImageURL != null)
                 configuracao.setBackgroundImage(IOUtils.toByteArray(backgroundImageURL));
-            final URL logoURL = getClass().getResource("../../../../../public/sistema/assets/images/ubest1.png");
+            final URL logoURL = getClass().getResource("../../../../../public/sistema/assets/images/logomarca.png");
             if (logoURL != null)
                 configuracao.setLogo(IOUtils.toByteArray(logoURL));
         } catch (IOException e) {

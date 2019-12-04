@@ -28,7 +28,7 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
    *
    * @type {string}
    */
-  logoImage: string = environment.endpoint + 'assets/images/ubest1.png';
+  logoImage: string = environment.endpoint + 'assets/images/logomarca.png';
 
   /**
    *
