@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>online.meavalia</groupId>
-    <artifactId>meavalia</artifactId>
+    <artifactId>MEAvalia</artifactId>
     <version>1.0.1.RELEASE</version>
     <packaging>jar</packaging>
 
