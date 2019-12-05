@@ -114,26 +114,15 @@ alter table dispositivo
     add column unidade_id varchar(150);
 
 -- Insere os dispositivos de acordo com as unidades
-INSERT INTO public.dispositivo (unidade_id, created, nome, time, quebrar_linha_na_selecao_de_item_avaliavel, tenant,
-                                assinatura_id)
+INSERT INTO public.dispositivo (unidade_id, created, nome, time,
+                                quebrar_linha_na_selecao_de_item_avaliavel,
+                                tenant, assinatura_id)
     (
         SELECT (unidade.id) || current_schema(),
-               NOW()       AS created,
-               pessoa.nome AS nome,
-               true        AS modo_quiosque,
-               true        AS modo_insonia,
-               30          AS time,
---                (select MAX(time) as innerTime,
---                        CASE
---                            WHEN innerTime IS NOT NULL THEN innerTime
---                            ELSE 30
---                            END
---                 from configuracao) AS time,
-               true        AS quebrar_linha_na_selecao_de_item_avaliavel,
-               NOW()       AS created,
-               pessoa.nome AS nome,
-               30          AS time,
-               true        AS quebrar_linha_na_selecao_de_item_avaliavel,
+               NOW()                                         AS created,
+               pessoa.nome                                   AS nome,
+               COALESCE((select time from configuracao), 30) AS time,
+               true                                          AS quebrar_linha_na_selecao_de_item_avaliavel,
                current_schema(),
                1
         FROM unidade
