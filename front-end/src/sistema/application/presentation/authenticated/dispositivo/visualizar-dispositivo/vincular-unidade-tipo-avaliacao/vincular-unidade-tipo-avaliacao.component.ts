@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Unidade} from '../../../../../../domain/entity/unidade/unidade.model';
-import {UnidadeTipoAvaliacaoRepository} from '../../../../../../domain/repository/unidade-tipo-avaliacao.repository';
-import {UnidadeTipoAvaliacaoDispositivo} from '../../../../../../domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
+import {Unidade} from '@src/sistema/domain/entity/unidade/unidade.model';
+import {UnidadeTipoAvaliacaoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao.repository';
+import {UnidadeTipoAvaliacaoDispositivo} from '@src/sistema/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
 
 @Component({
   selector: 'vincular-unidade-tipo-avaliacao',

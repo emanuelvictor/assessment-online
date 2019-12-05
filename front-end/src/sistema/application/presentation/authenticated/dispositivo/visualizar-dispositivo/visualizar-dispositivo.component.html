@@ -17,14 +17,19 @@
             <div flex-gt-xs='100' layout='column' [@fadeInOut]
                  layout-align='start center' layout-gt-xs='row'>
 
-              <div *ngIf='dispositivoToCode?.id'
-                   class='push-left push-right push-bottom'
-                   style='margin-top: -10px' [@fadeInOut] flex
-                   layout-align='center center' layout='column'>
-                <img style='max-width: 200px' src="{{path}}">
-                <h2 layout-align='center center' style='margin-top: 10px'
-                    class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
+              <div *ngIf='path' [@fadeInOut] flex
+                   layout-align='center center' layout='column'
+                   class='push-top push-left push-right push-bottom'>
+                <img src='{{path}}'
+                     [matTooltipPosition]="'below'"
+                     style='max-width: 200px; cursor:pointer'
+                     (click)='updateCodigo(dispositivoToCode?.id)'
+                     matTooltip='Clique para gerar um novo código'>
+                <h2 layout-align='center center'
+                    style='margin-top: 10px' flex
+                    class='mat-subheading-2 tc-blue-grey-500 no-margin'>
                   Código: {{dispositivoToCode?.codigo}}
+
                 </h2>
               </div>
 
@@ -48,12 +53,6 @@
                         </a>
                       </span>
                       </h1>
-                      <h2 *ngIf='!dispositivo?.modoQuiosque' class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
-                        Modo insônia: {{dispositivo?.modoInsonia ? 'Sim' : 'Não'}}
-                      </h2>
-                      <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
-                        Modo quiosque: {{dispositivo?.modoQuiosque ? 'Sim' : 'Não'}}
-                      </h2>
                       <h2 *ngIf='dispositivo?.senha' class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
                         Senha para sair do aplicativo: {{dispositivo?.senha}}
                       </h2>
@@ -86,13 +85,13 @@
                     <mat-icon>more_vert</mat-icon>
                   </button>
                   <mat-menu #menu='matMenu'>
-<!--                    <button (click)='remove()' color='primary' mat-menu-item>-->
-<!--                      <mat-icon>delete</mat-icon>-->
-<!--                      <span>Remover</span>-->
-<!--                    </button>-->
-                    <button (click)='publish()' color='primary' mat-menu-item>
-                      <mat-icon>block</mat-icon>
-                      <span>Desativar</span>
+                    <!--                    <button (click)='remove()' color='primary' mat-menu-item>-->
+                    <!--                      <mat-icon>delete</mat-icon>-->
+                    <!--                      <span>Remover</span>-->
+                    <!--                    </button>-->
+                    <button (click)='updateStatusAtivo(dispositivo?.id)' color='primary' mat-menu-item>
+                      <mat-icon>{{dispositivo?.ativo ? 'block' : 'replay'}} </mat-icon>
+                      <span>{{dispositivo?.ativo ? 'Desativar' : 'Reativar'}}</span>
                     </button>
                   </mat-menu>
                 </div>

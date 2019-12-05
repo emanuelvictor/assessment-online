@@ -9,6 +9,7 @@ import {environment} from '@src/environments/environment';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
 import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'authenticate-to-logout',
@@ -24,7 +25,7 @@ export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
    *
    * @type {string}
    */
-  logoImage: string = environment.endpoint + 'assets/images/ubest1.png';
+  logoImage: string = environment.endpoint + 'assets/images/logomarca.png';
 
   /**
    *
@@ -81,7 +82,7 @@ export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
 
     // Debounce da digitação, toda vez que o usuário digita alguma coisa, depois de 300 milisegundos ele executa isso.
     this.modelChanged.debounceTime(300).subscribe(model => {
-      if (model && model.length && (model.length === 6 || model.length === 8)) {
+      if (model && model > 100000) {
 
         // Restarta o timeout e Registra o loading
         this.mobileService.restartTimeout();
@@ -90,6 +91,9 @@ export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
         this.mobileService.logout(model).then(() => {
           this.mobileService.agrupador = new Agrupador();
           this.mobileService.dispositivo = new Dispositivo();
+
+          // todo FALCATRUA
+          this.mobileService.destroyCookies();
 
           // Resolve o loading
           this.mobileService.resolve('overlayStarSyntax');

@@ -116,7 +116,7 @@ export class VisualizarUnidadeComponent implements OnInit {
         this.unidadeService.delete(id)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-            this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {
+            this.snackBar.open('Unidade excluída com sucesso', 'Fechar', {
               duration: 3000
             })
           })

@@ -42,14 +42,13 @@
             <div layout='row' layout-align='center center'>
               <div class='visualizar-compra-container' flex>
                 <div layout='column' layout-align='center center' layout-margin>
-                  <img alt='Imagem grande check' class='push-top'
-                       src='https://www.thefullclass.com/static/images/big-check.png'>
+                  <img alt='Imagem grande check' class='push-top' src='{{bigCheckPath}}'>
                   <h1 class='tc-light-green-800' flex style='font-size: 34px'>Parabéns</h1>
                   <span class='tc-light-green-800 text-center mat-title' flex style='line-height: 20px'>
                     Sua assinatura foi realizada com sucesso! :)
                   </span>
-                  <span *ngIf="assinatura && assinatura.formaPagamento === 'BOLETO'" class='tc-light-green-800 text-center mat-subhead'
-                        flex>
+                  <span flex class='tc-light-green-800 text-center mat-subhead'
+                        *ngIf="assinatura && assinatura.formaPagamento === 'BOLETO'">
                     Você receberá os boletos em seu e-mail
                   </span>
                 </div>

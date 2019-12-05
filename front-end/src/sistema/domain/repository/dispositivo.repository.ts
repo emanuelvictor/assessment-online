@@ -67,4 +67,20 @@ export class DispositivoRepository extends BaseRepository<Dispositivo> {
         .catch(error => reject(error))
     })
   }
+
+  /**
+   *
+   * @param id
+   */
+  updateStatusAtivo(id: number): Observable<Dispositivo> {
+    return this.httpClient.get<Dispositivo>(this.collectionName + '/' + id + '/update-status-ativo')
+  }
+
+  /**
+   *
+   * @param id
+   */
+  updateCodigo(id: number): Observable<Dispositivo> {
+    return this.httpClient.get<Dispositivo>(this.collectionName + '/' + id + '/update-codigo')
+  }
 }

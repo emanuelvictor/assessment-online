@@ -1,6 +1,6 @@
 #Configuração destinada ao ambiente de desenvolvimento, os demais perfis hedarão deste
 spring:
-  application.name: UBest
+  application.name: meavalia
   jmx.enabled: false
 
   #DATA SOURCE
@@ -30,7 +30,7 @@ spring:
     format_sql: false
     open-in-view: false
     properties:
-      hibernate.dialect: br.com.ubest.infrastructure.hibernate.dialect.PostgreSQLDialect
+      hibernate.dialect: online.meavalia.infrastructure.hibernate.dialect.PostgreSQLDialect
       hibernate.jdbc.lob.non_contextual_creation: true
       hibernate.id.new_generator_mappings: true
       hibernate.order_by.default_null_ordering: last
@@ -104,7 +104,7 @@ gateway-payment:
   token: UHITM12AKI5DVUPENUCJE7XWV7UFJGMA
   key: LEWES7PIANC8CBLZK04U7FLCVNWJPMGPGWGABNEW
   environment: SANDBOX
-  logo-uri: https://www.ubest.com.br/sistema/assets/images/favicon-96x96-green.png
+  logo-uri: https://www.meavalia.online/sistema/assets/images/favicon-96x96-green.png
   expiration-days: 1
   gateway-uri: https://sandbox.moip.com.br/ #todo
   public-key: -----BEGIN PUBLIC KEY-----
@@ -120,12 +120,12 @@ gateway-payment:
 
 #  {
 #    "id": "APP-73E207H60PSG",
-#    "website": "https://ubest.com.br",
+#    "website": "https://meavalia.online",
 #    "accessToken": "6dcb445ebe914958a8d68c7ed3c8d7c0_v2",
 #    "description": "Aplicação de Avaliações Online",
-#    "name": "ubest",
+#    "name": "avalia",
 #    "secret": "41940871b505479683a9d0987e01e6c1",
-#    "redirectUri": "https://ubest.com.br/retorno",
+#    "redirectUri": "https://meavalia.online/retorno",
 #    "createdAt": "2019-10-25T20:19:28.237Z",
 #    "updatedAt": "2019-10-25T20:19:28.237Z"
 #  }

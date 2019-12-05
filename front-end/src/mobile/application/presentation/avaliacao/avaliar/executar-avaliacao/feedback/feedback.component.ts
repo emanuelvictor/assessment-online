@@ -7,6 +7,7 @@ import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {TipoFeedback} from '@src/sistema/domain/entity/configuracao/tipo-feedback.enum';
 import {cpfValidator, obrigatorio} from '@src/sistema/application/presentation/controls/validators/validators';
 import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-feedback',

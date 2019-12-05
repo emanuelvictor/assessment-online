@@ -17,22 +17,17 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
+  public ativo: boolean;
+
+  /**
+   *
+   */
   public senha: number;
 
   /**
    *
    */
   public nome: string;
-
-  /**
-   *
-   */
-  public modoQuiosque: boolean;
-
-  /**
-   *
-   */
-  public modoInsonia: boolean;
 
   /**
    *
@@ -53,6 +48,11 @@ export class Dispositivo extends Abstract {
    *
    */
   private _timeInMiliseconds: number;
+
+  /**
+   *
+   */
+  public dataDesativacao: any;
 
   /**
    *

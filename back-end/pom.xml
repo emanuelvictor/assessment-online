@@ -3,23 +3,23 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>br.com.ubest</groupId>
-    <artifactId>ubest</artifactId>
+    <groupId>online.meavalia</groupId>
+    <artifactId>MEAvalia</artifactId>
     <version>1.0.1.RELEASE</version>
     <packaging>jar</packaging>
 
-    <name>UBest</name>
-    <description>Online Avaliation System</description>
+    <name>MEAvalia</name>
+    <description>Sistema Online de Avaliações</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.5.RELEASE</version>
+        <version>2.1.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
-        <start-class>br.com.ubest.Application</start-class>
+        <start-class>online.meavalia.Application</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
         <java.version>11</java.version>
@@ -89,7 +89,7 @@
         <!--servidor-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <artifactId>spring-boot-starter-reactor-netty</artifactId>
         </dependency>
 
         <dependency>

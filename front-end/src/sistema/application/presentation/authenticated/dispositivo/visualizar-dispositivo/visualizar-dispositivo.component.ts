@@ -1,16 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {Avaliacao} from '../../../../../domain/entity/avaliacao/avaliacao.model';
-import {Dispositivo} from '../../../../../domain/entity/avaliacao/dispositivo.model';
-import {DispositivoRepository} from '../../../../../domain/repository/dispositivo.repository';
+import {Avaliacao} from '@src/sistema/domain/entity/avaliacao/avaliacao.model';
+import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
+import {DispositivoRepository} from '@src/sistema/domain/repository/dispositivo.repository';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
-import {UnidadeTipoAvaliacaoDispositivoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao-dispositivo.repository';
+import {UnidadeTipoAvaliacaoDispositivoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao-dispositivo.repository';
 import {viewAnimation} from '../../../controls/utils';
-import {UnidadeRepository} from '../../../../../domain/repository/unidade.repository';
-import {UnidadeTipoAvaliacaoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao.repository';
-import {UnidadeTipoAvaliacaoDispositivo} from '../../../../../domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
+import {UnidadeRepository} from '@src/sistema/domain/repository/unidade.repository';
+import {UnidadeTipoAvaliacaoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao.repository';
+import {UnidadeTipoAvaliacaoDispositivo} from '@src/sistema/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
 import {WebSocketSubject} from 'rxjs/webSocket';
+import * as moment from 'moment';
+import 'moment/locale/pt-br'
 
 @Component({
   selector: 'visualizar-dispositivo',
@@ -99,16 +101,15 @@ export class VisualizarDispositivoComponent implements OnInit {
 
     this.webSocketSubject.subscribe(dispositivo => {
       this.dispositivoToCode = dispositivo;
-
       this.path = 'dispositivos/' + this.dispositivoToCode.id + '/qrcode' + '?nocache=' + Math.floor(Math.random() * 2000).toString();
     });
 
     this.dispositivoRepository.findById(id).subscribe(dispositivo => {
-      this.unidadeRepository.listLightByFilters({withUnidadesTiposAvaliacoesAtivasFilter: true}).subscribe(result => {
+      this.unidadeRepository.listLightByFilters({withUnidadesTiposAvaliacoesAtivasFilter: true}).subscribe(pagee => {
 
-        this.unidades = result.content;
+        this.unidades = pagee.content;
 
-        this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters({dispositivoId: this.dispositivo.id}).subscribe(page => {
+        this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters({dispositivoId: dispositivo.id}).subscribe(page => {
           dispositivo.unidadesTiposAvaliacoesDispositivo = page.content;
 
           for (let i = 0; i < this.unidades.length; i++) {
@@ -249,5 +250,53 @@ export class VisualizarDispositivoComponent implements OnInit {
     this.snackBar.open(message, 'Fechar', {
       duration: 5000
     })
+  }
+
+  /**
+   *
+   */
+  updateStatusAtivo(id: number) {
+    this.dispositivoRepository.findById(id).subscribe(result => {
+      if (result.ativo) {
+        const momentt = moment().add(6, 'months').calendar();
+        const dialogRef = this.dialog.open(ConfirmDialogComponent,
+          {
+            data: {
+              color: 'red',
+              text: 'Você poderá reativar o dispositivo depois de 6 meses (' + momentt + '). Deseja continuar?!',
+              confirm: 'Sim',
+              cancel: 'Não'
+            }
+          }
+        );
+
+        dialogRef.afterClosed().subscribe(desativar => {
+          if (desativar) {
+            this.dispositivoRepository.updateStatusAtivo(id).subscribe(resulted => {
+              this.dispositivo = resulted;
+              this.snackBar.open('Dispositivo desativado com sucesso', 'Fechar', {
+                duration: 3000
+              })
+            });
+          }
+        });
+      } else {
+        this.dispositivoRepository.updateStatusAtivo(id).subscribe(resulted => {
+          this.dispositivo = resulted;
+          this.snackBar.open('Dispositivo ativado com sucesso', 'Fechar', {
+            duration: 3000
+          })
+        });
+      }
+    })
+
+  }
+
+  /**
+   *
+   * @param id
+   */
+  updateCodigo(id: number) {
+    this.dispositivoRepository.updateCodigo(id).subscribe()
   }
 }

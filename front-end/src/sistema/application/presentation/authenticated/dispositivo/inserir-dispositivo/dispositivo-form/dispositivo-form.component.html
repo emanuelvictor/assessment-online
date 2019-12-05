@@ -53,23 +53,10 @@
                     </mat-error>
                   </mat-form-field>
 
-                  <mat-checkbox flex style='padding: 20px'
-                                [ngModelOptions]='{standalone: true}'
-                                [(ngModel)]='dispositivo.quebrarLinhaNaSelecaoDeItemAvaliavel'>
+                  <mat-checkbox [(ngModel)]='dispositivo.quebrarLinhaNaSelecaoDeItemAvaliavel'
+                                flex style='padding: 20px' [ngModelOptions]='{standalone: true}'>
                     Quebrar linha durante a seleção de itens avaliáveis
                   </mat-checkbox>
-                </div>
-              </div>
-
-              <mat-divider [inset]='true'
-                           style='margin-top: 11px; margin-left: -25px; margin-right: -25px; margin-bottom: 14px; position: inherit;width: auto'>
-              </mat-divider>
-
-              <div layout='row' layout-align='start center'>
-                <div class='push-left' flex layout='row' layout-margin>
-
-                  <opcoes-mobile [dispositivo]='dispositivo' layout-margin></opcoes-mobile>
-
                 </div>
               </div>
 

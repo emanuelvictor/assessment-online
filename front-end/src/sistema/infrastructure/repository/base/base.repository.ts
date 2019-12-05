@@ -11,13 +11,16 @@ import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
 
   public socket: WebSocketSubject<T>;
+  protected collectionNameWebSocket: string = environment.endpointWebSocket;
   protected collectionName: string = environment.endpoint;
 
   constructor(public httpClient: HttpClient, public collection: string, private router?: Router) {
     if (collection) {
       this.collectionName = this.collectionName + collection;
+      this.collectionNameWebSocket = this.collectionNameWebSocket + collection;
     } else {
       this.collectionName = this.collectionName + this.constructor.name.replace('Repository', '').toLowerCase() + 's';
+      this.collectionNameWebSocket = this.collectionNameWebSocket + this.constructor.name.replace('Repository', '').toLowerCase() + 's';
     }
   }
 
@@ -27,7 +30,7 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
    */
   connect(id: number): WebSocketSubject<T> {
 
-    this.socket = webSocket('ws://localhost:8080/' + this.collectionName + '/' + id + '/connect');
+    this.socket = webSocket(this.collectionNameWebSocket + '/' + id + '/connect');
 
     // return new Observable<any>(subscriber => {
     return this.socket;

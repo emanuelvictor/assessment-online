@@ -1,0 +1,84 @@
+package online.meavalia.application.resource;
+
+import online.meavalia.domain.entity.unidade.Unidade;
+import online.meavalia.domain.entity.usuario.Perfil;
+import online.meavalia.domain.service.UnidadeService;
+import online.meavalia.infrastructure.resource.AbstractResource;
+import online.meavalia.infrastructure.suport.Utils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping({"**unidades", "**public/unidades", "**sistema/unidades", "**sistema/mobile/unidades"})
+public class UnidadeResource extends AbstractResource<Unidade> {
+
+    private final UnidadeService unidadeService;
+
+    @PostMapping
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    public Mono<Unidade> save(@RequestBody final Unidade unidade) {
+        return Mono.just(this.unidadeService.save(unidade));
+    }
+
+    @PutMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    public Mono<Unidade> save(@PathVariable final long id, @RequestBody final Unidade unidade) {
+        return Mono.just(this.unidadeService.save(id, unidade));
+    }
+
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    public Mono<Boolean> delete(@PathVariable final long id) {
+        this.unidadeService.delete(id);
+        return Mono.just(true);
+    }
+
+    @GetMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    public Mono<Optional<Unidade>> findById(@PathVariable final long id) {
+        return Mono.just(this.unidadeService.findById(id));
+    }
+
+    @GetMapping("{id}/estatisticas")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<Optional<Unidade>> findUnidadeById(@PathVariable final long id,
+                                            @RequestParam(required = false) final LocalDateTime dataInicioFilter,
+                                            @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
+        return Mono.just(unidadeService.findUnidadeById(id, dataInicioFilter, dataTerminoFilter));
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<Page<Unidade>> listByFilters(final String defaultFilter, final Long[] tiposAvaliacoesFilter, final String enderecoFilter,
+                                      @RequestParam(required = false) final LocalDateTime dataInicioFilter,
+                                      @RequestParam(required = false) final LocalDateTime dataTerminoFilter) {
+        return Mono.just(this.unidadeService.listByFilters(defaultFilter, Utils.getListFromArray(tiposAvaliacoesFilter), enderecoFilter, dataInicioFilter, dataTerminoFilter, getPageable()));
+    }
+
+    @GetMapping("light")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<Page<Unidade>> listByFilters(final String defaultFilter, final Boolean withBondFilter, final Boolean withAvaliaveisFilter, final Boolean withUnidadesTiposAvaliacoesAtivasFilter, final Long[] idsFilter) {
+        return Mono.just(this.unidadeService.listByFilters(defaultFilter, withBondFilter, withAvaliaveisFilter, withUnidadesTiposAvaliacoesAtivasFilter, Utils.getListFromArray(idsFilter), getPageable()));
+    }
+
+    /**
+     * Lista todas as unidades pelo id do usuário.
+     *
+     * @param usuarioId {long}
+     * @return Mono<List < Unidade>>
+     */
+    @GetMapping("by-usuario") //TODO gambitinho
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
+    Mono<List<Unidade>> listByUsuarioId(@RequestParam final long usuarioId) {
+        return Mono.just(this.unidadeService.listByUsuarioId(usuarioId));
+    }
+
+}

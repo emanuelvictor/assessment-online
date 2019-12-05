@@ -4,8 +4,28 @@ import {PASSWORD_NAME, TOKEN_NAME} from '../../application/presentation/controls
 @Injectable()
 export class LocalStorage {
 
-  get senha() {
-    return window.localStorage[PASSWORD_NAME];
+  get numeroSerie(): string {
+    // Handler de população do número de série
+    const device = window['device'];
+
+    let numeroSerie: string;
+
+    if (device) {
+      if (!device.serial || device.serial === 'unknown') {
+        numeroSerie = device.uuid
+      } else {
+        numeroSerie = device.serial
+      }
+    } else {
+      numeroSerie = 'NÚMERO DE SÉRIE EM DESENVOLVIMENTO'
+    }
+
+    return numeroSerie;
+  }
+
+  get senha(): number {
+    // tslint:disable-next-line:radix
+    return parseInt(window.localStorage[PASSWORD_NAME]);
   }
 
   set senha(senha: number) {

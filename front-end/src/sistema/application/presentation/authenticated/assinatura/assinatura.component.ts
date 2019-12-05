@@ -13,6 +13,7 @@ import {AssinaturaRepository} from '../../../../domain/repository/assinatura.rep
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Endereco} from '../../../../domain/entity/endereco/endereco.model';
 import {Cidade} from '../../../../domain/entity/endereco/cidade.model';
+import {environment} from '@src/environments/environment';
 
 /**
  *
@@ -50,6 +51,11 @@ export class AssinaturaComponent implements OnInit {
    *
    */
   public publicKey: string;
+
+  /**
+   *
+   */
+  bigCheckPath = environment.endpoint + 'assets/images/big-check.png';
 
   /**
    *

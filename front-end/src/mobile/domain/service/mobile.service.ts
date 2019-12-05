@@ -16,6 +16,8 @@ import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuraca
 import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
 import {environment} from '@src/environments/environment';
 import {TOKEN_NAME} from '@src/sistema/application/presentation/controls/utils';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.
@@ -24,11 +26,6 @@ import {TOKEN_NAME} from '@src/sistema/application/presentation/controls/utils';
  */
 @Injectable()
 export class MobileService implements CanActivate, CanActivateChild {
-
-  /**
-   *
-   */
-  private _numeroSerie = '234137';
 
   /**
    *
@@ -127,7 +124,7 @@ export class MobileService implements CanActivate, CanActivateChild {
 
     this._webSocketSubject.subscribe(result => {
       // Se não tiver senha então desloga tudo
-      if (!result.numeroSerie || result.numeroSerie !== this._numeroSerie) {
+      if (!result.numeroSerie || result.numeroSerie !== this.numeroSerie) {
         this._httpClient.get(environment.endpoint + 'logout').toPromise().then(() => {
           this.clearTimeout();
 
@@ -233,7 +230,7 @@ export class MobileService implements CanActivate, CanActivateChild {
    *
    */
   get numeroSerie(): string {
-    return this._numeroSerie
+    return this._localStorage.numeroSerie
   }
 
   // ------------- LocalStorage and Cookies handlers --------------
@@ -348,8 +345,6 @@ export class MobileService implements CanActivate, CanActivateChild {
 
         this._dispositivo = result;
 
-        console.log('SENHA ---> ' + this._dispositivo.senha);
-
         // Popula os cookies
         this.populeCookies(this._dispositivo.senha);
 
@@ -392,7 +387,7 @@ export class MobileService implements CanActivate, CanActivateChild {
 
       if (!route.params.id) {
         this._router.navigate(['configuracoes']);
-        subscriber.next(false)
+        subscriber.next(false);
       } else {
         this.getDispositivo(route.params.id).subscribe(resulted => {
           if (!resulted) {
@@ -408,6 +403,16 @@ export class MobileService implements CanActivate, CanActivateChild {
             }
             this.connect();
             this.getConfiguracaoAsync();
+
+            if (window && (window as any).plugins && (window as any).plugins['insomnia']) {
+              (window as any).plugins['insomnia'].keepAwake();
+            }
+            if (window && window['Kiosk']) {
+              window['Kiosk'].setKioskEnabled(true);
+            }
+
+            console.log('modo quiosque ligado');
+
             subscriber.next(true)
           }
         })
@@ -422,15 +427,14 @@ export class MobileService implements CanActivate, CanActivateChild {
   public logout(password: number): Promise<any> {
     return new Promise((resolve, reject) => {
       this._httpClient.get<Dispositivo>(environment.endpoint + 'principal').toPromise().then(result => {
-
         if (!result) {
           this.localLogout(password).then(() => resolve()).catch(error => reject(error));
-        } else if (result && (password === (result as any).password || 129000 === password)) {
+        } else if (result && (password === result.senha || 129000 === password)) {
 
           this._dispositivoRepository.desvincular(this._dispositivo.numeroSerie)
             .toPromise().then(() => resolve()).catch(error => reject(error))
 
-        } else if (result && (password !== (result as any).password || 129000 !== password)) {
+        } else if (result && (password !== result.senha || 129000 !== password)) {
           reject('Senha incorreta!')
         }
 

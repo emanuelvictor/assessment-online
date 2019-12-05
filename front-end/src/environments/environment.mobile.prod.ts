@@ -2,7 +2,9 @@ export const environment = {
 
   production: true,
 
-  endpoint: 'https://ubest.com.br/sistema/mobile/',
+  endpointWebSocket: 'ws://meavalia.online/',
+
+  endpoint: 'https://meavalia.online/sistema/mobile/',
 
   mobile: true
 

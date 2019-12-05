@@ -64,10 +64,6 @@ alter table dispositivo
 alter table dispositivo
     add column longitude numeric(19, 2);
 alter table dispositivo
-    add column modo_insonia boolean not null default true;
-alter table dispositivo
-    add column modo_quiosque boolean not null default true;
-alter table dispositivo
     add column quebrar_linha_na_selecao_de_item_avaliavel boolean not null default true;
 alter table dispositivo
     add column time int2 not null check (time >= 5 AND time <= 600) default 30 not null;
@@ -79,6 +75,8 @@ alter table dispositivo
     add column codigo bigint not null default ((floor(random() * (999999 - 100000 + 1) + 100000)));
 alter table dispositivo
     add column codigo_expiration timestamp without time zone NOT NULL default now();
+alter table dispositivo
+    add column data_desativacao date;
 
 alter table dispositivo_aud
     add column senha bigint;
@@ -89,10 +87,6 @@ alter table dispositivo_aud
 alter table dispositivo_aud
     add column longitude numeric(19, 2);
 alter table dispositivo_aud
-    add column modo_insonia boolean;
-alter table dispositivo_aud
-    add column modo_quiosque boolean;
-alter table dispositivo_aud
     add column quebrar_linha_na_selecao_de_item_avaliavel boolean;
 alter table dispositivo_aud
     add column time int2;
@@ -102,6 +96,8 @@ alter table dispositivo_aud
     add column codigo bigint;
 alter table dispositivo_aud
     add column codigo_expiration timestamp without time zone;
+alter table dispositivo_aud
+    add column data_desativacao date;
 
 alter table dispositivo
     drop constraint if exists dispositivo_tenant_nome_unique;
@@ -118,21 +114,26 @@ alter table dispositivo
     add column unidade_id varchar(150);
 
 -- Insere os dispositivos de acordo com as unidades
-INSERT INTO public.dispositivo (unidade_id, created, nome, modo_quiosque, modo_insonia, time,
-                                quebrar_linha_na_selecao_de_item_avaliavel, tenant, assinatura_id)
+INSERT INTO public.dispositivo (unidade_id, created, nome, time, quebrar_linha_na_selecao_de_item_avaliavel, tenant,
+                                assinatura_id)
     (
         SELECT (unidade.id) || current_schema(),
-               NOW()               AS created,
-               pessoa.nome         AS nome,
-               true                AS modo_quiosque,
-               true                AS modo_insonia,
-               (select MAX(time) as innerTime,
-                       CASE
-                           WHEN innerTime IS NOT NULL THEN innerTime
-                           ELSE 30
-                           END
-                from configuracao) AS time,
-               true                AS quebrar_linha_na_selecao_de_item_avaliavel,
+               NOW()       AS created,
+               pessoa.nome AS nome,
+               true        AS modo_quiosque,
+               true        AS modo_insonia,
+               30          AS time,
+--                (select MAX(time) as innerTime,
+--                        CASE
+--                            WHEN innerTime IS NOT NULL THEN innerTime
+--                            ELSE 30
+--                            END
+--                 from configuracao) AS time,
+               true        AS quebrar_linha_na_selecao_de_item_avaliavel,
+               NOW()       AS created,
+               pessoa.nome AS nome,
+               30          AS time,
+               true        AS quebrar_linha_na_selecao_de_item_avaliavel,
                current_schema(),
                1
         FROM unidade

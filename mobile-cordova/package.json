@@ -1,8 +1,8 @@
 {
-    "name": "helloworld",
-    "displayName": "HelloCordova",
+    "name": "MEAvalia",
+    "displayName": "MEAvalia",
     "version": "1.0.0",
-    "description": "A sample Apache Cordova application that responds to the deviceready event.",
+    "description": "Sistema de Monitoramento de Avaliações",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,12 +12,13 @@
     "dependencies": {
         "cordova-android": "^6.4.0",
         "cordova-plugin-cookieemperor": "git+https://github.com/rtk/cordova-cookie-emperor.git",
-        "cordova-plugin-dialogs": "^2.0.1",
+        "cordova-plugin-device": "^2.0.3",
+        "cordova-plugin-dialogs": "^2.0.2",
         "cordova-plugin-insomnia": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
-        "cordova-plugin-ionic-keyboard": "^2.1.3",
-        "cordova-plugin-kiosk": "git+https://github.com/hkalina/cordova-plugin-kiosk.git",
+        "cordova-plugin-ionic-keyboard": "^2.2.0",
+        "cordova-plugin-kiosk-launcher": "^1.1.1",
         "cordova-plugin-remote-injection": "^0.5.2",
-        "cordova-plugin-whitelist": "^1.3.3",
+        "cordova-plugin-whitelist": "^1.3.4",
         "cordova-plugin-x-toast": "^2.7.2",
         "http-server": "^0.11.1"
     },
@@ -25,12 +26,13 @@
         "plugins": {
             "cordova-plugin-whitelist": {},
             "cordova-plugin-insomnia": {},
-            "cordova-plugin-kiosk": {},
             "cordova-plugin-remote-injection": {},
             "cordova-plugin-cookieemperor": {},
             "cordova-plugin-dialogs": {},
             "cordova-plugin-x-toast": {},
-            "cordova-plugin-ionic-keyboard": {}
+            "cordova-plugin-ionic-keyboard": {},
+            "cordova-plugin-device": {},
+            "cordova-plugin-kiosk-launcher": {}
         },
         "platforms": [
             "android"
