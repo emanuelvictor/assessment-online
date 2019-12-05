@@ -70,11 +70,11 @@ alter table dispositivo
 alter table dispositivo
     add column quebrar_linha_na_selecao_de_item_avaliavel boolean not null default true;
 alter table dispositivo
-    add column time int2 not null check (time >= 5 AND time <= 600) default 30;
+    add column time int2 not null check (time >= 5 AND time <= 600) default 30 not null;
 alter table dispositivo
     add column tenant varchar(150) not null default current_schema();
 alter table dispositivo
-    add column senha bigint  not null default ((floor(random() * (999999 - 100000 + 1) + 100000)));
+    add column senha bigint not null default ((floor(random() * (999999 - 100000 + 1) + 100000)));
 alter table dispositivo
     add column codigo bigint not null default ((floor(random() * (999999 - 100000 + 1) + 100000)));
 alter table dispositivo
@@ -122,12 +122,17 @@ INSERT INTO public.dispositivo (unidade_id, created, nome, modo_quiosque, modo_i
                                 quebrar_linha_na_selecao_de_item_avaliavel, tenant, assinatura_id)
     (
         SELECT (unidade.id) || current_schema(),
-               NOW()       AS created,
-               pessoa.nome AS nome,
-               true        AS modo_quiosque,
-               true        AS modo_insonia,
-               30          AS time,
-               true        AS quebrar_linha_na_selecao_de_item_avaliavel,
+               NOW()               AS created,
+               pessoa.nome         AS nome,
+               true                AS modo_quiosque,
+               true                AS modo_insonia,
+               (select MAX(time) as innerTime,
+                       CASE
+                           WHEN innerTime IS NOT NULL THEN innerTime
+                           ELSE 30
+                           END
+                from configuracao) AS time,
+               true                AS quebrar_linha_na_selecao_de_item_avaliavel,
                current_schema(),
                1
         FROM unidade
@@ -137,12 +142,12 @@ INSERT INTO public.dispositivo (unidade_id, created, nome, modo_quiosque, modo_i
 -- Insere os unidade-tipo-avaliacao-dispositivo de acordo com as unidades
 INSERT INTO unidade_tipo_avaliacao_dispositivo (id, created, ordem, unidade_tipo_avaliacao_id, dispositivo_id, ativo)
     (
-        SELECT (unidade_tipo_avaliacao.id) as ide,
-               NOW()                       AS created,
-               row_number() OVER (PARTITION BY public.dispositivo.id ORDER BY unidade_tipo_avaliacao.id)                           AS ordem,
-               unidade_tipo_avaliacao.id   AS unidade_tipo_avaliacao_id,
-               public.dispositivo.id       AS dispositivo_id,
-               true                        AS ativo
+        SELECT (unidade_tipo_avaliacao.id)                                                               as ide,
+               NOW()                                                                                     AS created,
+               row_number() OVER (PARTITION BY public.dispositivo.id ORDER BY unidade_tipo_avaliacao.id) AS ordem,
+               unidade_tipo_avaliacao.id                                                                 AS unidade_tipo_avaliacao_id,
+               public.dispositivo.id                                                                     AS dispositivo_id,
+               true                                                                                      AS ativo
         FROM unidade
                  INNER JOIN unidade_tipo_avaliacao ON unidade_tipo_avaliacao.unidade_id = unidade.id
                  LEFT OUTER JOIN public.dispositivo ON public.dispositivo.unidade_id = unidade.id || current_schema()

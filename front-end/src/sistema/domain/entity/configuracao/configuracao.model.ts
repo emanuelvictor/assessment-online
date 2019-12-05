@@ -92,11 +92,6 @@ export class Configuracao extends Abstract {
   /**
    *
    */
-  public time: number;
-
-  /**
-   *
-   */
   private _timeInMiliseconds: number;
 
   /**
@@ -111,14 +106,5 @@ export class Configuracao extends Abstract {
     this.cinco = 'Ótimo';
     this.quebrarLinhaNaSelecaoDeItenAvaliavel = false;
     this.tipoFeedback = TipoFeedback.TEXTO;
-    this.time = 30;
-    this._timeInMiliseconds = this.time * 1000
-  }
-
-  /**
-   *
-   */
-  get timeInMilis(): number {
-    return this.time * 1000;
   }
 }

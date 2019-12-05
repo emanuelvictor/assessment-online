@@ -52,7 +52,7 @@ export class Dispositivo extends Abstract {
   /**
    *
    */
-  public emUso: boolean;
+  private _timeInMiliseconds: number;
 
   /**
    *
@@ -75,6 +75,15 @@ export class Dispositivo extends Abstract {
    */
   constructor(id?: number) {
     super();
-    this.id = id
+    this.id = id;
+    this.time = 30;
+    this._timeInMiliseconds = this.time * 1000
+  }
+
+  /**
+   *
+   */
+  get timeInMilis(): number {
+    return this.time * 1000;
   }
 }

@@ -84,7 +84,7 @@ export class MobileService implements CanActivate, CanActivateChild {
    * @param time
    */
   public createTimeout(fun: () => {}, time?: number): number {
-    return MobileService.setTimeout(fun, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
+    return MobileService.setTimeout(fun, time ? time : (this._dispositivo ? this._dispositivo.timeInMilis : 30000));
   }
 
   /**
@@ -104,8 +104,8 @@ export class MobileService implements CanActivate, CanActivateChild {
       this.agrupador = new Agrupador();
       this._router.navigate(['avaliar/' + this._dispositivo.id]);
       this._loadingService.resolve('overlayStarSyntax');
-      return time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000)
-    }, time ? time : (this._configuracao ? this._configuracao.timeInMilis : 30000));
+      return time ? time : (this._dispositivo ? this._dispositivo.timeInMilis : 30000)
+    }, time ? time : (this._dispositivo ? this._dispositivo.timeInMilis : 30000));
 
     //
     return this._timeout

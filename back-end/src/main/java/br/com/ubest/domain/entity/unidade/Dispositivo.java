@@ -116,6 +116,8 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     /**
      *
      */
+    @NotNull
+    @Column(nullable = false)
     @Min(value = 5, message = "O mínimo são 5 segundos")
     @Max(value = 600, message = "O máximo são 10 minutos (600 segundos)")
     private short time = 30;
@@ -261,5 +263,12 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     public void prePersistAndUpdate() {
         this.codigo = getRandomNumberInRange();
         this.codigoExpiration = LocalDateTime.now().plusHours(1);
+    }
+
+    /**
+     * @return int
+     */
+    public int getTimeInMilis() {
+        return time * 1000;
     }
 }
