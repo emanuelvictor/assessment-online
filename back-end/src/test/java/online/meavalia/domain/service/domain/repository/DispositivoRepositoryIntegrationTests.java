@@ -20,7 +20,7 @@ public class DispositivoRepositoryIntegrationTests extends AbstractIntegrationTe
      *
      */
     @Test
-    @Sql({ "/dataset/planos.sql", "/dataset/assinaturas.sql", "/dataset/dispositivos.sql"})
+    @Sql({"/dataset/plano.sql", "/dataset/assinatura.sql", "/dataset/dispositivo.sql"})
     public void findByIdMustPass() {
         final Dispositivo dispositivo = dispositivoRepository.findById(3L).orElseThrow();
         Assert.assertNotNull(dispositivo.getNome());
@@ -30,7 +30,7 @@ public class DispositivoRepositoryIntegrationTests extends AbstractIntegrationTe
      *
      */
     @Test(expected = java.util.NoSuchElementException.class)
-    @Sql({ "/dataset/planos.sql", "/dataset/assinaturas.sql", "/dataset/dispositivos.sql"})
+    @Sql({"/dataset/plano.sql", "/dataset/assinatura.sql", "/dataset/dispositivo.sql"})
     public void findByIdMustFail() {
         final Dispositivo dispositivo = dispositivoRepository.findById(30000L).orElseThrow();
         Assert.assertNotNull(dispositivo.getNome());
@@ -40,7 +40,7 @@ public class DispositivoRepositoryIntegrationTests extends AbstractIntegrationTe
      *
      */
     @Test
-    @Sql({"/dataset/planos.sql", "/dataset/assinaturas.sql", "/dataset/dispositivos.sql"})
+    @Sql({"/dataset/plano.sql", "/dataset/assinatura.sql", "/dataset/dispositivo.sql"})
     public void findByCodigoMustPass() {
         final Dispositivo dispositivo = dispositivoRepository.findByCodigo(105782L).orElseThrow();
         Assert.assertNotNull(dispositivo.getNome());

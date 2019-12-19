@@ -1,8 +1,7 @@
 package online.meavalia.infrastructure.suport;
 
 import java.text.Normalizer;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -10,7 +9,17 @@ public class Utils {
     /**
      *
      */
-    public static final String EMPTY = "";
+    private static final String EMPTY = "";
+
+    /**
+     *
+     */
+    public static <T> Set<T> getSetFromArray(T[] array) {
+        if (array == null || array.length == 0)
+            return null;
+        return new HashSet<>(Arrays.asList(array));
+    }
+
 
     /**
      *

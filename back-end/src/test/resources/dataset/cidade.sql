@@ -1,7 +1,5 @@
 SET search_path TO public;
 
-TRUNCATE public.pais CASCADE;
-
 -- Arquivo .sql para população inicial das tabelas 'pais', 'estado' e 'cidade'
 -- Persiste todas as cidades e estados do brasil
 INSERT INTO "pais" (created, id, nome) VALUES (NOW(), 1000, 'Brasil');

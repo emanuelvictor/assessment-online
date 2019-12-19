@@ -28,6 +28,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import static online.meavalia.infrastructure.suport.Utils.getListFromArray;
+import static online.meavalia.infrastructure.suport.Utils.getSetFromArray;
 
 @RestController
 @RequiredArgsConstructor
@@ -92,7 +93,7 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     @PutMapping("{id}/unidadesTiposAvaliacoesDispositivo")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<List<UnidadeTipoAvaliacaoDispositivo>> saveUnidadesTiposAvaliacoesDispositivo(@PathVariable final long id, @RequestBody final UnidadeTipoAvaliacaoDispositivo[] unidadesTiposAvaliacoesDispositivo) {
-        return Mono.just(dispositivoService.saveUnidadesTiposAvaliacoesDispositivo(id, getListFromArray(unidadesTiposAvaliacoesDispositivo)));
+        return Mono.just(dispositivoService.saveUnidadesTiposAvaliacoesDispositivo(id, getSetFromArray(unidadesTiposAvaliacoesDispositivo)));
     }
 //
 //    /**

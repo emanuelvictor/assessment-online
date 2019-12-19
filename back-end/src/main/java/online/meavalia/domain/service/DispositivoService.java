@@ -38,6 +38,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -136,7 +137,7 @@ public class DispositivoService {
      * @return
      */
     @Transactional(readOnly = true)
-    Dispositivo loadDispositivo(final Dispositivo dispositivo, final Boolean ativo) {
+    public Dispositivo loadDispositivo(final Dispositivo dispositivo, final Boolean ativo) {
         dispositivo.setUnidadesTiposAvaliacoesDispositivo(new HashSet<>(this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters(null, dispositivo.getId(), null, ativo, ativo, null).getContent()));
         dispositivo.getUnidadesTiposAvaliacoesDispositivo().forEach(unidadeTipoAvaliacaoDispositivo ->
                 unidadeTipoAvaliacaoDispositivo.setAvaliaveis(new HashSet<>(this.avaliavelService.listByFilters(null, null, null, true, unidadeTipoAvaliacaoDispositivo.getId(), null).getContent()))
@@ -338,7 +339,7 @@ public class DispositivoService {
      * @return
      */
     @Transactional
-    public List<UnidadeTipoAvaliacaoDispositivo> saveUnidadesTiposAvaliacoesDispositivo(final long id, final List<UnidadeTipoAvaliacaoDispositivo> unidadesTiposAvaliacoesDispositivo) {
+    public List<UnidadeTipoAvaliacaoDispositivo> saveUnidadesTiposAvaliacoesDispositivo(final long id, final Set<UnidadeTipoAvaliacaoDispositivo> unidadesTiposAvaliacoesDispositivo) {
 
         Assert.isTrue(this.dispositivoRepository.findById(id).orElseThrow().isEnabled(), "Este dispositivo está desativado"); // TODO Criar exception exlcusiva para faturas em atraso
 

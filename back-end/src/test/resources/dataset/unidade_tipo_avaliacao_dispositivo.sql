@@ -1,0 +1,35 @@
+SET search_path TO public;
+
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (13, '2019-12-19 10:07:57.923321', NULL, true, 1, 1, 13);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (14, '2019-12-19 10:07:57.923321', NULL, true, 1, 2, 14);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (10, '2019-12-19 10:07:57.923321', NULL, true, 1, 3, 10);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (18, '2019-12-19 10:07:57.923321', NULL, true, 1, 4, 18);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (23, '2019-12-19 10:07:57.923321', NULL, true, 1, 5, 23);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (25, '2019-12-19 10:07:57.923321', NULL, true, 1, 6, 25);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (11, '2019-12-19 10:07:57.923321', NULL, true, 1, 7, 11);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (12, '2019-12-19 10:07:57.923321', NULL, true, 1, 8, 12);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (20, '2019-12-19 10:07:57.923321', NULL, true, 1, 9, 20);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (21, '2019-12-19 10:07:57.923321', NULL, true, 1, 10, 21);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (19, '2019-12-19 10:07:57.923321', NULL, true, 1, 11, 19);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (9, '2019-12-19 10:07:57.923321', NULL, true, 1, 12, 9);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (15, '2019-12-19 10:07:57.923321', NULL, true, 1, 13, 15);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (24, '2019-12-19 10:07:57.923321', NULL, true, 1, 14, 24);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (27, '2019-12-19 10:07:57.923321', NULL, true, 1, 15, 27);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (29, '2019-12-19 10:07:57.923321', NULL, true, 1, 16, 29);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (37, '2019-12-19 10:07:57.923321', NULL, true, 1, 17, 37);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (17, '2019-12-19 10:07:57.923321', NULL, true, 1, 18, 17);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (26, '2019-12-19 10:07:57.923321', NULL, true, 1, 19, 26);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (40, '2019-12-19 10:07:57.923321', NULL, true, 1, 20, 40);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (16, '2019-12-19 10:07:57.923321', NULL, true, 1, 21, 16);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (22, '2019-12-19 10:07:57.923321', NULL, true, 1, 22, 22);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (30, '2019-12-19 10:07:57.923321', NULL, true, 1, 23, 30);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (35, '2019-12-19 10:07:57.923321', NULL, true, 1, 24, 35);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (28, '2019-12-19 10:07:57.923321', NULL, true, 1, 25, 28);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (36, '2019-12-19 10:07:57.923321', NULL, true, 1, 26, 36);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (31, '2019-12-19 10:07:57.923321', NULL, true, 1, 27, 31);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (32, '2019-12-19 10:07:57.923321', NULL, true, 1, 28, 32);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (33, '2019-12-19 10:07:57.923321', NULL, true, 1, 29, 33);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (34, '2019-12-19 10:07:57.923321', NULL, true, 1, 30, 34);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (42, '2019-12-19 14:14:21.640011', '2019-12-19 14:14:23.74637', false, NULL, 2, 13);
+INSERT INTO public.unidade_tipo_avaliacao_dispositivo (id, created, updated, ativo, ordem, dispositivo_id, unidade_tipo_avaliacao_id) VALUES (43, '2019-12-19 14:34:59.865324', NULL, true, 1, 3, 13);
+
