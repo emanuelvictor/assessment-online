@@ -8,3 +8,4 @@ TRUNCATE public.endereco CASCADE;
 TRUNCATE public.unidade CASCADE;
 TRUNCATE public.unidade_tipo_avaliacao CASCADE;
 TRUNCATE public.unidade_tipo_avaliacao_dispositivo CASCADE;
+TRUNCATE public.fatura CASCADE;

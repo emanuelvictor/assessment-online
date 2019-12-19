@@ -355,6 +355,7 @@ public class FaturaService {
         this.authenticateTokenOfNotification(authentication);
 
         return this.updateOrderByNotification(orderNotification);
+
     }
 
     /**
@@ -363,9 +364,8 @@ public class FaturaService {
      */
     public Fatura updateOrderByNotification(final Object orderNotification) {
 
-        final Fatura fatura = this.updateOrderByNotificationTransaction(orderNotification);
+        return this.updateOrderByNotificationTransaction(orderNotification);
 
-        return fatura;
     }
 
     /**

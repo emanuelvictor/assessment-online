@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import online.meavalia.Application;
-import online.meavalia.domain.entity.assinatura.Assinatura;
 import online.meavalia.domain.entity.generic.AbstractEntity;
 import online.meavalia.domain.entity.usuario.Perfil;
 import online.meavalia.infrastructure.tenant.TenantDetails;
@@ -121,12 +120,12 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     @OneToMany(targetEntity = UnidadeTipoAvaliacaoDispositivo.class, mappedBy = "dispositivo", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Set<UnidadeTipoAvaliacaoDispositivo> unidadesTiposAvaliacoesDispositivo;
 
-    /**
-     *
-     */
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "assinatura_id")
-    private Assinatura assinatura;
+//    /**
+//     *
+//     */
+//    @ManyToOne(optional = false)
+//    @JoinColumn(name = "assinatura_id")
+//    private Assinatura assinatura;
 
     /**
      *

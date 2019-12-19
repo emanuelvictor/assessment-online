@@ -146,7 +146,8 @@ public class DispositivoService {
     }
 
     /**
-     * TODO TESTAR
+     * TODO TESTAR mustpass e fails
+     *
      * @param numeroSerie
      * @param codigo
      * @param exchange
@@ -210,6 +211,9 @@ public class DispositivoService {
         else if (dispositivo.getId() != null)
             return updateDispositivo(dispositivo.getId(), dispositivo);
 
+        // Seta o tenant no dispositivo
+        dispositivo.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+
         return this.dispositivoRepository.save(dispositivo);
     }
 
@@ -224,11 +228,15 @@ public class DispositivoService {
 
         dispositivo.setId(id);
 
+        // Seta o tenant no dispositivo
+        dispositivo.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
+
         return this.dispositivoRepository.save(dispositivo);
     }
 
     /**
-     * TODO tesar
+     * TODO tesar mustpass
+     *
      * @param numeroSerie
      * @return
      */
@@ -279,7 +287,8 @@ public class DispositivoService {
     }
 
     /**
-     * todo TESTAR
+     * todo TESTAR musta pass e fail
+     *
      * @param id
      * @return
      */
@@ -333,7 +342,6 @@ public class DispositivoService {
     }
 
     /**
-     * TODO TESTAR
      * @param id
      * @param unidadesTiposAvaliacoesDispositivo
      * @return

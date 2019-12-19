@@ -58,8 +58,6 @@ INSERT INTO assinatura (id, created, cancelada)
 VALUES (1, NOW(), false);
 
 alter table dispositivo
-    add column assinatura_id bigint not null default 1;
-alter table dispositivo
     add column latitude numeric(19, 2);
 alter table dispositivo
     add column longitude numeric(19, 2);
@@ -91,8 +89,6 @@ alter table dispositivo_aud
 alter table dispositivo_aud
     add column time int2;
 alter table dispositivo_aud
-    add column assinatura_id bigint not null default 0;
-alter table dispositivo_aud
     add column codigo bigint;
 alter table dispositivo_aud
     add column codigo_expiration timestamp without time zone;
@@ -116,15 +112,14 @@ alter table dispositivo
 -- Insere os dispositivos de acordo com as unidades
 INSERT INTO public.dispositivo (unidade_id, created, nome, time,
                                 quebrar_linha_na_selecao_de_item_avaliavel,
-                                tenant, assinatura_id)
+                                tenant)
     (
         SELECT (unidade.id) || current_schema(),
                NOW()                                         AS created,
                pessoa.nome                                   AS nome,
                COALESCE((select time from configuracao), 30) AS time,
                true                                          AS quebrar_linha_na_selecao_de_item_avaliavel,
-               current_schema(),
-               1
+               current_schema()
         FROM unidade
                  INNER JOIN pessoa ON pessoa.id = unidade.id
     );
@@ -142,7 +137,3 @@ INSERT INTO unidade_tipo_avaliacao_dispositivo (id, created, ordem, unidade_tipo
                  INNER JOIN unidade_tipo_avaliacao ON unidade_tipo_avaliacao.unidade_id = unidade.id
                  LEFT OUTER JOIN public.dispositivo ON public.dispositivo.unidade_id = unidade.id || current_schema()
     );
-
-
-alter table dispositivo
-    add constraint fk_assinatura foreign key (assinatura_id) references assinatura;

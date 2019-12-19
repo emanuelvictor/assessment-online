@@ -63,9 +63,8 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     @Transactional
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Dispositivo> save(@RequestBody final Dispositivo dispositivo) {
-        dispositivo.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
         dispositivo.getUnidadesTiposAvaliacoesDispositivo().forEach(unidadeTipoAvaliacaoDispositivo -> unidadeTipoAvaliacaoDispositivo.setDispositivo(dispositivo));
-        dispositivo.setAssinatura(this.assinaturaRepository.findAll().stream().findFirst().orElse(new Assinatura()));
+//        dispositivo.setAssinatura(this.assinaturaRepository.findAll().stream().findFirst().orElse(new Assinatura()));
         return Mono.just(this.dispositivoService.insertDispositivo(dispositivo));
     }
 
