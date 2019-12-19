@@ -8,6 +8,7 @@ import org.junit.runners.MethodSorters;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.BeforeTransaction;
 
 @ActiveProfiles("test")
 @FixMethodOrder(MethodSorters.JVM)
@@ -15,4 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest(classes = {ApplicationTest.class, Application.class})
 public abstract class AbstractIntegrationTests {
 
+    @BeforeTransaction
+    public void beforeTransaction(){
+        System.out.println("beforeTransaction");
+    }
 }

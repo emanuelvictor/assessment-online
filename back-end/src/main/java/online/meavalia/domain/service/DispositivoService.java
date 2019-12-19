@@ -273,12 +273,10 @@ public class DispositivoService {
             Assert.isTrue(dispositivo.getDataDesativacao().isBefore(LocalDate.now().minusMonths(6)), "Você só pode reativar o dispositivo a partir do dia " + dispositivo.getDataReativacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
         // Se está desativando, seta a data de desativação
-        if (dispositivo.isAtivo())
+        if (dispositivo.isEnabled())
             dispositivo.setDataDesativacao(LocalDate.now());
         else
             dispositivo.setDataDesativacao(null);
-
-        dispositivo.setAtivo(!dispositivo.isAtivo());
 
         this.dispositivoRepository.save(dispositivo);
 

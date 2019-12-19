@@ -47,13 +47,6 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     /**
      *
      */
-    @NotNull
-    @Column(nullable = false)
-    private boolean ativo = true;
-
-    /**
-     *
-     */
     @Column
     @JsonFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -203,7 +196,14 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
      */
     @Override
     public boolean isEnabled() {
-        return this.ativo;
+        return this.dataDesativacao == null || LocalDate.now().isBefore(this.dataDesativacao);
+    }
+
+    /**
+     * @return
+     */
+    public boolean isAtivo() {
+        return isEnabled();
     }
 
     /**

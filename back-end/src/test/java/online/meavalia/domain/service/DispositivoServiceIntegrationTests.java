@@ -25,7 +25,7 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
      *
      */
     @Test
-    @Sql({"/dataset/planos.sql", "/dataset/assinaturas.sql", "/dataset/dispositivos.sql"})
+    @Sql({ "/dataset/planos.sql", "/dataset/assinaturas.sql", "/dataset/dispositivos.sql"})
     public void findByIdMustPass() {
         final Dispositivo dispositivo = dispositivoRepository.findById(3L).orElseThrow();
         Assert.assertNotNull(dispositivo.getNome());
@@ -35,7 +35,7 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
      *
      */
     @Test(expected = java.util.NoSuchElementException.class)
-    @Sql({"/dataset/planos.sql", "/dataset/assinaturas.sql", "/dataset/dispositivos.sql"})
+    @Sql({ "/dataset/planos.sql", "/dataset/assinaturas.sql", "/dataset/dispositivos.sql"})
     public void findByIdMustFail() {
         final Dispositivo dispositivo = dispositivoRepository.findById(30000L).orElseThrow();
         Assert.assertNotNull(dispositivo.getNome());
@@ -61,7 +61,6 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
         Assert.assertNotNull(dispositivo.getNome());
     }
 
-
     /**
      *
      */
@@ -71,5 +70,16 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
         final Dispositivo dispositivo = dispositivoRepository.findByCodigo(105782L).orElseThrow();
         Assert.assertNotNull(dispositivo.getNome());
     }
+
+    /**
+     *
+     */
+    @Test
+    @Sql({"/dataset/planos.sql", "/dataset/assinaturas.sql", "/dataset/dispositivos.sql"})
+    public void updateStatusAtivoMustPass() {
+        final Dispositivo dispositivo = dispositivoRepository.findByCodigo(105782L).orElseThrow();
+        Assert.assertNotNull(dispositivo.getNome());
+    }
+
 
 }
