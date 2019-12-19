@@ -37,22 +37,22 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     /**
      *
      */
-    private final AssinaturaRepository assinaturaRepository;
+    private final DispositivoService dispositivoService;
 
     /**
      *
      */
-    private final DispositivoService dispositivoService;
+    private final AssinaturaRepository assinaturaRepository;
 
     /**
      *
      */
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
-    /**
-     *
-     */
-    private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
+//    /**
+//     *
+//     */
+//    private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
 
     /**
      * @param dispositivo
@@ -65,7 +65,7 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
         dispositivo.setTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
         dispositivo.getUnidadesTiposAvaliacoesDispositivo().forEach(unidadeTipoAvaliacaoDispositivo -> unidadeTipoAvaliacaoDispositivo.setDispositivo(dispositivo));
         dispositivo.setAssinatura(this.assinaturaRepository.findAll().stream().findFirst().orElse(new Assinatura()));
-        return Mono.just(this.dispositivoService.save(dispositivo));
+        return Mono.just(this.dispositivoService.insertDispositivo(dispositivo));
     }
 
     /**
@@ -76,11 +76,10 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     @PutMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Dispositivo> update(@PathVariable final long id, @RequestBody final Dispositivo dispositivo) {
-        dispositivo.setId(id);
 
         dispositivo.getUnidadesTiposAvaliacoesDispositivo().forEach(unidadeTipoAvaliacaoDispositivo -> unidadeTipoAvaliacaoDispositivo.setDispositivo(dispositivo));
 
-        this.dispositivoService.save(dispositivo);
+        this.dispositivoService.updateDispositivo(id, dispositivo);
 
         return Mono.just(dispositivo);
     }
@@ -93,9 +92,7 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     @PutMapping("{id}/unidadesTiposAvaliacoesDispositivo")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<List<UnidadeTipoAvaliacaoDispositivo>> saveUnidadesTiposAvaliacoesDispositivo(@PathVariable final long id, @RequestBody final UnidadeTipoAvaliacaoDispositivo[] unidadesTiposAvaliacoesDispositivo) {
-        final List<UnidadeTipoAvaliacaoDispositivo> unidadeTipoAvaliacaoDispositivos = getListFromArray(unidadesTiposAvaliacoesDispositivo);
-        Objects.requireNonNull(unidadeTipoAvaliacaoDispositivos).forEach(unidadeTipoAvaliacaoDispositivo -> unidadeTipoAvaliacaoDispositivo.setDispositivo(new Dispositivo(id)));
-        return Mono.just(this.unidadeTipoAvaliacaoDispositivoRepository.saveAll(unidadeTipoAvaliacaoDispositivos));
+        return Mono.just(dispositivoService.saveUnidadesTiposAvaliacoesDispositivo(id, getListFromArray(unidadesTiposAvaliacoesDispositivo)));
     }
 //
 //    /**
@@ -117,7 +114,7 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     Mono<Page<Dispositivo>> listByFilters(final String defaultFilter) {
-        return Mono.just(this.dispositivoService.listByFilters(defaultFilter, getPageable()));
+        return Mono.just(this.dispositivoService.listDispositivosByFilters(defaultFilter, getPageable()));
     }
 
     /**
@@ -127,7 +124,7 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     @GetMapping("{id}")
     Mono<Optional<Dispositivo>> getDispositivo(@PathVariable final String id) {
         try {
-            return Mono.just(Optional.of(this.dispositivoService.getDispositivo(Long.parseLong(id))));
+            return Mono.just(Optional.of(this.dispositivoService.getDispositivoByIdOrCodigo(Long.parseLong(id))));
         } catch (NumberFormatException e) {
             return null;
         }
@@ -160,7 +157,7 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     @GetMapping("{id}/update-codigo")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Dispositivo> updateCodigo(@PathVariable final long id) {
-        return Mono.just(this.dispositivoService.updateCodigo(id));
+        return Mono.just(this.dispositivoService.refreshCodigo(id));
     }
 
     /**
@@ -170,7 +167,7 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     @GetMapping("{numeroSerie}/desvincular")
     @PreAuthorize("hasAnyAuthority('" + Perfil.DISPOSITIVO_VALUE + "')")
     Mono<Dispositivo> desvincular(@PathVariable final String numeroSerie) {
-        final Dispositivo dispositivo = this.dispositivoService.desvincular(numeroSerie);
+        final Dispositivo dispositivo = this.dispositivoService.updateDispositivoAndRemoveNumeroSerie(numeroSerie);
         if (dispositivo != null)
             return Mono.just(dispositivo);
         return Mono.empty();
@@ -186,7 +183,7 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     @RequestMapping(value = "{id}/qrcode", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> getQRCode(@PathVariable final long id) {
 
-        final Dispositivo dispositivo = this.dispositivoService.getDispositivo(id);
+        final Dispositivo dispositivo = this.dispositivoService.getDispositivoByIdOrCodigo(id);
 
         Assert.notNull(dispositivo, "Dispositivo não encontrado");
 

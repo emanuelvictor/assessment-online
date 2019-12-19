@@ -42,7 +42,7 @@ public class AuthenticationResource {
                 final Conta conta = (Conta) authentication.getPrincipal();
                 return Optional.ofNullable(contaRepository.findByEmailIgnoreCase(conta.getEmail()));
             } else {
-                final Dispositivo dispositivo = dispositivoService.getDispositivo(((Dispositivo) authentication.getPrincipal()).getId());
+                final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(((Dispositivo) authentication.getPrincipal()).getId());
                 return Optional.ofNullable(dispositivo);
             }
 

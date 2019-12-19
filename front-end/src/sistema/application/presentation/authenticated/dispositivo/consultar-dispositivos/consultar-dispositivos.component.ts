@@ -41,7 +41,7 @@ export class ConsultarDispositivosComponent implements OnInit {
    */
   public displayedColumns: string[] = [
     'nome',
-    'ativo'
+    'dataDesativacao'
   ];
 
   /**
@@ -61,6 +61,7 @@ export class ConsultarDispositivosComponent implements OnInit {
    */
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   defaultFilter: any;
+
   /**
    *
    * @type {Subject<string>}

@@ -1,19 +1,14 @@
-package online.meavalia.domain.service;
+package online.meavalia.domain.service.domain.repository;
 
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.repository.DispositivoRepository;
+import online.meavalia.domain.service.AbstractIntegrationTests;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests {
-
-    /**
-     *
-     */
-    @Autowired
-    private DispositivoService dispositivoService;
+public class DispositivoRepositoryIntegrationTests extends AbstractIntegrationTests {
 
     /**
      *
@@ -46,40 +41,9 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
      */
     @Test
     @Sql({"/dataset/planos.sql", "/dataset/assinaturas.sql", "/dataset/dispositivos.sql"})
-    public void findByIdFromServiceMustPass() {
-        final Dispositivo dispositivo = dispositivoService.getDispositivo(3L);
-        Assert.assertNotNull(dispositivo.getNome());
-    }
-
-    /**
-     *
-     */
-    @Test(expected = java.lang.IllegalArgumentException.class)
-    @Sql({"/dataset/planos.sql", "/dataset/assinaturas.sql", "/dataset/dispositivos.sql"})
-    public void findByIdFromServiceMustFail() {
-        final Dispositivo dispositivo = dispositivoService.getDispositivo(300444L);
-        Assert.assertNotNull(dispositivo.getNome());
-    }
-
-    /**
-     *
-     */
-    @Test
-    @Sql({"/dataset/planos.sql", "/dataset/assinaturas.sql", "/dataset/dispositivos.sql"})
     public void findByCodigoMustPass() {
         final Dispositivo dispositivo = dispositivoRepository.findByCodigo(105782L).orElseThrow();
         Assert.assertNotNull(dispositivo.getNome());
     }
-
-    /**
-     *
-     */
-    @Test
-    @Sql({"/dataset/planos.sql", "/dataset/assinaturas.sql", "/dataset/dispositivos.sql"})
-    public void updateStatusAtivoMustPass() {
-        final Dispositivo dispositivo = dispositivoRepository.findByCodigo(105782L).orElseThrow();
-        Assert.assertNotNull(dispositivo.getNome());
-    }
-
 
 }

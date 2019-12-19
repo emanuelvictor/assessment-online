@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.application.websocket.WrapperHandler;
 import online.meavalia.domain.entity.unidade.Dispositivo;
+import online.meavalia.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import online.meavalia.domain.repository.DispositivoRepository;
 import online.meavalia.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
 import org.springframework.data.domain.Page;
@@ -36,6 +37,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -92,7 +94,7 @@ public class DispositivoService {
      * @param pageable      pageable
      * @return Page<Unidade>
      */
-    public Page<Dispositivo> listByFilters(final String defaultFilter, final Pageable pageable) {
+    public Page<Dispositivo> listDispositivosByFilters(final String defaultFilter, final Pageable pageable) {
 
 //        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
 //
@@ -102,39 +104,6 @@ public class DispositivoService {
 
     }
 
-//    /**
-//     * Método utilizado para gerar senha aleatória
-//     *
-//     * @param id
-//     * @param numeroSerie
-//     * @return
-//     */
-//    public Dispositivo getDispositivo(final long id, final String numeroSerie) {
-//
-//        // Pega o dispositivo da base
-//        final Dispositivo dispositivo = this.getDispositivo(id);
-//
-//        // Se está passando o número de série e o dispositivo é interno, então está tentando se conectar administrativamente
-//        if (numeroSerie != null) {
-//
-//            if (dispositivo.getNumeroSerie() != null && !dispositivo.getNumeroSerie().equals(numeroSerie))
-//                throw new RuntimeException("Essa licença está sendo utilizada em outro dispositivo");
-//
-//            // Gera a senha aleatória
-//            dispositivo.gerarSenhaAleatoria();
-//
-//            //  Salva no banco
-//            save(dispositivo);
-//
-//            // Avisa os websockets
-//            dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getId())).findFirst().ifPresent(
-//                    t -> t.getMessagePublisher().onNext(dispositivo)
-//            );
-//
-//        }
-//
-//        return dispositivo;
-//    }
 
     /**
      * Carrega todas as informações necessárias do dispositivo para o funcionamento das avaliações.
@@ -143,7 +112,7 @@ public class DispositivoService {
      * @param id
      * @return
      */
-    public Dispositivo getDispositivo(final long id) {
+    public Dispositivo getDispositivoByIdOrCodigo(final long id) {
         // Pega o dispositivo da base
         Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElse(null);
 
@@ -176,6 +145,7 @@ public class DispositivoService {
     }
 
     /**
+     * TODO TESTAR
      * @param numeroSerie
      * @param codigo
      * @param exchange
@@ -184,7 +154,7 @@ public class DispositivoService {
     public Dispositivo authenticate(final String numeroSerie, final long codigo, final ServerWebExchange exchange) {
 
         // Pega o dispositivo da base
-        final Dispositivo dispositivo = this.getDispositivo(codigo);
+        final Dispositivo dispositivo = this.getDispositivoByIdOrCodigo(codigo);
 
         // Valida se o código está válido
         Assert.notNull(dispositivo, "Código inválido!");
@@ -229,20 +199,39 @@ public class DispositivoService {
      * @return
      */
     @Transactional
-    public Dispositivo save(final Dispositivo dispositivo) {
+    public Dispositivo insertDispositivo(final Dispositivo dispositivo) {
 
         // Não pode inserir se houverem faturas em atraso
         if (dispositivo.getId() == null && faturaService.hasEmAtraso())
-            throw new RuntimeException("Existem faturas em atraso!");
+            throw new RuntimeException("Existem faturas em atraso!"); // TODO Criar exception exlcusiva para faturas em atraso
+
+            // Se tem id então vai para o método de atualização
+        else if (dispositivo.getId() != null)
+            return updateDispositivo(dispositivo.getId(), dispositivo);
 
         return this.dispositivoRepository.save(dispositivo);
     }
 
     /**
+     * @param dispositivo
+     * @return
+     */
+    @Transactional
+    public Dispositivo updateDispositivo(final Long id, final Dispositivo dispositivo) {
+
+        Assert.isTrue(this.dispositivoRepository.findById(id).orElseThrow().isEnabled(), "Este dispositivo está desativado"); // TODO Criar exception exlcusiva para faturas em atraso
+
+        dispositivo.setId(id);
+
+        return this.dispositivoRepository.save(dispositivo);
+    }
+
+    /**
+     * TODO tesar
      * @param numeroSerie
      * @return
      */
-    public Dispositivo desvincular(final String numeroSerie) {
+    public Dispositivo updateDispositivoAndRemoveNumeroSerie(final String numeroSerie) {
 
         final Dispositivo dispositivo = this.dispositivoRepository.findByNumeroSerie(numeroSerie).orElse(null);
 
@@ -288,30 +277,17 @@ public class DispositivoService {
         return dispositivo;
     }
 
-//
-//
-//    /**
-//     * @param id
-//     */
-//    @Transactional
-//    public void delete(final long id) {
-//
-//        // Não pode deletar se houverem faturas em atraso
-//        if (faturaService.hasEmAtraso())
-//            throw new RuntimeException("Existem faturas em atraso!");
-//
-//        // Deleta todos os operadores
-//        this.dispositivoRepository.deleteById(id);
-//    }
-
-
     /**
+     * todo TESTAR
      * @param id
      * @return
      */
-    public Dispositivo updateCodigo(final long id) {
+    public Dispositivo refreshCodigo(final long id) {
 
         final Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElseThrow();
+
+        Assert.isTrue(dispositivo.isEnabled(), "Este dispositivo está desativado"); // TODO Criar exception exlcusiva para faturas em atraso
+
         dispositivo.setUpdated(LocalDateTime.now());
         this.dispositivoRepository.save(dispositivo);
 
@@ -355,5 +331,18 @@ public class DispositivoService {
         }
     }
 
+    /**
+     * TODO TESTAR
+     * @param id
+     * @param unidadesTiposAvaliacoesDispositivo
+     * @return
+     */
+    @Transactional
+    public List<UnidadeTipoAvaliacaoDispositivo> saveUnidadesTiposAvaliacoesDispositivo(final long id, final List<UnidadeTipoAvaliacaoDispositivo> unidadesTiposAvaliacoesDispositivo) {
 
+        Assert.isTrue(this.dispositivoRepository.findById(id).orElseThrow().isEnabled(), "Este dispositivo está desativado"); // TODO Criar exception exlcusiva para faturas em atraso
+
+        Objects.requireNonNull(unidadesTiposAvaliacoesDispositivo).forEach(unidadeTipoAvaliacaoDispositivo -> unidadeTipoAvaliacaoDispositivo.setDispositivo(new Dispositivo(id)));
+        return this.unidadeTipoAvaliacaoDispositivoRepository.saveAll(unidadesTiposAvaliacoesDispositivo);
+    }
 }

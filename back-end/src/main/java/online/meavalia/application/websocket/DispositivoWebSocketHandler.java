@@ -11,6 +11,13 @@ import java.util.List;
 
 public class DispositivoWebSocketHandler extends GenericWebSocketHandler<Dispositivo> {
 
+    /**
+     * @param jpaRepository
+     * @param jsonConverter
+     * @param path
+     * @param numero
+     * @param wrappersHandler
+     */
     DispositivoWebSocketHandler(final JpaRepository<Dispositivo, Long> jpaRepository,
                                 final JsonConverter<Dispositivo> jsonConverter,
                                 final String path, final String numero,
@@ -18,6 +25,10 @@ public class DispositivoWebSocketHandler extends GenericWebSocketHandler<Disposi
         super(jpaRepository, jsonConverter, path, numero, wrappersHandler);
     }
 
+    /**
+     * @param session
+     * @return
+     */
     @Override
     public Mono<Void> handle(final WebSocketSession session) {
 

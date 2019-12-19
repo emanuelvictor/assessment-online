@@ -73,7 +73,7 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef='ativo'>
+        <ng-container matColumnDef='dataDesativacao'>
           <mat-header-cell *matHeaderCellDef flex-gt-md='30' flex-md='30' flex-sm='30'
                            flex-xl='30' layout-align='start center' mat-sort-header>
             <div layout='column' layout-margin>
@@ -84,8 +84,8 @@
                     flex-gt-md='30' flex-md='30' flex-sm='30'
                     flex-xl='30' layout-align='start center'>
             <div layout='column' layout-margin>
-              {{dispositivo?.ativo ? 'Sim' : 'Não'}}
-              {{!dispositivo?.ativo ? (' - Data para reativação: ' + dispositivo?.dataReativacao) : ''}}
+              {{!dispositivo?.dataDesativacao ? 'Sim' : 'Não'}}
+              {{dispositivo?.dataDesativacao ? (' - Data para reativação: ' + dispositivo?.dataReativacao) : ''}}
             </div>
           </mat-cell>
         </ng-container>
@@ -93,8 +93,8 @@
         <mat-header-row *matHeaderRowDef='displayedColumns'>
         </mat-header-row>
 
-        <mat-row *matRowDef='let dispositivo; columns: displayedColumns'
-                 routerLink='{{dispositivo.id}}' style='cursor: pointer'>
+        <mat-row routerLink='{{dispositivo.id}}' style='cursor: pointer'
+                 *matRowDef='let dispositivo; columns: displayedColumns'>
         </mat-row>
       </mat-table>
       <no-records-found [dataSource]='dataSource?.data'></no-records-found>
