@@ -75,14 +75,12 @@ export class AvatarComponent implements OnInit {
 
         this.usuario.foto = (this._sanitizer.bypassSecurityTrustResourceUrl(urlCreator.createObjectURL(this.usuario.foto)) as any).changingThisBreaksApplicationSecurity;
 
-        console.log(this.usuario.foto);
-
-        this.done = true;
+        this.done = true
       })
     }
 
     if (!this.size) {
-      this.size = 1;
+      this.size = 1
     }
   }
 }
