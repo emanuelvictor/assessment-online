@@ -1,8 +1,9 @@
 package online.meavalia.domain.service;
 
-import online.meavalia.domain.repository.CupomRepository;
-import online.meavalia.domain.entity.assinatura.Cupom;
 import lombok.RequiredArgsConstructor;
+import online.meavalia.application.tenant.TenantIdentifierResolver;
+import online.meavalia.domain.entity.assinatura.Cupom;
+import online.meavalia.domain.repository.CupomRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,11 @@ public class CupomService {
      *
      */
     private final CupomRepository cupomRepository;
+
+    /**
+     *
+     */
+    private final TenantIdentifierResolver tenantIdentifierResolver;
 
     /**
      * @param defaultFilter
@@ -53,5 +59,23 @@ public class CupomService {
     @Transactional(readOnly = true)
     public Optional<Cupom> findById(final long id) {
         return this.cupomRepository.findById(id);
+    }
+
+    /**
+     *
+     * @param tenant
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Cupom findByTenant(final String tenant){
+        return this.cupomRepository.findByTenant(tenant);
+    }
+
+    /**
+     * @return Cupom
+     */
+    @Transactional(readOnly = true)
+    public Cupom getCupomByCurrentTenant() {
+        return this.findByTenant(tenantIdentifierResolver.resolveCurrentTenantIdentifier());
     }
 }

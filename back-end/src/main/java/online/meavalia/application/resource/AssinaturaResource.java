@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
+
 /**
  * @author Emanuel Victor
  * @version 1.0.0
@@ -45,6 +47,16 @@ public class AssinaturaResource extends AbstractResource<Assinatura> {
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Assinatura> getAssinatura() {
         return Mono.just(this.assinaturaService.getAssinatura());
+    }
+
+
+    /**
+     * @return Mono<Assinatura>
+     */
+    @GetMapping("/valor-mensal-com-desconto")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    public Mono<BigDecimal> getValorMensalComDesconto() {
+        return Mono.just(this.assinaturaService.getValorMensalComDesconto());
     }
 
     /**

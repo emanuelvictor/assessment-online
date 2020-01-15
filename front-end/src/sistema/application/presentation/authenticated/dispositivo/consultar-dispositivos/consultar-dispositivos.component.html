@@ -4,16 +4,15 @@
                   flex-gt-lg='90' flex-gt-md='90' flex-md='90' flex-sm='90' style='margin-left:0; margin-top: 32px'>
     <mat-chip-list #defaultFilterChipList aria-label='Pesquisar pelo nome ou enunciado'>
 
-      <mat-chip (removed)='removeDefaultFilter(defaultFilter)'
-                *ngFor='let defaultFilter of pageRequest.defaultFilter' style='max-width: 100%'>
+      <mat-chip *ngFor='let defaultFilter of pageRequest.defaultFilter'
+                (removed)='removeDefaultFilter(defaultFilter)' style='max-width: 100%'>
         {{defaultFilter}}
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
 
       <input (matChipInputTokenEnd)='addDefaultFilter($event)'
-             (ngModelChange)='defaultFilterChanged($event)'
-             [(ngModel)]='defaultFilter'
              [matChipInputAddOnBlur]='true' [matChipInputFor]='defaultFilterChipList'
+             (ngModelChange)='defaultFilterChanged($event)' [(ngModel)]='defaultFilter'
              [ngModelOptions]='{standalone: true}' placeholder='Pesquisar pelo nome ou número do dispositivo'>
 
     </mat-chip-list>
@@ -22,9 +21,7 @@
 
   <div flex-gt-md></div>
 
-  <add-button [matTooltipPosition]="'below'"
-              matTooltip='Inserir novo dispositivo'
-              routerLink='inserir'>
+  <add-button routerLink='inserir' [matTooltipPosition]="'below'" matTooltip='Inserir novo dispositivo'>
   </add-button>
 
 </search-bar>
@@ -98,9 +95,9 @@
         </mat-row>
       </mat-table>
       <no-records-found [dataSource]='dataSource?.data'></no-records-found>
-      <mat-paginator (page)='listDispositivosByFilters(pageRequest)'
-                     [length]='page.totalElements' [pageSizeOptions]='[5, 20, 50, 100]'
-                     class='bgc-grey-50' style='border-radius: 2px'>
+      <mat-paginator class='bgc-grey-50' style='border-radius: 2px'
+                     (page)='listDispositivosByFilters(pageRequest)'
+                     [length]='page.totalElements' [pageSizeOptions]='[5, 20, 50, 100]'>
       </mat-paginator>
     </div>
   </div>

@@ -8,17 +8,18 @@
 
           <div layout='row'>
             <div layout='column' style='min-width: 17px'>
-              <button *ngIf='activatedRoute?.snapshot?.params?.id'
-                      [@fadeInOut]
-                      class='mat-headline tc-grey-500' color='primary'
-                      mat-icon-button routerLink='../' type='button'>
+              <button [@fadeInOut] mat-icon-button
+                      routerLink='../' type='button'
+                      *ngIf='activatedRoute?.snapshot?.params?.id'
+                      class='mat-headline tc-grey-500' color='primary'>
                 <mat-icon>arrow_back</mat-icon>
               </button>
             </div>
             <visualizar-dados-usuario *ngIf='atendente?.id' [@fadeInOut] [usuario]='atendente' flex>
 
               <!--options-->
-              <div *ngIf='authenticatedUser?.isAdministrador || !atendente?.isAdministrador' [@fadeInOut] flex layout='column'
+              <div *ngIf='authenticatedUser?.isAdministrador || !atendente?.isAdministrador' [@fadeInOut] flex
+                   layout='column'
                    layout-align='start end'>
                 <div layout='row'>
                   <button *ngIf='!atendente?.conta?.root'

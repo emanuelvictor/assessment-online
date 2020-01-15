@@ -15,6 +15,11 @@ export class AssinaturaRepository extends BaseRepository<Assinatura> {
     return this.httpClient.get<Assinatura>(this.collectionName)
   }
 
+  get valorMensal(): Observable<Assinatura> {
+    return this.httpClient.get<Assinatura>(this.collectionName + '/valor-mensal-com-desconto')
+  }
+
+
   get publicKey(): Observable<string> {
     return this.httpClient.get(this.collectionName + '/public-key', {responseType: 'text'})
   }

@@ -106,6 +106,7 @@ import {Interceptor} from '../../interceptor/interceptor';
 import {AuthenticatedRoutingModule} from './authenticated.routing.module';
 import {DataNascimentoValidator} from '@src/sistema/application/presentation/controls/validators/validators';
 import {ContaService} from '@src/sistema/domain/service/conta.service';
+import {ConfirmInsertDispositivoDialogComponent} from '@src/sistema/application/presentation/authenticated/dispositivo/inserir-dispositivo/confirm-insert-dispositivo-dialog/confirm-insert-dispositivo-dialog.component';
 
 
 /**
@@ -197,6 +198,7 @@ import {ContaService} from '@src/sistema/domain/service/conta.service';
     AlterarDispositivoComponent,
     VincularUnidadeTipoAvaliacaoComponent,
     OpcoesSiteComponent,
+    ConfirmInsertDispositivoDialogComponent,
 
     // Cliente
     ClienteViewComponent,
@@ -221,7 +223,7 @@ import {ContaService} from '@src/sistema/domain/service/conta.service';
 
     AuthenticatedRoutingModule,
   ],
-  entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent, InserirTipoAvaliacaoComponent],
+  entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent, InserirTipoAvaliacaoComponent, ConfirmInsertDispositivoDialogComponent],
   providers: [
 
     PageSerialize,

@@ -36,7 +36,7 @@ public class FaturaService {
     /**
      *
      */
-    private final CupomRepository cupomRepository;
+    private final CupomService cupomService;
     /**
      *
      */
@@ -88,7 +88,7 @@ public class FaturaService {
             if (!assinatura.isCompleted())
                 return;
 
-            final Cupom cupom = this.cupomRepository.findByTenant(tenant);
+            final Cupom cupom = this.cupomService.findByTenant(tenant);
 
             // Pego as últimas faturas em aberto
             final List<Fatura> ultimasFaturas = this.faturaRepository.findLastsFaturasByTenant(tenant);
@@ -312,9 +312,8 @@ public class FaturaService {
      */
     public Fatura updatePaymentByNotification(final Object paymentNotification) {
 
-        final Fatura fatura = this.updatePaymentByNotificationTransaction(paymentNotification);
+        return this.updatePaymentByNotificationTransaction(paymentNotification);
 
-        return fatura;
     }
 
     /**
@@ -332,7 +331,7 @@ public class FaturaService {
             fatura = this.faturaRepository.findById(Long.valueOf((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("order")).get("ownId")))).orElseThrow();
             fatura.setStatus((String) (((LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) paymentNotification).get("resource")).get("order")).get("status")));
         } else {
-            System.out.println(" ------------ XABÚ ------------------");
+            LOGGER.error(" ------------ XABÚ ------------------");
             return null;
         }
 
@@ -393,7 +392,7 @@ public class FaturaService {
         // Verifica se há faturas vencidas para o dispositivo
         final List<Fatura> faturas = this.faturaRepository.listByFilters(fatura.getTenant(), null, null).getContent();
         if (faturas.stream().noneMatch(Fatura::isEmAtraso)) {
-            this.asdfa();
+            this.saveAll();
         }
 
         return fatura;
@@ -403,7 +402,7 @@ public class FaturaService {
      *
      */
     @Transactional
-    public void asdfa() {
+    public void saveAll() {
         final List<Agrupador> agrupadores = agrupadorRepository.listAllInativos();
         agrupadores.forEach(agrupador -> agrupador.setAtivo(true));
         agrupadorRepository.saveAll(agrupadores);

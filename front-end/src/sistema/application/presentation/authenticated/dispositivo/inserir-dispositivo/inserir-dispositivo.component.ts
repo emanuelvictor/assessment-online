@@ -2,16 +2,18 @@ import {Component, ElementRef, Inject, OnInit, Renderer} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry, MatSnackBar} from '@angular/material';
+import {MatDialog, MatIconRegistry, MatSnackBar} from '@angular/material';
 
 import {FormBuilder} from '@angular/forms';
-import {DispositivoRepository} from '../../../../../domain/repository/dispositivo.repository';
-import {Dispositivo} from '../../../../../domain/entity/avaliacao/dispositivo.model';
+import {DispositivoRepository} from '@src/sistema/domain/repository/dispositivo.repository';
+import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {viewAnimation} from '../../../controls/utils';
-import {UnidadeRepository} from '../../../../../domain/repository/unidade.repository';
-import {UnidadeTipoAvaliacaoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao.repository';
-import {UnidadeTipoAvaliacaoDispositivo} from '../../../../../domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
+import {UnidadeRepository} from '@src/sistema/domain/repository/unidade.repository';
+import {UnidadeTipoAvaliacaoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao.repository';
+import {UnidadeTipoAvaliacaoDispositivo} from '@src/sistema/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
+import {ConfirmInsertDispositivoDialogComponent} from '@src/sistema/application/presentation/authenticated/dispositivo/inserir-dispositivo/confirm-insert-dispositivo-dialog/confirm-insert-dispositivo-dialog.component';
+import {AssinaturaRepository} from '@src/sistema/domain/repository/assinatura.repository';
 
 /**
  *
@@ -46,20 +48,23 @@ export class InserirDispositivoComponent implements OnInit {
    * @param unidadeRepository
    * @param {MatSnackBar} snackBar
    * @param {ElementRef} element
+   * @param assinturaRepository
    * @param {DispositivoRepository} dispositivoRepository
    * @param {Renderer} renderer
    * @param unidadeTipoAvaliacaoRepository
+   * @param dialog
    * @param {FormBuilder} fb
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    * @param {Router} router
    * @param {ActivatedRoute} activatedRoute
    */
-  constructor(private unidadeRepository: UnidadeRepository,
-              @Inject(ElementRef) private element: ElementRef,
+  constructor(@Inject(ElementRef) private element: ElementRef,
+              private assinturaRepository: AssinaturaRepository,
               private dispositivoRepository: DispositivoRepository,
               private activatedRoute: ActivatedRoute, private router: Router,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
+              private unidadeRepository: UnidadeRepository, private dialog: MatDialog,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private snackBar: MatSnackBar, private renderer: Renderer, private fb: FormBuilder) {
   }
@@ -138,30 +143,42 @@ export class InserirDispositivoComponent implements OnInit {
    */
   public save($event): void {
 
-    const dispositivo = Object.assign($event, {});
-
-    dispositivo.unidadesTiposAvaliacoesDispositivo = Object.assign($event.unidadesTiposAvaliacoesDispositivo, []);
-
-    dispositivo.unidadesTiposAvaliacoesDispositivo = dispositivo.unidadesTiposAvaliacoesDispositivo.filter(unidadeTipoAvaliacaoDipositivo => unidadeTipoAvaliacaoDipositivo.ativo).map(unidadeTipoAvaliacaoDipositivo => {
-      return {
-        ativo: unidadeTipoAvaliacaoDipositivo.ativo,
-        ordem: unidadeTipoAvaliacaoDipositivo.ordem,
-        unidadeTipoAvaliacao: {id: unidadeTipoAvaliacaoDipositivo.unidadeTipoAvaliacao.id}
-      }
-    });
-
-    dispositivo.unidadesTiposAvaliacoesDispositivo.forEach(unidadeTpoAvaliacaoDispositivo =>
-      delete unidadeTpoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade
-    );
-
-    if (dispositivo.unidadesTiposAvaliacoesDispositivo.length > 0) {
-      this.dispositivoRepository.save(dispositivo).then(result => {
-        this.dispositivo = result;
-        this.success('Dispositivo inserido com sucesso')
+    this.assinturaRepository.valorMensal.subscribe(valorMensal => {
+      const dialogRef = this.dialog.open(ConfirmInsertDispositivoDialogComponent,{
+        data: {
+          valorMensal: valorMensal,
+        }
       });
-    } else {
-      this.openSnackBar('Selecione ao menos um Tipo de Avaliação')
-    }
+
+      dialogRef.afterClosed().subscribe(insert => {
+        if (insert) {
+          const dispositivo = Object.assign($event, {});
+
+          dispositivo.unidadesTiposAvaliacoesDispositivo = Object.assign($event.unidadesTiposAvaliacoesDispositivo, []);
+
+          dispositivo.unidadesTiposAvaliacoesDispositivo = dispositivo.unidadesTiposAvaliacoesDispositivo.filter(unidadeTipoAvaliacaoDipositivo => unidadeTipoAvaliacaoDipositivo.ativo).map(unidadeTipoAvaliacaoDipositivo => {
+            return {
+              ativo: unidadeTipoAvaliacaoDipositivo.ativo,
+              ordem: unidadeTipoAvaliacaoDipositivo.ordem,
+              unidadeTipoAvaliacao: {id: unidadeTipoAvaliacaoDipositivo.unidadeTipoAvaliacao.id}
+            }
+          });
+
+          dispositivo.unidadesTiposAvaliacoesDispositivo.forEach(unidadeTpoAvaliacaoDispositivo =>
+            delete unidadeTpoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade
+          );
+
+          if (dispositivo.unidadesTiposAvaliacoesDispositivo.length > 0) {
+            this.dispositivoRepository.save(dispositivo).then(result => {
+              this.dispositivo = result;
+              this.success('Dispositivo inserido com sucesso')
+            });
+          } else {
+            this.openSnackBar('Selecione ao menos um Tipo de Avaliação')
+          }
+        }
+      })
+    })
   }
 
   /**
