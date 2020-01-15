@@ -1,10 +1,6 @@
-import {Component, ElementRef, Inject, OnInit, Renderer} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-
-import {DomSanitizer} from '@angular/platform-browser';
-import {MatDialog, MatIconRegistry, MatSnackBar} from '@angular/material';
-
-import {FormBuilder} from '@angular/forms';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {DispositivoRepository} from '@src/sistema/domain/repository/dispositivo.repository';
 import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -47,26 +43,18 @@ export class InserirDispositivoComponent implements OnInit {
    *
    * @param unidadeRepository
    * @param {MatSnackBar} snackBar
-   * @param {ElementRef} element
    * @param assinturaRepository
    * @param {DispositivoRepository} dispositivoRepository
-   * @param {Renderer} renderer
    * @param unidadeTipoAvaliacaoRepository
    * @param dialog
-   * @param {FormBuilder} fb
-   * @param {MatIconRegistry} iconRegistry
-   * @param {DomSanitizer} domSanitizer
    * @param {Router} router
    * @param {ActivatedRoute} activatedRoute
    */
-  constructor(@Inject(ElementRef) private element: ElementRef,
-              private assinturaRepository: AssinaturaRepository,
-              private dispositivoRepository: DispositivoRepository,
+  constructor(private dispositivoRepository: DispositivoRepository,
               private activatedRoute: ActivatedRoute, private router: Router,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private unidadeRepository: UnidadeRepository, private dialog: MatDialog,
-              private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
-              private snackBar: MatSnackBar, private renderer: Renderer, private fb: FormBuilder) {
+              private assinturaRepository: AssinaturaRepository, private snackBar: MatSnackBar) {
   }
 
   /**
@@ -81,7 +69,6 @@ export class InserirDispositivoComponent implements OnInit {
 
       for (let k = 0; k < this.unidades.length; k++) {
 
-        // this.unidadeTipoAvaliacaoRepository.listByUnidadeId({unidadeId: this.unidades[k].id, ativo: true})
         this.unidadeTipoAvaliacaoRepository.listByFilters({unidadeId: this.unidades[k].id, ativo: true})
           .subscribe(resulted => {
             this.unidades[k].unidadesTiposAvaliacoes = resulted.content;
@@ -144,7 +131,7 @@ export class InserirDispositivoComponent implements OnInit {
   public save($event): void {
 
     this.assinturaRepository.valorMensal.subscribe(valorMensal => {
-      const dialogRef = this.dialog.open(ConfirmInsertDispositivoDialogComponent,{
+      const dialogRef = this.dialog.open(ConfirmInsertDispositivoDialogComponent, {
         data: {
           valorMensal: valorMensal,
         }
