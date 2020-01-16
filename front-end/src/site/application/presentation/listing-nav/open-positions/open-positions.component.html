@@ -1,0 +1,94 @@
+<mat-card class="form-card">
+  <label fxFlex="12">Busca por vagas</label>
+  <input type="text" fxFlex="grow" placeholder="(número de seleção, cargo, tipo de contrato, etc)">
+  <mat-icon class="search-card" fxFlex="auto">search</mat-icon>
+</mat-card>
+
+<mat-card class="opening-card" *ngFor="let item of items">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <img src="http://placehold.it/60x60" style="border-radius: 6px" alt="">
+
+    <span class="opening-text text-center">
+      <p class="top">SELEÇÃO</p>
+      <p class="bottom">005.20</p>
+    </span>
+
+    <span class="opening-text two">
+      <p class="top">CARGO</p>
+      <p class="bottom">Analista de sistemas jr.</p>
+    </span>
+
+    <span class="opening-text three">
+      <p class="top">PERÍODO DE INSCRIÇÃO</p>
+      <p class="bottom">01/06/2019 até 12/06/2019</p>
+    </span>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
+    <button mat-flat-button class="btn-cyan">Ver detalhes</button>
+  </div>
+</mat-card>
+
+<mat-card class="opening-card">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <img src="http://placehold.it/60x60" style="border-radius: 6px" alt="">
+
+    <span class="opening-text two">
+      <p class="top">CARGO</p>
+      <p class="bottom">Estagiário</p>
+    </span>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
+    <button mat-flat-button class="btn-cyan">Ver detalhes</button>
+    <button mat-flat-button class="btn-darkblue">Ir para o site</button>
+  </div>
+</mat-card>
+
+<mat-card class="opening-card">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <img src="http://placehold.it/60x60" style="border-radius: 6px" alt="">
+
+    <span class="opening-text two">
+      <p class="top">CARGO</p>
+      <p class="bottom">Aprendiz</p>
+    </span>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
+    <button mat-flat-button class="btn-cyan">Ver detalhes</button>
+    <button mat-flat-button class="btn-darkblue">Ir para o site</button>
+  </div>
+</mat-card>
+
+<mat-card class="opening-card">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <img src="http://placehold.it/60x60" style="border-radius: 6px" alt="">
+
+    <span class="opening-text two">
+      <p class="top">CARGO</p>
+      <p class="bottom">Bolsista</p>
+    </span>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
+      <button mat-flat-button class="btn-cyan">Ver detalhes</button>
+    <button mat-flat-button class="btn-darkblue">Ir para o site</button>
+  </div>
+</mat-card>
+
+<mat-card class="opening-card">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <img src="http://placehold.it/60x60" style="border-radius: 6px" alt="">
+
+    <span class="opening-text two">
+      <p class="top">CARGO</p>
+      <p class="bottom">Voluntário</p>
+    </span>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
+    <button mat-flat-button class="btn-cyan">Ver detalhes</button>
+    <button mat-flat-button class="btn-darkblue">Ir para o site</button>
+  </div>
+</mat-card>

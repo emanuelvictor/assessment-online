@@ -1,0 +1,63 @@
+@import '../../application/theming/site-theme';
+
+
+p {
+  font-family: "Open Sans";
+}
+
+h2 {
+  font-family: 'Open Sans';
+  font-weight: 900;
+  color: #4C4C4C !important;
+}
+
+.mat-card {
+  color: #4C4C4C !important;
+}
+
+.button-categoria {
+  color: #4C4C4C !important;
+  margin-right: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.button-border-green {
+  text-align: left;
+  border-left: 3px solid $roxoforte;
+  height: 50px;
+  color: #2E2E2E;
+}
+
+.button-border-red {
+  text-align: left;
+  border-left: 3px solid #E44451;
+  height: 50px;
+  color: #2E2E2E;
+}
+
+.button-border-yellow {
+  text-align: left;
+  border-left: 3px solid #F6B800;
+  height: 70px;
+  color: #2E2E2E;
+}
+
+.border-label-green {
+  border-left: 3px solid $roxoforte;
+  padding-left: 17px;
+}
+
+.border-label-forestgreen {
+  border-left: 3px solid #2DB45C !important;
+  padding-left: 17px;
+}
+
+.border-label-red {
+  border-left: 3px solid #E44451 !important;
+  padding-left: 17px;
+}
+
+::ng-deep .mat-expansion-indicator::after {
+  color: $roxoforte !important;
+}
+

@@ -1,0 +1,26 @@
+textarea:focus, input:focus{
+    outline: none;
+}
+
+input {
+    border: none;
+}
+
+*:focus {
+    outline: none;
+}
+
+.form-card {
+    * {
+        font-size: 16px;
+    }
+
+    label {
+        margin-top: 4px;
+    }
+}
+
+.search-card {
+    font-size: 30px !important;
+    margin-top: 4px;
+}

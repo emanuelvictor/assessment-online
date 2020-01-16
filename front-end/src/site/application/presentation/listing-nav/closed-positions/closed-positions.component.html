@@ -1,0 +1,97 @@
+<mat-card class="form-card">
+  <label fxFlex="12">Busca por vagas</label>
+  <input type="text" fxFlex="grow" placeholder="(número de seleção, cargo, tipo de contrato, etc)">
+  <mat-icon class="search-card" fxFlex="auto">search</mat-icon>
+</mat-card>
+
+<div *ngFor="let item of items" class="inprogress-div">
+  <mat-card class="inprogress-card">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <img src="http://placehold.it/60x60" style="border-radius: 6px" alt="">
+
+      <span class="opening-text text-center">
+        <p class="top">SELEÇÃO</p>
+        <p class="bottom">005.20</p>
+      </span>
+
+      <span class="opening-text two">
+        <p class="top">CARGO</p>
+        <p class="bottom">Analista de sistemas jr.</p>
+      </span>
+
+      <span class="opening-text four">
+        <p class="top">PERÍODO DE INSCRIÇÃO</p>
+        <p class="bottom">01/06/2019 até 12/06/2019</p>
+      </span>
+
+      <span class="opening-text four">
+        <p class="top">TIPO DE CONTRATO</p>
+        <p class="bottom">Indeterminado</p>
+      </span>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
+      <button mat-flat-button class="btn-cyan">Ver detalhes</button>
+    </div>
+  </mat-card>
+
+  <mat-accordion>
+
+    <mat-expansion-panel *ngIf="!fases.length > 0" [disabled]=true class="border-bottom">
+      <mat-expansion-panel-header class="progress-header-table closed">
+        <span class="progress-table closed message">O processo de seleção foi encerrado sem candidatos selecionados.</span>
+        <span class="progress-table align-end closed">
+          <a href="" target="_blank" class="link">
+            <mat-icon>cloud_download</mat-icon> Baixar documento
+          </a>
+        </span>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <ng-container *ngFor="let item of fases">
+      <mat-expansion-panel [disabled]=true class="border-bottom">
+        <mat-expansion-panel-header class="progress-header-table">
+          <td class="progress-table header one">Etapa</td>
+          <td class="progress-table header two">Descrição</td>
+          <td class="progress-table header three text-center">Ações</td>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel *ngIf="fases.length > 0" [disabled]="true" #fase="matExpansionPanel" class="border-bottom">
+        <mat-expansion-panel-header>
+          <td class="progress-table body one">1ª Etapa</td>
+          <td class="progress-table body two">Análise Curricular</td>
+          <td class="progress-table body three text-center">
+            <div class="inline-flex">
+
+              <a href="" target="_blank" class="link">
+                <mat-icon>cloud_download</mat-icon> Baixar orientações
+              </a>
+              <a class="collapse" (click)="fase.expanded = !fase.expanded">
+                Ver candidatos
+                <mat-icon *ngIf="!fase.expanded">keyboard_arrow_down</mat-icon>
+                <mat-icon *ngIf="fase.expanded">keyboard_arrow_up</mat-icon>
+              </a>
+
+            </div>
+          </td>
+        </mat-expansion-panel-header>
+
+        <table mat-table [dataSource]="pessoas" class="selected-table">
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="nome">
+            <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+          </ng-container>
+          <ng-container matColumnDef="convocacao">
+            <td mat-cell *matCellDef="let element"> {{element.convocacao}} </td>
+          </ng-container>
+
+
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsPessoas;"></tr>
+        </table>
+
+      </mat-expansion-panel>
+    </ng-container>
+  </mat-accordion>
+</div>

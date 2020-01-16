@@ -1,0 +1,56 @@
+<div style="height: 100vh;">
+  <mat-toolbar class="header-toolbar">
+    <div fxShow="true" fxHide.gt-sm="true">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <div class="container">
+      <div style='margin-right:18px' fxFlex="20" fxLayoutAlign="end center" fxLayoutAlign.gt-sm="none" fxHide.sm fxHide.xs>
+        <img class='image-logo-preto' alt='Logo PTI' routerLink='' style='cursor: pointer; margin-top: 10px'
+             [src]="'../../../assets/images/logomarca-80x22.png'">
+      </div>
+<!--      <div style='margin-right:18px' fxFlex.md="20"-->
+<!--           fxLayoutAlign.gt-sm="end center" fxLayoutAlign="end end" fxShow.gt-sm="true" fxHide="true">-->
+<!--        <img style='cursor: pointer; margin-top: 10px'-->
+<!--             [src]="'../../../assets/images/logomarca-80x22.png'"-->
+<!--             class='image-logo-preto' alt='Logo MEAvalia' routerLink=''>-->
+<!--      </div>-->
+
+
+      <div layout='row' layout-align='end center' flex fxHide.gt-sm="true" fxShow="true">
+        <img style='cursor: pointer; margin-top: 10px'
+             [src]="'../../../assets/images/logomarca-80x22.png'"
+             class='image-logo-preto' alt='Logo MEAvalia' routerLink=''>
+      </div>
+
+      <div layout='row' layout-align='end center' flex fxShow.gt-sm="true" fxHide="true">
+        <!--        <button mat-button class="btn-secondary">Informativo ao candidato</button>-->
+        <button class="btn-secondary" mat-button routerLinkActive (click)='toCriarConta()'>
+          Criar conta
+        </button>
+        <button mat-flat-button class="btn-primary" routerLinkActive (click)='toSistema()'>
+          Entrar
+        </button>
+      </div>
+    </div>
+  </mat-toolbar>
+  <mat-sidenav-container fxFlexFill>
+    <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over" opened="false" fxHide.gt-sm="true">
+      <div fxLayout="column" style="margin-top: 100px">
+        <a mat-button href='https://meavalia.online/sistema/#/cadastre-se' style='color: white'>Criar conta</a>
+        <!--        <a class="btn-primary" mat-button routerLink="/login">Entrar</a>-->
+        <a mat-button href='https://meavalia.online/sistema' style='color: white'>Entrar</a>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content fxFlexFill>
+      <!-- ROTEAMENTO DE COMPONENTES DA APLICAÇÃO -->
+      <main class="content">
+        <router-outlet></router-outlet>
+      </main>
+
+      <sistema-footer *ngIf="router.url != '/login'"></sistema-footer>
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

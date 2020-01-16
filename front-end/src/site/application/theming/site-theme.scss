@@ -1,0 +1,323 @@
+@import '../../../styles';
+
+.mat-drawer-content {
+  display: inherit !important;
+  overflow: hidden !important;
+}
+
+.btn-cyan {
+  background: $verde;
+  color: #fff;
+  padding: 12px 20px !important;
+  line-height: 1.7 !important;
+  font-size: 12px !important;
+}
+
+.btn-darkblue {
+  background: $roxoclaro;
+  color: #fff;
+  line-height: 1.7 !important;
+  padding: 12px 20px !important;
+  margin-left: 25px !important;
+  font-size: 12px !important;
+}
+
+button {
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+.mat-toolbar {
+  padding: 20px 0;
+  -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16) !important;
+  -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16) !important;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+.header-toolbar {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #FFFFFF !important;
+  height: 100px !important;
+}
+
+.flex-img {
+  max-width: 100%;
+  height: auto
+}
+
+.cyan-border-bottom {
+  border-bottom: solid 15px $verde;
+}
+
+.cyan-border-top {
+  border-top: solid 15px $verde;
+}
+
+/*
+ * Actual Sticky Footer Styles
+ */
+
+.all-wrap {
+  min-height: 100vh; // same height as browser window height
+}
+
+.page-wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // same height as browser window height
+}
+
+.content {
+  flex: 1; // child will set to an equal size inside the container
+}
+
+
+/*
+ * Make the component injected by <router-outlet> full height:
+ */
+
+main {
+
+  display: flex;
+  flex-direction: column;
+
+  // Select all direct descendants only of the <main> element
+  // that are not <router-outlet> elements:
+  > *:not(router-outlet) {
+
+    flex: 1; // child will set to an equal size inside the container
+    display: block;
+
+  }
+
+}
+
+mat-sidenav-container {
+  height: auto !important;
+  min-height: auto !important;
+}
+
+.mat-tab-labels {
+  justify-content: center !important;
+}
+
+.mat-tab-label-active {
+  background-color: $verde !important;
+
+  &.mat-tab-label {
+    color: #fff !important;
+  }
+}
+
+.mat-tab-label-content {
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.mat-tab-label {
+  color: #4C4C4C;
+  background-color: #fff;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-left: solid 1px #aaaaaa6e;
+  border-top: solid 1px #aaaaaa6e;
+  border-bottom: solid 1px #aaaaaa6e;
+  height: 40px !important;
+  opacity: 100 !important;
+
+  &:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 0;
+  }
+
+  &:last-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 5px;
+    border-right: solid 1px #aaaaaa6e;
+  }
+}
+
+.listing-nav {
+  position: relative;
+  top: -90px;
+}
+
+.mat-tab-body-wrapper {
+  background-color: transparent !important;
+  border-top: none !important;
+  border-radius: 0;
+}
+
+html .mat-card {
+  padding: 25px;
+  margin: 0 !important;
+  border: solid 1px #eee;
+}
+
+
+sistema-open-positions {
+  .mat-card {
+    margin: 0 0 20px 0 !important;
+  }
+}
+
+.form-card.mat-card {
+  margin-bottom: 20px !important;
+}
+
+mat-expansion-panel {
+  border: solid 1px #eee;
+}
+
+// mat-toolbar, 
+mat-sidenav,
+#default-table,
+.mat-tab-body-wrapper {
+  box-shadow: none !important;
+}
+
+mat-toolbar,
+mat-sidenav,
+#default-table,
+.mat-tab-body-wrapper {
+  box-shadow: none !important;
+}
+
+.opening-card.mat-card:not([class*='mat-elevation-z']) {
+  -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+.form-card.mat-card:not([class*='mat-elevation-z']) {
+  -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+.inprogress-card.mat-card:not([class*='mat-elevation-z']) {
+  box-shadow: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: solid 1px #D6DCE6;
+}
+
+.default-shadow {
+  -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16) !important;
+  -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16) !important;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+.form-card {
+  margin-bottom: 25px !important;
+
+  * {
+    font-size: 16px;
+  }
+
+  label {
+    margin-top: 4px;
+  }
+}
+
+.mat-card {
+  padding: 25px 35px !important;
+}
+
+.search-card {
+  font-size: 30px !important;
+  margin-top: 4px;
+}
+
+.opening-card {
+  height: 110px;
+  margin-bottom: 25px !important;
+}
+
+.inprogress-card {
+  height: 110px;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.opening-text {
+  margin-left: 35px;
+  color: $roxoclaro;
+
+  &.two {
+    margin-left: 40px;
+  }
+
+  &.three {
+    margin-left: 135px;
+  }
+
+  &.four {
+    margin-left: 60px;
+  }
+
+  .top {
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+
+  .bottom {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 8px !important;
+  }
+}
+
+table {
+  tbody {
+    tr:nth-child(odd) {
+      background: #FAFAFA;
+    }
+  }
+
+}
+
+/* Media Queries */
+
+@media (max-width: 480px) {
+  .login-form {
+    margin-top: 420px;;
+  }
+
+  .btn-darkblue {
+    width: 100%;
+  }
+}

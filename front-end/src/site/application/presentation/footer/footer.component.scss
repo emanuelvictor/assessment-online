@@ -1,0 +1,13 @@
+@import '../../../application/theming/site-theme';
+
+.bg-footer {
+  background: url('../../../../assets/images/banner-1920x720.png');
+
+  * {
+    color: #fff;
+  }
+}
+
+footer {
+  height: 400px;
+}

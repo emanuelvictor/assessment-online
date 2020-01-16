@@ -1,0 +1,21 @@
+<div class="container">
+
+  <mat-tab-group>
+    <mat-tab label="Vagas abertas">
+      <ng-template matTabContent>
+        <sistema-open-positions></sistema-open-positions>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Em andamento">
+      <ng-template matTabContent>
+        <sistema-in-progress></sistema-in-progress>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Encerradas">
+      <ng-template matTabContent>
+        <sistema-closed-positions></sistema-closed-positions>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
+</div>
