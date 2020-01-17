@@ -9,7 +9,7 @@
   "version": "0.0.0",
   "scripts": {
     "sistema": "ng serve --proxy-config proxy.conf.json sistema --open",
-    "site": "ng serve site --port 9002 --open",
+    "site": "ng serve --proxy-config proxy.conf.json site --port 9002 --open",
     "public": "ng serve --proxy-config proxy.conf.json public --port 9001 --open",
     "mobile": "ng serve --proxy-config proxy.conf.json mobile --port 9000 --open",
     "build.site.prod": "ng build site --prod",

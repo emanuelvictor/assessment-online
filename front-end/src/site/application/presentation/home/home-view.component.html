@@ -6,30 +6,24 @@
       </button>
     </div>
     <div class="container">
-      <div style='margin-right:18px' fxFlex="20" fxLayoutAlign="end center" fxLayoutAlign.gt-sm="none" fxHide.sm fxHide.xs>
-        <img class='image-logo-preto' alt='Logo PTI' routerLink='' style='cursor: pointer; margin-top: 10px'
+      <div style='margin-right:18px' fxFlex="20" fxLayoutAlign="end center" fxLayoutAlign.gt-sm="none" fxHide.sm
+           fxHide.xs>
+        <img class='image-logo-preto' alt='Logo PTI' routerLink='' style='cursor: pointer'
              [src]="'../../../assets/images/logomarca-80x22.png'">
       </div>
-<!--      <div style='margin-right:18px' fxFlex.md="20"-->
-<!--           fxLayoutAlign.gt-sm="end center" fxLayoutAlign="end end" fxShow.gt-sm="true" fxHide="true">-->
-<!--        <img style='cursor: pointer; margin-top: 10px'-->
-<!--             [src]="'../../../assets/images/logomarca-80x22.png'"-->
-<!--             class='image-logo-preto' alt='Logo MEAvalia' routerLink=''>-->
-<!--      </div>-->
 
-
-      <div layout='row' layout-align='end center' flex fxHide.gt-sm="true" fxShow="true">
+      <div layout='row' layout-align='end center' flex fxHide.gt-sm='true' fxShow='true'>
         <img style='cursor: pointer; margin-top: 10px'
              [src]="'../../../assets/images/logomarca-80x22.png'"
              class='image-logo-preto' alt='Logo MEAvalia' routerLink=''>
       </div>
 
-      <div layout='row' layout-align='end center' flex fxShow.gt-sm="true" fxHide="true">
+      <div layout='row' layout-align='end center' flex fxShow.gt-sm='true' fxHide='true'>
         <!--        <button mat-button class="btn-secondary">Informativo ao candidato</button>-->
-        <button class="btn-secondary" mat-button routerLinkActive (click)='toCriarConta()'>
+        <button class='btn-secondary' mat-button routerLinkActive (click)='toCriarConta()'>
           Criar conta
         </button>
-        <button mat-flat-button class="btn-primary" routerLinkActive (click)='toSistema()'>
+        <button class='btn-primary' mat-flat-button routerLinkActive (click)='toSistema()'>
           Entrar
         </button>
       </div>
