@@ -5,8 +5,7 @@ i# See http://help.github.com/ignore-files/ for more about ignoring files.
 /front-end/deploy
 /front-end/tmp
 /.idea/**
-/back-end/src/main/resources/public/sistema
-/back-end/src/main/resources/public/public
+/back-end/src/main/resources/public/
 # dependencies
 /back-end/log
 /front-end/node_modules
