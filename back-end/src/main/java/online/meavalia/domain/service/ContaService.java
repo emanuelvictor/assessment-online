@@ -1,10 +1,10 @@
 package online.meavalia.domain.service;
 
-import online.meavalia.domain.repository.ContaRepository;
+import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.entity.usuario.Conta;
+import online.meavalia.domain.repository.ContaRepository;
 import online.meavalia.infrastructure.tenant.TenantDetails;
 import online.meavalia.infrastructure.tenant.TenantDetailsService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;

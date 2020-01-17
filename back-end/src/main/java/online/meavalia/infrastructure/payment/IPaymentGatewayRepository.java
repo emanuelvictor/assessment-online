@@ -1,7 +1,7 @@
 package online.meavalia.infrastructure.payment;
 
-import online.meavalia.domain.entity.assinatura.fatura.Fatura;
 import online.meavalia.domain.entity.assinatura.Assinatura;
+import online.meavalia.domain.entity.assinatura.fatura.Fatura;
 
 import java.util.List;
 import java.util.Map;

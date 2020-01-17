@@ -1,10 +1,10 @@
 package online.meavalia.domain.entity.unidade;
 
-import online.meavalia.domain.entity.avaliacao.UnidadeTipoAvaliacao;
-import online.meavalia.domain.entity.usuario.vinculo.Avaliavel;
-import online.meavalia.domain.entity.generic.AbstractEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import online.meavalia.domain.entity.avaliacao.UnidadeTipoAvaliacao;
+import online.meavalia.domain.entity.generic.AbstractEntity;
+import online.meavalia.domain.entity.usuario.vinculo.Avaliavel;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;

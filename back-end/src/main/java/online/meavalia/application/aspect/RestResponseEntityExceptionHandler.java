@@ -1,8 +1,8 @@
 package online.meavalia.application.aspect;
 
+import lombok.RequiredArgsConstructor;
 import online.meavalia.application.aspect.exceptions.PasswordNotFound;
 import online.meavalia.application.aspect.handler.ResponseEntityExceptionHandler;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.postgresql.util.PSQLException;

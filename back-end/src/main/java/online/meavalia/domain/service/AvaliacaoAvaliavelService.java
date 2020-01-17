@@ -1,8 +1,8 @@
 package online.meavalia.domain.service;
 
-import online.meavalia.domain.repository.AvaliacaoAvaliavelRepository;
-import online.meavalia.domain.entity.avaliacao.AvaliacaoAvaliavel;
 import lombok.RequiredArgsConstructor;
+import online.meavalia.domain.entity.avaliacao.AvaliacaoAvaliavel;
+import online.meavalia.domain.repository.AvaliacaoAvaliavelRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

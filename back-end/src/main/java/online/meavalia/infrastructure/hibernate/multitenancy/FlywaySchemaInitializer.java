@@ -1,7 +1,7 @@
 package online.meavalia.infrastructure.hibernate.multitenancy;
 
-import online.meavalia.infrastructure.tenant.TenantDetailsService;
 import lombok.RequiredArgsConstructor;
+import online.meavalia.infrastructure.tenant.TenantDetailsService;
 import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.Configuration;
 

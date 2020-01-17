@@ -1,8 +1,8 @@
 package online.meavalia.domain.entity.unidade;
 
+import lombok.Data;
 import online.meavalia.domain.entity.endereco.Endereco;
 import online.meavalia.domain.entity.usuario.Pessoa;
-import lombok.Data;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.CascadeType;

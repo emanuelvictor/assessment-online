@@ -2,12 +2,10 @@ package online.meavalia.application.resource;
 
 import lombok.RequiredArgsConstructor;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
-import online.meavalia.domain.entity.assinatura.Assinatura;
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import online.meavalia.domain.entity.usuario.Perfil;
 import online.meavalia.domain.repository.AssinaturaRepository;
-import online.meavalia.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
 import online.meavalia.domain.service.DispositivoService;
 import online.meavalia.infrastructure.resource.AbstractResource;
 import org.springframework.data.domain.Page;
@@ -22,12 +20,10 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import static online.meavalia.infrastructure.suport.Utils.getListFromArray;
 import static online.meavalia.infrastructure.suport.Utils.getSetFromArray;
 
 @RestController

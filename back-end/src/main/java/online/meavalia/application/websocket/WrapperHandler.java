@@ -1,7 +1,7 @@
 package online.meavalia.application.websocket;
 
-import online.meavalia.infrastructure.converters.JsonConverter;
 import lombok.Getter;
+import online.meavalia.infrastructure.converters.JsonConverter;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.UnicastProcessor;
 

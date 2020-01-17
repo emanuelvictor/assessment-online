@@ -1,11 +1,11 @@
 package online.meavalia.application.resource;
 
+import lombok.AllArgsConstructor;
 import online.meavalia.domain.entity.usuario.Perfil;
 import online.meavalia.domain.entity.usuario.vinculo.Avaliavel;
 import online.meavalia.domain.service.AvaliavelService;
 import online.meavalia.infrastructure.resource.AbstractResource;
 import online.meavalia.infrastructure.suport.Utils;
-import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

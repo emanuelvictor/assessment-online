@@ -1,9 +1,9 @@
 package online.meavalia.infrastructure.hibernate;
 
-import online.meavalia.application.tenant.TenantIdentifierResolver;
-import online.meavalia.infrastructure.hibernate.multitenancy.MultiTenantConnectionProviderImpl;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import online.meavalia.application.tenant.TenantIdentifierResolver;
+import online.meavalia.infrastructure.hibernate.multitenancy.MultiTenantConnectionProviderImpl;
 import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.Environment;
 import org.springframework.context.annotation.Bean;

@@ -1,11 +1,11 @@
 package online.meavalia.application.websocket;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.entity.avaliacao.TipoAvaliacao;
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.repository.DispositivoRepository;
 import online.meavalia.infrastructure.converters.JsonConverter;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;

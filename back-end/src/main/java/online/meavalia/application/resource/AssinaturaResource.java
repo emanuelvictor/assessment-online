@@ -1,10 +1,10 @@
 package online.meavalia.application.resource;
 
+import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.entity.assinatura.Assinatura;
 import online.meavalia.domain.entity.usuario.Perfil;
 import online.meavalia.domain.service.AssinaturaService;
 import online.meavalia.infrastructure.resource.AbstractResource;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;

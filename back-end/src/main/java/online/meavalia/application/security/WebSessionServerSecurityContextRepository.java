@@ -1,11 +1,11 @@
 package online.meavalia.application.security;
 
+import lombok.RequiredArgsConstructor;
 import online.meavalia.Application;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.infrastructure.org.springframework.data.domain.PageRequest;
 import online.meavalia.infrastructure.resource.PageComponent;
 import online.meavalia.infrastructure.tenant.TenantDetails;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;

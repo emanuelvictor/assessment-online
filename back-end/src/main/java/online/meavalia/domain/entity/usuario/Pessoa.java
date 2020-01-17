@@ -1,8 +1,8 @@
 package online.meavalia.domain.entity.usuario;
 
-import online.meavalia.domain.entity.generic.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import online.meavalia.domain.entity.generic.AbstractEntity;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;

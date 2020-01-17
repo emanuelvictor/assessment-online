@@ -2,8 +2,6 @@ package online.meavalia.application.websocket;
 
 import reactor.core.publisher.UnicastProcessor;
 
-import java.util.List;
-
 public class WebSocketMessageSubscriber<T> {
 
     private UnicastProcessor<T> messagePublisher;

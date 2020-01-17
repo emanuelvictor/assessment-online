@@ -1,5 +1,6 @@
 package online.meavalia.application.resource;
 
+import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.entity.usuario.Perfil;
 import online.meavalia.domain.entity.usuario.Usuario;
 import online.meavalia.domain.repository.UsuarioRepository;
@@ -7,7 +8,6 @@ import online.meavalia.domain.service.UsuarioService;
 import online.meavalia.infrastructure.file.ImageUtils;
 import online.meavalia.infrastructure.resource.AbstractResource;
 import online.meavalia.infrastructure.suport.Utils;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;

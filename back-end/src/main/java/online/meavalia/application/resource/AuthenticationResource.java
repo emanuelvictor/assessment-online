@@ -1,10 +1,10 @@
 package online.meavalia.application.resource;
 
+import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.entity.usuario.Conta;
 import online.meavalia.domain.repository.ContaRepository;
 import online.meavalia.domain.service.DispositivoService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.bind.annotation.GetMapping;

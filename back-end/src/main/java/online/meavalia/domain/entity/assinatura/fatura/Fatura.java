@@ -1,12 +1,12 @@
 package online.meavalia.domain.entity.assinatura.fatura;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import online.meavalia.domain.entity.assinatura.Assinatura;
 import online.meavalia.domain.entity.assinatura.Cupom;
 import online.meavalia.domain.entity.assinatura.FormaPagamento;
 import online.meavalia.domain.entity.generic.AbstractEntity;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 

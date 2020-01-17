@@ -1,12 +1,12 @@
 package online.meavalia.domain.entity.assinatura.fatura;
 
-import online.meavalia.domain.entity.generic.AbstractEntity;
-import online.meavalia.domain.entity.generic.EntityIdResolver;
-import online.meavalia.domain.entity.unidade.Dispositivo;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import online.meavalia.domain.entity.generic.AbstractEntity;
+import online.meavalia.domain.entity.generic.EntityIdResolver;
+import online.meavalia.domain.entity.unidade.Dispositivo;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;

@@ -1,10 +1,10 @@
 package online.meavalia.domain.service;
 
-import online.meavalia.domain.repository.TipoAvaliacaoRepository;
-import online.meavalia.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
+import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.entity.avaliacao.TipoAvaliacao;
 import online.meavalia.domain.entity.avaliacao.UnidadeTipoAvaliacao;
-import lombok.RequiredArgsConstructor;
+import online.meavalia.domain.repository.TipoAvaliacaoRepository;
+import online.meavalia.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

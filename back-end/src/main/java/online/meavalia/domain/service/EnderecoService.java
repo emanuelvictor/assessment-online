@@ -1,8 +1,8 @@
 package online.meavalia.domain.service;
 
-import online.meavalia.domain.repository.EnderecoRepository;
-import online.meavalia.domain.entity.endereco.Cidade;
 import lombok.RequiredArgsConstructor;
+import online.meavalia.domain.entity.endereco.Cidade;
+import online.meavalia.domain.repository.EnderecoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

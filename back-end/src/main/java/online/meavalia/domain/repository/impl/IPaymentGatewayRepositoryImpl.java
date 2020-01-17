@@ -1,16 +1,16 @@
 package online.meavalia.domain.repository.impl;
 
-import online.meavalia.application.tenant.TenantIdentifierResolver;
 import br.com.moip.Moip;
 import br.com.moip.exception.ValidationException;
 import br.com.moip.models.Setup;
+import lombok.RequiredArgsConstructor;
+import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.domain.entity.assinatura.Assinatura;
 import online.meavalia.domain.entity.assinatura.FormaPagamento;
 import online.meavalia.domain.entity.assinatura.fatura.Fatura;
 import online.meavalia.domain.entity.usuario.Conta;
 import online.meavalia.domain.repository.ContaRepository;
 import online.meavalia.infrastructure.payment.IPaymentGatewayRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

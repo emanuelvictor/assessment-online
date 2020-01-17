@@ -1,9 +1,9 @@
 package online.meavalia.application.security;
 
-import online.meavalia.Application;
-import online.meavalia.domain.entity.usuario.Conta;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import online.meavalia.Application;
+import online.meavalia.domain.entity.usuario.Conta;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;

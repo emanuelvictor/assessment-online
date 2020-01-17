@@ -2,13 +2,13 @@ package online.meavalia.domain.entity.usuario;
 
 import br.com.caelum.stella.validation.CNPJValidator;
 import br.com.caelum.stella.validation.CPFValidator;
-import online.meavalia.domain.entity.unidade.Unidade;
-import online.meavalia.domain.entity.usuario.vinculo.Avaliavel;
-import online.meavalia.domain.entity.usuario.vinculo.Operador;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import online.meavalia.domain.entity.unidade.Unidade;
+import online.meavalia.domain.entity.usuario.vinculo.Avaliavel;
+import online.meavalia.domain.entity.usuario.vinculo.Operador;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;

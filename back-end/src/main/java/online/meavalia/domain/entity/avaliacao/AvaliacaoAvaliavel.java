@@ -1,9 +1,9 @@
 package online.meavalia.domain.entity.avaliacao;
 
+import lombok.Data;
 import online.meavalia.domain.entity.generic.AbstractEntity;
 import online.meavalia.domain.entity.usuario.Usuario;
 import online.meavalia.domain.entity.usuario.vinculo.Avaliavel;
-import lombok.Data;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;

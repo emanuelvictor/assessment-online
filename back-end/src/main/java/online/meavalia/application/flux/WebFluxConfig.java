@@ -26,9 +26,8 @@ public class WebFluxConfig implements WebFluxConfigurer {
     }
 
     @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
+    public void configureViewResolvers(final ViewResolverRegistry registry) {
         registry.freeMarker().suffix(HTML_SUFFIX);
-
     }
 
     @Bean

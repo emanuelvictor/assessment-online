@@ -53,6 +53,11 @@ public class NavigaionController {
     }
 
     @Bean
+    RouterFunction<?> favicon() {
+        return resources("/favicon.**", new ClassPathResource("public/assets/favicon.ico"));
+    }
+
+    @Bean
     public RouterFunction<ServerResponse> ssl() {
         return resources("/.well-known/acme-challenge/**", new ClassPathResource("ssl/"));
     }

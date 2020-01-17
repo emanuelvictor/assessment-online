@@ -1,8 +1,8 @@
 package online.meavalia.domain.service;
 
-import online.meavalia.domain.repository.OperadorRepository;
-import online.meavalia.domain.entity.usuario.vinculo.Operador;
 import lombok.RequiredArgsConstructor;
+import online.meavalia.domain.entity.usuario.vinculo.Operador;
+import online.meavalia.domain.repository.OperadorRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

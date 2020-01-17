@@ -1,11 +1,11 @@
 package online.meavalia.application.resource;
 
+import lombok.RequiredArgsConstructor;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.domain.entity.assinatura.Assinatura;
 import online.meavalia.domain.entity.assinatura.fatura.Fatura;
 import online.meavalia.domain.service.FaturaService;
 import online.meavalia.infrastructure.resource.AbstractResource;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 

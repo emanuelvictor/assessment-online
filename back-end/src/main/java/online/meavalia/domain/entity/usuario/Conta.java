@@ -1,12 +1,12 @@
 package online.meavalia.domain.entity.usuario;
 
-import online.meavalia.domain.entity.generic.AbstractEntity;
-import online.meavalia.infrastructure.tenant.TenantDetails;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import online.meavalia.domain.entity.generic.AbstractEntity;
+import online.meavalia.infrastructure.tenant.TenantDetails;
 import org.hibernate.envers.Audited;
 import org.springframework.security.core.GrantedAuthority;
 

@@ -1,8 +1,8 @@
 package online.meavalia.domain.entity.assinatura;
 
-import online.meavalia.domain.entity.generic.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import online.meavalia.domain.entity.generic.AbstractEntity;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.Column;

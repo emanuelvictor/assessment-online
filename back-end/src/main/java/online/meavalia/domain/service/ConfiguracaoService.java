@@ -1,12 +1,12 @@
 package online.meavalia.domain.service;
 
+import lombok.RequiredArgsConstructor;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
-import online.meavalia.domain.repository.ConfiguracaoRepository;
-import online.meavalia.domain.repository.ContaRepository;
 import online.meavalia.domain.entity.configuracao.Configuracao;
 import online.meavalia.domain.entity.usuario.Conta;
+import online.meavalia.domain.repository.ConfiguracaoRepository;
+import online.meavalia.domain.repository.ContaRepository;
 import online.meavalia.infrastructure.file.ImageUtils;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;

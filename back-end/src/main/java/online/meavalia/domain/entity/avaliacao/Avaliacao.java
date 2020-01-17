@@ -1,12 +1,12 @@
 package online.meavalia.domain.entity.avaliacao;
 
-import online.meavalia.domain.entity.generic.AbstractEntity;
-import online.meavalia.domain.entity.unidade.Unidade;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import online.meavalia.domain.entity.generic.AbstractEntity;
+import online.meavalia.domain.entity.unidade.Unidade;
 import org.hibernate.envers.Audited;
 import org.springframework.format.annotation.DateTimeFormat;
 

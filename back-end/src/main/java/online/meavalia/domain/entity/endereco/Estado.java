@@ -1,9 +1,9 @@
 package online.meavalia.domain.entity.endereco;
 
 
-import online.meavalia.domain.entity.generic.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import online.meavalia.domain.entity.generic.AbstractEntity;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 
