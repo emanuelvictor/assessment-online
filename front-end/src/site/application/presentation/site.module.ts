@@ -29,6 +29,7 @@ import {SiteComponent} from './site.component';
 import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
 import {CookieService} from 'ngx-cookie-service';
 import {FaturaRepository} from '@src/sistema/domain/repository/fatura.repository';
+import {PlanoRepository} from '@src/sistema/domain/repository/plano.repository';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -88,6 +89,7 @@ registerLocaleData(localePt, 'pt-BR');
     // Services
     LocalStorage,
     CookieService,
+    PlanoRepository,
     FaturaRepository,
     AuthenticationService,
 

@@ -157,11 +157,9 @@ mat-sidenav-container {
 
   &:first-child {
     border-top-left-radius: 5px;
-    border-top-right-radius: 0;
   }
 
   &:last-child {
-    border-top-left-radius: 0;
     border-top-right-radius: 5px;
     border-right: solid 1px #aaaaaa6e;
   }

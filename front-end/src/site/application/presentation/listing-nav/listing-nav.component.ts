@@ -1,15 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
+import {PlanoRepository} from '@src/sistema/domain/repository/plano.repository';
+import {Plano} from '@src/sistema/domain/entity/assinatura/plano.model';
 
 @Component({
   selector: 'sistema-listing-nav',
   templateUrl: './listing-nav.component.html',
   styleUrls: ['./listing-nav.component.scss']
 })
-export class ListingNavComponent implements OnInit {
+export class ListingNavComponent {
 
-  constructor() { }
+  /**
+   *
+   */
+  planos: Plano[];
 
-  ngOnInit() {
+  /**
+   *
+   * @param planoRepository
+   */
+  constructor(private planoRepository: PlanoRepository) {
+    planoRepository.findAll().subscribe(result => {
+      this.planos = result;
+    })
   }
 
 }

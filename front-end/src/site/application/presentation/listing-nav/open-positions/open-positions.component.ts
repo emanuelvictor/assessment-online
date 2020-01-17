@@ -1,17 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {Plano} from '@src/sistema/domain/entity/assinatura/plano.model';
 
 @Component({
   selector: 'sistema-open-positions',
   templateUrl: './open-positions.component.html',
   styleUrls: ['./open-positions.component.scss']
 })
-export class OpenPositionsComponent implements OnInit {
-  items: any[];
+export class OpenPositionsComponent {
 
-  constructor() { }
-
-  ngOnInit() {
-    this.items = [1,2,3,4,5,6];
-  }
+  @Input()
+  plano: Plano;
 
 }

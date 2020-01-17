@@ -64,8 +64,8 @@ export class PlanosComponent {
    */
   constructor(private fb: FormBuilder,
               private planoRepository: PlanoRepository,
-              private dispositivoRepository: DispositivoRepository,
-              private assinaturaRepository: AssinaturaRepository) {
+              private assinaturaRepository: AssinaturaRepository,
+              private dispositivoRepository: DispositivoRepository) {
 
     planoRepository.findAll().subscribe(result => {
       this.planos = result;
