@@ -2,9 +2,9 @@
 <widget id="online.meavalia" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>MEAvalia</name>
     <description>
-        Sistema de Monitoramento de Avaliações
+        Provando seu valor!
     </description>
-    <author email="emanuel.info@gmail.com" href="https://www.meavalia.online">
+    <author email="contato@meavalia.online" href="https://www.meavalia.online">
         Emanuel Victor
     </author>
     <content src="index.html" />
