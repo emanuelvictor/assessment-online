@@ -1,0 +1,11 @@
+{
+    "android": {
+        "release": {
+            "keystore": "meavalia.keystore",
+            "storePassword": "teste2!@#Start",
+            "alias": "meavalia",
+            "password" : "teste2!@#Start",
+            "keystoreType": ""
+        }
+    }
+}

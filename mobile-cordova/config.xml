@@ -18,7 +18,7 @@
     <platform name="android">
         <allow-intent href="market:*" />
         <preference name="android-minSdkVersion" value="16" />
-        <preference name="android-targetSdkVersion" value="22" />
+        <preference name="android-targetSdkVersion" value="28" />
         <icon density="mdpi" src="www/assets/images/res/drawable-mdpi/ic_launcher.png" />
         <icon density="hdpi" src="www/assets/images/res/drawable-hdpi/ic_launcher.png" />
         <icon density="xhdpi" src="www/assets/images/res/drawable-xhdpi/ic_launcher.png" />
