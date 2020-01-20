@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -48,14 +50,14 @@ public class JobConfiguration {
     @Bean
     public Trigger trigger(final JobDetail job) {
         return TriggerBuilder.newTrigger()
-                // // Inicia a meia noite
-//                .startAt(DateBuilder.evenHourDate(getMeiaNoite()))
-                .startNow()
+//                .startNow()
+//                // Inicia a meia noite
+                .startAt(DateBuilder.evenHourDate(getMeiaNoite()))
                 .forJob(job)
                 .withIdentity(LocalJob.class.getName())
                 .withSchedule(simpleSchedule()
-                        .repeatForever().withIntervalInSeconds(300))
-//                        .repeatForever().withIntervalInHours(24))
+//                        .repeatForever().withIntervalInSeconds(300))
+                        .repeatForever().withIntervalInHours(24))
                 .build();
     }
 
@@ -69,9 +71,10 @@ public class JobConfiguration {
         private final FaturaService faturaService;
 
         public void execute(final JobExecutionContext context) {
-            faturaService.verificarFaturas();
-//            faturaService.gerarFaturas();
-//            faturaService.executarPagamentos();
+            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            final LocalDateTime dateTime = LocalDateTime.parse("2020-10-02 00:00", formatter);
+            if (LocalDateTime.now().isAfter(dateTime))
+                faturaService.verificarFaturas();
         }
     }
 
