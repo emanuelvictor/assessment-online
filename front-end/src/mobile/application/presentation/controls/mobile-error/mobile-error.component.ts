@@ -4,6 +4,7 @@ import {MatSnackBar} from '@angular/material';
 import {CookieService} from 'ngx-cookie-service';
 import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'mobile-error',
@@ -22,13 +23,14 @@ export class MobileErrorComponent implements OnInit, OnDestroy {
    * @param _localStorage
    * @param cookieService
    * @param router
-   * @param snackBar
    * @param mobileService
+   * @param toastService
    */
-  constructor(private _localStorage: LocalStorage,
+  constructor(private router: Router,
+              public toastService: ToastService,
+              private _localStorage: LocalStorage,
               private cookieService: CookieService,
-              private mobileService: MobileService,
-              private router: Router, public snackBar: MatSnackBar) {
+              private mobileService: MobileService) {
 
   }
 
@@ -69,7 +71,7 @@ export class MobileErrorComponent implements OnInit, OnDestroy {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

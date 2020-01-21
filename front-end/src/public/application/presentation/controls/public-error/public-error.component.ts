@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {PublicService} from '@src/public/domain/service/public.service';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'public-error',
@@ -18,9 +18,9 @@ export class PublicErrorComponent implements OnInit, OnDestroy {
   /**
    *
    * @param publicService
-   * @param snackBar
+   * @param toastService
    */
-  constructor(private publicService: PublicService, private snackBar: MatSnackBar) {
+  constructor(private publicService: PublicService, private toastService: ToastService) {
   }
 
   /**
@@ -30,7 +30,7 @@ export class PublicErrorComponent implements OnInit, OnDestroy {
     this._timeout = MobileService.setTimeout(() => {
       this.tryAgain();
       return 30000
-    }, 30000);
+    }, 30000)
   }
 
   /**
@@ -50,7 +50,7 @@ export class PublicErrorComponent implements OnInit, OnDestroy {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

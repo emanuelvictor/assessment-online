@@ -5,6 +5,7 @@ import {CupomRepository} from '../../../../../domain/repository/cupom.repository
 import {ActivatedRoute, Router} from '@angular/router';
 import {viewAnimation} from '../../../controls/utils';
 import {Cupom} from '../../../../../domain/entity/assinatura/cupom.model';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -26,14 +27,14 @@ export class InserirCupomComponent {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {CupomRepository} cupomRepository
    * @param {Router} router
    * @param {ActivatedRoute} activatedRoute
    */
   constructor(private activatedRoute: ActivatedRoute,
               private cupomRepository: CupomRepository,
-              private snackBar: MatSnackBar, private router: Router) {
+              private toastService: ToastService, private router: Router) {
   }
 
   /**
@@ -67,7 +68,7 @@ export class InserirCupomComponent {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

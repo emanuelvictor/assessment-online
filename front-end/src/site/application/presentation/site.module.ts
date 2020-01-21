@@ -30,6 +30,7 @@ import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-stor
 import {CookieService} from 'ngx-cookie-service';
 import {FaturaRepository} from '@src/sistema/domain/repository/fatura.repository';
 import {PlanoRepository} from '@src/sistema/domain/repository/plano.repository';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -85,6 +86,8 @@ registerLocaleData(localePt, 'pt-BR');
 
     // Repositories
     UsuarioRepository,
+
+    ToastService,
 
     // Services
     LocalStorage,

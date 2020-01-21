@@ -6,6 +6,7 @@ import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../../../domain/entity/usuario/usuario.model';
 import {HttpClient} from '@angular/common/http';
 import {RecaptchaComponent} from 'ng-recaptcha';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -66,7 +67,7 @@ export class ClienteFormComponent implements OnInit {
   /**
    *
    * @param {Renderer} renderer
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {FormBuilder} fb
    * @param http
    * @param {ElementRef} element
@@ -74,7 +75,7 @@ export class ClienteFormComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private http: HttpClient,
               private renderer: Renderer,
-              private snackBar: MatSnackBar,
+              private toastService: ToastService,
               @Inject(ElementRef) private element: ElementRef) {
   }
 
@@ -231,7 +232,7 @@ export class ClienteFormComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

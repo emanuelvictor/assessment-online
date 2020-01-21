@@ -10,6 +10,7 @@ import {UnidadeTipoAvaliacaoRepository} from '@src/sistema/domain/repository/uni
 import {UnidadeTipoAvaliacaoDispositivo} from '@src/sistema/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
 import {ConfirmInsertDispositivoDialogComponent} from '@src/sistema/application/presentation/authenticated/dispositivo/inserir-dispositivo/confirm-insert-dispositivo-dialog/confirm-insert-dispositivo-dialog.component';
 import {AssinaturaRepository} from '@src/sistema/domain/repository/assinatura.repository';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -42,7 +43,7 @@ export class InserirDispositivoComponent implements OnInit {
   /**
    *
    * @param unidadeRepository
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param assinturaRepository
    * @param {DispositivoRepository} dispositivoRepository
    * @param unidadeTipoAvaliacaoRepository
@@ -54,7 +55,7 @@ export class InserirDispositivoComponent implements OnInit {
               private activatedRoute: ActivatedRoute, private router: Router,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private unidadeRepository: UnidadeRepository, private dialog: MatDialog,
-              private assinturaRepository: AssinaturaRepository, private snackBar: MatSnackBar) {
+              private assinturaRepository: AssinaturaRepository, private toastService: ToastService) {
   }
 
   /**
@@ -190,7 +191,7 @@ export class InserirDispositivoComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

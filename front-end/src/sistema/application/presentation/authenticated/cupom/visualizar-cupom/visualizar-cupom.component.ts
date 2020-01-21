@@ -6,6 +6,7 @@ import {CupomRepository} from '../../../../../domain/repository/cupom.repository
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
 import {viewAnimation} from '../../../controls/utils';
 import {Cupom} from '../../../../../domain/entity/assinatura/cupom.model';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'visualizar-cupom',
@@ -25,7 +26,7 @@ export class VisualizarCupomComponent implements OnInit {
 
   /**
    *
-   * @param snackBar {MatSnackBar}
+   * @param toastService {MatSnackBar}
    * @param activatedRoute {ActivatedRoute}
    * @param router {Router}
    * @param dialog {MatDialog}
@@ -33,7 +34,7 @@ export class VisualizarCupomComponent implements OnInit {
    */
   constructor(private cupomRepository: CupomRepository,
               private router: Router, private dialog: MatDialog,
-              private snackBar: MatSnackBar, public activatedRoute: ActivatedRoute) {
+              private toastService: ToastService, public activatedRoute: ActivatedRoute) {
   }
 
   /**
@@ -72,7 +73,7 @@ export class VisualizarCupomComponent implements OnInit {
         this.cupomRepository.delete(id)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-            this.snackBar.open('Cupom excluído com sucesso', 'Fechar', {
+            this.toastService.open('Cupom excluído com sucesso', 'Fechar', {
               duration: 3000
             })
           })
@@ -93,7 +94,7 @@ export class VisualizarCupomComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

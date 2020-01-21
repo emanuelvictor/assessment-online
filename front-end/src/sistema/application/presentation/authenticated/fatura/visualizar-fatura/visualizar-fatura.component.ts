@@ -5,6 +5,7 @@ import {Avaliacao} from '../../../../../domain/entity/avaliacao/avaliacao.model'
 import {FaturaRepository} from '../../../../../domain/repository/fatura.repository';
 import {viewAnimation} from '../../../controls/utils';
 import {Fatura} from '../../../../../domain/entity/assinatura/fatura.model';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'visualizar-fatura',
@@ -23,7 +24,7 @@ export class VisualizarFaturaComponent implements OnInit {
   fatura: Fatura = new Fatura();
 
   /**
-   * @param snackBar {MatSnackBar}
+   * @param toastService {MatSnackBar}
    * @param activatedRoute {ActivatedRoute}
    * @param router {Router}
    * @param dialog {MatDialog}
@@ -31,7 +32,7 @@ export class VisualizarFaturaComponent implements OnInit {
    */
   constructor(private faturaRepository: FaturaRepository,
               private router: Router, private dialog: MatDialog,
-              private snackBar: MatSnackBar, public activatedRoute: ActivatedRoute) {
+              private toastService: ToastService, public activatedRoute: ActivatedRoute) {
   }
 
   /**
@@ -63,7 +64,7 @@ export class VisualizarFaturaComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

@@ -8,6 +8,7 @@ import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/fo
 import {FileRepository} from '../../../../../../infrastructure/repository/file/file.repository';
 import {Cupom} from '../../../../../../domain/entity/assinatura/cupom.model';
 import {ContaService} from '../../../../../../domain/service/conta.service';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -44,7 +45,7 @@ export class CupomFormComponent implements OnInit {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param contaService
    * @param {FileRepository} fileRepository
    * @param {ElementRef} element
@@ -53,7 +54,7 @@ export class CupomFormComponent implements OnInit {
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    */
-  constructor(private snackBar: MatSnackBar,
+  constructor(private toastService: ToastService,
               private contaService: ContaService,
               private fileRepository: FileRepository,
               @Inject(ElementRef) private element: ElementRef,
@@ -172,7 +173,7 @@ export class CupomFormComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

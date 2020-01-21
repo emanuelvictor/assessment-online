@@ -10,6 +10,7 @@ import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
 import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
 import 'rxjs/add/operator/debounceTime';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'authenticate-to-logout',
@@ -50,14 +51,14 @@ export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
    * @param {MobileService} mobileService
    * @param element
    * @param renderer
-   * @param snackBar
+   * @param toastService
    * @param {Router} router
    */
   constructor(private _sanitizer: DomSanitizer,
               private mobileService: MobileService,
               @Inject(ElementRef) private element: ElementRef,
               private router: Router, private renderer: Renderer,
-              private snackBar: MatSnackBar, private fb: FormBuilder) {
+              private toastService: ToastService, private fb: FormBuilder) {
   }
 
   /**
@@ -158,7 +159,7 @@ export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

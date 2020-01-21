@@ -11,6 +11,7 @@ import {UnidadeTipoAvaliacaoDispositivo} from '../../../../../domain/entity/aval
 import {UnidadeTipoAvaliacaoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao.repository';
 import {UnidadeTipoAvaliacaoDispositivoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao-dispositivo.repository';
 import {Avaliavel} from '../../../../../domain/entity/usuario/vinculo/avaliavel.model';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'inserir-atendente',
@@ -50,7 +51,7 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
    * @param {OperadorRepository} operadorRepository
    * @param {AvaliavelRepository} avaliavelRepository
    * @param {Router} router
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param unidadeTipoAvaliacaoRepository
    * @param unidadeTipoAvaliacaoDispositivoRepository
    * @param {ActivatedRoute} activatedRoute
@@ -59,7 +60,7 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
   constructor(private usuarioService: UsuarioService,
               private operadorRepository: OperadorRepository,
               private avaliavelRepository: AvaliavelRepository,
-              private router: Router, private snackBar: MatSnackBar,
+              private router: Router, private toastService: ToastService,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
               private activatedRoute: ActivatedRoute, private unidadeService: UnidadeService,
               private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository) {
@@ -116,7 +117,7 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
    */
   public save(): void {
     if ((!this.avaliaveis.length && !this.operadores.length) && !this.atendente.conta.administrador) {
-      this.snackBar.open('Selecione ao menos uma unidade', 'Fechar');
+      this.toastService.open('Selecione ao menos uma unidade', 'Fechar');
     } else {
       this.usuarioService.save(this.atendente)
         .then(result => {
@@ -151,7 +152,7 @@ export class InserirAtendenteComponent implements OnInit, OnDestroy {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

@@ -14,6 +14,7 @@ import {ConfiguracaoRepository} from '../../../../domain/repository/configuracao
 import {AuthenticationService} from '../../../../domain/service/authentication.service';
 import {TipoFeedback} from '../../../../domain/entity/configuracao/tipo-feedback.enum';
 import {enumToArrayString, viewAnimation} from '../../controls/utils';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -83,7 +84,7 @@ export class ConfiguracaoComponent implements OnInit {
 
   /**
    *
-   * @param snackBar
+   * @param toastService
    * @param fileRepository
    * @param _loadingService
    * @param element
@@ -95,7 +96,7 @@ export class ConfiguracaoComponent implements OnInit {
    * @param iconRegistry
    * @param domSanitizer
    */
-  constructor(private snackBar: MatSnackBar,
+  constructor(private toastService: ToastService,
               private fileRepository: FileRepository,
               private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
@@ -259,7 +260,7 @@ export class ConfiguracaoComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

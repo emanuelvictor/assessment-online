@@ -15,6 +15,7 @@ import {UnidadeTipoAvaliacaoRepository} from '../../../../../domain/repository/u
 import {UnidadeTipoAvaliacaoDispositivo} from '../../../../../domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
 import {UnidadeTipoAvaliacaoDispositivoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao-dispositivo.repository';
 import {viewAnimation} from '../../../controls/utils';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'visualizar-atendente',
@@ -72,7 +73,7 @@ export class VisualizarAtendenteComponent implements OnInit {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param unidadeTipoAvaliacaoRepository
    * @param {OperadorRepository} operadorRepository
    * @param {AvaliavelRepository} avaliavelRepository
@@ -88,7 +89,7 @@ export class VisualizarAtendenteComponent implements OnInit {
               private router: Router, private usuarioService: UsuarioService,
               public activatedRoute: ActivatedRoute, private dialog: MatDialog,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
-              private operadorRepository: OperadorRepository, private snackBar: MatSnackBar,
+              private operadorRepository: OperadorRepository, private toastService: ToastService,
               private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository,
               private authenticationService: AuthenticationService, private unidadeService: UnidadeService) {
     /**
@@ -211,7 +212,7 @@ export class VisualizarAtendenteComponent implements OnInit {
         this.usuarioService.remove(itemAvaliavel)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-            this.snackBar.open('Excluído com sucesso', 'Fechar', {
+            this.toastService.open('Excluído com sucesso', 'Fechar', {
               duration: 3000
             })
           })
@@ -232,7 +233,7 @@ export class VisualizarAtendenteComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

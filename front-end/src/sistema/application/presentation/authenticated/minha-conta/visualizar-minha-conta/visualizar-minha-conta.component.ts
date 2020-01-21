@@ -12,6 +12,7 @@ import {viewAnimation} from '../../../controls/utils';
 import {ContaService} from '../../../../../domain/service/conta.service';
 import {ConfiguracaoRepository} from '../../../../../domain/repository/configuracao.repository';
 import {Router} from '@angular/router';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'visualizar-minha-conta',
@@ -65,10 +66,9 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
   public userSubscription: Subscription;
 
   /**
-   * @param dispositivoRepository
    * @param router
    * @param {MatDialog} dialog
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param configuracaoRepository
    * @param contaService
    * @param authenticationService
@@ -83,7 +83,7 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
               private avaliavelRepository: AvaliavelRepository,
               private authenticationService: AuthenticationService,
               private configuracaoRepository: ConfiguracaoRepository,
-              private dialog: MatDialog, private snackBar: MatSnackBar) {
+              private dialog: MatDialog, private toastService: ToastService) {
   }
 
   /**
@@ -161,7 +161,7 @@ export class VisualizarMinhaContaComponent implements OnInit, OnDestroy {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

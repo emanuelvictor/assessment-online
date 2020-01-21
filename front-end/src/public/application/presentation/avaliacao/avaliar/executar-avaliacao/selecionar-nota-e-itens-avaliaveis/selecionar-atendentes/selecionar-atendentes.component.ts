@@ -7,6 +7,7 @@ import {UnidadeTipoAvaliacaoRepository} from '@src/sistema/domain/repository/uni
 import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
 import {AvaliacaoAvaliavel} from '@src/sistema/domain/entity/avaliacao/avaliacao-avaliavel.model';
 import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'selecionar-atendentes',
@@ -42,7 +43,7 @@ export class SelecionarAtendentesComponent implements OnInit, OnDestroy {
   /**
    *
    * @param {Router} router
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {PublicService} publicService
    * @param {ActivatedRoute} activatedRoute
    * @param {AvaliavelRepository} avaliavelRepository
@@ -50,8 +51,8 @@ export class SelecionarAtendentesComponent implements OnInit, OnDestroy {
    */
   constructor(private avaliavelRepository: AvaliavelRepository,
               public publicService: PublicService, private router: Router,
-              public activatedRoute: ActivatedRoute, public snackBar: MatSnackBar,
-              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
+              private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
+              public activatedRoute: ActivatedRoute, public toastService: ToastService) {
   }
 
   /**
@@ -181,7 +182,7 @@ export class SelecionarAtendentesComponent implements OnInit, OnDestroy {
       }
 
     } else {
-      this.snackBar.open('Selecione ao menos um atendente', 'Fechar', SelecionarAtendentesComponent.matSnackBarConfig)
+      this.toastService.open('Selecione ao menos um atendente', 'Fechar', SelecionarAtendentesComponent.matSnackBarConfig)
     }
   }
 

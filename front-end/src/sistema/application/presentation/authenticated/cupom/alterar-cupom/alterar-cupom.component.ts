@@ -5,6 +5,7 @@ import {textMasks} from '../../../controls/text-masks/text-masks';
 import {DomSanitizer} from '@angular/platform-browser';
 import {CupomRepository} from '../../../../../domain/repository/cupom.repository';
 import {Cupom} from '../../../../../domain/entity/assinatura/cupom.model';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'alterar-cupom',
@@ -26,14 +27,14 @@ export class AlterarCupomComponent implements OnInit {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {ActivatedRoute} activatedRoute
    * @param {CupomRepository} cupomRepository
    * @param {DomSanitizer} domSanitizer
    * @param {Router} router
    */
   constructor(private cupomRepository: CupomRepository, private activatedRoute: ActivatedRoute,
-              private domSanitizer: DomSanitizer, private snackBar: MatSnackBar, private router: Router) {
+              private domSanitizer: DomSanitizer, private toastService: ToastService, private router: Router) {
 
   }
 
@@ -87,7 +88,7 @@ export class AlterarCupomComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

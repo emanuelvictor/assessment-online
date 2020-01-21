@@ -12,6 +12,7 @@ import {Conta} from '@src/sistema/domain/entity/usuario/conta.model';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'consultar-clientes',
@@ -79,14 +80,14 @@ export class ConsultarClientesComponent implements OnInit {
    *
    * @param localStorage
    * @param router
-   * @param snackBar
+   * @param toastService
    * @param {UsuarioService} contaService
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    * @param {UnidadeService} unidadeService
    */
   constructor(private localStorage: LocalStorage,
-              private router: Router, private snackBar: MatSnackBar,
+              private router: Router, private toastService: ToastService,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
               private contaService: ContaService, private unidadeService: UnidadeService) {
   }
@@ -195,7 +196,7 @@ export class ConsultarClientesComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

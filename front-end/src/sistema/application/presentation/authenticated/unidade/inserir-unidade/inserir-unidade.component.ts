@@ -8,6 +8,7 @@ import {UnidadeService} from '../../../../../domain/service/unidade.service';
 import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
 import {UnidadeTipoAvaliacao} from '../../../../../domain/entity/avaliacao/unidade-tipo-avaliacao.model';
 import {UnidadeTipoAvaliacaoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao.repository';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 
 /**
@@ -46,13 +47,13 @@ export class InserirUnidadeComponent {
    *
    * @param {UnidadeService} unidadeService
    * @param {Router} router
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {TipoAvaliacaoRepository} tipoAvaliacaoRepository
    * @param {UnidadeTipoAvaliacaoRepository} unidadeTipoAvaliacaoRepository
    */
   constructor(private unidadeService: UnidadeService,
-              private router: Router, private  snackBar: MatSnackBar,
               private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
+              private router: Router, private toastService: ToastService,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository) {
 
     this.tipoAvaliacaoRepository.listByFilters(null)
@@ -134,7 +135,7 @@ export class InserirUnidadeComponent {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

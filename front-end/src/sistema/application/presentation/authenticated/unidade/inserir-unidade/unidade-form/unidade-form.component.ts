@@ -5,6 +5,7 @@ import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {Unidade} from '../../../../../../domain/entity/unidade/unidade.model';
 import {cnpjValidator} from '../../../../controls/validators/validators';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -41,12 +42,12 @@ export class UnidadeFormComponent implements OnInit {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {FormBuilder} fb
    * @param {ElementRef} element
    * @param {Renderer} renderer
    */
-  constructor(public snackBar: MatSnackBar, public fb: FormBuilder, @Inject(ElementRef) public element: ElementRef, public renderer: Renderer) {
+  constructor(public toastService: ToastService, public fb: FormBuilder, @Inject(ElementRef) public element: ElementRef, public renderer: Renderer) {
   }
 
   /**
@@ -139,7 +140,7 @@ export class UnidadeFormComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

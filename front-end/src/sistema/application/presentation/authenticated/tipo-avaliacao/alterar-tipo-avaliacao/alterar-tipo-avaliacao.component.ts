@@ -5,6 +5,7 @@ import {textMasks} from '../../../controls/text-masks/text-masks';
 import {DomSanitizer} from '@angular/platform-browser';
 import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
 import {TipoAvaliacao} from '../../../../../domain/entity/avaliacao/tipo-avaliacao.model';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'alterar-tipo-avaliacao',
@@ -26,13 +27,13 @@ export class AlterarTipoAvaliacaoComponent implements OnInit {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {ActivatedRoute} activatedRoute
    * @param {TipoAvaliacaoRepository} tipoAvaliacaoRepository
    * @param {DomSanitizer} domSanitizer
    * @param {Router} router
    */
-  constructor(private snackBar: MatSnackBar,
+  constructor(private toastService: ToastService,
               private domSanitizer: DomSanitizer,
               private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
               private activatedRoute: ActivatedRoute, private router: Router) {
@@ -93,7 +94,7 @@ export class AlterarTipoAvaliacaoComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

@@ -52,6 +52,7 @@ import {AvaliacaoAvaliavelRepository} from '@src/sistema/domain/repository/avali
 import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuracao.repository';
 import localePt from '@angular/common/locales/pt';
 import {HomeComponent} from '@src/mobile/application/presentation/home/home.component';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -109,6 +110,8 @@ import {HomeComponent} from '@src/mobile/application/presentation/home/home.comp
     ContaRepository,
     FileRepository,
 
+    ToastService,
+
     ConfiguracaoService,
     AvaliacaoService,
     EnderecoService,
@@ -130,8 +133,9 @@ import {HomeComponent} from '@src/mobile/application/presentation/home/home.comp
   bootstrap: [RootViewComponent]
 })
 export class MobileModule {
-  constructor(public dateAdapter: DateAdapter<Date>) {
+  constructor(public dateAdapter: DateAdapter<Date>, toastService: ToastService) {
     registerLocaleData(localePt);
     dateAdapter.setLocale('pt-BR');
+    toastService.setMobile(true);
   }
 }

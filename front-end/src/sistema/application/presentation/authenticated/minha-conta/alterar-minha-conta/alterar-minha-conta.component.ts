@@ -5,6 +5,7 @@ import {textMasks} from '../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../../domain/entity/usuario/usuario.model';
 import {AuthenticationService} from '../../../../../domain/service/authentication.service';
 import {UsuarioService} from '../../../../../domain/service/usuario.service';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'alterar-minha-conta',
@@ -28,12 +29,12 @@ export class AlterarMinhaContaComponent implements OnInit {
    *
    * @param {AuthenticationService} authenticationService
    * @param {Router} router
-   * @param {MatSnackBar} snackBar
+   * @param {ToastService} toastService
    * @param {UsuarioService} usuarioService
    * @param {ActivatedRoute} activatedRoute
    */
   constructor(private authenticationService: AuthenticationService,
-              private router: Router, private snackBar: MatSnackBar,
+              private router: Router, private toastService: ToastService,
               private usuarioService: UsuarioService, private activatedRoute: ActivatedRoute) {
   }
 
@@ -75,7 +76,7 @@ export class AlterarMinhaContaComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

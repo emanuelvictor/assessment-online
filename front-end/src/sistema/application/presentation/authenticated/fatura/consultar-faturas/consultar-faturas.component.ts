@@ -8,6 +8,7 @@ import {ConfiguracaoService} from '@src/sistema/domain/service/configuracao.serv
 import {Subject} from 'rxjs';
 import {FaturaRepository} from '@src/sistema/domain/repository/fatura.repository';
 import {Fatura} from '@src/sistema/domain/entity/assinatura/fatura.model';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'consultar-faturas',
@@ -72,13 +73,13 @@ export class ConsultarFaturasComponent implements OnInit {
 
   /**
    *
-   * @param snackBar
+   * @param toastService
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    * @param {faturaRepository} faturaRepository
    * @param {ConfiguracaoService} configuracaoService
    */
-  constructor(private snackBar: MatSnackBar,
+  constructor(private toastService: ToastService,
               private domSanitizer: DomSanitizer,
               private iconRegistry: MatIconRegistry,
               private faturaRepository: FaturaRepository,
@@ -217,7 +218,7 @@ export class ConsultarFaturasComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

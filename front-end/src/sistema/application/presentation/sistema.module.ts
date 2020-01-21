@@ -39,6 +39,7 @@ import {SistemaSharedModule} from './sistema.shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {SistemaComponent} from './sistema.component';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -87,6 +88,8 @@ registerLocaleData(localePt, 'pt-BR');
     ContaRepository,
     PlanoRepository,
     FileRepository,
+
+    ToastService,
 
     AuthenticationService,
     ConfiguracaoService,

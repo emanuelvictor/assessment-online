@@ -111,22 +111,4 @@ export class ConfigurarUnidadesEAvaliacoesComponent implements OnInit {
     }
   }
 
-  // /**
-  //  *
-  //  * @param message
-  //  */
-  // public showMessage(message: string) {
-  //   this.openSnackBar(message)
-  // }
-  //
-  // /**
-  //  *
-  //  * @param message
-  //  */
-  // public openSnackBar(message: string) {
-  //   this.snackBar.open(message, 'Fechar', {
-  //     duration: 5000
-  //   })
-  // }
-
 }

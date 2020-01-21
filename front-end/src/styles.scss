@@ -1,9 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-
 // Import common styles
 @import 'app-common';
-
-
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/theming';
 @import '~@covalent/core/theming/all-theme';
@@ -345,6 +342,7 @@ button {
 // Alteração da font do chip
 mat-chip {
   font-size: 13px;
+
   .mat-chip-list-wrapper .mat-standard-chip, .mat-chip-list-wrapper input.mat-input-element {
     margin: 1px !important;
     margin-top: 4px !important;
@@ -355,4 +353,10 @@ mat-chip {
 // FORMULARIO
 mat-card {
   border-top: 3px solid $roxoclaro !important;
+}
+
+
+.snackbar-color {
+  background-color: white;
+  color: black;
 }

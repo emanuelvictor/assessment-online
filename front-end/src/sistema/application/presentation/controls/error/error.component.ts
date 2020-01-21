@@ -4,6 +4,7 @@ import {MatSnackBar} from '@angular/material';
 import {CookieService} from 'ngx-cookie-service';
 import {AuthenticationService} from '../../../../domain/service/authentication.service';
 import {LocalStorage} from '../../../../infrastructure/local-storage/local-storage';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'error',
@@ -17,13 +18,13 @@ export class ErrorComponent {
    * @param localStorage
    * @param cookieService
    * @param router
-   * @param snackBar
    * @param authenticationService
+   * @param toastService
    */
   constructor(private localStorage: LocalStorage,
               private cookieService: CookieService,
-              private router: Router, public snackBar: MatSnackBar,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private router: Router, public toastService: ToastService) {
 
   }
 
@@ -32,7 +33,7 @@ export class ErrorComponent {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

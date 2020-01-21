@@ -5,6 +5,7 @@ import {Avaliacao} from '../../../../../domain/entity/avaliacao/avaliacao.model'
 import {TipoAvaliacao} from '../../../../../domain/entity/avaliacao/tipo-avaliacao.model';
 import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'visualizar-tipo-avaliacao',
@@ -21,13 +22,13 @@ export class VisualizarTipoAvaliacaoComponent implements OnInit {
 
   /**
    *
-   * @param snackBar {MatSnackBar}
+   * @param toastService {ToastService}
    * @param activatedRoute {ActivatedRoute}
    * @param router {Router}
    * @param dialog {MatDialog}
    * @param tipoAvaliacaoRepository {TipoAvaliacaoRepository}
    */
-  constructor(private snackBar: MatSnackBar,
+  constructor(private toastService: ToastService,
               public activatedRoute: ActivatedRoute,
               private router: Router, private dialog: MatDialog,
               private tipoAvaliacaoRepository: TipoAvaliacaoRepository) {
@@ -72,7 +73,7 @@ export class VisualizarTipoAvaliacaoComponent implements OnInit {
         this.tipoAvaliacaoRepository.delete(this.tipoAvaliacao.id)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-            this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {
+            this.toastService.open('Unidade excluído com sucesso', 'Fechar', {
               duration: 3000
             });
           })
@@ -93,7 +94,7 @@ export class VisualizarTipoAvaliacaoComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

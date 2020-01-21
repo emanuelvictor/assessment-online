@@ -6,6 +6,7 @@ import {UsuarioRepository} from '@src/sistema/domain/repository/usuario.reposito
 import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
 import {FotoLoadingComponent} from '@src/sistema/application/presentation/controls/foto-loading/foto-loading.component';
 import {environment} from '@src/environments/environment';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -15,11 +16,11 @@ export class UsuarioService {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {FileRepository} fileRepository
    * @param {UsuarioRepository} usuarioRepository
    */
-  constructor(private snackBar: MatSnackBar,
+  constructor(private toastService: ToastService,
               private fileRepository: FileRepository,
               private usuarioRepository: UsuarioRepository) {
   }
@@ -83,7 +84,7 @@ export class UsuarioService {
 
     return new Promise((resolve, reject) => {
       if (arquivoFile) {
-        this.snackBar.openFromComponent(FotoLoadingComponent, {
+        this.toastService.openFromComponent(FotoLoadingComponent, {
           duration: 60000,
         });
       }

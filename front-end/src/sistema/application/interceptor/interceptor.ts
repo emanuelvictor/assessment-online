@@ -2,12 +2,11 @@ import {Observable, throwError as observableThrowError} from 'rxjs';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
-
-import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
 import {LocalStorage} from '../../infrastructure/local-storage/local-storage';
 import {environment} from '@src/environments/environment';
 import {Injectable} from '@angular/core';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -23,11 +22,11 @@ export class Interceptor implements HttpInterceptor {
   /**
    *
    * @param router
-   * @param snackBar
+   * @param toastService
    * @param localStorage
    */
   constructor(private router: Router,
-              public snackBar: MatSnackBar,
+              private toastService: ToastService,
               private localStorage: LocalStorage) {
   }
 
@@ -70,9 +69,7 @@ export class Interceptor implements HttpInterceptor {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 5000
-    })
+    return this.toastService.open(message, 'Fechar');
   }
 
   /**

@@ -13,6 +13,7 @@ import {UnidadeTipoAvaliacaoDispositivo} from '@src/sistema/domain/entity/avalia
 import {WebSocketSubject} from 'rxjs/webSocket';
 import * as moment from 'moment';
 import 'moment/locale/pt-br'
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'visualizar-dispositivo',
@@ -68,7 +69,7 @@ export class VisualizarDispositivoComponent implements OnInit {
    *
    * @param unidadeRepository
    * @param unidadeTipoAvaliacaoRepository
-   * @param snackBar {MatSnackBar}
+   * @param toastService {MatSnackBar}
    * @param activatedRoute {ActivatedRoute}
    * @param router {Router}
    * @param dialog {MatDialog}
@@ -78,8 +79,8 @@ export class VisualizarDispositivoComponent implements OnInit {
   constructor(private unidadeRepository: UnidadeRepository,
               private router: Router, private dialog: MatDialog,
               private dispositivoRepository: DispositivoRepository,
-              private snackBar: MatSnackBar, public activatedRoute: ActivatedRoute,
               private unidadeTipoAvaliacaoRepository: UnidadeTipoAvaliacaoRepository,
+              private toastService: ToastService, public activatedRoute: ActivatedRoute,
               private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository) {
   }
 
@@ -173,7 +174,7 @@ export class VisualizarDispositivoComponent implements OnInit {
         this.dispositivoRepository.delete(this.dispositivo.id)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-            this.snackBar.open('Unidade excluído com sucesso', 'Fechar', {
+            this.toastService.open('Unidade excluído com sucesso', 'Fechar', {
               duration: 3000
             })
           })
@@ -247,7 +248,7 @@ export class VisualizarDispositivoComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }
@@ -274,7 +275,7 @@ export class VisualizarDispositivoComponent implements OnInit {
           if (desativar) {
             this.dispositivoRepository.updateStatusAtivo(id).subscribe(resulted => {
               this.dispositivo = resulted;
-              this.snackBar.open('Dispositivo desativado com sucesso', 'Fechar', {
+              this.toastService.open('Dispositivo desativado com sucesso', 'Fechar', {
                 duration: 3000
               })
             });
@@ -283,7 +284,7 @@ export class VisualizarDispositivoComponent implements OnInit {
       } else {
         this.dispositivoRepository.updateStatusAtivo(id).subscribe(resulted => {
           this.dispositivo = resulted;
-          this.snackBar.open('Dispositivo ativado com sucesso', 'Fechar', {
+          this.toastService.open('Dispositivo ativado com sucesso', 'Fechar', {
             duration: 3000
           })
         });

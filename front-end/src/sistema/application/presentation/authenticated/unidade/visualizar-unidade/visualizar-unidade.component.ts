@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from '@angular/material';
+import {MatDialog} from '@angular/material';
 import {Unidade} from '../../../../../domain/entity/unidade/unidade.model';
 import {UnidadeService} from '../../../../../domain/service/unidade.service';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
@@ -9,6 +9,7 @@ import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-ava
 import {UnidadeTipoAvaliacaoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao.repository';
 import {viewAnimation} from '../../../controls/utils';
 import {UnidadeTipoAvaliacao} from '../../../../../domain/entity/avaliacao/unidade-tipo-avaliacao.model';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'visualizar-unidade',
@@ -37,7 +38,6 @@ export class VisualizarUnidadeComponent implements OnInit {
 
   /**
    *
-   * @type {{nome: any; enunciado: any}}
    */
   public filter: any = {
     nome: null,
@@ -52,8 +52,16 @@ export class VisualizarUnidadeComponent implements OnInit {
 
   /**
    *
+   * @param toastService
+   * @param authenticationService
+   * @param tipoAvaliacaoRepository
+   * @param activatedRoute
+   * @param router
+   * @param dialog
+   * @param unidadeService
+   * @param unidadeTipoAvaliacaoRepository
    */
-  constructor(private snackBar: MatSnackBar,
+  constructor(private toastService: ToastService,
               private authenticationService: AuthenticationService,
               private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
               public activatedRoute: ActivatedRoute, private router: Router,
@@ -116,7 +124,7 @@ export class VisualizarUnidadeComponent implements OnInit {
         this.unidadeService.delete(id)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-            this.snackBar.open('Unidade excluída com sucesso', 'Fechar', {
+            this.toastService.open('Unidade excluída com sucesso', 'Fechar', {
               duration: 3000
             })
           })
@@ -161,7 +169,7 @@ export class VisualizarUnidadeComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

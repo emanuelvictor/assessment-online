@@ -5,6 +5,7 @@ import {Configuracao} from '@src/sistema/domain/entity/configuracao/configuracao
 import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
 import {PublicService} from '@src/public/domain/service/public.service';
 import {Unidade} from '@src/sistema/domain/entity/unidade/unidade.model';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'selecionar-unidade',
@@ -24,11 +25,11 @@ export class SelecionarUnidadeComponent implements OnInit, OnDestroy {
   /**
    *
    * @param {Router} router
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {PublicService} publicService
    */
   constructor(public publicService: PublicService,
-              private router: Router, private snackBar: MatSnackBar) {
+              private router: Router, private toastService: ToastService) {
   }
 
   /**
@@ -80,7 +81,7 @@ export class SelecionarUnidadeComponent implements OnInit, OnDestroy {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

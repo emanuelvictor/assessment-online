@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog, MatIconRegistry, MatSnackBar} from '@angular/material';
+import {MatDialog, MatIconRegistry} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
-import {AvaliacaoService} from '../../../../../domain/service/avaliacao.service';
-import {Avaliacao} from '../../../../../domain/entity/avaliacao/avaliacao.model';
 import {DomSanitizer} from '@angular/platform-browser';
-import {AuthenticationService} from '../../../../../domain/service/authentication.service';
 import {viewAnimation} from '../../../controls/utils';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {Avaliacao} from '@src/sistema/domain/entity/avaliacao/avaliacao.model';
+import {AvaliacaoService} from '@src/sistema/domain/service/avaliacao.service';
+import {AuthenticationService} from '@src/sistema/domain/service/authentication.service';
 
 @Component({
   selector: 'visualizar-avaliacao',
@@ -42,7 +43,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    * @param authenticationService
    * @param iconRegistry
    * @param domSanitizer
-   * @param snackBar
+   * @param toastService
    * @param router
    * @param dialog
    */
@@ -50,7 +51,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
               private avaliacaoService: AvaliacaoService,
               private authenticationService: AuthenticationService,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
-              private snackBar: MatSnackBar, private router: Router, private dialog: MatDialog,) {
+              private toastService: ToastService, private router: Router, private dialog: MatDialog) {
 
     this.iconRegistry.addSvgIconInNamespace('assets', 'pessimo', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/pessimo.svg'));
     this.iconRegistry.addSvgIconInNamespace('assets', 'ruim', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/emojis/ruim.svg'));
@@ -96,7 +97,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }
@@ -120,7 +121,7 @@ export class VisualizarAvaliacaoComponent implements OnInit {
         this.avaliacaoService.delete(id)
           .then(() => {
             this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-            this.snackBar.open('Excluído com sucesso', 'Fechar', {
+            this.toastService.open('Excluído com sucesso', 'Fechar', {
               duration: 3000
             });
           })

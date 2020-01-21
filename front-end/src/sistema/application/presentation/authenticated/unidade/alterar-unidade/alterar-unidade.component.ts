@@ -6,6 +6,7 @@ import {Unidade} from '../../../../../domain/entity/unidade/unidade.model';
 import {UnidadeService} from '../../../../../domain/service/unidade.service';
 import {Endereco} from '../../../../../domain/entity/endereco/endereco.model';
 import {Cidade} from '../../../../../domain/entity/endereco/cidade.model';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -33,11 +34,11 @@ export class AlterarUnidadeComponent implements OnInit {
    * @param {ActivatedRoute} activatedRoute
    * @param {UnidadeService} unidadeService
    * @param {Router} router
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    */
   constructor(public activatedRoute: ActivatedRoute,
               public unidadeService: UnidadeService,
-              public router: Router, public snackBar: MatSnackBar) {
+              public router: Router, public toastService: ToastService) {
   }
 
   /**
@@ -92,7 +93,7 @@ export class AlterarUnidadeComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

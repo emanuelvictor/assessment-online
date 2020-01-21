@@ -48,6 +48,7 @@ import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuraca
 import localePt from '@angular/common/locales/pt';
 import {PublicRoutingModule} from '@src/public/application/presentation/public-routing.module';
 import {RootViewComponent} from '@src/public/application/presentation/root-view.component';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -99,6 +100,8 @@ import {RootViewComponent} from '@src/public/application/presentation/root-view.
     DispositivoRepository,
     ContaRepository,
     FileRepository,
+
+    ToastService,
 
     ConfiguracaoService,
     AvaliacaoService,

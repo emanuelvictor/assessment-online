@@ -7,6 +7,7 @@ import {MatIconRegistry, MatSnackBar} from '@angular/material';
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/forms';
 import {FileRepository} from '../../../../../../infrastructure/repository/file/file.repository';
 import {Dispositivo} from '../../../../../../domain/entity/avaliacao/dispositivo.model';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -38,7 +39,7 @@ export class DispositivoFormComponent implements OnInit {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {FileRepository} fileRepository
    * @param {ElementRef} element
    * @param {Renderer} renderer
@@ -46,7 +47,7 @@ export class DispositivoFormComponent implements OnInit {
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    */
-  constructor(private snackBar: MatSnackBar,
+  constructor(private toastService: ToastService,
               private fileRepository: FileRepository,
               @Inject(ElementRef) private element: ElementRef,
               private renderer: Renderer, private fb: FormBuilder,
@@ -173,7 +174,7 @@ export class DispositivoFormComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.toastService.open(message, "Fechar", {
       duration: 5000
     });
   }

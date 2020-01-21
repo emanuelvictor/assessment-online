@@ -7,6 +7,7 @@ import {TdLoadingService} from '@covalent/core';
 import {Conta} from '../../../../../domain/entity/usuario/conta.model';
 import {AuthenticationService} from '../../../../../domain/service/authentication.service';
 import {UsuarioRepository} from '../../../../../domain/repository/usuario.repository';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'inserir-cliente',
@@ -27,7 +28,7 @@ export class InserirClienteComponent implements OnInit {
    *
    * @param {ContaService} contaService
    * @param usuarioRepository
-   * @param {MatSnackBar} snackBar
+   * @param {ToastService} toastService
    * @param {Router} router
    * @param {AuthenticationService} authenticationService
    * @param {ActivatedRoute} activatedRoute
@@ -36,7 +37,7 @@ export class InserirClienteComponent implements OnInit {
   constructor(private contaService: ContaService,
               private usuarioRepository: UsuarioRepository,
               private authenticationService: AuthenticationService,
-              private snackBar: MatSnackBar, private router: Router,
+              private toastService: ToastService, private router: Router,
               private activatedRoute: ActivatedRoute, private _loadingService: TdLoadingService) {
   }
 
@@ -83,7 +84,7 @@ export class InserirClienteComponent implements OnInit {
    * @param {string} message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }
