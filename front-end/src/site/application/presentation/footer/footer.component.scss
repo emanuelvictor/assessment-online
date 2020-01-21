@@ -1,7 +1,11 @@
 @import '../../../application/theming/site-theme';
 
 .bg-footer {
-  background: url('../../../../assets/images/banner-1920x720.png');
+  background: url('../../../../assets/images/footer.svg');
+
+  width: 100%;
+  background-size: cover;
+  height: 511px;
 
   * {
     color: #fff;

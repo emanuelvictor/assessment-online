@@ -20,10 +20,15 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  public contaAutenticadaChanged: EventEmitter<any>;
-  private baseUrl = environment.endpoint;
   private isOnline = false;
+  private baseUrl = environment.endpoint;
   private faturasEmAtrasoVisualizadas = false;
+  public contaAutenticadaChanged: EventEmitter<any>;
+
+  /**
+   *
+   */
+  private _contaAutenticada: any = null;
 
   /**
    *
@@ -43,11 +48,6 @@ export class AuthenticationService implements CanActivate, CanActivateChild {
     })
 
   }
-
-  /**
-   *
-   */
-  private _contaAutenticada: any = null;
 
   /**
    *
