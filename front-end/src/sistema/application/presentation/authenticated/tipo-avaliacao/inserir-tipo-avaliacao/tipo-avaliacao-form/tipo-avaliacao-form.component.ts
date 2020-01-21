@@ -7,6 +7,7 @@ import {MatIconRegistry, MatSnackBar} from '@angular/material';
 import {FormBuilder, Validators} from '@angular/forms';
 import {FileRepository} from '../../../../../../infrastructure/repository/file/file.repository';
 import {TipoAvaliacao} from '../../../../../../domain/entity/avaliacao/tipo-avaliacao.model';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -46,7 +47,7 @@ export class TipoAvaliacaoFormComponent implements OnInit {
    * @param {MatIconRegistry} iconRegistry
    * @param {DomSanitizer} domSanitizer
    */
-  constructor(private snackBar: MatSnackBar,
+  constructor(private toastService: ToastService,
               private fileRepository: FileRepository,
               @Inject(ElementRef) private element: ElementRef,
               private renderer: Renderer, private fb: FormBuilder,
@@ -143,7 +144,7 @@ export class TipoAvaliacaoFormComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, "Fechar", {
+    this.toastService.open(message, "Fechar", {
       duration: 5000
     });
   }

@@ -13,6 +13,7 @@ import {textMasks} from '../../../controls/text-masks/text-masks';
 import {Assinatura} from '../../../../../domain/entity/assinatura/assinatura.model';
 import {AssinaturaRepository} from '../../../../../domain/repository/assinatura.repository';
 import {obrigatorio} from '../../../controls/validators/validators';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -53,7 +54,7 @@ export class DadosPagamentoComponent implements OnInit {
 
   /**
    *
-   * @param snackBar
+   * @param toastService
    * @param _loadingService
    * @param element
    * @param renderer
@@ -61,7 +62,7 @@ export class DadosPagamentoComponent implements OnInit {
    * @param assinaturaRepository
    * @param domSanitizer
    */
-  constructor(private snackBar: MatSnackBar,
+  constructor(private toastService: ToastService,
               private domSanitizer: DomSanitizer,
               private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
@@ -169,7 +170,7 @@ export class DadosPagamentoComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

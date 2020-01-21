@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {UnidadeService} from '../../../../../../domain/service/unidade.service';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'lista-unidades',
@@ -22,10 +23,10 @@ export class ListaUnidadesComponent implements OnInit {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {UnidadeService} unidadeService
    */
-  constructor(private snackBar: MatSnackBar, private unidadeService: UnidadeService) {
+  constructor(private toastService: ToastService, private unidadeService: UnidadeService) {
   }
 
   /**
@@ -50,7 +51,7 @@ export class ListaUnidadesComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

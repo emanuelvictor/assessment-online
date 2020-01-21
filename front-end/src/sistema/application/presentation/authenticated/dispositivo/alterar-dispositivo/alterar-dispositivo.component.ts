@@ -6,6 +6,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {DispositivoRepository} from '../../../../../domain/repository/dispositivo.repository';
 import {Dispositivo} from '../../../../../domain/entity/avaliacao/dispositivo.model';
 import {UnidadeTipoAvaliacaoDispositivoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao-dispositivo.repository';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'alterar-dispositivo',
@@ -27,7 +28,7 @@ export class AlterarDispositivoComponent implements OnInit {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param {ToastService} toastService
    * @param unidadeTipoAvaliacaoDispositivoRepository
    * @param {ActivatedRoute} activatedRoute
    * @param {DispositivoRepository} dispositivoRepository
@@ -36,7 +37,7 @@ export class AlterarDispositivoComponent implements OnInit {
    */
   constructor(private dispositivoRepository: DispositivoRepository, private activatedRoute: ActivatedRoute,
               private unidadeTipoAvaliacaoDispositivoRepository: UnidadeTipoAvaliacaoDispositivoRepository,
-              private domSanitizer: DomSanitizer, private snackBar: MatSnackBar, private router: Router) {
+              private domSanitizer: DomSanitizer, private toastService: ToastService, private router: Router) {
 
   }
 
@@ -113,7 +114,7 @@ export class AlterarDispositivoComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

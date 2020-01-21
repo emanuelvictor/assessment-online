@@ -8,6 +8,7 @@ import {FormBuilder} from '@angular/forms';
 import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
 import {TipoAvaliacao} from '../../../../../domain/entity/avaliacao/tipo-avaliacao.model';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -17,7 +18,7 @@ import {ActivatedRoute, Router} from '@angular/router';
   templateUrl: './inserir-tipo-avaliacao.component.html',
   styleUrls: ['./inserir-tipo-avaliacao.component.scss']
 })
-export class InserirTipoAvaliacaoComponent implements OnInit {
+export class InserirTipoAvaliacaoComponent {
 
   /**
    *
@@ -26,7 +27,7 @@ export class InserirTipoAvaliacaoComponent implements OnInit {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {ElementRef} element
    * @param {TipoAvaliacaoRepository} tipoAvaliacaoRepository
    * @param {Renderer} renderer
@@ -40,13 +41,7 @@ export class InserirTipoAvaliacaoComponent implements OnInit {
               private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
               private activatedRoute: ActivatedRoute, private router: Router,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
-              private snackBar: MatSnackBar, private renderer: Renderer, private fb: FormBuilder) {
-  }
-
-  /**
-   *
-   */
-  ngOnInit(): void {
+              private toastService: ToastService, private renderer: Renderer, private fb: FormBuilder) {
   }
 
   /**
@@ -82,7 +77,7 @@ export class InserirTipoAvaliacaoComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

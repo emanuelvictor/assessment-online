@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
 import {ContaService} from '../../../../../../domain/service/conta.service';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({
   selector: 'alterar-senha',
@@ -31,12 +32,12 @@ export class AlterarSenhaComponent implements OnInit {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {ContaService} contaService
    * @param data
    * @param {MatDialogRef<AlterarSenhaComponent>} dialogRef
    */
-  constructor(private snackBar: MatSnackBar, private contaService: ContaService,
+  constructor(private toastService: ToastService, private contaService: ContaService,
               @Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<AlterarSenhaComponent>) {
     this.usuario = data;
   }
@@ -67,7 +68,7 @@ export class AlterarSenhaComponent implements OnInit {
    * @param message
    */
   openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

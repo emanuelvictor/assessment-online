@@ -5,6 +5,7 @@ import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/fo
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {Usuario} from '../../../../../../domain/entity/usuario/usuario.model';
 import {AuthenticationService} from '../../../../../../domain/service/authentication.service';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -66,12 +67,12 @@ export class AtendenteFormComponent implements OnInit {
    *
    * @param {AuthenticationService} authenticationService
    * @param {Renderer} renderer
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {FormBuilder} fb
    * @param {ElementRef} element
    */
   constructor(private authenticationService: AuthenticationService,
-              private renderer: Renderer, private snackBar: MatSnackBar,
+              private renderer: Renderer, private toastService: ToastService,
               private fb: FormBuilder, @Inject(ElementRef) private element: ElementRef) {
 
     this.authenticationService.requestContaAutenticada().subscribe(result => {
@@ -190,7 +191,7 @@ export class AtendenteFormComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     });
   }

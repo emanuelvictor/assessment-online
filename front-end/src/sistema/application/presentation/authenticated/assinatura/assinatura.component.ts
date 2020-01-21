@@ -14,6 +14,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Endereco} from '../../../../domain/entity/endereco/endereco.model';
 import {Cidade} from '../../../../domain/entity/endereco/cidade.model';
 import {environment} from '@src/environments/environment';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -59,7 +60,7 @@ export class AssinaturaComponent implements OnInit {
 
   /**
    *
-   * @param snackBar
+   * @param toastService
    * @param _loadingService
    * @param element
    * @param renderer
@@ -67,7 +68,7 @@ export class AssinaturaComponent implements OnInit {
    * @param assinaturaRepository
    * @param domSanitizer
    */
-  constructor(private snackBar: MatSnackBar,
+  constructor(private toastService: ToastService,
               private domSanitizer: DomSanitizer,
               private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
@@ -173,7 +174,7 @@ export class AssinaturaComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }

@@ -7,6 +7,7 @@ import {AuthenticationService} from '../../../../../domain/service/authenticatio
 import {UsuarioService} from '../../../../../domain/service/usuario.service';
 import {Usuario} from '../../../../../domain/entity/usuario/usuario.model';
 import {TdLoadingService} from '@covalent/core';
+import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -32,13 +33,13 @@ export class AlterarAtendenteComponent implements OnInit {
   /**
    *
    * @param {Router} router
-   * @param {MatSnackBar} snackBar
+   * @param {MatSnackBar} toastService
    * @param {AuthenticationService} authenticationService
    * @param {ActivatedRoute} activatedRoute
    * @param {UsuarioService} usuarioService
    * @param {TdLoadingService} _loadingService
    */
-  constructor(public router: Router, public snackBar: MatSnackBar,
+  constructor(public router: Router, public toastService: ToastService,
               public usuarioService: UsuarioService, private _loadingService: TdLoadingService,
               public authenticationService: AuthenticationService, public activatedRoute: ActivatedRoute) {
   }
@@ -86,7 +87,7 @@ export class AlterarAtendenteComponent implements OnInit {
    * @param message
    */
   public openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
+    this.toastService.open(message, 'Fechar', {
       duration: 5000
     })
   }
