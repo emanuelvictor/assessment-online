@@ -14,8 +14,8 @@ public class NavigaionController {
 
     @RequestMapping("/")
     String index() {
-        return "redirect:/sistema/";
-//        return "index";
+//        return "redirect:/sistema/";
+        return "index";
     }
 
     @RequestMapping("/sistema")
