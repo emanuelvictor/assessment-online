@@ -165,7 +165,19 @@ public class DispositivoService {
         Assert.isTrue(dispositivo.getCodigo() == (codigo), "Código inválido!");
 
         // Valida se o código não expirou
-        Assert.isTrue(dispositivo.isAccountNonExpired(), "Código expirado!"); //TODO arrumar data da aplicação
+        if (!dispositivo.isAccountNonExpired()){
+
+            // Renova o código
+            dispositivo.setUpdated(LocalDateTime.now());
+            final Dispositivo dispositivoUpdated = this.updateDispositivo(dispositivo.getId(), dispositivo);
+
+            // Avisa os websockets
+            dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivoUpdated.getId())).findFirst().ifPresent(
+                    t -> t.getMessagePublisher().onNext(dispositivoUpdated)
+            );
+
+            throw new RuntimeException("Código expirado!");
+        }
 
         // Valida se o usuário acertou o código
         Assert.isTrue(dispositivo.isEnabled(), "Dispositivo desativado!");
