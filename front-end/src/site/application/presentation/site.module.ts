@@ -30,6 +30,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {FaturaRepository} from '@src/sistema/domain/repository/fatura.repository';
 import {PlanoRepository} from '@src/sistema/domain/repository/plano.repository';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {SimulatorComponent} from '@src/site/application/presentation/simulator/simulator.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -53,6 +54,8 @@ registerLocaleData(localePt, 'pt-BR');
     OpenPositionsComponent,
     InProgressComponent,
     ClosedPositionsComponent,
+
+    SimulatorComponent
   ],
   imports: [
     SharedModule,
@@ -78,7 +81,7 @@ registerLocaleData(localePt, 'pt-BR');
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [],
-  entryComponents: [],
+  entryComponents: [SimulatorComponent],
   providers: [
     FileRepository,
 

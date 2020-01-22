@@ -331,3 +331,15 @@ table {
     width: 100%;
   }
 }
+
+@media (max-width: 600px) {
+  &.max-width-600px {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 960px) {
+  &.max-width-960px {
+    margin-left: 0;
+  }
+}

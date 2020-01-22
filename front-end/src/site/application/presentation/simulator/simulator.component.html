@@ -1,0 +1,62 @@
+<!--<h1 mat-dialog-title style='max-width: 600px;text-align: justify;'>-->
+<!--  {{plano?.nome}}-->
+<!--</h1>-->
+
+<mat-dialog-content>
+  <div layout='column' layout-margin>
+
+    <div layout='row' layout-sm='column' layout-xs='column' layout-align='start start'>
+
+      <div layout='row' layout-align='start start'>
+        <div layout='column'>
+          <span *ngIf="plano.nome === 'Starter'"
+                style='font-size: 60px; color: rgb(204, 204, 204)'
+                class='iconify' data-icon='si-glyph:paper-plane' data-inline='false'></span>
+
+          <span *ngIf="plano.nome === 'Pro'"
+                style='font-size: 60px; color: rgb(204, 204, 204)'
+                class='iconify' data-icon='fa:plane' data-inline='false'></span>
+
+          <span *ngIf="plano.nome === 'Enterprise'"
+                style='font-size: 75px; color: rgb(204, 204, 204)'
+                class='iconify' data-icon='mdi-rocket' data-inline='false'></span>
+        </div>
+
+        <span class="opening-text text-center">
+          <p class="top">Valor</p>
+          <p class="bottom">{{plano.valorMensal | currency:'BRL':true}}</p>
+        </span>
+      </div>
+
+      <div layout='row' layout-xs='column' layout-align='start start'>
+        <span class="opening-text max-width-960px max-width-600px">
+          <p class="top">Avaliações por mês</p>
+          <p class="bottom">{{plano.quantidadeAvaliacoes}}</p>
+        </span>
+
+        <span class="opening-text max-width-600px">
+          <p class="top">Valor por avaliação excedente</p>
+          <p class="bottom">{{plano.valorAvaliacoesExcedentes | currency:'BRL':true}}</p>
+        </span>
+      </div>
+    </div>
+
+    <mat-form-field flex style='margin-left: 0; margin-right: 0'>
+      <input placeholder='Quantas avaliações você acredita que pode receber por mês?'
+             matInput type='number' [(ngModel)]='quantidadeAvaliacoes' name='quantidadeAvaliacoes'>
+    </mat-form-field>
+    <label style='text-align: end; margin-top: -17px'>
+      Valor mensal pela licença: {{valorMensal  | currency:'BRL':true}}
+    </label>
+
+    <mat-form-field flex style='margin-left: 0; margin-right: 0; margin-top: 28px'>
+      <input matInput type='number' min='1'
+             placeholder='Quantidade de licenças?'
+             [(ngModel)]='quantidadeLicencas' name='quantidadeLicencas'>
+    </mat-form-field>
+    <label style='text-align: end; margin-top: -17px'>
+      Valor mensal total: {{valorMensalTotal  | currency:'BRL':true}}
+    </label>
+
+  </div>
+</mat-dialog-content>
