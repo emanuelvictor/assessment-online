@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'sistema-in-progress',
+  selector: 'in-progress',
   templateUrl: './in-progress.component.html',
   styleUrls: ['./in-progress.component.scss']
 })

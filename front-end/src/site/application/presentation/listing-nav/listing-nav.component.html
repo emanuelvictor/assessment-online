@@ -1,64 +1,14 @@
 <div class='container'>
 
-  <div class="inprogress-div">
-    <mat-card class="inprogress-card" style='box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);'>
-      <div fxLayout="row" fxLayoutAlign="start center">
-        <img src="http://placehold.it/60x60" style="border-radius: 6px" alt="">
-
-        <span class="opening-text text-center">
-        <p class="top">SELEÇÃO</p>
-        <p class="bottom">005.20</p>
-      </span>
-
-        <span class="opening-text two">
-        <p class="top">CARGO</p>
-        <p class="bottom">Analista de sistemas jr.</p>
-      </span>
-
-        <span class="opening-text four">
-        <p class="top">PERÍODO DE INSCRIÇÃO</p>
-        <p class="bottom">01/06/2019 até 12/06/2019</p>
-      </span>
-
-        <span class="opening-text four">
-        <p class="top">TIPO DE CONTRATO</p>
-        <p class="bottom">Indeterminado</p>
-      </span>
-      </div>
-
-      <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
-        <button mat-flat-button class="btn-cyan">Ver detalhes</button>
-      </div>
-    </mat-card>
-  </div>
+  <in-progress></in-progress>
 
 </div>
 
 <div class='container' style='margin-top: 25px'>
 
-  <mat-tab-group>
-    <mat-tab label='Nossos clientes'>
-      <ng-template matTabContent>
-        <sistema-closed-positions></sistema-closed-positions>
-      </ng-template>
-    </mat-tab>
+  <div class="mat-tab-label-content" style='text-align: center;margin-bottom: 10px'>Nossos clientes</div>
 
-    <!--    <mat-tab label="Vagas abertas">-->
-    <!--      <ng-template matTabContent>-->
-    <!--        <sistema-open-positions></sistema-open-positions>-->
-    <!--      </ng-template>-->
-    <!--    </mat-tab>-->
-    <!--    <mat-tab label="Em andamento">-->
-    <!--      <ng-template matTabContent>-->
-    <!--        <sistema-in-progress></sistema-in-progress>-->
-    <!--      </ng-template>-->
-    <!--    </mat-tab>-->
-    <!--    <mat-tab label="Encerradas">-->
-    <!--      <ng-template matTabContent>-->
-    <!--        <sistema-closed-positions></sistema-closed-positions>-->
-    <!--      </ng-template>-->
-    <!--    </mat-tab>-->
-  </mat-tab-group>
+  <sistema-closed-positions></sistema-closed-positions>
 
 </div>
 
@@ -72,22 +22,6 @@
         <sistema-open-positions [plano]='plano'></sistema-open-positions>
       </ng-template>
     </mat-tab>
-
-    <!--    <mat-tab label="Vagas abertas">-->
-    <!--      <ng-template matTabContent>-->
-    <!--        <sistema-open-positions></sistema-open-positions>-->
-    <!--      </ng-template>-->
-    <!--    </mat-tab>-->
-    <!--    <mat-tab label="Em andamento">-->
-    <!--      <ng-template matTabContent>-->
-    <!--        <sistema-in-progress></sistema-in-progress>-->
-    <!--      </ng-template>-->
-    <!--    </mat-tab>-->
-    <!--    <mat-tab label="Encerradas">-->
-    <!--      <ng-template matTabContent>-->
-    <!--        <sistema-closed-positions></sistema-closed-positions>-->
-    <!--      </ng-template>-->
-    <!--    </mat-tab>-->
   </mat-tab-group>
 
 </div>

@@ -3,7 +3,7 @@ import {PlanoRepository} from '@src/sistema/domain/repository/plano.repository';
 import {Plano} from '@src/sistema/domain/entity/assinatura/plano.model';
 
 @Component({
-  selector: 'sistema-listing-nav',
+  selector: 'listing-nav',
   templateUrl: './listing-nav.component.html',
   styleUrls: ['./listing-nav.component.scss']
 })
