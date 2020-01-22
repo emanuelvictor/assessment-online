@@ -8,7 +8,7 @@
     <div layout='row' layout-sm='column' layout-xs='column' layout-align='start start'>
 
       <div layout='row' layout-align='start start'>
-        <div layout='column'>
+        <div layout='column'  [matTooltipPosition]="'below'" matTooltip='{{plano?.nome?.toUpperCase()}}'>
           <span *ngIf="plano.nome === 'Starter'"
                 style='font-size: 60px; color: rgb(204, 204, 204)'
                 class='iconify' data-icon='si-glyph:paper-plane' data-inline='false'></span>

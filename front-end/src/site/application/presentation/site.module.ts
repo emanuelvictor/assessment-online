@@ -6,7 +6,7 @@ import {registerLocaleData} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientJsonpModule, HttpClientModule} from '@angular/common/http';
 
 import {CovalentSearchModule} from '@covalent/core/search'
-import {MatExpansionModule} from '@angular/material';
+import {MatExpansionModule, MatTooltipModule} from '@angular/material';
 
 import localePt from '@angular/common/locales/pt';
 import {ListingNavComponent} from '@src/site/application/presentation/listing-nav/listing-nav.component';
@@ -69,6 +69,8 @@ registerLocaleData(localePt, 'pt-BR');
     FlexLayoutModule,
     RecaptchaModule,
     RecaptchaFormsModule,
+
+    MatTooltipModule
 
     // // Translate i18n
     // TranslateModule.forRoot({
