@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
 import {Configuracao} from '@src/sistema/domain/entity/configuracao/configuracao.model';
 import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';

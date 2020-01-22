@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
 import {CookieService} from 'ngx-cookie-service';
 import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';

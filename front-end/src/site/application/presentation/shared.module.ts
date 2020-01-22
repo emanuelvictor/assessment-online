@@ -9,51 +9,11 @@ import {CurrencyMaskModule} from 'ng2-currency-mask';
 // https://github.com/lentschi/ngx-ellipsis
 import {EllipsisModule} from 'ngx-ellipsis';
 // ANGULAR MATERIAL
-import {
-  DateAdapter,
-  MAT_DATE_LOCALE,
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCardModule,
-  MatCheckboxModule,
-  MatChipsModule,
-  MatDatepickerModule,
-  MatDialogModule,
-  MatFormFieldModule,
-  MatGridListModule,
-  MatIconModule,
-  MatInputModule,
-  MatListModule,
-  MatMenuModule,
-  MatNativeDateModule,
-  MatOptionModule,
-  MatPaginatorModule,
-  MatRadioModule,
-  MatSelectModule,
-  MatSidenavModule,
-  MatSliderModule,
-  MatSlideToggleModule,
-  MatSnackBarModule,
-  MatSortModule,
-  MatStepperModule,
-  MatTableModule,
-  MatTabsModule,
-  MatToolbarModule,
-  MatTooltipModule,
-} from '@angular/material';
+import {DateAdapter, MAT_DATE_LOCALE, MatAutocompleteModule, MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatOptionModule, MatPaginatorModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule, MatTooltipModule,} from '@angular/material';
 // COVALENT
-import {
-  CovalentChipsModule,
-  CovalentCommonModule,
-  CovalentDialogsModule,
-  CovalentExpansionPanelModule,
-  CovalentFileModule,
-  CovalentLoadingModule,
-  CovalentMediaModule
-} from '@covalent/core';
+import {CovalentChipsModule, CovalentCommonModule, CovalentDialogsModule, CovalentExpansionPanelModule, CovalentFileModule, CovalentLoadingModule, CovalentMediaModule} from '@covalent/core';
 import {CovalentMarkdownModule} from '@covalent/markdown';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 /**
  *

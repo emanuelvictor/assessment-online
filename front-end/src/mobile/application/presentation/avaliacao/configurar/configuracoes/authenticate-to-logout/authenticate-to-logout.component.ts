@@ -1,5 +1,4 @@
 import {Component, ElementRef, Inject, OnDestroy, OnInit, Renderer} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
 import {FormBuilder} from '@angular/forms';
 import {Subject} from 'rxjs';
