@@ -1,12 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {MatSnackBar} from '@angular/material';
 import {FileRepository} from '@src/sistema/infrastructure/repository/file/file.repository';
 import {UsuarioRepository} from '@src/sistema/domain/repository/usuario.repository';
 import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
-import {FotoLoadingComponent} from '@src/sistema/application/presentation/controls/foto-loading/foto-loading.component';
 import {environment} from '@src/environments/environment';
-import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
  *
@@ -16,12 +13,10 @@ export class UsuarioService {
 
   /**
    *
-   * @param {MatSnackBar} toastService
    * @param {FileRepository} fileRepository
    * @param {UsuarioRepository} usuarioRepository
    */
-  constructor(private toastService: ToastService,
-              private fileRepository: FileRepository,
+  constructor(private fileRepository: FileRepository,
               private usuarioRepository: UsuarioRepository) {
   }
 
@@ -83,12 +78,6 @@ export class UsuarioService {
     delete toSave.fotoPath;
 
     return new Promise((resolve, reject) => {
-      if (arquivoFile) {
-        this.toastService.openFromComponent(FotoLoadingComponent, {
-          duration: 60000,
-        });
-      }
-
       this.usuarioRepository.save(toSave)
         .then(result => {
           toSave = result;

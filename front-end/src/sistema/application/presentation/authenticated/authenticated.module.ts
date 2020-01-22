@@ -223,7 +223,7 @@ import {ConfirmInsertDispositivoDialogComponent} from '@src/sistema/application/
 
     AuthenticatedRoutingModule,
   ],
-  entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, FotoLoadingComponent, InserirTipoAvaliacaoComponent, ConfirmInsertDispositivoDialogComponent],
+  entryComponents: [AlterarMinhaSenhaComponent, AlterarSenhaComponent, ConfirmDialogComponent, InserirTipoAvaliacaoComponent, ConfirmInsertDispositivoDialogComponent, FotoLoadingComponent],
   providers: [
 
     PageSerialize,

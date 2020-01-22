@@ -40,6 +40,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {SistemaComponent} from './sistema.component';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {FotoLoadingComponent} from '@src/sistema/application/presentation/controls/foto-loading/foto-loading.component';
 
 registerLocaleData(localePt, 'pt-BR');
 

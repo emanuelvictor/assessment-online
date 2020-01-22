@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
 import {environment} from '@src/environments/environment';
-import {HttpClient} from "@angular/common/http";
-import {DomSanitizer} from "@angular/platform-browser";
+import {HttpClient} from '@angular/common/http';
+import {DomSanitizer} from '@angular/platform-browser';
 
 
 @Component({
@@ -43,6 +43,7 @@ export class AvatarComponent implements OnInit {
   /**
    *
    */
+  @Input()
   public done = false;
 
   /**
@@ -67,7 +68,7 @@ export class AvatarComponent implements OnInit {
 
         const urlCreator = window.URL;
 
-          const blob = new Blob([result], {type: 'PNG'});
+        const blob = new Blob([result], {type: 'PNG'});
         this.usuario.foto = new File([blob], this.usuario.nome, {type: result.type});
         const reader = new FileReader();
         reader.readAsDataURL(blob);

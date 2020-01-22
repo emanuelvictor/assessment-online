@@ -48,9 +48,10 @@
                     </div>
                   </button>
                   <mat-form-field flex>
-                    <input [(ngModel)]='configuracao.dois'
-                           formControlName='dois' id='dois' matInput
-                           maxlength='144'
+                    <input maxlength='144'
+                           id='dois' matInput
+                           formControlName='dois'
+                           [(ngModel)]='configuracao.dois'
                            name='dois' placeholder='Ruim'>
                     <mat-error>
                       Campo obrigatório
@@ -154,8 +155,8 @@
 
                       <div flex layout='row'>
                         <mat-form-field flex>
-                          <input [(ngModel)]='configuracao.agradecimento'
-                                 formControlName='agradecimento'
+                          <input formControlName='agradecimento'
+                                 [(ngModel)]='configuracao.agradecimento'
                                  id='agradecimento' matInput maxlength='144'
                                  name='agradecimento' placeholder='Mensagem de agradecimento'>
                           <mat-error>
@@ -165,27 +166,28 @@
                       </div>
 
                       <div flex layout='row'>
-                        <mat-checkbox [(ngModel)]='configuracao.quebrarLinhaNaSelecaoDeItenAvaliavel' [ngModelOptions]='{standalone: true}' flex
-                                      flex-lg='40'
-                                      flex-xl='30'
-                                      style='padding: 15px; padding-left: 0'>
+                        <mat-checkbox flex-lg='40' flex-xl='30'
+                                      style='padding: 15px; padding-left: 0'
+                                      flex [ngModelOptions]='{standalone: true}'
+                                      [(ngModel)]='configuracao.quebrarLinhaNaSelecaoDeItenAvaliavel'>
                           Quebrar linha durante a seleção de ítens avaliáveis (no aplicativo móvel).
                         </mat-checkbox>
                       </div>
 
                       <div flex layout='column'>
                         <div flex layout='row'>
-                          <mat-checkbox [(ngModel)]='configuracao.feedback'
+                          <mat-checkbox flex flex-lg='40'
+                                        flex-xl='30' name='feedback'
+                                        [(ngModel)]='configuracao.feedback'
                                         [ngModelOptions]='{standalone: true}'
-                                        flex flex-lg='40'
-                                        flex-xl='30' name='feedback' style='padding: 15px; padding-left: 0'>
+                                        style='padding: 15px; padding-left: 0'>
                             Solicitar feedback
                           </mat-checkbox>
 
                           <mat-form-field *ngIf='configuracao?.feedback' [@fadeInOut] flex style='margin-top: -3px'>
-                            <input [(ngModel)]='configuracao.feedbackEnunciado' formControlName='feedbackEnunciado'
-                                   id='feedbackEnunciado'
-                                   matInput maxlength='144'
+                            <input formControlName='feedbackEnunciado'
+                                   [(ngModel)]='configuracao.feedbackEnunciado'
+                                   id='feedbackEnunciado' matInput maxlength='144'
                                    name='feedbackEnunciado' placeholder='Enunciado para o feedback'>
                             <mat-error>
                               Campo obrigatório
@@ -193,8 +195,8 @@
                           </mat-form-field>
                         </div>
                         <div *ngIf='configuracao?.feedback' [@fadeInOut] flex layout='row' style='margin-top: 15px'>
-                          <mat-checkbox [(ngModel)]='configuracao.feedbackObrigatorio'
-                                        [ngModelOptions]='{standalone: true}' flex
+                          <mat-checkbox [ngModelOptions]='{standalone: true}' flex
+                                        [(ngModel)]='configuracao.feedbackObrigatorio'
                                         flex-lg='40' flex-xl='30' name='feedbackObrigatorio'
                                         style='padding: 15px; padding-left: 0; margin-right: 60px'>
                             Tornar feedback obrigatório
@@ -244,10 +246,8 @@
                     </button>
                   </div>
                   <div *ngIf='!backgroundPath' flex>
-                    <td-file-upload #backgroundFileUpload
-                                    (change)='backgroundChange($event)'
-                                    accept='.png, .gif, .jpg, .jpeg' defaultColor='primary'
-                                    name='file'>
+                    <td-file-upload accept='.png, .gif, .jpg, .jpeg' defaultColor='primary'
+                                    name='file' #backgroundFileUpload (change)='backgroundChange($event)'>
                       <span>{{ backgroundFileUpload?.files?.name }}</span>
                       <ng-template td-file-input-label>
                         <mat-icon>attach_file</mat-icon>
