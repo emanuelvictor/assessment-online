@@ -6,8 +6,12 @@
 
 <mat-card class="opening-card">
   <div fxLayout="row" fxLayoutAlign="start center">
-    <img src="http://placehold.it/60x60" style="border-radius: 6px" alt="">
 
+    <span *ngIf="plano.nome === 'Starter'" class="iconify" data-icon="si-glyph:paper-plane" data-inline="false" style='font-size: 60px; color: rgb(204, 204, 204)'></span>
+
+    <span *ngIf="plano.nome === 'Pro'" class="iconify" data-icon="fa:plane" data-inline="false" style='font-size: 60px; color: rgb(204, 204, 204)'></span>
+
+    <span *ngIf="plano.nome === 'Enterprise'" class="iconify" data-icon="mdi-rocket" data-inline="false" style='font-size: 75px; color: rgb(204, 204, 204)'></span>
     <span class="opening-text text-center">
       <p class="top">Valor</p>
       <p class="bottom">{{plano.valorMensal | currency:'BRL':true}}</p>

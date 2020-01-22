@@ -13,7 +13,6 @@ import {ListingNavComponent} from '@src/site/application/presentation/listing-na
 import {LandingPageComponent} from '@src/site/application/presentation/landing-page/landing-page.component';
 import {ClosedPositionsComponent} from '@src/site/application/presentation/listing-nav/closed-positions/closed-positions.component';
 import {SiteRoutingModule} from './site.routing.module';
-import {CadastroComponent} from '@src/site/application/presentation/cadastro/cadastro.component';
 import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
 import {InProgressComponent} from '@src/site/application/presentation/listing-nav/in-progress/in-progress.component';
 import {OpenPositionsComponent} from '@src/site/application/presentation/listing-nav/open-positions/open-positions.component';
@@ -54,7 +53,6 @@ registerLocaleData(localePt, 'pt-BR');
     OpenPositionsComponent,
     InProgressComponent,
     ClosedPositionsComponent,
-    CadastroComponent
   ],
   imports: [
     SharedModule,
