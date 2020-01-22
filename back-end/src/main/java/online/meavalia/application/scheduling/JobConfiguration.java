@@ -50,14 +50,14 @@ public class JobConfiguration {
     @Bean
     public Trigger trigger(final JobDetail job) {
         return TriggerBuilder.newTrigger()
-//                .startNow()
+                .startNow()
 //                // Inicia a meia noite
                 .startAt(DateBuilder.evenHourDate(getMeiaNoite()))
                 .forJob(job)
                 .withIdentity(LocalJob.class.getName())
                 .withSchedule(simpleSchedule()
-//                        .repeatForever().withIntervalInSeconds(300))
-                        .repeatForever().withIntervalInHours(24))
+                        .repeatForever().withIntervalInSeconds(600))
+//                        .repeatForever().withIntervalInHours(24))
                 .build();
     }
 
@@ -71,9 +71,9 @@ public class JobConfiguration {
         private final FaturaService faturaService;
 
         public void execute(final JobExecutionContext context) {
-            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            final LocalDateTime dateTime = LocalDateTime.parse("2020-10-02 00:00", formatter);
-            if (LocalDateTime.now().isAfter(dateTime))
+//            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//            final LocalDateTime dateTime = LocalDateTime.parse("2020-10-02 00:00", formatter);
+//            if (LocalDateTime.now().isAfter(dateTime))
                 faturaService.verificarFaturas();
         }
     }
