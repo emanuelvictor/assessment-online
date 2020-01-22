@@ -56,7 +56,7 @@ public class JobConfiguration {
                 .forJob(job)
                 .withIdentity(LocalJob.class.getName())
                 .withSchedule(simpleSchedule()
-                        .repeatForever().withIntervalInSeconds(600))
+                        .repeatForever().withIntervalInSeconds(60))
 //                        .repeatForever().withIntervalInHours(24))
                 .build();
     }
@@ -68,13 +68,18 @@ public class JobConfiguration {
     @RequiredArgsConstructor
     public static class LocalJob implements Job {
 
+        boolean executed = false;
+
         private final FaturaService faturaService;
 
         public void execute(final JobExecutionContext context) {
+            if (!this.executed){
 //            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 //            final LocalDateTime dateTime = LocalDateTime.parse("2020-10-02 00:00", formatter);
 //            if (LocalDateTime.now().isAfter(dateTime))
                 faturaService.verificarFaturas();
+                executed = true;
+            }
         }
     }
 
