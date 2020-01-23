@@ -2,7 +2,7 @@ export const environment = {
 
   production: true,
 
-  endpointWebSocket: 'wss://meavalia.online:8080/ws/',
+  endpointWebSocket: 'wss://meavalia.online/ws/',
 
   endpoint: '',
 
