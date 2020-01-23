@@ -26,6 +26,9 @@
         <spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
         <xml-bind.version>2.3.0</xml-bind.version>
 
+        <!--suppress UnresolvedMavenProperty -->
+        <project.build-number>b${build-number}</project.build-number>
+
         <!--utilizado somente no processo de importação-->
         <json-simple.version>1.1.1</json-simple.version>
 
@@ -46,6 +49,8 @@
             </activation>
             <properties>
                 <spring.profiles.active>ALPHA</spring.profiles.active>
+                <final-name>${project.artifactId}-${project.version}-ALPHA</final-name>
+                <maven.test.skip>true</maven.test.skip>
             </properties>
             <!--<dependencies>-->
             <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
@@ -67,6 +72,8 @@
             <id>BETA</id>
             <properties>
                 <spring.profiles.active>BETA</spring.profiles.active>
+                <final-name>${project.artifactId}-${project.version}-BETA</final-name>
+                <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
 
@@ -74,6 +81,8 @@
             <id>RC</id>
             <properties>
                 <spring.profiles.active>RC</spring.profiles.active>
+                <final-name>${project.artifactId}-${project.version}-RC</final-name>
+                <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
 
@@ -81,6 +90,8 @@
             <id>RELEASE</id>
             <properties>
                 <spring.profiles.active>RELEASE</spring.profiles.active>
+                <final-name>${project.artifactId}-${project.version}-RELEASE</final-name>
+                <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
     </profiles>

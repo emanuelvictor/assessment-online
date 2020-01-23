@@ -57,10 +57,14 @@ spring:
 #LOGGING
 logging:
   level:
+    root: INFO
     org.hibernate: INFO
+    org.springframework: INFO
     org.springframework.web: INFO
-    org.springframework.context.support: INFO
     org.springframework.security: INFO
+    org.springframework.web.client: INFO
+    org.springframework.context.support: INFO
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: WARN
   file: /${user.home}/${spring.application.name}.log
 
 # configuracoes do actuatorcd
@@ -85,8 +89,10 @@ management:
 info:
   app:
     name: ${spring.application.name}
-    version: @project.version@
-    environment: ${spring.profiles.active}
+    module: ${spring.application.name}
+    version: @project.version@-@project.build-number@
+    environment: @spring.profiles.active@
+    url: ${spring.application.name}.online
 
 google:
   recaptcha:
