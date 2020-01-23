@@ -29,7 +29,7 @@ public class WebSocketConfiguration {
     @Bean
     public HandlerMapping webSocketMapping() {
         final Map<String, Object> map = new HashMap<>();
-        map.put("/dispositivos/{id}/connect", new DispositivoWebSocketHandler(dispositivoRepository, new JsonConverter<>(Dispositivo.class, objectMapper), "/dispositivos/{id}/connect", "id", dispositivosWrapperHandler()));
+        map.put("ws/dispositivos/{id}", new DispositivoWebSocketHandler(dispositivoRepository, new JsonConverter<>(Dispositivo.class, objectMapper), "/dispositivos/{id}", "id", dispositivosWrapperHandler()));
         final SimpleUrlHandlerMapping simpleUrlHandlerMapping = new SimpleUrlHandlerMapping();
         simpleUrlHandlerMapping.setUrlMap(map);
         simpleUrlHandlerMapping.setOrder(Ordered.HIGHEST_PRECEDENCE);

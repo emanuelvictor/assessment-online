@@ -98,7 +98,7 @@ export class VisualizarDispositivoComponent implements OnInit {
    */
   public find(id: number) {
 
-    this.webSocketSubject = this.dispositivoRepository.connect(id);
+    this.webSocketSubject = this.dispositivoRepository.ws(id);
 
     this.webSocketSubject.subscribe(dispositivo => {
       this.dispositivoToCode = dispositivo;

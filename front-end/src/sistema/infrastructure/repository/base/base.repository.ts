@@ -28,9 +28,9 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
    *
    * @param id
    */
-  connect(id: number): WebSocketSubject<T> {
+  ws(id: number): WebSocketSubject<T> {
 
-    this.socket = webSocket(this.collectionNameWebSocket + '/' + id + '/connect');
+    this.socket = webSocket(this.collectionNameWebSocket + '/' + id);
 
     // return new Observable<any>(subscriber => {
     return this.socket;

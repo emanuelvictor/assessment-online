@@ -118,9 +118,9 @@ export class MobileService implements CanActivate, CanActivateChild {
   /**
    *
    */
-  public async connect() {
+  public async ws() {
     const dispositivo: Dispositivo = (await this.getLocalDispositivoOrDispositivoAutenticadoOrDispositivoByNumeroLicenca());
-    this._webSocketSubject = this._dispositivoRepository.connect(dispositivo.id);
+    this._webSocketSubject = this._dispositivoRepository.ws(dispositivo.id);
 
     this._webSocketSubject.subscribe(result => {
       // Se não tiver senha então desloga tudo
@@ -401,7 +401,7 @@ export class MobileService implements CanActivate, CanActivateChild {
             } else {
               this.populeCookies(this.dispositivo.senha)
             }
-            this.connect();
+            this.ws();
             this.getConfiguracaoAsync();
 
             if (window && (window as any).plugins && (window as any).plugins['insomnia']) {
