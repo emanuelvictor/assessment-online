@@ -50,14 +50,14 @@ public class JobConfiguration {
     @Bean
     public Trigger trigger(final JobDetail job) {
         return TriggerBuilder.newTrigger()
-//                .startNow()
+                .startNow()
 //                // Inicia a meia noite
-                .startAt(DateBuilder.evenHourDate(getMeiaNoite()))
+//                .startAt(DateBuilder.evenHourDate(getMeiaNoite()))
                 .forJob(job)
                 .withIdentity(LocalJob.class.getName())
                 .withSchedule(simpleSchedule()
-//                        .repeatForever().withIntervalInSeconds(60))
-                        .repeatForever().withIntervalInHours(24))
+                        .repeatForever().withIntervalInSeconds(300))
+//                        .repeatForever().withIntervalInHours(24))
                 .build();
     }
 
