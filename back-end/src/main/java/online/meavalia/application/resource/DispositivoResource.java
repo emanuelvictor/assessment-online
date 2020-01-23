@@ -150,9 +150,9 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
      * @param id
      * @return
      */
-    @GetMapping("{id}/update-codigo")
+    @GetMapping("{id}/refresh-codigo")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
-    public Mono<Dispositivo> updateCodigo(@PathVariable final long id) {
+    public Mono<Dispositivo> refreshCodigo(@PathVariable final long id) {
         return Mono.just(this.dispositivoService.refreshCodigo(id));
     }
 

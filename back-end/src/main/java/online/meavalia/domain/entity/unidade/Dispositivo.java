@@ -143,7 +143,7 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     /**
      * @return String
      */
-    private static long getRandomNumberInRange() {
+    public static long getRandomNumberInRange() {
         final Random r = new Random();
         return r.nextInt((999999 - 100000) + 1) + 100000;
     }

@@ -310,7 +310,7 @@ public class DispositivoService {
 
         Assert.isTrue(dispositivo.isEnabled(), "Este dispositivo está desativado"); // TODO Criar exception exlcusiva para faturas em atraso
 
-        dispositivo.setUpdated(LocalDateTime.now());
+        dispositivo.setCodigo(Dispositivo.getRandomNumberInRange());
         this.dispositivoRepository.save(dispositivo);
 
         // Avisa os websockets
