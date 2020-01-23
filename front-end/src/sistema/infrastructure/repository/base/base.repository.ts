@@ -3,9 +3,9 @@ import {IRead} from '../interfaces/IRead';
 import {HttpClient} from '@angular/common/http';
 import {PageSerialize} from '../../page-serialize/page-serialize';
 import {Observable} from 'rxjs';
-import {environment} from '../../../../environments/environment';
 import {Router} from '@angular/router';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
+import {environment} from '@src/environments/environment';
 
 
 export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {

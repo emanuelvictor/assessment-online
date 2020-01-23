@@ -37,21 +37,6 @@ public class DispositivoResource extends AbstractResource<Dispositivo> {
     private final DispositivoService dispositivoService;
 
     /**
-     *
-     */
-    private final AssinaturaRepository assinaturaRepository;
-
-    /**
-     *
-     */
-    private final TenantIdentifierResolver tenantIdentifierResolver;
-
-//    /**
-//     *
-//     */
-//    private final UnidadeTipoAvaliacaoDispositivoRepository unidadeTipoAvaliacaoDispositivoRepository;
-
-    /**
      * @param dispositivo
      * @return
      */
