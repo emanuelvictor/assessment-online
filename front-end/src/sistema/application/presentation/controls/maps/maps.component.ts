@@ -7,6 +7,8 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn} from 
 import {EnderecoService} from '../../../../domain/service/endereco.service';
 import {Cidade} from '../../../../domain/entity/endereco/cidade.model';
 import {obrigatorio} from '../validators/validators';
+import {Estado} from '@src/sistema/domain/entity/endereco/estado.model';
+import {Pais} from '@src/sistema/domain/entity/endereco/pais.model';
 
 
 @Component({
@@ -102,6 +104,14 @@ export class MapsComponent implements OnInit, AfterViewInit {
       this.endereco.cidade = new Cidade();
     }
 
+    if (!this.endereco.cidade.estado) {
+      this.endereco.cidade.estado = new Estado();
+    }
+
+    if (!this.endereco.cidade.estado.pais) {
+      this.endereco.cidade.estado.pais = new Pais();
+    }
+
     let formGroup;
     if (this.allRequired) {
       formGroup = new FormGroup({
@@ -148,7 +158,11 @@ export class MapsComponent implements OnInit, AfterViewInit {
           this.endereco.bairro = result.bairro;
           this.endereco.logradouro = result.logradouro;
           this.cidadeAux = result.cidade;
-          this.findCidadeByNomeAndEstadoUf(result.cidade, result.estado)
+
+          const endereco: Endereco = new Endereco('', '', '', '', '', new Cidade(), 0, 0);
+          endereco.cidade.nome = result.cidade;
+          endereco.cidade.estado.uf = result.estado;
+          this.findCidadeByNomeAndEstadoUf(endereco)
         });
     }
   }
@@ -162,10 +176,11 @@ export class MapsComponent implements OnInit, AfterViewInit {
 
   /**
    *
-   * @param cidade
-   * @param estado
+   * @param endereco
    */
-  public findCidadeByNomeAndEstadoUf(cidade, estado) {
+  public findCidadeByNomeAndEstadoUf(endereco: any) {
+    const cidade = endereco.cidade.nome;
+    const estado = endereco.cidade.estado.uf;
     if (cidade && estado) {
       this.enderecoService.find(cidade, estado)
         .then(result => {
@@ -185,7 +200,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
 
           this.enderecoChange.emit(this.endereco)
         })
-        .catch(exception => {
+        .catch(() => {
           this.cidadeNotFind = true;
           this.form.get('endereco').get('cidade').setErrors({exception: 'Cidade não encontrada'})
         });

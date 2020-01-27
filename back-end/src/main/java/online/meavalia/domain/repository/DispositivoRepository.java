@@ -87,29 +87,30 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
             "       )" +
             "       AND" +
             "       (" +
-            "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') AND dispositivo.id IN " +
+            "           (:usuarioId IS NOT NULL AND (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') AND dispositivo.id IN " +
             "               (" +
-            "               SELECT unidadeTipoAvaliacaoDispositivo.dispositivo.id FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE " +
-            "               (" +
-            "                   unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id IN " +
+            "                   SELECT unidadeTipoAvaliacaoDispositivo.dispositivo.id FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE " +
             "                   (" +
-            "                       SELECT operador.unidade.id FROM Operador operador WHERE " +
+            "                       unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id IN " +
             "                       (" +
-            "                           operador.usuario.id = :usuarioId" +
-            "                           AND " +
+            "                           SELECT operador.unidade.id FROM Operador operador WHERE " +
             "                           (" +
+            "                               operador.usuario.id = :usuarioId" +
+            "                               AND " +
             "                               (" +
-            "                                   :perfil = '" + Perfil.ATENDENTE_VALUE + "'  " +
-            "                               )" +
+            "                                   (" +
+            "                                       :perfil = '" + Perfil.ATENDENTE_VALUE + "'  " +
+            "                                   )" +
             "                               OR " +
-            "                               (" +
-            "                                   :perfil = '" + Perfil.OPERADOR_VALUE + "' " +
+            "                                   (" +
+            "                                       :perfil = '" + Perfil.OPERADOR_VALUE + "' " +
+            "                                   )" +
             "                               )" +
             "                           )" +
             "                       )" +
             "                   )" +
-            "               )" +
-            "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "') " +
+            "               ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "') " +
+            "           ) OR :usuarioId IS NULL " +
             "       )" +
             "   )"
 //           + "GROUP BY dispositivo.id, unidade.created, unidade.updated, unidade.documento, unidade.nome, unidade.documento, endereco.id, cidade.id, estado.id, pais.id"
