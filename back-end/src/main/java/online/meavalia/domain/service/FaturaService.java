@@ -97,7 +97,7 @@ public class FaturaService {
             final List<Fatura> ultimasFaturas = this.faturaRepository.findLastsFaturasByTenant(tenant);
 
             // Pego os dispositivos
-            final Set<Dispositivo> dispositivos = new HashSet<>(this.dispositivoRepository.listByFilters(null, tenant, null).getContent());
+            final Set<Dispositivo> dispositivos = new HashSet<>(this.dispositivoRepository.listByFilters(null, null, null, tenant, null).getContent());
 
             // Se tem faturas em aberto
             if (!ultimasFaturas.isEmpty())

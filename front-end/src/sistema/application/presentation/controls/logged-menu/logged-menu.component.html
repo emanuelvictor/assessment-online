@@ -58,27 +58,27 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item #rlaDispositivos='routerLinkActive'
-                   *ngIf='authenticatedUser?.isAdministrador'
+    <mat-list-item routerLinkActive #rlaDispositivos='routerLinkActive'
                    [ngClass]="{'menu-active': rlaDispositivos.isActive}"
-                   class='push-bottom' routerLink='/authenticated/dispositivos'
-                   routerLinkActive>
+                   class='push-bottom' routerLink='/authenticated/dispositivos'>
       <div class='pad-left' flex layout='row'>
         <span flex='10'></span>
         <mat-icon flex matListAvatar>devices</mat-icon>
-        <h3 flex='85' matLine style='color: white'> Dispositivos </h3>
+        <h3 flex='85' matLine style='color: white'>
+          {{authenticatedUser?.isAdministrador ? 'Dispositivos' : 'Meus dispositivos'}}
+        </h3>
       </div>
     </mat-list-item>
 
-    <mat-list-item #rlaResultados="routerLinkActive"
+    <mat-list-item routerLinkActive #rlaResultados="routerLinkActive"
                    [ngClass]="{'menu-active': rlaResultados.isActive}"
-                   class="push-bottom" routerLink="/authenticated/resultados"
-                   routerLinkActive>
+                   class="push-bottom" routerLink="/authenticated/resultados">
       <div class="pad-left" flex layout="row">
         <span flex="10"></span>
         <mat-icon flex matListAvatar>pie_chart</mat-icon>
-        <h3 flex="85" matLine
-            style="color: white"> {{authenticatedUser?.isAdministrador ? 'Resultados' : 'Meus resultados'}} </h3>
+        <h3 flex="85" matLine style="color: white">
+          {{authenticatedUser?.isAdministrador ? 'Resultados' : 'Meus resultados'}}
+        </h3>
       </div>
     </mat-list-item>
 

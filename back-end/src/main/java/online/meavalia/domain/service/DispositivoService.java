@@ -11,6 +11,8 @@ import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.application.websocket.WrapperHandler;
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
+import online.meavalia.domain.entity.usuario.Conta;
+import online.meavalia.domain.repository.ContaRepository;
 import online.meavalia.domain.repository.DispositivoRepository;
 import online.meavalia.domain.repository.UnidadeTipoAvaliacaoDispositivoRepository;
 import org.springframework.data.domain.Page;
@@ -48,6 +50,11 @@ public class DispositivoService {
      *
      */
     private final FaturaService faturaService;
+
+    /**
+     *
+     */
+    private final ContaRepository contaRepository;
 
     /**
      *
@@ -97,11 +104,11 @@ public class DispositivoService {
      */
     public Page<Dispositivo> listDispositivosByFilters(final String defaultFilter, final Pageable pageable) {
 
-//        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
+        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
 //
-//        final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
+        final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 
-        return this.dispositivoRepository.listByFilters(defaultFilter, this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(), pageable);
+        return this.dispositivoRepository.listByFilters(usuarioId, conta.getPerfil().name(), defaultFilter, this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(), pageable);
 
     }
 
@@ -165,7 +172,7 @@ public class DispositivoService {
         Assert.isTrue(dispositivo.getCodigo() == (codigo), "Código inválido!");
 
         // Valida se o código não expirou
-        if (!dispositivo.isAccountNonExpired()){
+        if (!dispositivo.isAccountNonExpired()) {
 
             // Renova o código
             dispositivo.setUpdated(LocalDateTime.now());

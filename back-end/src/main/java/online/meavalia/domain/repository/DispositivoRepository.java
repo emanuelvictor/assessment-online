@@ -1,6 +1,7 @@
 package online.meavalia.domain.repository;
 
 import online.meavalia.domain.entity.unidade.Dispositivo;
+import online.meavalia.domain.entity.usuario.Perfil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -84,34 +85,39 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
             "           :tenant IS NOT NULL AND (:tenant = dispositivo.tenant)" +
             "           OR :tenant IS NULL" +
             "       )" +
-//            "       AND" +
-//            "       (" +
-//            "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') AND dispositivo.id IN " +
-//            "           (" +
-//            "               SELECT operador.dispositivo.id FROM Operador operador WHERE " +
-//            "               (" +
-//            "                   operador.usuario.id = :usuarioId" +
-//            "                   AND " +
-//            "                   (" +
-//            "                       (" +
-//            "                           :perfil = '" + Perfil.ATENDENTE_VALUE + "'  " +
-//            "                       )" +
-//            "                       OR " +
-//            "                       (" +
-//            "                           :perfil = '" + Perfil.OPERADOR_VALUE + "' " +
-//            "                       )" +
-//            "                   )" +
-//            "               )" +
-//            "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "')" +
-//            "       )" +
+            "       AND" +
+            "       (" +
+            "           (:perfil != '" + Perfil.ADMINISTRADOR_VALUE + "' AND :perfil != '" + Perfil.ROOT_VALUE + "') AND dispositivo.id IN " +
+            "               (" +
+            "               SELECT unidadeTipoAvaliacaoDispositivo.dispositivo.id FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE " +
+            "               (" +
+            "                   unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id IN " +
+            "                   (" +
+            "                       SELECT operador.unidade.id FROM Operador operador WHERE " +
+            "                       (" +
+            "                           operador.usuario.id = :usuarioId" +
+            "                           AND " +
+            "                           (" +
+            "                               (" +
+            "                                   :perfil = '" + Perfil.ATENDENTE_VALUE + "'  " +
+            "                               )" +
+            "                               OR " +
+            "                               (" +
+            "                                   :perfil = '" + Perfil.OPERADOR_VALUE + "' " +
+            "                               )" +
+            "                           )" +
+            "                       )" +
+            "                   )" +
+            "               )" +
+            "           ) OR (:perfil = '" + Perfil.ADMINISTRADOR_VALUE + "' OR :perfil = '" + Perfil.ROOT_VALUE + "') " +
+            "       )" +
             "   )"
 //           + "GROUP BY dispositivo.id, unidade.created, unidade.updated, unidade.documento, unidade.nome, unidade.documento, endereco.id, cidade.id, estado.id, pais.id"
     )
-    Page<Dispositivo> listByFilters(
-//            @Param("usuarioId") final Long usuarioId,
-//                                @Param("perfil") final String perfil,
-            @Param("defaultFilter") final String defaultFilter,
-            @Param("tenant") final String tenant, // TODO vai para o filtro do hibernate
-            final Pageable pageable);
+    Page<Dispositivo> listByFilters(@Param("usuarioId") final Long usuarioId,
+                                    @Param("perfil") final String perfil,
+                                    @Param("defaultFilter") final String defaultFilter,
+                                    @Param("tenant") final String tenant, // TODO vai para o filtro do hibernate
+                                    final Pageable pageable);
 
 }

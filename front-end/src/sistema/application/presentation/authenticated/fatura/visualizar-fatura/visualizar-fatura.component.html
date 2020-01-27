@@ -6,9 +6,9 @@
 
           <div layout='row'>
             <div layout='column' style='min-width: 17px'>
-              <button *ngIf='activatedRoute?.snapshot?.params?.id' class='mat-headline tc-grey-500'
-                      color='primary' mat-icon-button routerLink='../'
-                      type='button'>
+              <button mat-icon-button routerLink='../'
+                      *ngIf='activatedRoute?.snapshot?.params?.id'
+                      type='button' color='primary' class='mat-headline tc-grey-500'>
                 <mat-icon>arrow_back</mat-icon>
               </button>
             </div>
@@ -28,8 +28,10 @@
 
                       <h1 style='color: #6a1b9a' flex class='mat-headline no-margin'>
                         {{fatura?.valorComDesconto ? (fatura?.valorComDesconto | currency:'BRL') : (fatura?.valor | currency:'BRL')}}
-                        <span *ngIf="fatura?.status === 'PAID' || fatura?.status === 'AUTHORIZED'" style='color: black'> - <span style='color: limegreen'> PAGO</span></span>
-                        <span *ngIf="fatura?.isVencida" style='color: black'> - <span style='color: red'>EM ATRASO</span></span>
+                        <span *ngIf="fatura?.status === 'PAID' || fatura?.status === 'AUTHORIZED'" style='color: black'> - <span
+                            style='color: limegreen'> PAGO</span></span>
+                        <span *ngIf="fatura?.isVencida" style='color: black'> - <span
+                            style='color: red'>EM ATRASO</span></span>
                       </h1>
                       <h1 *ngIf='fatura?.cupom?.percentualDesconto' flex
                           class='mat-headline tc-blue-grey-800 no-margin'>
@@ -55,8 +57,8 @@
                            *ngIf="fatura?.status !== 'PAID' && fatura?.status !== 'AUTHORIZED' && fatura?.assinatura?.formaPagamento === 'BOLETO' && fatura?.linkBoleto">
                         Boleto: <a href='{{fatura?.linkBoleto}}' target='_blank'
                                    *ngIf="fatura?.assinatura?.formaPagamento === 'BOLETO'">
-                                  {{' ' + fatura?.linkBoleto}}
-                                </a>
+                        {{' ' + fatura?.linkBoleto}}
+                      </a>
                       </div>
 
                       <div layout='column'>
@@ -70,7 +72,7 @@
                             <span>
                               {{item?.dispositivo?.nome}} - {{item?.precoComAcressimo | currency:'BRL'}}
                             </span>
-                              {{ item?.totalAvaliacoes !== undefined && item?.totalAvaliacoes !== null ? ('Total de Avaliações: ' + item?.totalAvaliacoes) + ' - ': ''}} {{ item?.fatura?.quantidadeMaximaAvaliacoes ? ('Quantidade Máxima de Avaliações: ' + item?.fatura?.quantidadeMaximaAvaliacoes) : ''}} {{ item?.avaliacoesExcedentes ? (' - Avaliações Excedentes: ' + item?.avaliacoesExcedentes) : ''}}
+                              {{ item?.totalAvaliacoes !== undefined && item?.totalAvaliacoes !== null ? ('Total de Avaliações: ' + item?.totalAvaliacoes) + ' - ' : ''}} {{ item?.fatura?.quantidadeMaximaAvaliacoes ? ('Quantidade Máxima de Avaliações: ' + item?.fatura?.quantidadeMaximaAvaliacoes) : ''}} {{ item?.avaliacoesExcedentes ? (' - Avaliações Excedentes: ' + item?.avaliacoesExcedentes) : ''}}
                             </div>
                           </li>
                         </ul>
