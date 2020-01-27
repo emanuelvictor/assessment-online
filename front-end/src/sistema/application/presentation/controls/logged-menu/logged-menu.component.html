@@ -1,9 +1,9 @@
-<mat-nav-list *ngIf='authenticatedUser?.id' class="pad-none">
+<mat-nav-list *ngIf='authenticatedUser?.id' class='pad-none'>
   <mat-list class="pad-none">
-    <mat-list-item #rla="routerLinkActive"
-                   [ngClass]="{'menu-active': rla.isActive}" class="push-top push-bottom minha-conta"
-                   routerLink="/authenticated/minha-conta"
-                   routerLinkActive>
+    <mat-list-item routerLink="/authenticated/minha-conta"
+                   class="push-top push-bottom minha-conta"
+                   routerLinkActive #rla="routerLinkActive"
+                   [ngClass]="{'menu-active': rla.isActive}">
       <div class="pad-left" flex layout="row">
         <span flex="10"></span>
         <mat-icon flex matListAvatar>person</mat-icon>
@@ -18,12 +18,11 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item #rlaUsuarios="routerLinkActive"
-                   [matTooltipPosition]="'left'"
+    <mat-list-item routerLink="/authenticated/avaliaveis"
+                   routerLinkActive [matTooltipPosition]="'left'"
                    [ngClass]="{'menu-active': rlaUsuarios.isActive}"
-                   class='push-bottom' matTooltip='Atendentes, professores, quesitos, itens de buffet, etc ...'
-                   routerLink="/authenticated/avaliaveis"
-                   routerLinkActive>
+                   class='push-bottom' #rlaUsuarios="routerLinkActive"
+                   matTooltip='Atendentes, professores, quesitos, itens de buffet, etc ...'>
       <div class="pad-left" flex layout="row">
         <span flex="10"></span>
         <mat-icon flex matListAvatar>supervisor_account</mat-icon>
@@ -33,10 +32,9 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item #rlaFornecedores="routerLinkActive"
+    <mat-list-item routerLinkActive #rlaFornecedores="routerLinkActive"
                    [ngClass]="{'menu-active': rlaFornecedores.isActive}"
-                   class="push-bottom" routerLink="/authenticated/unidades"
-                   routerLinkActive>
+                   class="push-bottom" routerLink="/authenticated/unidades">
       <div class="pad-left" flex layout="row">
         <span flex="10"></span>
         <mat-icon flex matListAvatar>store</mat-icon>
@@ -46,11 +44,10 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item #rlaAvaliacoes="routerLinkActive"
-                   *ngIf='authenticatedUser?.isAdministrador'
+    <mat-list-item *ngIf='authenticatedUser?.isAdministrador'
+                   routerLinkActive #rlaAvaliacoes="routerLinkActive"
                    [ngClass]="{'menu-active': rlaAvaliacoes.isActive}"
-                   class="push-bottom" routerLink="/authenticated/avaliacoes"
-                   routerLinkActive>
+                   class="push-bottom" routerLink="/authenticated/avaliacoes">
       <div class="pad-left" flex layout="row">
         <span flex="10"></span>
         <mat-icon flex matListAvatar>assessment</mat-icon>
@@ -82,11 +79,10 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item #rlaSettings="routerLinkActive"
-                   *ngIf='authenticatedUser?.isAdministrador'
+    <mat-list-item *ngIf='authenticatedUser?.isAdministrador'
+                   #rlaSettings="routerLinkActive" routerLinkActive
                    [ngClass]="{'menu-active': rlaSettings.isActive}"
-                   class='push-bottom' routerLink="/authenticated/configuracoes"
-                   routerLinkActive>
+                   class='push-bottom' routerLink="/authenticated/configuracoes">
       <div class="pad-left" flex layout="row">
         <span flex="10"></span>
         <mat-icon flex matListAvatar>settings</mat-icon>
@@ -97,9 +93,9 @@
     <mat-divider *ngIf='authenticatedUser?.isAdministrador'
                  class="bgc-blue-grey-300 push-top push-bottom pad-left"></mat-divider>
 
-    <mat-list-item #rlaCupom='routerLinkActive'
-                   *ngIf='authenticatedUser?.isRoot' [ngClass]="{'menu-active': rlaCupom.isActive}"
-                   class='push-bottom'
+    <mat-list-item *ngIf='authenticatedUser?.isRoot'
+                   [ngClass]="{'menu-active': rlaCupom.isActive}"
+                   #rlaCupom='routerLinkActive' class='push-bottom'
                    routerLink='/authenticated/cupons' routerLinkActive>
       <div class='pad-left' flex layout='row'>
         <span flex='10'></span>
@@ -108,9 +104,9 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item #rlaFatura='routerLinkActive'
-                   *ngIf='authenticatedUser?.isAdministrador' [ngClass]="{'menu-active': rlaFatura.isActive}"
-                   class='push-bottom'
+    <mat-list-item *ngIf='authenticatedUser?.isAdministrador'
+                   [ngClass]="{'menu-active': rlaFatura.isActive}"
+                   class='push-bottom' #rlaFatura='routerLinkActive'
                    routerLink='/authenticated/faturas' routerLinkActive>
       <div class='pad-left' flex layout='row'>
         <span flex='10'></span>
@@ -119,9 +115,9 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item #rlaAssinatura='routerLinkActive'
-                   *ngIf='authenticatedUser?.isAdministrador' [ngClass]="{'menu-active': rlaAssinatura.isActive}"
-                   class='push-bottom'
+    <mat-list-item *ngIf='authenticatedUser?.isAdministrador'
+                   [ngClass]="{'menu-active': rlaAssinatura.isActive}"
+                   class='push-bottom' #rlaAssinatura='routerLinkActive'
                    routerLink='/authenticated/assinatura' routerLinkActive>
       <div class='pad-left' flex layout='row'>
         <span flex='10'></span>

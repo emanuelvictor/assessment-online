@@ -2,6 +2,8 @@ import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {AuthenticationService} from '../../../../domain/service/authentication.service';
 import {Subscription} from 'rxjs';
 import {UsuarioService} from '../../../../domain/service/usuario.service';
+import {DomSanitizer} from '@angular/platform-browser';
+import {environment} from '@src/environments/environment';
 
 @Component({
   selector: 'logged-menu',
@@ -22,11 +24,17 @@ export class LoggedMenuComponent implements OnDestroy {
 
   /**
    *
+   */
+  backgroundPath: string = environment.endpoint + 'assets/images/banner.png';
+
+  /**
+   *
    * @param usuarioService
    * @param changeDetectionRef
    * @param authenticationService
    */
-  constructor(private usuarioService: UsuarioService,
+  constructor(private _sanitizer: DomSanitizer,
+              private usuarioService: UsuarioService,
               private changeDetectionRef: ChangeDetectorRef,
               private authenticationService: AuthenticationService) {
 
@@ -48,5 +56,13 @@ export class LoggedMenuComponent implements OnDestroy {
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }
+  }
+
+  /**
+   *
+   * @param image
+   */
+  getBackground(image) {
+    return this._sanitizer.bypassSecurityTrustStyle(`url(${image})`);
   }
 }

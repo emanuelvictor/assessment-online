@@ -3,6 +3,8 @@ import {TdMediaService} from '@covalent/core';
 import {Subscription} from 'rxjs';
 import {AuthenticationService} from '../../../domain/service/authentication.service';
 import {routerAnimation} from '../controls/utils';
+import {environment} from '@src/environments/environment';
+import {DomSanitizer} from '@angular/platform-browser';
 
 
 @Component({
@@ -36,16 +38,23 @@ export class AuthenticatedViewComponent implements OnInit, OnDestroy {
 
   /**
    *
+   */
+  backgroundPath: string = environment.endpoint + 'assets/images/banner-1920x720.svg';
+
+  /**
+   *
+   * @param _sanitizer
    * @param {TdMediaService} media
    * @param {NgZone} ngZone
    * @param {AuthenticationService} authenticationService
    */
-  constructor(public media: TdMediaService, public ngZone: NgZone,
+  constructor(private _sanitizer: DomSanitizer,
+              public media: TdMediaService, public ngZone: NgZone,
               private authenticationService: AuthenticationService) {
 
     this.authenticationService.requestContaAutenticada().subscribe(result => {
       this.conta = result;
-    });
+    })
   }
 
   /**
@@ -86,5 +95,13 @@ export class AuthenticatedViewComponent implements OnInit, OnDestroy {
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
     }
+  }
+
+  /**
+   *
+   * @param image
+   */
+  getBackground(image) {
+    return this._sanitizer.bypassSecurityTrustStyle(`url(${image})`);
   }
 }
