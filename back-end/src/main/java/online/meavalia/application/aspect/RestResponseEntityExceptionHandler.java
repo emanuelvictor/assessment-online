@@ -1,6 +1,7 @@
 package online.meavalia.application.aspect;
 
 import lombok.RequiredArgsConstructor;
+import online.meavalia.application.aspect.exceptions.AccessDeniedException;
 import online.meavalia.application.aspect.exceptions.PasswordNotFound;
 import online.meavalia.application.aspect.handler.ResponseEntityExceptionHandler;
 import org.apache.commons.lang3.StringUtils;
@@ -101,6 +102,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 //
 //        return handleExceptionInternal(new Exception(message.toString()), new Error(message.toString()), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 //    }
+
+
+    /**
+     *
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Object> handleException(final AccessDeniedException exception) {
+        return handleExceptionInternal(exception, new Error(exception.getMessage()), new HttpHeaders(), HttpStatus.FORBIDDEN);
+    }
 
     /**
      *

@@ -47,12 +47,6 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao> {
         return Mono.just(this.avaliacaoService.save(id, agrupador));
     }
 
-//    @PostMapping todo remover
-//    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
-//    public Mono<Avaliacao> save(@RequestBody final Avaliacao avaliacao) {
-//        return Mono.just(this.avaliacaoService.save(avaliacao));
-//    }
-
     /**
      *
      * @param id
@@ -71,7 +65,7 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao> {
      * @return
      */
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     public Mono<Boolean> delete(@PathVariable long id) {
         this.avaliacaoService.delete(id);
         return Mono.just(true);

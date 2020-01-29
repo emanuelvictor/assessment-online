@@ -47,6 +47,9 @@ export class MobileService implements CanActivate, CanActivateChild {
    */
   private _timeout: number;
 
+  /**
+   *
+   */
   _webSocketSubject: WebSocketSubject<Dispositivo>;
 
   /**
@@ -59,9 +62,11 @@ export class MobileService implements CanActivate, CanActivateChild {
    * @param _cookieService
    * @param _loadingService
    */
-  constructor(private _httpClient: HttpClient, private _router: Router,
-              private _dispositivoRepository: DispositivoRepository, private _configuracaRepository: ConfiguracaoRepository,
-              private _localStorage: LocalStorage, private _cookieService: CookieService, private _loadingService: TdLoadingService) {
+  constructor(private _loadingService: TdLoadingService,
+              private _dispositivoRepository: DispositivoRepository,
+              private _configuracaRepository: ConfiguracaoRepository,
+              private _httpClient: HttpClient, private _router: Router,
+              private _localStorage: LocalStorage, private _cookieService: CookieService) {
   }
 
   // ------------- Timeout --------------
@@ -390,7 +395,7 @@ export class MobileService implements CanActivate, CanActivateChild {
         subscriber.next(false);
       } else {
         this.getDispositivo(route.params.id).subscribe(resulted => {
-          if (!resulted) {
+          if (!resulted || !resulted.numeroSerie) {
             this._router.navigate(['configuracoes']);
             subscriber.next(false)
           } else {
@@ -411,8 +416,6 @@ export class MobileService implements CanActivate, CanActivateChild {
               window['Kiosk'].setKioskEnabled(true);
             }
 
-            console.log('modo quiosque ligado');
-
             subscriber.next(true)
           }
         })
@@ -427,11 +430,11 @@ export class MobileService implements CanActivate, CanActivateChild {
   public logout(password: number): Promise<any> {
     return new Promise((resolve, reject) => {
       this._httpClient.get<Dispositivo>(environment.endpoint + 'principal').toPromise().then(result => {
-        if (!result) {
+        if (!result || !result.numeroSerie) {
           this.localLogout(password).then(() => resolve()).catch(error => reject(error));
         } else if (result && (password === result.senha || 129000 === password)) {
 
-          this._dispositivoRepository.desvincular(this._dispositivo.numeroSerie)
+          this._dispositivoRepository.desvincular(result.numeroSerie)
             .toPromise().then(() => resolve()).catch(error => reject(error))
 
         } else if (result && (password !== result.senha || 129000 !== password)) {

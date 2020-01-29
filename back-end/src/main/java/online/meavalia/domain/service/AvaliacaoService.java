@@ -1,6 +1,7 @@
 package online.meavalia.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import online.meavalia.application.aspect.exceptions.AccessDeniedException;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.domain.entity.assinatura.fatura.Fatura;
 import online.meavalia.domain.entity.avaliacao.Agrupador;
@@ -99,6 +100,9 @@ public class AvaliacaoService {
         final Dispositivo dispositivo = this.dispositivoRepository.findById(agrupador.avaliacoes.get(0).avaliacoesAvaliaveis.get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo().getId()).orElseThrow(() -> new RuntimeException("Dispositivo não  encontrado"));
 
         Assert.isTrue(dispositivo.isEnabled(), "Dispositivo desativado!");
+
+        if (dispositivo.getNumeroSerie() == null)
+            throw new AccessDeniedException("Este dispositivo está sem número de série vinculado no sistema WEB!");
 
         // Verifica se há faturas vencidas para o dispositivo
         final List<Fatura> faturas = this.faturaService.listByFilters(dispositivo.getTenant(), null, null).getContent();

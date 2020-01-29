@@ -53,6 +53,7 @@ import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuraca
 import localePt from '@angular/common/locales/pt';
 import {HomeComponent} from '@src/mobile/application/presentation/home/home.component';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MobileInterceptor} from '@src/mobile/application/presentation/mobile-interceptor/mobile-interceptor';
 
 /**
  *
@@ -126,7 +127,7 @@ import {ToastService} from '@src/sistema/application/presentation/controls/toast
 
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: Interceptor,
+      useClass: MobileInterceptor,
       multi: true
     }
   ],
