@@ -1,16 +1,13 @@
-<div layout-align="center center"
-     class="login" layout="column"
-     [style.background-image]="getBackground(backgroundPath)">
+<div [style.background-image]='getBackground(backgroundPath)'
+     layout-align='center center' class='login' layout='column'>
 
-  <div layout="column"
-       layout-align="center center">
+  <div layout='column' layout-align='center center'>
 
     <mat-card style='width: 600px'>
       <mat-card-content>
 
-        <form #signinForm="ngForm"
-              (ngSubmit)="login()">
-          <div layout="column" layout-margin>
+        <form #signinForm='ngForm' (ngSubmit)='login()'>
+          <div layout='column' layout-margin>
 
             <div layout='column' layout-align='center center' layout-margin>
               <div flex layout='row' layout-margin>
@@ -18,43 +15,35 @@
               </div>
             </div>
 
-            <div flex layout="row" layout-margin style="margin-top: 34px">
+            <div flex layout='row' layout-margin style='margin-top: 34px'>
               <mat-form-field flex>
-                <!--<input matInput [matKeyboard]="'Azərbaycanca'"-->
-                <!--required name="email"-->
-                <!--(ngModelChange)='changed($event)'-->
-                <!--placeholder="Acesse com seu email"-->
-                <!--[(ngModel)]="conta.email" noWhiteSpace/>-->
-                <input (ngModelChange)='changed($event)' [(ngModel)]='conta.email' matInput
-                       name='email'
-                       noWhiteSpace
-                       placeholder='Acesse com seu email' required/>
+                <input (ngModelChange)='changed($event)'
+                       placeholder='Acesse com seu email'
+                       [(ngModel)]='conta.email' matInput
+                       name='email' noWhiteSpace required/>
               </mat-form-field>
             </div>
 
-            <div flex
-                 layout="column" layout-margin>
+            <div flex layout='column' layout-margin>
 
-              <div flex
-                   layout="row">
+              <div flex layout='row'>
                 <mat-form-field flex>
-                  <input [(ngModel)]="conta.password"
-                         matInput name="password"
-                         placeholder="Sua senha" required
-                         type="password"/>
+                  <input placeholder='Sua senha'
+                         matInput name='password'
+                         type='password' required
+                         [(ngModel)]='conta.password'/>
                 </mat-form-field>
               </div>
             </div>
 
-            <div flex
-                 layout="row" layout-margin>
-              <button [disabled]="!signinForm.form.valid" color="accent"
-                      flex mat-raised-button style="height: 55px">
+            <div flex layout='row' layout-margin>
+              <button flex mat-raised-button style='height: 55px'
+                      [disabled]='!signinForm.form.valid' color='accent'>
                 <b>Entrar</b>
               </button>
             </div>
 
-            <ng-content select="[cadastre-se]"></ng-content>
+            <ng-content select='[cadastre-se]'></ng-content>
 
           </div>
         </form>
