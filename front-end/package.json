@@ -16,8 +16,9 @@
     "build.sistema.prod": "ng build sistema --prod",
     "build.public.prod": "ng build public --prod",
     "build.mobile.prod": "ng build mobile --prod --configuration=mobile.prod",
+    "build.mobile-web.prod": "ng build mobile --prod --output-path='../back-end/src/main/resources/public/sistema/mobile'",
     "build.mobile.dev": "ng build mobile --configuration=mobile.dev",
-    "build.all.prod": "npm run build.site.prod && npm run build.sistema.prod && npm run build.public.prod"
+    "build.all.prod": "npm run build.site.prod && npm run build.sistema.prod && npm run build.public.prod && npm run build.mobile-web.prod"
   },
   "private": true,
   "dependencies": {
