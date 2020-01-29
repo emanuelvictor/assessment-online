@@ -8,11 +8,23 @@ import {Component, OnInit} from '@angular/core';
 export class ClosedPositionsComponent implements OnInit {
   items: any[];
   fases: any[];
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
-    this.items = [1,2,3,4];
+    this.items = [1, 2, 3, 4];
     this.fases = [];
   }
 
+  /**
+   *
+   * @param url
+   */
+  goTo(url: string) {
+    window.open(
+      url,
+      '_blank' // <- This is what makes it open in a new window.
+    );
+  }
 }

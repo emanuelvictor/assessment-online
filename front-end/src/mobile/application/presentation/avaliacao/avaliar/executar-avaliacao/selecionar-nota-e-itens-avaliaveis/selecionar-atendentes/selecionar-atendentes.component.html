@@ -8,10 +8,10 @@
     <mat-card-content *ngIf='avaliaveis?.length' class='no-margin' style='margin-bottom: 0'>
 
       <mat-grid-list *ngIf='avaliaveis?.length' cols='{{avaliaveis.length > 6 ? 4 : 3}}' rowHeight='100px'>
-        <mat-grid-tile (click)='avaliavel.selected = !avaliavel.selected; mobileService.restartTimeout()'
-                       *ngFor='let avaliavel of avaliaveis' [colspan]='1'
-                       [ngStyle]="{'background-color': (avaliavel.selected ? 'lightblue' : '')}" [rowspan]='2'
-                       mat-ripple>
+        <mat-grid-tile *ngFor='let avaliavel of avaliaveis' [colspan]='1' mat-ripple
+                       (click)='avaliavel.selected = !avaliavel.selected; mobileService.restartTimeout()'
+                       [ngStyle]="{'background-color': (avaliavel.selected ? 'lightblue' : '')}" [rowspan]='2'>
+
           <div layout='column' layout-align='center center'>
             <div mat-list-avatar style='width: 120px; height: 120px'>
               <avatar class='image-cover' [size]='0.6' [tenant]='mobileService?.dispositivo?.tenant'
