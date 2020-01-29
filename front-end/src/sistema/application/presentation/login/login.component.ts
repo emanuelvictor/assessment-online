@@ -6,9 +6,9 @@ import {Conta} from '../../../domain/entity/usuario/conta.model';
 import {ConfiguracaoRepository} from '../../../domain/repository/configuracao.repository';
 import 'rxjs/add/operator/debounceTime';
 import {getIdentifier} from '../controls/utils';
-import {environment} from '../../../../environments/environment';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FileRepository} from '../../../infrastructure/repository/file/file.repository';
+import {environment} from '@src/environments/environment';
 
 /**
  *
@@ -39,8 +39,13 @@ export class LoginComponent {
    *
    * @type {string}
    */
-  logoImage: string = environment.endpoint + './configuracoes/logomarca?cliente=public';
-  backgroundPath: string = environment.endpoint + 'assets/images/banner.png';
+  logoImage: string = environment.endpoint + 'assets/images/logomarca-400x119.png';
+
+  /**
+   *
+   */
+  backgroundPath: string = environment.endpoint + 'assets/images/banner-1920x720.svg';
+
   /**
    *
    * @type {Subject<string>}

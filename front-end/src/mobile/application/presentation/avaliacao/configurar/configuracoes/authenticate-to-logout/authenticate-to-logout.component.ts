@@ -25,12 +25,12 @@ export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
    *
    * @type {string}
    */
-  logoImage: string = environment.endpoint + 'assets/images/logomarca.png';
+  logoImage: string = environment.endpoint + 'assets/images/logomarca-400x119.png';
 
   /**
    *
    */
-  backgroundPath: string = environment.endpoint + 'assets/images/banner.png';
+  backgroundPath: string = environment.endpoint + 'assets/images/banner-1920x720.svg';
 
   /**
    *
