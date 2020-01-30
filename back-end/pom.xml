@@ -39,6 +39,8 @@
 
         <!--        versão do moip-->
         <moip.version>1.1.0</moip.version>
+
+        <commons-fileupload.version>1.4</commons-fileupload.version>
     </properties>
 
     <profiles>
@@ -50,22 +52,7 @@
             <properties>
                 <spring.profiles.active>ALPHA</spring.profiles.active>
                 <final-name>${project.artifactId}-${project.version}-ALPHA</final-name>
-                <maven.test.skip>true</maven.test.skip>
             </properties>
-            <!--<dependencies>-->
-            <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
-            <!--&lt;!&ndash;<groupId>org.springframework.boot</groupId>&ndash;&gt;-->
-            <!--&lt;!&ndash;<artifactId>spring-boot-starter-jetty</artifactId>&ndash;&gt;-->
-            <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
-            <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
-            <!--&lt;!&ndash;<groupId>org.springframework.boot</groupId>&ndash;&gt;-->
-            <!--&lt;!&ndash;<artifactId>spring-boot-starter-tomcat</artifactId>&ndash;&gt;-->
-            <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
-            <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
-            <!--&lt;!&ndash;<groupId>org.springframework.boot</groupId>&ndash;&gt;-->
-            <!--&lt;!&ndash;<artifactId>spring-boot-starter-undertow</artifactId>&ndash;&gt;-->
-            <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
-            <!--</dependencies>-->
         </profile>
 
         <profile>
@@ -73,7 +60,6 @@
             <properties>
                 <spring.profiles.active>BETA</spring.profiles.active>
                 <final-name>${project.artifactId}-${project.version}-BETA</final-name>
-                <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
 
@@ -82,7 +68,6 @@
             <properties>
                 <spring.profiles.active>RC</spring.profiles.active>
                 <final-name>${project.artifactId}-${project.version}-RC</final-name>
-                <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
 
@@ -91,7 +76,6 @@
             <properties>
                 <spring.profiles.active>RELEASE</spring.profiles.active>
                 <final-name>${project.artifactId}-${project.version}-RELEASE</final-name>
-                <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
     </profiles>
@@ -121,19 +105,10 @@
             <artifactId>spring-cloud-stream-reactive</artifactId>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-starter-websocket</artifactId>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>javax.websocket</groupId>
             <artifactId>javax.websocket-api</artifactId>
-            <!--            <version>1.1</version>-->
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>javax.websocket</groupId>-->
-        <!--            <artifactId>javax.websocket-api</artifactId>-->
-        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.synchronoss.cloud</groupId>
@@ -145,7 +120,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -191,11 +165,6 @@
             <artifactId>jackson-datatype-hibernate5</artifactId>
         </dependency>
 
-        <!-- jackson conversor para jsr310-->
-        <!--<groupId>com.fasterxml.jackson.datatype</groupId>-->
-        <!--<artifactId>jackson-datatype-jsr310</artifactId>-->
-        <!--</dependency>-->
-
         <!-- DataSource -->
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -209,10 +178,6 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.session</groupId>-->
-        <!--<artifactId>spring-session-core</artifactId>-->
-        <!--</dependency>-->
 
         <!--redis-->
         <dependency>
@@ -245,7 +210,7 @@
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>RELEASE</version>
+            <version>${commons-fileupload.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -303,7 +268,6 @@
             <artifactId>hibernate-jcache</artifactId>
         </dependency>
 
-
         <!-- Moip -->
         <dependency>
             <groupId>br.com.moip</groupId>
@@ -317,15 +281,6 @@
             <artifactId>javase</artifactId>
             <version>3.2.0</version>
         </dependency>
-
-
-        <!--        <dependency>-->
-        <!--            <groupId>br.com.moip</groupId>-->
-        <!--            <artifactId>java-sdk</artifactId>-->
-        <!--            <version>4.4.0</version>-->
-        <!--        </dependency>-->
-
-
     </dependencies>
 
     <dependencyManagement>
@@ -342,6 +297,44 @@
 
     <build>
         <plugins>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
