@@ -1,110 +1,37 @@
-<!--<mat-card class="form-card">-->
-<!--  <label fxFlex="12">Busca por vagas</label>-->
-<!--  <input type="text" fxFlex="grow" placeholder="(número de seleção, cargo, tipo de contrato, etc)">-->
-<!--  <mat-icon class="search-card" fxFlex="auto">search</mat-icon>-->
-<!--</mat-card>-->
-<!--<mat-card>-->
-<!--  <mat-card-content>-->
-
-<mat-grid-list cols="4" rowHeight="100px">
+<mat-grid-list cols="4" rowHeight="100px"
+               style='box-shadow: rgba(0, 0, 0, 0.16) 0 3px 6px 0; flex-direction: row; box-sizing: border-box; display: flex'>
   <mat-grid-tile [colspan]='2' [rowspan]='3'>
-    <div class='client' style="background-image: url('./assets/images/bublle.jpg')" (click)="goTo('http://bubblemixtea.com.br')">
+    <div class='client' style="background-image: url('./assets/images/testimonials/bubblemix.jpg')">
+      <span>
+        <p style='margin-bottom: 0'><b>Bubblemix</b></p>
+        <p style='margin-top: 0'>
+          <a target='_blank' style=' color: gray'
+             href='https://www.bubblemixtea.com.br/'>
+            <i>bubblemixtea.com.br</i>
+          </a>
+        </p>
+        <p>Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+      </span>
       <div>
-        <a href='http://bubblemixtea.com.br' target='_blank' style='color: black; text-decoration: none'>Bubblemix</a>
+        <b>Bubblemix</b>
       </div>
     </div>
   </mat-grid-tile>
   <mat-grid-tile [colspan]='2' [rowspan]='3'>
-    <div (click)="goTo('http://bubblemixtea.com.br')"
-         style='width: 100%; height: 100%;background: url(./assets/images/bublle.jpg); cursor: pointer; background-size: cover'>
-      <div style='position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 13px;
-    background: white;border-radius: 5px 0 0 0; box-shadow: rgba(0, 0, 0, 0.16) 0 3px 6px 0'>
-        <a href='http://bubblemixtea.com.br' target='_blank' style='color: black; text-decoration: none'>Sódupé Calçados</a>
+    <div class='client' style="background-image: url('./assets/images/testimonials/sodupe-calcados.png')">
+      <span>
+        <p style='margin-bottom: 0'><b>Sódupé Calçados</b></p>
+        <p style='margin-top: 0'>
+          <a target='_blank' style='color: gray'
+             href='https://www.facebook.com/sodupecalcados/'>
+            <i>facebook.com/sodupecalcados</i>
+          </a>
+        </p>
+        <p>Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+      </span>
+      <div>
+        <b>Sódupé Calçados</b>
       </div>
     </div>
   </mat-grid-tile>
-
 </mat-grid-list>
-<!--  </mat-card-content>-->
-<!--</mat-card>-->
-
-<!--  <div class="inprogress-div">-->
-<!--    <mat-card class="inprogress-card">-->
-<!--      <div fxLayout="row" fxLayoutAlign="start center">-->
-<!--        <img src="http://placehold.it/60x60" style="border-radius: 6px" alt="">-->
-
-<!--        <span class="opening-text text-center">-->
-<!--        <p class="bottom">Bubblemix <a class="top" href='https://www.bubblemixtea.com.br'>bubblemixtea.com.br</a></p>-->
-<!--      </span>-->
-<!--      </div>-->
-
-<!--      <div fxLayout="row" fxLayoutAlign="end center" fxFlex>-->
-<!--        <button mat-flat-button class="btn-cyan">Ver detalhes</button>-->
-<!--      </div>-->
-<!--    </mat-card>-->
-
-<!--    <mat-accordion>-->
-
-<!--      <mat-expansion-panel *ngIf="!fases.length > 0" [disabled]=true class="border-bottom">-->
-<!--        <mat-expansion-panel-header class="progress-header-table closed">-->
-<!--        <span-->
-<!--            class="progress-table closed message">O processo de seleção foi encerrado sem candidatos selecionados.</span>-->
-<!--          <span class="progress-table align-end closed">-->
-<!--          <a href="" target="_blank" class="link">-->
-<!--            <mat-icon>cloud_download</mat-icon> Baixar documento-->
-<!--          </a>-->
-<!--        </span>-->
-<!--        </mat-expansion-panel-header>-->
-<!--      </mat-expansion-panel>-->
-
-<!--      <ng-container *ngFor="let item of fases">-->
-<!--        <mat-expansion-panel [disabled]=true class="border-bottom">-->
-<!--          <mat-expansion-panel-header class="progress-header-table">-->
-<!--            <td class="progress-table header one">Etapa</td>-->
-<!--            <td class="progress-table header two">Descrição</td>-->
-<!--            <td class="progress-table header three text-center">Ações</td>-->
-<!--          </mat-expansion-panel-header>-->
-<!--        </mat-expansion-panel>-->
-
-<!--        <mat-expansion-panel *ngIf="fases.length > 0" [disabled]="true" #fase="matExpansionPanel" class="border-bottom">-->
-<!--          <mat-expansion-panel-header>-->
-<!--            <td class="progress-table body one">1ª Etapa</td>-->
-<!--            <td class="progress-table body two">Análise Curricular</td>-->
-<!--            <td class="progress-table body three text-center">-->
-<!--              <div class="inline-flex">-->
-
-<!--                <a href="" target="_blank" class="link">-->
-<!--                  <mat-icon>cloud_download</mat-icon>-->
-<!--                  Baixar orientações-->
-<!--                </a>-->
-<!--                <a class="collapse" (click)="fase.expanded = !fase.expanded">-->
-<!--                  Ver candidatos-->
-<!--                  <mat-icon *ngIf="!fase.expanded">keyboard_arrow_down</mat-icon>-->
-<!--                  <mat-icon *ngIf="fase.expanded">keyboard_arrow_up</mat-icon>-->
-<!--                </a>-->
-
-<!--              </div>-->
-<!--            </td>-->
-<!--          </mat-expansion-panel-header>-->
-
-<!--          <table mat-table [dataSource]="pessoas" class="selected-table">-->
-
-<!--            &lt;!&ndash; Position Column &ndash;&gt;-->
-<!--            <ng-container matColumnDef="nome">-->
-<!--              <td mat-cell *matCellDef="let element"> {{element.nome}} </td>-->
-<!--            </ng-container>-->
-<!--            <ng-container matColumnDef="convocacao">-->
-<!--              <td mat-cell *matCellDef="let element"> {{element.convocacao}} </td>-->
-<!--            </ng-container>-->
-
-
-<!--            <tr mat-row *matRowDef="let row; columns: displayedColumnsPessoas;"></tr>-->
-<!--          </table>-->
-
-<!--        </mat-expansion-panel>-->
-<!--      </ng-container>-->
-<!--    </mat-accordion>-->
-<!--  </div>-->

@@ -44,6 +44,11 @@ button {
   p {
     padding-left: 14px
   }
+
+  &.push-top-and-bottom-25 {
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -317,7 +322,6 @@ table {
       background: #FAFAFA;
     }
   }
-
 }
 
 /* Media Queries */
