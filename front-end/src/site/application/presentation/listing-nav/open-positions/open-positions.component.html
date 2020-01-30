@@ -1,35 +1,54 @@
-<!--<mat-card class="form-card">-->
-<!--  <label fxFlex="12">Busca por vagas</label>-->
-<!--  <input type="text" fxFlex="grow" placeholder="(número de seleção, cargo, tipo de contrato, etc)">-->
-<!--  <mat-icon class="search-card" fxFlex="auto">search</mat-icon>-->
-<!--</mat-card>-->
+<mat-card>
+  <div layout='row' flex>
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" fxLayoutAlign.xs="start start">
 
-<mat-card class="opening-card">
-  <div fxLayout="row" fxLayoutAlign="start center">
+      <div layout='row' flex>
+        <div flex>
+          <span *ngIf="plano.nome === 'Starter'" class="iconify" data-icon="si-glyph:paper-plane" data-inline="false"
+                style='font-size: 60px; color: rgb(204, 204, 204)'></span>
 
-    <span *ngIf="plano.nome === 'Starter'" class="iconify" data-icon="si-glyph:paper-plane" data-inline="false" style='font-size: 60px; color: rgb(204, 204, 204)'></span>
+          <span *ngIf="plano.nome === 'Pro'" class="iconify" data-icon="fa:plane" data-inline="false"
+                style='font-size: 60px; color: rgb(204, 204, 204)'></span>
 
-    <span *ngIf="plano.nome === 'Pro'" class="iconify" data-icon="fa:plane" data-inline="false" style='font-size: 60px; color: rgb(204, 204, 204)'></span>
+          <span *ngIf="plano.nome === 'Enterprise'" class="iconify" data-icon="mdi-rocket" data-inline="false"
+                style='font-size: 75px; color: rgb(204, 204, 204)'></span>
+        </div>
 
-    <span *ngIf="plano.nome === 'Enterprise'" class="iconify" data-icon="mdi-rocket" data-inline="false" style='font-size: 75px; color: rgb(204, 204, 204)'></span>
-    <span class="opening-text text-center">
-      <p class="top">Valor</p>
-      <p class="bottom">{{plano.valorMensal | currency:'BRL':true}}</p>
-    </span>
+        <div style='color:rebeccapurple' flex>
+          <p style='font-size: 12px; text-transform: uppercase; margin-bottom: 0;'>
+            Valor
+          </p>
+          <p style='font-size: 16px; font-weight: bold; margin-top: 8px !important;'>
+            {{plano.valorMensal | currency:'BRL':true}}
+          </p>
+        </div>
+      </div>
 
-    <span class="opening-text two">
-      <p class="top">Avaliações por mês</p>
-      <p class="bottom">{{plano.quantidadeAvaliacoes}}</p>
-    </span>
+      <div style='color:rebeccapurple' flex>
+        <p style='font-size: 12px; text-transform: uppercase; margin-bottom: 0;'>
+          Avaliações por mês
+        </p>
+        <p style='font-size: 16px; font-weight: bold; margin-top: 8px !important;'>
+          {{plano.quantidadeAvaliacoes}}
+        </p>
+      </div>
 
-    <span class="opening-text three">
-      <p class="top">Valor por avaliação excedente</p>
-      <p class="bottom">{{plano.valorAvaliacoesExcedentes | currency:'BRL':true}}</p>
-    </span>
-  </div>
+      <div style='color:rebeccapurple' flex>
+        <p style='font-size: 12px; text-transform: uppercase; margin-bottom: 0;'>
+          Valor por avaliação excedente
+        </p>
+        <p style='font-size: 16px; font-weight: bold; margin-top: 8px !important;'>
+          {{plano.valorAvaliacoesExcedentes | currency:'BRL':true}}
+        </p>
+      </div>
 
-  <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
-    <button mat-flat-button class="btn-cyan" (click)='openSimulator(plano)'>Simule</button>
+      <span flex hide-xs hide-sm></span>
+    </div>
+
+
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <button mat-flat-button class="btn-cyan" (click)='openSimulator(plano)'>Simule</button>
+    </div>
   </div>
 </mat-card>
 

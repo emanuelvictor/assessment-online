@@ -228,7 +228,7 @@ mat-sidenav,
   box-shadow: none !important;
 }
 
-.opening-card.mat-card:not([class*='mat-elevation-z']) {
+.mat-card:not([class*='mat-elevation-z']) {
   -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
@@ -275,8 +275,8 @@ mat-sidenav,
 }
 
 .opening-card {
-  height: 110px;
-  margin-bottom: 25px !important;
+  //height: 110px;
+  //margin-bottom: 25px !important;
 }
 
 .inprogress-card {
