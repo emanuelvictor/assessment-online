@@ -1,7 +1,6 @@
 package online.meavalia.application.payment;
 
 import br.com.moip.auth.Authentication;
-import br.com.moip.auth.BasicAuth;
 import br.com.moip.auth.OAuth;
 import br.com.moip.models.Setup;
 import lombok.Getter;
@@ -58,60 +57,18 @@ public class PaymentGatewayConfiguration {
     private String logoUri;
 
     /**
-     *
-     */
-    @Getter
-    @Value("${gateway-payment.gateway-uri}")
-    private String gatewayUri;
-
-//    /**
-//     * TODO que isso?
-//     */
-//    @Getter
-//    @Value("${gateway-payment.expiration-days}")
-//    private Integer expirationDays;
-
-    /**
-     *
-     */
-    @Getter
-    @Value("${gateway-payment.checkout-boleto-uri}")
-    private String checkoutBoletoUri;
-
-
-//    /**
-//     * @return
-//     */
-//    @Bean
-//    public Moip.API getApi() {
-////        return new Moip.API(this.basicClient());
-//    }
-
-    /**
      * @return
      */
     @Bean
     public Setup getSetup() {
         final Authentication auth = this.getAccessTokenAuthentication();
-
         return getSetup(auth, environment);
     }
 
     /**
-     * @return
-     */
-    private Setup basicSetup() {
-        final Authentication auth = new BasicAuth(token, key);
-
-        return getSetup(auth, environment);
-    }
-
-    /**
-     *
      * @param auth
      * @param environment
      * @return
-     *
      */
     private static Setup getSetup(final Authentication auth, final String environment) {
         if (environment.compareTo("PRODUCTION") == 0) {
@@ -120,7 +77,6 @@ public class PaymentGatewayConfiguration {
             return new Setup().setAuthentication(auth).setEnvironment(Setup.Environment.SANDBOX);
         }
     }
-
 
     /**
      * @return
