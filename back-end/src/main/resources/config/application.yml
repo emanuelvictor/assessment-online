@@ -90,7 +90,7 @@ info:
   app:
     name: ${spring.application.name}
     module: ${spring.application.name}
-    version: @project.version@-@project.build-number@
+    version: @project.version@
     environment: @spring.profiles.active@
     url: ${spring.application.name}.online
 
