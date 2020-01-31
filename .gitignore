@@ -7,6 +7,7 @@ i# See http://help.github.com/ignore-files/ for more about ignoring files.
 /.idea/**
 /back-end/src/main/resources/public/
 # dependencies
+/back-end/src/main/resources/public/**
 /back-end/log
 /front-end/node_modules
 /front-end/functions/node_modules
