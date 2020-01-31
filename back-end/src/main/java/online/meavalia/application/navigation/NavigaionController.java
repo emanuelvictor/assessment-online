@@ -18,6 +18,16 @@ public class NavigaionController {
         return "index";
     }
 
+    @RequestMapping("/tests")
+    String testsWithBar() {
+        return "redirect:/tests/";
+    }
+
+    @RequestMapping("/tests/")
+    String tests() {
+        return "tests/index";
+    }
+
     @RequestMapping("/sistema")
     String sistemaWithBar() {
         return "redirect:/sistema/";
@@ -58,8 +68,8 @@ public class NavigaionController {
         return resources("/favicon.**", new ClassPathResource("public/assets/favicon.ico"));
     }
 
-    @Bean
-    public RouterFunction<ServerResponse> ssl() {
-        return resources("/.well-known/acme-challenge/**", new ClassPathResource("ssl/"));
-    }
+//    @Bean
+//    public RouterFunction<ServerResponse> ssl() {
+//        return resources("/.well-known/acme-challenge/**", new ClassPathResource("ssl/"));
+//    }
 }
