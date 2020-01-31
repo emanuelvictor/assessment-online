@@ -168,7 +168,7 @@ public class IPaymentGatewayRepositoryImpl implements IPaymentGatewayRepository 
             final Map<String, Object> product = payloadFactory(
                     value("product", item.getDispositivo().getNome()),
                     value("quantity", 1),
-                    value("detail", "Licença para Uso de Software - Avalia Ae!"),
+                    value("detail", "Licença para Uso de Software - MEAvalia!"),
                     value("price", item.getPrecoComAcressimo().setScale(2, BigDecimal.ROUND_HALF_EVEN).toString().replace(".", ""))
             );
 

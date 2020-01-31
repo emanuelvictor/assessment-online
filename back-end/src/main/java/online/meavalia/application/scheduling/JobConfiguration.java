@@ -51,7 +51,7 @@ public class JobConfiguration {
     public Trigger trigger(final JobDetail job) {
         return TriggerBuilder.newTrigger()
 //                .startNow()
-                // Inicia a meia noite
+//                // Inicia a meia noite
                 .startAt(DateBuilder.evenHourDate(getMeiaNoite()))
                 .forJob(job)
                 .withIdentity(LocalJob.class.getName())

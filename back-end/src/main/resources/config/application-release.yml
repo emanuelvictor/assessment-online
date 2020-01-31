@@ -32,3 +32,36 @@ management:
   endpoint:
     logfile:
       external-file: /var/log/${spring.application.name}.log
+
+#GATEWAY PAYMENT
+gateway-payment:
+  app-id: APP-SANSUK55YKYP
+  access-token: 2f0d650daa264e3d80b933c18163f9ae_v2
+  # access-token: ab50b7b83b2446249ea5045d0586ebbf_v2  secret: gerado pelo oauth: fb000268955440378d38db5991510c4c
+  token: 94GKKSQFAMOX2IUWVZNOVFCMC0R4ZTXC
+  key: LGQCTHM1GQOC8AO6ACWJTBVPDXUPO6ZNGYC2C1QF
+  environment: PRODUCTION
+  logo-uri: https://www.meavalia.online/sistema/assets/images/logo.png
+  expiration-days: 1
+  public-key: -----BEGIN PUBLIC KEY-----
+              MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi5zWrjK1ruFm8LEbD+dD
+              Rrvw77pNe6iv0uu9bh/teDGxzoF5S08rZ2iNwEx3pLTap8ebUTtAl5ubAdXr3To3
+              vFf83w1JU+ynFf9hYiasJ2mmF+XajhhmktPX2l1O4DYxqfpABL1Tfvk1cpzDeSdg
+              rEkXaRcyWKASZgwY5aKoJiadkf4iMfIXrwP1sngZyLGEHXk7C5n+xirPSRVcby04
+              /zR3H7s9lXNyoVO1PDFGnYMbQIwR4HMPwV1+cj1Nz5uZTA9zhRznpKgsmP/jZoao
+              AI7Vc8WMbLgBch+hEaK6SNZ7jb8u/kYznLR3Yfjcm851PfC7mYNUuRYQVVKyS0m1
+              cwIDAQAB
+              -----END PUBLIC KEY-----
+
+# BASE 64 PARA AUTHORIZAÇÃO Basic OTRHS0tTUUZBTU9YMklVV1ZaTk9WRkNNQzBSNFpUWEM6TEdRQ1RITTFHUU9DOEFPNkFDV0pUQlZQRFhVUE82Wk5HWUMyQzFRRg==
+#  {
+#    "id": "APP-SANSUK55YKYP",
+#    "website": "http://www.meavalia.online",
+#    "accessToken": "2f0d650daa264e3d80b933c18163f9ae_v2",
+#    "description": "Provando seu valor",
+#    "name": "MEAvalia",
+#    "secret": "5da6a7a14cc94bca97e3414674536074",
+#    "redirectUri": "http://www.meavalia.online",
+#    "createdAt": "2020-01-31T14:16:37.785Z",
+#    "updatedAt": "2020-01-31T14:16:37.785Z"
+#  }
