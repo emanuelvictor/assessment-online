@@ -1,5 +1,7 @@
 #Configuração destinada ao ambiente de desenvolvimento, os demais perfis hedarão deste
 spring:
+  session:
+    timeout: 999999999
   application.name: meavalia
   jmx.enabled: false
 
@@ -35,8 +37,9 @@ spring:
       hibernate.id.new_generator_mappings: true
       hibernate.order_by.default_null_ordering: last
 
-      hibernate.cache.use_second_level_cache: false
-      hibernate.cache.region.factory_class: com.hazelcast.hibernate.HazelcastLocalCacheRegionFactory
+      hibernate.cache.use_second_level_cache: true
+      hibernate.cache.region.factory_class: com.hazelcast.hibernate.HazelcastLocalCacheRegionFactory #TODO alterar
+      #TODO inserir provider do cache de segundo nível TODO
       hibernate.cache.use_query_cache: true
       hibernate.javax.cache.missing_cache_strategy: create
 

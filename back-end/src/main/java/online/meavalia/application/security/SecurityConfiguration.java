@@ -37,8 +37,13 @@ import java.time.Duration;
 @EnableWebFluxSecurity
 @RequiredArgsConstructor
 @EnableReactiveMethodSecurity
-@EnableRedisWebSession(maxInactiveIntervalInSeconds = Application.TIMEOUT_SESSION)
+@EnableRedisWebSession(maxInactiveIntervalInSeconds = SecurityConfiguration.MAX_TIMEOUT_SESSION)
 public class SecurityConfiguration {
+
+    /**
+     * Tempo máximo da duração da sessão
+     */
+    static final int MAX_TIMEOUT_SESSION = 999999999;
 
     /**
      *
@@ -87,7 +92,7 @@ public class SecurityConfiguration {
         resolver.setCookieName(Application.TOKEN_NAME);
         resolver.addCookieInitializer(responseCookieBuilder -> {
             responseCookieBuilder.httpOnly(false);
-            responseCookieBuilder.maxAge(Duration.ofSeconds(Application.TIMEOUT_SESSION));
+            responseCookieBuilder.maxAge(Duration.ofSeconds(MAX_TIMEOUT_SESSION));
         });
         return resolver;
     }

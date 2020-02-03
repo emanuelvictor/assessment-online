@@ -1,5 +1,6 @@
 package online.meavalia.infrastructure.hibernate;
 
+import com.hazelcast.cache.HazelcastCachingProvider;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
@@ -52,10 +53,13 @@ public class HibernateConfig {
 //        https://github.com/hazelcast/hazelcast-hibernate5/issues/44
         properties.put(Environment.USE_SECOND_LEVEL_CACHE, env.getProperty("spring.jpa.properties.hibernate.cache.use_second_level_cache"));
         properties.put(Environment.USE_QUERY_CACHE, env.getProperty("spring.jpa.properties.hibernate.cache.use_query_cache"));
-//        properties.put(Environment.CACHE_REGION_FACTORY, env.getProperty("spring.jpa.properties.hibernate.cache.region.factory_class"));
+
+        properties.put(Environment.CACHE_REGION_FACTORY, "org.hibernate.cache.jcache.internal.JCacheRegionFactory");
+        properties.put("hibernate.javax.cache.provider", "com.hazelcast.cache.HazelcastCachingProvider");
+
 //        properties.put("hibernate.javax.cache.provider", env.getProperty("spring.jpa.properties.hibernate.javax.cache.provider"));
 
-        // Seta a estrategia de criação de novo cacha durante a nova instância
+        // Seta a estrategia de criação de novo cache durante a nova instância
         properties.put("hibernate.javax.cache.missing_cache_strategy", env.getProperty("spring.jpa.properties.hibernate.javax.cache.missing_cache_strategy"));
 
         properties.put(Environment.NON_CONTEXTUAL_LOB_CREATION, env.getProperty("spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation"));

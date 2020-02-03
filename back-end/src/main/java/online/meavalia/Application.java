@@ -36,8 +36,6 @@ public class Application  extends SpringBootServletInitializer {
 
     public static final String SCHEMA_NAME = "schema";
 
-    public static final int TIMEOUT_SESSION = 604800;
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
