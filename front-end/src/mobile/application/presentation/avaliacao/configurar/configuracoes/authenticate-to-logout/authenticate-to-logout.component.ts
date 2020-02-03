@@ -107,8 +107,7 @@ export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Resolve o loading e limpa o timeout
-    this.mobileService.clearTimeout();
+    // Remove the loading
     this.mobileService.resolve('overlayStarSyntax')
   }
 
