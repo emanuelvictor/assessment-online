@@ -1,7 +1,7 @@
 {
     "name": "MEAvalia",
     "displayName": "MEAvalia",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Provando seu valor!",
     "main": "index.js",
     "scripts": {
