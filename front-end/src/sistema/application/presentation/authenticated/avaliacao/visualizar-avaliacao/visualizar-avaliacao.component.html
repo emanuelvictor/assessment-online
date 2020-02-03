@@ -8,55 +8,47 @@
 
             <div layout='column' style='min-width: 17px'>
               <button *ngIf='activatedRoute?.snapshot?.params?.id'
-                      class='mat-headline tc-grey-500' color='primary'
-                      mat-icon-button routerLink='../' type='button'>
+                      mat-icon-button routerLink='../' type='button'
+                      class='mat-headline tc-grey-500' color='primary'>
                 <mat-icon>arrow_back</mat-icon>
               </button>
             </div>
 
-            <div flex-gt-xs="100" layout='column' layout-align="start center" layout-gt-xs="row">
-
-              <div class='push-top push-right push-bottom' flex>
-                <avatar [usuario]="{'id': avaliacao?.id , 'foto': avaliacao?.fotoPath}"></avatar>
-              </div>
-
+            <div flex-gt-xs='100' layout='column' layout-align='start center' layout-gt-xs='row'>
               <!--div foto e informações-->
-              <div flex
-                   flex-gt-xs="80"
-                   layout="row" layout-align="start center"
-                   layout-margin>
+              <div flex flex-gt-xs='80' layout-margin layout='row' layout-align='start center'>
 
                 <div flex layout='column'>
-                  <div layout='row'
-                       layout-align='start center'>
-                    <mat-icon [inline]='false' [ngStyle]="{'fill': avaliacao?.nota === 5 ? '#5ee924' : (avaliacao?.nota === 4 ? '#8fc82c' : (avaliacao?.nota === 3 ? '#d4c40d' : (avaliacao?.nota === 2 ? '#e96d01' : '#c21c1f')))}" layout-margin
-                              style='margin-left: 3px'
-                              svgIcon="assets:{{avaliacao?.nota === 5 ? 'otimo' : (avaliacao?.nota === 4 ? 'bom' : (avaliacao?.nota === 3 ? 'regular' : (avaliacao?.nota === 2 ? 'ruim' : 'pessimo')))}}">
+                  <div layout='row' layout-align='start center'>
+                    <mat-icon [inline]='false' layout-margin style='margin-left: 3px'
+                              svgIcon="assets:{{avaliacao?.nota === 5 ? 'otimo' : (avaliacao?.nota === 4 ? 'bom' : (avaliacao?.nota === 3 ? 'regular' : (avaliacao?.nota === 2 ? 'ruim' : 'pessimo')))}}"
+                              [ngStyle]="{'fill': avaliacao?.nota === 5 ? '#5ee924' : (avaliacao?.nota === 4 ? '#8fc82c' : (avaliacao?.nota === 3 ? '#d4c40d' : (avaliacao?.nota === 2 ? '#e96d01' : '#c21c1f')))}">
                     </mat-icon>
                     <h1 *ngIf='avaliacao?.avaliacoesAvaliaveis?.length'
-                        class="mat-headline tc-blue-grey-800 no-margin" flex='100'>
+                        flex='100' class='mat-headline tc-blue-grey-800 no-margin'>
                       {{avaliacao?.avaliacoesAvaliaveis[0].avaliavel.unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.nome}}
                     </h1>
                   </div>
-                  <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>
+                  <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
                     {{avaliacao?.atendentes}}
                   </h2>
-                  <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>
+                  <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
                     {{avaliacao?.data}}
                   </h2>
-                  <h2 class="mat-subheading-2 tc-blue-grey-500 no-margin" flex>
+                  <h2 class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
                     {{avaliacao?.agrupador?.feedback}}
                   </h2>
                 </div>
               </div>
             </div>
             <!--options-->
-            <div *ngIf='contaAutenticada?.isRoot || contaAutenticada?.isOperador || contaAutenticada?.isAdministrador' [@fadeInOut] flex layout='column'
-                 layout-align='start end'>
-              <button (click)='remove(avaliacao?.id)' [matTooltipPosition]="'left'" class='tc-blue-grey-900'
-                      hide-sm
-                      hide-xs
-                      mat-button matTooltip='Remover Avaliação'>
+            <div layout-align='start end'
+                 [@fadeInOut] flex layout='column'
+                 *ngIf='contaAutenticada?.isRoot || contaAutenticada?.isOperador || contaAutenticada?.isAdministrador'>
+              <button hide-sm hide-xs
+                      (click)='remove(avaliacao?.id)'
+                      mat-button matTooltip='Remover Avaliação'
+                      [matTooltipPosition]="'left'" class='tc-blue-grey-900'>
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
