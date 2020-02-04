@@ -1,11 +1,10 @@
 package online.meavalia.application.resource;
 
 import lombok.RequiredArgsConstructor;
+import online.meavalia.domain.FaturaService;
 import online.meavalia.domain.entity.assinatura.fatura.Fatura;
 import online.meavalia.domain.entity.usuario.Perfil;
-import online.meavalia.domain.FaturaService;
 import online.meavalia.infrastructure.resource.AbstractResource;
-import online.meavalia.infrastructure.suport.Utils;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
+
+import static online.meavalia.infrastructure.suport.Utils.getListFromArray;
 
 /**
  * @author Emanuel Victor
@@ -38,7 +39,7 @@ public class FaturaResource extends AbstractResource<Fatura> {
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
     Mono<Page<Fatura>> listByFilters(final String defaultFilter, final Long[] dispositivosFilter) {
-        final Page<Fatura> faturas = faturaService.listByFilters(defaultFilter, Utils.getListFromArray(dispositivosFilter), getPageable());
+        final Page<Fatura> faturas = faturaService.listByFilters(defaultFilter, getListFromArray(dispositivosFilter), getPageable());
 //        faturas.forEach(fatura -> fatura.getItens().forEach(item -> item.getFatura().setItens(null)));
         return Mono.just(faturas);
     }
@@ -64,8 +65,8 @@ public class FaturaResource extends AbstractResource<Fatura> {
      */
     @GetMapping("has-em-atraso")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
-    Mono<Boolean> hasEmAtraso() {
-        return Mono.just(faturaService.hasEmAtraso());
+    Mono<Boolean> hasEmAtraso(final Long[] dispositivosIdsFilter) {
+        return Mono.just(faturaService.hasEmAtraso(getListFromArray(dispositivosIdsFilter)));
     }
 
 }

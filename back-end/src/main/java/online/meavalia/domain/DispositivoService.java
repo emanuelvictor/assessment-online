@@ -7,6 +7,7 @@ import com.google.zxing.client.j2se.MatrixToImageConfig;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import lombok.RequiredArgsConstructor;
+import online.meavalia.application.aspect.exceptions.OverdueException;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.application.websocket.WrapperHandler;
 import online.meavalia.domain.entity.unidade.Dispositivo;
@@ -230,7 +231,7 @@ public class DispositivoService {
 
         // Não pode inserir se houverem faturas em atraso
         if (dispositivo.getId() == null && faturaService.hasEmAtraso())
-            throw new RuntimeException("Existem faturas em atraso!"); // TODO Criar exception exlcusiva para faturas em atraso
+            throw new OverdueException("Existem faturas em atraso!"); // TODO internacionalizar
 
             // Se tem id então vai para o método de atualização
         else if (dispositivo.getId() != null)

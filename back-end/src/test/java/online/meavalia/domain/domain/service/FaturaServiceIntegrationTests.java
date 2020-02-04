@@ -16,28 +16,62 @@ public class FaturaServiceIntegrationTests extends AbstractIntegrationTests {
     private FaturaService faturaService;
 
     /**
-     *
+     * TODO fazer tabela de itens
      */
     @Test
-    @Sql({"/dataset/truncate-all-tables.sql",
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
             "/dataset/plano.sql",
             "/dataset/assinatura.sql",
             "/dataset/dispositivo.sql",
-            "/dataset/fatura-em-atraso.sql"})
+            "/dataset/fatura-em-atraso.sql"
+    })
     public void hasEmAtrasoMustPass() {
         Assert.assertTrue(faturaService.hasEmAtraso());
     }
 
     /**
-     *
+     * TODO fazer tabela de itens
      */
     @Test
-    @Sql({"/dataset/truncate-all-tables.sql",
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
             "/dataset/plano.sql",
             "/dataset/assinatura.sql",
             "/dataset/dispositivo.sql",
-            "/dataset/fatura.sql"})
+            "/dataset/fatura.sql"
+    })
     public void notHasEmAtrasoMustPass() {
+        Assert.assertFalse(faturaService.hasEmAtraso());
+    }
+
+    /**
+     * TODO fazer tabela de itens
+     */
+    @Test
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/fatura-em-atraso.sql"
+    })
+    public void hasEmAtrasoByDispositivoIdMustPass() {
+        Assert.assertTrue(faturaService.hasEmAtraso());
+    }
+
+    /**
+     * TODO fazer tabela de itens
+     */
+    @Test
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/fatura.sql"
+    })
+    public void notHasEmAtrasoByDispositivoIdMustPass() {
         Assert.assertFalse(faturaService.hasEmAtraso());
     }
 

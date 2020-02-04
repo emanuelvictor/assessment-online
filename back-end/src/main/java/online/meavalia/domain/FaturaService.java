@@ -8,7 +8,6 @@ import online.meavalia.domain.entity.assinatura.FormaPagamento;
 import online.meavalia.domain.entity.assinatura.fatura.Fatura;
 import online.meavalia.domain.entity.assinatura.fatura.Item;
 import online.meavalia.domain.entity.assinatura.fatura.Status;
-import online.meavalia.domain.entity.avaliacao.Agrupador;
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.repository.AgrupadorRepository;
 import online.meavalia.domain.repository.AvaliacaoRepository;
@@ -271,13 +270,22 @@ public class FaturaService {
     }
 
     /**
-     * todo ALTERAR
+     * @param dispositivosId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public boolean hasEmAtraso(final List<Long> dispositivosId) {
+        return this.listByFilters(null, dispositivosId, null).getContent().stream().anyMatch(Fatura::isEmAtraso);
+    }
+
+    /**
      * @return
      */
     @Transactional(readOnly = true)
     public boolean hasEmAtraso() {
         return this.listByFilters(null, null, null).getContent().stream().anyMatch(Fatura::isEmAtraso);
     }
+
 
     /**
      * @param id
