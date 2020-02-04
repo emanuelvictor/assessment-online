@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.domain.entity.configuracao.Configuracao;
 import online.meavalia.domain.entity.usuario.Perfil;
-import online.meavalia.domain.service.ConfiguracaoService;
+import online.meavalia.domain.ConfiguracaoService;
 import online.meavalia.infrastructure.file.ImageUtils;
 import online.meavalia.infrastructure.resource.AbstractResource;
 import org.springframework.http.CacheControl;

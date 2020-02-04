@@ -1,4 +1,4 @@
-package online.meavalia.domain.service;
+package online.meavalia.domain;
 
 import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.entity.avaliacao.TipoAvaliacao;

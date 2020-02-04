@@ -1,4 +1,4 @@
-package online.meavalia.domain.service;
+package online.meavalia.domain;
 
 import online.meavalia.Application;
 import online.meavalia.ApplicationTest;

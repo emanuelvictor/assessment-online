@@ -3,7 +3,7 @@ package online.meavalia.application.resource;
 import lombok.AllArgsConstructor;
 import online.meavalia.domain.entity.usuario.Perfil;
 import online.meavalia.domain.entity.usuario.vinculo.Operador;
-import online.meavalia.domain.service.OperadorService;
+import online.meavalia.domain.OperadorService;
 import online.meavalia.infrastructure.resource.AbstractResource;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.entity.avaliacao.Agrupador;
 import online.meavalia.domain.entity.avaliacao.Avaliacao;
 import online.meavalia.domain.entity.usuario.Perfil;
-import online.meavalia.domain.service.AvaliacaoService;
+import online.meavalia.domain.AvaliacaoService;
 import online.meavalia.infrastructure.resource.AbstractResource;
 import online.meavalia.infrastructure.suport.Utils;
 import org.springframework.data.domain.Page;

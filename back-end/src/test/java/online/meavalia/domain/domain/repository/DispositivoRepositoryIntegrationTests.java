@@ -1,8 +1,8 @@
-package online.meavalia.domain.service.domain.repository;
+package online.meavalia.domain.domain.repository;
 
+import online.meavalia.domain.AbstractIntegrationTests;
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.repository.DispositivoRepository;
-import online.meavalia.domain.service.AbstractIntegrationTests;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

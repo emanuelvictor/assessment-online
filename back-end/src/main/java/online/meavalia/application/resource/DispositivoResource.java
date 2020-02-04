@@ -1,12 +1,10 @@
 package online.meavalia.application.resource;
 
 import lombok.RequiredArgsConstructor;
-import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import online.meavalia.domain.entity.usuario.Perfil;
-import online.meavalia.domain.repository.AssinaturaRepository;
-import online.meavalia.domain.service.DispositivoService;
+import online.meavalia.domain.DispositivoService;
 import online.meavalia.infrastructure.resource.AbstractResource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.CacheControl;

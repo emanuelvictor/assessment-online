@@ -42,13 +42,13 @@
               </div>
             </div>
             <!--options-->
-            <div layout-align='start end'
-                 [@fadeInOut] flex layout='column'
+            <div layout-align='start end' [@fadeInOut] flex layout='column'
                  *ngIf='contaAutenticada?.isRoot || contaAutenticada?.isOperador || contaAutenticada?.isAdministrador'>
-              <button hide-sm hide-xs
-                      (click)='remove(avaliacao?.id)'
-                      mat-button matTooltip='Remover Avaliação'
-                      [matTooltipPosition]="'left'" class='tc-blue-grey-900'>
+              <button class='tc-blue-grey-900'
+                      mat-button hide-sm hide-xs
+                      [matTooltipPosition]="'left'"
+                      matTooltip='Remover Avaliação'
+                      (click)='remove(avaliacao?.id)'>
                 <mat-icon>delete</mat-icon>
               </button>
             </div>

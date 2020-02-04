@@ -1,11 +1,11 @@
-package online.meavalia.domain.service.domain.service;
+package online.meavalia.domain.domain.service;
 
 import online.meavalia.application.tenant.TenantIdentifierResolver;
+import online.meavalia.domain.AbstractIntegrationTests;
 import online.meavalia.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
-import online.meavalia.domain.service.AbstractIntegrationTests;
-import online.meavalia.domain.service.DispositivoService;
+import online.meavalia.domain.DispositivoService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -209,7 +209,6 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
         dispositivoService.insertDispositivo(dispositivo);
 
     }
-
 
     /**
      *

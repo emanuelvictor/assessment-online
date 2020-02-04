@@ -1,4 +1,4 @@
-package online.meavalia.domain.service;
+package online.meavalia.domain;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -37,10 +37,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -134,6 +131,15 @@ public class DispositivoService {
         dispositivo = this.loadDispositivo(dispositivo, true);
 
         return dispositivo;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public Optional<Dispositivo> findById(final long id) {
+        return this.dispositivoRepository.findById(id);
     }
 
     /**
