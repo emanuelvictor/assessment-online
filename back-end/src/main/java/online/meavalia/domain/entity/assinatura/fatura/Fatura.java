@@ -162,6 +162,14 @@ public class Fatura extends AbstractEntity implements Serializable {
     }
 
     /**
+     * @param id
+     */
+    public Fatura(final long id, final @NotNull @Length(max = 150) String tenant) {
+        super(id);
+        this.tenant = tenant;
+    }
+
+    /**
      * @param tenant
      * @param assinatura
      */

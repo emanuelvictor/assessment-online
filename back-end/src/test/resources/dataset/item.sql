@@ -1,0 +1,28 @@
+SET search_path TO public;
+
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (1, 1, 1, '2019-12-19 16:34:58.784065', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (2, 2, 2, '2019-12-19 16:34:58.894996', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (3, 3, 3, '2019-12-19 16:34:58.914553', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (4, 4, 4, '2019-12-19 16:34:58.941549', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (5, 5, 5, '2019-12-19 16:34:58.960409', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (6, 6, 6, '2019-12-19 16:34:58.978634', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (7, 7, 7, '2019-12-19 16:34:58.999431', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (8, 8, 8, '2019-12-19 16:34:59.016118', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (9, 9, 9, '2019-12-19 16:34:59.031446', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (10, 10, 10, '2019-12-19 16:34:59.042476', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (11, 11, 11, '2019-12-19 16:34:59.056907', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (12, 12, 12, '2019-12-19 16:34:59.075872', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (13, 13, 13, '2019-12-19 16:34:59.096268', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (14, 14, 14, '2019-12-19 16:34:59.108931', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (15, 15, 15, '2019-12-19 16:34:59.128826', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (16, 16, 16, '2019-12-19 16:34:59.154736', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (17, 17, 17, '2019-12-19 16:34:59.17379', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (18, 18, 18, '2019-12-19 16:34:59.193948', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (19, 19, 19, '2019-12-19 16:34:59.213914', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (20, 20, 20, '2019-12-19 16:34:59.235416', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (21, 21, 21, '2019-12-19 16:34:59.257564', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (22, 22, 22, '2019-12-19 16:34:59.278527', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (23, 23, 23, '2019-12-19 16:34:59.299926', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (24, 24, 24, '2019-12-19 16:34:59.318802', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (25, 25, 25, '2019-12-19 16:34:59.334123', NULL, 1500, 0);
+INSERT INTO public.item (id, fatura_id, dispositivo_id, created, updated, total_avaliacoes, avaliacoes_excedentes) VALUES (26, 26, 26, '2019-12-19 16:34:59.347888', NULL, 1500, 0);

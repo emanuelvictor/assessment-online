@@ -8,22 +8,23 @@ import online.meavalia.domain.entity.assinatura.FormaPagamento;
 import online.meavalia.domain.entity.assinatura.fatura.Fatura;
 import online.meavalia.domain.entity.assinatura.fatura.Item;
 import online.meavalia.domain.entity.assinatura.fatura.Status;
+import online.meavalia.domain.entity.generic.AbstractEntity;
 import online.meavalia.domain.entity.unidade.Dispositivo;
-import online.meavalia.domain.repository.AgrupadorRepository;
-import online.meavalia.domain.repository.AvaliacaoRepository;
-import online.meavalia.domain.repository.DispositivoRepository;
-import online.meavalia.domain.repository.FaturaRepository;
+import online.meavalia.domain.entity.usuario.Conta;
+import online.meavalia.domain.repository.*;
 import online.meavalia.infrastructure.payment.IPaymentGatewayRepository;
 import online.meavalia.infrastructure.tenant.TenantDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static online.meavalia.Application.DEFAULT_TENANT_ID;
 
@@ -35,38 +36,47 @@ public class FaturaService {
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(FaturaService.class);
+
     /**
      *
      */
     private final CupomService cupomService;
+
+    /**
+     *
+     */
+    private final ContaRepository contaRepository;
+
     /**
      *
      */
     private final FaturaRepository faturaRepository;
+
     /**
      *
      */
     private final AssinaturaService assinaturaService;
-    /**
-     *
-     */
-    private final AgrupadorRepository agrupadorRepository;
+
     /**
      *
      */
     private final AvaliacaoRepository avaliacaoRepository;
+
     /**
      *
      */
     private final TenantDetailsService tenantDetailsService;
+
     /**
      *
      */
     private final DispositivoRepository dispositivoRepository;
+
     /**
      *
      */
     private final TenantIdentifierResolver tenantIdentifierResolver;
+
     /**
      *
      */
@@ -258,24 +268,42 @@ public class FaturaService {
     }
 
     /**
+     * @param defaultFilter String
+     * @param pageable      pageable
+     * @return Page<Unidade>
+     */
+    private Page<Dispositivo> listDispositivosByFilters(final String defaultFilter, final Pageable pageable) {
+
+        final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
+
+        final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
+
+        return this.dispositivoRepository.listByFilters(usuarioId, conta.getPerfil().name(), defaultFilter, this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(), pageable);
+
+    }
+
+    /**
      * @param defaultFilter
+     * @param pageable
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Page<Fatura> listByFilters(final String defaultFilter, final Pageable pageable) {
+        final List<Long> dispositivosId = this.listDispositivosByFilters(null, null).getContent().stream().map(AbstractEntity::getId).collect(Collectors.toList());
+        return this.listByFilters(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(), dispositivosId, pageable);
+    }
+
+    /**
+     * @param defaultFilter
+     * @param dispositivosId
      * @param pageable
      * @return
      */
     @Transactional(readOnly = true)
     public Page<Fatura> listByFilters(final String defaultFilter, final List<Long> dispositivosId, final Pageable pageable) {
         if (this.tenantIdentifierResolver.resolveCurrentTenantIdentifier().equals(DEFAULT_TENANT_ID))
-            return this.faturaRepository.listByFilters(null, dispositivosId, pageable);
+            return this.faturaRepository.listByFilters(null , dispositivosId.isEmpty() ? null : dispositivosId, new PageRequest(0,1000000000));
         return this.faturaRepository.listByFilters(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(), dispositivosId, pageable);
-    }
-
-    /**
-     * @param dispositivosId
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public boolean hasEmAtraso(final List<Long> dispositivosId) {
-        return this.listByFilters(null, dispositivosId, null).getContent().stream().anyMatch(Fatura::isEmAtraso);
     }
 
     /**
@@ -283,9 +311,8 @@ public class FaturaService {
      */
     @Transactional(readOnly = true)
     public boolean hasEmAtraso() {
-        return this.listByFilters(null, null, null).getContent().stream().anyMatch(Fatura::isEmAtraso);
+        return this.listByFilters(null, null).getContent().stream().anyMatch(Fatura::isEmAtraso);
     }
-
 
     /**
      * @param id

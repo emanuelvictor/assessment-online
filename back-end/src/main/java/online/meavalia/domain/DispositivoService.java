@@ -103,7 +103,7 @@ public class DispositivoService {
     public Page<Dispositivo> listDispositivosByFilters(final String defaultFilter, final Pageable pageable) {
 
         final Conta conta = contaRepository.findByEmailIgnoreCase(tenantIdentifierResolver.getUsername());
-//
+
         final Long usuarioId = conta.isRoot() ? null : conta.getUsuario().getId();
 
         return this.dispositivoRepository.listByFilters(usuarioId, conta.getPerfil().name(), defaultFilter, this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(), pageable);

@@ -54,7 +54,7 @@ public class Item extends AbstractEntity implements Serializable {
     private Integer avaliacoesExcedentes;
 
     /**
-     *
+     * Total permitido
      */
     @Column
     private Integer totalAvaliacoes;

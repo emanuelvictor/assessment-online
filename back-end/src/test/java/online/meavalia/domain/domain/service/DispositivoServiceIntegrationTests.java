@@ -2,10 +2,10 @@ package online.meavalia.domain.domain.service;
 
 import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.domain.AbstractIntegrationTests;
+import online.meavalia.domain.DispositivoService;
 import online.meavalia.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
-import online.meavalia.domain.DispositivoService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -226,7 +226,7 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
             "/dataset/unidade.sql",
             "/dataset/unidade-tipo-avaliacao.sql",
             "/dataset/unidade-tipo-avaliacao-dispositivo.sql",
-            "/dataset/fatura.sql",
+            "/dataset/fatura.sql", "/dataset/item.sql",
             "/dataset/update-sequences.sql"
     })
     public void insertDispositivoMustPass() {

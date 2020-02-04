@@ -28,7 +28,10 @@ public interface FaturaRepository extends JpaRepository<Fatura, Long> {
      * @param pageable
      * @return
      */
-    @Query("FROM Fatura fatura WHERE " +
+    @Query("SELECT new Fatura(fatura.id, fatura.tenant) FROM Fatura fatura " +
+            "       LEFT OUTER JOIN Item item ON (item.fatura.id = fatura.id)" +
+            "       LEFT OUTER JOIN Dispositivo dispositivo ON (dispositivo.id = item.dispositivo.id)" +
+            "WHERE " +
             "(" +
             "   ((:tenant IS NOT NULL AND fatura.tenant = :tenant) OR :tenant IS NULL)" +
             "   AND " +
@@ -36,11 +39,11 @@ public interface FaturaRepository extends JpaRepository<Fatura, Long> {
             "      (" +
             "           :dispositivosIds IS NOT NULL AND " +
             "           (" +
-            "               fatura.id IN (SELECT item.fatura.id FROM Item item WHERE (item.dispositivo.id IN :dispositivosIds))" +
+            "               dispositivo.id IN (:dispositivosIds)" +
             "           )" +
             "       ) OR :dispositivosIds IS NULL " +
             "   )" +
-            ")")
+            ") GROUP BY fatura.id, fatura.tenant")
     Page<Fatura> listByFilters(@Param("tenant") final String tenant, @Param("dispositivosIds") final List<Long> dispositivosIds, /* @Param("defaultFilter") String defaultFilter, */final Pageable pageable);
 
     /**

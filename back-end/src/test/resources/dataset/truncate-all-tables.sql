@@ -3,6 +3,8 @@ TRUNCATE public.plano CASCADE;
 TRUNCATE public.assinatura CASCADE;
 TRUNCATE public.dispositivo CASCADE;
 TRUNCATE public.tipo_avaliacao CASCADE;
+TRUNCATE public.conta CASCADE;
+TRUNCATE public.usuario CASCADE;
 TRUNCATE public.pessoa CASCADE;
 TRUNCATE public.endereco CASCADE;
 TRUNCATE public.unidade CASCADE;
