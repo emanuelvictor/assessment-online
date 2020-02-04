@@ -105,8 +105,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacao.id AND av5.nota = 5 ) " +
             "   WHERE " +
             "   (   " +
-            "       ((agrupador IS NOT NULL AND agrupador.ativo IS TRUE) OR agrupador IS NULL)" +
-            "       AND " +
             "       (" +
             "           (" +
             "               ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
@@ -237,8 +235,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacao.id AND av5.nota = 5 ) " +
             "   WHERE (" +
             "   (   " +
-            "       ((agrupador IS NOT NULL AND agrupador.ativo IS TRUE) OR agrupador IS NULL)" +
-            "       AND " +
             "       (" +
             "           (" +
             "               ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
@@ -306,8 +302,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacao.id AND av5.nota = 5 ) " +
             "   WHERE " +
             "   ( " +
-            "       ((agrupador IS NOT NULL AND agrupador.ativo IS TRUE) OR agrupador IS NULL)" +
-            "       AND " +
             "       usuario.id = :usuarioId" +
             "   )" +
             "GROUP BY usuario.id, usuario.nome, usuario.conta.email, usuario.thumbnailPath, usuario.avatarPath, usuario.fotoPath, usuario.documento"

@@ -271,7 +271,7 @@ public class FaturaService {
     }
 
     /**
-     *
+     * todo ALTERAR
      * @return
      */
     @Transactional(readOnly = true)

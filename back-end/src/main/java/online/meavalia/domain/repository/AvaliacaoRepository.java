@@ -35,10 +35,6 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
             "   WHERE " +
             "   (   " +
             "       (" +
-            "           agrupador.ativo = true" +
-            "       )" +
-            "       AND " +
-            "       (" +
             "           (" +
             "               ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
             "               AND " +

@@ -55,8 +55,6 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacao.id AND av5.nota = 5) " +
             "   WHERE" +
             "   (   " +
-            "       ((agrupador IS NOT NULL AND agrupador.ativo IS TRUE) OR agrupador IS NULL)" +
-            "       AND " +
             "       (" +
             "           (" +
             "               ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
@@ -250,8 +248,6 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacao.id AND av5.nota = 5) " +
             "   WHERE (" +
             "   (   " +
-            "       ((agrupador IS NOT NULL AND agrupador.ativo IS TRUE) OR agrupador IS NULL)" +
-            "       AND " +
             "       (" +
             "           (" +
             "               ((cast(:dataInicioFilter AS date)) IS NOT NULL OR (cast(:dataTerminoFilter AS date)) IS NOT NULL) " +
@@ -317,8 +313,6 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "       LEFT OUTER JOIN Avaliacao av5 ON (av5.id = avaliacao.id AND av5.nota = 5) " +
             "   WHERE " +
             "   ( " +
-            "       ((agrupador IS NOT NULL AND agrupador.ativo IS TRUE) OR agrupador IS NULL)" +
-            "       AND " +
             "       unidade.id = :unidadeId" +
             "   )" +
             "GROUP BY unidade.id, unidade.nome, unidade.documento, endereco.id"

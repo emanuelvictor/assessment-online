@@ -39,11 +39,11 @@ public class Agrupador extends AbstractEntity implements Serializable {
     @Column(length = 300)
     private String feedback;
 
-    /**
-     *
-     */
-    @NotNull
-    @Column(nullable = false)
-    private boolean ativo = true;
+//    /**
+//     *
+//     */
+//    @NotNull
+//    @Column(nullable = false)
+//    private boolean ativo = true;
 
 }
