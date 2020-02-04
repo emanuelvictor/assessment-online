@@ -388,26 +388,4 @@ public class FaturaService {
         return this.faturaRepository.save(fatura);
     }
 
-    /**
-     * @param fatura
-     */
-    public Fatura verifyInativos(final Fatura fatura) {
-        // Verifica se há faturas vencidas para o dispositivo
-        final List<Fatura> faturas = this.faturaRepository.listByFilters(fatura.getTenant(), null, null).getContent();
-        if (faturas.stream().noneMatch(Fatura::isEmAtraso)) {
-            this.saveAll();
-        }
-
-        return fatura;
-    }
-
-    /**
-     *
-     */
-    @Transactional
-    public void saveAll() {
-        final List<Agrupador> agrupadores = agrupadorRepository.listAllInativos();
-        agrupadores.forEach(agrupador -> agrupador.setAtivo(true));
-        agrupadorRepository.saveAll(agrupadores);
-    }
 }
