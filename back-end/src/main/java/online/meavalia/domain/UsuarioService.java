@@ -14,8 +14,11 @@ import online.meavalia.domain.entity.usuario.Usuario;
 import online.meavalia.domain.entity.usuario.vinculo.Avaliavel;
 import online.meavalia.domain.repository.*;
 import online.meavalia.infrastructure.file.ImageUtils;
+import online.meavalia.infrastructure.hibernate.multitenancy.FlywaySchemaInitializer;
 import org.apache.commons.io.IOUtils;
 import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.configuration.Configuration;
+import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -255,7 +259,7 @@ public class UsuarioService {
 
         return usuarioRepository.save(usuario);
     }
-
+    private final FlywaySchemaInitializer flywaySchemaInitializer;
     /**
      * Método público que cria a conta do usuário como administrador
      *
@@ -287,8 +291,7 @@ public class UsuarioService {
         usuario.validateDocumento();
 
         // Cria o novo esquema
-        flyway.setSchemas(usuario.getConta().getEsquema());
-        flyway.migrate();
+        flywaySchemaInitializer.migrate(usuario.getConta().getEsquema());
 
         // Cria o contexto de segurança
         final SecurityContext securityContext = createSecurityContextByUserDetails(usuario.getConta());

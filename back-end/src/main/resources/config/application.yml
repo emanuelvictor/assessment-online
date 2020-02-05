@@ -3,7 +3,6 @@ spring:
   session:
     timeout: 999999999
   application.name: meavalia
-  jmx.enabled: false
 
   #DATA SOURCE
   datasource:
