@@ -270,7 +270,7 @@ public class FaturaService {
     /**
      * @param defaultFilter String
      * @param pageable      pageable
-     * @return Page<Unidade>
+     * @return Page<Dispositivo>
      */
     private Page<Dispositivo> listDispositivosByFilters(final String defaultFilter, final Pageable pageable) {
 

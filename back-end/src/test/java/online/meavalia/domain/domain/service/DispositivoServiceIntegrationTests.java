@@ -9,7 +9,10 @@ import online.meavalia.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
+
+import java.util.List;
 
 public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests {
 
@@ -242,6 +245,76 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
         Assert.assertNotNull(dispositivo.getId());
         Assert.assertNotNull(dispositivo.getTenant());
         Assert.assertEquals(tenantIdentifierResolver.resolveCurrentTenantIdentifier(), dispositivo.getTenant());
+
+    }
+
+    /**
+     *
+     */
+    @Test
+    @WithUserDetails("rodrigo.pfontes@bubblemixtea.com.br")
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/cidade.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/tipo-avaliacao.sql",
+            "/dataset/conta.sql",
+            "/dataset/pessoa.sql",
+            "/dataset/usuario.sql",
+            "/dataset/endereco.sql",
+            "/dataset/unidade.sql",
+            "/dataset/operador.sql",
+            "/dataset/unidade-tipo-avaliacao.sql",
+            "/dataset/unidade-tipo-avaliacao-dispositivo.sql",
+            "/dataset/fatura.sql",
+            "/dataset/item.sql",
+            "/dataset/update-sequences.sql"
+    })
+    public void listDispositivosByOperadorMustPass() {
+        tenantIdentifierResolver.setUsername("rodrigo.pfontes@bubblemixtea.com.br");
+
+        final List<Dispositivo> dispositivos = dispositivoService.listDispositivosByFilters(null, null).getContent();
+
+        Assert.assertNotNull(dispositivos);
+        Assert.assertFalse(dispositivos.isEmpty());
+        Assert.assertEquals(3, dispositivos.size());
+
+    }
+
+    /**
+     *
+     */
+    @Test
+    @WithUserDetails("contato@bubblemixtea.com.br")
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/cidade.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/tipo-avaliacao.sql",
+            "/dataset/conta.sql",
+            "/dataset/pessoa.sql",
+            "/dataset/usuario.sql",
+            "/dataset/endereco.sql",
+            "/dataset/unidade.sql",
+            "/dataset/operador.sql",
+            "/dataset/unidade-tipo-avaliacao.sql",
+            "/dataset/unidade-tipo-avaliacao-dispositivo.sql",
+            "/dataset/fatura.sql",
+            "/dataset/item.sql",
+            "/dataset/update-sequences.sql"
+    })
+    public void listDispositivosByAdministradorMustPass() {
+        tenantIdentifierResolver.setUsername("contato@bubblemixtea.com.br");
+
+        final List<Dispositivo> dispositivos = dispositivoService.listDispositivosByFilters(null, null).getContent();
+
+        Assert.assertNotNull(dispositivos);
+        Assert.assertFalse(dispositivos.isEmpty());
+        Assert.assertEquals(32, dispositivos.size());
 
     }
 
