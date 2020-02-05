@@ -52,11 +52,11 @@ public class HibernateConfig {
         properties.put(Environment.USE_SECOND_LEVEL_CACHE, env.getProperty("spring.jpa.properties.hibernate.cache.use_second_level_cache"));
         properties.put(Environment.USE_QUERY_CACHE, env.getProperty("spring.jpa.properties.hibernate.cache.use_query_cache"));
 
-//        properties.put(Environment.CACHE_REGION_FACTORY, env.getProperty("spring.jpa.properties.hibernate.cache.region.factory_class"));
-//        properties.put("hibernate.cache.redisson.config", env.getProperty("spring.jpa.properties.hibernate.cache.redisson.file-config"));
+        properties.put(Environment.CACHE_REGION_FACTORY, env.getProperty("spring.jpa.properties.hibernate.cache.region.factory_class"));
+        properties.put("hibernate.cache.redisson.config", env.getProperty("spring.jpa.properties.hibernate.cache.redisson.file-config"));
 
-        properties.put(Environment.CACHE_REGION_FACTORY, "org.hibernate.cache.jcache.internal.JCacheRegionFactory");
-        properties.put("hibernate.javax.cache.provider", "com.hazelcast.cache.HazelcastCachingProvider");
+//        properties.put(Environment.CACHE_REGION_FACTORY, "org.hibernate.cache.jcache.internal.JCacheRegionFactory");
+//        properties.put("hibernate.javax.cache.provider", "com.hazelcast.cache.HazelcastCachingProvider");
 
         // Seta a estrategia de criação de novo cache durante a nova instância
         properties.put("hibernate.javax.cache.missing_cache_strategy", env.getProperty("spring.jpa.properties.hibernate.javax.cache.missing_cache_strategy"));
