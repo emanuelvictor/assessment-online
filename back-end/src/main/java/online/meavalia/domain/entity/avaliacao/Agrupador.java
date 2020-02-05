@@ -25,7 +25,7 @@ public class Agrupador extends AbstractEntity implements Serializable {
      * todo NÃO ROLOU, muitos dados
      */
     @Transient
-    public List<Avaliacao> avaliacoes;
+    private List<Avaliacao> avaliacoes;
 
     /**
      *

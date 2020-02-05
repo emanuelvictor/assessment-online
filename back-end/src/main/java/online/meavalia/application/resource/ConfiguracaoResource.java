@@ -101,10 +101,11 @@ public class ConfiguracaoResource extends AbstractResource<Configuracao> {
      */
     @GetMapping(value = "background", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Mono<ResponseEntity<byte[]>> findBackgroundByCliente(final @RequestParam(value = "cliente", required = false) String cliente) {
+        final byte[] bytes = this.configuracaoService.findBackground(cliente == null ? tenantIdentifierResolver.resolveCurrentTenantIdentifier() : cliente);
         return Mono.just(
                 ResponseEntity.ok()
-                        .cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-                        .body(this.configuracaoService.findBackground(cliente == null ? tenantIdentifierResolver.resolveCurrentTenantIdentifier() : cliente))
+                        .cacheControl(CacheControl.maxAge(30, TimeUnit.SECONDS))
+                        .body(bytes)
         );
     }
 

@@ -74,7 +74,7 @@ export class LoginComponent {
               this.logoImage = environment.endpoint + './configuracoes/logomarca?cliente=' + this.cliente + '?nocache=' + identifier;
 
               if (this.cliente === 'public') {
-                this.backgroundPath = environment.endpoint + 'assets/images/banner.png';
+                this.backgroundPath = environment.endpoint + 'assets/images/banner-1920x720.svg';
               } else {
                 this.backgroundPath = environment.endpoint + './configuracoes/background?cliente=' + this.cliente + '?nocache=' + identifier;
               }

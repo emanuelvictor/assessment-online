@@ -194,9 +194,12 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
             "/dataset/assinatura.sql",
             "/dataset/dispositivo.sql",
             "/dataset/tipo-avaliacao.sql",
+            "/dataset/conta.sql",
             "/dataset/pessoa.sql",
+            "/dataset/usuario.sql",
             "/dataset/endereco.sql",
             "/dataset/unidade.sql",
+            "/dataset/operador.sql",
             "/dataset/unidade-tipo-avaliacao.sql",
             "/dataset/unidade-tipo-avaliacao-dispositivo.sql",
             "/dataset/fatura-em-atraso.sql"
@@ -216,6 +219,7 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
     /**
      *
      */
+    @WithUserDetails("rodrigo.pfontes@bubblemixtea.com.br")
     @Test
     @Sql({
             "/dataset/truncate-all-tables.sql",
@@ -224,15 +228,20 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
             "/dataset/assinatura.sql",
             "/dataset/dispositivo.sql",
             "/dataset/tipo-avaliacao.sql",
+            "/dataset/conta.sql",
             "/dataset/pessoa.sql",
+            "/dataset/usuario.sql",
             "/dataset/endereco.sql",
             "/dataset/unidade.sql",
+            "/dataset/operador.sql",
             "/dataset/unidade-tipo-avaliacao.sql",
             "/dataset/unidade-tipo-avaliacao-dispositivo.sql",
             "/dataset/fatura.sql", "/dataset/item.sql",
             "/dataset/update-sequences.sql"
     })
     public void insertDispositivoMustPass() {
+
+        tenantIdentifierResolver.setUsername("rodrigo.pfontes@bubblemixtea.com.br");
 
         final Dispositivo dispositivo = new Dispositivo();
         dispositivo.setNome("nome");
@@ -273,6 +282,7 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
             "/dataset/update-sequences.sql"
     })
     public void listDispositivosByOperadorMustPass() {
+
         tenantIdentifierResolver.setUsername("rodrigo.pfontes@bubblemixtea.com.br");
 
         final List<Dispositivo> dispositivos = dispositivoService.listDispositivosByFilters(null, null).getContent();
@@ -308,6 +318,7 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
             "/dataset/update-sequences.sql"
     })
     public void listDispositivosByAdministradorMustPass() {
+
         tenantIdentifierResolver.setUsername("contato@bubblemixtea.com.br");
 
         final List<Dispositivo> dispositivos = dispositivoService.listDispositivosByFilters(null, null).getContent();

@@ -16,9 +16,6 @@ import online.meavalia.domain.repository.*;
 import online.meavalia.infrastructure.file.ImageUtils;
 import online.meavalia.infrastructure.hibernate.multitenancy.FlywaySchemaInitializer;
 import org.apache.commons.io.IOUtils;
-import org.flywaydb.core.Flyway;
-import org.flywaydb.core.api.configuration.Configuration;
-import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -48,16 +44,6 @@ import static org.springframework.security.web.server.context.WebSessionServerSe
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
-
-    /**
-     *
-     */
-    private final Flyway flyway;
-
-    /**
-     *
-     */
-    private final RecaptchaService recaptchaService;
 
     /**
      *
@@ -82,12 +68,12 @@ public class UsuarioService {
     /**
      *
      */
-    private final AvaliavelService avaliavelService;
+    private final RecaptchaService recaptchaService;
 
     /**
      *
      */
-    private final DispositivoRepository dispositivoRepository;
+    private final AvaliavelService avaliavelService;
 
     /**
      *
@@ -97,17 +83,23 @@ public class UsuarioService {
     /**
      *
      */
-    private final AssinaturaRepository assinaturaRepository;
+    private final TipoAvaliacaoService tipoAvaliacaoService;
+
 
     /**
      *
      */
-    private final TipoAvaliacaoService tipoAvaliacaoService;
+    private final DispositivoRepository dispositivoRepository;
 
     /**
      *
      */
     private final ConfiguracaoRepository configuracaoRepository;
+
+    /**
+     *
+     */
+    private final FlywaySchemaInitializer flywaySchemaInitializer;
 
     /**
      *
@@ -259,7 +251,7 @@ public class UsuarioService {
 
         return usuarioRepository.save(usuario);
     }
-    private final FlywaySchemaInitializer flywaySchemaInitializer;
+
     /**
      * Método público que cria a conta do usuário como administrador
      *
@@ -364,10 +356,10 @@ public class UsuarioService {
 
         final Configuracao configuracao = new Configuracao();
         try {
-            final URL backgroundImageURL = getClass().getResource("../../../../../public/sistema/assets/images/banner.png");
+            final URL backgroundImageURL = getClass().getResource("../../../../../public/assets/images/banner-1920x720.png");
             if (backgroundImageURL != null)
                 configuracao.setBackgroundImage(IOUtils.toByteArray(backgroundImageURL));
-            final URL logoURL = getClass().getResource("../../../../../public/sistema/assets/images/logomarca.png");
+            final URL logoURL = getClass().getResource("../../../../../public/assets/images/logomarca-400x119.png");
             if (logoURL != null)
                 configuracao.setLogo(IOUtils.toByteArray(logoURL));
         } catch (IOException e) {

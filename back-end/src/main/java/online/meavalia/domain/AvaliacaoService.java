@@ -98,7 +98,7 @@ public class AvaliacaoService {
      */
     public Mono<Agrupador> save(final Agrupador agrupador) {
 
-        final Dispositivo dispositivo = this.dispositivoRepository.findById(agrupador.avaliacoes.get(0).avaliacoesAvaliaveis.get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo().getId()).orElseThrow(() -> new RuntimeException("Dispositivo não  encontrado"));
+        final Dispositivo dispositivo = this.dispositivoRepository.findById(agrupador.getAvaliacoes().get(0).getAvaliacoesAvaliaveis().get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo().getId()).orElseThrow(() -> new RuntimeException("Dispositivo não  encontrado"));
 
         Assert.isTrue(dispositivo.isEnabled(), "Dispositivo desativado!");
 

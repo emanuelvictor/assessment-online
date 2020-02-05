@@ -29,7 +29,7 @@ public class Avaliacao extends AbstractEntity implements Serializable {
      *
      */
     @OneToMany(targetEntity = AvaliacaoAvaliavel.class, mappedBy = "avaliacao", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<AvaliacaoAvaliavel> avaliacoesAvaliaveis;
+    private List<AvaliacaoAvaliavel> avaliacoesAvaliaveis;
 
     /**
      *

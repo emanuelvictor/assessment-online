@@ -20,17 +20,35 @@ import static online.meavalia.Application.DEFAULT_TENANT_ID;
 @RequiredArgsConstructor
 public class ConfiguracaoService {
 
+    /**
+     *
+     */
     private final ContaRepository contaRepository;
 
+    /**
+     *
+     */
     private final ConfiguracaoRepository configuracaoRepository;
 
+    /**
+     *
+     */
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
+    /**
+     * @param id
+     * @param configuracao
+     * @return
+     */
     public Configuracao save(final long id, final Configuracao configuracao) {
         Assert.isTrue(configuracao.getId().equals(id) && this.getConfiguracao().getId().equals(id), "Você não pode atualizar essas configurações");
         return this.configuracaoRepository.save(configuracao);
     }
 
+    /**
+     * @param configuracao
+     * @return
+     */
     public Configuracao save(final Configuracao configuracao) {
         final Configuracao configuracaoDb = getConfiguracao();
         if (configuracaoDb != null) {
@@ -40,6 +58,10 @@ public class ConfiguracaoService {
         return this.configuracaoRepository.save(configuracao);
     }
 
+    /**
+     * @param username
+     * @return
+     */
     public StringBuffer getSchemaByUsername(final String username) {
 
         final Conta conta;
@@ -56,6 +78,10 @@ public class ConfiguracaoService {
 
     }
 
+    /**
+     * @param cliente
+     * @return
+     */
     public Configuracao getConfiguracao(final String cliente) {
         if (cliente == null || cliente.equals(DEFAULT_TENANT_ID))
             tenantIdentifierResolver.setSchema(DEFAULT_TENANT_ID);
@@ -82,6 +108,9 @@ public class ConfiguracaoService {
         return configuracao;
     }
 
+    /**
+     * @return
+     */
     public Configuracao getConfiguracao() {
         return (this.configuracaoRepository.findAll().size() > 0) ? this.configuracaoRepository.findAll().get(0) : new Configuracao();
     }
@@ -108,13 +137,17 @@ public class ConfiguracaoService {
         return this.configuracaoRepository.save(configuracao).getBackgroundImagePath();
     }
 
+    /**
+     * @param cliente
+     * @return
+     */
     public byte[] findBackground(final String cliente) {
 
         final byte[] background = getConfiguracao(cliente).getBackgroundImage();
 
         if (background == null) {
             try {
-                return IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/banner.png"));
+                return IOUtils.toByteArray(getClass().getResource("../../../../../public/assets/images/banner-1920x720.png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -123,25 +156,36 @@ public class ConfiguracaoService {
         return background;
     }
 
+    /**
+     *
+     */
     public void deleteBackground() {
         final Configuracao configuracao = this.getConfiguracao();
         configuracao.setBackgroundImage(null);
         this.configuracaoRepository.save(configuracao);
     }
 
+    /**
+     * @param fileInBytes
+     * @return
+     */
     public String saveLogomarca(final byte[] fileInBytes) {
         final Configuracao configuracao = this.getConfiguracao();
         configuracao.setLogo(fileInBytes);
         return this.configuracaoRepository.save(configuracao).getLogoPath();
     }
 
+    /**
+     * @param cliente
+     * @return
+     */
     public byte[] findLogomarca(final String cliente) {
 
         final byte[] logomarca = getConfiguracao(cliente).getLogo();
 
         if (logomarca == null) {
             try {
-                return IOUtils.toByteArray(getClass().getResource("../../../../../public/sistema/assets/images/logomarca.png"));
+                return IOUtils.toByteArray(getClass().getResource("../../../../../public/assets/images/logomarca-400x119.png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -150,6 +194,9 @@ public class ConfiguracaoService {
         return logomarca;
     }
 
+    /**
+     *
+     */
     public void deleteLogomarca() {
         final Configuracao configuracao = this.getConfiguracao();
         configuracao.setLogo(null);

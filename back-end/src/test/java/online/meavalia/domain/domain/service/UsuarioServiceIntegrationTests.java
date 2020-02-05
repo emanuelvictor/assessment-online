@@ -4,6 +4,7 @@ import online.meavalia.domain.AbstractIntegrationTests;
 import online.meavalia.domain.UsuarioService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 public class UsuarioServiceIntegrationTests extends AbstractIntegrationTests {
 
@@ -11,6 +12,9 @@ public class UsuarioServiceIntegrationTests extends AbstractIntegrationTests {
     private UsuarioService usuarioService;
 
     @Test
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+    })
     public void bootstrapTemplate() {
         usuarioService.bootstrapTemplate();
     }
