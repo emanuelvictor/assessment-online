@@ -302,7 +302,7 @@ public class FaturaService {
     @Transactional(readOnly = true)
     public Page<Fatura> listByFilters(final String defaultFilter, final List<Long> dispositivosId, final Pageable pageable) {
         if (this.tenantIdentifierResolver.resolveCurrentTenantIdentifier().equals(DEFAULT_TENANT_ID))
-            return this.faturaRepository.listByFilters(null , dispositivosId.isEmpty() ? null : dispositivosId, new PageRequest(0,1000000000));
+            return this.faturaRepository.listByFilters(null , dispositivosId.isEmpty() ? null : dispositivosId, pageable);
         return this.faturaRepository.listByFilters(this.tenantIdentifierResolver.resolveCurrentTenantIdentifier(), dispositivosId, pageable);
     }
 

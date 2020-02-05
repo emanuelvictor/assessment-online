@@ -55,7 +55,7 @@ public class FaturaServiceIntegrationTests extends AbstractIntegrationTests {
      *
      */
     @Test
-    @WithUserDetails("rodrigo.pfontes@bubblemixtea.com.br")
+    @WithUserDetails("dhiego@bubblemixtea.com.br")
     @Sql({
             "/dataset/truncate-all-tables.sql",
             "/dataset/cidade.sql",
@@ -75,6 +75,7 @@ public class FaturaServiceIntegrationTests extends AbstractIntegrationTests {
             "/dataset/item.sql"
     })
     public void notHasEmAtrasoMustPass() {
+        tenantIdentifierResolver.setUsername("dhiego@bubblemixtea.com.br");
         Assert.assertFalse(faturaService.hasEmAtraso());
     }
 
@@ -82,7 +83,7 @@ public class FaturaServiceIntegrationTests extends AbstractIntegrationTests {
      *
      */
     @Test
-    @WithUserDetails("rodrigo.pfontes@bubblemixtea.com.br")
+    @WithUserDetails("contato@bubblemixtea.com.br")
     @Sql({
             "/dataset/truncate-all-tables.sql",
             "/dataset/cidade.sql",
@@ -101,35 +102,9 @@ public class FaturaServiceIntegrationTests extends AbstractIntegrationTests {
             "/dataset/fatura-em-atraso.sql",
             "/dataset/item-em-atraso.sql"
     })
-    public void hasEmAtrasoByDispositivoIdMustPass() {
+    public void hasInOverdueFromAdministratorMustPass() {
+        tenantIdentifierResolver.setUsername("contato@bubblemixtea.com.br");
         Assert.assertTrue(faturaService.hasEmAtraso());
-    }
-
-    /**
-     *
-     */
-    @Test
-    @WithUserDetails("rodrigo.pfontes@bubblemixtea.com.br")
-    @Sql({
-            "/dataset/truncate-all-tables.sql",
-            "/dataset/cidade.sql",
-            "/dataset/plano.sql",
-            "/dataset/assinatura.sql",
-            "/dataset/dispositivo.sql",
-            "/dataset/tipo-avaliacao.sql",
-            "/dataset/conta.sql",
-            "/dataset/pessoa.sql",
-            "/dataset/usuario.sql",
-            "/dataset/endereco.sql",
-            "/dataset/unidade.sql",
-            "/dataset/operador.sql",
-            "/dataset/unidade-tipo-avaliacao.sql",
-            "/dataset/unidade-tipo-avaliacao-dispositivo.sql",
-            "/dataset/fatura.sql",
-            "/dataset/item.sql"
-    })
-    public void notHasEmAtrasoByDispositivoIdMustPass() {
-        Assert.assertFalse(faturaService.hasEmAtraso());
     }
 
 }
