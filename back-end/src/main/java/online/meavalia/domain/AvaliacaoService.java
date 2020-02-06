@@ -21,7 +21,6 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -100,7 +99,8 @@ public class AvaliacaoService {
 
         final Dispositivo dispositivo = this.dispositivoRepository.findById(agrupador.getAvaliacoes().get(0).getAvaliacoesAvaliaveis().get(0).getAvaliavel().getUnidadeTipoAvaliacaoDispositivo().getDispositivo().getId()).orElseThrow(() -> new RuntimeException("Dispositivo não  encontrado"));
 
-        Assert.isTrue(dispositivo.isEnabled(), "Dispositivo desativado!");
+        if (!dispositivo.isEnabled())
+            throw new AccessDeniedException("Dispositivo desativado!");
 
         if (dispositivo.getNumeroSerie() == null)
             throw new AccessDeniedException("Este dispositivo está sem número de série vinculado no sistema WEB!");

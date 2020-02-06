@@ -1,5 +1,6 @@
 package online.meavalia.domain.domain.service;
 
+import online.meavalia.application.aspect.exceptions.AccessDeniedException;
 import online.meavalia.domain.AbstractIntegrationTests;
 import online.meavalia.domain.AvaliacaoService;
 import online.meavalia.domain.AvaliavelService;
@@ -39,7 +40,7 @@ public class AvaliacaoServiceIntegrationTests extends AbstractIntegrationTests {
     /**
      *
      */
-    @Test
+    @Test(expected = AccessDeniedException.class)
     @WithUserDetails("contato@bubblemixtea.com.br")
     @Sql({
             "/dataset/truncate-all-tables.sql",
@@ -61,9 +62,7 @@ public class AvaliacaoServiceIntegrationTests extends AbstractIntegrationTests {
             "/dataset/item.sql",
             "/dataset/update-sequences.sql"
     })
-    public void insertAvaliacaoMustPass() {
-
-        final Dispositivo dispositivo = dispositivoService.findById(1L).orElseThrow();
+    public void insertAvaliacaoWithDispositivoWithoutSerialNumberMustFail() {
 
         final Avaliacao avaliacao = new Avaliacao();
         avaliacao.setNota(4);
@@ -79,7 +78,52 @@ public class AvaliacaoServiceIntegrationTests extends AbstractIntegrationTests {
 
         avaliacao.setAvaliacoesAvaliaveis(List.of(avaliacaoAvaliavel));
 
-//        this.avaliacaoService.save(agrupador).subscribe();
+        this.avaliacaoService.save(agrupador).subscribe();
+
+    }
+
+    /**
+     *
+     */
+    @Test(expected = AccessDeniedException.class)
+    @WithUserDetails("contato@bubblemixtea.com.br")
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/cidade.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/tipo-avaliacao.sql",
+            "/dataset/conta.sql",
+            "/dataset/pessoa.sql",
+            "/dataset/usuario.sql",
+            "/dataset/endereco.sql",
+            "/dataset/unidade.sql",
+            "/dataset/operador.sql",
+            "/dataset/unidade-tipo-avaliacao.sql",
+            "/dataset/unidade-tipo-avaliacao-dispositivo.sql",
+            "/dataset/avaliavel.sql",
+            "/dataset/fatura.sql",
+            "/dataset/item.sql",
+            "/dataset/update-sequences.sql"
+    })
+    public void insertAvaliacaoWithDispositivoDisabledMustFail() {
+
+        final Avaliacao avaliacao = new Avaliacao();
+        avaliacao.setNota(4);
+
+        final Agrupador agrupador = new Agrupador();
+
+        agrupador.setAvaliacoes(List.of(avaliacao));
+        avaliacao.setAgrupador(agrupador);
+
+        final AvaliacaoAvaliavel avaliacaoAvaliavel = new AvaliacaoAvaliavel();
+        avaliacaoAvaliavel.setAvaliacao(avaliacao);
+        avaliacaoAvaliavel.setAvaliavel(avaliavelService.findById(2L).orElseThrow());
+
+        avaliacao.setAvaliacoesAvaliaveis(List.of(avaliacaoAvaliavel));
+
+        this.avaliacaoService.save(agrupador).subscribe();
 
     }
 

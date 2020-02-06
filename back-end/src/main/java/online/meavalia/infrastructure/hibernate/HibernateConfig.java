@@ -1,6 +1,5 @@
 package online.meavalia.infrastructure.hibernate;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.infrastructure.hibernate.multitenancy.MultiTenantConnectionProviderImpl;
@@ -22,19 +21,37 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class HibernateConfig {
 
-    private final org.springframework.core.env.Environment env;
-
+    /**
+     *
+     */
     private final DataSource dataSource;
 
-    private final MultiTenantConnectionProviderImpl multiTenantConnectionProviderImpl;
+    /**
+     *
+     */
+    private final org.springframework.core.env.Environment env;
 
+    /**
+     *
+     */
     private final TenantIdentifierResolver tenantIdentifierResolver;
 
+    /**
+     *
+     */
+    private final MultiTenantConnectionProviderImpl multiTenantConnectionProviderImpl;
+
+    /**
+     * @return
+     */
     @Bean
     JpaVendorAdapter jpaVendorAdapter() {
         return new HibernateJpaVendorAdapter();
     }
 
+    /**
+     * @return
+     */
     @Bean
     @Primary
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -82,12 +99,21 @@ public class HibernateConfig {
         return em;
     }
 
+    /**
+     *
+     */
     @Configuration
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     public static class TransactionManager {
 
+        /**
+         *
+         */
         private final LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean;
 
+        /**
+         * @return
+         */
         @Primary
         @Bean
         public PlatformTransactionManager transactionManager() {
@@ -95,6 +121,5 @@ public class HibernateConfig {
             transactionManager.setEntityManagerFactory(localContainerEntityManagerFactoryBean.getObject());
             return transactionManager;
         }
-
     }
 }
