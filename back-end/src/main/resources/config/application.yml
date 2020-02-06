@@ -98,8 +98,8 @@ info:
 
 google:
   recaptcha:
-    secret-key: 6LcjQaAUAAAAAGIUtmfjnQO_Z-rA0HVzbTH7SNAu
-    site-key: 6LcjQaAUAAAAAJWQ4vLEi0WzBGpII2IvHB6iLLpk
+    secret-key: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
+    site-key: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
     urltoverify: https://www.google.com/recaptcha/api/siteverify
 
 #GATEWAY PAYMENT

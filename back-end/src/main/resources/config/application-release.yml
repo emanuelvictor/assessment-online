@@ -33,6 +33,12 @@ management:
     logfile:
       external-file: /var/log/${spring.application.name}.log
 
+google:
+  recaptcha:
+    secret-key: 6LcjQaAUAAAAAGIUtmfjnQO_Z-rA0HVzbTH7SNAu
+    site-key: 6LcjQaAUAAAAAJWQ4vLEi0WzBGpII2IvHB6iLLpk
+    urltoverify: https://www.google.com/recaptcha/api/siteverify
+
 #GATEWAY PAYMENT
 gateway-payment:
   app-id: APP-SANSUK55YKYP

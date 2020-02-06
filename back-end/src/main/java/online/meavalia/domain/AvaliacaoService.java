@@ -113,14 +113,14 @@ public class AvaliacaoService {
 
         if (agrupador.getRecap() != null) {
             this.validateRecaptcha(agrupador);
-
             tenantIdentifierResolver.setSchema(dispositivo.getTenant());
             return Mono.just(saveInner(preSave(agrupador)));
         } else
             return ReactiveSecurityContextHolder.getContext()
                     .map(SecurityContext::getAuthentication)
-                    .switchIfEmpty(Mono.empty())
-                    .map(authentication -> saveInner(preSave(agrupador)));
+                    .switchIfEmpty(Mono.error(() -> new AccessDeniedException("Usuário não autenticado")))
+                    .map(authentication -> saveInner(preSave(agrupador)))
+                    .doOnError(Throwable::printStackTrace);
     }
 
     /**

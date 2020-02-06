@@ -231,4 +231,98 @@ public class AvaliacaoServiceIntegrationTests extends AbstractIntegrationTests {
 
     }
 
+    /**
+     *
+     */
+    @Test(expected = AccessDeniedException.class)
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/cidade.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/tipo-avaliacao.sql",
+            "/dataset/conta.sql",
+            "/dataset/pessoa.sql",
+            "/dataset/usuario.sql",
+            "/dataset/endereco.sql",
+            "/dataset/unidade.sql",
+            "/dataset/operador.sql",
+            "/dataset/unidade-tipo-avaliacao.sql",
+            "/dataset/unidade-tipo-avaliacao-dispositivo.sql",
+            "/dataset/avaliavel.sql",
+            "/dataset/fatura.sql",
+            "/dataset/item.sql",
+            "/dataset/update-sequences.sql"
+    })
+    public void insertAvaliacaoWithoutAuthenticatedUserMustFail() {
+
+        final Avaliacao avaliacao = new Avaliacao();
+        avaliacao.setNota(4);
+
+        final Agrupador agrupador = new Agrupador();
+
+        agrupador.setAvaliacoes(List.of(avaliacao));
+        avaliacao.setAgrupador(agrupador);
+
+        final AvaliacaoAvaliavel avaliacaoAvaliavel = new AvaliacaoAvaliavel();
+        avaliacaoAvaliavel.setAvaliacao(avaliacao);
+        avaliacaoAvaliavel.setAvaliavel(avaliavelService.findById(4L).orElseThrow());
+
+        avaliacao.setAvaliacoesAvaliaveis(List.of(avaliacaoAvaliavel));
+
+        this.avaliacaoService.save(agrupador).block();
+
+    }
+
+    /**
+     *
+     */
+    @Test
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/cidade.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/tipo-avaliacao.sql",
+            "/dataset/conta.sql",
+            "/dataset/pessoa.sql",
+            "/dataset/usuario.sql",
+            "/dataset/endereco.sql",
+            "/dataset/unidade.sql",
+            "/dataset/operador.sql",
+            "/dataset/unidade-tipo-avaliacao.sql",
+            "/dataset/unidade-tipo-avaliacao-dispositivo.sql",
+            "/dataset/avaliavel.sql",
+            "/dataset/fatura.sql",
+            "/dataset/item.sql",
+            "/dataset/update-sequences.sql"
+    })
+    public void insertAvaliacaoWithRecaptchaMustPass() {
+
+        final Avaliacao avaliacao = new Avaliacao();
+        avaliacao.setNota(4);
+
+        final Agrupador agrupador = new Agrupador();
+        agrupador.setRecap("123456789");
+
+        agrupador.setAvaliacoes(List.of(avaliacao));
+        avaliacao.setAgrupador(agrupador);
+
+        final AvaliacaoAvaliavel avaliacaoAvaliavel = new AvaliacaoAvaliavel();
+        avaliacaoAvaliavel.setAvaliacao(avaliacao);
+        avaliacaoAvaliavel.setAvaliavel(avaliavelService.findById(4L).orElseThrow());
+
+        avaliacao.setAvaliacoesAvaliaveis(List.of(avaliacaoAvaliavel));
+
+        this.avaliacaoService.save(agrupador).subscribe(result -> {
+            Assert.assertNotNull(result.getId());
+            Assert.assertNotNull(result.getAvaliacoes());
+            result.getAvaliacoes().forEach(Assert::assertNotNull);
+            result.getAvaliacoes().stream().map(AbstractEntity::getId).forEach(Assert::assertNotNull);
+        });
+
+    }
+
 }
