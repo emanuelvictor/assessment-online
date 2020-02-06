@@ -2,6 +2,7 @@ package online.meavalia.domain;
 
 import lombok.RequiredArgsConstructor;
 import online.meavalia.application.aspect.exceptions.AccessDeniedException;
+import online.meavalia.application.aspect.exceptions.OverdueException;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.domain.entity.assinatura.fatura.Fatura;
 import online.meavalia.domain.entity.avaliacao.Agrupador;
@@ -107,7 +108,8 @@ public class AvaliacaoService {
 
         // Verifica se há faturas vencidas para o dispositivo
         final List<Fatura> faturas = this.faturaService.listByFilters(dispositivo.getTenant(), List.of(dispositivo.getId()), null).getContent();
-        Assert.isTrue(faturas.stream().noneMatch(Fatura::isEmAtraso), "Faturas em atraso!");
+        if (faturas.stream().anyMatch(Fatura::isEmAtraso))
+            throw new OverdueException("Faturas em atraso!");
 
         if (agrupador.getRecap() != null) {
             this.validateRecaptcha(agrupador);

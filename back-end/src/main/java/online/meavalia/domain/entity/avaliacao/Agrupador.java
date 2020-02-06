@@ -1,6 +1,7 @@
 package online.meavalia.domain.entity.avaliacao;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import online.meavalia.domain.entity.generic.AbstractEntity;
 import org.hibernate.envers.Audited;
@@ -25,6 +26,7 @@ public class Agrupador extends AbstractEntity implements Serializable {
      * todo NÃO ROLOU, muitos dados
      */
     @Transient
+    @EqualsAndHashCode.Exclude
     private List<Avaliacao> avaliacoes;
 
     /**

@@ -5,3 +5,5 @@ INSERT INTO public.avaliavel (id, created, usuario_id, unidade_tipo_avaliacao_di
 INSERT INTO public.avaliavel (id, created, usuario_id, unidade_tipo_avaliacao_dispositivo_id, ativo) VALUES (2, NOW(), 83, 14, true);
 
 INSERT INTO public.avaliavel (id, created, usuario_id, unidade_tipo_avaliacao_dispositivo_id, ativo) VALUES (3, NOW(), 217, 10, true);
+
+INSERT INTO public.avaliavel (id, created, usuario_id, unidade_tipo_avaliacao_dispositivo_id, ativo) VALUES (4, NOW(), 217, 18, true);
