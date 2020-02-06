@@ -104,8 +104,7 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item *ngIf='authenticatedUser?.isAdministrador'
-                   [ngClass]="{'menu-active': rlaFatura.isActive}"
+    <mat-list-item [ngClass]="{'menu-active': rlaFatura.isActive}"
                    class='push-bottom' #rlaFatura='routerLinkActive'
                    routerLink='/authenticated/faturas' routerLinkActive>
       <div class='pad-left' flex layout='row'>

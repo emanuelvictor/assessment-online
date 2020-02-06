@@ -35,7 +35,7 @@ public class FaturaResource extends AbstractResource<Fatura> {
      * @return Mono<Page < Cupom>>
      */
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<Page<Fatura>> listByFilters(final String defaultFilter) {
         return Mono.just(faturaService.listByFilters(defaultFilter, getPageable()));
     }
@@ -45,7 +45,7 @@ public class FaturaResource extends AbstractResource<Fatura> {
      * @return Mono<Optional < Cupom>>
      */
     @GetMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('" + Perfil.ADMINISTRADOR_VALUE + "')")
+    @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     Mono<Optional<Fatura>> findById(@PathVariable final long id) {
         final Optional<Fatura> fatura = faturaService.findById(id);
         fatura.orElseThrow().getItens().forEach(item -> {
