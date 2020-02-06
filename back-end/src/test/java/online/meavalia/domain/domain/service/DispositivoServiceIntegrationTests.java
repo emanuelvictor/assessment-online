@@ -63,7 +63,7 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
     @Test(expected = java.lang.IllegalArgumentException.class)
     @Sql({"/dataset/truncate-all-tables.sql", "/dataset/plano.sql", "/dataset/assinatura.sql", "/dataset/dispositivo.sql"})
     public void updateStatusAtivoWithDispositivoDesativadoMustFail() {
-        final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(3L);
+        final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(2L);
         Assert.assertFalse(dispositivo.isEnabled());
         dispositivoService.updateStatusAtivo(dispositivo.getId());
     }
@@ -74,10 +74,10 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
     @Test
     @Sql({"/dataset/truncate-all-tables.sql", "/dataset/plano.sql", "/dataset/assinatura.sql", "/dataset/dispositivo.sql"})
     public void updateStatusAtivoWithDispositivoDesativadoMustPass() {
-        final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(4L);
+        final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(5L);
         Assert.assertFalse(dispositivo.isEnabled());
-        dispositivoService.updateStatusAtivo(4L);
-        final Dispositivo dispositivoToAsserts = dispositivoService.getDispositivoByIdOrCodigo(4L);
+        dispositivoService.updateStatusAtivo(5L);
+        final Dispositivo dispositivoToAsserts = dispositivoService.getDispositivoByIdOrCodigo(5L);
         Assert.assertTrue(dispositivoToAsserts.isEnabled());
     }
 
@@ -96,7 +96,7 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
     @Test(expected = java.lang.IllegalArgumentException.class)
     @Sql({"/dataset/truncate-all-tables.sql", "/dataset/plano.sql", "/dataset/assinatura.sql", "/dataset/dispositivo.sql"})
     public void updateDispositivoDesativadoMustFail() {
-        final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(3L);
+        final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(2L);
         Assert.assertFalse(dispositivo.isEnabled());
         dispositivoService.updateDispositivo(dispositivo.getId(), dispositivo);
     }
@@ -120,7 +120,7 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
     })
     public void saveUnidadesTiposAvaliacoesDispositivoMustFail() {
 
-        final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(3L);
+        final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(2L);
         Assert.assertFalse(dispositivo.isEnabled());
 
         // Carrega as unidades tipos avaliações
@@ -152,7 +152,7 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
     })
     public void saveUnidadesTiposAvaliacoesDispositivoMustPass() {
 
-        final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(5L);
+        final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(1L);
         Assert.assertTrue(dispositivo.isEnabled());
 
         // Carrega as unidades tipos avaliações
@@ -186,6 +186,7 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
     /**
      *
      */
+    @WithUserDetails("rodrigo.pfontes@bubblemixtea.com.br")
     @Test(expected = java.lang.RuntimeException.class)
     @Sql({
             "/dataset/truncate-all-tables.sql",
@@ -202,9 +203,13 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
             "/dataset/operador.sql",
             "/dataset/unidade-tipo-avaliacao.sql",
             "/dataset/unidade-tipo-avaliacao-dispositivo.sql",
-            "/dataset/fatura-em-atraso.sql"
+            "/dataset/fatura-em-atraso.sql",
+            "/dataset/item-em-atraso.sql",
+            "/dataset/update-sequences.sql"
     })
     public void insertDispositivoMustFail() {
+
+        tenantIdentifierResolver.setUsername("rodrigo.pfontes@bubblemixtea.com.br");
 
         final Dispositivo dispositivo = new Dispositivo();
         dispositivo.setNome("nome");

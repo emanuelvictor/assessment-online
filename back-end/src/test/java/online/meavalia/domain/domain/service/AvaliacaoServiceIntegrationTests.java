@@ -153,8 +153,8 @@ public class AvaliacaoServiceIntegrationTests extends AbstractIntegrationTests {
             "/dataset/unidade-tipo-avaliacao.sql",
             "/dataset/unidade-tipo-avaliacao-dispositivo.sql",
             "/dataset/avaliavel.sql",
-            "/dataset/fatura.sql",
-            "/dataset/item.sql",
+            "/dataset/fatura-em-atraso.sql",
+            "/dataset/item-em-atraso.sql",
             "/dataset/update-sequences.sql"
     })
     public void insertAvaliacaoWithFaturasEmAtrasoMustFail() {
