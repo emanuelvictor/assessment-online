@@ -5,7 +5,7 @@
     <!--                 *ngIf='conta?.usuario?.isOperador || conta?.isAdministrador'-->
     <!--                 [opened]='isSmallScreen' class='mat-elevation-z5' mode='side'>-->
 
-    <mat-sidenav *ngIf='conta?.usuario?.isOperador || conta?.isAdministrador'
+    <mat-sidenav *ngIf='conta?.isOperador || conta?.isAdministrador'
                  [opened]='isSmallScreen' class='mat-elevation-z5' mode='side'>
 
       <logged-menu *ngIf='!conta?.root'></logged-menu>

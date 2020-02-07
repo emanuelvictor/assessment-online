@@ -12,6 +12,7 @@ import online.meavalia.domain.entity.usuario.Conta;
 import online.meavalia.domain.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
@@ -118,7 +119,7 @@ public class AvaliacaoService {
         } else
             return ReactiveSecurityContextHolder.getContext()
                     .map(SecurityContext::getAuthentication)
-                    .switchIfEmpty(Mono.error(() -> new AccessDeniedException("Usuário não autenticado")))
+                    .switchIfEmpty(Mono.defer(() -> Mono.error(new AccessDeniedException("Usuário não autenticado"))))
                     .map(authentication -> saveInner(preSave(agrupador)))
                     .doOnError(Throwable::printStackTrace);
     }
