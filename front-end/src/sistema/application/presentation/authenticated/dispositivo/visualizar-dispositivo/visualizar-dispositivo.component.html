@@ -43,16 +43,17 @@
 
                       <h1 class='mat-headline tc-blue-grey-800 no-margin' flex='100'>
                         {{dispositivo?.nome}}
-                        <span (click)='desvincular(dispositivoToCode?.numeroSerie)'
-                              class='mat-subheading-2 tc-dark-blue-grey-B65 no-margin'
-                              *ngIf='dispositivoToCode?.numeroSerie' style='cursor: pointer'
-                              [matTooltipPosition]="'below'" matTooltip='Clique para desvincular'>
+                      </h1>
+                      <h2 class='mat-subheading-2 no-margin'
+                          *ngIf='dispositivoToCode?.numeroSerie'
+                          style='color: #45c62d; cursor: pointer'
+                          (click)='desvincular(dispositivoToCode?.numeroSerie)'
+                          [matTooltipPosition]="'below'" matTooltip='Clique para desvincular'>
                         Número de série vinculado: {{dispositivoToCode?.numeroSerie}}
-                          <a style='padding-left: 0'>
+                        <a style='padding-left: 0'>
                           (Desvincular)
                         </a>
-                      </span>
-                      </h1>
+                      </h2>
                       <h2 *ngIf='dispositivo?.senha' class='mat-subheading-2 tc-blue-grey-500 no-margin' flex>
                         Senha para sair do aplicativo: {{dispositivo?.senha}}
                       </h2>
