@@ -152,8 +152,9 @@ export class VincularUnidadeComponent {
   /**
    *
    * @param {Unidade} unidade
+   * @param operadorValue
    */
-  public saveOperadorInner(unidade: Unidade): void {
+  public saveOperadorInner(unidade: Unidade, operadorValue: boolean): void {
     if (!(unidade as any).operador) {
       const operador: Operador = new Operador();
       operador.usuario = this.usuario;
@@ -164,7 +165,7 @@ export class VincularUnidadeComponent {
       (unidade as any).operador = operador;
     }
 
-    if (!(unidade as any).operadorValue) {
+    if (!operadorValue) {
       this.removeOperador.emit((unidade as any).operador);
     } else {
       this.saveOperador.emit((unidade as any).operador)

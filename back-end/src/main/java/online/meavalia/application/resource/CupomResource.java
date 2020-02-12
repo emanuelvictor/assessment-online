@@ -1,9 +1,9 @@
 package online.meavalia.application.resource;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import online.meavalia.domain.CupomService;
 import online.meavalia.domain.entity.assinatura.Cupom;
 import online.meavalia.domain.entity.usuario.Perfil;
-import online.meavalia.domain.CupomService;
 import online.meavalia.infrastructure.resource.AbstractResource;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 import java.util.Optional;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping({"**cupons",  "**public/cupons", "**sistema/cupons", "**sistema/mobile/cupons"})
 public class CupomResource extends AbstractResource<Cupom> {
 

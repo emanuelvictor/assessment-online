@@ -1,6 +1,6 @@
 package online.meavalia.application.resource;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.entity.usuario.Perfil;
 import online.meavalia.domain.entity.usuario.vinculo.Avaliavel;
 import online.meavalia.domain.AvaliavelService;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping({"**avaliaveis", "**public/avaliaveis", "**sistema/avaliaveis", "**sistema/mobile/avaliaveis"})
 public class AvaliavelResource extends AbstractResource<Avaliavel> {
 

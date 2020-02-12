@@ -10,7 +10,7 @@
         {{unidade?.endereco?.cidade ? (unidade?.endereco?.cidade?.nome + ' - ' + unidade?.endereco?.cidade?.estado?.uf) : ''}}
       </p>
 
-      <mat-slide-toggle (ngModelChange)='saveOperadorInner(unidade)' [(ngModel)]='unidade.operadorValue'
+      <mat-slide-toggle (ngModelChange)='saveOperadorInner(unidade, $event)' [(ngModel)]='unidade.operadorValue'
                         flex
                         layout-margin>
         Operador

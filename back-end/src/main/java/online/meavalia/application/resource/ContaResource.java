@@ -1,9 +1,9 @@
 package online.meavalia.application.resource;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import online.meavalia.domain.ContaService;
 import online.meavalia.domain.entity.usuario.Conta;
 import online.meavalia.domain.entity.usuario.Perfil;
-import online.meavalia.domain.ContaService;
 import online.meavalia.infrastructure.resource.AbstractResource;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,7 +13,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping({"**contas", "**public/contas", "**sistema/contas", "**sistema/mobile/contas"})
 public class ContaResource extends AbstractResource<Conta> {
 

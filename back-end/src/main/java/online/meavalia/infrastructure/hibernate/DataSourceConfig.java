@@ -1,7 +1,7 @@
 package online.meavalia.infrastructure.hibernate;
 
 import com.zaxxer.hikari.HikariDataSource;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import java.util.Objects;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DataSourceConfig {
 
     private final Environment env;

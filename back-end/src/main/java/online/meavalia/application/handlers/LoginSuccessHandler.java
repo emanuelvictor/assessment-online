@@ -3,7 +3,7 @@ package online.meavalia.application.handlers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.entity.usuario.Conta;
 import online.meavalia.domain.repository.ContaRepository;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  */
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LoginSuccessHandler implements ServerAuthenticationSuccessHandler {
 
     /**

@@ -1,8 +1,8 @@
 package online.meavalia.application.resource;
 
-import lombok.AllArgsConstructor;
-import online.meavalia.domain.entity.endereco.Cidade;
+import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.EnderecoService;
+import online.meavalia.domain.entity.endereco.Cidade;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +15,7 @@ import java.util.Optional;
  * @author Emanuel Victor
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping({"**cidades",  "**public/cidades", "**sistema/cidades", "**sistema/mobile/cidades"})
 public class EnderecoResource {
 

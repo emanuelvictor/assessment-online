@@ -2,7 +2,7 @@ package online.meavalia.application.handlers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import online.meavalia.application.aspect.Error;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  *
  */
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LoginFailureHandler implements ServerAuthenticationFailureHandler {
 
     /**

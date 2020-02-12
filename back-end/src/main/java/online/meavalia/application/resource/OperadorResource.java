@@ -1,9 +1,9 @@
 package online.meavalia.application.resource;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import online.meavalia.domain.OperadorService;
 import online.meavalia.domain.entity.usuario.Perfil;
 import online.meavalia.domain.entity.usuario.vinculo.Operador;
-import online.meavalia.domain.OperadorService;
 import online.meavalia.infrastructure.resource.AbstractResource;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,24 +13,40 @@ import reactor.core.publisher.Mono;
 import java.util.Optional;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping({"**operadores", "**public/operadores", "**sistema/operadores", "**sistema/mobile/operadores"})
 public class OperadorResource extends AbstractResource<Operador> {
 
+    /**
+     *
+     */
     private final OperadorService operadorService;
 
+    /**
+     * @param operador
+     * @return
+     */
     @PostMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Operador> save(@RequestBody final Operador operador) {
         return Mono.just(this.operadorService.save(operador));
     }
 
+    /**
+     * @param id
+     * @param operador
+     * @return
+     */
     @PutMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Operador> update(@PathVariable final long id, @RequestBody final Operador operador) {
         return Mono.just(this.operadorService.save(id, operador));
     }
 
+    /**
+     * @param id
+     * @return
+     */
     @DeleteMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.OPERADOR_VALUE + "')")
     public Mono<Boolean> delete(@PathVariable final long id) {
@@ -38,12 +54,23 @@ public class OperadorResource extends AbstractResource<Operador> {
         return Mono.just(true);
     }
 
+    /**
+     * @param id
+     * @return
+     */
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     public Mono<Optional<Operador>> findOperadorById(@PathVariable final long id) {
         return Mono.just(this.operadorService.findById(id));
     }
 
+    /**
+     * @param defaultFilter
+     * @param enderecoFilter
+     * @param usuarioId
+     * @param unidadeId
+     * @return
+     */
     @GetMapping
     @PreAuthorize("hasAnyAuthority('" + Perfil.ATENDENTE_VALUE + "')")
     Mono<Page<Operador>> listByFilters(final String defaultFilter, final String enderecoFilter, final Long usuarioId, final Long unidadeId) {
