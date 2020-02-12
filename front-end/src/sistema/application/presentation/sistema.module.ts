@@ -1,7 +1,6 @@
 import {LOCALE_ID, NgModule} from '@angular/core';
 import 'hammerjs';
 import {AuthenticationService} from '../../domain/service/authentication.service';
-import {DateAdapter} from '@angular/material';
 import {EnderecoService} from '../../domain/service/endereco.service';
 import {UsuarioService} from '../../domain/service/usuario.service';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
@@ -40,7 +39,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {SistemaComponent} from './sistema.component';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
-import {FotoLoadingComponent} from '@src/sistema/application/presentation/controls/foto-loading/foto-loading.component';
+import {DateAdapter} from "@angular/material/core";
 
 registerLocaleData(localePt, 'pt-BR');
 
