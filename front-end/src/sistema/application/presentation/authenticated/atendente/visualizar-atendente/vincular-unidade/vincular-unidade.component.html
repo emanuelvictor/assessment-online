@@ -10,14 +10,12 @@
         {{unidade?.endereco?.cidade ? (unidade?.endereco?.cidade?.nome + ' - ' + unidade?.endereco?.cidade?.estado?.uf) : ''}}
       </p>
 
-      <mat-slide-toggle (ngModelChange)='saveOperadorInner(unidade, $event)' [(ngModel)]='unidade.operadorValue'
-                        flex
-                        layout-margin>
+      <mat-slide-toggle (ngModelChange)='saveOperadorInner(unidade, $event)'
+                        [(ngModel)]='unidade.operadorValue' flex layout-margin>
         Operador
       </mat-slide-toggle>
-      <mat-slide-toggle (ngModelChange)='changeAvaliavel(unidade, $event)' [(ngModel)]='unidade.avaliavelValue'
-                        flex
-                        layout-margin>
+      <mat-slide-toggle (ngModelChange)='changeAvaliavel(unidade, $event)'
+                        [(ngModel)]='unidade.avaliavelValue' flex layout-margin>
         Avaliável
       </mat-slide-toggle>
 
@@ -26,30 +24,25 @@
       <mat-expansion-panel
           [expanded]='unidade.avaliavelValue && ((unidade?.unidadesTiposAvaliacoes?.length > 1) || unidade?.unidadesTiposAvaliacoes[0]?.unidadesTiposAvaliacoesDispositivo?.length > 1)'>
 
-        <div *ngIf='unidade?.unidadesTiposAvaliacoes?.length' flex
-             layout='column' layout-align='center start' style='width: 100%'>
-          <div *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes' layout='row'
-               style='width: 100%'>
+        <div flex style='width: 100%'
+             layout='column' layout-align='center start'
+             *ngIf='unidade?.unidadesTiposAvaliacoes?.length'>
+          <div layout='row' style='width: 100%'
+               *ngFor='let unidadeTipoAvaliacao of unidade.unidadesTiposAvaliacoes'>
 
-            <mat-list-item (click)='emit(clickUnidadeTipoAvaliacao(unidadeTipoAvaliacao)); verifyUnidade(unidade)'
-                           [ngStyle]="{'background-color': unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue ? 'aliceblue' : '#fafafa' }"
-                           disableRipple
-                           layout='column'
-                           layout-margin>
+            <mat-list-item disableRipple layout='column' layout-margin
+                           (click)='emit(clickUnidadeTipoAvaliacao(unidadeTipoAvaliacao)); verifyUnidade(unidade)'
+                           [ngStyle]="{'background-color': unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue ? 'aliceblue' : '#fafafa' }">
               <h3 matLine style='margin-left: 25px!important'>
                 {{unidadeTipoAvaliacao?.tipoAvaliacao?.nome}}
               </h3>
             </mat-list-item>
-            <div *ngIf='unidadeTipoAvaliacao?.unidadesTiposAvaliacoesDispositivo?.length > 1'
-                 [ngStyle]="{'background-color': unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue ? 'aliceblue' : '#fafafa' }"
-                 flex
-                 layout='row'>
-              <mat-checkbox
-                  (change)='emit(changeUnidadeTipoAvaliacaoDispositivoUnidadeTipoAvaliacaoDispositivoValue(unidadeTipoAvaliacaoDispositivo, unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacaoDispositivoValue)); verifyUnidadeTipoAvaliacao(unidadeTipoAvaliacao); verifyUnidade(unidade)'
-                  *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo'
-                  [(ngModel)]='unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacaoDispositivoValue'
-                  flex
-                  layout-margin>
+            <div *ngIf='unidadeTipoAvaliacao?.unidadesTiposAvaliacoesDispositivo?.length > 1' flex layout='row'
+                 [ngStyle]="{'background-color': unidadeTipoAvaliacao.unidadeTipoAvaliacaoValue ? 'aliceblue' : '#fafafa' }">
+              <mat-checkbox layout-margin flex
+                            [(ngModel)]='unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacaoDispositivoValue'
+                            *ngFor='let unidadeTipoAvaliacaoDispositivo of unidadeTipoAvaliacao.unidadesTiposAvaliacoesDispositivo'
+                            (change)='emit(changeUnidadeTipoAvaliacaoDispositivoUnidadeTipoAvaliacaoDispositivoValue(unidadeTipoAvaliacaoDispositivo, unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacaoDispositivoValue)); verifyUnidadeTipoAvaliacao(unidadeTipoAvaliacao); verifyUnidade(unidade)'>
                 {{unidadeTipoAvaliacaoDispositivo?.dispositivo?.nome}}
               </mat-checkbox>
             </div>
