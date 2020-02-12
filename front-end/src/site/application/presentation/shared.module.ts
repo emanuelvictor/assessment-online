@@ -5,7 +5,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TextMaskModule} from 'angular2-text-mask';
-import {CurrencyMaskModule} from 'ng2-currency-mask';
 // https://github.com/lentschi/ngx-ellipsis
 import {EllipsisModule} from 'ngx-ellipsis';
 // ANGULAR MATERIAL
@@ -62,7 +61,6 @@ import {CovalentChipsModule} from "@covalent/core/chips";
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     RouterModule,
     TextMaskModule,
-    CurrencyMaskModule,
 
     // ANGULAR MATERIAL
     MatAutocompleteModule,
@@ -116,7 +114,6 @@ import {CovalentChipsModule} from "@covalent/core/chips";
     ReactiveFormsModule,
     RouterModule,
     TextMaskModule,
-    CurrencyMaskModule,
     DragDropModule,
 
     // ANGULAR MATERIAL

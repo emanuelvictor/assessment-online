@@ -18,14 +18,6 @@ export class UnidadeRepository extends BaseRepository<Unidade> {
 
   /**
    *
-   * @param unidadeId
-   */
-  public getHashsByUnidadeId(unidadeId: number): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.collectionName + '/' + unidadeId + '/hashs')
-  }
-
-  /**
-   *
    * @param id
    * @param pageRequest
    */
