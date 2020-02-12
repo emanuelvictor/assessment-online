@@ -29,7 +29,7 @@
     "@angular/core": "^8.2.10",
     "@angular/flex-layout": "^8.0.0-beta.27",
     "@angular/forms": "8.2.10",
-    "@angular/http": "7.2.15",
+    "@angular/http": "^7.2.15",
     "@angular/material": "8.2.2",
     "@angular/material-moment-adapter": "8.2.2",
     "@angular/platform-browser": "8.2.10",
@@ -38,9 +38,7 @@
     "@angular/router": "8.2.10",
     "@covalent/core": "2.1.1",
     "@covalent/highlight": "2.1.1",
-    "@covalent/markdown": "2.1.1",
     "@nativescript/schematics": "0.7.2",
-    "@ngx-material-keyboard/core": "0.1.1",
     "@nicky-lenaers/ngx-scroll-to": "3.0.1",
     "@swimlane/ngx-charts": "12.0.1",
     "@types/sockjs-client": "1.1.1",
@@ -107,6 +105,6 @@
     "protractor": "5.4.2",
     "ts-node": "8.4.1",
     "tslint": "5.20.0",
-    "typescript": "~3.4.3"
+    "typescript": "~3.7.5"
   }
 }
