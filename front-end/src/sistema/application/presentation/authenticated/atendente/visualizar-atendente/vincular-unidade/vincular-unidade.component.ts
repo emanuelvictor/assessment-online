@@ -138,7 +138,7 @@ export class VincularUnidadeComponent {
    * @param unidade
    * @param avaliavelValue
    */
-  public static changeUnidadeAvaliavelValue(unidade: Unidade, avaliavelValue): [] {
+  public static changeUnidadeAvaliavelValue(unidade: Unidade, avaliavelValue: boolean): [] {
     let toEmit: any = [];
 
     for (let k = 0; k < unidade.unidadesTiposAvaliacoes.length; k++) {
@@ -174,11 +174,12 @@ export class VincularUnidadeComponent {
   /**
    *
    * @param unidade
+   * @param avaliavelValue
    */
-  public changeAvaliavel(unidade) {
-    if (unidade.avaliavelValue) {
+  public changeAvaliavel(unidade, avaliavelValue: boolean) {
+    if (avaliavelValue) {
 
-      this.emit(VincularUnidadeComponent.changeUnidadeAvaliavelValue(unidade, true))
+      this.emit(VincularUnidadeComponent.changeUnidadeAvaliavelValue(unidade, avaliavelValue))
 
     } else if (unidade.unidadesTiposAvaliacoes && unidade.unidadesTiposAvaliacoes.length) {
 
