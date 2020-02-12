@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from '@angular/material';
-import {Avaliacao} from '../../../../../domain/entity/avaliacao/avaliacao.model';
-import {CupomRepository} from '../../../../../domain/repository/cupom.repository';
+import {Avaliacao} from '@src/sistema/domain/entity/avaliacao/avaliacao.model';
+import {CupomRepository} from '@src/sistema/domain/repository/cupom.repository';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
 import {viewAnimation} from '../../../controls/utils';
-import {Cupom} from '../../../../../domain/entity/assinatura/cupom.model';
+import {Cupom} from '@src/sistema/domain/entity/assinatura/cupom.model';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'visualizar-cupom',

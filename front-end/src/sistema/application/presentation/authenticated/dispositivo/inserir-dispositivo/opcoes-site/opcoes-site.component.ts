@@ -1,14 +1,15 @@
-import {Component, ElementRef, Inject, Input, OnInit, Renderer} from '@angular/core';
+import {Component, ElementRef, Inject, Input, OnInit, Renderer2} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry, MatSnackBar} from '@angular/material';
 
 import {FormBuilder} from '@angular/forms';
-import {FileRepository} from '../../../../../../infrastructure/repository/file/file.repository';
+import {FileRepository} from '@src/sistema/infrastructure/repository/file/file.repository';
 import {viewAnimation} from '../../../../controls/utils';
-import {Dispositivo} from '../../../../../../domain/entity/avaliacao/dispositivo.model';
+import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
 import {environment} from '@src/environments/environment';
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatIconRegistry} from "@angular/material/icon";
 
 /**
  *
@@ -48,7 +49,7 @@ export class OpcoesSiteComponent implements OnInit {
   constructor(private snackBar: MatSnackBar,
               private fileRepository: FileRepository,
               @Inject(ElementRef) private element: ElementRef,
-              private renderer: Renderer, private fb: FormBuilder,
+              private renderer: Renderer2, private fb: FormBuilder,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
 
   }

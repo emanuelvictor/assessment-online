@@ -1,4 +1,3 @@
-import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -19,6 +18,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {UsuarioRepository} from '@src/sistema/domain/repository/usuario.repository';
 import {UnidadeRepository} from '@src/sistema/domain/repository/unidade.repository';
 import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatIconRegistry} from "@angular/material/icon";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
   selector: 'consultar-atendentes',

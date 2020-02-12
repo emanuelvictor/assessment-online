@@ -1,11 +1,9 @@
-import {Component, ElementRef, Inject, OnInit, Renderer} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, Renderer2} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatSnackBar} from '@angular/material';
 import {Configuracao} from '../../../../domain/entity/configuracao/configuracao.model';
 
-import {TdLoadingService} from '@covalent/core';
 import {viewAnimation} from '../../controls/utils';
 import {textMasks} from '../../controls/text-masks/text-masks';
 import {Assinatura} from '../../../../domain/entity/assinatura/assinatura.model';
@@ -15,6 +13,7 @@ import {Endereco} from '../../../../domain/entity/endereco/endereco.model';
 import {Cidade} from '../../../../domain/entity/endereco/cidade.model';
 import {environment} from '@src/environments/environment';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {TdLoadingService} from "@covalent/core/loading";
 
 /**
  *
@@ -73,7 +72,7 @@ export class AssinaturaComponent implements OnInit {
               private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
               private assinaturaRepository: AssinaturaRepository,
-              private renderer: Renderer, private fb: FormBuilder) {
+              private renderer: Renderer2, private fb: FormBuilder) {
   }
 
   /**
@@ -124,7 +123,7 @@ export class AssinaturaComponent implements OnInit {
       if (control) {
         const element = this.element.nativeElement.querySelector(control.key);
         if (element && control.invalid) {
-          this.renderer.invokeElementMethod(element, 'focus', []);
+          // this.renderer.invokeElementMethod(element, 'focus', []); TODO
           valid = false;
           if (control.errors.exception) {
             this.error(control.errors.exception)
@@ -135,7 +134,7 @@ export class AssinaturaComponent implements OnInit {
           for (const controlInner of control.controls) {
             const elementt = this.element.nativeElement.querySelector(controlInner.key);
             if (elementt && controlInner.invalid) {
-              this.renderer.invokeElementMethod(elementt, 'focus', []);
+              // this.renderer.invokeElementMethod(elementt, 'focus', []); TODO
               valid = false;
               if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception)

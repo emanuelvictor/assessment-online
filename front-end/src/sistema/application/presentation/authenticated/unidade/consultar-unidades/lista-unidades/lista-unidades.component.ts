@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
-import {UnidadeService} from '../../../../../../domain/service/unidade.service';
+import {UnidadeService} from '@src/sistema/domain/service/unidade.service';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({

@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
-import {UsuarioService} from '../../../../../domain/service/usuario.service';
-import {UnidadeService} from '../../../../../domain/service/unidade.service';
-import {Usuario} from '../../../../../domain/entity/usuario/usuario.model';
-import {AuthenticationService} from '../../../../../domain/service/authentication.service';
-import {OperadorRepository} from '../../../../../domain/repository/operador.repository';
+import {UsuarioService} from '@src/sistema/domain/service/usuario.service';
+import {UnidadeService} from '@src/sistema/domain/service/unidade.service';
+import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
+import {AuthenticationService} from '@src/sistema/domain/service/authentication.service';
+import {OperadorRepository} from '@src/sistema/domain/repository/operador.repository';
 import {viewAnimation} from '../../../controls/utils';
-import {AvaliavelRepository} from '../../../../../domain/repository/avaliavel.repository';
+import {AvaliavelRepository} from '@src/sistema/domain/repository/avaliavel.repository';
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'visualizar-cliente',

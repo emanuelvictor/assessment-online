@@ -1,5 +1,4 @@
 import 'rxjs/add/operator/distinctUntilChanged';
-import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {UnidadeService} from '@src/sistema/domain/service/unidade.service';
@@ -11,6 +10,11 @@ import {UsuarioService} from '@src/sistema/domain/service/usuario.service';
 import {TipoAvaliacaoRepository} from '@src/sistema/domain/repository/tipo-avaliacao.repository';
 import {Subject} from 'rxjs';
 import {TipoAvaliacao} from '@src/sistema/domain/entity/avaliacao/tipo-avaliacao.model';
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatIconRegistry} from "@angular/material/icon";
+import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
   selector: 'consultar-tipos-avaliacoes',
@@ -72,7 +76,6 @@ export class ConsultarTiposAvaliacoesComponent implements OnInit {
    * Bind com objeto sort
    */
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  asyncModel: string[] = [];
   defaultFilter: any;
   /**
    *

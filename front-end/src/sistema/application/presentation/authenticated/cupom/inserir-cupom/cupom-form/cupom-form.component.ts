@@ -1,14 +1,14 @@
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer2} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry, MatSnackBar} from '@angular/material';
 
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/forms';
-import {FileRepository} from '../../../../../../infrastructure/repository/file/file.repository';
-import {Cupom} from '../../../../../../domain/entity/assinatura/cupom.model';
-import {ContaService} from '../../../../../../domain/service/conta.service';
+import {FileRepository} from '@src/sistema/infrastructure/repository/file/file.repository';
+import {Cupom} from '@src/sistema/domain/entity/assinatura/cupom.model';
+import {ContaService} from '@src/sistema/domain/service/conta.service';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatIconRegistry} from "@angular/material/icon";
 
 /**
  *
@@ -58,7 +58,7 @@ export class CupomFormComponent implements OnInit {
               private contaService: ContaService,
               private fileRepository: FileRepository,
               @Inject(ElementRef) private element: ElementRef,
-              private renderer: Renderer, private fb: FormBuilder,
+              private renderer: Renderer2, private fb: FormBuilder,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
   }
 
@@ -121,7 +121,7 @@ export class CupomFormComponent implements OnInit {
       if (control) {
         const element = this.element.nativeElement.querySelector(control.key);
         if (element && control.invalid) {
-          this.renderer.invokeElementMethod(element, 'focus', []);
+          // this.renderer.invokeElementMethod(element, 'focus', []); todo
           valid = false;
           if (control.errors.exception) {
             this.error(control.errors.exception);
@@ -132,7 +132,7 @@ export class CupomFormComponent implements OnInit {
           for (const controlInner of control.controls) {
             const elementInner = this.element.nativeElement.querySelector(controlInner.key);
             if (elementInner && controlInner.invalid) {
-              this.renderer.invokeElementMethod(elementInner, 'focus', []);
+              // this.renderer.invokeElementMethod(elementInner, 'focus', []); TODO
               valid = false;
               if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception);

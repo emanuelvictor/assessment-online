@@ -2,7 +2,6 @@ import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import 'hammerjs';
 import {RouterModule} from '@angular/router';
 import {CovalentMarkdownModule} from '@covalent/markdown';
-import {CovalentChipsModule, CovalentCommonModule, CovalentFileModule, CovalentLoadingModule, CovalentMediaModule} from '@covalent/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {NoSubmitDirective} from '../controls/no-sumbit/no-submit.directive';
@@ -51,6 +50,11 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatInputModule} from "@angular/material/input";
+import {CovalentFileModule} from "@covalent/core/file";
+import {CovalentLoadingModule} from "@covalent/core/loading";
+import {CovalentChipsModule} from "@covalent/core/chips";
+import {CovalentMediaModule} from "@covalent/core/media";
+import {CovalentCommonModule} from "@covalent/core/common";
 
 /**
  *
@@ -156,7 +160,6 @@ import {MatInputModule} from "@angular/material/input";
     MatChipsModule,
     MatAutocompleteModule,
     MatProgressBarModule,
-    MatKeyboardModule,
 
     OrderModule,
     NgxChartsModule,

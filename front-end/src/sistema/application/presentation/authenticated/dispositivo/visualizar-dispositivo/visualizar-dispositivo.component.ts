@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from '@angular/material';
 import {Avaliacao} from '@src/sistema/domain/entity/avaliacao/avaliacao.model';
 import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
 import {DispositivoRepository} from '@src/sistema/domain/repository/dispositivo.repository';
@@ -14,6 +13,7 @@ import {WebSocketSubject} from 'rxjs/webSocket';
 import * as moment from 'moment';
 import 'moment/locale/pt-br'
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'visualizar-dispositivo',

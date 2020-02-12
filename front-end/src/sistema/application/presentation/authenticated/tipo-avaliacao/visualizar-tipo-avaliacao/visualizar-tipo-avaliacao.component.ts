@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from '@angular/material';
-import {Avaliacao} from '../../../../../domain/entity/avaliacao/avaliacao.model';
-import {TipoAvaliacao} from '../../../../../domain/entity/avaliacao/tipo-avaliacao.model';
-import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
+import {Avaliacao} from '@src/sistema/domain/entity/avaliacao/avaliacao.model';
+import {TipoAvaliacao} from '@src/sistema/domain/entity/avaliacao/tipo-avaliacao.model';
+import {TipoAvaliacaoRepository} from '@src/sistema/domain/repository/tipo-avaliacao.repository';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'visualizar-tipo-avaliacao',

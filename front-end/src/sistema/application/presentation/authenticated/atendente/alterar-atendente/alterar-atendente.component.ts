@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
 
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AuthenticationService} from '../../../../../domain/service/authentication.service';
-import {UsuarioService} from '../../../../../domain/service/usuario.service';
-import {Usuario} from '../../../../../domain/entity/usuario/usuario.model';
-import {TdLoadingService} from '@covalent/core';
+import {AuthenticationService} from '@src/sistema/domain/service/authentication.service';
+import {UsuarioService} from '@src/sistema/domain/service/usuario.service';
+import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {TdLoadingService} from "@covalent/core/loading";
 
 /**
  *

@@ -10,7 +10,6 @@ import {ExecutarAvaliacaoComponent} from '@src/mobile/application/presentation/a
 import {SelecionarNotaComponent} from '@src/mobile/application/presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota/selecionar-nota.component';
 import {SelecionarUnidadeComponent} from '@src/mobile/application/presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component';
 import {AuthenticateToLogoutComponent} from '@src/mobile/application/presentation/avaliacao/configurar/configuracoes/authenticate-to-logout/authenticate-to-logout.component';
-import {DateAdapter, MatGridListModule, MatRippleModule} from '@angular/material';
 import {ConclusaoViewComponent} from '@src/mobile/application/presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao-view.component';
 import {ConclusaoComponent} from '@src/mobile/application/presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao/conclusao.component';
 import {FeedbackComponent} from '@src/mobile/application/presentation/avaliacao/avaliar/executar-avaliacao/feedback/feedback.component';
@@ -22,7 +21,6 @@ import {SelecionarNotaEItensAvaliaveisComponent} from '@src/mobile/application/p
 import {ConfigurarUnidadesEAvaliacoesComponent} from '@src/mobile/application/presentation/avaliacao/configurar/configurar-unidades-e-avaliacoes.component';
 import {EllipsisModule} from 'ngx-ellipsis';
 import {ConfiguracoesComponent} from '@src/mobile/application/presentation/avaliacao/configurar/configuracoes/configuracoes.component';
-import {RecaptchaModule} from 'ng-recaptcha';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {OrderModule} from 'ngx-order-pipe';
 import {UnidadeTipoAvaliacaoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao.repository';
@@ -30,7 +28,6 @@ import {AvaliavelRepository} from '@src/sistema/domain/repository/avaliavel.repo
 import {EnderecoRepository} from '@src/sistema/domain/repository/endereco.repository';
 import {DispositivoRepository} from '@src/sistema/domain/repository/dispositivo.repository';
 import {AvaliacaoService} from '@src/sistema/domain/service/avaliacao.service';
-import {Interceptor} from '@src/sistema/application/interceptor/interceptor';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {ContaService} from '@src/sistema/domain/service/conta.service';
 import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
@@ -54,6 +51,9 @@ import localePt from '@angular/common/locales/pt';
 import {HomeComponent} from '@src/mobile/application/presentation/home/home.component';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 import {MobileInterceptor} from '@src/mobile/application/presentation/mobile-interceptor/mobile-interceptor';
+import {DateAdapter, MatRippleModule} from "@angular/material/core";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {RecaptchaModule} from "ng-recaptcha";
 
 /**
  *

@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
-import {Usuario} from '../../../../../domain/entity/usuario/usuario.model';
-import {ContaService} from '../../../../../domain/service/conta.service';
-import {TdLoadingService} from '@covalent/core';
-import {Conta} from '../../../../../domain/entity/usuario/conta.model';
-import {AuthenticationService} from '../../../../../domain/service/authentication.service';
-import {UsuarioRepository} from '../../../../../domain/repository/usuario.repository';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {AuthenticationService} from "@src/sistema/domain/service/authentication.service";
+import {UsuarioRepository} from "@src/sistema/domain/repository/usuario.repository";
+import {ContaService} from "@src/sistema/domain/service/conta.service";
+import {Usuario} from "@src/sistema/domain/entity/usuario/usuario.model";
+import {TdLoadingService} from "@covalent/core/loading";
+import {Conta} from "@src/sistema/domain/entity/usuario/conta.model";
 
 @Component({
   selector: 'inserir-cliente',

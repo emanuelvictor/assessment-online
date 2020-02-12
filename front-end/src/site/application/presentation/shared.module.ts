@@ -10,7 +10,6 @@ import {CurrencyMaskModule} from 'ng2-currency-mask';
 import {EllipsisModule} from 'ngx-ellipsis';
 // ANGULAR MATERIAL
 // COVALENT
-import {CovalentChipsModule, CovalentCommonModule, CovalentDialogsModule, CovalentExpansionPanelModule, CovalentFileModule, CovalentLoadingModule, CovalentMediaModule} from '@covalent/core';
 import {CovalentMarkdownModule} from '@covalent/markdown';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
@@ -41,6 +40,13 @@ import {DateAdapter, MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {CovalentExpansionPanelModule} from "@covalent/core/expansion-panel";
+import {CovalentDialogsModule} from "@covalent/core/dialogs";
+import {CovalentMediaModule} from "@covalent/core/media";
+import {CovalentLoadingModule} from "@covalent/core/loading";
+import {CovalentFileModule} from "@covalent/core/file";
+import {CovalentCommonModule} from "@covalent/core/common";
+import {CovalentChipsModule} from "@covalent/core/chips";
 
 /**
  *

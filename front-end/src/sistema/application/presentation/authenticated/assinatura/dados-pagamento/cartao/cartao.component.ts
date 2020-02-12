@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 import {viewAnimation} from '../../../../controls/utils';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
-import {Assinatura} from '../../../../../../domain/entity/assinatura/assinatura.model';
+import {Assinatura} from '@src/sistema/domain/entity/assinatura/assinatura.model';
 import {obrigatorio} from '../../../../controls/validators/validators';
 
 // import * as moment from 'moment-timezone';

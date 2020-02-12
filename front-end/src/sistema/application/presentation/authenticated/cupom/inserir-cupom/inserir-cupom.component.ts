@@ -1,10 +1,9 @@
 import {Component} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import {MatSnackBar} from '@angular/material';
-import {CupomRepository} from '../../../../../domain/repository/cupom.repository';
+import {CupomRepository} from '@src/sistema/domain/repository/cupom.repository';
 import {ActivatedRoute, Router} from '@angular/router';
 import {viewAnimation} from '../../../controls/utils';
-import {Cupom} from '../../../../../domain/entity/assinatura/cupom.model';
+import {Cupom} from '@src/sistema/domain/entity/assinatura/cupom.model';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**

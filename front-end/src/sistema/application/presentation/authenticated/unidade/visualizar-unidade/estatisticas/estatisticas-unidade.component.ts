@@ -1,4 +1,3 @@
-import {TdDigitsPipe} from '@covalent/core';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
@@ -10,6 +9,7 @@ import {EvDatepicker} from '../../../../controls/ev-datepicker/ev-datepicker';
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
 import {single} from '../../../../controls/utils';
+import {TdDigitsPipe} from "@covalent/core/common";
 
 @Component({
   selector: 'estatisticas-unidade',

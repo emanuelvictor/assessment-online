@@ -1,10 +1,9 @@
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer2} from '@angular/core';
 
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/forms';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
-import {Usuario} from '../../../../../../domain/entity/usuario/usuario.model';
-import {AuthenticationService} from '../../../../../../domain/service/authentication.service';
+import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
+import {AuthenticationService} from '@src/sistema/domain/service/authentication.service';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
@@ -72,7 +71,7 @@ export class AtendenteFormComponent implements OnInit {
    * @param {ElementRef} element
    */
   constructor(private authenticationService: AuthenticationService,
-              private renderer: Renderer, private toastService: ToastService,
+              private renderer: Renderer2, private toastService: ToastService,
               private fb: FormBuilder, @Inject(ElementRef) private element: ElementRef) {
 
     this.authenticationService.requestContaAutenticada().subscribe(result => {
@@ -148,7 +147,7 @@ export class AtendenteFormComponent implements OnInit {
       if (control) {
         const element = this.element.nativeElement.querySelector(control.key);
         if (element && control.invalid) {
-          this.renderer.invokeElementMethod(element, 'focus', []);
+          // this.renderer.invokeElementMethod(element, 'focus', []); TODO
           valid = false;
           if (control.errors.exception) {
             this.error(control.errors.exception);
@@ -159,7 +158,7 @@ export class AtendenteFormComponent implements OnInit {
           for (const controlInner of control.controls) {
             const elemento = this.element.nativeElement.querySelector(controlInner.key);
             if (elemento && controlInner.invalid) {
-              this.renderer.invokeElementMethod(elemento, 'focus', []);
+              // this.renderer.invokeElementMethod(elemento, 'focus', []);
               valid = false;
               if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception);

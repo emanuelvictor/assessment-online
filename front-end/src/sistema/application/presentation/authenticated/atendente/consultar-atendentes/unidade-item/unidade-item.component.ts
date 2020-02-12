@@ -1,15 +1,16 @@
 import {Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from '@angular/material';
 import {Component, Input, OnInit} from '@angular/core';
-import {UnidadeService} from '../../../../../../domain/service/unidade.service';
-import {Usuario} from '../../../../../../domain/entity/usuario/usuario.model';
+import {UnidadeService} from '@src/sistema/domain/service/unidade.service';
+import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'unidade-item',
   templateUrl: './unidade-item.component.html',
   styleUrls: ['./unidade-item.component.css']
 })
-export class UnidadeItemComponent implements OnInit {
+export class UnidadeItemComponent {
 
   /**
    *
@@ -33,17 +34,4 @@ export class UnidadeItemComponent implements OnInit {
               private dialog: MatDialog, private unidadeService: UnidadeService) {
   }
 
-  /**
-   *
-   */
-  ngOnInit() {
-    // this.colaboradorService.listColaboradoresByUsuarioKey(this.usuario.key).subscribe(colaboradores => {
-    //   this.colaboradores = [];
-    //   for (let i = 0; i < colaboradores.length; i++) {
-    //     if (colaboradores[i].vinculo) {
-    //       this.colaboradores.push(colaboradores[i]);
-    //     }
-    //   }
-    // });
-  }
 }

@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Plano} from '@src/sistema/domain/entity/assinatura/plano.model';
 import {SimulatorComponent} from '@src/site/application/presentation/simulator/simulator.component';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'sistema-open-positions',

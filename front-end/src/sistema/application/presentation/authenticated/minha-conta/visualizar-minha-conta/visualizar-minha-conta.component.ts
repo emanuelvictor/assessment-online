@@ -1,18 +1,18 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MatDialog, MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {AlterarMinhaSenhaComponent} from './alterar-minha-senha/alterar-minha-senha.component';
-import {AuthenticationService} from '../../../../../domain/service/authentication.service';
-import {Usuario} from '../../../../../domain/entity/usuario/usuario.model';
+import {AuthenticationService} from '@src/sistema/domain/service/authentication.service';
+import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
 import {Subscription} from 'rxjs';
-import {UnidadeService} from '../../../../../domain/service/unidade.service';
-import {OperadorRepository} from '../../../../../domain/repository/operador.repository';
-import {AvaliavelRepository} from '../../../../../domain/repository/avaliavel.repository';
+import {UnidadeService} from '@src/sistema/domain/service/unidade.service';
+import {OperadorRepository} from '@src/sistema/domain/repository/operador.repository';
+import {AvaliavelRepository} from '@src/sistema/domain/repository/avaliavel.repository';
 import {viewAnimation} from '../../../controls/utils';
-import {ContaService} from '../../../../../domain/service/conta.service';
-import {ConfiguracaoRepository} from '../../../../../domain/repository/configuracao.repository';
+import {ContaService} from '@src/sistema/domain/service/conta.service';
+import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuracao.repository';
 import {Router} from '@angular/router';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'visualizar-minha-conta',

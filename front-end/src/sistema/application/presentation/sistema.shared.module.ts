@@ -10,7 +10,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ClienteFormComponent} from './authenticated/cliente/inserir-cliente/cliente-form/cliente-form.component';
 import {UsuarioPessoaFisicaFormComponent} from './authenticated/cliente/inserir-cliente/cliente-form/pessoa-fisica/usuario-pessoa-fisica-form.component';
 import {UsuarioPessoaJuridicaFormComponent} from './authenticated/cliente/inserir-cliente/cliente-form/pessoa-juridica/usuario-pessoa-juridica-form.component';
-import {CovalentFileModule, CovalentLoadingModule} from '@covalent/core';
 import {TextMaskModule} from 'angular2-text-mask';
 import {InserirClienteComponent} from './authenticated/cliente/inserir-cliente/inserir-cliente.component';
 import {WebLoginComponent} from './login/web-login/web-login.component';
@@ -31,6 +30,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {CovalentLoadingModule} from "@covalent/core/loading";
+import {CovalentFileModule} from "@covalent/core/file";
 
 /**
  *

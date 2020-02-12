@@ -1,10 +1,10 @@
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {TdMediaService} from '@covalent/core';
 import {Subscription} from 'rxjs';
 import {AuthenticationService} from '../../../domain/service/authentication.service';
 import {routerAnimation} from '../controls/utils';
 import {environment} from '@src/environments/environment';
 import {DomSanitizer} from '@angular/platform-browser';
+import {TdMediaService} from "@covalent/core/media";
 
 
 @Component({

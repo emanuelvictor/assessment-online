@@ -14,8 +14,7 @@ import {DispositivoRepository} from '@src/sistema/domain/repository/dispositivo.
 import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuracao.repository';
 import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
 import {CookieService} from 'ngx-cookie-service';
-import {CovalentLoadingModule} from '@covalent/core';
-import {MatSnackBarModule} from '@angular/material';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -35,10 +34,9 @@ import {MatSnackBarModule} from '@angular/material';
     CommonModule,
     BrowserModule,
     HttpClientModule,
-    CovalentLoadingModule,
     MatSnackBarModule,
 
-    NativeScriptModule,
+    // NativeScriptModule,
     MobileRoutingModule,
   ],
   providers: [

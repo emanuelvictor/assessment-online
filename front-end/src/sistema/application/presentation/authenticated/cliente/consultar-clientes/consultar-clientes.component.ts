@@ -1,5 +1,4 @@
 import 'rxjs/add/operator/distinctUntilChanged';
-import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UsuarioService} from '@src/sistema/domain/service/usuario.service';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -13,6 +12,11 @@ import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatIconRegistry} from "@angular/material/icon";
+import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
   selector: 'consultar-clientes',

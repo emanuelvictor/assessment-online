@@ -1,13 +1,12 @@
 import {Component} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
 // import 'rxjs/add/operator/toPromise';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {Router} from '@angular/router';
-import {Unidade} from '../../../../../domain/entity/unidade/unidade.model';
-import {UnidadeService} from '../../../../../domain/service/unidade.service';
-import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
-import {UnidadeTipoAvaliacao} from '../../../../../domain/entity/avaliacao/unidade-tipo-avaliacao.model';
-import {UnidadeTipoAvaliacaoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao.repository';
+import {Unidade} from '@src/sistema/domain/entity/unidade/unidade.model';
+import {UnidadeService} from '@src/sistema/domain/service/unidade.service';
+import {TipoAvaliacaoRepository} from '@src/sistema/domain/repository/tipo-avaliacao.repository';
+import {UnidadeTipoAvaliacao} from '@src/sistema/domain/entity/avaliacao/unidade-tipo-avaliacao.model';
+import {UnidadeTipoAvaliacaoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao.repository';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 

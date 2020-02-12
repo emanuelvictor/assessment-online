@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {DomSanitizer} from '@angular/platform-browser';
-import {CupomRepository} from '../../../../../domain/repository/cupom.repository';
-import {Cupom} from '../../../../../domain/entity/assinatura/cupom.model';
+import {CupomRepository} from '@src/sistema/domain/repository/cupom.repository';
+import {Cupom} from '@src/sistema/domain/entity/assinatura/cupom.model';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({

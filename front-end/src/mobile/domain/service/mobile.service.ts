@@ -3,7 +3,6 @@
  */
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
-import {TdLoadingService} from '@covalent/core';
 import {WebSocketSubject} from 'rxjs/webSocket';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
@@ -18,6 +17,7 @@ import {environment} from '@src/environments/environment';
 import {TOKEN_NAME} from '@src/sistema/application/presentation/controls/utils';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import {TdLoadingService} from "@covalent/core/loading";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.

@@ -1,11 +1,9 @@
-import {Component, ElementRef, Inject, OnInit, Renderer} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, Renderer2} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry, MatSnackBar} from '@angular/material';
 import {Configuracao} from '../../../../domain/entity/configuracao/configuracao.model';
 
-import {TdLoadingService} from '@covalent/core';
 
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/forms';
 import {ConfiguracaoService} from '../../../../domain/service/configuracao.service';
@@ -15,6 +13,8 @@ import {AuthenticationService} from '../../../../domain/service/authentication.s
 import {TipoFeedback} from '../../../../domain/entity/configuracao/tipo-feedback.enum';
 import {enumToArrayString, viewAnimation} from '../../controls/utils';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatIconRegistry} from "@angular/material/icon";
+import {TdLoadingService} from "@covalent/core/loading";
 
 /**
  *
@@ -101,7 +101,7 @@ export class ConfiguracaoComponent implements OnInit {
               private _loadingService: TdLoadingService,
               @Inject(ElementRef) private element: ElementRef,
               private configuracaoService: ConfiguracaoService,
-              private renderer: Renderer, private fb: FormBuilder,
+              private renderer: Renderer2, private fb: FormBuilder,
               private authenticationService: AuthenticationService,
               private configuracaoRepository: ConfiguracaoRepository,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
@@ -195,7 +195,7 @@ export class ConfiguracaoComponent implements OnInit {
       if (control) {
         const element = this.element.nativeElement.querySelector(control.key);
         if (element && control.invalid) {
-          this.renderer.invokeElementMethod(element, 'focus', []);
+          // this.renderer.invokeElementMethod(element, 'focus', []); todo
           valid = false;
           if (control.errors.exception) {
             this.error(control.errors.exception);
@@ -206,7 +206,7 @@ export class ConfiguracaoComponent implements OnInit {
           for (const controlInner of control.controls) {
             const elementt = this.element.nativeElement.querySelector(controlInner.key);
             if (elementt && controlInner.invalid) {
-              this.renderer.invokeElementMethod(elementt, 'focus', []);
+              // this.renderer.invokeElementMethod(elementt, 'focus', []); TODO
               valid = false;
               if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception);

@@ -1,14 +1,14 @@
-import {Component, ElementRef, Inject, OnInit, Renderer} from '@angular/core';
+import {Component, ElementRef, Inject, Renderer2} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry, MatSnackBar} from '@angular/material';
 
 import {FormBuilder} from '@angular/forms';
-import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
-import {TipoAvaliacao} from '../../../../../domain/entity/avaliacao/tipo-avaliacao.model';
+import {TipoAvaliacaoRepository} from '@src/sistema/domain/repository/tipo-avaliacao.repository';
+import {TipoAvaliacao} from '@src/sistema/domain/entity/avaliacao/tipo-avaliacao.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatIconRegistry} from "@angular/material/icon";
 
 /**
  *
@@ -41,7 +41,7 @@ export class InserirTipoAvaliacaoComponent {
               private tipoAvaliacaoRepository: TipoAvaliacaoRepository,
               private activatedRoute: ActivatedRoute, private router: Router,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer,
-              private toastService: ToastService, private renderer: Renderer, private fb: FormBuilder) {
+              private toastService: ToastService, private renderer: Renderer2, private fb: FormBuilder) {
   }
 
   /**

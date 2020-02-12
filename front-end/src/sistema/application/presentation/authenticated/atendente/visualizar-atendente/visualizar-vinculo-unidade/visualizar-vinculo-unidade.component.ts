@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {viewAnimation} from '../../../../controls/utils';
-import {Avaliavel} from '../../../../../../domain/entity/usuario/vinculo/avaliavel.model';
-import {Unidade} from '../../../../../../domain/entity/unidade/unidade.model';
-import {AvaliavelRepository} from '../../../../../../domain/repository/avaliavel.repository';
-import {UnidadeTipoAvaliacaoRepository} from '../../../../../../domain/repository/unidade-tipo-avaliacao.repository';
-import {Usuario} from '../../../../../../domain/entity/usuario/usuario.model';
+import {Avaliavel} from '@src/sistema/domain/entity/usuario/vinculo/avaliavel.model';
+import {Unidade} from '@src/sistema/domain/entity/unidade/unidade.model';
+import {AvaliavelRepository} from '@src/sistema/domain/repository/avaliavel.repository';
+import {UnidadeTipoAvaliacaoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao.repository';
+import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
 
 @Component({
   selector: 'visualizar-vinculo-unidade',

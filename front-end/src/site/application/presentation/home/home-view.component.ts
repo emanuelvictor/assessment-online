@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {LoadingMode, LoadingType, TdLoadingService} from '@covalent/core';
 import {RouteConfigLoadEnd, RouteConfigLoadStart, Router} from '@angular/router';
-import {MatDialog} from '@angular/material';
 import {Subscription} from 'rxjs';
 import {AuthenticationService} from '@src/sistema/domain/service/authentication.service';
+import {MatDialog} from "@angular/material/dialog";
+import {Component, OnDestroy, OnInit} from "@angular/core";
+import {LoadingMode, LoadingType, TdLoadingService} from "@covalent/core/loading";
 
 @Component({
   selector: 'home-view',
@@ -20,17 +20,10 @@ export class HomeViewComponent implements OnInit, OnDestroy {
 
   /**
    *
-   */
-  public toolbar: any = {headline: 'Cadastros', subhead: ''};
-
-  /**
-   *
    * @param authenticationService
    * @param router
    * @param loadingService
    * @param dialog
-   * @param messageService
-   * @param translate
    */
   constructor(
     // public translate: TranslateService,

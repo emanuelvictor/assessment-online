@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 // @ts-ignore
 import {Plano} from '@src/sistema/domain/entity/assinatura/plano.model';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 // @ts-ignore
 @Component({

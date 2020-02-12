@@ -1,9 +1,8 @@
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer2} from '@angular/core';
 
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
-import {Unidade} from '../../../../../../domain/entity/unidade/unidade.model';
+import {Unidade} from '@src/sistema/domain/entity/unidade/unidade.model';
 import {cnpjValidator} from '../../../../controls/validators/validators';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
@@ -47,7 +46,7 @@ export class UnidadeFormComponent implements OnInit {
    * @param {ElementRef} element
    * @param {Renderer} renderer
    */
-  constructor(public toastService: ToastService, public fb: FormBuilder, @Inject(ElementRef) public element: ElementRef, public renderer: Renderer) {
+  constructor(public toastService: ToastService, public fb: FormBuilder, @Inject(ElementRef) public element: ElementRef, public renderer: Renderer2) {
   }
 
   /**
@@ -89,7 +88,7 @@ export class UnidadeFormComponent implements OnInit {
       if (control) {
         const element = this.element.nativeElement.querySelector(control.key);
         if (element && control.invalid) {
-          this.renderer.invokeElementMethod(element, 'focus', []);
+          // this.renderer.invokeElementMethod(element, 'focus', []); //TODO
           valid = false;
           if (control.errors.exception) {
             this.error(control.errors.exception);
@@ -100,7 +99,7 @@ export class UnidadeFormComponent implements OnInit {
           for (const controlInner of control.controls) {
             const element = this.element.nativeElement.querySelector(controlInner.key);
             if (element && controlInner.invalid) {
-              this.renderer.invokeElementMethod(element, 'focus', []);
+              // this.renderer.invokeElementMethod(element, 'focus', []); //TODO
               valid = false;
               if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception);

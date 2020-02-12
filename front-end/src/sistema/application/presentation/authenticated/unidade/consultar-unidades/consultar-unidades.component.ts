@@ -1,5 +1,4 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {UnidadeService} from '@src/sistema/domain/service/unidade.service';
 import {Unidade} from '@src/sistema/domain/entity/unidade/unidade.model';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -17,6 +16,12 @@ import {Subject} from 'rxjs';
 import {TipoAvaliacao} from '@src/sistema/domain/entity/avaliacao/tipo-avaliacao.model';
 import {ActivatedRoute} from '@angular/router';
 import {LocalStorage} from '@src/sistema/infrastructure/local-storage/local-storage';
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatIconRegistry} from "@angular/material/icon";
+import {MatChipInputEvent} from "@angular/material/chips";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 
 @Component({
   selector: 'consultar-unidades',

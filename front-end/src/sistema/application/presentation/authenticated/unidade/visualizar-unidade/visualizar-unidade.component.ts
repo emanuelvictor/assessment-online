@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog} from '@angular/material';
-import {Unidade} from '../../../../../domain/entity/unidade/unidade.model';
-import {UnidadeService} from '../../../../../domain/service/unidade.service';
+import {Unidade} from '@src/sistema/domain/entity/unidade/unidade.model';
+import {UnidadeService} from '@src/sistema/domain/service/unidade.service';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
-import {AuthenticationService} from '../../../../../domain/service/authentication.service';
-import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
-import {UnidadeTipoAvaliacaoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao.repository';
+import {AuthenticationService} from '@src/sistema/domain/service/authentication.service';
+import {TipoAvaliacaoRepository} from '@src/sistema/domain/repository/tipo-avaliacao.repository';
+import {UnidadeTipoAvaliacaoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao.repository';
 import {viewAnimation} from '../../../controls/utils';
-import {UnidadeTipoAvaliacao} from '../../../../../domain/entity/avaliacao/unidade-tipo-avaliacao.model';
+import {UnidadeTipoAvaliacao} from '@src/sistema/domain/entity/avaliacao/unidade-tipo-avaliacao.model';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'visualizar-unidade',

@@ -1,4 +1,3 @@
-import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UsuarioService} from '@src/sistema/domain/service/usuario.service';
 import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
@@ -16,6 +15,12 @@ import {TipoAvaliacaoRepository} from '@src/sistema/domain/repository/tipo-avali
 import {Unidade} from '@src/sistema/domain/entity/unidade/unidade.model';
 import {Subject} from 'rxjs';
 import {TipoAvaliacao} from '@src/sistema/domain/entity/avaliacao/tipo-avaliacao.model';
+import {MatSort} from "@angular/material/sort";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatIconRegistry} from "@angular/material/icon";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
   selector: 'consultar-usuarios',

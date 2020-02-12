@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Unidade} from '../../../../../domain/entity/unidade/unidade.model';
-import {UnidadeService} from '../../../../../domain/service/unidade.service';
-import {Endereco} from '../../../../../domain/entity/endereco/endereco.model';
-import {Cidade} from '../../../../../domain/entity/endereco/cidade.model';
+import {Unidade} from '@src/sistema/domain/entity/unidade/unidade.model';
+import {UnidadeService} from '@src/sistema/domain/service/unidade.service';
+import {Endereco} from '@src/sistema/domain/entity/endereco/endereco.model';
+import {Cidade} from '@src/sistema/domain/entity/endereco/cidade.model';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 /**
@@ -25,7 +24,7 @@ export class AlterarUnidadeComponent implements OnInit {
 
   /**
    *
-   * @type {SnapshotAction}
+   * @type {Unidade}
    */
   unidade: Unidade = new Unidade();
 

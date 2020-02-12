@@ -1,12 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
 import {UnidadeTipoAvaliacaoDispositivo} from '@src/sistema/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
 import {Avaliacao} from '@src/sistema/domain/entity/avaliacao/avaliacao.model';
+import {MatIconRegistry} from "@angular/material/icon";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 
 @Component({
   selector: 'selecionar-nota',

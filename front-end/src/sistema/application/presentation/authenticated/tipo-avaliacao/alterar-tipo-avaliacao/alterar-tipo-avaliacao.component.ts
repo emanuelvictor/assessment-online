@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {DomSanitizer} from '@angular/platform-browser';
-import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
-import {TipoAvaliacao} from '../../../../../domain/entity/avaliacao/tipo-avaliacao.model';
+import {TipoAvaliacaoRepository} from '@src/sistema/domain/repository/tipo-avaliacao.repository';
+import {TipoAvaliacao} from '@src/sistema/domain/entity/avaliacao/tipo-avaliacao.model';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({

@@ -3,7 +3,6 @@
  */
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot} from '@angular/router';
-import {TdLoadingService} from '@covalent/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
@@ -14,6 +13,7 @@ import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
 import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
 import {Configuracao} from '@src/sistema/domain/entity/configuracao/configuracao.model';
 import {environment} from '@src/environments/environment';
+import {TdLoadingService} from "@covalent/core/loading";
 
 /**
  * Serviço (ou singleton) necessário para o gerenciamento da inserção da avaliação no aplicativo móvel.

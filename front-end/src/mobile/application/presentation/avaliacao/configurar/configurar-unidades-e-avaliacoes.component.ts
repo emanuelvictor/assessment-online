@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatSnackBar} from '@angular/material';
 import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
 import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
 import {environment} from '@src/environments/environment';
 import {ConfiguracaoRepository} from '@src/sistema/domain/repository/configuracao.repository';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'configurar-unidades-e-avaliacoes',

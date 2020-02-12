@@ -1,15 +1,15 @@
-import {TdDigitsPipe} from '@covalent/core';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {single} from '../../../../controls/utils';
-import {UsuarioService} from '../../../../../../domain/service/usuario.service';
-import {Usuario} from '../../../../../../domain/entity/usuario/usuario.model';
-import {ConfiguracaoService} from '../../../../../../domain/service/configuracao.service';
-import {Configuracao} from '../../../../../../domain/entity/configuracao/configuracao.model';
+import {UsuarioService} from '@src/sistema/domain/service/usuario.service';
+import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
+import {ConfiguracaoService} from '@src/sistema/domain/service/configuracao.service';
+import {Configuracao} from '@src/sistema/domain/entity/configuracao/configuracao.model';
 import {EvDatepicker} from '../../../../controls/ev-datepicker/ev-datepicker';
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
+import {TdDigitsPipe} from "@covalent/core/common";
 
 
 @Component({

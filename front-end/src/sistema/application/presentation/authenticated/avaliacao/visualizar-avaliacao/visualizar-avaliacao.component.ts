@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog, MatIconRegistry} from '@angular/material';
-import {textMasks} from '../../../controls/text-masks/text-masks';
 import {DomSanitizer} from '@angular/platform-browser';
 import {viewAnimation} from '../../../controls/utils';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
@@ -9,6 +7,9 @@ import {ToastService} from '@src/sistema/application/presentation/controls/toast
 import {Avaliacao} from '@src/sistema/domain/entity/avaliacao/avaliacao.model';
 import {AvaliacaoService} from '@src/sistema/domain/service/avaliacao.service';
 import {AuthenticationService} from '@src/sistema/domain/service/authentication.service';
+import {textMasks} from "@src/sistema/application/presentation/controls/text-masks/text-masks";
+import {MatIconRegistry} from "@angular/material/icon";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'visualizar-avaliacao',

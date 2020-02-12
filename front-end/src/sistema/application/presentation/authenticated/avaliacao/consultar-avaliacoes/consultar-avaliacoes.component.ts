@@ -1,26 +1,31 @@
 import 'rxjs/add/operator/distinctUntilChanged';
-import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatIconRegistry, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Usuario} from '../../../../../domain/entity/usuario/usuario.model';
 import {DomSanitizer} from '@angular/platform-browser';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {EvDatepicker} from '../../../controls/ev-datepicker/ev-datepicker';
 import 'rxjs/add/operator/distinctUntilChanged';
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
-import {Configuracao} from '../../../../../domain/entity/configuracao/configuracao.model';
-import {ConfiguracaoService} from '../../../../../domain/service/configuracao.service';
-import {AvaliacaoService} from '../../../../../domain/service/avaliacao.service';
-import {UsuarioService} from '../../../../../domain/service/usuario.service';
 import {Subject} from 'rxjs';
-import {Avaliacao} from '../../../../../domain/entity/avaliacao/avaliacao.model';
-import {Unidade} from '../../../../../domain/entity/unidade/unidade.model';
-import {TipoAvaliacao} from '../../../../../domain/entity/avaliacao/tipo-avaliacao.model';
-import {TipoAvaliacaoRepository} from '../../../../../domain/repository/tipo-avaliacao.repository';
 import {viewAnimation} from '../../../controls/utils';
 import {ActivatedRoute} from '@angular/router';
-import {UnidadeRepository} from '../../../../../domain/repository/unidade.repository';
-import {LocalStorage} from '../../../../../infrastructure/local-storage/local-storage';
+import {MatTableDataSource} from "@angular/material/table";
+import {Avaliacao} from "@src/sistema/domain/entity/avaliacao/avaliacao.model";
+import {MatSort} from "@angular/material/sort";
+import {MatPaginator} from "@angular/material/paginator";
+import {Unidade} from "@src/sistema/domain/entity/unidade/unidade.model";
+import {TipoAvaliacao} from "@src/sistema/domain/entity/avaliacao/tipo-avaliacao.model";
+import {LocalStorage} from "@src/sistema/infrastructure/local-storage/local-storage";
+import {TipoAvaliacaoRepository} from "@src/sistema/domain/repository/tipo-avaliacao.repository";
+import {MatIconRegistry} from "@angular/material/icon";
+import {UsuarioService} from "@src/sistema/domain/service/usuario.service";
+import {AvaliacaoService} from "@src/sistema/domain/service/avaliacao.service";
+import {UnidadeRepository} from "@src/sistema/domain/repository/unidade.repository";
+import {ConfiguracaoService} from "@src/sistema/domain/service/configuracao.service";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {Usuario} from "@src/sistema/domain/entity/usuario/usuario.model";
+import {MatChipInputEvent} from "@angular/material/chips";
+import {Configuracao} from "@src/sistema/domain/entity/configuracao/configuracao.model";
 
 @Component({
   selector: 'consultar-avaliacoes',

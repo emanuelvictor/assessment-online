@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnDestroy, OnInit, Renderer} from '@angular/core';
+import {Component, ElementRef, Inject, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder} from '@angular/forms';
 import {Subject} from 'rxjs';
@@ -56,7 +56,7 @@ export class AuthenticateToLogoutComponent implements OnInit, OnDestroy {
   constructor(private _sanitizer: DomSanitizer,
               private mobileService: MobileService,
               @Inject(ElementRef) private element: ElementRef,
-              private router: Router, private renderer: Renderer,
+              private router: Router, private renderer: Renderer2,
               private toastService: ToastService, private fb: FormBuilder) {
   }
 

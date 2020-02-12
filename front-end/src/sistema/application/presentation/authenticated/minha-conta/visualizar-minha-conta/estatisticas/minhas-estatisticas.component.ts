@@ -1,15 +1,15 @@
-import {TdDigitsPipe} from '@covalent/core';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
-import {UsuarioService} from '../../../../../../domain/service/usuario.service';
-import {Usuario} from '../../../../../../domain/entity/usuario/usuario.model';
-import {ConfiguracaoService} from '../../../../../../domain/service/configuracao.service';
-import {Configuracao} from '../../../../../../domain/entity/configuracao/configuracao.model';
+import {UsuarioService} from '@src/sistema/domain/service/usuario.service';
+import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
+import {ConfiguracaoService} from '@src/sistema/domain/service/configuracao.service';
+import {Configuracao} from '@src/sistema/domain/entity/configuracao/configuracao.model';
 import {EvDatepicker} from '../../../../controls/ev-datepicker/ev-datepicker';
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
-import {AuthenticationService} from '../../../../../../domain/service/authentication.service';
+import {AuthenticationService} from '@src/sistema/domain/service/authentication.service';
 import {single} from '../../../../controls/utils';
+import {TdDigitsPipe} from "@covalent/core/common";
 
 @Component({
   selector: 'minhas-estatisticas',
@@ -22,36 +22,6 @@ export class MinhasEstatisticasComponent implements OnInit {
    *
    */
   masks = textMasks;
-
-  // /**
-  //  *
-  //  */
-  // multi: any[] = [
-  //   {
-  //     series: [
-  //       {
-  //         name: 'Terrivel',
-  //         value: 0
-  //       },
-  //       {
-  //         name: 'Ruim',
-  //         value: 0
-  //       },
-  //       {
-  //         name: 'Meia boca',
-  //         value: 0
-  //       },
-  //       {
-  //         name: 'Bacana',
-  //         value: 0
-  //       },
-  //       {
-  //         name: 'Top da balada',
-  //         value: 0
-  //       },
-  //     ]
-  //   }
-  // ];
 
   /**
    * Armazena o nome do rankeavel

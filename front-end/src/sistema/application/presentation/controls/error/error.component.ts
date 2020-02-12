@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
 import {CookieService} from 'ngx-cookie-service';
 import {AuthenticationService} from '../../../../domain/service/authentication.service';
 import {LocalStorage} from '../../../../infrastructure/local-storage/local-storage';

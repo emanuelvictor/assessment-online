@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from '@angular/material';
-import {Avaliacao} from '../../../../../domain/entity/avaliacao/avaliacao.model';
-import {FaturaRepository} from '../../../../../domain/repository/fatura.repository';
+import {Avaliacao} from '@src/sistema/domain/entity/avaliacao/avaliacao.model';
+import {FaturaRepository} from '@src/sistema/domain/repository/fatura.repository';
 import {viewAnimation} from '../../../controls/utils';
-import {Fatura} from '../../../../../domain/entity/assinatura/fatura.model';
+import {Fatura} from '@src/sistema/domain/entity/assinatura/fatura.model';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'visualizar-fatura',

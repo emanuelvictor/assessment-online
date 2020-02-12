@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
-import {ContaService} from '../../../../../../domain/service/conta.service';
+import {ContaService} from '@src/sistema/domain/service/conta.service';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'alterar-senha',

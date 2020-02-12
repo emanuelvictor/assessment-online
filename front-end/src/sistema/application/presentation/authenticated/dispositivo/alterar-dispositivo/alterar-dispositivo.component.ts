@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {DomSanitizer} from '@angular/platform-browser';
-import {DispositivoRepository} from '../../../../../domain/repository/dispositivo.repository';
-import {Dispositivo} from '../../../../../domain/entity/avaliacao/dispositivo.model';
-import {UnidadeTipoAvaliacaoDispositivoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao-dispositivo.repository';
+import {DispositivoRepository} from '@src/sistema/domain/repository/dispositivo.repository';
+import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
+import {UnidadeTipoAvaliacaoDispositivoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao-dispositivo.repository';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({

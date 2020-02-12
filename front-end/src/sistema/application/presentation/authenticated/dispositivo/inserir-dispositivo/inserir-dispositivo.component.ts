@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import {MatDialog, MatSnackBar} from '@angular/material';
 import {DispositivoRepository} from '@src/sistema/domain/repository/dispositivo.repository';
 import {Dispositivo} from '@src/sistema/domain/entity/avaliacao/dispositivo.model';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -11,6 +10,7 @@ import {UnidadeTipoAvaliacaoDispositivo} from '@src/sistema/domain/entity/avalia
 import {ConfirmInsertDispositivoDialogComponent} from '@src/sistema/application/presentation/authenticated/dispositivo/inserir-dispositivo/confirm-insert-dispositivo-dialog/confirm-insert-dispositivo-dialog.component';
 import {AssinaturaRepository} from '@src/sistema/domain/repository/assinatura.repository';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatDialog} from "@angular/material/dialog";
 
 /**
  *

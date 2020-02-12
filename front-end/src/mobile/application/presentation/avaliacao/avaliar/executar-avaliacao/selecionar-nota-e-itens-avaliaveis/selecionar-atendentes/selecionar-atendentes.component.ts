@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {AvaliavelRepository} from '@src/sistema/domain/repository/avaliavel.repository';
 import {MobileService} from '@src/mobile/domain/service/mobile.service';
 import {UnidadeTipoAvaliacaoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao.repository';
@@ -8,6 +7,7 @@ import {Agrupador} from '@src/sistema/domain/entity/avaliacao/agrupador.model';
 import {AvaliacaoAvaliavel} from '@src/sistema/domain/entity/avaliacao/avaliacao-avaliavel.model';
 import {viewAnimation} from '@src/sistema/application/presentation/controls/utils';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatSnackBarConfig} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'selecionar-atendentes',

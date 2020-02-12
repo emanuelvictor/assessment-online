@@ -1,5 +1,4 @@
 import 'rxjs/add/operator/distinctUntilChanged';
-import {MatChipInputEvent, MatIconRegistry, MatPaginator, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {textMasks} from '../../../controls/text-masks/text-masks';
@@ -9,6 +8,11 @@ import {Subject} from 'rxjs';
 import {FaturaRepository} from '@src/sistema/domain/repository/fatura.repository';
 import {Fatura} from '@src/sistema/domain/entity/assinatura/fatura.model';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatIconRegistry} from "@angular/material/icon";
+import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
   selector: 'consultar-faturas',

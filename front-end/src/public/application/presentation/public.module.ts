@@ -7,7 +7,6 @@ import {RobotVerifyComponent} from '@src/public/application/presentation/avaliac
 import {ExecutarAvaliacaoComponent} from '@src/public/application/presentation/avaliacao/avaliar/executar-avaliacao/executar-avaliacao.component';
 import {SelecionarNotaComponent} from '@src/public/application/presentation/avaliacao/avaliar/executar-avaliacao/selecionar-nota-e-itens-avaliaveis/selecionar-nota/selecionar-nota.component';
 import {SelecionarUnidadeComponent} from '@src/public/application/presentation/avaliacao/avaliar/selecionar-unidade/selecionar-unidade.component';
-import {DateAdapter, MatGridListModule, MatRippleModule} from '@angular/material';
 import {ConclusaoViewComponent} from '@src/public/application/presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao-view.component';
 import {ConclusaoComponent} from '@src/public/application/presentation/avaliacao/avaliar/executar-avaliacao/conclusao/conclusao/conclusao.component';
 import {FeedbackComponent} from '@src/public/application/presentation/avaliacao/avaliar/executar-avaliacao/feedback/feedback.component';
@@ -49,6 +48,8 @@ import localePt from '@angular/common/locales/pt';
 import {PublicRoutingModule} from '@src/public/application/presentation/public-routing.module';
 import {RootViewComponent} from '@src/public/application/presentation/root-view.component';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatGridListModule} from "@angular/material/grid-list";
+import {DateAdapter, MatRippleModule} from "@angular/material/core";
 
 /**
  *

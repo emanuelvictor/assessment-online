@@ -1,21 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from '@angular/material';
 import {textMasks} from '../../../controls/text-masks/text-masks';
 import {AlterarSenhaComponent} from './alterar-senha/alterar-senha.component';
 import {ConfirmDialogComponent} from '../../../controls/confirm-dialog/confirm-dialog.component';
-import {UsuarioService} from '../../../../../domain/service/usuario.service';
-import {UnidadeService} from '../../../../../domain/service/unidade.service';
-import {Usuario} from '../../../../../domain/entity/usuario/usuario.model';
-import {AuthenticationService} from '../../../../../domain/service/authentication.service';
-import {OperadorRepository} from '../../../../../domain/repository/operador.repository';
-import {AvaliavelRepository} from '../../../../../domain/repository/avaliavel.repository';
-import {Unidade} from '../../../../../domain/entity/unidade/unidade.model';
-import {UnidadeTipoAvaliacaoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao.repository';
-import {UnidadeTipoAvaliacaoDispositivo} from '../../../../../domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
-import {UnidadeTipoAvaliacaoDispositivoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao-dispositivo.repository';
+import {UsuarioService} from '@src/sistema/domain/service/usuario.service';
+import {UnidadeService} from '@src/sistema/domain/service/unidade.service';
+import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
+import {AuthenticationService} from '@src/sistema/domain/service/authentication.service';
+import {OperadorRepository} from '@src/sistema/domain/repository/operador.repository';
+import {AvaliavelRepository} from '@src/sistema/domain/repository/avaliavel.repository';
+import {Unidade} from '@src/sistema/domain/entity/unidade/unidade.model';
+import {UnidadeTipoAvaliacaoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao.repository';
+import {UnidadeTipoAvaliacaoDispositivo} from '@src/sistema/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
+import {UnidadeTipoAvaliacaoDispositivoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao-dispositivo.repository';
 import {viewAnimation} from '../../../controls/utils';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'visualizar-atendente',

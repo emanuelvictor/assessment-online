@@ -6,7 +6,6 @@ import {registerLocaleData} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientJsonpModule, HttpClientModule} from '@angular/common/http';
 
 import {CovalentSearchModule} from '@covalent/core/search'
-import {MatExpansionModule, MatTooltipModule} from '@angular/material';
 
 import localePt from '@angular/common/locales/pt';
 import {ListingNavComponent} from '@src/site/application/presentation/listing-nav/listing-nav.component';
@@ -31,6 +30,8 @@ import {FaturaRepository} from '@src/sistema/domain/repository/fatura.repository
 import {PlanoRepository} from '@src/sistema/domain/repository/plano.repository';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 import {SimulatorComponent} from '@src/site/application/presentation/simulator/simulator.component';
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 registerLocaleData(localePt, 'pt-BR');
 

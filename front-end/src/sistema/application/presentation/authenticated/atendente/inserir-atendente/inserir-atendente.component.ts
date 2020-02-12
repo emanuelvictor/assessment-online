@@ -1,16 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UsuarioService} from '@src/sistema/domain/service/usuario.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
-import {Usuario} from '../../../../../domain/entity/usuario/usuario.model';
-import {Conta} from '../../../../../domain/entity/usuario/conta.model';
-import {UnidadeService} from '../../../../../domain/service/unidade.service';
-import {OperadorRepository} from '../../../../../domain/repository/operador.repository';
-import {AvaliavelRepository} from '../../../../../domain/repository/avaliavel.repository';
-import {UnidadeTipoAvaliacaoDispositivo} from '../../../../../domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
-import {UnidadeTipoAvaliacaoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao.repository';
-import {UnidadeTipoAvaliacaoDispositivoRepository} from '../../../../../domain/repository/unidade-tipo-avaliacao-dispositivo.repository';
-import {Avaliavel} from '../../../../../domain/entity/usuario/vinculo/avaliavel.model';
+import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
+import {Conta} from '@src/sistema/domain/entity/usuario/conta.model';
+import {UnidadeService} from '@src/sistema/domain/service/unidade.service';
+import {OperadorRepository} from '@src/sistema/domain/repository/operador.repository';
+import {AvaliavelRepository} from '@src/sistema/domain/repository/avaliavel.repository';
+import {UnidadeTipoAvaliacaoDispositivo} from '@src/sistema/domain/entity/avaliacao/unidade-tipo-avaliacao-dispositivo.model';
+import {UnidadeTipoAvaliacaoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao.repository';
+import {UnidadeTipoAvaliacaoDispositivoRepository} from '@src/sistema/domain/repository/unidade-tipo-avaliacao-dispositivo.repository';
+import {Avaliavel} from '@src/sistema/domain/entity/usuario/vinculo/avaliavel.model';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
 
 @Component({

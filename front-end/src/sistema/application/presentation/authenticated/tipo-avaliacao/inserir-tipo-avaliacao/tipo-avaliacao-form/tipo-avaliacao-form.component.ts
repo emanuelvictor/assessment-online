@@ -1,13 +1,13 @@
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer2} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry, MatSnackBar} from '@angular/material';
 
 import {FormBuilder, Validators} from '@angular/forms';
-import {FileRepository} from '../../../../../../infrastructure/repository/file/file.repository';
-import {TipoAvaliacao} from '../../../../../../domain/entity/avaliacao/tipo-avaliacao.model';
+import {FileRepository} from '@src/sistema/infrastructure/repository/file/file.repository';
+import {TipoAvaliacao} from '@src/sistema/domain/entity/avaliacao/tipo-avaliacao.model';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {MatIconRegistry} from "@angular/material/icon";
 
 /**
  *
@@ -39,7 +39,7 @@ export class TipoAvaliacaoFormComponent implements OnInit {
 
   /**
    *
-   * @param {MatSnackBar} snackBar
+   * @param toastService
    * @param {FileRepository} fileRepository
    * @param {ElementRef} element
    * @param {Renderer} renderer
@@ -50,7 +50,7 @@ export class TipoAvaliacaoFormComponent implements OnInit {
   constructor(private toastService: ToastService,
               private fileRepository: FileRepository,
               @Inject(ElementRef) private element: ElementRef,
-              private renderer: Renderer, private fb: FormBuilder,
+              private renderer: Renderer2, private fb: FormBuilder,
               private iconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
   }
 
@@ -103,7 +103,7 @@ export class TipoAvaliacaoFormComponent implements OnInit {
       if (control) {
         const element = this.element.nativeElement.querySelector(control.key);
         if (element && control.invalid) {
-          this.renderer.invokeElementMethod(element, 'focus', []);
+          // this.renderer.invokeElementMethod(element, 'focus', []); element todo
           valid = false;
           if (control.errors.exception) {
             this.error(control.errors.exception);
@@ -114,7 +114,7 @@ export class TipoAvaliacaoFormComponent implements OnInit {
           for (let controlInner of control.controls) {
             const element = this.element.nativeElement.querySelector(controlInner.key);
             if (element && controlInner.invalid) {
-              this.renderer.invokeElementMethod(element, 'focus', []);
+              // this.renderer.invokeElementMethod(element, 'focus', []); todo elemtn
               valid = false;
               if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception);

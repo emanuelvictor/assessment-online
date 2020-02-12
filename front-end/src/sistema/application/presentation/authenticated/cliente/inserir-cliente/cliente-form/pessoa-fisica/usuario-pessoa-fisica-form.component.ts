@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
 import 'rxjs/add/operator/toPromise';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {textMasks} from '../../../../../controls/text-masks/text-masks';
@@ -39,7 +38,7 @@ export class UsuarioPessoaFisicaFormComponent implements OnInit, OnDestroy {
   /**
    *
    */
-  constructor(public snackBar: MatSnackBar, public fb: FormBuilder) {
+  constructor(public fb: FormBuilder) {
   }
 
   /**

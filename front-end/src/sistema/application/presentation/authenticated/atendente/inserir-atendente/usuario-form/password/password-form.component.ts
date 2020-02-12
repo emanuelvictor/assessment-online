@@ -1,8 +1,8 @@
-import {MatSnackBar} from '@angular/material';
 
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Conta} from '../../../../../../../domain/entity/usuario/conta.model';
+import {Conta} from '@src/sistema/domain/entity/usuario/conta.model';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'password-form',
