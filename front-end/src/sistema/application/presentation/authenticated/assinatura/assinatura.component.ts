@@ -123,7 +123,7 @@ export class AssinaturaComponent implements OnInit {
       if (control) {
         const element = this.element.nativeElement.querySelector(control.key);
         if (element && control.invalid) {
-          // this.renderer.invokeElementMethod(element, 'focus', []); TODO
+          element.focus();
           valid = false;
           if (control.errors.exception) {
             this.error(control.errors.exception)
@@ -134,7 +134,7 @@ export class AssinaturaComponent implements OnInit {
           for (const controlInner of control.controls) {
             const elementt = this.element.nativeElement.querySelector(controlInner.key);
             if (elementt && controlInner.invalid) {
-              // this.renderer.invokeElementMethod(elementt, 'focus', []); TODO
+              elementt.focus();
               valid = false;
               if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception)

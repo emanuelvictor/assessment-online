@@ -187,7 +187,7 @@ export class ClienteFormComponent implements OnInit {
       if (control) {
         const element = this.element.nativeElement.querySelector(control.key);
         if (element && control.invalid) {
-          // this.renderer.invokeElementMethod(element, 'focus', []); TODO
+          element.focus();
           valid = false;
           if (control.errors.exception) {
             this.error(control.errors.exception);
@@ -198,7 +198,7 @@ export class ClienteFormComponent implements OnInit {
           for (const controlInner of control.controls) {
             const elemento = this.element.nativeElement.querySelector(controlInner.key);
             if (elemento && controlInner.invalid) {
-              // this.renderer.invokeElementMethod(elemento, 'focus', []); TODO
+              elemento.focus();
               valid = false;
               if (controlInner.errors.exception) {
                 this.error(controlInner.errors.exception);
