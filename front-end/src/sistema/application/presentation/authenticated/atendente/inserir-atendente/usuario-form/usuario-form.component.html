@@ -17,7 +17,7 @@
 
                 <div flex layout='column' layout-align='center center'>
                   <div flex>
-                    <avatar [usuario]="{'id': usuario.id , 'foto': fotoPath}" [done]='true'></avatar>
+                    <avatar (click)='test()' [usuario]="{'id': usuario.id , 'foto': fotoPath}" [done]='true'></avatar>
                   </div>
                   <div *ngIf='fotoPath' flex>
                     <button (click)='removeFile()' class='tc-grey-500' mat-button type='button'>
@@ -25,16 +25,14 @@
                     </button>
                   </div>
                   <div *ngIf='!fotoPath' flex>
-                    <td-file-upload defaultColor='primary'
-                                    (change)='fileChange($event)'
-                                    #singleFileUpload name='file'
-                                    accept='.png, .gif, .jpg, .jpeg'>
-                      <span>{{ singleFileUpload?.files?.name }}</span>
-                      <ng-template td-file-input-label>
-                        <mat-icon>attach_file</mat-icon>
-                        <span>Adicionar foto</span>
-                      </ng-template>
-                    </td-file-upload>
+
+                    <input type='file' accept='.png, .gif, .jpg, .jpeg' #fileUpload
+                           id='fileUpload' (change)='fileChange($event)' style='display:none'>
+
+                    <button mat-raised-button (click)='test()' type='button'  color='accent'>
+                      <mat-icon>attach_file</mat-icon>
+                      <span>Adicionar foto</span>
+                    </button>
                   </div>
                 </div>
 

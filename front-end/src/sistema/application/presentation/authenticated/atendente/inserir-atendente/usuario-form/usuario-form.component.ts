@@ -1,10 +1,12 @@
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer2} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, Renderer2, ViewChild} from '@angular/core';
 
 import {AbstractControl, FormBuilder, ValidatorFn, Validators} from '@angular/forms';
 import {textMasks} from '../../../../controls/text-masks/text-masks';
 import {Usuario} from '@src/sistema/domain/entity/usuario/usuario.model';
 import {AuthenticationService} from '@src/sistema/domain/service/authentication.service';
 import {ToastService} from '@src/sistema/application/presentation/controls/toast/toast.service';
+import {FileUploader} from "ng2-file-upload";
+import {TdFileUploadComponent} from "@covalent/core/file";
 
 /**
  *
@@ -15,6 +17,11 @@ import {ToastService} from '@src/sistema/application/presentation/controls/toast
   styleUrls: ['./usuario-form.component.css']
 })
 export class AtendenteFormComponent implements OnInit {
+
+  /**
+   *
+   */
+  uploader: FileUploader;
 
   /**
    *
@@ -219,4 +226,12 @@ export class AtendenteFormComponent implements OnInit {
     this.arquivoFile = null;
   }
 
+
+  @ViewChild('fileUpload', {static: false})
+  fileUpload: ElementRef<HTMLInputElement>;
+
+  test() {
+    console.log(this.fileUpload);
+    this.fileUpload.nativeElement.click()
+  }
 }
