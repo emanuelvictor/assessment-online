@@ -1,4 +1,4 @@
-package online.meavalia.domain;
+package online.meavalia.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import online.meavalia.application.tenant.TenantIdentifierResolver;

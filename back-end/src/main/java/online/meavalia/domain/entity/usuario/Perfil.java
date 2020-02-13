@@ -4,12 +4,12 @@ import org.springframework.security.core.GrantedAuthority;
 
 public enum Perfil implements GrantedAuthority {
 
-    ADMINISTRADOR, // 0
-    OPERADOR, // 1
-    ATENDENTE, // 2
-    ANONYMOUS, // 3
-    ROOT, // 4
-    DISPOSITIVO; // 4
+    ADMINISTRADOR(0), // 0
+    OPERADOR(1), // 1
+    ATENDENTE(2), // 2
+    ANONYMOUS(3), // 3
+    ROOT(4), // 4
+    DISPOSITIVO(5); // 5
 
     public static final String ADMINISTRADOR_VALUE = "ADMINISTRADOR";
     public static final String OPERADOR_VALUE = "OPERADOR";
@@ -26,6 +26,18 @@ public enum Perfil implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return this.name();
+    }
+
+    /**
+     *
+     */
+    public final int perfil;
+
+    /**
+     * @param perfil
+     */
+    Perfil(final int perfil) {
+        this.perfil = perfil;
     }
 
 }

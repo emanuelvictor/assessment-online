@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import online.meavalia.domain.entity.generic.AbstractEntity;
 import online.meavalia.domain.entity.generic.EntityIdResolver;
 import online.meavalia.domain.entity.unidade.Dispositivo;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -26,6 +27,8 @@ import java.math.BigDecimal;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"dispositivo_id", "fatura_id"})
 })
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Item extends AbstractEntity implements Serializable {
 
     /**
@@ -58,13 +61,6 @@ public class Item extends AbstractEntity implements Serializable {
      */
     @Column
     private Integer totalAvaliacoes;
-
-//    /**
-//     *
-//     */
-//    @NotNull
-//    @Column(nullable = false)
-//    private BigDecimal preco;
 
     /**
      *

@@ -2,7 +2,7 @@ package online.meavalia.domain.domain.service;
 
 import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.domain.AbstractIntegrationTests;
-import online.meavalia.domain.DispositivoService;
+import online.meavalia.domain.service.DispositivoService;
 import online.meavalia.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.entity.unidade.UnidadeTipoAvaliacaoDispositivo;

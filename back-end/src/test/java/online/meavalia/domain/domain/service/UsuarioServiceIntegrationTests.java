@@ -1,7 +1,7 @@
 package online.meavalia.domain.domain.service;
 
 import online.meavalia.domain.AbstractIntegrationTests;
-import online.meavalia.domain.UsuarioService;
+import online.meavalia.domain.service.UsuarioService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;

@@ -1,8 +1,8 @@
 package online.meavalia.application.resource;
 
 import lombok.RequiredArgsConstructor;
-import online.meavalia.domain.EnderecoService;
 import online.meavalia.domain.entity.endereco.Cidade;
+import online.meavalia.domain.service.EnderecoService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

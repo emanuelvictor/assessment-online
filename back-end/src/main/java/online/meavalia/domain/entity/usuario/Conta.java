@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import online.meavalia.domain.entity.generic.AbstractEntity;
 import online.meavalia.infrastructure.tenant.TenantDetails;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -28,6 +29,8 @@ import static online.meavalia.Application.DEFAULT_TENANT_ID;
 @Table(schema = DEFAULT_TENANT_ID)
 @lombok.EqualsAndHashCode(callSuper = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Conta extends AbstractEntity implements TenantDetails, Serializable {
 
     private static final long serialVersionUID = 8321156549256137046L;
@@ -219,7 +222,7 @@ public class Conta extends AbstractEntity implements TenantDetails, Serializable
     /**
      * @param email String
      */
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email != null ? email.toLowerCase() : null;
     }
 
@@ -233,29 +236,44 @@ public class Conta extends AbstractEntity implements TenantDetails, Serializable
         return password;
     }
 
+    /**
+     * @param password
+     */
     @JsonProperty
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
+    /**
+     * @return
+     */
     @Override
     @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    /**
+     * @return
+     */
     @Override
     @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    /**
+     * @return
+     */
     @Override
     @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    /**
+     * @return
+     */
     @Override
     public String getTenant() {
         return this.getEsquema();

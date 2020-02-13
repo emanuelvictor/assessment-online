@@ -1,4 +1,4 @@
-package online.meavalia.domain;
+package online.meavalia.domain.service;
 
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;

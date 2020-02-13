@@ -4,6 +4,9 @@ spring:
     timeout: 999999999
   application.name: meavalia
 
+  freemarker:
+    checkTemplateLocation: false
+
   #DATA SOURCE
   datasource:
     hikari.pool-name: ${spring.application.name}
@@ -113,14 +116,14 @@ gateway-payment:
   logo-uri: https://www.meavalia.online/sistema/assets/images/logo.png
   expiration-days: 1
   public-key: -----BEGIN PUBLIC KEY-----
-              MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlb+xVAeH9i1k8G7GADWX
-              vE7xKGXlbYgkCskRNj+Z31kwRNcsvmdiORFxJ+YbOnwMR7ndCe2EQgFs7rCFW4qy
-              LTe/lbR64bXCA6BLZKmvEhYH9qSFTtiUeVXsxhyP5+qv716jVv88YhtLBcCI64On
-              ZYLbKcjUJZMTcSJWKUmWfxKWKUXPHNjRv5Bguu48Ihn3Fl+4/wFXoYooZxWdo1LX
-              dBYjrlpOLe+tf49i7tTmSMX/7YTwnGMdriOPP286DcHCZR0j6xXRdkAekvvV+qgg
-              G6XuWIjSsuoktoc28SIQEr1qHfF/ztemrVqgEt6hDlZwc6jQbaGnO6eerp9Q87JD
-              awIDAQAB
-              -----END PUBLIC KEY-----
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlb+xVAeH9i1k8G7GADWX
+    vE7xKGXlbYgkCskRNj+Z31kwRNcsvmdiORFxJ+YbOnwMR7ndCe2EQgFs7rCFW4qy
+    LTe/lbR64bXCA6BLZKmvEhYH9qSFTtiUeVXsxhyP5+qv716jVv88YhtLBcCI64On
+    ZYLbKcjUJZMTcSJWKUmWfxKWKUXPHNjRv5Bguu48Ihn3Fl+4/wFXoYooZxWdo1LX
+    dBYjrlpOLe+tf49i7tTmSMX/7YTwnGMdriOPP286DcHCZR0j6xXRdkAekvvV+qgg
+    G6XuWIjSsuoktoc28SIQEr1qHfF/ztemrVqgEt6hDlZwc6jQbaGnO6eerp9Q87JD
+    awIDAQAB
+    -----END PUBLIC KEY-----
 
 
 #  {

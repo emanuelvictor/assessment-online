@@ -3,7 +3,7 @@ package online.meavalia.application.resource;
 import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.entity.usuario.Perfil;
 import online.meavalia.domain.entity.usuario.vinculo.Avaliavel;
-import online.meavalia.domain.AvaliavelService;
+import online.meavalia.domain.service.AvaliavelService;
 import online.meavalia.infrastructure.resource.AbstractResource;
 import online.meavalia.infrastructure.suport.Utils;
 import org.springframework.data.domain.Page;

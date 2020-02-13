@@ -1,4 +1,4 @@
-package online.meavalia.domain;
+package online.meavalia.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import online.meavalia.application.tenant.TenantIdentifierResolver;
@@ -11,13 +11,15 @@ import online.meavalia.domain.entity.assinatura.fatura.Status;
 import online.meavalia.domain.entity.generic.AbstractEntity;
 import online.meavalia.domain.entity.unidade.Dispositivo;
 import online.meavalia.domain.entity.usuario.Conta;
-import online.meavalia.domain.repository.*;
+import online.meavalia.domain.repository.AvaliacaoRepository;
+import online.meavalia.domain.repository.ContaRepository;
+import online.meavalia.domain.repository.DispositivoRepository;
+import online.meavalia.domain.repository.FaturaRepository;
 import online.meavalia.infrastructure.payment.IPaymentGatewayRepository;
 import online.meavalia.infrastructure.tenant.TenantDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

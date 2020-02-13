@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import online.meavalia.domain.entity.endereco.Endereco;
 import online.meavalia.domain.entity.generic.AbstractEntity;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -24,6 +25,8 @@ import java.time.LocalDate;
 @Audited
 @NoArgsConstructor
 @lombok.EqualsAndHashCode(callSuper = true)
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Assinatura extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -3875941812495359616L;

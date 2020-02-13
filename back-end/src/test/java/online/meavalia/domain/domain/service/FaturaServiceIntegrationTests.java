@@ -2,7 +2,7 @@ package online.meavalia.domain.domain.service;
 
 import online.meavalia.application.tenant.TenantIdentifierResolver;
 import online.meavalia.domain.AbstractIntegrationTests;
-import online.meavalia.domain.FaturaService;
+import online.meavalia.domain.service.FaturaService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

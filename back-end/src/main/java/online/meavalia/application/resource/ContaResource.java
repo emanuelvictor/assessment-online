@@ -1,9 +1,9 @@
 package online.meavalia.application.resource;
 
 import lombok.RequiredArgsConstructor;
-import online.meavalia.domain.ContaService;
 import online.meavalia.domain.entity.usuario.Conta;
 import online.meavalia.domain.entity.usuario.Perfil;
+import online.meavalia.domain.service.ContaService;
 import online.meavalia.infrastructure.resource.AbstractResource;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -1,4 +1,4 @@
-package online.meavalia.domain;
+package online.meavalia.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import online.meavalia.domain.entity.usuario.vinculo.Operador;

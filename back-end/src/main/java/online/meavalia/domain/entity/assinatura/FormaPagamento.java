@@ -7,6 +7,26 @@ package online.meavalia.domain.entity.assinatura;
  * @since 1.0.0, 10/09/2019
  */
 public enum FormaPagamento {
-    BOLETO,
-    CARTAO,
+
+    /**
+     *
+     */
+    BOLETO(0),
+
+    /**
+     *
+     */
+    CARTAO(1);
+
+    /**
+     *
+     */
+    public final int formaPagamento;
+
+    /**
+     * @param formaPagamento
+     */
+    FormaPagamento(final int formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
 }

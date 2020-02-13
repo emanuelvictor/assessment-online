@@ -1,4 +1,4 @@
-package online.meavalia.domain;
+package online.meavalia.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import online.meavalia.application.aspect.exceptions.AccessDeniedException;
@@ -12,7 +12,6 @@ import online.meavalia.domain.entity.usuario.Conta;
 import online.meavalia.domain.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;

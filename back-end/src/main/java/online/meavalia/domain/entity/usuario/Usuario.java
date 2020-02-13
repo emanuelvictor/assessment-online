@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import online.meavalia.domain.entity.unidade.Unidade;
 import online.meavalia.domain.entity.usuario.vinculo.Avaliavel;
 import online.meavalia.domain.entity.usuario.vinculo.Operador;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -23,9 +24,13 @@ import java.util.stream.Collectors;
 @Data
 @Entity
 @Audited
+@Cacheable
 @EqualsAndHashCode(callSuper = true)
 public class Usuario extends Pessoa implements Serializable {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = -54871266869107167L;
 
     /*
@@ -83,14 +88,16 @@ public class Usuario extends Pessoa implements Serializable {
      */
     @JsonProperty
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario")
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Operador> operadores;
 
     /**
      * Lista auxiliar que serve para informar se o usuário é um avaliável
      */
-    @EqualsAndHashCode.Exclude
     @JsonProperty
+    @EqualsAndHashCode.Exclude
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario")
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Avaliavel> avaliaveis;
 
     /**
@@ -327,8 +334,8 @@ public class Usuario extends Pessoa implements Serializable {
     /**
      *
      */
-    @PrePersist
     @PreUpdate
+    @PrePersist
     public void handlePathFoto() {
         if (this.foto != null) {
             this.fotoPath = "./usuarios/" + id + "/foto";

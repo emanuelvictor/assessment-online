@@ -2,6 +2,7 @@ package online.meavalia.domain.entity.generic;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +12,8 @@ import java.time.LocalDateTime;
  */
 @Data
 @MappedSuperclass
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public abstract class AbstractEntity implements IEntity<Long> {
 
     private static final long serialVersionUID = -3875941859616104733L;

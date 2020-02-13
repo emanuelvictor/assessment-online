@@ -1,7 +1,7 @@
 package online.meavalia.application.scheduling;
 
 import lombok.RequiredArgsConstructor;
-import online.meavalia.domain.FaturaService;
+import online.meavalia.domain.service.FaturaService;
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
