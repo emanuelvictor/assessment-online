@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
 
@@ -122,8 +122,19 @@ export class CroppablePhotoComponent implements OnInit {
         });
       };
     }
+  }
 
+  /**
+   *
+   */
+  @ViewChild('croppableFileUpload', {static: false})
+  croppableFileUpload: ElementRef<HTMLInputElement>;
 
+  /**
+   *
+   */
+  chooseCroppableFileUpload() {
+    this.croppableFileUpload.nativeElement.click()
   }
 
 

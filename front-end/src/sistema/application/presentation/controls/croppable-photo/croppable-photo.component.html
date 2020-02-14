@@ -42,16 +42,12 @@
     </button>
   </div>
   <div *ngIf='!object.filePath' flex>
-    <td-file-upload #singleFileUpload
-                    (change)='fileChange($event)'
-                    accept='.png, .gif, .jpg, .jpeg'
-                    defaultColor='primary'
-                    name="file">
-      <span>{{ singleFileUpload?.files?.name }}</span>
-      <ng-template td-file-input-label>
-        <mat-icon>attach_file</mat-icon>
-        <span>Adicionar foto</span>
-      </ng-template>
-    </td-file-upload>
+    <input type='file' accept='.png, .gif, .jpg, .jpeg' #croppableFileUpload
+           id='croppableFileUpload' (change)='fileChange($event)' style='display:none'>
+
+    <button mat-raised-button (click)='chooseCroppableFileUpload()' type='button' color='accent'>
+      <mat-icon>attach_file</mat-icon>
+      <span>Adicionar foto</span>
+    </button>
   </div>
 </div>
