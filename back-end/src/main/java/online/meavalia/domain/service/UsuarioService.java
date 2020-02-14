@@ -216,6 +216,10 @@ public class UsuarioService {
         usuario.setThumbnail(usuarioDB.getThumbnail());
         usuario.setAvatar(usuarioDB.getAvatar());
 
+        // TODO falcatrua
+        if (usuario.getConta().getEmail().isEmpty())
+            usuario.getConta().setEmail(null);
+
         usuarioRepository.save(usuario);
 
         // Se estiver atualizando a própria conta, deve atualizar a sessão. Senão o sistema quebra.

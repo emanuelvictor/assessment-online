@@ -31,9 +31,9 @@
                     </div>
                   </button>
                   <mat-form-field flex>
-                    <input [(ngModel)]='configuracao.um'
-                           formControlName='um' id='um' matInput
-                           maxlength='144'
+                    <input maxlength='144' matInput
+                           formControlName='um' id='um'
+                           [(ngModel)]='configuracao.um'
                            name='um' placeholder='Péssimo'>
                     <mat-error>
                       Campo obrigatório
@@ -48,11 +48,11 @@
                     </div>
                   </button>
                   <mat-form-field flex>
-                    <input maxlength='144'
-                           id='dois' matInput
+                    <input placeholder='Ruim'
+                           name='dois' id='dois'
                            formControlName='dois'
-                           [(ngModel)]='configuracao.dois'
-                           name='dois' placeholder='Ruim'>
+                           maxlength='144' matInput
+                           [(ngModel)]='configuracao.dois'>
                     <mat-error>
                       Campo obrigatório
                     </mat-error>
@@ -66,9 +66,9 @@
                     </div>
                   </button>
                   <mat-form-field flex>
-                    <input [(ngModel)]='configuracao.tres'
-                           formControlName='tres' id='tres' matInput
-                           maxlength='144'
+                    <input matInput maxlength='144'
+                           [(ngModel)]='configuracao.tres'
+                           formControlName='tres' id='tres'
                            name='tres' placeholder='Regular'>
                     <mat-error>
                       Campo obrigatório
@@ -119,7 +119,8 @@
 
                 <div flex layout='column'>
                   <div layout='column' layout-margin>
-                    <h2 [matTooltipPosition]="'below'" class='mat-subheading-2 tc-grey-500' flex
+                    <h2 [matTooltipPosition]="'below'" flex
+                        class='mat-subheading-2 tc-grey-500'
                         matTooltip='Logomarca e mensagem de agradecimento exibido ao término da avaliação'>
                       Logomarca e mensagem de agradecimento
                     </h2>
