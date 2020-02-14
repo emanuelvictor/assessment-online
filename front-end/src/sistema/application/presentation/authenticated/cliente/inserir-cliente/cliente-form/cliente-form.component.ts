@@ -259,4 +259,17 @@ export class ClienteFormComponent implements OnInit {
     this.fotoPath = null;
     this.arquivoFile = null;
   }
+
+  /**
+   *
+   */
+  @ViewChild('fileUpload', {static: false})
+  fileUpload: ElementRef<HTMLInputElement>;
+
+  /**
+   *
+   */
+  choosePhoto() {
+    this.fileUpload.nativeElement.click()
+  }
 }

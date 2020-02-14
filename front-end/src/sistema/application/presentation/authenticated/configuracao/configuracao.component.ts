@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, Renderer2} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, Renderer2, ViewChild} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 import {DomSanitizer} from '@angular/platform-browser';
@@ -344,4 +344,29 @@ export class ConfiguracaoComponent implements OnInit {
     this.fileRepository.importt(this.importFile);
   }
 
+  /**
+   *
+   */
+  @ViewChild('logomarcaUpload', {static: false})
+  logomarcaUpload: ElementRef<HTMLInputElement>;
+
+  /**
+   *
+   */
+  chooseLogomarca() {
+    this.logomarcaUpload.nativeElement.click()
+  }
+
+  /**
+   *
+   */
+  @ViewChild('backgroundUpload', {static: false})
+  backgroundUpload: ElementRef<HTMLInputElement>;
+
+  /**
+   *
+   */
+  chooseBackground() {
+    this.backgroundUpload.nativeElement.click()
+  }
 }

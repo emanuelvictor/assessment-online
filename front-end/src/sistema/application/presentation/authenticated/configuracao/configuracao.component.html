@@ -83,10 +83,10 @@
                     </div>
                   </button>
                   <mat-form-field flex>
-                    <input [(ngModel)]='configuracao.quatro'
-                           formControlName='quatro' id='quatro'
-                           matInput
-                           maxlength='144' name='quatro' placeholder='Bom'>
+                    <input matInput maxlength='144'
+                           name='quatro' placeholder='Bom'
+                           [(ngModel)]='configuracao.quatro'
+                           formControlName='quatro' id='quatro'>
                     <mat-error>
                       Campo obrigatório
                     </mat-error>
@@ -100,10 +100,10 @@
                     </div>
                   </button>
                   <mat-form-field flex>
-                    <input [(ngModel)]='configuracao.cinco'
-                           formControlName='cinco'
-                           id='cinco' matInput maxlength='144'
-                           name='cinco' placeholder='Ótimo'>
+                    <input formControlName='cinco'
+                           [(ngModel)]='configuracao.cinco'
+                           name='cinco' placeholder='Ótimo'
+                           id='cinco' matInput maxlength='144'>
                     <mat-error>
                       Campo obrigatório
                     </mat-error>
@@ -119,8 +119,7 @@
 
                 <div flex layout='column'>
                   <div layout='column' layout-margin>
-                    <h2 [matTooltipPosition]="'below'" class='mat-subheading-2 tc-grey-500'
-                        flex
+                    <h2 [matTooltipPosition]="'below'" class='mat-subheading-2 tc-grey-500' flex
                         matTooltip='Logomarca e mensagem de agradecimento exibido ao término da avaliação'>
                       Logomarca e mensagem de agradecimento
                     </h2>
@@ -132,22 +131,20 @@
                         <brand [configuracao]="{'id': configuracao.id , 'logoPath': logoPath}"></brand>
                       </div>
                       <div *ngIf='logoPath' flex>
-                        <button (click)='removeFile()' class='tc-grey-500'
-                                mat-button type='button'>
+                        <button (click)='removeFile()' class='tc-grey-500' mat-button type='button'>
                           REMOVER FOTO
                         </button>
                       </div>
                       <div *ngIf='!logoPath' flex>
-                        <td-file-upload #singleFileUpload
-                                        (change)='fileChange($event)'
-                                        accept='.png, .gif, .jpg, .jpeg' defaultColor='primary'
-                                        name='file'>
-                          <span>{{ singleFileUpload?.files?.name }}</span>
-                          <ng-template td-file-input-label>
-                            <mat-icon>attach_file</mat-icon>
-                            <span>Adicionar logomarca</span>
-                          </ng-template>
-                        </td-file-upload>
+
+                        <input type='file' #logomarcaUpload
+                               id='logomarcaUpload' (change)='fileChange($event)'
+                               accept='.png, .gif, .jpg, .jpeg' style='display:none'>
+
+                        <button mat-raised-button (click)='chooseLogomarca()' type='button' color='accent'>
+                          <mat-icon>attach_file</mat-icon>
+                          <span>Adicionar logomarca</span>
+                        </button>
                       </div>
                     </div>
 
@@ -155,10 +152,11 @@
 
                       <div flex layout='row'>
                         <mat-form-field flex>
-                          <input formControlName='agradecimento'
-                                 [(ngModel)]='configuracao.agradecimento'
-                                 id='agradecimento' matInput maxlength='144'
-                                 name='agradecimento' placeholder='Mensagem de agradecimento'>
+                          <input maxlength='144' matInput
+                                 formControlName='agradecimento'
+                                 placeholder='Mensagem de agradecimento'
+                                 id='agradecimento' name='agradecimento'
+                                 [(ngModel)]='configuracao.agradecimento'>
                           <mat-error>
                             Campo obrigatório
                           </mat-error>
@@ -166,9 +164,9 @@
                       </div>
 
                       <div flex layout='row'>
-                        <mat-checkbox flex-lg='40' flex-xl='30'
+                        <mat-checkbox flex flex-lg='40' flex-xl='30'
+                                      [ngModelOptions]='{standalone: true}'
                                       style='padding: 15px; padding-left: 0'
-                                      flex [ngModelOptions]='{standalone: true}'
                                       [(ngModel)]='configuracao.quebrarLinhaNaSelecaoDeItenAvaliavel'>
                           Quebrar linha durante a seleção de ítens avaliáveis (no aplicativo móvel).
                         </mat-checkbox>
@@ -185,10 +183,10 @@
                           </mat-checkbox>
 
                           <mat-form-field *ngIf='configuracao?.feedback' [@fadeInOut] flex style='margin-top: -3px'>
-                            <input formControlName='feedbackEnunciado'
+                            <input formControlName='feedbackEnunciado' matInput
                                    [(ngModel)]='configuracao.feedbackEnunciado'
-                                   id='feedbackEnunciado' matInput maxlength='144'
-                                   name='feedbackEnunciado' placeholder='Enunciado para o feedback'>
+                                   id='feedbackEnunciado' name='feedbackEnunciado'
+                                   maxlength='144' placeholder='Enunciado para o feedback'>
                             <mat-error>
                               Campo obrigatório
                             </mat-error>
@@ -205,8 +203,7 @@
                           <mat-form-field flex style='margin-top: -3px'>
                             <mat-select [(value)]='configuracao.tipoFeedback'
                                         placeholder='Tipo do campo de Feedback'>
-                              <mat-option *ngFor='let tipoFeedback of tiposFeedbacks'
-                                          [value]='tipoFeedback'>
+                              <mat-option *ngFor='let tipoFeedback of tiposFeedbacks' [value]='tipoFeedback'>
                                 {{tipoFeedback}}
                               </mat-option>
                             </mat-select>
@@ -227,8 +224,7 @@
               <div layout='row' layout-align='start center'>
                 <div layout='column' layout-margin>
                   <h2 [matTooltipPosition]="'below'" class='mat-subheading-2 tc-grey-500'
-                      flex
-                      matTooltip='Plano de fundo da tela de login e do aplicativo móvel'>
+                      flex matTooltip='Plano de fundo da tela de login e do aplicativo móvel'>
                     Plano de fundo do sistema
                   </h2>
                 </div>
@@ -246,56 +242,18 @@
                     </button>
                   </div>
                   <div *ngIf='!backgroundPath' flex>
-                    <td-file-upload accept='.png, .gif, .jpg, .jpeg' defaultColor='primary'
-                                    name='file' #backgroundFileUpload (change)='backgroundChange($event)'>
-                      <span>{{ backgroundFileUpload?.files?.name }}</span>
-                      <ng-template td-file-input-label>
-                        <mat-icon>attach_file</mat-icon>
-                        <span>Adicionar background</span>
-                      </ng-template>
-                    </td-file-upload>
+
+                    <input type='file' accept='.png, .gif, .jpg, .jpeg' #backgroundUpload
+                           id='backgroundUpload' (change)='fileChange($event)' style='display:none'>
+
+                    <button mat-raised-button (click)='chooseBackground()' type='button' color='accent'>
+                      <mat-icon>attach_file</mat-icon>
+                      <span>Adicionar background</span>
+                    </button>
+
                   </div>
                 </div>
                 <span flex='50'></span>
-              </div>
-            </div>
-
-            <mat-divider *ngIf='contaAutenticada?.root' [@fadeInOut]></mat-divider>
-
-            <div *ngIf='contaAutenticada?.root' [@fadeInOut]
-                 layout='column' layout-margin style='margin-top: 20px; padding-bottom: 25px'>
-              <div layout='row' layout-align='start center'>
-                <div layout='column' layout-margin>
-                  <h2 [matTooltipPosition]="'below'" class='mat-subheading-2 tc-grey-500'
-                      flex
-                      matTooltip='Importação de dados do antigo sistema'>
-                    Importação de dados
-                  </h2>
-                </div>
-              </div>
-              <div class='push-left' layout='row' layout-align='center center'>
-                <div flex='50' layout='column' layout-align='center start' style='margin-left: 30px'>
-                  <div *ngIf='importFilePath' [@fadeInOut] flex>
-                    <button (click)='removeImportFile()' class='tc-grey-500' mat-button type='button'>
-                      REMOVER ARQUIVO
-                    </button>
-                  </div>
-                  <div *ngIf='!importFilePath' [@fadeInOut] flex>
-                    <td-file-upload #importFileUpload
-                                    (change)='importFileChange($event)'
-                                    accept='.json' defaultColor='primary'
-                                    name='file'>
-                      <span>{{ importFileUpload?.files?.name }}</span>
-                      <ng-template td-file-input-label>
-                        <mat-icon>attach_file</mat-icon>
-                        <span>Adicionar arquivo</span>
-                      </ng-template>
-                    </td-file-upload>
-                  </div>
-                </div>
-                <button (click)='importt()' color='accent' flex mat-raised-button type='button'>
-                  Enviar
-                </button>
               </div>
             </div>
 

@@ -226,12 +226,16 @@ export class AtendenteFormComponent implements OnInit {
     this.arquivoFile = null;
   }
 
-
+  /**
+   *
+   */
   @ViewChild('fileUpload', {static: false})
   fileUpload: ElementRef<HTMLInputElement>;
 
-  test() {
-    console.log(this.fileUpload);
+  /**
+   *
+   */
+  choosePhoto() {
     this.fileUpload.nativeElement.click()
   }
 }

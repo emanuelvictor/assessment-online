@@ -1,17 +1,17 @@
-<usuario-form (save)="save()" [usuario]="atendente">
+<usuario-form (save)='save()' [usuario]='atendente'>
 
   <!--cabeçalho div-->
   <div header layout='column' layout-margin>
     <div layout='row' layout-align='start center'>
 
-      <button class="mat-headline tc-grey-500"
-              color="primary" mat-icon-button
-              routerLink="../" type="button">
+      <button routerLink='../' type='button'
+              color='primary' mat-icon-button
+              class='mat-headline tc-grey-500'>
         <mat-icon>arrow_back</mat-icon>
       </button>
 
-      <div layout="row" layout-margin>
-        <h1 class="mat-headline tc-grey-500" flex> {{'Inserir'}}</h1>
+      <div layout='row' layout-margin>
+        <h1 class='mat-headline tc-grey-500' flex> {{'Inserir'}}</h1>
       </div>
     </div>
   </div>
@@ -20,15 +20,12 @@
                style='margin-left: -25px; margin-right: -25px; margin-bottom: 40px; margin-top: 40px; position: inherit;width: auto'>
   </mat-divider>
 
-  <vincular-unidade (removeOperador)='removeOperador($event)'
-                    (saveOperador)='saveOperador($event)'
-                    (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'
+  <vincular-unidade (saveOperador)='saveOperador($event)'
+                    [unidades]='unidades' [usuario]='atendente'
                     *ngIf='vincularUnidadeTipoAvaliacaoDispositivo'
-                    [avaliaveis]='avaliaveis'
-                    [operadores]='operadores'
-                    [unidades]='unidades'
-                    [usuario]='atendente'
-                    unidades>
+                    (removeOperador)='removeOperador($event)' unidades
+                    [avaliaveis]='avaliaveis' [operadores]='operadores'
+                    (unidadesTiposAvaliacoesDispositivoChange)='unidadesTiposAvaliacoesDispositivoChange($event)'>
   </vincular-unidade>
 
   <!--actions div-->
