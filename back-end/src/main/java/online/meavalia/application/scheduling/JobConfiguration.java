@@ -68,11 +68,17 @@ public class JobConfiguration {
     @RequiredArgsConstructor
     public static class LocalJob implements Job {
 
+        /**
+         *
+         */
         private final FaturaService faturaService;
 
+        /**
+         * @param context JobExecutionContext
+         */
         public void execute(final JobExecutionContext context) {
             final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            final LocalDateTime dateTime = LocalDateTime.parse("2020-10-02 00:00", formatter);
+            final LocalDateTime dateTime = LocalDateTime.parse("2020-03-01 00:00", formatter);
             if (LocalDateTime.now().isAfter(dateTime))
                 faturaService.verificarFaturas();
         }
