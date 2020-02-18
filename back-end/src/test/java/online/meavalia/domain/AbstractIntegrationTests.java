@@ -11,8 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.BeforeTransaction;
 
 @ActiveProfiles("test")
-@FixMethodOrder(MethodSorters.JVM)
 @RunWith(SpringRunner.class)
+@FixMethodOrder(MethodSorters.JVM)
 @SpringBootTest(classes = {ApplicationTest.class, Application.class})
 public abstract class AbstractIntegrationTests {
 
