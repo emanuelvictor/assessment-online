@@ -15,7 +15,9 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
@@ -62,7 +64,7 @@ public class HibernateConfig {
 
         em.setJpaVendorAdapter(jpaVendorAdapter());
 
-        final HashMap<String, Object> properties = new HashMap<>();
+        final Map<String, Object> properties = new HashMap<>();
         properties.put(Environment.IMPLICIT_NAMING_STRATEGY, env.getProperty("spring.jpa.hibernate.naming.implicit-strategy"));
         properties.put(Environment.PHYSICAL_NAMING_STRATEGY, env.getProperty("spring.jpa.hibernate.naming.physical-strategy"));
 
