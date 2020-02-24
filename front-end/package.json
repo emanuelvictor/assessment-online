@@ -6,7 +6,7 @@
       "version": "6.1.2"
     }
   },
-  "version": "1.0.3",
+  "version": "1.0.4",
   "scripts": {
     "sistema": "ng serve --proxy-config proxy.conf.json sistema --open",
     "site": "ng serve --proxy-config proxy.conf.json site --port 9002 --open",
