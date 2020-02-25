@@ -32,7 +32,19 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
      *
      */
     @Test
-    @Sql({"/dataset/truncate-all-tables.sql", "/dataset/plano.sql", "/dataset/assinatura.sql", "/dataset/dispositivo.sql"})
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/cidade.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/tipo-avaliacao.sql",
+            "/dataset/pessoa.sql",
+            "/dataset/endereco.sql",
+            "/dataset/unidade.sql",
+            "/dataset/unidade-tipo-avaliacao.sql",
+            "/dataset/unidade-tipo-avaliacao-dispositivo.sql"
+    })
     public void getDispositivoByIdMustPass() {
         final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(3L);
         Assert.assertNotNull(dispositivo.getNome());
@@ -51,7 +63,19 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
      *
      */
     @Test
-    @Sql({"/dataset/truncate-all-tables.sql", "/dataset/plano.sql", "/dataset/assinatura.sql", "/dataset/dispositivo.sql"})
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/cidade.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/tipo-avaliacao.sql",
+            "/dataset/pessoa.sql",
+            "/dataset/endereco.sql",
+            "/dataset/unidade.sql",
+            "/dataset/unidade-tipo-avaliacao.sql",
+            "/dataset/unidade-tipo-avaliacao-dispositivo.sql"
+    })
     public void getDispositivoByCodigoMustPass() {
         final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(105782L);
         Assert.assertNotNull(dispositivo.getNome());
@@ -72,7 +96,19 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
      *
      */
     @Test
-    @Sql({"/dataset/truncate-all-tables.sql", "/dataset/plano.sql", "/dataset/assinatura.sql", "/dataset/dispositivo.sql"})
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/cidade.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/tipo-avaliacao.sql",
+            "/dataset/pessoa.sql",
+            "/dataset/endereco.sql",
+            "/dataset/unidade.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/unidade-tipo-avaliacao.sql",
+            "/dataset/unidade-tipo-avaliacao-dispositivo.sql"
+    })
     public void updateStatusAtivoWithDispositivoDesativadoMustPass() {
         final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(5L);
         Assert.assertFalse(dispositivo.isEnabled());
@@ -85,7 +121,19 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
      *
      */
     @Test
-    @Sql({"/dataset/truncate-all-tables.sql", "/dataset/plano.sql", "/dataset/assinatura.sql", "/dataset/dispositivo.sql"})
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/cidade.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/tipo-avaliacao.sql",
+            "/dataset/pessoa.sql",
+            "/dataset/endereco.sql",
+            "/dataset/unidade.sql",
+            "/dataset/unidade-tipo-avaliacao.sql",
+            "/dataset/unidade-tipo-avaliacao-dispositivo.sql"
+    })
     public void reativarDispositivoMustPass() {
         this.updateStatusAtivoWithDispositivoDesativadoMustPass();
     }
