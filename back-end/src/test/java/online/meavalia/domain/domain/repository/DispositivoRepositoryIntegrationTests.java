@@ -79,7 +79,7 @@ public class DispositivoRepositoryIntegrationTests extends AbstractIntegrationTe
             "/dataset/unidade-tipo-avaliacao-dispositivo.sql"
     })
     public void findByCodigoMustPass() {
-        final Dispositivo dispositivo = dispositivoRepository.findByCodigo(105782L).orElse(null);
+        final Dispositivo dispositivo = dispositivoRepository.getDevice(105782L).orElse(null);
         Assert.assertNotNull(dispositivo);
         Assert.assertNotNull(dispositivo.getNome());
     }

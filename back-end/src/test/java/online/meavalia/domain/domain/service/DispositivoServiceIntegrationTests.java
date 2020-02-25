@@ -85,7 +85,19 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
      *
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
-    @Sql({"/dataset/truncate-all-tables.sql", "/dataset/plano.sql", "/dataset/assinatura.sql", "/dataset/dispositivo.sql"})
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/cidade.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/tipo-avaliacao.sql",
+            "/dataset/pessoa.sql",
+            "/dataset/endereco.sql",
+            "/dataset/unidade.sql",
+            "/dataset/unidade-tipo-avaliacao.sql",
+            "/dataset/unidade-tipo-avaliacao-dispositivo.sql"
+    })
     public void updateStatusAtivoWithDispositivoDesativadoMustFail() {
         final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(2L);
         Assert.assertFalse(dispositivo.isEnabled());
@@ -142,7 +154,19 @@ public class DispositivoServiceIntegrationTests extends AbstractIntegrationTests
      *
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
-    @Sql({"/dataset/truncate-all-tables.sql", "/dataset/plano.sql", "/dataset/assinatura.sql", "/dataset/dispositivo.sql"})
+    @Sql({
+            "/dataset/truncate-all-tables.sql",
+            "/dataset/cidade.sql",
+            "/dataset/plano.sql",
+            "/dataset/assinatura.sql",
+            "/dataset/dispositivo.sql",
+            "/dataset/tipo-avaliacao.sql",
+            "/dataset/pessoa.sql",
+            "/dataset/endereco.sql",
+            "/dataset/unidade.sql",
+            "/dataset/unidade-tipo-avaliacao.sql",
+            "/dataset/unidade-tipo-avaliacao-dispositivo.sql"
+    })
     public void updateDispositivoDesativadoMustFail() {
         final Dispositivo dispositivo = dispositivoService.getDispositivoByIdOrCodigo(2L);
         Assert.assertFalse(dispositivo.isEnabled());

@@ -119,23 +119,20 @@ public class DispositivoService {
      * @return
      */
     public Dispositivo getDispositivoByIdOrCodigo(final long id) {
-        // Pega o dispositivo da base
-        Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElse(null);
 
-        if (dispositivo == null)
-            dispositivo = this.dispositivoRepository.findByCodigo(id).orElse(null);
+        // Pega o dispositivo da base
+        final Dispositivo dispositivo = this.dispositivoRepository.getDevice(id).orElse(null);
 
         Assert.notNull(dispositivo, "Não encontrado");
 
         // Seta o tenant atual do dispositivo
         this.tenantIdentifierResolver.setSchema(dispositivo.getTenant());
-        dispositivo = this.loadDispositivo(dispositivo, true);
+        this.loadDispositivo(dispositivo, true);
 
         return dispositivo;
     }
 
     /**
-     *
      * @param id
      * @return
      */
@@ -146,17 +143,16 @@ public class DispositivoService {
     /**
      * Carrega todas as informações necessárias do dispositivo para o funcionamento das avaliações.
      *
-     * @param dispositivo
+     * @param dispositivo Dispositivo
      * @param ativo       Pegar os vínculos ativos
-     * @return
+     * @return void
      */
     @Transactional(readOnly = true)
-    public Dispositivo loadDispositivo(final Dispositivo dispositivo, final Boolean ativo) {
+    public void loadDispositivo(final Dispositivo dispositivo, final Boolean ativo) {
         dispositivo.setUnidadesTiposAvaliacoesDispositivo(new HashSet<>(this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters(null, dispositivo.getId(), null, ativo, ativo, null).getContent()));
         dispositivo.getUnidadesTiposAvaliacoesDispositivo().forEach(unidadeTipoAvaliacaoDispositivo ->
                 unidadeTipoAvaliacaoDispositivo.setAvaliaveis(new HashSet<>(this.avaliavelService.listByFilters(null, null, null, true, unidadeTipoAvaliacaoDispositivo.getId(), null).getContent()))
         );
-        return dispositivo;
     }
 
     /**
@@ -203,8 +199,9 @@ public class DispositivoService {
         //  seto o número de série aqui, e somente aqui, não n o carramento do dispositivo
         dispositivo.setNumeroSerie(numeroSerie);
 
-        //  Salva no banco
-        this.dispositivoRepository.save(this.loadDispositivo(dispositivo, null));
+        //  Load and save in the database
+        this.loadDispositivo(dispositivo, null);
+        this.dispositivoRepository.save(dispositivo);
 
         // Cria o contexto de segurança
         final SecurityContext securityContext = createSecurityContextByUserDetails(dispositivo);
@@ -291,7 +288,7 @@ public class DispositivoService {
      */
     public Dispositivo updateStatusAtivo(final long id) {
 
-        final Dispositivo dispositivo = this.dispositivoRepository.findById(id).orElseThrow();
+        final Dispositivo dispositivo = this.dispositivoRepository.getDevice(id).orElseThrow();
 
         if (dispositivo.getDataDesativacao() != null)
             Assert.isTrue(dispositivo.getDataDesativacao().isBefore(LocalDate.now().minusMonths(6)), "Você só pode reativar o dispositivo a partir do dia " + dispositivo.getDataReativacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));

@@ -138,6 +138,38 @@ public class Dispositivo extends AbstractEntity implements Serializable, TenantD
     }
 
     /**
+     * @param id
+     * @param dataDesativacao
+     * @param tenant
+     * @param codigoExpiration
+     * @param numeroSerie
+     * @param codigo
+     * @param senha
+     * @param nome
+     * @param time
+     * @param quebrarLinhaNaSelecaoDeItemAvaliavel
+     */
+    public Dispositivo(final Long id, final LocalDate dataDesativacao,
+                       final @NotNull @Length(max = 150) String tenant,
+                       final @NotNull LocalDateTime codigoExpiration,
+                       final String numeroSerie,
+                       final @NotNull @Max(999999) @Min(100000) long codigo,
+                       final @NotNull @Max(999999) @Min(100000) Long senha, final @NotNull String nome,
+                       final @NotNull @Min(value = 5, message = "O mínimo são 5 segundos") @Max(value = 600, message = "O máximo são 10 minutos (600 segundos)") short time,
+                       final boolean quebrarLinhaNaSelecaoDeItemAvaliavel) {
+        super(id);
+        this.dataDesativacao = dataDesativacao;
+        this.tenant = tenant;
+        this.codigoExpiration = codigoExpiration;
+        this.numeroSerie = numeroSerie;
+        this.codigo = codigo;
+        this.senha = senha;
+        this.nome = nome;
+        this.time = time;
+        this.quebrarLinhaNaSelecaoDeItemAvaliavel = quebrarLinhaNaSelecaoDeItemAvaliavel;
+    }
+
+    /**
      * @return String
      */
     public static long getRandomNumberInRange() {

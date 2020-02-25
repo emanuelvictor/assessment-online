@@ -24,7 +24,29 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
      * @param codigo
      * @return
      */
-    Optional<Dispositivo> findByCodigo(@Param("codigo") final Long codigo);
+    @Query("SELECT new Dispositivo(" +
+            "   dispositivo.id, " +
+            "   dispositivo.dataDesativacao," +
+            "   dispositivo.tenant," +
+            "   dispositivo.codigoExpiration," +
+            "   dispositivo.numeroSerie," +
+            "   dispositivo.codigo," +
+            "   dispositivo.senha," +
+            "   dispositivo.nome," +
+            "   dispositivo.time," +
+            "   dispositivo.quebrarLinhaNaSelecaoDeItemAvaliavel" +
+            ") FROM Dispositivo dispositivo WHERE " +
+            "   (   " +
+            "       dispositivo.codigo = :codeOrId OR dispositivo.id = :codeOrId" +
+            "   )"
+    )
+    Optional<Dispositivo> getDevice(@Param("codeOrId") final Long codeOrId);
+
+//    /**
+//     * @param codigo
+//     * @return
+//     */
+//    Optional<Dispositivo> findDispositivoByCodigo(@Param("codigo") final Long codigo);
 
     /**
      * @param usuarioId {long}
