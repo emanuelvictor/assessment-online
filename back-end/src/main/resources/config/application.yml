@@ -13,7 +13,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
     hikari.maximum-pool-size: 3
-    url: jdbc:postgresql://localhost:5432/assessment
+    url: jdbc:postgresql://meavalia.online:5432/assessment
     username: assessment
     password: assessment
 
