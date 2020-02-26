@@ -118,9 +118,13 @@ public class AvaliacaoService {
         } else
             return ReactiveSecurityContextHolder.getContext()
                     .map(SecurityContext::getAuthentication)
-                    .switchIfEmpty(Mono.defer(() -> Mono.error(new AccessDeniedException("Usuário não autenticado"))))
-                    .map(authentication -> saveInner(preSave(agrupador)))
-                    .doOnError(Throwable::printStackTrace);
+                    .switchIfEmpty(Mono.empty())
+                    .map(authentication -> saveInner(preSave(agrupador)));
+//            return ReactiveSecurityContextHolder.getContext()
+//                    .map(SecurityContext::getAuthentication)
+//                    .switchIfEmpty(Mono.defer(() -> Mono.error(new AccessDeniedException("Usuário não autenticado"))))
+//                    .map(authentication -> saveInner(preSave(agrupador)))
+//                    .doOnError(Throwable::printStackTrace);
     }
 
     /**
