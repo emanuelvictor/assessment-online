@@ -127,9 +127,7 @@ public class DispositivoService {
 
         // Seta o tenant atual do dispositivo
         this.tenantIdentifierResolver.setSchema(dispositivo.getTenant());
-        this.loadDispositivo(dispositivo, true);
-
-        return dispositivo;
+        return this.loadDispositivo(dispositivo, true);
     }
 
     /**
@@ -148,11 +146,12 @@ public class DispositivoService {
      * @return void
      */
     @Transactional(readOnly = true)
-    public void loadDispositivo(final Dispositivo dispositivo, final Boolean ativo) {
+    public Dispositivo loadDispositivo(final Dispositivo dispositivo, final Boolean ativo) {
         dispositivo.setUnidadesTiposAvaliacoesDispositivo(new HashSet<>(this.unidadeTipoAvaliacaoDispositivoRepository.listByFilters(null, dispositivo.getId(), null, ativo, ativo, null).getContent()));
         dispositivo.getUnidadesTiposAvaliacoesDispositivo().forEach(unidadeTipoAvaliacaoDispositivo ->
                 unidadeTipoAvaliacaoDispositivo.setAvaliaveis(new HashSet<>(this.avaliavelService.listByFilters(null, null, null, true, unidadeTipoAvaliacaoDispositivo.getId(), null).getContent()))
         );
+        return dispositivo;
     }
 
     /**
@@ -200,8 +199,7 @@ public class DispositivoService {
         dispositivo.setNumeroSerie(numeroSerie);
 
         //  Load and save in the database
-        this.loadDispositivo(dispositivo, null);
-        this.dispositivoRepository.save(dispositivo);
+        this.dispositivoRepository.save(this.loadDispositivo(dispositivo, null));
 
         // Cria o contexto de segurança
         final SecurityContext securityContext = createSecurityContextByUserDetails(dispositivo);
