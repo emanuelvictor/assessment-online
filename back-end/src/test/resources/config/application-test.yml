@@ -11,6 +11,11 @@ spring.flyway:
 
   #JPA
   jpa:
-    hibernate.ddl-auto: validate
+    hibernate:
+      ddl-auto: validate
     show-sql: true
     open-in-view: true
+
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.javax.cache.missing_cache_strategy: none
