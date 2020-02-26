@@ -206,7 +206,7 @@ public class DispositivoService {
 
         // Insere o contexto no repositório de contexto e retorna o usuário inserido
         if (exchange != null)
-            serverSecurityContextRepository.save(exchange, securityContext).subscribe();
+            serverSecurityContextRepository.save(exchange, securityContext).block();
 
         // Avisa os websockets
         dispositivosWrapperHandler.stream().filter(t -> t.getResourceId().equals(dispositivo.getId())).findFirst().ifPresent(
