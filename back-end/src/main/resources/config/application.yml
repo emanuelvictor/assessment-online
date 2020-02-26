@@ -39,10 +39,10 @@ spring:
       hibernate.id.new_generator_mappings: true
       hibernate.order_by.default_null_ordering: last
 
-      hibernate.cache.use_second_level_cache: true
+      hibernate.cache.use_second_level_cache: false
       hibernate.cache.region.factory_class: org.redisson.hibernate.RedissonRegionFactory
       hibernate.cache.redisson.file-config: config/redisson.yaml
-      hibernate.cache.use_query_cache: true
+      hibernate.cache.use_query_cache: false
       hibernate.javax.cache.missing_cache_strategy: create
 
       hibernate.default_schema: public
