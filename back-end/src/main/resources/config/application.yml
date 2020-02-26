@@ -72,7 +72,7 @@ logging:
     org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: WARN
   file: /${user.home}/${spring.application.name}.log
 
-# configuracoes do actuatorcd
+# configuracoes do actuator
 management:
   endpoints:
     enabled-by-default: true
@@ -97,7 +97,6 @@ info:
     module: ${spring.application.name}
     version: @project.version@
     environment: @active.profile@
-    url: ${spring.application.name}.online
 
 google:
   recaptcha:

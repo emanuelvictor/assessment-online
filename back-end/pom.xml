@@ -5,7 +5,7 @@
 
     <groupId>online.meavalia</groupId>
     <artifactId>MEAvalia</artifactId>
-    <version>1.0.4-RELEASE</version>
+    <version>1.0.4</version>
 
     <packaging>jar</packaging>
 
