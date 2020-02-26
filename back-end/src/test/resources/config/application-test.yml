@@ -5,10 +5,6 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/assessment.test
 
-#FLYWAY
-spring.flyway:
-  enabled: true
-
   #JPA
   jpa:
     hibernate:
@@ -16,6 +12,11 @@ spring.flyway:
     show-sql: true
     open-in-view: true
 
+    properties:
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
       hibernate.javax.cache.missing_cache_strategy: none
+
+#FLYWAY
+spring.flyway:
+  enabled: true
