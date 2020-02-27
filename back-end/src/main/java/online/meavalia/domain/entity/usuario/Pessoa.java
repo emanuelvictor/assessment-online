@@ -3,7 +3,6 @@ package online.meavalia.domain.entity.usuario;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import online.meavalia.domain.entity.generic.AbstractEntity;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -17,8 +16,6 @@ import java.io.Serializable;
 @lombok.EqualsAndHashCode(callSuper = true)
 @Inheritance(strategy = InheritanceType.JOINED)
 @JsonIgnoreProperties({"authorities", "avaliaveis", "operadores"})
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Pessoa extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -112345695623456789L;

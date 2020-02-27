@@ -3,7 +3,6 @@ package online.meavalia.domain.entity.endereco;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import online.meavalia.domain.entity.generic.AbstractEntity;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 
@@ -17,8 +16,6 @@ import java.io.Serializable;
 @Entity
 @Audited
 @EqualsAndHashCode(callSuper = false)
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Endereco extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -1234564552908065252L;

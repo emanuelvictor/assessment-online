@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import online.meavalia.domain.entity.avaliacao.UnidadeTipoAvaliacao;
 import online.meavalia.domain.entity.generic.AbstractEntity;
 import online.meavalia.domain.entity.usuario.vinculo.Avaliavel;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -21,8 +20,6 @@ import java.util.Set;
         @UniqueConstraint(columnNames = {"unidade_tipo_avaliacao_id", "dispositivo_id"}),
         @UniqueConstraint(columnNames = {"unidade_tipo_avaliacao_id", "dispositivo_id", "ordem"})
 })
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UnidadeTipoAvaliacaoDispositivo extends AbstractEntity implements Serializable {
 
     /**

@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import online.meavalia.domain.entity.generic.AbstractEntity;
 import online.meavalia.infrastructure.tenant.TenantDetails;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -29,8 +28,6 @@ import static online.meavalia.Application.DEFAULT_TENANT_ID;
 @Table(schema = DEFAULT_TENANT_ID)
 @lombok.EqualsAndHashCode(callSuper = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Conta extends AbstractEntity implements TenantDetails, Serializable {
 
     private static final long serialVersionUID = 8321156549256137046L;

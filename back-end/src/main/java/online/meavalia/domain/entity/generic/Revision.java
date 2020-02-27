@@ -1,7 +1,6 @@
 package online.meavalia.domain.entity.generic;
 
 import lombok.Data;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
 
@@ -20,8 +19,6 @@ import static online.meavalia.Application.DEFAULT_TENANT_ID;
 @lombok.EqualsAndHashCode
 @Table(schema = DEFAULT_TENANT_ID)
 @org.hibernate.envers.RevisionEntity(EntityTrackingRevisionListener.class)
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 class Revision<T extends IEntity<ID>, ID extends Serializable> implements Serializable {
     /**
      *

@@ -4,7 +4,6 @@ import lombok.Data;
 import online.meavalia.domain.entity.generic.AbstractEntity;
 import online.meavalia.domain.entity.unidade.Unidade;
 import online.meavalia.domain.entity.usuario.Usuario;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -18,8 +17,6 @@ import java.io.Serializable;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"usuario_id", "unidade_id"})
 })
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Operador extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -963123951512387123L;

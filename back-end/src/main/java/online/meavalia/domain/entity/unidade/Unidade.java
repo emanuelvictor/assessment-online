@@ -5,7 +5,6 @@ import online.meavalia.domain.entity.endereco.Endereco;
 import online.meavalia.domain.entity.usuario.Pessoa;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
@@ -13,7 +12,6 @@ import javax.persistence.OneToOne;
 @Data
 @Entity
 @Audited
-@Cacheable
 @lombok.EqualsAndHashCode(callSuper = true)
 public class Unidade extends Pessoa {
 

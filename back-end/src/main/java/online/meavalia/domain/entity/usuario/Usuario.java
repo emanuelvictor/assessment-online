@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 import online.meavalia.domain.entity.unidade.Unidade;
 import online.meavalia.domain.entity.usuario.vinculo.Avaliavel;
 import online.meavalia.domain.entity.usuario.vinculo.Operador;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -24,7 +23,6 @@ import java.util.stream.Collectors;
 @Data
 @Entity
 @Audited
-@Cacheable
 @EqualsAndHashCode(callSuper = true)
 public class Usuario extends Pessoa implements Serializable {
 
@@ -88,7 +86,6 @@ public class Usuario extends Pessoa implements Serializable {
      */
     @JsonProperty
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario")
-    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Operador> operadores;
 
     /**
@@ -97,7 +94,6 @@ public class Usuario extends Pessoa implements Serializable {
     @JsonProperty
     @EqualsAndHashCode.Exclude
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario")
-    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Avaliavel> avaliaveis;
 
     /**

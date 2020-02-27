@@ -3,11 +3,9 @@ package online.meavalia.domain.entity.endereco;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import online.meavalia.domain.entity.generic.AbstractEntity;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -25,8 +23,6 @@ import static online.meavalia.Application.DEFAULT_TENANT_ID;
 @Audited
 @Table(schema = DEFAULT_TENANT_ID)
 @EqualsAndHashCode(callSuper = true)
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Pais extends AbstractEntity implements Serializable {
 
     /**

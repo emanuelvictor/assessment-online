@@ -4,10 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import online.meavalia.domain.entity.generic.AbstractEntity;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
@@ -19,8 +17,6 @@ import java.util.List;
 @Audited
 @NoArgsConstructor
 @lombok.EqualsAndHashCode(callSuper = true)
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Agrupador extends AbstractEntity implements Serializable {
 
     /**

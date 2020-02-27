@@ -3,10 +3,8 @@ package online.meavalia.domain.entity.avaliacao;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import online.meavalia.domain.entity.generic.AbstractEntity;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.io.Serializable;
@@ -16,8 +14,6 @@ import java.io.Serializable;
 @Audited
 @NoArgsConstructor
 @lombok.EqualsAndHashCode(callSuper = true)
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class TipoAvaliacao extends AbstractEntity implements Serializable {
 
     /**

@@ -42,8 +42,8 @@
 
         <commons-io.version>2.6</commons-io.version>
 
-        <!--        versõa do redisson-->
-        <org.redisson.version>3.10.2</org.redisson.version>
+<!--        &lt;!&ndash;        versõa do redisson&ndash;&gt;-->
+<!--        <org.redisson.version>3.10.2</org.redisson.version>-->
 
         <com.google.zxing.javase>3.2.0</com.google.zxing.javase>
 
@@ -263,12 +263,12 @@
             <version>${stella.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <!-- for Hibernate v5.3.x - v5.4.x -->
-            <artifactId>redisson-hibernate-53</artifactId>
-            <version>${org.redisson.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.redisson</groupId>-->
+<!--            &lt;!&ndash; for Hibernate v5.3.x - v5.4.x &ndash;&gt;-->
+<!--            <artifactId>redisson-hibernate-53</artifactId>-->
+<!--            <version>${org.redisson.version}</version>-->
+<!--        </dependency>-->
 
         <!-- Moip -->
         <dependency>

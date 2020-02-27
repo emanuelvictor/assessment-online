@@ -3,7 +3,6 @@ package online.meavalia.domain.entity.avaliacao;
 import lombok.Data;
 import online.meavalia.domain.entity.generic.AbstractEntity;
 import online.meavalia.domain.entity.unidade.Unidade;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -18,8 +17,6 @@ import java.io.Serializable;
         @UniqueConstraint(columnNames = {"tipo_avaliacao_id", "unidade_id"}),
         @UniqueConstraint(columnNames = {"unidade_id", "ordem"})
 })
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UnidadeTipoAvaliacao extends AbstractEntity implements Serializable {
 
     /**

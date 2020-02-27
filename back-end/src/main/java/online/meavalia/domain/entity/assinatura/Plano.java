@@ -3,7 +3,6 @@ package online.meavalia.domain.entity.assinatura;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import online.meavalia.domain.entity.generic.AbstractEntity;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -19,8 +18,6 @@ import static online.meavalia.Application.DEFAULT_TENANT_ID;
         @UniqueConstraint(columnNames = {"quantidade_avaliacoes", "valor_avaliacoes_excedentes", "valor_mensal"})
 })
 @EqualsAndHashCode(callSuper = true)
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Plano extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = -3875941812412345616L;

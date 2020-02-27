@@ -4,7 +4,6 @@ package online.meavalia.domain.entity.endereco;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import online.meavalia.domain.entity.generic.AbstractEntity;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 
@@ -26,8 +25,6 @@ import static online.meavalia.Application.DEFAULT_TENANT_ID;
 @Table(schema = DEFAULT_TENANT_ID, uniqueConstraints = {
         @UniqueConstraint(columnNames = {"nome", "pais_id"})
 })
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Estado extends AbstractEntity implements Serializable {
     /**
      *

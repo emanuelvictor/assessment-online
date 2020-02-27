@@ -10,7 +10,6 @@ import online.meavalia.Application;
 import online.meavalia.domain.entity.generic.AbstractEntity;
 import online.meavalia.domain.entity.usuario.Perfil;
 import online.meavalia.infrastructure.tenant.TenantDetails;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,8 +36,6 @@ import java.util.stream.Collectors;
         @UniqueConstraint(columnNames = {"tenant", "nome"})
 })
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class)
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Dispositivo extends AbstractEntity implements Serializable, TenantDetails {
 
     /**
