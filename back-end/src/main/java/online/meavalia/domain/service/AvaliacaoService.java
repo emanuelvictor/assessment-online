@@ -141,13 +141,13 @@ public class AvaliacaoService {
      */
     @Transactional
     Agrupador saveInner(final Agrupador agrupador) {
-        System.out.println("salvar salvo");
+
         this.agrupadorRepository.save(agrupador);
 
         agrupador.getAvaliacoes().forEach(avaliacao -> avaliacao.setAgrupador(agrupador));
 
         agrupador.getAvaliacoes().forEach(this.avaliacaoRepository::save);
-        System.out.println("agrupador salvo");
+
         return agrupador;
     }
 
