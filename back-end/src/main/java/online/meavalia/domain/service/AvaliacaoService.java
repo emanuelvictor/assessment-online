@@ -103,8 +103,8 @@ public class AvaliacaoService {
         if (!dispositivo.isEnabled())
             throw new AccessDeniedException("Dispositivo desativado!");
 
-//        if (dispositivo.getNumeroSerie() == null) // TODO ZOA AS AVALIAÇÕES PÚBLICAS
-//            throw new AccessDeniedException("Este dispositivo está sem número de série vinculado no sistema WEB!");
+        if (agrupador.getRecap() == null && dispositivo.getNumeroSerie() == null) // TODO ZOA AS AVALIAÇÕES PÚBLICAS
+            throw new AccessDeniedException("Alguma coisa está errada, reconfigure seu aplicativo!");
 
         // Verifica se há faturas vencidas para o dispositivo
         final List<Fatura> faturas = this.faturaService.listByFilters(dispositivo.getTenant(), List.of(dispositivo.getId()), null).getContent();
