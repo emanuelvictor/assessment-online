@@ -5,7 +5,7 @@
 
     <groupId>online.meavalia</groupId>
     <artifactId>MEAvalia</artifactId>
-    <version>1.0.4.RELEASE</version>
+    <version>1.0.5</version>
 
     <packaging>jar</packaging>
 
@@ -35,10 +35,21 @@
         <!--        versão do quartz-->
         <quartz.version>2.2.3</quartz.version>
 
+        <commons-fileupload.version>1.4</commons-fileupload.version>
+
         <!--        versão do moip-->
-        <moip.version>1.1.0</moip.version>
+        <br.com.moip.sdk-java>1.1.0</br.com.moip.sdk-java>
 
         <commons-fileupload.version>1.4</commons-fileupload.version>
+
+        <commons-io.version>2.6</commons-io.version>
+
+        <!--        &lt;!&ndash;        versõa do redisson&ndash;&gt;-->
+        <!--        <org.redisson.version>3.10.2</org.redisson.version>-->
+
+        <com.google.zxing.javase>3.2.0</com.google.zxing.javase>
+
+        <org.jacoco.jacoco-maven-plugin>0.8.5</org.jacoco.jacoco-maven-plugin>
     </properties>
 
     <profiles>
@@ -90,21 +101,9 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!--     todo   verificar necessidade COMPARAR COM a763879e0e2fab596242336d07ab033d16b5f0f8-->
-        <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-file</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
-
-        <!--     todo   verificar necessidade COMPARAR COM a763879e0e2fab596242336d07ab033d16b5f0f8-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream-reactive</artifactId>
         </dependency>
 
         <dependency>
@@ -131,13 +130,6 @@
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!--     todo   verificar necessidade COM PARAR COM a763879e0e2fab596242336d07ab033d16b5f0f8-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream-test-support</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -221,6 +213,11 @@
             <version>${commons-fileupload.version}</version>
         </dependency>
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
@@ -264,33 +261,33 @@
             <version>${stella.version}</version>
         </dependency>
 
-<!--        &lt;!&ndash;cache&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.hazelcast</groupId>-->
-<!--            <artifactId>hazelcast-hibernate5</artifactId>-->
-<!--            <version>1.3.2</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate</groupId>-->
-<!--            <artifactId>hibernate-jcache</artifactId>-->
-<!--        </dependency>-->
+        <!--        &lt;!&ndash;cache&ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.hazelcast</groupId>-->
+        <!--            <artifactId>hazelcast-hibernate5</artifactId>-->
+        <!--            <version>1.3.2</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.hibernate</groupId>-->
+        <!--            <artifactId>hibernate-jcache</artifactId>-->
+        <!--        </dependency>-->
 
         <!-- Moip -->
         <dependency>
             <groupId>br.com.moip</groupId>
             <artifactId>sdk-java</artifactId>
-            <version>1.1.0</version> <!--todo normalizar-->
+            <version>${br.com.moip.sdk-java}</version>
         </dependency>
 
         <!--        qrcode-->
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
-            <version>3.2.0</version><!--todo normalizar-->
+            <version>${com.google.zxing.javase}</version>
         </dependency>
     </dependencies>
 
-    <dependencyManagement> <!--     todo   verificar necessidade COM PARAR COM a763879e0e2fab596242336d07ab033d16b5f0f8-->
+    <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
