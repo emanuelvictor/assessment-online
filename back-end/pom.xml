@@ -59,7 +59,6 @@
             <properties>
                 <active.profile>alpha</active.profile>
                 <final-name>${project.artifactId}-${project.version}-alpha</final-name>
-                <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
 
@@ -68,7 +67,6 @@
             <properties>
                 <active.profile>beta</active.profile>
                 <final-name>${project.artifactId}-${project.version}-beta</final-name>
-                <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
 
@@ -77,7 +75,6 @@
             <properties>
                 <active.profile>rc</active.profile>
                 <final-name>${project.artifactId}-${project.version}-rc</final-name>
-                <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
 
@@ -86,7 +83,6 @@
             <properties>
                 <active.profile>release</active.profile>
                 <final-name>${project.artifactId}-${project.version}-release</final-name>
-                <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
     </profiles>
