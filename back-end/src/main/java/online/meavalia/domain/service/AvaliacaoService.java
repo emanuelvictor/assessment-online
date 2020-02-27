@@ -103,8 +103,8 @@ public class AvaliacaoService {
         if (!dispositivo.isEnabled())
             throw new AccessDeniedException("Dispositivo desativado!");
 
-        if (dispositivo.getNumeroSerie() == null)
-            throw new AccessDeniedException("Este dispositivo está sem número de série vinculado no sistema WEB!");
+//        if (dispositivo.getNumeroSerie() == null) // TODO ZOA AS AVALIAÇÕES PÚBLICAS
+//            throw new AccessDeniedException("Este dispositivo está sem número de série vinculado no sistema WEB!");
 
         // Verifica se há faturas vencidas para o dispositivo
         final List<Fatura> faturas = this.faturaService.listByFilters(dispositivo.getTenant(), List.of(dispositivo.getId()), null).getContent();
@@ -141,12 +141,13 @@ public class AvaliacaoService {
      */
     @Transactional
     Agrupador saveInner(final Agrupador agrupador) {
+        System.out.println("salvar salvo");
         this.agrupadorRepository.save(agrupador);
 
         agrupador.getAvaliacoes().forEach(avaliacao -> avaliacao.setAgrupador(agrupador));
 
         agrupador.getAvaliacoes().forEach(this.avaliacaoRepository::save);
-
+        System.out.println("agrupador salvo");
         return agrupador;
     }
 
