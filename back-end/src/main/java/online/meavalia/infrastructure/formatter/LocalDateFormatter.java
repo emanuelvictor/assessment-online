@@ -2,7 +2,6 @@ package online.meavalia.infrastructure.formatter;
 
 import org.springframework.format.Formatter;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -18,7 +17,7 @@ public class LocalDateFormatter implements Formatter<LocalDate> {
     }
 
     @Override
-    public LocalDate parse(final String text, final Locale locale) throws ParseException {
+    public LocalDate parse(final String text, final Locale locale) {
         assert this.pattern != null;
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(this.pattern, locale);
         return LocalDate.parse(text, formatter);

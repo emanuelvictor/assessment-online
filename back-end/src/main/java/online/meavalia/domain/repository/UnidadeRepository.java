@@ -227,12 +227,12 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   unidade.documento, " +
             "   endereco," +
             "   AVG(avaliacao.nota) AS media," +
-            "   COUNT(avaliacao.id) AS quantidadeAvaliacoes," +
-            "   COUNT(av1.id) AS avaliacoes1," +
-            "   COUNT(av2.id) AS avaliacoes2," +
-            "   COUNT(av3.id) AS avaliacoes3," +
-            "   COUNT(av4.id) AS avaliacoes4," +
-            "   COUNT(av5.id) AS avaliacoes5" +
+            "   COUNT(DISTINCT avaliacao.id) AS quantidadeAvaliacoes," +
+            "   COUNT(DISTINCT av1.id) AS avaliacoes1," +
+            "   COUNT(DISTINCT av2.id) AS avaliacoes2," +
+            "   COUNT(DISTINCT av3.id) AS avaliacoes3," +
+            "   COUNT(DISTINCT av4.id) AS avaliacoes4," +
+            "   COUNT(DISTINCT av5.id) AS avaliacoes5" +
             ") FROM Unidade unidade " +
             "       LEFT OUTER JOIN Endereco endereco ON unidade.endereco.id = endereco.id " +
             "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.unidade.id = unidade.id " +
@@ -292,12 +292,12 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
             "   unidade.documento, " +
             "   endereco," +
             "   AVG(avaliacao.nota) AS media," +
-            "   COUNT(avaliacao) AS quantidadeAvaliacoes," +
-            "   COUNT(av1) AS avaliacoes1," +
-            "   COUNT(av2) AS avaliacoes2," +
-            "   COUNT(av3) AS avaliacoes3," +
-            "   COUNT(av4) AS avaliacoes4," +
-            "   COUNT(av5) AS avaliacoes5" +
+            "   COUNT(DISTINCT avaliacao.id) AS quantidadeAvaliacoes," +
+            "   COUNT(DISTINCT av1.id) AS avaliacoes1," +
+            "   COUNT(DISTINCT av2.id) AS avaliacoes2," +
+            "   COUNT(DISTINCT av3.id) AS avaliacoes3," +
+            "   COUNT(DISTINCT av4.id) AS avaliacoes4," +
+            "   COUNT(DISTINCT av5.id) AS avaliacoes5" +
             ") FROM Unidade unidade " +
             "       LEFT OUTER JOIN Endereco endereco ON unidade.endereco.id = endereco.id " +
             "       LEFT OUTER JOIN UnidadeTipoAvaliacao unidadeTipoAvaliacao ON unidadeTipoAvaliacao.unidade.id = unidade.id " +

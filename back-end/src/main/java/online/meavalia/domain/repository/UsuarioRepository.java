@@ -81,12 +81,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   usuario.fotoPath, " +
             "   AVG(avaliacao.nota) AS media," +
 //            "  (CASE WHEN AVG(avaliacao.nota) IS NULL THEN 0.0 ELSE AVG(avaliacao.nota) END) AS media," +
-            "   COUNT(avaliacao.id) AS quantidadeAvaliacoes," +
-            "   COUNT(av1.id) AS avaliacoes1," +
-            "   COUNT(av2.id) AS avaliacoes2," +
-            "   COUNT(av3.id) AS avaliacoes3," +
-            "   COUNT(av4.id) AS avaliacoes4," +
-            "   COUNT(av5.id) AS avaliacoes5," +
+            "   COUNT(DISTINCT avaliacao.id) AS quantidadeAvaliacoes," +
+            "   COUNT(DISTINCT av1.id) AS avaliacoes1," +
+            "   COUNT(DISTINCT av2.id) AS avaliacoes2," +
+            "   COUNT(DISTINCT av3.id) AS avaliacoes3," +
+            "   COUNT(DISTINCT av4.id) AS avaliacoes4," +
+            "   COUNT(DISTINCT av5.id) AS avaliacoes5," +
             "   usuario.conta," +
             "   usuario.documento" +
             ") FROM Usuario usuario " +
@@ -215,12 +215,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   usuario.fotoPath, " +
             "   AVG(avaliacao.nota) AS media," +
 //            "  (CASE WHEN AVG(avaliacao.nota) IS NULL THEN 0.0 ELSE AVG(avaliacao.nota) END) AS media," +
-            "   COUNT(avaliacao) AS quantidadeAvaliacoes," +
-            "   COUNT(av1) AS avaliacoes1," +
-            "   COUNT(av2) AS avaliacoes2," +
-            "   COUNT(av3) AS avaliacoes3," +
-            "   COUNT(av4) AS avaliacoes4," +
-            "   COUNT(av5) AS avaliacoes5," +
+            "   COUNT(DISTINCT avaliacao.id) AS quantidadeAvaliacoes," +
+            "   COUNT(DISTINCT av1.id) AS avaliacoes1," +
+            "   COUNT(DISTINCT av2.id) AS avaliacoes2," +
+            "   COUNT(DISTINCT av3.id) AS avaliacoes3," +
+            "   COUNT(DISTINCT av4.id) AS avaliacoes4," +
+            "   COUNT(DISTINCT av5.id) AS avaliacoes5," +
             "   usuario.conta," +
             "   usuario.documento" +
             ") FROM Usuario usuario " +
@@ -280,12 +280,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "   usuario.avatarPath, " +
             "   usuario.fotoPath, " +
             "   AVG(avaliacao.nota) AS media," +
-            "   COUNT(avaliacao) AS quantidadeAvaliacoes," +
-            "   COUNT(av1) AS avaliacoes1," +
-            "   COUNT(av2) AS avaliacoes2," +
-            "   COUNT(av3) AS avaliacoes3," +
-            "   COUNT(av4) AS avaliacoes4," +
-            "   COUNT(av5) AS avaliacoes5," +
+            "   COUNT(DISTINCT avaliacao.id) AS quantidadeAvaliacoes," +
+            "   COUNT(DISTINCT av1.id) AS avaliacoes1," +
+            "   COUNT(DISTINCT av2.id) AS avaliacoes2," +
+            "   COUNT(DISTINCT av3.id) AS avaliacoes3," +
+            "   COUNT(DISTINCT av4.id) AS avaliacoes4," +
+            "   COUNT(DISTINCT av5.id) AS avaliacoes5," +
             "   usuario.conta," +
             "   usuario.documento" +
             ") FROM Usuario usuario " +
@@ -308,43 +308,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     )
     Usuario findUsuarioByIdAndReturnAvaliacoes(@Param("usuarioId") final Long usuarioId);
 
-//    /**
-//     * @return List<Usuario>
-//     */
-//    @Query("FROM Usuario usuario WHERE usuario.conta.administrador = TRUE")
-//    List<Usuario> getAdministrators();
-
     /**
      * @param nome String
      * @return List<Usuario>
      */
     @Deprecated
     List<Usuario> findByNome(final String nome);
-
-//    /**
-//     * @param dispositivoId Long
-//     * @return List<Usuario>
-//     */
-//    @Query("FROM Usuario usuario WHERE " +
-//            "           usuario.conta.administrador = TRUE " +
-//            "           OR usuario.id IN" +
-//            "           (" +
-//            "               SELECT operador.usuario.id FROM Operador operador WHERE " +
-//            "               (" +
-//            "                   operador.unidade.id IN " +
-//            "                   (" +
-//            "                       SELECT unidadeTipoAvaliacaoDispositivo.unidadeTipoAvaliacao.unidade.id FROM UnidadeTipoAvaliacaoDispositivo unidadeTipoAvaliacaoDispositivo WHERE unidadeTipoAvaliacaoDispositivo.dispositivo.id = :dispositivoId" +
-//            "                   ) " +
-//            "               )" +
-//            "           )" +
-//            "           OR usuario.id IN" +
-//            "           (" +
-//            "               SELECT avaliavel.usuario.id FROM Avaliavel avaliavel WHERE " +
-//            "               (" +
-//            "                   avaliavel.unidadeTipoAvaliacaoDispositivo.dispositivo.id = :dispositivoId" +
-//            "               )" +
-//            "           )"
-//    )
-//    List<Usuario> listUsuariosByDispositivoId(@Param("dispositivoId") final Long dispositivoId);
 
 }

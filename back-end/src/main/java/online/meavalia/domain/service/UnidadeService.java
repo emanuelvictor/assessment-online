@@ -103,6 +103,12 @@ public class UnidadeService {
 
     }
 
+    /**
+     * @param unidadeId         Long
+     * @param dataInicioFilter  LocalDateTime
+     * @param dataTerminoFilter LocalDateTime
+     * @return Optional<Unidade>
+     */
     public Optional<Unidade> findUnidadeById(final Long unidadeId,
                                              final LocalDateTime dataInicioFilter,
                                              final LocalDateTime dataTerminoFilter) {
