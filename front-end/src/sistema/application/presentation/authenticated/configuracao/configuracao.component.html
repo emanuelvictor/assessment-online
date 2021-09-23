@@ -245,7 +245,7 @@
                   <div *ngIf='!backgroundPath' flex>
 
                     <input type='file' accept='.png, .gif, .jpg, .jpeg' #backgroundUpload
-                           id='backgroundUpload' (change)='fileChange($event)' style='display:none'>
+                           id='backgroundUpload' (change)='backgroundChange($event)' style='display:none'>
 
                     <button mat-raised-button (click)='chooseBackground()' type='button' color='accent'>
                       <mat-icon>attach_file</mat-icon>
